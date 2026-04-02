@@ -1,7 +1,7 @@
 import {
   alchmAPI,
   type PlanetaryHourRequest,
-  type PlanetaryHourResult as APIPlanetaryHourResult,
+  type PlanetaryHourResult as _APIPlanetaryHourResult,
 } from "@/lib/api/alchm-client";
 import { logger } from "@/lib/logger";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
@@ -20,7 +20,8 @@ export interface PlanetaryHourResult {
   end?: Date;
 }
 
-interface BackendPlanetaryHourPayload {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+interface _BackendPlanetaryHourPayload {
   planet: Planet;
   hourNumber?: number;
   isDaytime: boolean;
@@ -28,7 +29,7 @@ interface BackendPlanetaryHourPayload {
   end?: string;
 }
 
-function parseBackendResult(data: unknown): PlanetaryHourResult | null {
+function _parseBackendResult(data: unknown): PlanetaryHourResult | null {
   if (!data || typeof data !== "object") return null;
   const obj = data as Record<string, unknown>;
 

@@ -78,6 +78,7 @@ const nextConfig = {
         hostname: "**",
       },
     ],
+    unoptimized: true, // Cloudflare handles image optimization via its own service
   },
   compiler: {
     removeConsole:
@@ -86,7 +87,6 @@ const nextConfig = {
             exclude: ["error", "warn"],
           }
         : false,
-    styledComponents: true,
   },
   typescript: {
     ignoreBuildErrors: true,
@@ -98,8 +98,22 @@ const nextConfig = {
   compress: true,
   generateEtags: true,
   pageExtensions: ["js", "jsx", "ts", "tsx"],
+  bundlePagesRouterDependencies: false,
 
-  webpack: (config, { isServer }) => {
+  // Move serverExternalPackages out of experimental for Next.js 15
+  serverExternalPackages: ["pg", "astronomy-engine"],
+
+  experimental: {
+    optimizePackageImports: [
+      "@mui/material",
+      "@mui/icons-material",
+      "@chakra-ui/react",
+      "react-icons",
+      "framer-motion",
+    ],
+  },
+
+  webpack: (config, { isServer, nextRuntime }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       "@": path.resolve(__dirname, "src"),
@@ -117,6 +131,22 @@ const nextConfig = {
       };
     }
 
+    // Stub out modules that are not compatible with Edge Runtime.
+    // These modules use Node.js built-ins (stream, fs, path, crypto, net, etc.)
+    // that are not available in Cloudflare Workers.
+    if (nextRuntime === "edge") {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        // jose deflate - not needed for JWT sessions
+        "jose/dist/webapi/lib/deflate.js": false,
+        // nodemailer - uses stream, fs, path, crypto (use Resend API instead)
+        nodemailer: false,
+        // pg - PostgreSQL client (use dynamic imports in server-only code)
+        pg: false,
+        "pg-native": false,
+      };
+    }
+
     return config;
   },
 
@@ -128,6 +158,51 @@ const nextConfig = {
       },
     ];
   },
+
+  // Proxy heavy API routes to Vercel deployment (for Cloudflare bundle size reduction)
+  // Note: These rewrites take priority over local route handlers in the Cloudflare build.
+  async rewrites() {
+    const vercelApiUrl = process.env.VERCEL_API_URL || "https://v0-alchm-kitchen.vercel.app";
+
+    // Only enable rewrites when VERCEL_API_URL is set (Cloudflare deployment)
+    if (!process.env.VERCEL_API_URL) {
+      return [];
+    }
+
+    return [
+      // Heavy data routes - proxy to Vercel
+      {
+        source: "/api/cuisines/:path*",
+        destination: `${vercelApiUrl}/api/cuisines/:path*`,
+      },
+      {
+        source: "/api/recipes/:path*",
+        destination: `${vercelApiUrl}/api/recipes/:path*`,
+      },
+      {
+        source: "/api/menu-planner/:path*",
+        destination: `${vercelApiUrl}/api/menu-planner/:path*`,
+      },
+      {
+        source: "/api/alchm-quantities/:path*",
+        destination: `${vercelApiUrl}/api/alchm-quantities/:path*`,
+      },
+      {
+        source: "/api/astrologize/:path*",
+        destination: `${vercelApiUrl}/api/astrologize/:path*`,
+      },
+      {
+        source: "/api/alchemize/:path*",
+        destination: `${vercelApiUrl}/api/alchemize/:path*`,
+      },
+      // Note: /api/auth/* stays local for session cookies to work
+      // Note: /api/user/* stays local for auth context
+    ];
+  },
 };
 
 export default nextConfig;
+
+if (process.env.NODE_ENV === 'development') {
+  import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());
+}

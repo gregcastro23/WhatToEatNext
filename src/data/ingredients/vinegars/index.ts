@@ -1,12 +1,21 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
-import { vinegars } from "./vinegars";
+import { vinegars as seasoningsVinegars } from "../seasonings/vinegars";
+import { _vinegars as consolidatedVinegars } from "./consolidated_vinegars";
+import { vinegars as baseVinegars } from "./vinegars";
 
-export { vinegars };
+// Combine all vinegar sources into one comprehensive collection
+export const vinegars: Record<string, IngredientMapping> =
+  fixIngredientMappings({
+    ...(consolidatedVinegars as any),
+    ...baseVinegars,
+    ...(seasoningsVinegars as any), // Detailed vinegar data from seasonings folder (36 items)
+  });
+
 export default vinegars;
 
 // Export specific vinegar categories
-// Don't re-import vinegars - use the one already imported
+// Don't re-import vinegars - use the one already combined above
 export const processedVinegars: Record<string, IngredientMapping> =
   fixIngredientMappings(vinegars);
 

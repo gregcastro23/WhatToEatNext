@@ -1,5 +1,5 @@
 // Template for all cuisine files
-import type { /* _ , */ ZodiacSignType } from "@/types/alchemy";
+import type { /* _ , */} from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
 
 export const cuisine: Cuisine = {
@@ -222,10 +222,10 @@ export const cuisine: Cuisine = {
     },
     byAstrological: {
       // element: [sauce recommendations],
-      fire: ["sauce1", "sauce2", "sauce3"],
-      water: ["sauce1", "sauce2", "sauce3"],
-      earth: ["sauce1", "sauce2", "sauce3"],
-      air: ["sauce1", "sauce2", "sauce3"],
+      Fire: ["sauce1", "sauce2", "sauce3"],
+      Water: ["sauce1", "sauce2", "sauce3"],
+      Earth: ["sauce1", "sauce2", "sauce3"],
+      Air: ["sauce1", "sauce2", "sauce3"],
     },
     byRegion: {
       // region: [sauce recommendations],

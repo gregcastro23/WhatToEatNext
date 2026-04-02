@@ -9,6 +9,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
+import CookingMethodPreview from "@/components/home/CookingMethodPreview";
+import EnhancedCookingMethodRecommender from "@/components/home/EnhancedCookingMethodRecommender";
 
 // Mock the cooking method data to avoid importing large data files
 jest.mock("@/data/cooking/methods", () => ({
@@ -53,7 +55,7 @@ jest.mock("@/constants/alchemicalPillars", () => ({
 
 // Mock gregsEnergy
 jest.mock("@/calculations/gregsEnergy", () => ({
-  calculateGregsEnergy: () => 0.5,
+  calculateGregsEnergy: () => ({ gregsEnergy: 0.5 }),
 }));
 
 // Mock monicaKalchmCalculations
@@ -72,12 +74,7 @@ jest.mock("@/services/AstrologicalService", () => ({
 }));
 
 describe("CookingMethodPreview — hooks compliance", () => {
-  it("renders without crashing inside AlchemicalProvider", async () => {
-    // Dynamic import to ensure mocks are in place
-    const { default: CookingMethodPreview } = await import(
-      "@/components/home/CookingMethodPreview"
-    );
-
+  it("renders without crashing inside AlchemicalProvider", () => {
     const { container } = render(
       <AlchemicalProvider>
         <CookingMethodPreview />

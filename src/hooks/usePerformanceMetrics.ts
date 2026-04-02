@@ -75,7 +75,7 @@ export const usePerformanceMetrics = (componentName?: string) => {
   const trackDataFetch = useCallback(
     async <T>(
       fetchFunction: () => Promise<T>,
-      operationName?: string,
+      _operationName?: string,
     ): Promise<T> => {
       const startTime = performance.now();
 

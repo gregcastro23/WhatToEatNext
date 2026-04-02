@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Roasting cooking method
@@ -10,6 +9,8 @@ export const roasting: CookingMethodData = {
   name: "roasting",
   description:
     "Cooking food with dry heat in an oven or over a fire, typically uncovered, creating flavorful browning and caramelization on the exterior while keeping the interior moist",
+  shortDescription: "Forges intense dry heat to caramelize surfaces and concentrate deep flavors.",
+  culinaryArchetype: "The Forger",
   elementalEffect: {
     Fire: 0.6,
     Air: 0.2,

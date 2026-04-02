@@ -1,16 +1,16 @@
 "use client";
 
-import {
-  Flame,
-  Droplets,
-  Mountain,
-  Wind,
-  ArrowRight,
-  RotateCcw,
-  Sun,
-  Moon,
-} from "lucide-react";
 import React, { useState, useEffect } from "react";
+import {
+  FaFire,
+  FaTint,
+  FaMountain,
+  FaWind,
+  FaArrowRight,
+  FaUndo,
+  FaSun,
+  FaMoon,
+} from "react-icons/fa";
 import {
   formatTransitionTime,
   capitalizeFirstLetter,
@@ -74,7 +74,7 @@ export default function PlanetaryContributionsChart() {
   };
 
   useEffect(() => {
-    fetchData();
+    void fetchData();
     const interval = setInterval(fetchData, 60000); // Update every minute
     return () => clearInterval(interval);
   }, []);
@@ -125,9 +125,9 @@ export default function PlanetaryContributionsChart() {
             }`}
           >
             {data.isDiurnal ? (
-              <Sun className="h-3.5 w-3.5" />
+              <FaSun className="h-3.5 w-3.5" />
             ) : (
-              <Moon className="h-3.5 w-3.5" />
+              <FaMoon className="h-3.5 w-3.5" />
             )}
             {data.isDiurnal ? "Day Sect" : "Night Sect"}
           </div>
@@ -140,19 +140,19 @@ export default function PlanetaryContributionsChart() {
       {/* Legends */}
       <div className="flex gap-4 flex-wrap text-xs">
         <div className="flex items-center gap-1">
-          <Flame className="h-3 w-3 text-red-400" />
+          <FaFire className="h-3 w-3 text-red-400" />
           <span className="text-gray-300">Spirit</span>
         </div>
         <div className="flex items-center gap-1">
-          <Droplets className="h-3 w-3 text-blue-400" />
+          <FaTint className="h-3 w-3 text-blue-400" />
           <span className="text-gray-300">Essence</span>
         </div>
         <div className="flex items-center gap-1">
-          <Mountain className="h-3 w-3 text-green-400" />
+          <FaMountain className="h-3 w-3 text-green-400" />
           <span className="text-gray-300">Matter</span>
         </div>
         <div className="flex items-center gap-1">
-          <Wind className="h-3 w-3 text-purple-400" />
+          <FaWind className="h-3 w-3 text-purple-400" />
           <span className="text-gray-300">Substance</span>
         </div>
         <span className="text-gray-600">|</span>
@@ -182,7 +182,7 @@ export default function PlanetaryContributionsChart() {
                   </span>
                   {planet.position.isRetrograde && (
                     <span className="text-xs px-2 py-0.5 bg-orange-900/50 text-orange-300 rounded border border-orange-500/30 flex items-center gap-1">
-                      <RotateCcw className="h-3 w-3" />
+                      <FaUndo className="h-3 w-3" />
                       Rx
                     </span>
                   )}
@@ -219,7 +219,7 @@ export default function PlanetaryContributionsChart() {
 
                   {/* Arrow showing the active element */}
                   {signEl && !elementsMatch && (
-                    <ArrowRight className="h-3 w-3 text-gray-500" />
+                    <FaArrowRight className="h-3 w-3 text-gray-500" />
                   )}
 
                   {/* Sect element (bold, active) */}
@@ -237,7 +237,7 @@ export default function PlanetaryContributionsChart() {
               <div className="grid grid-cols-4 gap-2 mb-3">
                 {planet.esms.Spirit > 0 && (
                   <div className="flex flex-col items-center p-2 bg-red-900/20 rounded border border-red-500/20">
-                    <Flame className="h-4 w-4 text-red-400 mb-1" />
+                    <FaFire className="h-4 w-4 text-red-400 mb-1" />
                     <span className="text-sm font-bold text-red-300">
                       {planet.esms.Spirit}
                     </span>
@@ -245,7 +245,7 @@ export default function PlanetaryContributionsChart() {
                 )}
                 {planet.esms.Essence > 0 && (
                   <div className="flex flex-col items-center p-2 bg-blue-900/20 rounded border border-blue-500/20">
-                    <Droplets className="h-4 w-4 text-blue-400 mb-1" />
+                    <FaTint className="h-4 w-4 text-blue-400 mb-1" />
                     <span className="text-sm font-bold text-blue-300">
                       {planet.esms.Essence}
                     </span>
@@ -253,7 +253,7 @@ export default function PlanetaryContributionsChart() {
                 )}
                 {planet.esms.Matter > 0 && (
                   <div className="flex flex-col items-center p-2 bg-green-900/20 rounded border border-green-500/20">
-                    <Mountain className="h-4 w-4 text-green-400 mb-1" />
+                    <FaMountain className="h-4 w-4 text-green-400 mb-1" />
                     <span className="text-sm font-bold text-green-300">
                       {planet.esms.Matter}
                     </span>
@@ -261,7 +261,7 @@ export default function PlanetaryContributionsChart() {
                 )}
                 {planet.esms.Substance > 0 && (
                   <div className="flex flex-col items-center p-2 bg-purple-900/20 rounded border border-purple-500/20">
-                    <Wind className="h-4 w-4 text-purple-400 mb-1" />
+                    <FaWind className="h-4 w-4 text-purple-400 mb-1" />
                     <span className="text-sm font-bold text-purple-300">
                       {planet.esms.Substance}
                     </span>
@@ -271,7 +271,7 @@ export default function PlanetaryContributionsChart() {
 
               {/* Next Transition */}
               <div className="text-xs text-gray-400 flex items-center gap-2">
-                <ArrowRight className="h-3 w-3 text-indigo-400" />
+                <FaArrowRight className="h-3 w-3 text-indigo-400" />
                 <span>
                   Enters{" "}
                   <span className="font-semibold text-indigo-300">
@@ -331,13 +331,13 @@ function getElementStyle(element: string): string {
   }
 }
 
-/** Lucide icon for sectarian element */
+/** React icon for sectarian element */
 function getElementIcon(element: string, sizeClass = "h-3 w-3"): React.ReactNode {
   switch (element) {
-    case "Fire":  return <Flame    className={sizeClass} />;
-    case "Water": return <Droplets className={sizeClass} />;
-    case "Earth": return <Mountain className={sizeClass} />;
-    case "Air":   return <Wind     className={sizeClass} />;
+    case "Fire":  return <FaFire     className={sizeClass} />;
+    case "Water": return <FaTint     className={sizeClass} />;
+    case "Earth": return <FaMountain className={sizeClass} />;
+    case "Air":   return <FaWind     className={sizeClass} />;
     default:      return null;
   }
 }

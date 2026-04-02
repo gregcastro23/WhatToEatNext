@@ -4,10 +4,10 @@
  */
 
 import { Box, HStack, Icon, Select as _Select, Text } from "@chakra-ui/react";
-
-const Select = _Select as any;
 import React from "react";
 import { FaFire, FaLeaf, FaSnowflake, FaSun } from "react-icons/fa";
+
+const Select = _Select as any;
 
 interface ZodiacSelectorProps {
   value: string;
@@ -91,9 +91,9 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
       >
         {ZODIAC_SIGNS.map((sign) => {
           const element = ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS];
-          const ElementIcon =
+          const _ElementIcon =
             ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS];
-          const elementColor =
+          const _elementColor =
             ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS];
 
           return (

@@ -1,16 +1,16 @@
+import { useCallback, useState } from "react";
+import { useUser } from "@/contexts/UserContext";
+import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
+import type { KineticMetrics } from "@/types/kinetics";
+
 /**
  * useChartData Hook
  *
  * Fetches and manages planetary chart data from the astrologize and alchemize APIs.
  * Calculates planetary aspects and provides alchemical properties.
  */
-
-import { useState, useEffect, useCallback } from "react";
-import { useUser } from "@/contexts/UserContext"; // Import the useUser hook
-import type { PlanetaryPosition, PlanetaryAspect } from "@/types/celestial";
-
+ // Import the useUser hook
 type PlanetPosition = PlanetaryPosition;
-
 // Define the expected structure of AlchemicalResult
 export interface AlchemicalResult {
   // Properties expected by AlchemicalDisplay.tsx
@@ -37,7 +37,6 @@ export interface AlchemicalResult {
   matter: number;
   substance: number;
 }
-
 // Define the return type of the useChartData hook
 export interface ChartData {
   positions: Record<string, PlanetPosition> | null;
@@ -49,10 +48,6 @@ export interface ChartData {
   error: string | null;
   refetch: () => void;
 }
-import type { KineticMetrics } from "@/types/kinetics";
-import { calculateAspects } from "@/utils/astrologyUtils";
-import { calculateKineticProperties } from "@/utils/kineticCalculations";
-
 export interface ChartDataOptions {
   dateTime?: Date;
   location?: {
@@ -63,18 +58,15 @@ export interface ChartDataOptions {
   autoRefresh?: boolean;
   refreshInterval?: number; // milliseconds
 }
-
 // ... (interfaces remain the same)
-
 export function useChartData(options: ChartDataOptions = {}): ChartData {
   const {
     dateTime,
     location: optionLocation, // Rename to avoid conflict
     zodiacSystem = "tropical",
-    autoRefresh = false,
-    refreshInterval = 60000, // 1 minute default
+    autoRefresh: _autoRefresh = false,
+    refreshInterval: _refreshInterval = 60000, // 1 minute default
   } = options;
-
   const { currentUser } = useUser();
   const userLocation = currentUser?.birthData
     ? {
@@ -82,21 +74,18 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         longitude: currentUser.birthData.longitude,
       }
     : undefined;
-
   // Determine the location to use: option > user > null
   const location = optionLocation || userLocation;
-
-  const [positions, setPositions] = useState<Record<
+  const [positions, _setPositions] = useState<Record<
     string,
     PlanetPosition
   > | null>(null);
-  const [aspects, setAspects] = useState<PlanetaryAspect[]>([]);
-  const [alchemical, setAlchemical] = useState<AlchemicalResult | null>(null);
-  const [kinetics, setKinetics] = useState<KineticMetrics | null>(null);
-  const [timestamp, setTimestamp] = useState<string | null>(null);
+  const [aspects, _setAspects] = useState<PlanetaryAspect[]>([]);
+  const [alchemical, _setAlchemical] = useState<AlchemicalResult | null>(null);
+  const [kinetics, _setKinetics] = useState<KineticMetrics | null>(null);
+  const [timestamp, _setTimestamp] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const fetchChartData = useCallback(async () => {
     // If no location is available, do not fetch data
     if (!location) {
@@ -104,18 +93,15 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       setIsLoading(false);
       return;
     }
-
     setIsLoading(true);
     setError(null);
-
     try {
       // Build query parameters
-      const params = new URLSearchParams({
+      const _params = new URLSearchParams({
         latitude: location.latitude.toString(),
         longitude: location.longitude.toString(),
         zodiacSystem,
       });
-
       // ... (rest of the fetch logic remains the same)
     } catch (err) {
       const errorMessage =
@@ -126,9 +112,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       setIsLoading(false);
     }
   }, [dateTime, location, zodiacSystem]);
-
   // ... (useEffect hooks remain the same)
-
   return {
     positions,
     aspects,

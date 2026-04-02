@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { _aromaticHerbs } from "./aromatic";
 import { driedHerbs } from "./driedHerbs";
 import { freshHerbs } from "./freshHerbs";
+import { herbsIngredients } from "./herbs";
 import { medicinalHerbs } from "./medicinalHerbs";
 
 // Define cuisine types as string literals
@@ -52,22 +53,22 @@ function generateHerbValues(
     normalized["Air"] * 6 + normalized["Fire"] * 4 + Math.random() * 2,
   );
   const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3);
-  const flavor_complexity = Math.round(
+  const flavorComplexity = Math.round(
     Object.keys(normalized).filter((k) => normalized[k] > 0.15).length * 2 +
       Math.random() * 3,
   );
-  const preservation_factor = Math.round(
+  const preservationFactor = Math.round(
     normalized["Earth"] * 5 + normalized["Water"] * 3 + Math.random(),
   );
 
   return {
     aromatics: Math.min(10, Math.max(1, aromaticStrength)),
     potency: Math.min(10, Math.max(1, potency)),
-    flavor_complexity: Math.min(10, Math.max(1, flavor_complexity)),
-    preservation_factor: Math.min(10, Math.max(1, preservation_factor)),
+    flavorComplexity: Math.min(10, Math.max(1, flavorComplexity)),
+    preservationFactor: Math.min(10, Math.max(1, preservationFactor)),
     infusion_speed: Math.min(
       10,
-      Math.max(1, Math.round(10 - preservation_factor + Math.random() * 2)),
+      Math.max(1, Math.round(10 - preservationFactor + Math.random() * 2)),
     ),
   };
 }
@@ -100,6 +101,7 @@ function createIngredientMapping(
 
 // Combine all herbs into one record
 export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
+  ...(herbsIngredients as any), // Base herbs from cuisine files
   ...freshHerbs,
   ...driedHerbs,
   ..._aromaticHerbs,
@@ -303,6 +305,7 @@ export {
 
 // Create a comprehensive herb collection that includes all herb variants
 export const allHerbs = fixIngredientMappings({
+  ...(herbsIngredients as any), // Base herbs from cuisine files
   ...freshHerbs,
   ...driedHerbs,
   ..._aromaticHerbs,

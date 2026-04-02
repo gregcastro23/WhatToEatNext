@@ -11,7 +11,7 @@ export interface EnhancedRecommendationResult {
 }
 
 export class EnhancedRecommendationService {
-  static getRecommendations(params: any): EnhancedRecommendationResult[] {
+  static getRecommendations(_params: any): EnhancedRecommendationResult[] {
     return [];
   }
 }

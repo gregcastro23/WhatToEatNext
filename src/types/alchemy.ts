@@ -1,17 +1,25 @@
+import type { Season } from "@/constants/seasons"; // Manually added as it was removed accidentally
 import type { TarotCard } from "@/contexts/TarotContext/types";
 import type {
-  LunarPhase,
-  Modality,
-  PlanetName,
-  AlchemicalProperties, // Added AlchemicalProperties from celestial
-  AstrologicalState, // Added AstrologicalState from celestial
-  CelestialPosition, // Added CelestialPosition from celestial
-  ZodiacSignType,
+    CelestialPosition, LunarPhase,
+    Modality,
+    PlanetName, // Added CelestialPosition from celestial
+    ZodiacSignType
 } from "@/types/celestial";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 
+export type { Season } from "@/constants/seasons";
+// ---------------------------------------------------------------------------
+// Re-export types from other modules for convenience and backward compatibility
+export type {
+    AlchemicalProperties,
+    AstrologicalState,
+    LunarPhase,
+    Modality,
+    PlanetName,
+    ZodiacSignType
+} from "@/types/celestial";
 export type { RecipeIngredient } from "@/types/recipe";
-import type { Season } from "@/constants/seasons"; // Manually added as it was removed accidentally
 
 // src/types/alchemy.ts
 
@@ -317,6 +325,7 @@ export interface ElementalAffinity {
 }
 
 // Astrological influence
+                 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface _AstrologicalInfluence {
   planet: string;
   sign: ZodiacSignType;
@@ -1019,42 +1028,49 @@ export interface CelestialAlignment {
 // ========== BACKWARD COMPATIBILITY ALIASES (underscore-prefixed) ==========
 // Many legacy files still import underscore-prefixed types.  Provide
 // simple type aliases so those imports resolve without changing hundreds of files.
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _Element = Element;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _ElementalProperties = ElementalProperties;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _LowercaseElementalProperties = LowercaseElementalProperties;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _ElementalRatio = ElementalRatio;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _ElementalModifier = ElementalModifier;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _Planet = Planet;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _PlanetName = PlanetName;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _LunarPhase = LunarPhase;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _Modality = Modality;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _CelestialPosition = CelestialPosition;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _ChakraEnergies = ChakraEnergies;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _AstrologicalProfile = AstrologicalProfile;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _PlanetaryPosition = PlanetaryPosition;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _Season = Season;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _ThermodynamicMetrics = ThermodynamicMetrics;
 // Added simple boolean/season aliases for legacy code expecting these identifiers
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _isDaytime = boolean; // TRUE if time between sunrise and sunset
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _season = Season; // Lowercase underscore-prefixed alias for Season
 // Raw and Normalized elemental property aliases
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _RawElementalProperties = RawElementalProperties;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
 export type _NormalizedElementalProperties = NormalizedElementalProperties;
 
 export type BaseIngredient = Ingredient;
 
-// ---------------------------------------------------------------------------
-
-// Re-export types from other modules for convenience and backward compatibility
-export type {
-  AlchemicalProperties,
-  AstrologicalState,
-  LunarPhase,
-  Modality,
-  PlanetName,
-  ZodiacSignType,
-} from "@/types/celestial";
-export type { Season } from "@/constants/seasons";
 
 // ========== PHASE 45: ALCHEMY TYPE INTELLIGENCE SYSTEM ==========
 
@@ -1065,11 +1081,11 @@ export type { Season } from "@/constants/seasons";
 
 // Simplified ALCHEMY_TYPE_INTELLIGENCE_SYSTEM for compilation
 export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
-  analyzeElementalTypes: (typeData: any) => ({}),
-  analyzeThermodynamicTypes: (thermoData: any) => ({}),
-  analyzeRecipeTypes: (recipeData: any) => ({}),
-  analyzeAstrologicalTypes: (astroData: any) => ({}),
-  analyzeEnergyTypes: (energyData: any) => ({}),
+  analyzeElementalTypes: (_typeData: any) => ({}),
+  analyzeThermodynamicTypes: (_thermoData: any) => ({}),
+  analyzeRecipeTypes: (_recipeData: any) => ({}),
+  analyzeAstrologicalTypes: (_astroData: any) => ({}),
+  analyzeEnergyTypes: (_energyData: any) => ({}),
 };
 
 /**

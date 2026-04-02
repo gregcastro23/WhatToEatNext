@@ -1,4 +1,3 @@
-import type { ZodiacSignType, ThermodynamicProperties } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -10,6 +9,8 @@ export const grilling: CookingMethodData = {
   name: "grilling",
   description:
     "Cooking food directly over heat, typically an open flame or hot coals, creating distinctive char marks and smoky flavor",
+  shortDescription: "Channels raw Fire to char surfaces and unlock smoky, primal flavors.",
+  culinaryArchetype: "The Flame Keeper",
   elementalEffect: {
     Fire: 0.7,
     Air: 0.2,

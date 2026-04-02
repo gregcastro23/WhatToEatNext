@@ -1,177 +1,122 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-_Last Updated: January 14, 2026_
+_Last Updated: March 27, 2026_
 
 ## Project Overview
 
-WhatToEatNext is a sophisticated culinary recommendation system that combines alchemical principles, astrological data, and elemental harmony to provide personalized food recommendations.
+WhatToEatNext is a sophisticated culinary recommendation system that combines alchemical principles, astrological data, and elemental harmony to provide personalized food recommendations. The site is branded as **Alchm.kitchen**.
 
-## Current Project Status (January 2026)
+## Current Project Status (March 2026)
 
-### 🎉 **ZERO TYPESCRIPT ERRORS - Maintained!**
+### 🎉 **ALCHEMICAL INFRASTRUCTURE UPGRADE COMPLETE**
 
-- **Build Status**: ✅ **FULLY OPERATIONAL - ZERO ERRORS!**
-- **Current TypeScript Errors**: **0** (maintained since Nov 23, 2025)
-- **Total Reduction**: **100%** (All 2,000+ errors eliminated)
-- **Categories Eliminated**: **All categories** (complete success)
-- **Vercel Deployment**: ✅ **STABLE - Build errors resolved!**
-- **Status**: ✅ **PRODUCTION READY - ZERO ERROR STATE MAINTAINED!**
+- **Backend Hosting**: ✅ **MIGRATED TO RAILWAY** (Standalone Service)
+- **Frontend Hosting**: ✅ **VERCEL** (Next.js)
+- **Database**: ✅ **NEON POSTGRESQL** (High-availability)
+- **Recipe Catalog**: ✅ **100% UPGRADED (351 total)**
+- **Build Status**: ✅ **BUILDING ON RAILWAY** (93s build time)
+- **Latest Milestone**: Backend decoupled from Vercel for better performance and reliability.
 
-### 🚀 **LATEST FIXES (January 14, 2026)**
+### 🚀 **MAJOR CHANGES (March 2026)**
 
-**Critical Vercel Build Fix:**
+#### **Railway Backend Migration**
+- ✅ **Decoupling**: Backend moved from Vercel to a standalone Railway service.
+- ✅ **Railway Config**: Added `Dockerfile.railway` and `railway.json` for monorepo deployments.
+- ✅ **Dynamic CORS**: Updated `main.py` with `CORS_ALLOWED_ORIGINS` for flexible frontend linking.
+- ✅ **Optimized Uploads**: Added `.railwayignore` to exclude `node_modules` and speed up deployment.
+- ✅ **Health Monitoring**: Added `/health` endpoint with versioning and environment metadata.
 
-- ✅ **JWT Auth Service** - Implemented lazy initialization to fix build-time JWT_SECRET error
-  - Changed from eager instantiation to Proxy-based lazy loading
-  - Build now succeeds without runtime environment variables
-  - Maintains security: JWT_SECRET still validated when service is actually used
-  - Commit: `f175ec9c` - "fix: Implement lazy initialization for JWT auth service"
+#### **Alchemical Recipe Overhaul**
+- ✅ **Schema Migration**: All recipes migrated to strict `AlchemicalRecipe` interface.
+- ✅ **Nutritional Payloads**: Full macros, sodium, sugar, vitamins, and minerals for all 351 recipes.
+- ✅ **Authentic Procedures**: Replaced all placeholder instructions with culturally rigorous step-by-step guides.
+- ✅ **Elemental Balancing**: Every recipe now has mathematically balanced Fire/Water/Earth/Air properties summing to 1.0.
+- ✅ **Expansion**: Added 40+ new authentic recipes to balance underpopulated cuisine files.
 
-**TypeScript Cleanup:**
+#### **Authentication Migration: Privy → NextAuth.js v5** (PRs #229–#233)
 
-- ✅ **Type Import Corrections** - Fixed `PlanetPosition` → `PlanetaryPosition` across codebase
-- ✅ **Accordion Component Types** - Added type assertions for Chakra UI Accordion components
-- ✅ **Alchemical Transformation** - Fixed `calculateAlchemicalProperties` call signature
-- ✅ **Module Exclusions** - Excluded experimental files from TypeScript compilation:
-  - `alchm-app-integration/**` (integration guide, not production code)
-  - `src/app/personalized-ingredients/**` (experimental feature)
-  - `src/components/PersonalizedIngredientPage.tsx` (experimental component)
+- ❌ **Removed**: Privy auth provider (all artifacts cleaned up, 1400+ stale files removed)
+- ✅ **Added**: NextAuth.js v5 (Auth.js v5) with Google OAuth only
+- ✅ **Edge Runtime**: Auth split into two files:
+  - `src/lib/auth/auth.config.ts` — Edge-safe config (used by middleware)
+  - `src/lib/auth/auth.ts` — Server-only config (DB lookups via dynamic import)
+- ✅ **JWT Strategy**: 30-day sessions, updated once per day
+- ✅ **Admin Detection**: First user or `AUTH_ADMIN_EMAIL` gets `ADMIN` role
 
-**Build Verification:**
+#### **New Features** (January–March 2026)
 
-- ✅ Local build: Successful (0 errors, 45s compile time)
-- ✅ All 24 static pages generated
-- ✅ All 13 API routes compiled correctly
-- ✅ Zero TypeScript errors maintained
+- ✅ **Recipe Generator** (`/recipe-generator`) — Sophisticated carousel cycling with personalization and planetary scoring across all 14 cuisines
+- ✅ **Food Tracking** (`/food-tracking`) — Food diary/tracking page
+- ✅ **User Dashboard Enhancements** — Added Dining Companions and Food Lab Book sections
+- ✅ **Comprehensive User Dashboard** — Natal/transit chart overlay, step-based profile flow
+- ✅ **Enhanced Cooking Methods Recommender** — Full physics visualization with mass-weight planetary kinetics
+- ✅ **Registration + Onboarding Emails** — Personalized onboarding email from Greg Castro via Nodemailer
+- ✅ **Planetary Mass Constants** — Actual planetary mass constants grounding alchemical scoring
+- ✅ **Planetary Positions Fix** — Geocentric calculations, Ascendant corrections, live calculations replacing placeholders
 
-### 🚀 **MAJOR ACHIEVEMENTS (November 23 - December 3, 2025)**
+#### **Bug Fixes** (January–March 2026)
 
-**Enhanced Recommenders:**
-
-- ✅ **Cooking Methods Recommender** - Real planetary calculations with pillar transformations (PRs #143, #144)
-- ✅ **Ingredient Recommender** - Pagination, formatting, protein data, and compatibility scoring (PRs #139, #140)
-- ✅ **Cuisine Recommender** - All 14 cuisines with tier-based grouping (PR #137)
-- ✅ **Alchemy Calculations** - Corrected calculations and enhanced quantities display (PR #138)
-
-**UI/UX Improvements:**
-
-- ✅ **Hero Section Revamp** - Alchm.kitchen branding and elemental system (PR #136)
-- ✅ **Elemental Properties Display** - Denormalized for true intensity calculations (PRs #134, #135)
-
-**Build & Deployment Fixes:**
-
-- ✅ **Vercel Build Stability** - Corepack and module resolution fixes (PRs #130-133)
-- ✅ **Planetary Position Pages** - Multiple fixes and improvements (PRs #126-129)
-- ✅ **Quantities Page** - Error fixes and display enhancements (PRs #123-125)
-
-**Infrastructure (Previous):**
-
-- ✅ **Swiss Ephemeris v2** - High-precision planetary calculations (PR #116)
-- ✅ **TypeScript 5.8.3** - Upgraded from 5.7.3 (PR #104)
-- ✅ **Python Backend Migration** - pyswisseph for NASA JPL DE precision (PR #119)
-
-### 📝 **Recent Pull Requests (November 23 - December 3, 2025)**
-
-| PR # | Description                                                                  | Status    |
-| ---- | ---------------------------------------------------------------------------- | --------- |
-| #144 | Apply pillar transformations to cooking method calculations                  | ✅ Merged |
-| #143 | Enhance cooking methods recommender with real planetary calculations         | ✅ Merged |
-| #142 | Handle inconsistent seasonality data types in EnhancedIngredientRecommender  | ✅ Merged |
-| #141 | Add explicit type annotations to fix TS2345 errors                           | ✅ Merged |
-| #140 | Enhance ingredient recommender with pagination, formatting, and protein data | ✅ Merged |
-| #139 | Add ingredient pagination and enhanced compatibility scoring                 | ✅ Merged |
-| #138 | Correct alchemy calculations and enhance quantities display                  | ✅ Merged |
-| #137 | Display all 14 cuisines with tier-based grouping                             | ✅ Merged |
-| #136 | Revamp hero section with Alchm.kitchen branding                              | ✅ Merged |
-| #135 | Update UI components to use normalizeForDisplay()                            | ✅ Merged |
-| #134 | Denormalize elemental properties for true intensity calculations             | ✅ Merged |
-| #133 | Use corepack yarn explicitly for Vercel builds                               | ✅ Merged |
-| #132 | Enable corepack for correct Yarn 3.6.4 on Vercel builds                      | ✅ Merged |
-| #131 | Resolve module resolution errors on Vercel builds                            | ✅ Merged |
-| #130 | Remove yarn berry cache to fix Vercel build module resolution                | ✅ Merged |
-| #129 | Fix planetary positions                                                      | ✅ Merged |
-| #128 | Fix planet positions page                                                    | ✅ Merged |
-| #127 | Fix planet positions page                                                    | ✅ Merged |
-| #126 | Fix planet positions                                                         | ✅ Merged |
-| #125 | Fix quantities page errors                                                   | ✅ Merged |
-| #124 | Planet quantities display                                                    | ✅ Merged |
-| #123 | Update quantities planetary calc                                             | ✅ Merged |
-| #122 | Planetary integration docs                                                   | ✅ Merged |
-
-_Total: 70+ pull requests merged since November 8, demonstrating active development and continuous improvement._
-
-### 📝 **Earlier Pull Requests (November 8-23, 2025)**
-
-| PR # | Description                                                           | Status    |
-| ---- | --------------------------------------------------------------------- | --------- |
-| #121 | Planetary integration verification documentation                      | ✅ Merged |
-| #120 | Integrate backend planetary calculations with cuisine recommendations | ✅ Merged |
-| #119 | Migrate Swiss Ephemeris to Python backend (pyswisseph)                | ✅ Merged |
-| #116 | Swiss Ephemeris v2 upgrade for high-precision calculations            | ✅ Merged |
-| #115 | Network resilience configuration for Vercel builds                    | ✅ Merged |
-| #114 | User personalization system with natal/moment charts                  | ✅ Merged |
-| #113 | Onboarding email functionality and profile section                    | ✅ Merged |
-| #112 | Enhanced recommendation displays and scoring                          | ✅ Merged |
-| #111 | Fix planetary alchemical calculations                                 | ✅ Merged |
-| #110 | Resolve quantities API errors                                         | ✅ Merged |
-| #109 | Add Alchm Quantities page                                             | ✅ Merged |
-| #108 | Add Planetary Agents navigation                                       | ✅ Merged |
-| #107 | Remove demo link and fix placeholders                                 | ✅ Merged |
-| #106 | Audit data entries                                                    | ✅ Merged |
-| #105 | Collapsible cuisine recommender                                       | ✅ Merged |
-| #104 | TypeScript 5.7.3 → 5.8.3 upgrade                                      | ✅ Merged |
-| #103 | Intelligent recipe enhancement generation                             | ✅ Merged |
-| #102 | Enhanced recipe data & cuisine recommender                            | ✅ Merged |
-
-### 🎉 **TypeScript Error Elimination Campaign - COMPLETE VICTORY!**
-
-**Historic Achievement**: **ALL Categories Eliminated - ZERO ERRORS!**
-
-- Starting Point: ~2,000+ TypeScript errors (November 2025)
-- Final State: **0 errors** (100% elimination - January 14, 2026)
-- Success Rate: 100% (zero regressions throughout campaign)
-- Barriers Broken: 13 major milestones (1,000 → 140s → **0**)
-
-**Final Cleanup Sessions**:
-
-1. **ULTIMATE VICTORY**: Zero Error Achievement (149→0) - All remaining errors eliminated! 🏆
-2. **Vigintuple Elimination** (20 categories in one session!) - 181→153 errors
-3. **Final Cleanup** (TS2345 eliminated) - 153→149 errors, 45th category!
-4. **Sextuple + Undecuple** (17 categories) - 241→181 errors
-5. **Sub-700 Breakthrough** (multiple categories) - 782→694 errors
-
-**Previously Blocked Categories - NOW RESOLVED**:
-
-- **TS1117**: ✅ ELIMINATED (spiceBlends.ts successfully refactored)
-- **TS2307**: ✅ ELIMINATED (module resolution completely fixed)
-- **ALL ERROR CATEGORIES**: ✅ **ELIMINATED - ZERO ERRORS REMAINING**
+- ✅ Session persistence extended and hardened
+- ✅ Google OAuth 401 resolved (AUTH_SECRET, PKCE cookie config)
+- ✅ Edge Runtime errors resolved (no Node.js modules in middleware)
+- ✅ Birth info redirect to dashboard (robust with fallbacks)
+- ✅ Blank page / hydration gate issues resolved
+- ✅ React hooks violations fixed
+- ✅ astronomy-engine date parsing fixed
+- ✅ TS2307/TS2322 errors resolved (zero errors maintained)
+- ✅ Vercel preview deployments handle missing AUTH_SECRET gracefully
 
 ### ✅ **Build Status**
 
-- **Branch**: master (latest commit: `f175ec9c`)
-- **Build**: ✅ FULLY OPERATIONAL (January 14, 2026)
+- **Branch**: master (latest commit: `4e0544d`)
+- **Build**: ✅ FULLY OPERATIONAL (March 6, 2026)
 - **TypeScript Errors**: **0** (zero errors maintained)
 - **Dependencies**: ✅ Optimized (Yarn 3.6.4 required with corepack)
-- **Configuration**: ✅ TypeScript 5.8.3 optimized (types restriction removed)
-- **Vercel Deployment**: ✅ STABLE (corepack enabled, JWT auth lazy initialization)
-- **Testing Suite**: ✅ OPERATIONAL (jest-dom types issue resolved)
-- **Regressions**: ✅ ZERO (maintained throughout)
+- **Vercel Deployment**: ✅ STABLE
+- **Auth**: ✅ NextAuth.js v5 with Google OAuth
 
-**TypeScript Configuration Updates (January 14, 2026):**
+### 📝 **Recent Pull Requests (January 14 – March 6, 2026)**
 
-- Added exclusions for experimental/integration files in `tsconfig.json`:
-  - `alchm-app-integration/**` - Integration guide (non-production)
-  - `src/app/personalized-ingredients/**` - Experimental feature
-  - `src/components/PersonalizedIngredientPage.tsx` - Experimental component
-- Rationale: Keeps main codebase error-free while allowing experimental work in isolated directories
+| PR # | Description | Status |
+|------|-------------|--------|
+| #252 | Fix planetary positions (geocentric), Ascendant, and onboarding emails | ✅ Merged |
+| #251 | Sophisticated recipe generator with carousel cycling and personalization | ✅ Merged |
+| #250 | Add Dining Companions and Food Lab Book to user dashboard | ✅ Merged |
+| #249 | Personalized onboarding email from Greg Castro | ✅ Merged |
+| #248 | Registration email notifications, birth chart fixes, session persistence | ✅ Merged |
+| #242 | Replace placeholder planetary positions with live calculations | ✅ Merged |
+| #241 | Robust redirect to dashboard after birth info with fallbacks | ✅ Merged |
+| #240 | Fix redirect to dashboard after birth info submission | ✅ Merged |
+| #239 | Resolve Vercel production errors from log analysis | ✅ Merged |
+| #238 | Resolve TS2307 and TS2322 errors for zero TypeScript errors | ✅ Merged |
+| #237 | Build comprehensive user dashboard with natal/transit chart overlay | ✅ Merged |
+| #236 | Rebuild profile page with step-based flow and personalized recommendations | ✅ Merged |
+| #235 | Rebuild auth/profile navigation with dynamic Log In / Profile tab | ✅ Merged |
+| #233 | Remove Privy artifacts, fix admin auth, clean up 1400+ stale files | ✅ Merged |
+| #232 | Resolve Edge Runtime errors, remove conflicting session route, clean up Privy leftovers | ✅ Merged |
+| #231 | Resolve Google OAuth 401 and wire NextAuth onboarding + admin flow | ✅ Merged |
+| #230 | Handle missing AUTH_SECRET in Vercel preview deployments | ✅ Merged |
+| #229 | Replace Privy auth provider with NextAuth.js (Auth.js v5) | ✅ Merged |
 
-### 📊 **Error Metrics**
+### 📝 **Earlier Pull Requests (November 8 – January 14, 2026)**
 
-- **Total TypeScript Errors**: **0** (down from ~2,000+, **-100%**)
-- **Categories Eliminated**: **ALL** (100% complete success)
-- **TS1117 Errors**: 0 (✅ ELIMINATED - spiceBlends.ts refactored)
-- **TS2307 Errors**: 0 (✅ ELIMINATED - module resolution fixed)
-- **All Error Categories**: **0** (✅ PERFECT STATE ACHIEVED)
+| PR # | Description | Status |
+|------|-------------|--------|
+| #144 | Apply pillar transformations to cooking method calculations | ✅ Merged |
+| #143 | Enhance cooking methods recommender with real planetary calculations | ✅ Merged |
+| #142 | Handle inconsistent seasonality data types in EnhancedIngredientRecommender | ✅ Merged |
+| #141 | Add explicit type annotations to fix TS2345 errors | ✅ Merged |
+| #140 | Enhance ingredient recommender with pagination, formatting, and protein data | ✅ Merged |
+| #137 | Display all 14 cuisines with tier-based grouping | ✅ Merged |
+| #136 | Revamp hero section with Alchm.kitchen branding | ✅ Merged |
+| #120 | Integrate backend planetary calculations with cuisine recommendations | ✅ Merged |
+| #119 | Migrate Swiss Ephemeris to Python backend (pyswisseph) | ✅ Merged |
+| #116 | Swiss Ephemeris v2 upgrade for high-precision calculations | ✅ Merged |
+| #114 | User personalization system with natal/moment charts | ✅ Merged |
+
+_Total: 252+ pull requests merged since November 2025._
+
+---
 
 ## Core Architecture
 
@@ -179,33 +124,98 @@ _Total: 70+ pull requests merged since November 8, demonstrating active developm
 
 **Three-Tier Architecture:**
 
-1. **Tier 1 - Ingredients** (Elemental Only)
-   - Store ONLY elemental properties: Fire, Water, Earth, Air (normalized to 1.0)
-   - NO alchemical properties at ingredient level
-   - Rationale: Ingredients lack astrological context for ESMS
+1.  **Tier 1 - Ingredients** (Elemental Only)
+    -   Store ONLY elemental properties: Fire, Water, Earth, Air (normalized to 1.0)
+    -   NO alchemical properties at ingredient level
+    -   Rationale: Ingredients lack astrological context for ESMS
 
-2. **Tier 2 - Recipes** (Computed - Full Alchemical)
-   - Alchemical properties from planetary positions via `calculateAlchemicalFromPlanets()`
-   - Elemental properties: 70% ingredients + 30% zodiac signs
-   - Thermodynamic metrics from ESMS + elementals
-   - Kinetic properties (P=IV circuit model)
+2.  **Tier 2 - Recipes** (Computed - Full Alchemical)
+    -   Alchemical properties from planetary positions via `calculateAlchemicalFromPlanets()`
+    -   Elemental properties: 70% ingredients + 30% zodiac signs
+    -   Thermodynamic metrics from ESMS + elementals
+    -   Kinetic properties (P=IV circuit model)
+    -   Planetary mass-weight constants applied to alchemical scoring
 
-3. **Tier 3 - Cuisines** (Aggregated - Statistical)
-   - Weighted average properties across recipes
-   - Cultural signatures (z-score > 1.5σ)
-   - Statistical variance and diversity metrics
+3.  **Tier 3 - Cuisines** (Aggregated - Statistical)
+    -   Weighted average properties across recipes
+    -   Cultural signatures (z-score > 1.5σ)
+    -   Statistical variance and diversity metrics
 
 **Key Modules:**
 
-- `src/utils/planetaryAlchemyMapping.ts` - Authoritative ESMS calculation
-- `src/utils/hierarchicalRecipeCalculations.ts` - Recipe computation
-- `src/utils/cuisineAggregations.ts` - Statistical signatures
-- `src/types/celestial.ts` - Core type definitions
+-   `src/utils/planetaryAlchemyMapping.ts` — Authoritative ESMS calculation
+-   `src/utils/hierarchicalRecipeCalculations.ts` — Recipe computation
+-   `src/utils/cuisineAggregations.ts` — Statistical signatures
+-   `src/types/celestial.ts` — Core type definitions
+
+### **Authentication System (NextAuth.js v5)**
+
+**Architecture:**
+
+```
+Edge Runtime (middleware.ts)
+  └─→ auth.config.ts (Google OAuth provider, JWT session, route protection)
+      └─→ NO Node.js imports (no pg, jsonwebtoken, bcryptjs)
+
+Server Runtime (API routes, server components)
+  └─→ auth.ts (extends auth.config.ts)
+      └─→ signIn callback: dynamic import of userDatabaseService (pg)
+      └─→ Creates/updates user in PostgreSQL on first login
+      └─→ Assigns ADMIN role to first user or AUTH_ADMIN_EMAIL
+```
+
+**Key Files:**
+
+-   `src/lib/auth/auth.config.ts` — Edge-safe config (middleware uses this)
+-   `src/lib/auth/auth.ts` — Full server config (API route uses this)
+-   `src/lib/auth/roles.ts` — UserRole enum (ADMIN, USER)
+-   `src/lib/auth/validateRequest.ts` — Server-side session validation
+-   `src/app/api/auth/[...nextauth]/route.ts` — NextAuth catch-all route
+-   `src/middleware.ts` — Route protection (/profile, /onboarding, /admin)
+
+**Required Environment Variables (Auth):**
+
+```bash
+AUTH_SECRET=<random-secret>          # REQUIRED in production
+AUTH_URL=http://localhost:3000        # App URL
+AUTH_TRUST_HOST=true                  # Required for Vercel
+AUTH_GOOGLE_ID=<google-client-id>    # Google OAuth
+AUTH_GOOGLE_SECRET=<google-secret>   # Google OAuth
+AUTH_ADMIN_EMAIL=xalchm@gmail.com    # Admin user email
+```
+
+**Session Strategy:**
+-   JWT-based, 30-day max age, refreshed daily
+-   Session contains: `user.id`, `user.email`, `user.name`, `user.roles`, `user.birthInfo`
+-   Graceful degradation: Missing AUTH_SECRET in preview/dev uses placeholder (app works, auth features don't)
 
 ### **Primary APIs**
 
-- **astrologize API**: Astrological calculations and planetary positions
-- **alchemize API**: Alchemical transformations and elemental harmony
+-   **astrologize API** (`/api/astrologize`): Astrological calculations and planetary positions
+-   **alchemize API** (`/api/alchemize`): Alchemical transformations and elemental harmony
+-   **cuisines API** (`/api/cuisines/recommend`): Cuisine recommendations with real planetary data
+-   **recipes API** (`/api/recipes`): Recipe retrieval and generation
+-   **user API** (`/api/user/*`): User profile, dining groups, commensals
+-   **onboarding API** (`/api/onboarding`): User onboarding flow
+-   **food-diary API** (`/api/food-diary`): Food tracking/diary
+
+### **Backend Architecture (Python FastAPI)**
+
+```
+Next.js Frontend (Vercel)
+  └─→ /api/astrologize/route.ts
+      ├─→ Primary: Call Railway Backend /api/planetary/positions
+      │   └─→ URL: https://whattoeatnext-production.up.railway.app
+      └─→ Fallback: astronomy-engine (local)
+
+Python Backend (Railway)
+  └─→ /api/planetary/positions
+      ├─→ Primary: pyswisseph (Swiss Ephemeris)
+- **Backend Code**: `/backend/alchm_kitchen/main.py`
+- **Railway Domain**: `https://whattoeatnext-production.up.railway.app`
+- **Config Tokens**: `INTERNAL_API_SECRET` must match between Vercel and Railway.
+- **Optional**: Set `API_BASE_URL` in Railway to the domain above for health check diagnostics.
+- **Manual Start**: `cd backend && ./dev_start.sh`
 
 ### **Key Components**
 
@@ -213,220 +223,92 @@ _Total: 70+ pull requests merged since November 8, demonstrating active developm
 - **Alchemical Properties**: Spirit, Essence, Matter, Substance (ESMS)
   - ⚠️ **CRITICAL**: ESMS ONLY from planetary positions, NOT elemental approximations
 - **14 Alchemical Pillars**: Cooking method transformations
-- **Planetary System**: Real-time astronomical calculations
+- **Planetary System**: Real-time astronomical calculations with geocentric positions
+- **Planetary Mass Constants**: Actual planetary masses used in kinetic/alchemical scoring
 
 ### **Technology Stack**
 
-- **Frontend**: Next.js 15, React 19.1.0, TypeScript 5.8.3
-- **Package Manager**: Yarn 3.6.4 (required)
-- **Build**: Next.js build system with enhanced validation
-- **Styling**: CSS Modules, Tailwind CSS 3.4.1
+- **Frontend**: Next.js 15.5.9, React 19.1.2, TypeScript 5.8.3
+- **Auth**: NextAuth.js v5 (Auth.js v5) — Google OAuth, JWT sessions
+- **Package Manager**: Yarn 3.6.4 (required — use corepack)
+- **Styling**: Chakra UI v3, Tailwind CSS 3.4.1, Framer Motion
 - **Backend**: Python FastAPI, pyswisseph (Swiss Ephemeris for high-precision calculations)
 - **Astronomical**: astronomy-engine (frontend fallback), pyswisseph 2.10.3.2 (backend primary)
-- **Email**: Nodemailer 6.9.16
+- **Email**: Nodemailer 6.9.16 (registration + personalized onboarding emails)
 - **Database**: PostgreSQL (pg 8.16.3)
-- **Authentication**: JWT (jsonwebtoken 9.0.2)
+- **JWT (legacy)**: jsonwebtoken 9.0.3 (JWT auth service uses lazy initialization)
+- **Forms**: React Hook Form + Zod validation
+- **Charts**: Recharts
 
-### **Swiss Ephemeris Migration to Backend** (November 2025)
+---
 
-**Architecture Change**: Migrated from frontend `swisseph-v2` to Python backend `pyswisseph`
-
-**Motivation**:
-
-- Node.js native modules (`swisseph-v2`) fail in Vercel serverless environment
-- Python `pyswisseph` provides same NASA JPL DE precision in all environments
-- Cleaner separation of concerns (calculations in backend, UI in frontend)
-
-**Current Architecture**:
+## File Structure
 
 ```
-Next.js Frontend (Vercel)
-  └─→ /api/astrologize/route.ts
-      ├─→ Primary: Call Python backend /api/planetary/positions
-      │   └─→ Uses pyswisseph 2.10.3.2 (NASA JPL DE - sub-arcsecond)
-      └─→ Fallback: astronomy-engine (moderate precision)
-          └─→ Used when backend unavailable
+src/
+├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes (13+ routes)
+│   │   ├── auth/[...nextauth]/  # NextAuth catch-all
+│   │   ├── astrologize/   # Planetary position calculations
+│   │   ├── alchemize/     # Alchemical transformations
+│   │   ├── cuisines/      # Cuisine recommendations
+│   │   ├── recipes/       # Recipe data
+│   │   ├── food-diary/    # Food tracking
+│   │   ├── onboarding/    # User onboarding
+│   │   └── user/          # User profile & social
+│   ├── auth/              # Auth error page
+│   ├── cooking-methods/   # Cooking methods page
+│   ├── food-tracking/     # Food diary page
+│   ├── login/             # Login page
+│   ├── menu-planner/      # Menu planning
+│   ├── onboarding/        # Onboarding flow
+│   ├── planetary-chart/   # Planetary chart visualization
+│   ├── profile/           # User profile (step-based flow)
+│   ├── quantities/        # Alchemical quantities
+│   ├── recipe-builder/    # Recipe builder
+│   ├── recipe-generator/  # AI-powered recipe generator
+│   └── recipes/           # Recipe browsing
+├── calculations/           # Alchemical & astrological calculations
+├── components/             # UI components
+├── constants/              # Alchemical pillars, elements, zodiac
+├── contexts/               # React context providers
+├── data/                   # Ingredient databases, planetary data
+├── hooks/                  # React custom hooks
+├── lib/
+│   ├── auth/              # NextAuth config (auth.ts, auth.config.ts)
+│   ├── database/          # PostgreSQL client (client.ts, connection.ts)
+│   └── ...                # Other lib utilities
+├── services/               # Business logic services
+├── types/                  # TypeScript type definitions
+└── utils/                  # Utility functions
 
-Python Backend (localhost:8000 / production)
-  └─→ /api/planetary/positions
-      ├─→ Primary: pyswisseph (Swiss Ephemeris)
-      └─→ Fallback: pyephem (moderate precision)
+backend/
+├── alchm_kitchen/          # FastAPI application
+├── requirements.txt        # Python deps (pyswisseph, etc.)
+└── dev_start.sh            # Start backend
+
+database/
+└── init/                   # DB initialization scripts
 ```
 
-**Implementation**:
+**Key Files:**
 
-- **Backend**: `/backend/alchm_kitchen/main.py` - New `/api/planetary/positions` endpoint
-- **Frontend**: `/src/app/api/astrologize/route.ts` - Updated to call backend
-- **Dependencies**:
-  - Removed: `swisseph-v2` from `package.json`
-  - Added: `pyswisseph==2.10.3.2` in `backend/requirements.txt`
-- **Configuration**: `BACKEND_URL` environment variable (see `.env.example`)
+- `src/types/celestial.ts` — Core types (Planet, Element, AlchemicalProperty, ZodiacSign)
+- `src/constants/alchemicalPillars.ts` — 14 alchemical cooking transformations
+- `src/utils/planetaryAlchemyMapping.ts` — ESMS calculation authority
+- `src/lib/auth/auth.config.ts` — Edge-safe NextAuth config
+- `src/lib/auth/auth.ts` — Full server NextAuth config
+- `src/middleware.ts` — Route protection middleware
+- `src/app/api/astrologize/route.ts` — Planetary positions (backend → frontend)
 
-**Benefits**:
-
-- ✅ Sub-arcsecond precision in all environments (development, staging, production)
-- ✅ No native module build issues on Vercel
-- ✅ Consistent results across all deployments
-- ✅ Automatic fallback to astronomy-engine if backend unavailable
-- ✅ Cleaner frontend build (no webpack native module config)
-
-**Testing**:
-
-```bash
-# Start backend
-cd backend && ./dev_start.sh
-
-# Test endpoint
-curl -X POST http://localhost:8000/api/planetary/positions \
-  -H "Content-Type: application/json" \
-  -d '{"year":2024,"month":1,"day":1,"hour":12,"minute":0}'
-
-# Test frontend (calls backend)
-curl -X POST http://localhost:3000/api/astrologize \
-  -H "Content-Type: application/json" \
-  -d '{"year":2024,"month":1,"date":1,"hour":12,"minute":0}'
-```
-
-**Deprecated Files**:
-
-- `/src/utils/swissephCalculations.ts` - Marked deprecated, kept for reference only
-
-### **Planetary Integration Verification** (November 23, 2025)
-
-**Status**: ✅ **MERGED TO MAIN** (PR #120) - Code verified, runtime testing pending
-
-**Pull Request**: [#120](https://github.com/gregcastro23/WhatToEatNext/pull/120) - ✅ Merged to main
-**Commits**:
-
-- `f06b01e` - Merge pull request #120
-- `674a1fb` - feat: Integrate backend planetary calculations with cuisine recommendations
-
-**Verification Status**:
-
-- ✅ **Code-Level Verification**: COMPLETE (100% verified)
-- ⏳ **Runtime Testing**: PENDING (awaiting proper environment setup)
-
-**Audit Summary**:
-
-- Conducted comprehensive audit of planetary position data flow
-- Identified and fixed critical gap in cuisine recommendations API
-- Verified ESMS calculations use authoritative `calculateAlchemicalFromPlanets()` method
-- All recommendation systems now receive sub-arcsecond precision planetary data
-- Code changes merged and confirmed in main branch
-
-**Recommendation Systems Verified**:
-
-| System                   | Component                                                              | Data Source                                         | ESMS Calculation                           | Code Status | Runtime Status |
-| ------------------------ | ---------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------ | ----------- | -------------- |
-| **Cuisine API**          | `/src/app/api/cuisines/recommend/route.ts`                             | ✅ Backend via `getPlanetaryPositionsForDateTime()` | ✅ `calculateAlchemicalFromPlanets()`      | ✅ Verified | ⏳ Pending     |
-| **User Personalization** | `/src/services/PersonalizedRecommendationService.ts`                   | ✅ `ChartComparisonService`                         | ✅ `calculateAlchemicalFromPlanets()`      | ✅ Verified | ⏳ Pending     |
-| **Moment Chart**         | `/src/services/ChartComparisonService.ts`                              | ✅ `/api/astrologize` → Backend                     | ✅ `calculateAlchemicalFromPlanets()`      | ✅ Verified | ⏳ Pending     |
-| **Recipe Calculations**  | `/src/utils/hierarchicalRecipeCalculations.ts`                         | ✅ Planetary positions                              | ✅ `calculateAlchemicalFromPlanets()`      | ✅ Verified | ⏳ Pending     |
-| **Ingredient Transform** | `/src/utils/ingredientUtils.ts`                                        | ✅ Planetary positions                              | ✅ `transformItemWithPlanetaryPositions()` | ✅ Verified | ⏳ Pending     |
-| **Cooking Methods**      | `/src/components/recommendations/EnhancedCookingMethodRecommender.tsx` | ✅ Planetary positions                              | ✅ `calculateAlchemicalFromPlanets()`      | ✅ Verified | ⏳ Pending     |
-
-**Critical Fix Applied (November 23, 2025)**:
-
-- **Issue**: `/api/cuisines/recommend` was using hardcoded zodiac sign approximations instead of backend planetary positions
-- **Impact**: Main user-facing API was not benefiting from Swiss Ephemeris upgrade
-- **Solution**: Updated to call `getPlanetaryPositionsForDateTime()` and use `calculateAlchemicalFromPlanets()`
-- **Result**: Cuisine recommendations now based on real-time, high-precision planetary positions
-- **Files Modified**: `/src/app/api/cuisines/recommend/route.ts` (~100 lines updated)
-- **Regressions**: Zero - All changes backward compatible
-- **PR Status**: ✅ Merged to main (PR #120)
-
-**Data Flow Verified**:
-
-```
-User Request → /api/cuisines/recommend
-    ↓
-getCurrentMoment() [async]
-    ↓
-getPlanetaryPositionsForDateTime()
-    ↓
-/api/astrologize → Backend /api/planetary/positions
-    ↓
-pyswisseph (NASA JPL DE - sub-arcsecond)
-    ↓
-Return all 10 planetary positions
-    ↓
-calculateAlchemicalFromPlanets(planetaryPositions)
-    ↓
-ESMS: { Spirit, Essence, Matter, Substance }
-    ↓
-Cuisine recommendations based on real planetary data ✅
-```
-
-**Verification Tests**:
-
-```bash
-# 1. Test backend planetary positions
-curl -X POST http://localhost:8000/api/planetary/positions \
-  -H "Content-Type: application/json" \
-  -d '{"year":2024,"month":11,"day":23}'
-
-# 2. Test astrologize API uses backend
-curl -X POST http://localhost:3000/api/astrologize \
-  -H "Content-Type: application/json" \
-  -d '{"year":2024,"month":11,"date":23}'
-# Expected metadata: {"source": "backend-pyswisseph", "precision": "NASA JPL DE"}
-
-# 3. Test cuisine recommendations use backend positions
-curl http://localhost:3000/api/cuisines/recommend
-# Expected: current_moment.planetaryPositions populated with backend data
-# ESMS values change based on actual planetary positions, not static zodiac
-```
-
-**Documentation**:
-
-- `/PLANETARY_INTEGRATION_STATUS.md` - Executive status report (quick stakeholder reference)
-- `/PLANETARY_INTEGRATION_AUDIT.md` - Comprehensive audit report (identifies the issue)
-- `/INTEGRATION_FIX_SUMMARY.md` - Detailed fix documentation (describes the solution)
-- `/INTEGRATION_TEST_PLAN.md` - Complete test plan and code-level verification results
-- `/VERIFICATION_SUMMARY.md` - Detailed verification results and confidence assessment
-
-**Success Criteria**:
-
-✅ **Code-Level (COMPLETE)**:
-
-- ✅ All recommendation systems use backend planetary positions (code verified)
-- ✅ ESMS calculated via `calculateAlchemicalFromPlanets()` (code verified)
-- ✅ No hardcoded zodiac → ESMS mappings remain (removed in fix)
-- ✅ Metadata tracking implemented (`backend-pyswisseph` vs `astronomy-engine-fallback`)
-- ✅ Graceful fallback to `astronomy-engine` when backend unavailable (code verified)
-- ✅ Zero TypeScript errors introduced
-- ✅ Zero breaking changes
-- ✅ 100% backward compatible
-
-⏳ **Runtime-Level (PENDING)**:
-
-- ⏳ Backend returns planetary positions for all 10 planets
-- ⏳ Frontend receives and stores planetary positions
-- ⏳ Cuisine recommendations include populated `planetaryPositions` field
-- ⏳ ESMS values change based on actual planetary movements
-- ⏳ Fallback works correctly when backend unavailable
-- ⏳ No crashes or errors in either mode
-
-**Confidence Assessment**:
-
-- **Implementation Quality**: 95% (code is correct and follows best practices)
-- **Runtime Functionality**: 80% (high probability of working based on code analysis)
-- **Production Readiness**: Pending runtime verification
-
-**Next Steps**:
-
-1. ✅ Code verification - COMPLETE
-2. ✅ Documentation - COMPLETE
-3. ⏳ Runtime testing in proper environment - PENDING
-4. ⏳ Staging deployment and validation - PENDING
-5. ⏳ Production deployment - PENDING
+---
 
 ## Development Commands
 
 ### **Essential Workflow**
 
 ```bash
-make install     # Install dependencies
+make install     # Install dependencies (corepack yarn install)
 make dev         # Start development server
 make build       # Production build
 make lint        # Run ESLint
@@ -438,13 +320,42 @@ make errors-by-type      # Group by error type
 make errors-by-file      # Group by file
 ```
 
+### **Starting Local Development**
+
+```bash
+# 1. Install dependencies
+make install
+
+# 2. Start Python backend (for planetary calculations)
+cd backend && ./dev_start.sh
+
+# 3. Start frontend
+make dev
+
+# 4. Test planetary calculations
+curl -X POST http://localhost:8000/api/planetary/positions \
+  -H "Content-Type: application/json" \
+  -d '{"year":2026,"month":3,"day":6,"hour":12,"minute":0}'
+```
+
 ### **Linting**
 
 ```bash
 make lint-quick          # Fast (no type checking)
 make lint-performance    # Performance optimized
 yarn lint --fix          # Auto-fix issues
+yarn lint:fix            # Same as above
 ```
+
+### **Testing**
+
+```bash
+yarn test                # Run all tests
+yarn test:watch          # Watch mode
+yarn test:coverage       # With coverage
+```
+
+---
 
 ## Development Guidelines
 
@@ -510,56 +421,66 @@ Kalchm = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substa
 Monica = -GregsEnergy / (Reactivity × ln(Kalchm)) if Kalchm > 0, else 1.0
 ```
 
-### **Common Parsing Error Patterns**
+### **Authentication Patterns**
 
-**Pattern 1: Semicolon in Arrow Function Filter**
-
+**Reading session in Server Components / API Routes:**
 ```typescript
-// ❌ WRONG
-const errors = messages.filter(msg => msg.ruleId === 'error';)
+import { auth } from "@/lib/auth/auth";
 
-// ✅ CORRECT
-const errors = messages.filter(msg => msg.ruleId === 'error')
+const session = await auth();
+if (!session?.user) return new Response("Unauthorized", { status: 401 });
 ```
 
-**Pattern 2: Comma Instead of Semicolon in Class Properties**
-
+**Reading session in Client Components:**
 ```typescript
-// ❌ WRONG
-class MyClass {
-  private config: Config,
-  private state: State = null;
-}
+import { useSession } from "next-auth/react";
 
-// ✅ CORRECT
-class MyClass {
-  private config: Config;
-  private state: State = null;
-}
+const { data: session, status } = useSession();
+if (status === "loading") return <Loading />;
+if (!session) return <SignIn />;
 ```
 
-**Pattern 3: Apostrophe Escaping**
-
+**Sign in / Sign out:**
 ```typescript
-// ❌ WRONG
-'The region's cuisine'
-
-// ✅ CORRECT
-'The region\'s cuisine'
+import { signIn, signOut } from "next-auth/react"; // client
 // OR
-"The region's cuisine"
+import { signIn, signOut } from "@/lib/auth/auth"; // server action
 ```
 
-**Pattern 4: Comma After Statements**
+**Protected routes** are configured in `src/middleware.ts`:
+- `/profile/*` — requires auth
+- `/onboarding/*` — requires auth
+- `/admin/*` — requires auth (admin role check in auth.config.ts)
+
+### **Edge Runtime Constraints**
+
+The middleware runs in Edge Runtime. **Never import** these in `auth.config.ts` or `middleware.ts`:
+- `pg` / database modules
+- `jsonwebtoken`
+- `bcryptjs`
+- `nodemailer`
+- Any module using Node.js built-ins
+
+Use dynamic imports in server-only callbacks:
+```typescript
+// In auth.ts signIn callback only (server runtime)
+const { userDatabase } = await import("@/services/userDatabaseService");
+```
+
+### **TypeScript Path Aliases**
 
 ```typescript
-// ❌ WRONG
-const result = fetchData(),
-logger.debug('Done'),
-
-// ✅ CORRECT
-const result = fetchData();
-logger.debug('Done');
+import { X } from "@/..."           // src/
+import { X } from "@components/..." // src/components/
+import { X } from "@utils/..."      // src/utils/
+import { X } from "@types/..."      // src/types/
+import { X } from "@services/..."   // src/services/
+import { X } from "@data/..."       // src/data/
+import { X } from "@constants/..."  // src/constants/
+import { X } from "@contexts/..."   // src/contexts/
+import { X } from "@hooks/..."      // src/hooks/
+import { X } from "@lib/..."        // src/lib/
+import { X } from "@calculations/..." // src/calculations/
 ```
 
 ### **TypeScript Error Patterns**
@@ -568,145 +489,55 @@ logger.debug('Done');
 
 ```typescript
 // ❌ ERROR
-elementalEffect: createElementalProperties({
-  Fire: 0.25,
-  Water: 0.25,
-  Earth: 0.25,
-  Air: 0.25,
-}),
+elementalEffect: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
 
 // ✅ FIXED
-elementalEffect: createElementalProperties({
-  Fire: 0.25,
-  Water: 0.25,
-  Earth: 0.25,
-  Air: 0.25,
-} as any),
+elementalEffect: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 } as any),
 ```
 
 **Pattern O: Array vs Single Item Parameter Mismatch (TS2345)**
 
 ```typescript
-// ❌ ERROR - Function expects single item but receives array
-export const _transformIngredients = (
-  ingredients: ElementalItem[],
-  ...
-): AlchemicalItem[] =>
-  transformItemWithPlanetaryPositions(
-    ingredients,  // Array passed to function expecting single item
-    ...
-  );
-
 // ✅ FIXED - Map over array to transform individual items
-export const _transformIngredients = (
-  ingredients: ElementalItem[],
-  ...
-): AlchemicalItem[] =>
-  ingredients.map(ingredient =>
-    transformItemWithPlanetaryPositions(
-      ingredient,  // Now passing single items
-      ...
-    )
-  );
+export const _transformIngredients = (ingredients: ElementalItem[]): AlchemicalItem[] =>
+  ingredients.map(ingredient => transformItemWithPlanetaryPositions(ingredient, ...));
 ```
 
-**Pattern Q: LogContext Type in Catch Blocks (TS2345)**
+**Pattern Q: LogContext Type in Catch Blocks**
 
 ```typescript
-// ❌ ERROR
-} catch (error) {
-  log.error(`Error message`, error);
-}
-
 // ✅ FIXED
 } catch (error) {
   log.error(`Error message`, error as any);
 }
 ```
 
-**Pattern R: `as unknown` Causing Type Mismatches (TS2345, TS2538)**
+**Pattern R: `as unknown` Causing Index Type Errors**
 
 ```typescript
-// ❌ ERROR
-const elementKey = element as unknown;
-const value = item.elementalProperties[elementKey]; // Cannot use 'unknown' as index
-
 // ✅ FIXED
 const elementKey = element as any;
 const value = item.elementalProperties[elementKey];
 ```
 
-**Pattern S: Malformed Type Definitions (TS2741, TS2300)**
+**Common Parsing Error Patterns:**
 
 ```typescript
-// ❌ ERROR - Malformed property types
-interface Stats {
-  total: number;
-  high;
-  number; // 'number' appears as property name instead of type
-  medium;
-  number;
-}
+// ❌ Semicolon in filter
+const errors = messages.filter(msg => msg.ruleId === 'error';)
+// ✅ Correct
+const errors = messages.filter(msg => msg.ruleId === 'error')
 
-// ✅ FIXED
-interface Stats {
-  total: number;
-  high: number;
-  medium: number;
-  low: number;
-}
+// ❌ Comma in class property
+class MyClass { private config: Config, }
+// ✅ Correct
+class MyClass { private config: Config; }
+
+// ❌ Apostrophe not escaped
+'The region's cuisine'
+// ✅ Correct
+"The region's cuisine"
 ```
-
-**Pattern T: Duplicate Exports (TS2300)**
-
-```typescript
-// ❌ ERROR
-export { default as Component } from "./Component";
-export { Component } from "./Component"; // Duplicate
-
-// ✅ FIXED
-export { default as Component } from "./Component";
-```
-
-**Pattern W: Enum Value Type Assertions (TS2345)**
-
-```typescript
-// ❌ ERROR
-const [status, setStatus] = useState<typeof InitializationStatus>(
-  InitializationStatus.COMPLETED, // Type mismatch
-);
-
-setStatus(InitializationStatus.IN_PROGRESS); // Error
-
-// ✅ FIXED
-const [status, setStatus] = useState<typeof InitializationStatus>(
-  InitializationStatus.COMPLETED as any,
-);
-
-setStatus(InitializationStatus.IN_PROGRESS as any);
-```
-
-**Detection Commands:**
-
-```bash
-# Find semicolon in filter functions
-grep -r "=> msg.ruleId.*;" src/
-
-# Find comma-terminated class properties
-grep -n "private.*:.*," src/
-
-# Check brace balance
-grep -o "{" file.ts | wc -l
-grep -o "}" file.ts | wc -l
-```
-
-### **Type Safety Rules**
-
-- Never use `as any` - use proper type assertions
-- Remove `as any` with proper typing (e.g., remove unnecessary casts)
-- Prefix unused variables with underscore: `_unusedVar`
-- Use `@/` path aliases for imports
-- Interface-first development
 
 ### **Elemental Logic Principles**
 
@@ -715,28 +546,115 @@ grep -o "}" file.ts | wc -l
 3. **All Combinations Work**: Good compatibility (0.7+)
 4. **No "Balancing"**: Don't balance elements against each other
 
-## File Structure
+---
 
+## Environment Variables Reference
+
+```bash
+# Server / General
+NODE_ENV=production
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_TELEMETRY_DISABLED=1
+
+# Backend (Python)
+BACKEND_URL=https://whattoeatnext-production.up.railway.app
+NEXT_PUBLIC_BACKEND_URL=https://whattoeatnext-production.up.railway.app
+CORS_ALLOWED_ORIGINS=https://alchm.kitchen,http://localhost:3000
+INTERNAL_API_SECRET=882133EA-3D06-4DF2-A63C-F4114AB4EFBC
+
+# Auth (NextAuth.js v5) — ALL REQUIRED for auth to work
+AUTH_SECRET=<random-secret-min-32-chars>
+AUTH_URL=http://localhost:3000
+AUTH_TRUST_HOST=true
+AUTH_GOOGLE_ID=<google-oauth-client-id>
+AUTH_GOOGLE_SECRET=<google-oauth-client-secret>
+AUTH_ADMIN_EMAIL=xalchm@gmail.com
+
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/whattoeat
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=whattoeat
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+
+# Email (Nodemailer)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+EMAIL_FROM=your-email@gmail.com
+
+# JWT (legacy service — lazy initialized)
+JWT_SECRET=<your-jwt-secret>
 ```
-src/
-├── app/                 # Next.js App Router pages
-├── components/          # UI components
-├── calculations/        # Alchemical & astrological calculations
-├── constants/           # Alchemical pillars, elements, zodiac
-├── data/               # Ingredient databases, planetary data
-├── utils/              # Utility functions
-├── types/              # TypeScript type definitions
-├── services/           # API services
-└── contexts/           # React context providers
+
+---
+
+## Vercel Deployment Configuration
+
+```json
+{
+  "buildCommand": "corepack yarn build",
+  "installCommand": "corepack enable && corepack yarn install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "functions": {
+    "src/app/api/**/*.ts": { "maxDuration": 10 }
+  }
+}
 ```
 
-**Key Files:**
+**Critical Vercel Notes:**
+- Must use `corepack yarn` (not `npm` or plain `yarn`)
+- `AUTH_SECRET` required in production — without it, auth fails silently
+- `AUTH_TRUST_HOST=true` required for NextAuth in Vercel environment
+- JWT auth service uses lazy initialization (Proxy-based) to avoid build-time errors
+- Backend URL must be set via `BACKEND_URL` for planetary calculations
 
-- `src/types/celestial.ts` - Core types (Planet, Element, AlchemicalProperty, ZodiacSign)
-- `src/constants/alchemicalPillars.ts` - 14 alchemical cooking transformations
-- `src/utils/planetaryAlchemyMapping.ts` - ESMS calculation authority
+---
 
 ## Troubleshooting
+
+### **Build Issues**
+
+```bash
+# TypeScript check should complete in ~5 seconds
+yarn tsc --noEmit --skipLibCheck
+
+# Full TypeScript check
+yarn tsc --noEmit
+
+# Build
+NODE_OPTIONS="--max-old-space-size=4096" yarn build
+# OR
+make build
+
+# If build hangs, kill zombie processes
+ps aux | grep -E "(yarn build|next build)" | grep -v grep
+pkill -9 -f "next build"
+```
+
+### **Auth Issues**
+
+- **Google OAuth 401**: Ensure `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, and `AUTH_SECRET` are set. Add `http://localhost:3000/api/auth/callback/google` to Google Console authorized redirect URIs.
+- **Missing AUTH_SECRET in preview**: The app uses a placeholder secret — auth won't work but app won't 500.
+- **Edge Runtime errors**: Never import Node.js modules (pg, bcrypt, etc.) from `auth.config.ts` or `middleware.ts`.
+
+### **Planetary Calculations**
+
+```bash
+# Test backend
+curl -X POST http://localhost:8000/api/planetary/positions \
+  -H "Content-Type: application/json" \
+  -d '{"year":2026,"month":3,"day":6,"hour":12,"minute":0}'
+
+# Test astrologize API (calls backend)
+curl -X POST http://localhost:3000/api/astrologize \
+  -H "Content-Type: application/json" \
+  -d '{"year":2026,"month":3,"date":6,"hour":12,"minute":0}'
+# Check metadata: {"source": "backend-pyswisseph", "precision": "NASA JPL DE"}
+```
 
 ### **Parsing Errors**
 
@@ -746,101 +664,35 @@ yarn lint 2>&1 | grep "Parsing error" | wc -l
 
 # List files with parsing errors
 yarn lint 2>&1 | grep -B 1 "Parsing error" | grep "^/"
-
-# Get specific parsing errors
-yarn lint src/path/to/file.ts --format json | jq
 ```
 
-### **Build Issues**
+---
 
-#### **Build Hang Fix (November 12, 2025) - RESOLVED ✅**
+## TypeScript Configuration Notes
 
-**Problem**: Build hung indefinitely without producing output, TypeScript compilation never completed.
+**Key `tsconfig.json` exclusions** (to keep zero errors state):
 
-**Root Cause**: The `types: ["node", "jest"]` restriction in `tsconfig.json` (lines 35-38) was causing TypeScript to scan all files indefinitely looking for only those specific type definitions.
-
-**Solution Applied**:
-
-1. Removed restrictive `types` array from `tsconfig.json` (now commented out)
-2. Disabled `output: "standalone"` in `next.config.mjs` (can cause long builds)
-3. Added NODE_OPTIONS memory allocation to Makefile build command
-
-**Files Modified**:
-
-- `tsconfig.json` - Removed `types: ["node", "jest"]` restriction
-- `next.config.mjs` - Disabled standalone output, updated comments
-- `Makefile` - Added NODE_OPTIONS to build command
-- `jest.config.js` - Removed duplicate setupFilesAfterEnv
-- `src/services/IngredientService.ts:504` - Fixed syntax error
-- `src/data/unified/cuisineIntegrations.ts:2200` - Fixed "dAiry" typo
-- `src/services/adapters/IngredientServiceAdapter.ts` - Fixed "dAiry" typos (2 locations)
-
-**Verification**:
-
-```bash
-# TypeScript check should complete in ~5 seconds
-yarn tsc --noEmit --skipLibCheck
-
-# Build should complete in 3-5 minutes
-make build
-# OR
-NODE_OPTIONS="--max-old-space-size=4096" yarn build
+```json
+"exclude": [
+  "alchm-app-integration/**",              // Integration guide (non-production)
+  "src/app/personalized-ingredients/**",    // Experimental feature
+  "src/components/PersonalizedIngredientPage.tsx", // Experimental component
+  "src/services/KiroCampaignIntegration.ts",
+  "**/*.bak*",                             // Backup files
+  "temp/**", "tmp-**",                     // Temp files
+  "**/*.test.ts", "**/*.spec.ts",          // Tests (separate tsconfig.jest.json)
+  "src/setupTests.ts",
+  "src/types/jest-dom.d.ts"               // Jest types excluded from main build
+]
 ```
 
-**Troubleshooting**:
+**Key settings:**
+- `strict: true` with selective relaxations (`noImplicitAny: false`, `strictFunctionTypes: false`)
+- `moduleResolution: "node"` (not "bundler")
+- `skipLibCheck: true`
+- `isolatedModules: true` (required for Next.js)
 
-```bash
-make build-health        # Check system status
-make check               # TypeScript errors
-yarn install            # Refresh dependencies
-
-# If build still hangs, check for zombie processes
-ps aux | grep -E "(yarn build|next build)" | grep -v grep
-pkill -9 -f "next build"  # Kill hanging processes
-```
-
-#### **Testing Suite Fix (November 13, 2025) - RESOLVED ✅**
-
-**Problem**: CI pipeline failing with error: `Cannot find type definition file for 'testing-library__jest-dom'`
-
-**Root Cause**: The deprecated stub package `@types/testing-library__jest-dom@6.0.0` was installed but had no actual type definitions. TypeScript was trying to load it as an implicit type library and failing because the package was empty (it only redirects to `@testing-library/jest-dom` which provides its own types).
-
-**Solution Applied**:
-
-1. Removed `@types/testing-library__jest-dom` from `package.json` (deprecated stub package)
-2. Removed triple-slash reference directives from jest-dom type files
-3. Excluded test-related type files from main `tsconfig.json`
-4. Reinstalled dependencies to clean up the empty stub package
-
-**Files Modified**:
-
-- `package.json` - Removed deprecated `@types/testing-library__jest-dom` dependency
-- `tsconfig.json` - Added exclusions for test files and jest-dom types
-- `src/types/jest-dom.d.ts` - Removed triple-slash reference directive
-- `src/types/testing-library__jest-dom/index.d.ts` - Removed triple-slash reference directive
-
-**Technical Details**:
-
-The `@testing-library/jest-dom` package provides its own built-in TypeScript types, so the `@types/testing-library__jest-dom` package is just a deprecated stub that says "use the main package's types instead." However, having this empty stub package installed caused TypeScript to look for type definitions that didn't exist.
-
-**Verification**:
-
-```bash
-# TypeScript check should pass without errors
-yarn tsc --noEmit --skipLibCheck
-
-# Full TypeScript check
-yarn tsc --noEmit
-
-# Run tests
-yarn test
-```
-
-**Key Learnings**:
-
-- Always check if a `@types/*` package is a deprecated stub before installing
-- `@testing-library/jest-dom` provides its own types and doesn't need `@types/testing-library__jest-dom`
-- Empty or stub type packages in `node_modules/@types/` can cause "implicit type library" errors
+---
 
 ## Memory Notes for AI Assistants
 
@@ -848,68 +700,67 @@ yarn test
 
 - **NEVER use lazy fixes or placeholder functionality**
 - **Always use existing codebase functionality**
-- **Follow proven casing conventions**
+- **Follow proven casing conventions** (Elements/Planets Capitalized, zodiac lowercase)
 - **No opposing elements concept**
-- **Use systematic approaches** for error campaigns
+- **ESMS only from planetary positions** — never from elemental approximations
+- **Auth is NextAuth.js v5** — do not reference Privy (it's been completely removed)
+- **Edge Runtime constraint** — auth.config.ts and middleware.ts must be Node.js free
 
-### **TypeScript Error Elimination Campaign - ULTIMATE VICTORY! 🏆**
+### **TypeScript Zero-Error State**
 
-**Final Statistics**:
+The codebase has maintained **zero TypeScript errors** since November 23, 2025. When making changes:
+1. Run `yarn tsc --noEmit` before and after changes
+2. Do not introduce new `as any` casts unless following documented patterns
+3. Do not break existing type contracts
+4. Check that new files are not accidentally included by tsconfig
 
-- **Starting Point**: ~2,000+ TypeScript errors
-- **Final State**: **0 errors** (100% reduction - PERFECT STATE!)
-- **Categories Eliminated**: **ALL categories** (complete total success)
-- **Success Rate**: 100% (zero regressions maintained throughout)
-- **Barriers Broken**: 13 (1,000 → 140s → **0**)
-- **Patterns Documented**: 27+ (A-W)
-- **Time Investment**: ~45 hours total
-- **Avg Fix Rate**: ~44 errors/hour
-- **Status**: ✅ **ZERO ERROR STATE ACHIEVED - NOVEMBER 23, 2025**
+### **Auth Migration Summary**
 
-**Previously Blocked Errors - NOW RESOLVED**:
+Privy has been **completely removed**. The auth system is:
+- **Provider**: Google OAuth only (no email/password)
+- **Library**: NextAuth.js v5 (`next-auth@^5.0.0-beta.25`)
+- **Session**: JWT strategy, 30 days
+- **Roles**: UserRole enum in `src/lib/auth/roles.ts`
+- **DB**: Users stored in PostgreSQL via `src/services/userDatabaseService.ts`
+- **Admin**: Automatic for `AUTH_ADMIN_EMAIL` or first registered user
 
-- **TS1117** (was 88 errors): ✅ ELIMINATED - spiceBlends.ts successfully refactored
-- **TS2307** (was 61 errors): ✅ ELIMINATED - module resolution completely fixed
-- **ALL ERROR CATEGORIES**: ✅ **ELIMINATED - ZERO ERRORS REMAINING**
+### **Quick Reference - Auth Functions**
 
-**Campaign Approach**:
+```typescript
+// Server components / API routes
+import { auth } from "@/lib/auth/auth";
+const session = await auth();
 
-- Systematic pattern-based error elimination
-- File-by-file manual fixes with pattern recognition
-- Progress tracking via TodoWrite for multi-file campaigns
-- 100% build stability maintained throughout
+// Client components
+import { useSession, signIn, signOut } from "next-auth/react";
 
-**Key Success Factors**:
+// Server actions
+import { signIn, signOut } from "@/lib/auth/auth";
 
-1. Pattern discovery and documentation (27+ patterns)
-2. Systematic category-by-category elimination
-3. Zero tolerance for regressions
-4. Commitment to proper fixes (no lazy workarounds)
-5. Comprehensive progress tracking
+// Route protection: configured in src/middleware.ts
+```
 
-**Most Spectacular Sessions**:
+### **Planetary Calculation Flow**
 
-1. **ULTIMATE VICTORY**: Zero Error Achievement (149→0) - All remaining errors eliminated! 🏆
-2. Vigintuple Elimination: 20 categories in one session (181→153)
-3. Sextuple + Undecuple: 17 categories (241→181)
-4. Final Cleanup: 45th category elimination (153→149)
-5. Sub-700 Breakthrough: Multiple categories (782→694)
+```
+User Request
+    ↓
+/api/cuisines/recommend (or similar)
+    ↓
+getPlanetaryPositionsForDateTime()
+    ↓
+/api/astrologize → Python Backend /api/planetary/positions
+    ↓
+pyswisseph (NASA JPL DE - sub-arcsecond, geocentric)
+    ↓
+calculateAlchemicalFromPlanets(planetaryPositions)
+    ↓
+ESMS: { Spirit, Essence, Matter, Substance }
+    ↓
+Recommendations based on real planetary data ✅
+```
 
-### **Historic Achievements**
-
-- **🏆 ZERO TYPESCRIPT ERRORS** - Complete elimination of all 2,000+ errors
-- **100% total error reduction** (2,000+ → **0** - PERFECT STATE!)
-- **ALL TypeScript error categories eliminated** (not just 45, but EVERY category)
-- **13 major barriers broken** (1,000 → 140s → **0**)
-- **Zero regressions** maintained throughout entire campaign
-- **Swiss Ephemeris v2 integration** - High-precision astronomical calculations
-- **TypeScript 5.8.3 upgrade** - Latest stable version
-- **User personalization system** - Natal/moment chart comparisons
-- 9,991 lines removed in external service cleanup
-- Sub-30 second linting achieved
-- 100% build stability maintained
-- Onboarding email system implementation
-- Enhanced recommender algorithms with P=IV Circuit Model
+---
 
 ## Quick Reference
 
@@ -925,50 +776,13 @@ make errors           # Detailed analysis
 # Fix common issues
 yarn lint --fix       # Auto-fix ESLint
 rm -rf node_modules && yarn install  # Refresh deps
+
+# Auth setup
+# 1. Set AUTH_SECRET, AUTH_GOOGLE_ID, AUTH_GOOGLE_SECRET in .env.local
+# 2. Add http://localhost:3000/api/auth/callback/google to Google Console
+# 3. yarn dev → visit /login
 ```
 
 ---
 
-## Next Steps for Future Development
-
-### **Maintenance & Enhancement Priorities**
-
-**Current State**: ✅ **ZERO TYPESCRIPT ERRORS - PERFECT STATE ACHIEVED!**
-
-All TypeScript errors have been eliminated. The codebase is now in a pristine state with zero errors, zero regressions, and 100% build stability.
-
-### **Recommended Focus Areas**
-
-1. **Feature Development** (Zero technical debt blocking)
-   - Expand user personalization features
-   - Enhance recommendation algorithms
-   - Add more cuisine and ingredient data
-   - Status: ✅ Ready for immediate development
-
-2. **Performance Optimization**
-   - Further optimize build times
-   - Enhance caching strategies
-   - Improve client-side performance
-   - Status: ✅ Strong foundation in place
-
-3. **Testing Expansion**
-   - Add comprehensive unit tests
-   - Implement E2E testing suite
-   - Enhance integration test coverage
-   - Status: ✅ Clean codebase ready for testing
-
-4. **Documentation Enhancement**
-   - API documentation
-   - User guides
-   - Developer onboarding materials
-   - Status: ✅ Solid foundation exists
-
-5. **Advanced Astronomical Features**
-   - Leverage Swiss Ephemeris v2 capabilities
-   - Add transit calculations
-   - Enhance planetary position precision
-   - Status: ✅ Infrastructure ready
-
----
-
-_Updated January 14, 2026 - ZERO TYPESCRIPT ERRORS MAINTAINED! Critical Vercel build fix deployed (JWT auth lazy initialization), all type errors resolved, production deployment stable._
+_Updated March 27, 2026 — Backend successfully migrated to Railway, Build context fixed via .railwayignore, Neon Database integrated, NextAuth.js v5 migration complete. Zero TypeScript errors maintained._

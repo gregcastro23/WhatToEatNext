@@ -885,7 +885,7 @@ export class FoodAlchemySystem {
         for (const aspect of relevantAspects) {
           if (aspect.type === "Conjunction") {
             if (aspect.planets.includes(food.planet)) {
-              const otherPlanet =
+              const _otherPlanet =
                 aspect.planets[0] === food.planet
                   ? aspect.planets[1]
                   : aspect.planets[0];

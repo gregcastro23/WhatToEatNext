@@ -1,11 +1,16 @@
 
+import { PLANET_WEIGHTS, normalizePlanetWeight } from '@/data/planets';
 import { performAlchemicalAnalysis, deriveAlchemicalFromElemental } from '@/data/unified/alchemicalCalculations';
 import type { ElementalProperties } from '@/types/alchemy';
-import type { NatalChart, Planet } from '@/types/natalChart';
+import type { NatalChart} from '@/types/natalChart';
 import type { AlchemicalState } from '@/utils/monica/types';
 
-// Define weights for planets
-const PLANETARY_WEIGHTS: Record<string, number> = {
+/**
+ * Astrological interpretive weights for natal chart scoring.
+ * Blends traditional astrological significance with NASA mass-ratio normalization.
+ * Luminaries (Sun/Moon) and Ascendant get extra astrological weight.
+ */
+const PLANETARY_WEIGHTS_ASTRO: Record<string, number> = {
   Sun: 1.5,
   Moon: 1.5,
   Mercury: 1,
@@ -18,6 +23,19 @@ const PLANETARY_WEIGHTS: Record<string, number> = {
   Pluto: 0.8,
   Ascendant: 1.5,
 };
+
+/**
+ * Composite weight: 60% astrological tradition + 40% physical mass (log-normalized).
+ * This grounds the scoring in physics while respecting astrological convention.
+ */
+const NATAL_WEIGHTS: Record<string, number> = Object.fromEntries(
+  Object.entries(PLANETARY_WEIGHTS_ASTRO).map(([planet, astroWeight]) => {
+    const massWeight = PLANET_WEIGHTS[planet]
+      ? normalizePlanetWeight(PLANET_WEIGHTS[planet])
+      : 0.5; // Ascendant has no mass; use midpoint
+    return [planet, astroWeight * 0.6 + massWeight * 0.4];
+  })
+);
 
 // Define element and modality for each sign
 const SIGN_PROPERTIES: Record<string, { element: 'Fire' | 'Earth' | 'Air' | 'Water', modality: 'Cardinal' | 'Fixed' | 'Mutable' }> = {
@@ -48,7 +66,7 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
 
   for (const planet of planets) {
     const planetName = planet.name;
-    const weight = PLANETARY_WEIGHTS[planetName] || 0;
+    const weight = NATAL_WEIGHTS[planetName] || 0;
 
     if (weight > 0) {
       const sign = planet.sign;

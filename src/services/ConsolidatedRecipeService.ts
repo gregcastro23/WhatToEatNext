@@ -22,17 +22,17 @@ export class ConsolidatedRecipeService {
     return [];
   }
 
-  async searchRecipes(query: string): Promise<Recipe[]> {
+  async searchRecipes(_query: string): Promise<Recipe[]> {
     return [];
   }
 
-  async getBestRecipeMatches(criteria: any, limit?: number): Promise<Recipe[]> {
+  async getBestRecipeMatches(_criteria: any, _limit?: number): Promise<Recipe[]> {
     return [];
   }
 
   async getRecipesForPlanetaryAlignment(
-    alignment: any,
-    minScore?: number,
+    _alignment: any,
+    _minScore?: number,
   ): Promise<Recipe[]> {
     return [];
   }

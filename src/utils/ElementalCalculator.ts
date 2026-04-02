@@ -158,7 +158,7 @@ export function calculateMatchScore(
           .catch(() => {
             // Ignore errors from importing cuisine profiles
           });
-      } catch (error) {
+      } catch (_error) {
         // Ignore errors from importing cuisine profiles
       }
     }

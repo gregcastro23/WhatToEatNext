@@ -153,7 +153,7 @@ export class RecipeEngine {
           0,
         )
       );
-    } catch (error) {
+    } catch (_error) {
       return 0;
     }
   }
@@ -172,7 +172,7 @@ export class RecipeEngine {
   /**
    * Get recipes associated with an element
    */
-  getRecipesForElement(element: string): Recipe[] {
+  getRecipesForElement(_element: string): Recipe[] {
     // This is a simple implementation - in a production app this would filter recipes by element
     return [];
   }

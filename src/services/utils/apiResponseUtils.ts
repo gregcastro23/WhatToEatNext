@@ -4,7 +4,6 @@
  * Utility functions for creating standardized API responses
  */
 
-import { Recipe } from "@/types/recipe";
 import { logger } from "../../utils/logger";
 import { RecipeErrorCode } from "../interfaces/RecipeApiInterfaces";
 import type { ApiResponse } from "../interfaces/RecipeApiInterfaces";

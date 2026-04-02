@@ -18,7 +18,7 @@ http://localhost:3000/api
 **Production:**
 
 ```
-https://your-domain.com/api
+https://alchm.kitchen/api
 ```
 
 ---
@@ -579,7 +579,7 @@ This API uses the `astronomy-engine` library for real-time planetary position ca
 For issues or questions:
 
 - GitHub: https://github.com/your-repo/what-to-eat-next
-- Email: support@your-domain.com
+- Email: support@alchm.kitchen
 
 ---
 

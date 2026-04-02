@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { _logger } from "@/lib/logger";
 import { AstrologicalService } from "@/services/AstrologicalService";
 import { log } from "@/services/LoggingService";
+import { getEdgeApiUrl } from "@/utils/urlUtils";
 
 interface AstrologizeOptions {
   useCurrentTime?: boolean;
@@ -91,7 +92,7 @@ export function useAstrologize(
 
     try {
       // Determine if we're using current time or custom time
-      let url = "/api/astrologize";
+      let url = getEdgeApiUrl("/api/astrologize");
       let method = "GET";
       let body: string | undefined = undefined;
 
@@ -120,7 +121,7 @@ export function useAstrologize(
         params.append("zodiacSystem", zodiacSystem);
 
         if (params.toString()) {
-          url = `/api/astrologize?${params.toString()}`;
+          url = `${getEdgeApiUrl("/api/astrologize")}?${params.toString()}`;
         }
       }
 

@@ -1,5 +1,10 @@
 import fs from "fs";
 import { _logger } from "@/lib/logger";
+import type { ElementalProperties } from "@/types/celestial";
+import {
+    getPlanetarySectElement, isSectDiurnal
+} from "@/utils/planetaryAlchemyMapping";
+
 /**
  * Real Alchemize Service
  *
@@ -13,13 +18,6 @@ import { _logger } from "@/lib/logger";
  * This means the elemental profile of the sky shifts at every sunrise and sunset,
  * making the quantities truly dynamic.
  */
-
-import type { ElementalProperties } from "@/types/celestial";
-import {
-  isSectDiurnal,
-  getPlanetarySectElement,
-} from "@/utils/planetaryAlchemyMapping";
-
 // Types
 export interface PlanetaryPosition {
   sign: any;
@@ -27,14 +25,12 @@ export interface PlanetaryPosition {
   minute: number;
   isRetrograde: boolean;
 }
-
 export interface ThermodynamicProperties {
   heat: number;
   entropy: number;
   reactivity: number;
   gregsEnergy: number;
 }
-
 export interface StandardizedAlchemicalResult {
   elementalProperties: ElementalProperties;
   thermodynamicProperties: ThermodynamicProperties;
@@ -53,7 +49,6 @@ export interface StandardizedAlchemicalResult {
     isDiurnal: boolean;
   };
 }
-
 // Utility functions
 function normalizeSign(sign: string): any {
   const normalized = sign.toLowerCase();
@@ -71,14 +66,11 @@ function normalizeSign(sign: string): any {
     "aquarius",
     "pisces",
   ];
-
   if (validSigns.includes(normalized as any)) {
     return normalized as any;
   }
-
   throw new Error(`Invalid zodiac sign: ${sign}`);
 }
-
 function getZodiacElement(sign: string): string {
   const elementMap: Record<string, string> = {
     aries: "Fire",
@@ -96,7 +88,6 @@ function getZodiacElement(sign: string): string {
   };
   return elementMap[sign.toLowerCase()] || "Air";
 }
-
 function getPlanetaryDignity(planet: string, sign: string): number {
   const dignityMap: Record<string, Record<string, number>> = {
     Sun: {
@@ -167,10 +158,8 @@ function getPlanetaryDignity(planet: string, sign: string): number {
       aquarius: -2,
     },
   };
-
   return dignityMap[planet][sign.toLowerCase()] || 0;
 }
-
 /**
  * Core alchemize function that calculates alchemical properties from planetary positions
  * This is the proven implementation that produces meaningful, nonzero results
@@ -195,7 +184,6 @@ export function alchemize(
     Air: 0,
     Earth: 0,
   };
-
   // Planetary alchemical properties (CANONICAL VALUES from CLAUDE.md)
   // These MUST be 0 or 1 - no fractional values allowed
   const planetaryAlchemy: Record<
@@ -213,19 +201,16 @@ export function alchemize(
     Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
     Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   };
-
   // Determine sect (diurnal / nocturnal) for the moment being calculated.
   // This shifts at every sunrise (~06:00 UTC) and sunset (~18:00 UTC).
   // Using the provided `date` parameter ensures historical/forecast
   // calculations use the correct sect for that point in time.
   const diurnal = isSectDiurnal(date);
-
   // Elemental blending weights:
   //   60% from the planet's zodiac sign (WHERE it is — the medium)
   //   40% from the planet's sectarian element (WHAT it is — its nature)
   const SIGN_WEIGHT = 0.6;
   const SECT_WEIGHT = 0.4;
-
   // Process each planet
   for (const [planet, position] of Object.entries(planetaryPositions)) {
     // Get planetary alchemical properties
@@ -237,19 +222,16 @@ export function alchemize(
       // Minimum 0.5 to prevent negative or zero contributions
       const dignity = getPlanetaryDignity(planet, position.sign);
       const dignityMultiplier = Math.max(0.5, 1.0 + dignity * 0.15);
-
       totals.Spirit += alchemy.Spirit * dignityMultiplier;
       totals.Essence += alchemy.Essence * dignityMultiplier;
       totals.Matter += alchemy.Matter * dignityMultiplier;
       totals.Substance += alchemy.Substance * dignityMultiplier;
     }
-
     // Elemental contribution — blend of zodiac sign element and sectarian element.
     // Sign element: the element of the sign the planet currently occupies.
     const signElement = getZodiacElement(position.sign);
     // Sectarian element: the planet's own elemental nature under the current sect.
     const sectElement = getPlanetarySectElement(planet, diurnal);
-
     // Apply both weights (total weight per planet remains 1.0)
     const addElement = (el: string, weight: number) => {
       if (el === "Fire") totals.Fire += weight;
@@ -257,15 +239,12 @@ export function alchemize(
       else if (el === "Air") totals.Air += weight;
       else if (el === "Earth") totals.Earth += weight;
     };
-
     addElement(signElement, SIGN_WEIGHT);
     addElement(sectElement, SECT_WEIGHT);
   }
-
   // Calculate thermodynamic metrics using the exact formulas
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } =
     totals;
-
   // Heat
   const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
   const heatDen = Math.pow(
@@ -273,7 +252,6 @@ export function alchemize(
     2,
   );
   const heat = heatNum / (heatDen || 1); // Avoid division by zero
-
   // Entropy
   const entropyNum =
     Math.pow(Spirit, 2) +
@@ -282,7 +260,6 @@ export function alchemize(
     Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
   const entropy = entropyNum / (entropyDen || 1);
-
   // Reactivity
   const reactivityNum =
     Math.pow(Spirit, 2) +
@@ -293,15 +270,12 @@ export function alchemize(
     Math.pow(Water, 2);
   const reactivityDen = Math.pow(Matter + Earth, 2);
   const reactivity = reactivityNum / (reactivityDen || 1);
-
   // Greg's Energy;
   const gregsEnergy = heat - entropy * reactivity;
-
   // Kalchm (K_alchm)
   const kalchm =
     (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
-
   // Monica constant
   let monica = 1.0; // Default value
   if (kalchm > 0) {
@@ -310,13 +284,11 @@ export function alchemize(
       monica = -gregsEnergy / (reactivity * lnK);
     }
   }
-
   // Calculate dominant element
   const elements = { Fire, Water, Air, Earth };
   const dominantElement = Object.entries(elements).sort(
     (a, b) => b[1] - a[1],
   )[0][0];
-
   // Calculate score based on total energy
   const score = Math.min(
     1.0,
@@ -325,7 +297,6 @@ export function alchemize(
       (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20,
     ),
   );
-
   return {
     elementalProperties: {
       Fire: Fire / Math.max(1, Fire + Water + Air + Earth),
@@ -355,7 +326,6 @@ export function alchemize(
     },
   };
 }
-
 /**
  * Load planetary positions from the extracted data file
  */
@@ -366,20 +336,16 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
       // In browser, use fallback data
       return getFallbackPlanetaryPositions();
     }
-
     // In Node.js environment, try to read the file
     const rawData = fs.readFileSync(
       "extracted-planetary-positions.json",
       "utf8",
     );
     const positions = JSON.parse(rawData);
-
     // Convert to the format expected by alchemize
     const convertedPositions: Record<string, PlanetaryPosition> = {};
-
     for (const [planetName, planetData] of Object.entries(positions)) {
       const data = planetData as any;
-
       convertedPositions[planetName] = {
         sign: normalizeSign(String(data.sign || "")),
         degree: Number(data.degree) || 0,
@@ -387,7 +353,6 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
         isRetrograde: Boolean(data.isRetrograde) || false,
       };
     }
-
     return convertedPositions;
   } catch (error) {
     _logger.warn(
@@ -397,7 +362,6 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     return getFallbackPlanetaryPositions();
   }
 }
-
 /**
  * Get fallback planetary positions for when file loading fails
  */
@@ -416,7 +380,6 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
     Pluto: { sign: "aquarius", degree: 1, minute: 20, isRetrograde: false },
   };
 }
-
 /**
  * Get current alchemical state based on real planetary positions
  */
@@ -424,7 +387,6 @@ export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
   const planetaryPositions = loadPlanetaryPositions();
   return alchemize(planetaryPositions);
 }
-
 /**
  * Calculate alchemical properties for a specific set of planetary positions
  */
@@ -433,7 +395,6 @@ export function calculateAlchemicalProperties(
 ): StandardizedAlchemicalResult {
   return alchemize(positions);
 }
-
 // Export the service as default
 export default {
   alchemize,

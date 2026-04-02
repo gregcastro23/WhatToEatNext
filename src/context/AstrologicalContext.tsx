@@ -8,22 +8,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import type { ElementalProperties, AlchemicalProperties } from "@/types/celestial";
 import type { ReactNode } from "react";
-
-// Type definitions
-interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-}
-
-interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}
 
 interface ChakraEnergies {
   root: number;
@@ -98,7 +84,7 @@ export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({
     setError(null);
     try {
       // Fetch real planetary positions from the astrologize API
-      let planetSigns: Record<string, string> = {};
+      const planetSigns: Record<string, string> = {};
 
       try {
         const response = await fetch("/api/astrologize", {

@@ -87,7 +87,7 @@ export async function getRecipesForTarotCard(
 
   try {
     // Get the element associated with the minor card
-    const element =
+    const _element =
       cards.minorCard.element ||
       _SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof _SUIT_TO_ELEMENT] ||
       "Fire";

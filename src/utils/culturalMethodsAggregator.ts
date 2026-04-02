@@ -20,9 +20,9 @@ export interface CulturalCookingMethod {
   description: string;
   elementalProperties: {
     Fire: number;
-    _Water: number;
-    _Earth: number;
-    _Air: number;
+    Water: number;
+    Earth: number;
+    Air: number;
   };
   culturalOrigin: string;
   toolsRequired?: string[];

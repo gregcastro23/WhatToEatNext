@@ -1,3 +1,8 @@
+import { Pool, types } from "pg";
+import { logger } from "../logger";
+import { databaseConfig } from "./config";
+import type { PoolClient, QueryResult } from "pg";
+
 /**
  * Database Connection Layer - Phase 1 Infrastructure Migration
  * Created: September 26, 2025
@@ -5,11 +10,6 @@
  * PostgreSQL connection utilities with connection pooling,
  * error handling, and environment configuration for alchm.kitchen
  */
-
-import type { PoolClient, QueryResult } from "pg";
-import { Pool, types } from "pg";
-import { logger } from "../logger";
-
 // Configure PostgreSQL type parsers for better type safety
 types.setTypeParser(types.builtins.NUMERIC, (value: string) =>
   parseFloat(value),
@@ -17,7 +17,6 @@ types.setTypeParser(types.builtins.NUMERIC, (value: string) =>
 types.setTypeParser(types.builtins.INT8, (value: string) =>
   parseInt(value, 10),
 );
-
 // Database configuration interface
 export interface DatabaseConfig {
   host: string;
@@ -30,10 +29,7 @@ export interface DatabaseConfig {
   idleTimeoutMillis: number;
   connectionTimeoutMillis: number;
 }
-
 // Configuration import
-import { databaseConfig } from "./config";
-
 // Environment-based configuration
 function getDatabaseConfig(): DatabaseConfig {
   const {
@@ -48,7 +44,6 @@ function getDatabaseConfig(): DatabaseConfig {
     idleTimeout,
     connectionTimeout,
   } = databaseConfig;
-
   if (databaseUrl) {
     // Parse DATABASE_URL for cloud deployments (e.g., Railway, Heroku)
     const url = new URL(databaseUrl);
@@ -64,7 +59,6 @@ function getDatabaseConfig(): DatabaseConfig {
       connectionTimeoutMillis: connectionTimeout,
     };
   }
-
   // Local development configuration
   return {
     host,
@@ -78,63 +72,57 @@ function getDatabaseConfig(): DatabaseConfig {
     connectionTimeoutMillis: connectionTimeout,
   };
 }
-
 // Connection pool instance
 let pool: Pool | null = null;
-
 // Initialize database connection pool
 export function initializeDatabase(): Pool {
   if (pool) {
     return pool;
   }
-
   const config = getDatabaseConfig();
-
   pool = new Pool(config);
-
   // Connection event handlers
-  pool.on("connect", (client: PoolClient) => {
+  pool.on("connect", (_client: PoolClient) => {
     void logger.info("New database connection established", {
       database: config.database,
       host: config.host,
     });
   });
-
-  pool.on("error", (err: Error, client: PoolClient) => {
+  pool.on("error", (err: Error, _client: PoolClient) => {
     void logger.error("Unexpected database pool error", {
       error: err.message,
       stack: err.stack,
       database: config.database,
     });
   });
-
-  // Graceful shutdown handling
-  process.on("SIGINT", () => {
-    void (async () => {
-      void logger.info("Received SIGINT, closing database pool...");
-      await closeDatabase();
-      process.exit(0);
-    })();
-  });
-
-  process.on("SIGTERM", () => {
-    void (async () => {
-      void logger.info("Received SIGTERM, closing database pool...");
-      await closeDatabase();
-      process.exit(0);
-    })();
-  });
-
+  // Graceful shutdown handling — guarded because Cloudflare Workers
+  // don't support process signal events (process.on throws there).
+  try {
+    process.on("SIGINT", () => {
+      void (async () => {
+        void logger.info("Received SIGINT, closing database pool...");
+        await closeDatabase();
+        process.exit(0);
+      })();
+    });
+    process.on("SIGTERM", () => {
+      void (async () => {
+        void logger.info("Received SIGTERM, closing database pool...");
+        await closeDatabase();
+        process.exit(0);
+      })();
+    });
+  } catch {
+    // Cloudflare Workers / Edge environments don't support process signals
+  }
   void logger.info("Database connection pool initialized", {
     database: config.database,
     host: config.host,
     port: config.port,
     maxConnections: config.max,
   });
-
   return pool;
 }
-
 // Get database pool instance (initialize if not exists)
 export function getDatabasePool(): Pool {
   if (!pool) {
@@ -142,7 +130,6 @@ export function getDatabasePool(): Pool {
   }
   return pool;
 }
-
 // Close database connection pool
 export async function closeDatabase(): Promise<void> {
   if (pool) {
@@ -152,7 +139,6 @@ export async function closeDatabase(): Promise<void> {
     void logger.info("Database connection pool closed");
   }
 }
-
 // Health check function
 export async function checkDatabaseHealth(): Promise<{
   healthy: boolean;
@@ -160,15 +146,12 @@ export async function checkDatabaseHealth(): Promise<{
   error?: string;
 }> {
   const startTime = Date.now();
-
   try {
     const client = await getDatabasePool().connect();
     const result = await client.query("SELECT 1 as health_check");
     client.release();
-
     const latency = Date.now() - startTime;
     const healthy = result.rows.length > 0;
-
     return { healthy, latency };
   } catch (error) {
     const latency = Date.now() - startTime;
@@ -179,13 +162,11 @@ export async function checkDatabaseHealth(): Promise<{
     };
   }
 }
-
 // Transaction wrapper for database operations
 export async function withTransaction<T>(
   operation: (client: PoolClient) => Promise<T>,
 ): Promise<T> {
   const client = await getDatabasePool().connect();
-
   try {
     await client.query("BEGIN");
     const result = await operation(client);
@@ -201,9 +182,8 @@ export async function withTransaction<T>(
     client.release();
   }
 }
-
 // Query execution with error handling and logging
-export async function executeQuery<T extends any = any>(
+export async function executeQuery<_T extends any = any>(
   query: string,
   params: any[] = [],
   options: {
@@ -211,9 +191,8 @@ export async function executeQuery<T extends any = any>(
     timeout?: number;
   } = {},
 ): Promise<QueryResult<any>> {
-  const { logQuery = databaseConfig.logQueries, timeout = 30000 } = options;
+  const { logQuery = databaseConfig.logQueries, timeout: _timeout = 30000 } = options;
   const startTime = Date.now();
-
   try {
     if (logQuery) {
       void logger.debug("Executing database query", {
@@ -221,9 +200,7 @@ export async function executeQuery<T extends any = any>(
         paramCount: params.length,
       });
     }
-
     const result = await getDatabasePool().query(query, params);
-
     const executionTime = Date.now() - startTime;
     if (executionTime > 1000) {
       // Log slow queries (>1s)
@@ -233,7 +210,6 @@ export async function executeQuery<T extends any = any>(
         rowCount: result.rowCount,
       });
     }
-
     return result;
   } catch (error) {
     const executionTime = Date.now() - startTime;
@@ -246,7 +222,6 @@ export async function executeQuery<T extends any = any>(
     throw error;
   }
 }
-
 // Utility function to safely execute queries with retry logic
 export async function executeQueryWithRetry<T extends any = any>(
   query: string,
@@ -255,14 +230,12 @@ export async function executeQueryWithRetry<T extends any = any>(
   retryDelay = 1000,
 ): Promise<QueryResult<any>> {
   let lastError: Error;
-
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await executeQuery<T>(query, params);
     } catch (error) {
       lastError =
         error instanceof Error ? error : new Error("Unknown database error");
-
       // Don't retry on certain errors
       if (
         lastError.message.includes("syntax error") ||
@@ -271,7 +244,6 @@ export async function executeQueryWithRetry<T extends any = any>(
       ) {
         throw lastError;
       }
-
       if (attempt < maxRetries) {
         void logger.warn(
           `Database query attempt ${attempt} failed, retrying...`,
@@ -289,9 +261,7 @@ export async function executeQueryWithRetry<T extends any = any>(
       }
     }
   }
-
   throw lastError!;
 }
-
 // Export pool for advanced usage
 export { pool };

@@ -7,12 +7,17 @@
 
 "use client";
 
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import AlchemicalDisplay from "@/components/AlchemicalDisplay";
 import KineticsDisplay from "@/components/KineticsDisplay";
-import PlanetaryChart from "@/components/PlanetaryChart";
 import PlanetaryChartControls from "@/components/PlanetaryChartControls";
+import { PremiumGate } from "@/components/PremiumGate";
 import { useChartData } from "@/hooks/useChartData";
+
+const PlanetaryChart = dynamic(() => import("@/components/PlanetaryChart"), {
+  ssr: false,
+});
 
 export default function PlanetaryChartPage() {
   const [dateTime, setDateTime] = useState<Date | undefined>(undefined);
@@ -46,6 +51,7 @@ export default function PlanetaryChartPage() {
   } = chartData;
 
   return (
+    <PremiumGate feature="advancedPlanetaryCharts">
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -285,5 +291,6 @@ export default function PlanetaryChartPage() {
         </div>
       </div>
     </div>
+    </PremiumGate>
   );
 }

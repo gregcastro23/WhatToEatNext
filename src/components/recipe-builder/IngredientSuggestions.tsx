@@ -231,7 +231,7 @@ export default function IngredientSuggestions({
 
   // Build a context message based on what's selected
   const lastSelected = selectedIngredients[selectedIngredients.length - 1];
-  const lastCategory = getCategoryType(lastSelected.category);
+  const _lastCategory = getCategoryType(lastSelected.category);
   const lastDominant = getDominantElement(
     lastSelected.elementalProperties as Record<string, number>,
   );

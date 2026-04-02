@@ -224,7 +224,7 @@ export function clearExpiredState(): void {
       if (!isStateValid(parsed.timestamp)) {
         sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
       }
-    } catch (error) {
+    } catch (_error) {
       sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
     }
   }

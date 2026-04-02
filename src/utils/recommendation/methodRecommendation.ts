@@ -1,4 +1,24 @@
 import { _logger } from "@/lib/logger";
+import type {
+    BasicThermodynamicProperties,
+    CookingMethodProfile,
+    Element,
+    ElementalProperties,
+    LunarPhase,
+    MethodRecommendation,
+    MethodRecommendationOptions,
+    PlanetaryAspect
+} from "@/types/alchemy";
+import { _COOKING_METHOD_THERMODYNAMICS } from "@/types/alchemy";
+import type { AstrologicalState } from "@/types/celestial";
+import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
+import {
+    allCookingMethods,
+    cookingMethods as detailedCookingMethods
+} from "../../data/cooking";
+import { getCurrentSeason } from "../../data/integrations/seasonal";
+import { culturalCookingMethods } from "../culturalMethodsAggregator";
+import { isElementalProperties } from "../elemental/elementalUtils";
 
 function getAstrologicalElementalProfile(
   astroState: unknown,
@@ -31,26 +51,6 @@ function createElementalProperties(
     Air: props.Air || 0,
   };
 }
-import type {
-  BasicThermodynamicProperties,
-  CookingMethodProfile,
-  Element,
-  ElementalProperties,
-  LunarPhase,
-  MethodRecommendation,
-  MethodRecommendationOptions,
-  PlanetaryAspect,
-} from "@/types/alchemy";
-import { _COOKING_METHOD_THERMODYNAMICS } from "@/types/alchemy";
-import type { AstrologicalState } from "@/types/celestial";
-import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
-import {
-  allCookingMethods,
-  cookingMethods as detailedCookingMethods,
-} from "../../data/cooking";
-import { getCurrentSeason } from "../../data/integrations/seasonal";
-import { culturalCookingMethods } from "../culturalMethodsAggregator";
-import { isElementalProperties } from "../elemental/elementalUtils";
 
 // Type guard for FlavorProperties
 interface FlavorProperties {
@@ -866,9 +866,9 @@ export function getElementForSign(sign: string): Element {
 // ===== EXPORTS =====
 
 export type { CookingMethodData, CookingMethodDictionary };
-
 // Export the cooking method data
 export { allCookingMethodsCombined as getAllCookingMethods };
+
 
 // Add the missing functions needed by testRecommendations.ts
 

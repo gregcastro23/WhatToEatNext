@@ -10,6 +10,12 @@ const rawSquash = {
       Fire: 0.2,
       Air: 0.1,
     },
+    alchemicalProperties: {
+      Spirit: 0.12,
+      Essence: 0.50,
+      Matter: 0.72,
+      Substance: 0.60,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["taurus", "capricorn"],
@@ -69,6 +75,12 @@ const rawSquash = {
       Earth: 0.032703628178985034,
       Air: 0.034665845869724134,
     },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.65,
+      Matter: 0.30,
+      Substance: 0.25,
+    },
     astrologicalProfile: {},
     category: "vegetables",
     subCategory: "squash",
@@ -113,6 +125,12 @@ const rawSquash = {
       Water: 0.2,
       Fire: 0.2,
       Air: 0.1,
+    },
+    alchemicalProperties: {
+      Spirit: 0.10,
+      Essence: 0.45,
+      Matter: 0.75,
+      Substance: 0.65,
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
@@ -172,6 +190,12 @@ const rawSquash = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1,
+    },
+    alchemicalProperties: {
+      Spirit: 0.12,
+      Essence: 0.48,
+      Matter: 0.70,
+      Substance: 0.58,
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],

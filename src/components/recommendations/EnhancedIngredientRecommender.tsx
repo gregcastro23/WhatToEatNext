@@ -10,6 +10,7 @@ import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import {
   calculateThermodynamicMetrics,
   elementalToAlchemicalApproximation,
+  calculateKAlchm,
 } from "@/utils/monicaKalchmCalculations";
 
 // Pagination constant - items shown before expansion
@@ -45,32 +46,76 @@ interface EnhancedIngredientRecommenderProps {
   isFullPageVersion?: boolean;
   onCategoryChange?: (category: string) => void;
   onIngredientSelect?: (ingredient: string) => void;
-  onDoubleClickIngredient?: (ingredientName: string, category?: string, elementalProperties?: Record<string, number>) => void;
+  onDoubleClickIngredient?: (
+    ingredientName: string,
+    category?: string,
+    elementalProperties?: Record<string, number>,
+  ) => void;
 }
 
 // Category definitions mapped to ingredient categories
 // Note: IDs must match the actual 'category' values in ingredient data (plural forms)
+// altIds capture non-standard category values used by individual ingredients in raw data
 const CATEGORIES = [
   {
     id: "spices",
     name: "Spices",
     icon: "🌶️",
-    altIds: [],
+    altIds: ["spice"],
   },
   {
     id: "herbs",
     name: "Herbs",
     icon: "🌿",
-    altIds: [],
+    altIds: ["herb", "culinary_herb", "medicinal_herb", "medicinal herb"],
   },
-  { id: "vegetables", name: "Vegetables", icon: "🥬", altIds: [] },
-  { id: "proteins", name: "Proteins", icon: "🥩", altIds: [] },
-  { id: "grains", name: "Grains", icon: "🌾", altIds: [] },
-  { id: "dairy", name: "Dairy", icon: "🧀", altIds: [] },
-  { id: "fruits", name: "Fruits", icon: "🍎", altIds: [] },
-  { id: "oils", name: "Oils", icon: "🫒", altIds: [] },
-  { id: "vinegars", name: "Vinegars", icon: "🍶", altIds: [] },
-  { id: "seasonings", name: "Seasonings", icon: "🍯", altIds: [] },
+  {
+    id: "proteins",
+    name: "Proteins",
+    icon: "🥩",
+    altIds: [
+      "protein",
+      "meats",
+      "meat",
+      "poultry",
+      "seafood",
+      "legumes",
+      "eggs",
+      "plant-based",
+    ],
+  },
+  {
+    id: "grains",
+    name: "Grains",
+    icon: "🌾",
+    altIds: ["grain", "pseudo-grain"],
+  },
+  { id: "dairy", name: "Dairy", icon: "🧀", altIds: ["cheese", "milk"] },
+  { id: "fruits", name: "Fruits", icon: "🍎", altIds: ["fruit"] },
+  { id: "oils", name: "Oils", icon: "🫒", altIds: ["oil"] },
+  { id: "vinegars", name: "Vinegars", icon: "🍶", altIds: ["vinegar"] },
+  {
+    id: "seasonings",
+    name: "Seasonings",
+    icon: "🍯",
+    altIds: ["seasoning", "condiments", "condiment", "sweeteners", "sweetener"],
+  },
+  { id: "beverages", name: "Beverages", icon: "🍵", altIds: ["beverage"] },
+  {
+    id: "misc",
+    name: "Miscellaneous",
+    icon: "🧂",
+    altIds: [
+      "desserts",
+      "dessert",
+      "prepared",
+      "nuts",
+      "nut",
+      "seed",
+      "seeds",
+      "rhizome",
+    ],
+  },
 ];
 
 /**
@@ -178,6 +223,12 @@ function calculateCompatibilityScore(
     | string
     | string[]
     | { peak?: string[]; available?: string[]; optimal?: string[] },
+  ingredientAlchemicalProps?: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  } | null,
 ): { score: number; breakdown: ScoreBreakdown } {
   // Calculate elemental compatibility using exponential decay for better spread
   const fireCompat = exponentialCompatibility(
@@ -204,9 +255,11 @@ function calculateCompatibilityScore(
   const elementalScore =
     (fireCompat + waterCompat + earthCompat + airCompat) / 4;
 
-  // Calculate thermodynamic metrics for both ingredient and current state
-  const ingredientAlchemical =
-    elementalToAlchemicalApproximation(ingredientElementals);
+  // Use ingredient's own alchemical properties if available (more accurate),
+  // otherwise fall back to elemental approximation
+  const ingredientAlchemical = ingredientAlchemicalProps?.Spirit
+    ? ingredientAlchemicalProps
+    : elementalToAlchemicalApproximation(ingredientElementals);
   const currentAlchemical =
     elementalToAlchemicalApproximation(currentElementals);
 
@@ -321,12 +374,51 @@ function calculateCompatibilityScore(
 
 // Helper: Get dominant element
 function getDominantElement(elementals: ElementalProperties): string {
-  const entries = Object.entries(elementals) as Array<[
-    keyof ElementalProperties,
-    number,
-  ]>;
-  const sorted = entries.sort((a, b) => (b[1]) - (a[1]));
+  const entries = Object.entries(elementals) as Array<
+    [keyof ElementalProperties, number]
+  >;
+  const sorted = entries.sort((a, b) => b[1] - a[1]);
   return (sorted[0]?.[0] as string) || "Unknown";
+}
+
+// Taste profile display configuration
+const TASTE_CONFIG: Record<string, { emoji: string; color: string }> = {
+  sweet: {
+    emoji: "🍬",
+    color: "bg-yellow-100 text-yellow-800 border-yellow-200",
+  },
+  salty: { emoji: "🧂", color: "bg-sky-100 text-sky-800 border-sky-200" },
+  sour: { emoji: "🍋", color: "bg-lime-100 text-lime-800 border-lime-200" },
+  bitter: {
+    emoji: "🌿",
+    color: "bg-emerald-100 text-emerald-800 border-emerald-200",
+  },
+  umami: { emoji: "🍄", color: "bg-amber-100 text-amber-800 border-amber-200" },
+  spicy: { emoji: "🌶️", color: "bg-red-100 text-red-800 border-red-200" },
+};
+
+// Extract calories + macros from the several different nutritionalProfile shapes used across ingredient files
+function extractNutrition(np: any): {
+  servingSize?: string;
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+} | null {
+  if (!np) return null;
+  const calories = np.calories ?? np.kcal;
+  const macros = np.macros || {};
+  const protein = macros.protein ?? np.protein_g ?? np.protein;
+  const carbs = macros.carbs ?? np.carbs_g ?? np.carbohydrates;
+  const fat = macros.fat ?? np.fat_g ?? np.fat;
+  if (calories == null && protein == null) return null;
+  return {
+    servingSize: np.serving_size,
+    calories: calories != null ? Math.round(Number(calories)) : undefined,
+    protein: protein != null ? Number(protein) : undefined,
+    carbs: carbs != null ? Number(carbs) : undefined,
+    fat: fat != null ? Number(fat) : undefined,
+  };
 }
 
 export const EnhancedIngredientRecommender: React.FC<
@@ -334,7 +426,7 @@ export const EnhancedIngredientRecommender: React.FC<
 > = ({
   initialCategory,
   initialSelectedIngredient,
-  isFullPageVersion = false,
+  isFullPageVersion: _isFullPageVersion = false,
   onCategoryChange,
   onIngredientSelect,
   onDoubleClickIngredient,
@@ -384,15 +476,15 @@ export const EnhancedIngredientRecommender: React.FC<
   const scoredIngredients = useMemo(() => {
     let filtered = ingredients;
 
-    // Filter by category
+    // Filter by category (case-insensitive to handle data inconsistencies)
     if (selectedCategory) {
       const category = CATEGORIES.find((c) => c.id === selectedCategory);
       const allowedCategories = category
-        ? [category.id, ...category.altIds]
-        : [selectedCategory];
+        ? [category.id, ...category.altIds].map((c) => c.toLowerCase())
+        : [selectedCategory.toLowerCase()];
 
       filtered = filtered.filter((ing) =>
-        allowedCategories.includes(ing.category),
+        allowedCategories.includes((ing.category || "").toLowerCase()),
       );
     }
 
@@ -418,6 +510,7 @@ export const EnhancedIngredientRecommender: React.FC<
               ing.elementalProperties,
               currentElementals,
               seasonData,
+              ing.alchemicalProperties as any,
             )
           : {
               score: 0.5,
@@ -636,7 +729,9 @@ export const EnhancedIngredientRecommender: React.FC<
             onDoubleClickIngredient(
               ingredient.name,
               ingredient.category as string | undefined,
-              ingredient.elementalProperties as Record<string, number> | undefined,
+              ingredient.elementalProperties as
+                | Record<string, number>
+                | undefined,
             );
           }
         }}
@@ -699,6 +794,23 @@ export const EnhancedIngredientRecommender: React.FC<
           </div>
         </div>
 
+        {/* Summary Blurb */}
+        {ingredient.description && (
+          <div className="mb-3 text-sm text-gray-700 bg-blue-50/30 p-3 rounded-md border border-blue-100/50">
+            {ingredient.description.split("\n\n").map((paragraph, i) => (
+              <p
+                key={i}
+                className={i > 0 ? "mt-2" : ""}
+                dangerouslySetInnerHTML={{
+                  __html: paragraph
+                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                    .replace(/\*(.*?)\*/g, "<em>$1</em>"),
+                }}
+              />
+            ))}
+          </div>
+        )}
+
         {/* Qualities badges */}
         {ingredient.qualities &&
           Array.isArray(ingredient.qualities) &&
@@ -720,21 +832,208 @@ export const EnhancedIngredientRecommender: React.FC<
             </div>
           )}
 
-        {/* Seasonality */}
+        {/* ── TASTE PROFILE ─────────────────────────────────── */}
         {(() => {
-          const seasonData =
-            ingredient.seasonality || (ingredient as any).season;
-          const normalizedSeasons = normalizeSeasonality(seasonData);
-          if (normalizedSeasons.length === 0) return null;
+          const taste = (ingredient as any).sensoryProfile?.taste;
+          if (!taste || typeof taste !== "object" || Array.isArray(taste))
+            return null;
+          const active = Object.entries(taste as Record<string, number>)
+            .filter(([, v]) => v > 0.1)
+            .sort(([, a], [, b]) => b - a);
+          if (active.length === 0) return null;
           return (
-            <div className="mb-3 text-sm">
-              <span className="font-medium text-gray-700">Season: </span>
-              <span className="text-gray-600 capitalize">
-                {normalizedSeasons.join(", ")}
-              </span>
+            <div className="mb-3">
+              <div className="mb-1 text-xs font-medium text-gray-500">
+                Taste profile
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {active.map(([name, value]) => {
+                  const cfg = TASTE_CONFIG[name] ?? {
+                    emoji: "•",
+                    color: "bg-gray-100 text-gray-700 border-gray-200",
+                  };
+                  const dots = value > 0.7 ? "●●●" : value > 0.4 ? "●●" : "●";
+                  return (
+                    <span
+                      key={name}
+                      className={`rounded-full border px-2 py-0.5 text-xs font-medium ${cfg.color}`}
+                    >
+                      {cfg.emoji} {name} {dots}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
           );
         })()}
+
+        {/* ── NUTRITION SNAPSHOT ────────────────────────────── */}
+        {(() => {
+          const n = extractNutrition((ingredient as any).nutritionalProfile);
+          if (!n) return null;
+          return (
+            <div className="mb-3">
+              {n.servingSize && (
+                <div className="mb-0.5 text-xs text-gray-400">
+                  Per {n.servingSize}
+                </div>
+              )}
+              <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs">
+                {n.calories != null && (
+                  <span className="font-semibold text-gray-700">
+                    🔥 {n.calories} cal
+                  </span>
+                )}
+                {n.protein != null && n.protein > 0 && (
+                  <span className="text-blue-600">💪 {n.protein}g protein</span>
+                )}
+                {n.carbs != null && n.carbs > 0 && (
+                  <span className="text-amber-600">🌾 {n.carbs}g carbs</span>
+                )}
+                {n.fat != null && n.fat > 0 && (
+                  <span className="text-orange-600">🫒 {n.fat}g fat</span>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ── SMOKE POINT (oils) ────────────────────────────── */}
+        {(ingredient as any).smokePoint && (
+          <div className="mb-3 text-xs">
+            <span className="font-medium text-orange-600">
+              🌡️ Smoke point:{" "}
+            </span>
+            <span className="text-gray-700">
+              {(ingredient as any).smokePoint.fahrenheit}°F /{" "}
+              {(ingredient as any).smokePoint.celsius}°C
+            </span>
+            <span className="ml-1 text-gray-400">
+              {(ingredient as any).smokePoint.fahrenheit >= 400
+                ? "(high-heat ok)"
+                : (ingredient as any).smokePoint.fahrenheit >= 350
+                  ? "(medium-high heat)"
+                  : "(low-medium heat only)"}
+            </span>
+          </div>
+        )}
+
+        {/* ── CULINARY USES ─────────────────────────────────── */}
+        {(ingredient as any).culinaryApplications?.commonUses &&
+          Array.isArray((ingredient as any).culinaryApplications.commonUses) &&
+          (ingredient as any).culinaryApplications.commonUses.length > 0 && (
+            <div className="mb-3">
+              <div className="mb-1 text-xs font-medium text-gray-500">
+                👨‍🍳 Used in
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {(ingredient as any).culinaryApplications.commonUses
+                  .slice(0, 4)
+                  .map((use: string, idx: number) => (
+                    <span
+                      key={idx}
+                      className="rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-700"
+                    >
+                      {use}
+                    </span>
+                  ))}
+                {(ingredient as any).culinaryApplications.commonUses.length >
+                  4 && (
+                  <span className="text-xs text-gray-400">
+                    +
+                    {(ingredient as any).culinaryApplications.commonUses
+                      .length - 4}{" "}
+                    more
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+        {/* ── BEST COOKING METHODS ──────────────────────────── */}
+        {(() => {
+          const methods: string[] | undefined =
+            (ingredient as any).culinaryProfile?.cookingMethods ||
+            (ingredient as any).cookingMethods ||
+            (ingredient as any).recommendedCookingMethods;
+          if (!methods || !Array.isArray(methods) || methods.length === 0)
+            return null;
+          return (
+            <div className="mb-3 text-xs text-gray-600">
+              <span className="font-medium text-gray-500">🍳 Methods: </span>
+              {methods.slice(0, 4).join(", ")}
+            </div>
+          );
+        })()}
+
+        {/* ── PAIRS WELL WITH ───────────────────────────────── */}
+        {(() => {
+          const pr = ingredient.pairingRecommendations as any;
+          // Object format: { complementary: [...] }
+          if (
+            pr?.complementary &&
+            Array.isArray(pr.complementary) &&
+            pr.complementary.length > 0
+          ) {
+            return (
+              <div className="mb-2 text-xs text-gray-600">
+                <span className="font-medium text-gray-500">
+                  🤝 Pairs with:{" "}
+                </span>
+                {pr.complementary.slice(0, 4).join(", ")}
+              </div>
+            );
+          }
+          // Simple string array format
+          if (Array.isArray(pr) && pr.length > 0) {
+            return (
+              <div className="mb-2 text-xs text-gray-600">
+                <span className="font-medium text-gray-500">
+                  🤝 Pairs with:{" "}
+                </span>
+                {(pr as string[]).slice(0, 4).join(", ")}
+              </div>
+            );
+          }
+          // affinities as fallback pairing display
+          const affinities = (ingredient as any).affinities;
+          if (Array.isArray(affinities) && affinities.length > 0) {
+            return (
+              <div className="mb-2 text-xs text-gray-600">
+                <span className="font-medium text-gray-500">
+                  🤝 Pairs with:{" "}
+                </span>
+                {(affinities as string[]).slice(0, 4).join(", ")}
+              </div>
+            );
+          }
+          return null;
+        })()}
+
+        {/* ── ORIGIN + SEASONALITY ──────────────────────────── */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-400">
+          {ingredient.origin && ingredient.origin.length > 0 && (
+            <span>📍 {ingredient.origin.slice(0, 2).join(", ")}</span>
+          )}
+          {(() => {
+            const seasonData =
+              ingredient.seasonality || (ingredient as any).season;
+            const normalizedSeasons = normalizeSeasonality(seasonData);
+            if (normalizedSeasons.length === 0) return null;
+            return (
+              <span className="capitalize">
+                🗓️ {normalizedSeasons.slice(0, 2).join(", ")}
+              </span>
+            );
+          })()}
+        </div>
+
+        {/* ── HERB / SPICE TIMING TIP ───────────────────────── */}
+        {(ingredient as any).timing?.notes && (
+          <div className="mt-2 rounded-md bg-indigo-50 px-2 py-1.5 text-xs text-indigo-700">
+            ⏱️ {(ingredient as any).timing.notes}
+          </div>
+        )}
 
         {/* Expanded details */}
         {isSelected && (
@@ -910,22 +1209,22 @@ export const EnhancedIngredientRecommender: React.FC<
               </div>
             )}
 
-            {/* Recommended Cooking Methods */}
-            {(ingredient as any).recommendedCookingMethods &&
-              Array.isArray((ingredient as any).recommendedCookingMethods) &&
-              (ingredient as any).recommendedCookingMethods.length > 0 && (
+            {/* Health Benefits */}
+            {(ingredient as any).healthBenefits &&
+              Array.isArray((ingredient as any).healthBenefits) &&
+              (ingredient as any).healthBenefits.length > 0 && (
                 <div>
                   <div className="mb-1 text-sm font-semibold text-gray-800">
-                    Recommended Cooking Methods
+                    Health Benefits
                   </div>
                   <div className="flex flex-wrap gap-1">
-                    {(ingredient as any).recommendedCookingMethods.map(
-                      (method: any, idx: number) => (
+                    {((ingredient as any).healthBenefits as string[]).map(
+                      (benefit: string, idx: number) => (
                         <span
                           key={idx}
-                          className="rounded-md bg-blue-100 px-2 py-1 text-xs text-blue-700"
+                          className="rounded-md bg-teal-100 px-2 py-1 text-xs text-teal-700"
                         >
-                          {method}
+                          {benefit}
                         </span>
                       ),
                     )}
@@ -934,63 +1233,66 @@ export const EnhancedIngredientRecommender: React.FC<
               )}
 
             {/* Pairing Recommendations */}
-            {ingredient.pairingRecommendations &&
-              typeof ingredient.pairingRecommendations === "object" && (
-                <div>
-                  <div className="mb-2 text-sm font-semibold text-gray-800">
-                    Pairings
-                  </div>
-                  <div className="space-y-1 text-sm">
-                    {(ingredient.pairingRecommendations as any)
-                      ?.complementary &&
-                      Array.isArray(
-                        (ingredient.pairingRecommendations as any)
-                          ?.complementary,
-                      ) && (
+            {ingredient.pairingRecommendations && (
+              <div>
+                <div className="mb-2 text-sm font-semibold text-gray-800">
+                  Pairings
+                </div>
+                {(() => {
+                  const pr = ingredient.pairingRecommendations as any;
+                  // Simple string array format
+                  if (Array.isArray(pr) && pr.length > 0) {
+                    return (
+                      <div className="space-y-1 text-sm">
+                        <div>
+                          <span className="font-medium text-green-700">
+                            Pairs well with:{" "}
+                          </span>
+                          <span className="text-gray-600">
+                            {(pr as string[]).join(", ")}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  }
+                  // Object format with complementary/contrasting/toAvoid
+                  return (
+                    <div className="space-y-1 text-sm">
+                      {pr?.complementary && Array.isArray(pr.complementary) && (
                         <div>
                           <span className="font-medium text-green-700">
                             Complementary:{" "}
                           </span>
                           <span className="text-gray-600">
-                            {(
-                              ingredient.pairingRecommendations as any
-                            ).complementary.join(", ")}
+                            {pr.complementary.join(", ")}
                           </span>
                         </div>
                       )}
-                    {(ingredient.pairingRecommendations as any)?.contrasting &&
-                      Array.isArray(
-                        (ingredient.pairingRecommendations as any)?.contrasting,
-                      ) && (
+                      {pr?.contrasting && Array.isArray(pr.contrasting) && (
                         <div>
                           <span className="font-medium text-orange-700">
                             Contrasting:{" "}
                           </span>
                           <span className="text-gray-600">
-                            {(
-                              ingredient.pairingRecommendations as any
-                            ).contrasting.join(", ")}
+                            {pr.contrasting.join(", ")}
                           </span>
                         </div>
                       )}
-                    {(ingredient.pairingRecommendations as any)?.toAvoid &&
-                      Array.isArray(
-                        (ingredient.pairingRecommendations as any)?.toAvoid,
-                      ) && (
+                      {pr?.toAvoid && Array.isArray(pr.toAvoid) && (
                         <div>
                           <span className="font-medium text-red-700">
                             Avoid:{" "}
                           </span>
                           <span className="text-gray-600">
-                            {(
-                              ingredient.pairingRecommendations as any
-                            ).toAvoid.join(", ")}
+                            {pr.toAvoid.join(", ")}
                           </span>
                         </div>
                       )}
-                  </div>
-                </div>
-              )}
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
 
             {/* Elemental Properties */}
             {ingredient.elementalProperties && (
@@ -1002,7 +1304,7 @@ export const EnhancedIngredientRecommender: React.FC<
               </div>
             )}
 
-            {/* Alchemical Properties */}
+            {/* Alchemical Properties + KAlchm */}
             {ingredient.alchemicalProperties && (
               <div>
                 <div className="mb-2 text-sm font-semibold text-gray-800">
@@ -1015,13 +1317,268 @@ export const EnhancedIngredientRecommender: React.FC<
                         <span className="font-medium text-gray-700">
                           {prop}:
                         </span>
-                        <span className="text-gray-600">{value}</span>
+                        <span className="text-gray-600">
+                          {Number(value).toFixed(3)}
+                        </span>
                       </div>
                     ),
                   )}
                 </div>
+                {/* KAlchm value */}
+                {(() => {
+                  const alch = ingredient.alchemicalProperties as any;
+                  const kalchmValue =
+                    (ingredient as any).kalchm ??
+                    (alch?.Spirit
+                      ? calculateKAlchm(
+                          alch.Spirit,
+                          alch.Essence,
+                          alch.Matter,
+                          alch.Substance,
+                        )
+                      : null);
+                  if (kalchmValue == null) return null;
+                  return (
+                    <div className="mt-2 flex items-center justify-between rounded-md bg-indigo-50 px-3 py-2">
+                      <span className="text-sm font-semibold text-indigo-800">
+                        K<sub>alchm</sub>
+                      </span>
+                      <span className="text-sm font-bold text-indigo-700">
+                        {Number(kalchmValue).toFixed(4)}
+                      </span>
+                    </div>
+                  );
+                })()}
               </div>
             )}
+
+            {/* Recommended Cooking Methods (expanded - all methods) */}
+            {(() => {
+              const methods: string[] | undefined =
+                (ingredient as any).culinaryProfile?.cookingMethods ||
+                (ingredient as any).cookingMethods ||
+                (ingredient as any).recommendedCookingMethods;
+              if (!methods || !Array.isArray(methods) || methods.length === 0)
+                return null;
+              return (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Cooking Methods
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {methods.map((method: string, idx: number) => (
+                      <span
+                        key={idx}
+                        className="rounded-md bg-blue-100 px-2 py-1 text-xs text-blue-700"
+                      >
+                        {method}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Storage Info */}
+            {(ingredient as any).storage &&
+              typeof (ingredient as any).storage === "object" && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Storage
+                  </div>
+                  <div className="space-y-1 text-sm text-gray-600">
+                    {(ingredient as any).storage.temperature && (
+                      <div>
+                        <span className="font-medium text-gray-700">🌡️ </span>
+                        {(ingredient as any).storage.temperature}
+                      </div>
+                    )}
+                    {(ingredient as any).storage.duration && (
+                      <div>
+                        <span className="font-medium text-gray-700">⏱️ </span>
+                        {(ingredient as any).storage.duration}
+                      </div>
+                    )}
+                    {(ingredient as any).storage.container && (
+                      <div>
+                        <span className="font-medium text-gray-700">📦 </span>
+                        {(ingredient as any).storage.container}
+                      </div>
+                    )}
+                    {(ingredient as any).storage.notes && (
+                      <div className="text-xs text-gray-500 italic">
+                        {(ingredient as any).storage.notes}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {/* Preparation Info */}
+            {(ingredient as any).preparation &&
+              typeof (ingredient as any).preparation === "object" && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Preparation
+                  </div>
+                  <div className="space-y-1 text-sm text-gray-600">
+                    {typeof (ingredient as any).preparation === "object" &&
+                      !Array.isArray((ingredient as any).preparation) && (
+                        <>
+                          {(ingredient as any).preparation.washing !==
+                            undefined && (
+                            <div>
+                              <span className="font-medium text-gray-700">
+                                Washing:{" "}
+                              </span>
+                              {(ingredient as any).preparation.washing
+                                ? "Required"
+                                : "Not needed"}
+                            </div>
+                          )}
+                          {(ingredient as any).preparation.peeling && (
+                            <div>
+                              <span className="font-medium text-gray-700">
+                                Peeling:{" "}
+                              </span>
+                              {(ingredient as any).preparation.peeling}
+                            </div>
+                          )}
+                          {(ingredient as any).preparation.cutting && (
+                            <div>
+                              <span className="font-medium text-gray-700">
+                                Cutting:{" "}
+                              </span>
+                              {(ingredient as any).preparation.cutting}
+                            </div>
+                          )}
+                          {(ingredient as any).preparation.selection && (
+                            <div>
+                              <span className="font-medium text-gray-700">
+                                Selection:{" "}
+                              </span>
+                              {(ingredient as any).preparation.selection}
+                            </div>
+                          )}
+                          {(ingredient as any).preparation.notes &&
+                            typeof (ingredient as any).preparation.notes ===
+                              "string" && (
+                              <div className="text-xs text-gray-500 italic">
+                                {(ingredient as any).preparation.notes}
+                              </div>
+                            )}
+                          {(ingredient as any).preparation.tips &&
+                            Array.isArray(
+                              (ingredient as any).preparation.tips,
+                            ) && (
+                              <div className="mt-1">
+                                <span className="font-medium text-gray-700">
+                                  Tips:{" "}
+                                </span>
+                                <ul className="ml-4 list-disc text-xs text-gray-500">
+                                  {(
+                                    (ingredient as any).preparation
+                                      .tips as string[]
+                                  )
+                                    .slice(0, 3)
+                                    .map((tip: string, idx: number) => (
+                                      <li key={idx}>{tip}</li>
+                                    ))}
+                                </ul>
+                              </div>
+                            )}
+                        </>
+                      )}
+                  </div>
+                </div>
+              )}
+
+            {/* Nutritional Profile (expanded - full details) */}
+            {(() => {
+              const np = (ingredient as any).nutritionalProfile;
+              if (!np) return null;
+              const macros = np.macros || {};
+              return (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Nutritional Details
+                  </div>
+                  {np.serving_size && (
+                    <div className="mb-1 text-xs text-gray-400">
+                      Per {np.serving_size}
+                    </div>
+                  )}
+                  <div className="grid grid-cols-2 gap-1 text-sm">
+                    {np.calories != null && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Calories:</span>
+                        <span className="font-medium">
+                          {Math.round(np.calories)}
+                        </span>
+                      </div>
+                    )}
+                    {(macros.protein ?? np.protein) != null && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Protein:</span>
+                        <span className="font-medium">
+                          {macros.protein ?? np.protein}g
+                        </span>
+                      </div>
+                    )}
+                    {(macros.carbs ?? np.carbs) != null && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Carbs:</span>
+                        <span className="font-medium">
+                          {macros.carbs ?? np.carbs}g
+                        </span>
+                      </div>
+                    )}
+                    {(macros.fat ?? np.fat) != null && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Fat:</span>
+                        <span className="font-medium">
+                          {macros.fat ?? np.fat}g
+                        </span>
+                      </div>
+                    )}
+                    {macros.fiber != null && macros.fiber > 0 && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Fiber:</span>
+                        <span className="font-medium">{macros.fiber}g</span>
+                      </div>
+                    )}
+                    {macros.sugar != null && macros.sugar > 0 && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Sugar:</span>
+                        <span className="font-medium">{macros.sugar}g</span>
+                      </div>
+                    )}
+                  </div>
+                  {np.vitamins &&
+                    typeof np.vitamins === "object" &&
+                    Object.keys(np.vitamins).length > 0 &&
+                    !Array.isArray(np.vitamins) && (
+                      <div className="mt-1 text-xs text-gray-500">
+                        <span className="font-medium text-gray-600">
+                          Vitamins:{" "}
+                        </span>
+                        {Object.keys(np.vitamins).join(", ").toUpperCase()}
+                      </div>
+                    )}
+                  {np.minerals &&
+                    typeof np.minerals === "object" &&
+                    Object.keys(np.minerals).length > 0 &&
+                    !Array.isArray(np.minerals) && (
+                      <div className="text-xs text-gray-500">
+                        <span className="font-medium text-gray-600">
+                          Minerals:{" "}
+                        </span>
+                        {Object.keys(np.minerals).join(", ")}
+                      </div>
+                    )}
+                </div>
+              );
+            })()}
 
             {/* Thermodynamic Properties */}
             {(ingredient as any).thermodynamicProperties && (
@@ -1038,13 +1595,151 @@ export const EnhancedIngredientRecommender: React.FC<
                         {prop}:
                       </span>
                       <span className="text-gray-600">
-                        {typeof value === "number" ? value.toFixed(3) : value}
+                        {typeof value === "number"
+                          ? Number(value).toFixed(3)
+                          : value}
                       </span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
+
+            {/* Parts Used (medicinal / botanical ingredients) */}
+            {(ingredient as any).parts_used &&
+              Array.isArray((ingredient as any).parts_used) &&
+              (ingredient as any).parts_used.length > 0 && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Parts Used
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {((ingredient as any).parts_used as string[]).map(
+                      (part: string, idx: number) => (
+                        <span
+                          key={idx}
+                          className="rounded-md bg-violet-100 px-2 py-1 text-xs text-violet-700"
+                        >
+                          {part}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {/* Medicinal / Herbal Properties */}
+            {(ingredient as any).properties &&
+              typeof (ingredient as any).properties === "object" &&
+              !Array.isArray((ingredient as any).properties) &&
+              Object.keys((ingredient as any).properties).length > 0 && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Medicinal Properties
+                  </div>
+                  <div className="space-y-1 text-sm">
+                    {Object.entries(
+                      (ingredient as any).properties as Record<string, string>,
+                    ).map(([key, val]) => (
+                      <div key={key}>
+                        <span className="font-medium capitalize text-teal-700">
+                          {key.replace(/_/g, " ")}:{" "}
+                        </span>
+                        <span className="text-gray-600">{String(val)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            {/* Affinities (ingredient pairings stored as simple array) */}
+            {(ingredient as any).affinities &&
+              Array.isArray((ingredient as any).affinities) &&
+              (ingredient as any).affinities.length > 0 && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Affinities
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {((ingredient as any).affinities as string[]).map(
+                      (affinity: string, idx: number) => (
+                        <span
+                          key={idx}
+                          className="rounded-md bg-green-50 border border-green-200 px-2 py-0.5 text-xs text-green-700"
+                        >
+                          {affinity}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {/* Flavor / Description text */}
+            {(() => {
+              const desc =
+                (ingredient as any).flavor ||
+                (ingredient as any).description ||
+                (ingredient as any).flavorDescription;
+              if (!desc || typeof desc !== "string") return null;
+              return (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Flavor Notes
+                  </div>
+                  <p className="text-sm italic text-gray-600">{desc}</p>
+                </div>
+              );
+            })()}
+
+            {/* Culinary Uses (flat array format used by some herbs) */}
+            {(() => {
+              const uses: string[] | undefined =
+                (ingredient as any).culinaryUses ||
+                (ingredient as any).culinaryApplications?.uses;
+              if (!uses || !Array.isArray(uses) || uses.length === 0)
+                return null;
+              return (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Culinary Uses
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {uses.map((use: string, idx: number) => (
+                      <span
+                        key={idx}
+                        className="rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-700"
+                      >
+                        {use}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Varieties */}
+            {(ingredient as any).varieties &&
+              typeof (ingredient as any).varieties === "object" &&
+              Object.keys((ingredient as any).varieties).length > 0 && (
+                <div>
+                  <div className="mb-1 text-sm font-semibold text-gray-800">
+                    Varieties
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {Object.keys((ingredient as any).varieties).map(
+                      (v, idx) => (
+                        <span
+                          key={idx}
+                          className="rounded-md bg-sky-100 px-2 py-0.5 text-xs capitalize text-sky-700"
+                        >
+                          {v.replace(/_/g, " ")}
+                        </span>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
           </div>
         )}
       </div>

@@ -1,20 +1,45 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
+import { useEffect, useState, Suspense } from 'react';
 
-export default function LoginPage() {
+function LoginContent() {
   const { status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadingTooLong, setLoadingTooLong] = useState(false);
+
+  // If session status stays "loading" for too long, show the sign-in UI anyway
+  useEffect(() => {
+    if (status === 'loading') {
+      const timer = setTimeout(() => setLoadingTooLong(true), 4000);
+      return () => clearTimeout(timer);
+    }
+    setLoadingTooLong(false);
+  }, [status]);
 
   useEffect(() => {
     if (status === 'authenticated') {
       router.push('/profile');
     }
   }, [status, router]);
+
+  // Check for error from OAuth callback
+  useEffect(() => {
+    const callbackError = searchParams.get('error');
+    if (callbackError) {
+      if (callbackError === 'OAuthCallback') {
+        setError('Google sign-in was interrupted. Please try again.');
+      } else if (callbackError === 'OAuthAccountNotLinked') {
+        setError('This email is already linked to another account.');
+      } else {
+        setError('Something went wrong during sign-in. Please try again.');
+      }
+    }
+  }, [searchParams]);
 
   const handleGoogleSignIn = async () => {
     setIsSigningIn(true);
@@ -27,7 +52,8 @@ export default function LoginPage() {
     }
   };
 
-  if (status === 'loading') {
+  // Show loading spinner, but cap it at 4 seconds
+  if (status === 'loading' && !loadingTooLong) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center">
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-500" />
@@ -93,6 +119,13 @@ export default function LoginPage() {
           )}
         </button>
 
+        {/* Returning user hint if session was loading too long */}
+        {loadingTooLong && (
+          <p className="mt-3 text-xs text-amber-600 text-center">
+            Session check took longer than expected. Click above to sign in.
+          </p>
+        )}
+
         {/* What you get */}
         <div className="mt-8 pt-6 border-t border-gray-100">
           <p className="text-xs text-gray-500 text-center mb-4 font-medium uppercase tracking-wide">
@@ -127,5 +160,19 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[70vh] flex items-center justify-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-500" />
+        </div>
+      }
+    >
+      <LoginContent />
+    </Suspense>
   );
 }

@@ -85,7 +85,7 @@ export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
         Alchm.kitchen
       </h1>
       <p className="text-xl md:text-2xl text-gray-600 mb-2 italic">
-        Where the elements meet the cosmos
+        Eat the stars
       </p>
 
       {/* Planetary hour highlight */}
@@ -113,7 +113,7 @@ export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
 
       {/* Time-based CTA */}
       <a
-        href="#cuisines"
+        href="/menu-planner"
         className="inline-block px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
       >
         {cta} &rarr;

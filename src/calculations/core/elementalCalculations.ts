@@ -37,7 +37,7 @@ function hasProperty<T extends string>(
   return isValidObject(obj) && prop in obj;
 }
 
-function safeGetNumber(value: unknown): number {
+function _safeGetNumber(value: unknown): number {
   return typeof value === "number" && !isNaN(value) ? value : 0;
 }
 
@@ -203,7 +203,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
  * Get current elemental properties using streamlined planetary positions
  */
 export function getCurrentElementalProperties(
-  context = "general",
+  _context = "general",
 ): ElementalProperties {
   const planetaryPositions = getCurrentPlanetaryPositions();
   return calculateBaseElementalProperties(planetaryPositions);

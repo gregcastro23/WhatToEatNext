@@ -1,0 +1,23 @@
+{
+  "name": "alchm-kitchen",
+  "main": ".open-next/worker.js",
+  // Update to 2025-01-01 for improved nodejs_compat TCP socket support
+  // (required for pg to open connections via cloudflare:sockets polyfill).
+  "compatibility_date": "2025-01-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Enable built-in observability for tail workers / logpush
+  "observability": {
+    "enabled": true
+  }
+  // To use Cloudflare Hyperdrive for efficient PostgreSQL connection pooling,
+  // create a Hyperdrive config in the dashboard and uncomment:
+  // "hyperdrive": [
+  //   { "binding": "HYPERDRIVE", "id": "<your-hyperdrive-config-id>" }
+  // ]
+}

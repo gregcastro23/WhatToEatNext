@@ -386,7 +386,7 @@ class CuisineComputationCache {
   } {
     const entries = Array.from(this.cache.entries()).map(
       ([cacheKey, entry]) => {
-        const [cuisineId, optionsHash] = cacheKey.split(":");
+        const [cuisineId, _optionsHash] = cacheKey.split(":");
         return {
           cuisineId,
           options: entry.metadata.computationOptions,
@@ -452,7 +452,7 @@ class CuisineComputationCache {
   /**
    * Invalidate a specific cache entry
    */
-  private invalidateEntry(cacheKey: string, reason: InvalidationReason): void {
+  private invalidateEntry(cacheKey: string, _reason: InvalidationReason): void {
     const entry = this.cache.get(cacheKey);
     if (entry) {
       this.cache.delete(cacheKey);

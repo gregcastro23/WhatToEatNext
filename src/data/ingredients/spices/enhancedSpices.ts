@@ -25,7 +25,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.2,
         carbs: 1.5,
         fat: 0.1,
-        fiber: 0.6,
+        fiber: 0.6, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         K: 0.04, // 4% RDA
@@ -174,7 +174,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.1,
         carbs: 2.1,
         fat: 0.0,
-        fiber: 1.4,
+        fiber: 1.4, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         K: 0.01,
@@ -318,7 +318,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.4,
         carbs: 0.9,
         fat: 0.5,
-        fiber: 0.2,
+        fiber: 0.2, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         A: 0.01,
@@ -464,7 +464,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.3,
         carbs: 2.0,
         fat: 0.3,
-        fiber: 0.7,
+        fiber: 0.7, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         C: 0.01,
@@ -607,7 +607,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.1,
         carbs: 1.1,
         fat: 0.0,
-        fiber: 0.1,
+        fiber: 0.1, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         C: 0.01,
@@ -753,7 +753,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.3,
         carbs: 1.2,
         fat: 0.3,
-        fiber: 0.8,
+        fiber: 0.8, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         A: 0.19, // 19% RDA - excellent source
@@ -888,7 +888,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.2,
         carbs: 1.4,
         fat: 0.1,
-        fiber: 0.6,
+        fiber: 0.6, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         C: 0.01,
@@ -1030,7 +1030,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.2,
         carbs: 1.0,
         fat: 0.3,
-        fiber: 0.8,
+        fiber: 0.8, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         C: 0.01,
@@ -1173,7 +1173,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.1,
         carbs: 1.1,
         fat: 0.8,
-        fiber: 0.5,
+        fiber: 0.5, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         A: 0.01,
@@ -1315,7 +1315,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.3,
         carbs: 1.4,
         fat: 0.4,
-        fiber: 0.9,
+        fiber: 0.9, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         A: 0.09, // 9% RDA
@@ -1451,7 +1451,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
         protein: 0.0,
         carbs: 0.0,
         fat: 0.0,
-        fiber: 0.0,
+        fiber: 0.0, sugar: 0.1, sodium: 1,
       },
       vitamins: {
         C: 0.0, // Negligible due to tiny serving size

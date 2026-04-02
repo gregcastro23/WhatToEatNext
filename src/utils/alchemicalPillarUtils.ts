@@ -11,7 +11,8 @@ import type { AlchemicalPillar } from "../constants/alchemicalPillars";
 import type { AlchemicalProperty } from "../types/celestial";
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
-interface AlchemicalPillarData {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+interface _AlchemicalPillarData {
   name?: string;
   element?: string;
   description?: string;
@@ -30,7 +31,8 @@ interface AlchemicalPillarData {
   season?: string | string[];
 }
 
-interface PillarCalculationResult {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+interface _PillarCalculationResult {
   id?: string;
   name?: string;
   element?: string;
@@ -890,7 +892,7 @@ export function getRecommendedCookingMethods(
  * @param item The AlchemicalItem to score
  * @returns Score from 0-1 representing alchemical quality
  */
-function calculateAlchemicalScore(item: AlchemicalItem): number {
+function _calculateAlchemicalScore(item: AlchemicalItem): number {
   let score = 0;
   let count = 0;
 
@@ -1173,7 +1175,7 @@ function getAllCookingMethodData(): Record<string, unknown> {
   // This is a placeholder - in a real implementation, this would
   // dynamically load all cooking method data from the files
   try {
-    const methods = {};
+    const _methods = {};
 
     // Import methods from each category
     // Using dynamic imports instead of require statements

@@ -5,6 +5,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   pomegranate: {
     name: "Pomegranate",
     elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
+    quantityBase: { amount: 87, unit: "g" },
+    scaledElemental: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.45,
+      Essence: 0.80,
+      Matter: 0.30,
+      Substance: 0.28,
+    },
+    kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Pluto"],
       favorableZodiac: ["scorpio", "aries"],
@@ -20,7 +29,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1/2 cup arils (87g)",
       calories: 72,
-      macros: { protein: 1.5, carbs: 16.3, fat: 1.0, fiber: 3.5 },
+      macros: { protein: 1.5, carbs: 16.3, fat: 1.0, fiber: 3.5, sugar: 11.9, sodium: 3 },
       vitamins: { C: 0.16, K: 0.14, folate: 0.1 },
       minerals: { potassium: 0.07 },
       source: "USDA FoodData Central",
@@ -67,6 +76,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   fig: {
     name: "Fig",
     elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
+    quantityBase: { amount: 50, unit: "g" },
+    scaledElemental: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.30,
+      Essence: 0.65,
+      Matter: 0.50,
+      Substance: 0.40,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
       favorableZodiac: ["taurus", "sagittarius"],
@@ -82,7 +100,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 medium fresh (50g)",
       calories: 37,
-      macros: { protein: 0.4, carbs: 9.6, fat: 0.2, fiber: 1.5 },
+      macros: { protein: 0.4, carbs: 9.6, fat: 0.2, fiber: 1.5, sugar: 8.1, sodium: 1 },
       vitamins: { K: 0.04 },
       minerals: { potassium: 0.04, calcium: 0.02, magnesium: 0.04 },
       source: "USDA FoodData Central",
@@ -135,6 +153,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   grape: {
     name: "Grape",
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
+    quantityBase: { amount: 151, unit: "g" },
+    scaledElemental: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.35,
+      Essence: 0.75,
+      Matter: 0.25,
+      Substance: 0.22,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Bacchus"],
       favorableZodiac: ["libra", "taurus"],
@@ -150,7 +177,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 cup (151g)",
       calories: 104,
-      macros: { protein: 1.1, carbs: 27.3, fat: 0.2, fiber: 1.4 },
+      macros: { protein: 1.1, carbs: 27.3, fat: 0.2, fiber: 1.4, sugar: 23.4, sodium: 3 },
       vitamins: { C: 0.27, K: 0.22 },
       minerals: { potassium: 0.09, copper: 0.08 },
       source: "USDA FoodData Central",
@@ -197,6 +224,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   date: {
     name: "Date",
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
+    quantityBase: { amount: 24, unit: "g" },
+    scaledElemental: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.50,
+      Matter: 0.70,
+      Substance: 0.65,
+    },
+    kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 0.65 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Sun"],
       favorableZodiac: ["capricorn", "leo"],
@@ -212,7 +248,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 medjool date (24g)",
       calories: 66,
-      macros: { protein: 0.4, carbs: 18.0, fat: 0.0, fiber: 1.6 },
+      macros: { protein: 0.4, carbs: 18.0, fat: 0.0, fiber: 1.6, sugar: 16, sodium: 0 },
       vitamins: { B6: 0.04 },
       minerals: { potassium: 0.05, magnesium: 0.03, copper: 0.09 },
       source: "USDA FoodData Central",
@@ -259,6 +295,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   kiwano: {
     name: "Kiwano (Horned Melon)",
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.30,
+      Essence: 0.60,
+      Matter: 0.30,
+      Substance: 0.25,
+    },
+    kineticsImpact: { thermalDirection: 0.00, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Mercury"],
       favorableZodiac: ["aries", "gemini"],
@@ -274,7 +319,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "100g",
       calories: 44,
-      macros: { protein: 1.8, carbs: 7.6, fat: 1.3, fiber: 0.0 },
+      macros: { protein: 1.8, carbs: 7.6, fat: 1.3, fiber: 3.0, sugar: 1.3, sodium: 2 },
       vitamins: { C: 0.08, A: 0.01 },
       minerals: { iron: 0.07, magnesium: 0.1 },
       source: "USDA FoodData Central",
@@ -321,6 +366,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   feijoa: {
     name: "Feijoa (Pineapple Guava)",
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.48,
+      Essence: 0.68,
+      Matter: 0.28,
+      Substance: 0.25,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["libra", "gemini"],
@@ -336,7 +390,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "100g",
       calories: 55,
-      macros: { protein: 1.2, carbs: 13.0, fat: 0.6, fiber: 6.4 },
+      macros: { protein: 1.2, carbs: 13.0, fat: 0.6, fiber: 6.4, sugar: 8.2, sodium: 3 },
       vitamins: { C: 0.55 },
       minerals: { potassium: 0.07 },
       source: "USDA FoodData Central",
@@ -383,6 +437,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   tamarind: {
     name: "Tamarind",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
+    quantityBase: { amount: 120, unit: "g" },
+    scaledElemental: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.55,
+      Essence: 0.55,
+      Matter: 0.50,
+      Substance: 0.40,
+    },
+    kineticsImpact: { thermalDirection: 0.20, forceMagnitude: 0.75 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
       favorableZodiac: ["capricorn", "scorpio"],
@@ -398,7 +461,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 cup pulp (120g)",
       calories: 287,
-      macros: { protein: 3.4, carbs: 75.0, fat: 0.7, fiber: 6.1 },
+      macros: { protein: 3.4, carbs: 75.0, fat: 0.7, fiber: 6.1, sugar: 68.9, sodium: 34 },
       vitamins: { B1: 0.34, B3: 0.1 },
       minerals: { potassium: 0.18, magnesium: 0.28, iron: 0.16 },
       source: "USDA FoodData Central",
@@ -445,6 +508,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   loquat_exotic: {
     name: "Loquat",
     elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
+    quantityBase: { amount: 149, unit: "g" },
+    scaledElemental: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.25,
+      Essence: 0.65,
+      Matter: 0.30,
+      Substance: 0.28,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
       favorableZodiac: ["leo", "taurus"],
@@ -460,7 +532,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 cup (149g)",
       calories: 70,
-      macros: { protein: 0.6, carbs: 18.1, fat: 0.3, fiber: 2.5 },
+      macros: { protein: 0.6, carbs: 18.1, fat: 0.3, fiber: 2.5, sugar: 12.3, sodium: 1 },
       vitamins: { A: 0.51, C: 0.01 },
       minerals: { potassium: 0.08, manganese: 0.07 },
       source: "USDA FoodData Central",
@@ -507,6 +579,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   cactus_pear: {
     name: "Cactus Pear (Prickly Pear)",
     elementalProperties: { Water: 0.5, Earth: 0.2, Fire: 0.2, Air: 0.1 },
+    quantityBase: { amount: 103, unit: "g" },
+    scaledElemental: { Water: 0.5, Earth: 0.2, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.20,
+      Essence: 0.58,
+      Matter: 0.35,
+      Substance: 0.30,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Venus"],
       favorableZodiac: ["aries", "taurus"],
@@ -522,7 +603,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 fruit (103g)",
       calories: 42,
-      macros: { protein: 0.8, carbs: 9.9, fat: 0.5, fiber: 3.7 },
+      macros: { protein: 0.8, carbs: 9.9, fat: 0.5, fiber: 3.7, sugar: 6, sodium: 5 },
       vitamins: { C: 0.23 },
       minerals: { magnesium: 0.22, calcium: 0.06 },
       source: "USDA FoodData Central",
@@ -569,6 +650,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   quince_exotic: {
     name: "Quince",
     elementalProperties: { Earth: 0.6, Air: 0.2, Water: 0.2, Fire: 0.0 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Earth: 0.6, Air: 0.2, Water: 0.2, Fire: 0.0 },
+    alchemicalProperties: {
+      Spirit: 0.40,
+      Essence: 0.42,
+      Matter: 0.65,
+      Substance: 0.55,
+    },
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.70 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["taurus", "capricorn"],
@@ -584,7 +674,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "100g",
       calories: 57,
-      macros: { protein: 0.4, carbs: 15.3, fat: 0.1, fiber: 1.9 },
+      macros: { protein: 0.4, carbs: 15.3, fat: 0.1, fiber: 1.9, sugar: 8.9, sodium: 4 },
       vitamins: { C: 0.25 },
       minerals: { copper: 0.07, potassium: 0.05 },
       source: "USDA FoodData Central",
@@ -631,6 +721,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   passion_fruit_exotic: {
     name: "Passion Fruit",
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.72,
+      Essence: 0.78,
+      Matter: 0.15,
+      Substance: 0.18,
+    },
+    kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.90 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["libra", "gemini"],
@@ -646,7 +745,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "100g pulp",
       calories: 97,
-      macros: { protein: 2.2, carbs: 23.4, fat: 0.7, fiber: 10.4 },
+      macros: { protein: 2.2, carbs: 23.4, fat: 0.7, fiber: 10.4, sugar: 11.2, sodium: 28 },
       vitamins: { C: 0.5, A: 0.25 },
       minerals: { potassium: 0.1, iron: 0.09 },
       source: "USDA FoodData Central",
@@ -693,6 +792,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   custard_apple: {
     name: "Custard Apple (Cherimoya)",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.22,
+      Essence: 0.68,
+      Matter: 0.35,
+      Substance: 0.30,
+    },
+    kineticsImpact: { thermalDirection: 0.00, forceMagnitude: 0.75 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer"],
@@ -708,7 +816,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "100g",
       calories: 75,
-      macros: { protein: 1.6, carbs: 17.7, fat: 0.7, fiber: 3.0 },
+      macros: { protein: 1.6, carbs: 17.7, fat: 0.7, fiber: 3.0, sugar: 13, sodium: 5 },
       vitamins: { C: 0.21, B6: 0.2 },
       minerals: { potassium: 0.08 },
       source: "USDA FoodData Central",
@@ -755,6 +863,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   sapote: {
     name: "Sapote (Mamey)",
     elementalProperties: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.18,
+      Essence: 0.60,
+      Matter: 0.55,
+      Substance: 0.45,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.70 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["taurus", "capricorn"],
@@ -770,7 +887,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "100g",
       calories: 124,
-      macros: { protein: 2.0, carbs: 32.1, fat: 0.5, fiber: 5.4 },
+      macros: { protein: 2.0, carbs: 32.1, fat: 0.5, fiber: 5.4, sugar: 20, sodium: 12 },
       vitamins: { C: 0.37, A: 0.1 },
       minerals: { potassium: 0.11 },
       source: "USDA FoodData Central",
@@ -817,6 +934,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   plantain: {
     name: "Plantain",
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
+    quantityBase: { amount: 179, unit: "g" },
+    scaledElemental: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.10,
+      Essence: 0.40,
+      Matter: 0.72,
+      Substance: 0.60,
+    },
+    kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.65 },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Saturn"],
       favorableZodiac: ["sagittarius", "capricorn"],
@@ -832,7 +958,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 medium (179g)",
       calories: 218,
-      macros: { protein: 2.3, carbs: 57.1, fat: 0.7, fiber: 4.1 },
+      macros: { protein: 2.3, carbs: 57.1, fat: 0.7, fiber: 4.1, sugar: 27, sodium: 7 },
       vitamins: { C: 0.31, B6: 0.29, A: 0.28 },
       minerals: { potassium: 0.25, magnesium: 0.14 },
       source: "USDA FoodData Central",
@@ -879,6 +1005,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   breadfruit: {
     name: "Breadfruit",
     elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
+    quantityBase: { amount: 220, unit: "g" },
+    scaledElemental: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.08,
+      Essence: 0.38,
+      Matter: 0.75,
+      Substance: 0.65,
+    },
+    kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.60 },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
       favorableZodiac: ["sagittarius", "taurus"],
@@ -894,7 +1029,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 cup (220g)",
       calories: 227,
-      macros: { protein: 2.4, carbs: 59.7, fat: 0.5, fiber: 10.8 },
+      macros: { protein: 2.4, carbs: 59.7, fat: 0.5, fiber: 10.8, sugar: 24, sodium: 4 },
       vitamins: { C: 0.63, B1: 0.11 },
       minerals: { potassium: 0.31, magnesium: 0.06 },
       source: "USDA FoodData Central",
@@ -941,6 +1076,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   cloudberry: {
     name: "Cloudberry",
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.35,
+      Essence: 0.75,
+      Matter: 0.15,
+      Substance: 0.18,
+    },
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
       favorableZodiac: ["cancer", "pisces"],
@@ -956,7 +1100,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "100g",
       calories: 51,
-      macros: { protein: 2.4, carbs: 8.6, fat: 0.8, fiber: 6.0 },
+      macros: { protein: 2.4, carbs: 8.6, fat: 0.8, fiber: 6.0, sugar: 3.5, sodium: 1 },
       vitamins: { C: 2.63, A: 0.21, E: 0.12 },
       minerals: { magnesium: 0.08, calcium: 0.04 },
       source: "USDA FoodData Central",
@@ -1003,6 +1147,15 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   boysenberry: {
     name: "Boysenberry",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 132, unit: "g" },
+    scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.30,
+      Essence: 0.72,
+      Matter: 0.18,
+      Substance: 0.20,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mars"],
       favorableZodiac: ["taurus", "aries"],
@@ -1018,7 +1171,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 cup (132g)",
       calories: 66,
-      macros: { protein: 1.5, carbs: 16.1, fat: 0.3, fiber: 7.0 },
+      macros: { protein: 1.5, carbs: 16.1, fat: 0.3, fiber: 7.0, sugar: 10, sodium: 1 },
       vitamins: { C: 0.07, K: 0.29 },
       minerals: { manganese: 0.72, potassium: 0.06 },
       source: "USDA FoodData Central",

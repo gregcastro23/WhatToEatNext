@@ -29,13 +29,14 @@ export default function AdminDashboardPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchDashboardData();
+    void fetchDashboardData();
   }, []);
 
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
       const response = await fetch("/api/admin/dashboard");
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
       const data = await response.json();
 
       if (data.success) {
@@ -44,7 +45,7 @@ export default function AdminDashboardPage() {
       } else {
         setError(data.message || "Failed to load dashboard");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to connect to server");
     } finally {
       setLoading(false);

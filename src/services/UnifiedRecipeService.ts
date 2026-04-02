@@ -11,6 +11,7 @@ import type { Recipe } from "@/types/recipe";
 // Add missing imports for TS2304 fixes
 // Using local error handler implementation
 import { createLogger } from "@/utils/logger";
+import { calculateRecipeAlchemicalQuantities } from "@/utils/recipeAlchemicalQuantities";
 
 const logger = createLogger("UnifiedRecipeService");
 
@@ -54,7 +55,7 @@ export class UnifiedRecipeService {
   }
 
   /**
-   * Get recipe by ID
+   * Get recipe by ID, enriched with ingredient-summed alchemical quantities.
    */
   async getRecipeById(id: string): Promise<Recipe | null> {
     try {
@@ -68,13 +69,36 @@ export class UnifiedRecipeService {
         return null;
       }
 
-      return recipe;
+      return this.enrichRecipeWithIngredientAlchemicals(recipe);
     } catch (error) {
       ErrorHandler.log(error, {
         context: `UnifiedRecipeService.getRecipeById (id: ${id})`,
       });
       return null;
     }
+  }
+
+  /**
+   * Compute and attach ingredient-summed alchemical quantities to a recipe.
+   *
+   * Each recipe ingredient contributes its Spirit, Essence, Matter, Substance
+   * (independent dimensions, not normalized to 1). The recipe's A# is the sum
+   * of all ingredient A# values: A# = Σ(Spirit_i + Essence_i + Matter_i + Substance_i)
+   */
+  enrichRecipeWithIngredientAlchemicals(recipe: Recipe): Recipe {
+    // Skip if already computed
+    if (recipe.ingredientAlchemicalSummary) return recipe;
+
+    const ingredientNames: string[] = Array.isArray(recipe.ingredients)
+      ? recipe.ingredients.map((ing: any) =>
+          typeof ing === "string" ? ing : (ing.name ?? "")
+        ).filter(Boolean)
+      : [];
+
+    if (ingredientNames.length === 0) return recipe;
+
+    const summary = calculateRecipeAlchemicalQuantities(ingredientNames);
+    return { ...recipe, ingredientAlchemicalSummary: summary };
   }
 
   /**
@@ -199,7 +223,7 @@ export class UnifiedRecipeService {
    * Get best recipe matches (Phase 11 addition)
    */
   async getBestRecipeMatches(
-    criteria: RecipeSearchCriteria,
+    _criteria: RecipeSearchCriteria,
   ): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();

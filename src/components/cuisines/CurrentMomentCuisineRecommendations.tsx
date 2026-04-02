@@ -1,5 +1,40 @@
 "use client";
 
+import {
+    AccordionItem as _AccordionItem, AccordionItemContent as _AccordionItemContent,
+    AccordionItemIndicator, AccordionItemTrigger as _AccordionItemTrigger, AccordionRoot, AlertContent, AlertIndicator, AlertRoot, Badge,
+    Box,
+    Button,
+    Card as _Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Flex, Heading, HStack, Icon, ListIndicator, ListItem, ListRoot, Progress as _Progress,
+    SimpleGrid,
+    Spinner, TagLabel, TagRoot, Text,
+    Tooltip as _Tooltip,
+    VStack,
+    Wrap,
+    WrapItem
+} from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+    FaAppleAlt,
+    FaClock,
+    FaFire,
+    FaLeaf,
+    FaMagic,
+    FaPepperHot,
+    FaSeedling,
+    FaSnowflake,
+    FaStar,
+    FaSun,
+    FaUsers,
+    FaUtensils,
+    FaWater,
+    FaWind
+} from "react-icons/fa";
+
 /**
  * Current Moment Cuisine Recommendations Component
  * Phase 6: Complete Astrological Cuisine Integration
@@ -7,74 +42,18 @@
  * Displays cuisine recommendations based on current astrological moment
  * with nested recipes and sauce recommendations
  */
-
-import {
-  AccordionRoot,
-  AccordionItem as _AccordionItem,
-  AccordionItemTrigger as _AccordionItemTrigger,
-  AccordionItemContent as _AccordionItemContent,
-  AccordionItemIndicator,
-  AlertRoot,
-  AlertIndicator,
-  AlertContent,
-  Badge,
-  Box,
-  Button,
-  Card as _Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Flex,
-  HStack,
-  Heading,
-  Icon,
-  ListRoot,
-  ListItem,
-  ListIndicator,
-  Progress as _Progress,
-  SimpleGrid,
-  Spinner,
-  TagRoot,
-  TagLabel,
-  Text,
-  Tooltip as _Tooltip,
-  VStack,
-  Wrap,
-  WrapItem,
-} from "@chakra-ui/react";
-
 const Card = _Card as any;
 const Tooltip = _Tooltip as any;
 const Progress = _Progress as any;
 const AccordionItem = _AccordionItem as any;
 const AccordionItemTrigger = _AccordionItemTrigger as any;
 const AccordionItemContent = _AccordionItemContent as any;
-
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  FaAppleAlt,
-  FaClock,
-  FaFire,
-  FaLeaf,
-  FaMagic,
-  FaPepperHot,
-  FaSeedling,
-  FaSnowflake,
-  FaStar,
-  FaSun,
-  FaUsers,
-  FaUtensils,
-  FaWater,
-  FaWind,
-} from "react-icons/fa";
-
 interface CurrentMoment {
   zodiac_sign: string;
   season: string;
   meal_type?: string;
   timestamp: string;
 }
-
 interface NestedRecipe {
   recipe_id: string;
   name: string;
@@ -92,7 +71,6 @@ interface NestedRecipe {
   instructions: string[];
   meal_type: string;
   seasonal_fit: string;
-
   // Enhanced recipe guidance fields
   tips?: string[]; // Expert cooking tips
   substitutions?: Array<{
@@ -115,7 +93,6 @@ interface NestedRecipe {
   common_mistakes?: string[]; // What to avoid
   timing_tips?: string[]; // Do-ahead suggestions
 }
-
 interface SauceRecommendation {
   sauce_name: string;
   description: string;
@@ -129,7 +106,6 @@ interface SauceRecommendation {
   compatibility_score: number;
   reason: string;
 }
-
 interface ThermodynamicMetrics {
   heat: number;
   entropy: number;
@@ -138,7 +114,6 @@ interface ThermodynamicMetrics {
   kalchm: number;
   monica: number;
 }
-
 interface KineticMetrics {
   velocity: Record<string, number>;
   momentum: Record<string, number>;
@@ -150,7 +125,6 @@ interface KineticMetrics {
   forceMagnitude: number;
   forceClassification: string;
 }
-
 interface FlavorProfile {
   sweet: number;
   sour: number;
@@ -159,14 +133,12 @@ interface FlavorProfile {
   umami: number;
   spicy: number;
 }
-
 interface CuisineSignature {
   property: string;
   value: number;
   zScore: number;
   significance: "high" | "medium" | "low";
 }
-
 interface FusionPairing {
   cuisine_id: string;
   name: string;
@@ -176,7 +148,6 @@ interface FusionPairing {
   thermodynamic_harmony: number;
   reason: string;
 }
-
 interface CuisineRecommendation {
   cuisine_id: string;
   name: string;
@@ -204,13 +175,11 @@ interface CuisineRecommendation {
   astrological_score: number;
   compatibility_reason: string;
 }
-
 interface CuisineResponse {
   current_moment: CurrentMoment;
   cuisine_recommendations: CuisineRecommendation[];
   total_recommendations: number;
 }
-
 const ZODIAC_ELEMENTS = {
   Aries: "Fire",
   Taurus: "Earth",
@@ -225,46 +194,38 @@ const ZODIAC_ELEMENTS = {
   Aquarius: "Air",
   Pisces: "Water",
 };
-
 const SEASON_ICONS = {
   Spring: FaSeedling,
   Summer: FaSun,
   Autumn: FaLeaf,
   Winter: FaSnowflake,
 };
-
 const ELEMENT_ICONS = {
   Fire: FaFire,
   Water: FaWater,
   Earth: FaSeedling,
   Air: FaWind,
 };
-
 const ELEMENT_COLORS = {
   Fire: "red",
   Water: "blue",
   Earth: "green",
   Air: "cyan",
 };
-
 const CurrentMomentCuisineRecommendations: React.FC = () => {
   const [data, setData] = useState<CuisineResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
-
-  const bgColor = "gray.50";
+  const _bgColor = "gray.50";
   const cardBg = "white";
-
   const fetchCuisineRecommendations = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
-
       const response = await fetch("/api/cuisines/recommend");
       if (!response.ok) {
         throw new Error("Failed to fetch cuisine recommendations");
       }
-
       const cuisineData = await response.json();
       setData(cuisineData);
     } catch (err) {
@@ -277,16 +238,13 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       setLoading(false);
     }
   }, []);
-
   useEffect(() => {
     void fetchCuisineRecommendations();
   }, [fetchCuisineRecommendations]);
-
   const getElementIcon = (element: string) =>
     ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS] || FaStar;
   const getElementColor = (element: string) =>
     ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS] || "gray";
-
   // Get top flavors from flavor profile
   const getTopFlavors = (flavorProfile?: FlavorProfile, count = 3) => {
     if (!flavorProfile) return [];
@@ -295,7 +253,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       .slice(0, count)
       .filter(([, value]) => value > 0.1); // Only include flavors > 10%
   };
-
   // Get score color based on match percentage
   const getScoreColor = (score: number) => {
     if (score >= 0.8) return "green";
@@ -303,7 +260,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     if (score >= 0.4) return "orange";
     return "red";
   };
-
   // Categorize cuisines into tiers based on compatibility score
   const categorizeCuisines = (cuisines: CuisineRecommendation[]) => {
     const topMatches = cuisines.filter((c) => c.astrological_score >= 0.7);
@@ -313,7 +269,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     const otherOptions = cuisines.filter((c) => c.astrological_score < 0.5);
     return { topMatches, goodMatches, otherOptions };
   };
-
   // Get tier label with appropriate styling
   const getTierInfo = (tier: "top" | "good" | "other") => {
     switch (tier) {
@@ -340,7 +295,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
         };
     }
   };
-
   const renderElementalProperties = (properties: {
     Fire: number;
     Water: number;
@@ -373,13 +327,11 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       ))}
     </HStack>
   );
-
   // Render compact flavor profile display
   const renderFlavorProfileCompact = (flavorProfile?: FlavorProfile) => {
     if (!flavorProfile) return null;
     const topFlavors = getTopFlavors(flavorProfile, 3);
     if (topFlavors.length === 0) return null;
-
     return (
       <HStack {...({ spacing: 2, wrap: "wrap" } as any)}>
         <Text fontSize="xs" color="gray.600" fontWeight="medium">
@@ -409,7 +361,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       </HStack>
     );
   };
-
   const renderRecipeCard = (recipe: NestedRecipe) => (
     <Card
       key={recipe.recipe_id}
@@ -439,7 +390,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
           </Badge>
         </Flex>
       </CardHeader>
-
       <CardBody pt={0}>
         <VStack {...({ align: "start", spacing: 4 } as any)}>
           {/* Recipe Meta - Enhanced */}
@@ -479,7 +429,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               </Badge>
             )}
           </Wrap>
-
           {/* Ingredients */}
           <Box>
             <Text fontSize="sm" fontWeight="medium" mb={2}>
@@ -509,7 +458,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               )}
             </ListRoot>
           </Box>
-
           {/* Instructions Preview */}
           {recipe.instructions.length > 0 && (
             <Box>
@@ -525,7 +473,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               </ListRoot>
             </Box>
           )}
-
           {/* Chef's Notes */}
           {(recipe.tips ||
             recipe.substitutions ||
@@ -536,7 +483,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             recipe.timing_tips) && (
             <Box>
               <Text fontSize="sm" fontWeight="medium" mb={2}>
-                👨‍🍳 Chef's Notes:
+                👨‍🍳 Chef&apos;s Notes:
               </Text>
               <VStack {...({ align: "start", spacing: 2 } as any)}>
                 {recipe.tips && (
@@ -693,7 +640,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       </CardBody>
     </Card>
   );
-
   const renderSauceCard = (sauce: SauceRecommendation) => (
     <Card
       key={sauce.sauce_name}
@@ -713,11 +659,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               {(sauce.compatibility_score * 100).toFixed(0)}%
             </Badge>
           </Flex>
-
           <Text fontSize="sm" color="gray.700" fontWeight="medium">
             {sauce.description}
           </Text>
-
           {sauce.key_ingredients && sauce.key_ingredients.length > 0 && (
             <Box width="100%">
               <Text fontSize="xs" fontWeight="bold" color="gray.600" mb={2}>
@@ -734,7 +678,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               </Wrap>
             </Box>
           )}
-
           {sauce.elemental_properties && (
             <Box width="100%">
               <Text fontSize="xs" fontWeight="bold" color="gray.600" mb={2}>
@@ -755,7 +698,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               </Wrap>
             </Box>
           )}
-
           <Text
             fontSize="sm"
             fontStyle="italic"
@@ -770,7 +712,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       </CardBody>
     </Card>
   );
-
   if (loading) {
     return (
       <Box textAlign="center" py={12}>
@@ -785,7 +726,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       </Box>
     );
   }
-
   if (error) {
     return (
       <AlertRoot status="error" maxW="600px" mx="auto" mt={8}>
@@ -810,9 +750,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       </AlertRoot>
     );
   }
-
   if (!data) return null;
-
   return (
     <Box maxW="1400px" mx="auto" p={6}>
       <VStack {...({ spacing: 8, align: "stretch" } as any)}>
@@ -824,7 +762,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
           <Text fontSize="lg" color="gray.600" mb={4}>
             Personalized cuisine recommendations aligned with the cosmos
           </Text>
-
           {/* Current Moment Display */}
           <Card bg={cardBg} shadow="md" maxW="800px" mx="auto">
             <CardBody>
@@ -853,7 +790,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     Element
                   </Text>
                 </VStack>
-
                 <VStack>
                   <Icon
                     as={
@@ -874,7 +810,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     Seasonal Energy Flow
                   </Text>
                 </VStack>
-
                 <VStack>
                   <Icon as={FaClock} boxSize={8} color="blue.500" />
                   <Text fontSize="sm" color="gray.600">
@@ -893,7 +828,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             </CardBody>
           </Card>
         </Box>
-
         {/* Cuisine Recommendations */}
         <Box>
           <VStack {...({ spacing: 2, mb: 6 } as any)}>
@@ -905,20 +839,17 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               by compatibility
             </Text>
           </VStack>
-
           {/* Tier-based display of all cuisines */}
           {(() => {
             // Ensure data.cuisine_recommendations is an array before processing
             const validCuisines = Array.isArray(data?.cuisine_recommendations)
               ? data.cuisine_recommendations.filter(Boolean) // Filter out any null/undefined items
               : [];
-
             const { topMatches, goodMatches, otherOptions } =
               categorizeCuisines(validCuisines);
             const topTier = getTierInfo("top");
             const goodTier = getTierInfo("good");
             const otherTier = getTierInfo("other");
-
             return (
               <VStack {...({ spacing: 8 } as any)}>
                 {/* Top Matches Tier */}
@@ -982,7 +913,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                   {cuisine.compatibility_reason}
                                 </Text>
                               </Box>
-
                               <VStack
                                 {...({
                                   align: "end",
@@ -1014,7 +944,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                               </VStack>
                             </Flex>
                           </CardHeader>
-
                           <CardBody>
                             <VStack
                               {...({ spacing: 6, align: "stretch" } as any)}
@@ -1057,7 +986,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     </SimpleGrid>
                                   </AccordionItemContent>
                                 </AccordionItem>
-
                                 {/* Recommended Sauces */}
                                 <AccordionItem value="sauces">
                                   <AccordionItemTrigger>
@@ -1089,7 +1017,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     </SimpleGrid>
                                   </AccordionItemContent>
                                 </AccordionItem>
-
                                 {/* Thermodynamic Metrics - NEW */}
                                 {cuisine.thermodynamic_metrics && (
                                   <AccordionItem value="thermodynamics">
@@ -1190,7 +1117,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             color="gray.600"
                                             mb={1}
                                           >
-                                            Greg's Energy
+                                            Greg&apos;s Energy
                                           </Text>
                                           <Text
                                             fontSize="lg"
@@ -1250,7 +1177,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     </AccordionItemContent>
                                   </AccordionItem>
                                 )}
-
                                 {/* Kinetic Properties - NEW */}
                                 {cuisine.kinetic_properties && (
                                   <AccordionItem value="kinetics">
@@ -1445,7 +1371,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     </AccordionItemContent>
                                   </AccordionItem>
                                 )}
-
                                 {/* Flavor Profile - NEW */}
                                 {cuisine.flavor_profile && (
                                   <AccordionItem value="flavor">
@@ -1515,7 +1440,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     </AccordionItemContent>
                                   </AccordionItem>
                                 )}
-
                                 {/* Cultural Signatures - NEW */}
                                 {cuisine.cultural_signatures &&
                                   cuisine.cultural_signatures.length > 0 && (
@@ -1603,7 +1527,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                       </AccordionItemContent>
                                     </AccordionItem>
                                   )}
-
                                 {/* Fusion Pairings - NEW */}
                                 {cuisine.fusion_pairings &&
                                   cuisine.fusion_pairings.length > 0 && (
@@ -1736,7 +1659,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                       </AccordionItemContent>
                                     </AccordionItem>
                                   )}
-
                                 {/* Elemental Properties - De-emphasized, collapsible */}
                                 <AccordionItem value="elemental">
                                   <AccordionItemTrigger>
@@ -1772,7 +1694,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                               </AccordionRoot>
                             </VStack>
                           </CardBody>
-
                           <CardFooter>
                             <Button colorScheme="purple" size="sm">
                               Explore {cuisine.name} Recipes →
@@ -1783,7 +1704,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     </VStack>
                   </Box>
                 )}
-
                 {/* Good Matches Tier */}
                 {goodMatches.length > 0 && (
                   <Box width="100%">
@@ -1843,7 +1763,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                   cuisine.flavor_profile,
                                 )}
                               </Box>
-
                               {/* Right side - Quick stats */}
                               <VStack
                                 {...({
@@ -1891,7 +1810,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                 </HStack>
                               </VStack>
                             </Flex>
-
                             {/* Expandable details */}
                             <AccordionRoot collapsible mt={4}>
                               <AccordionItem value="details">
@@ -1923,7 +1841,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     <Text fontSize="sm" color="gray.500">
                                       {cuisine.seasonal_context}
                                     </Text>
-
                                     {/* Nested accordions for all details */}
                                     <AccordionRoot collapsible multiple>
                                       {/* Recipes */}
@@ -1962,7 +1879,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                           </SimpleGrid>
                                         </AccordionItemContent>
                                       </AccordionItem>
-
                                       {/* Sauces */}
                                       <AccordionItem value="sauces">
                                         <AccordionItemTrigger>
@@ -2003,7 +1919,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                           </SimpleGrid>
                                         </AccordionItemContent>
                                       </AccordionItem>
-
                                       {/* Flavor Profile - Full Detail */}
                                       {cuisine.flavor_profile && (
                                         <AccordionItem value="flavor-detail">
@@ -2090,7 +2005,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     </VStack>
                   </Box>
                 )}
-
                 {/* Other Options Tier */}
                 {otherOptions.length > 0 && (
                   <Box width="100%">
@@ -2206,7 +2120,6 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             );
           })()}
         </Box>
-
         {/* Refresh Button */}
         <Box textAlign="center">
           <Button
@@ -2225,5 +2138,4 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     </Box>
   );
 };
-
 export default CurrentMomentCuisineRecommendations;

@@ -23,11 +23,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 200, unit: "g" }, // Standard serving: 7oz steak
     scaledElemental: { Fire: 0.67, Water: 0.11, Earth: 0.22, Air: 0.0 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.335,
-      Essence: 0.055,
-      Matter: 0.11,
-      Substance: 0.22,
-    }, // Derived from scaled elemental
+      Spirit: 0.15,
+      Essence: 0.40,
+      Matter: 0.85,
+      Substance: 0.80,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.25, forceMagnitude: 1.18 }, // Strong warming, high force
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -77,80 +77,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       ],
     },
   },
-  chicken: {
-    name: "Chicken",
-    description:
-      "White meat from poultry, available in various cuts with different properties.",
-    category: "proteins",
-    qualities: ["light", "lean", "versatile"],
-    sustainabilityScore: 1,
-    season: ["all"],
-
-    // Base elemental properties (unscaled)
-    elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.2, Air: 0.0 },
-    astrologicalProfile: {
-      rulingPlanets: ["Mercury", "Mars"],
-      favorableZodiac: ["Gemini", "Aries", "Virgo"],
-      seasonalAffinity: ["all"],
-    },
-
-    // Phase 2: Quantity scaling metadata
-    quantityBase: { amount: 150, unit: "g" }, // Standard serving: 5oz breast
-    scaledElemental: { Fire: 0.29, Water: 0.51, Earth: 0.2, Air: 0.0 }, // Scaled for harmony
-    alchemicalProperties: {
-      Spirit: 0.145,
-      Essence: 0.355,
-      Matter: 0.255,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
-    kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.98 }, // Mild warming, balanced force
-    nutritionalProfile: {
-      serving_size: "3 oz (85g)",
-      calories: 140,
-      macros: {
-        protein: 26,
-        carbs: 0,
-        fat: 3,
-        fiber: 0,
-        saturatedFat: 0.9,
-        sugar: 0,
-        potassium: 220,
-        sodium: 63,
-      },
-      vitamins: {
-        B6: 0.46,
-        niacin: 0.59,
-        B12: 0.13,
-        riboflavin: 0.06,
-        pantothenic_acid: 0.13,
-      },
-      minerals: {
-        selenium: 0.37,
-        phosphorus: 0.17,
-        zinc: 0.06,
-        iron: 0.04,
-        magnesium: 0.06,
-      },
-    },
-    sensoryProfile: {
-      taste: ["Mild", "Balanced", "Natural"],
-      aroma: ["Fresh", "Clean", "Subtle"],
-      texture: ["Pleasant", "Smooth", "Appealing"],
-      notes: "Characteristic chicken profile",
-    },
-    culinaryProfile: {
-      flavorProfile: {
-        primary: ["mild", "savory"],
-        notes: "Versatile for many cuisines.",
-      },
-      cookingMethods: ["roasting", "grilling", "frying", "poaching"],
-      cuisineAffinity: ["global"],
-      preparationTips: [
-        "Cook to internal temperature of 165°F.",
-        "Brining enhances moisture.",
-      ],
-    },
-  },
+  // chicken removed — canonical definition is in poultry.ts
   pork: {
     name: "Pork",
     description: "Meat from pigs, known for its rich flavor and versatility.",
@@ -171,11 +98,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 180, unit: "g" }, // Standard serving: 6oz chop
     scaledElemental: { Fire: 0.39, Water: 0.41, Earth: 0.2, Air: 0.0 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.195,
-      Essence: 0.305,
-      Matter: 0.205,
-      Substance: 0.1,
-    }, // Derived from scaled elemental
+      Spirit: 0.20,
+      Essence: 0.50,
+      Matter: 0.75,
+      Substance: 0.70,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.18, forceMagnitude: 1.08 }, // Moderate warming, moderate force
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -235,11 +162,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 160, unit: "g" }, // Standard serving: 5.5oz chop
     scaledElemental: { Fire: 0.58, Earth: 0.31, Air: 0.11, Water: 0.0 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.345,
-      Essence: 0.0,
-      Matter: 0.155,
-      Substance: 0.31,
-    }, // Derived from scaled elemental
+      Spirit: 0.35,
+      Essence: 0.45,
+      Matter: 0.80,
+      Substance: 0.75,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.22, forceMagnitude: 1.15 }, // Strong warming, high force
     nutritionalProfile: {
       serving_size: "3 oz (85g)",

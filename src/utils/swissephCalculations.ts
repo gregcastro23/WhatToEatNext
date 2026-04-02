@@ -50,6 +50,7 @@ export function initializeSwissEphemeris(ephePath: string | null = null): void {
     logger.error("Failed to initialize Swiss Ephemeris:", error);
     throw new Error(
       "Swiss Ephemeris library not available. Run 'yarn install' to install swisseph-v2.",
+      { cause: error },
     );
   }
 }

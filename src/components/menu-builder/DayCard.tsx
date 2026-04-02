@@ -128,7 +128,7 @@ function DailyNutritionRings({ meals }: { meals: MealSlotType[] }) {
 /**
  * Planet symbols mapping
  */
-const PLANET_SYMBOLS: Record<string, string> = {
+const _PLANET_SYMBOLS: Record<string, string> = {
   Sun: "☉",
   Moon: "☽",
   Mars: "♂",
@@ -142,9 +142,9 @@ export default function DayCard({
   dayOfWeek,
   date,
   meals,
-  onGenerateMeal,
+  onGenerateMeal: _onGenerateMeal,
   dragState,
-  isValidDrop,
+  isValidDrop: _isValidDrop,
   renderMealSlot,
 }: DayCardProps) {
   const characteristics = getPlanetaryDayCharacteristics(dayOfWeek);

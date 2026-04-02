@@ -1,20 +1,14 @@
 import { _logger } from "@/lib/logger";
-import type { ElementalProperties, CookingMethod } from "@/types/alchemy";
+import type { ElementalProperties } from "@/types/alchemy";
 import {
-  calculatePlanetaryPositions,
-  calculateSunSign,
-  calculateLunarPhase,
+    calculateLunarPhase, calculatePlanetaryPositions,
+    calculateSunSign
 } from "../utils/astrologyUtils";
 import {
-  elementalUtils,
-  // _getCurrentElementalState,
-} from "../utils/elementalUtils";
+    AstrologicalService
+} from "./AstrologicalService";
 
 const _getCurrentElementalState: any = null; // Commented out non-existent export
-import {
-  AstrologicalService,
-  getLatestAstrologicalState,
-} from "./AstrologicalService";
 
 interface CelestialPosition {
   sunSign: string;
@@ -210,12 +204,13 @@ const getFallbackPositions = async (
     _logger.error("Error getting fallback positions: ", error);
     throw new Error(
       `Cannot get celestial positions for date ${date.toISOString()}: ${error instanceof Error ? error.message : "Unknown error"}`,
+      { cause: error },
     );
   }
 };
 
 // Helper function to calculate sun sign from date
-function getSunSignFromDate(date: Date): string {
+function _getSunSignFromDate(date: Date): string {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 

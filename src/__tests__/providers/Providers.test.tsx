@@ -6,6 +6,7 @@ import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 
 describe("AlchemicalProvider", () => {
   it("renders children without crashing", () => {
@@ -21,7 +22,6 @@ describe("AlchemicalProvider", () => {
 
   it("provides default state values to children", () => {
     function TestConsumer() {
-      const { useAlchemical } = require("@/contexts/AlchemicalContext/hooks");
       const ctx = useAlchemical();
       return (
         <div>
@@ -79,6 +79,9 @@ describe("ErrorBoundary", () => {
   });
 
   it("displays error details when expanded", () => {
+    const originalEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "development";
+
     function ThrowingComponent(): React.ReactElement {
       throw new Error("Detailed crash info");
     }
@@ -89,8 +92,10 @@ describe("ErrorBoundary", () => {
       </ErrorBoundary>
     );
 
-    expect(screen.getByText("Error Details")).toBeInTheDocument();
+    expect(screen.getByText("Developer Details")).toBeInTheDocument();
     expect(screen.getByText(/Detailed crash info/)).toBeInTheDocument();
+
+    process.env.NODE_ENV = originalEnv;
   });
 
   it("recovers when Try Again is clicked", () => {

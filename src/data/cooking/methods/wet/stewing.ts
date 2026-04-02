@@ -1,4 +1,4 @@
-import type { ZodiacSignType, ThermodynamicProperties } from "@/types/alchemy";
+import type { ThermodynamicProperties } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -10,6 +10,8 @@ export const stewing: CookingMethodData = {
   name: "stewing",
   description:
     "A slow cooking method where ingredients are submerged in liquid and cooked at a low temperature for extended periods, allowing flavors to meld while gently tenderizing foods. Similar to braising but typically uses smaller, uniform ingredient cuts and more liquid.",
+  shortDescription: "Submerges ingredients in sustained heat to meld flavors into a unified whole.",
+  culinaryArchetype: "The Unifier",
   elementalEffect: {
     Water: 0.6,
     Fire: 0.2,

@@ -751,7 +751,7 @@ export function getTechnicalTips(methodName: string): string[] {
             `Adjust timing based on ingredient size and density when ${methodName}`,
           );
         }
-      } catch (error) {
+      } catch (_error) {
         // Fallback if import fails
         tips.push(`Maintain appropriate temperature control for ${methodName}`);
         tips.push(`Properly prepare ingredients before ${methodName}`);
@@ -826,7 +826,7 @@ export function getMethodDetails(methodName: string): string {
         } else {
           return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`;
         }
-      } catch (error) {
+      } catch (_error) {
         return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`;
       }
   }
@@ -1198,7 +1198,7 @@ export function getIdealIngredients(methodName: string): string[] {
           ingredients.push("Local, seasonal produce");
           ingredients.push("Proteins suited to this cooking technique");
         }
-      } catch (error) {
+      } catch (_error) {
         // Generic fallback if import fails
         ingredients.push("Ingredients traditionally used with this method");
         ingredients.push("Foods that benefit from this method's properties");

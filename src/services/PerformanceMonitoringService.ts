@@ -219,7 +219,7 @@ class PerformanceMonitoringService {
     }
   }
 
-  public trackComponentError(componentName: string, error: Error | string) {
+  public trackComponentError(componentName: string, _error: Error | string) {
     const existing = this.componentMetrics.get(componentName);
     if (existing) {
       this.componentMetrics.set(componentName, {

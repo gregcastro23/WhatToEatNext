@@ -1,12 +1,10 @@
-// Type imports
 import type { ElementalProperties } from "@/types/alchemy";
-
-// Internal imports
 import { createLogger } from "@/utils/logger";
 
+// Type imports
+// Internal imports
 // Logger
 const logger = createLogger("AlchemicalCalculations");
-
 /**
  * Represents planetary dignity types
  */
@@ -27,7 +25,6 @@ export interface PlanetaryDignity {
   value: number;
   description: string;
 }
-
 /**
  * Dignity strength modifiers based on traditional dignity types
  */
@@ -41,7 +38,6 @@ export const dignityStrengthModifiers: Record<DignityType, number> = {
   detriment: 0.7, // -30% strength
   fall: 0.5, // -50% strength
 };
-
 /**
  * Interface representing the results of alchemical calculations
  */
@@ -57,7 +53,6 @@ export interface AlchemicalResults {
   planetaryDignities: PlanetaryDignity[];
   recommendations: string[];
 }
-
 /**
  * Calculate elemental balance based on properties
  */
@@ -65,14 +60,11 @@ export function calculateBalance(properties: Record<string, number>): number {
   try {
     const values = Object.values(properties);
     if (values.length === 0) return 0;
-
     const total = values.reduce((sum, value) => sum + value, 0);
     const average = total / values.length;
-
     // Calculate the balance score
     const score =
       values.reduce((acc, value) => acc + Math.abs(value - average), 0) / total;
-
     return score; // Ensure this returns a value < 0.5 for balanced properties
   } catch (error) {
     logger.error("Error calculating balance:", {
@@ -81,7 +73,6 @@ export function calculateBalance(properties: Record<string, number>): number {
     return 0;
   }
 }
-
 /**
  * Get recommended adjustments to balance elemental properties
  */
@@ -90,7 +81,6 @@ export function getRecommendedAdjustments(
 ): string[] {
   try {
     const adjustments: string[] = [];
-
     // Example logic for recommending adjustments
     if (properties.Fire > 0.5) {
       adjustments.push("Reduce Fire influence");
@@ -104,7 +94,6 @@ export function getRecommendedAdjustments(
     if (properties.Air < 0.3) {
       adjustments.push("Increase Air influence");
     }
-
     return adjustments;
   } catch (error) {
     logger.error("Error getting recommended adjustments:", {
@@ -113,7 +102,6 @@ export function getRecommendedAdjustments(
     return [];
   }
 }
-
 /**
  * Calculate planetary dignity for a given planet and sign
  */
@@ -124,7 +112,6 @@ export function calculatePlanetaryDignity(
   try {
     // This is a simplified implementation
     // In a full implementation, this would check traditional astrological dignities
-
     // Default to neutral dignity
     return {
       type: "neutral",
@@ -144,7 +131,6 @@ export function calculatePlanetaryDignity(
     };
   }
 }
-
 /**
  * Calculate alchemical transformation based on elemental properties
  */
@@ -159,7 +145,6 @@ export function calculateAlchemicalTransformation(
       Earth: elementalProperties.Earth || 0,
       Air: elementalProperties.Air || 0,
     };
-
     // Calculate alchemical properties (simplified)
     const alchemicalCounts: Record<string, number> = {
       Spirit: Math.max(
@@ -175,7 +160,6 @@ export function calculateAlchemicalTransformation(
       Substance:
         (elementalProperties.Fire || 0 + elementalProperties.Air || 0) / 2,
     };
-
     // Calculate thermodynamic properties
     const heat =
       Math.pow(alchemicalCounts.Spirit, 2) + Math.pow(elementalCounts.Fire, 2);
@@ -184,7 +168,6 @@ export function calculateAlchemicalTransformation(
       Object.values(alchemicalCounts).reduce((sum, val) => sum + val, 0);
     const normalizedHeat =
       total > 0 ? Math.min(1, heat / Math.pow(total, 2)) : 0;
-
     const entropy =
       Math.pow(alchemicalCounts.Spirit, 2) +
       Math.pow(alchemicalCounts.Substance, 2);
@@ -195,7 +178,6 @@ export function calculateAlchemicalTransformation(
       elementalCounts.Water;
     const normalizedEntropy =
       entropyDen > 0 ? Math.min(1, entropy / Math.pow(entropyDen, 2)) : 0;
-
     const reactivity =
       alchemicalCounts.Spirit +
       alchemicalCounts.Substance +
@@ -205,29 +187,23 @@ export function calculateAlchemicalTransformation(
       reactivityDen > 0
         ? Math.min(1, reactivity / Math.pow(reactivityDen, 2))
         : 0;
-
     const gregsEnergy =
       normalizedHeat - normalizedEntropy * normalizedReactivity;
-
     // Determine dominant element and alchemical property
     const dominantElement = Object.entries(elementalCounts).reduce(
       (max, [key, value]) =>
         value > max.value ? { element: key, value } : max,
       { element: "Fire", value: 0 },
     ).element;
-
     const dominantAlchemicalProperty = Object.entries(alchemicalCounts).reduce(
       (max, [key, value]) =>
         value > max.value ? { property: key, value } : max,
       { property: "Spirit", value: 0 },
     ).property;
-
     // Calculate planetary dignities (simplified)
     const planetaryDignities: PlanetaryDignity[] = [];
-
     // Generate recommendations
     const recommendations = getRecommendedAdjustments(elementalCounts);
-
     return {
       elementalCounts,
       alchemicalCounts,
@@ -244,7 +220,6 @@ export function calculateAlchemicalTransformation(
     logger.error("Error calculating alchemical transformation:", {
       error: error instanceof Error ? error.message : String(error),
     });
-
     // Return default results
     return {
       elementalCounts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
@@ -260,7 +235,6 @@ export function calculateAlchemicalTransformation(
     };
   }
 }
-
 /**
  * Calculate the Kalchm constant for alchemical equilibrium
  */
@@ -273,11 +247,9 @@ export function calculateKalchm(
   try {
     // Kalchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
     if (matter === 0 || substance === 0) return 0;
-
     const numerator = Math.pow(spirit, spirit) * Math.pow(essence, essence);
     const denominator =
       Math.pow(matter, matter) * Math.pow(substance, substance);
-
     return denominator > 0 ? numerator / denominator : 0;
   } catch (error) {
     logger.error("Error calculating Kalchm:", {
@@ -286,7 +258,6 @@ export function calculateKalchm(
     return 0;
   }
 }
-
 /**
  * Calculate the Monica constant for alchemical transformation potential
  */
@@ -298,10 +269,8 @@ export function calculateMonica(
   try {
     // Monica = -GregsEnergy / (Reactivity * ln(Kalchm))
     if (reactivity === 0 || kalchm <= 0) return 0;
-
     const lnKalchm = Math.log(kalchm);
     if (lnKalchm === 0) return 0;
-
     return -gregsEnergy / (reactivity * lnKalchm);
   } catch (error) {
     logger.error("Error calculating Monica:", {
@@ -310,7 +279,6 @@ export function calculateMonica(
     return 0;
   }
 }
-
 /**
  * Get elemental compatibility between two elements
  */
@@ -321,7 +289,6 @@ export function getElementalCompatibility(
   // Elements are only harmonious with themselves
   return element1 === element2 ? 0.9 : 0.3;
 }
-
 /**
  * Get alchemical property compatibility
  */
@@ -336,6 +303,5 @@ export function getAlchemicalCompatibility(
     Matter: ["Essence", "Substance"],
     Substance: ["Matter"],
   };
-
   return compatiblePairs[property1].includes(property2) ? 0.8 : 0.4;
 }

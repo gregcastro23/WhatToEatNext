@@ -1,6 +1,6 @@
 
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
-import type { NatalChart, Planet } from '@/types/natalChart';
+import type { NatalChart} from '@/types/natalChart';
 import type { AstrologicalState } from '@/utils/menuPlanner/recommendationBridge';
 
 // Simple representation of planetary aspects

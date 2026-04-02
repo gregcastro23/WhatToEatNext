@@ -4,7 +4,8 @@
  * without needing to make HTTP calls to the astrologize API.
  */
 
-import * as Astronomy from "astronomy-engine";
+import * as AstronomyModule from "astronomy-engine";
+const Astronomy = (AstronomyModule as any).default || AstronomyModule;
 import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
@@ -198,10 +199,9 @@ function calculatePositionsWithAstronomyEngine(
           // Check retrograde by comparing geocentric longitude 2 days ago vs today
           const prevDate = new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000);
           const prevAstroTime = new Astronomy.AstroTime(prevDate);
-          let prevLongitude: number;
           const prevGeoVec = Astronomy.GeoVector(planet.body, prevAstroTime, true);
           const prevEcliptic = Astronomy.Ecliptic(prevGeoVec);
-          prevLongitude = prevEcliptic.elon;
+          const prevLongitude = prevEcliptic.elon;
 
           // Adjust for crossing 0/360 boundary
           let diff = longitude - prevLongitude;
@@ -322,15 +322,16 @@ export function calculateAscendantPosition(
   const astroTime = new Astronomy.AstroTime(date);
 
   // Greenwich Apparent Sidereal Time in hours [0, 24) — precise via astronomy-engine
-  const gast_hours = Astronomy.SiderealTime(astroTime);
+  const gastHours = Astronomy.SiderealTime(astroTime);
 
   // Local Sidereal Time in degrees [0, 360)
-  const lst_deg = ((gast_hours * 15 + longitude) % 360 + 360) % 360;
-  const lstRad = lst_deg * Math.PI / 180;
+  const lstDeg = ((gastHours * 15 + longitude) % 360 + 360) % 360;
+  const lstRad = lstDeg * Math.PI / 180;
 
   // Obliquity of the ecliptic (degrees → radians)
-  // astroTime.eps is set by astronomy-engine for the given epoch
-  const oblRad = astroTime.eps * Math.PI / 180;
+  // mean obliquity of ecliptic for J2000
+  const OBLIQUITY_J2000 = 23.4392911;
+  const oblRad = OBLIQUITY_J2000 * Math.PI / 180;
   const latRad = latitude * Math.PI / 180;
 
   // Ascendant ecliptic longitude — standard formula

@@ -3,8 +3,6 @@
  * This approach avoids the 'Critical dependency' error with better typing
  */
 
-import { _logger } from "@/lib/logger";
-
 /**
  * A utility function for logging debug information
  * This is a safe replacement for _logger.info that can be disabled in production
@@ -78,7 +76,8 @@ interface CuisineCalculationsModule {
   ) => unknown[];
 }
 
-interface SunTimesModule {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+interface _SunTimesModule {
   _calculateSunTimes: (
     date: Date,
     latitude: number,

@@ -71,10 +71,10 @@ CHANGELOG.md
 LICENSE
 *.md
 
-# Project-specific files to exclude
-scripts/
-docs/
-tests/
+# Project-specific files to exclude (root level only, preserve backend subdirs)
+/scripts
+/docs
+/tests
 patches/
 lint_output.txt
 current-*.log

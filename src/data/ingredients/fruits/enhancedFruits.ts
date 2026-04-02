@@ -25,6 +25,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
         carbs: 5.4,
         fat: 0.2,
         fiber: 1.6,
+        sugar: 1.5,
+        sodium: 1,
       },
       vitamins: {
         C: 0.51, // 51% RDA
@@ -170,6 +172,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
         carbs: 25.0,
         fat: 0.3,
         fiber: 4.4,
+        sugar: 19,
+        sodium: 2,
       },
       vitamins: {
         C: 0.14, // 14% RDA
@@ -312,6 +316,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
         carbs: 27.0,
         fat: 0.4,
         fiber: 3.1,
+        sugar: 14,
+        sodium: 1,
       },
       vitamins: {
         B6: 0.33, // 33% RDA - excellent source!
@@ -458,6 +464,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
         carbs: 11.7,
         fat: 0.5,
         fiber: 3.0,
+        sugar: 7.4,
+        sodium: 2,
       },
       vitamins: {
         C: 1.49, // 149% RDA - extremely high!
@@ -605,6 +613,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
         carbs: 6.0,
         fat: 10.5, // Mostly monounsaturated
         fiber: 4.6,
+        sugar: 0.5,
+        sodium: 5,
       },
       vitamins: {
         K: 0.18,
@@ -756,6 +766,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
         carbs: 21.5,
         fat: 0.5,
         fiber: 3.6,
+        sugar: 15,
+        sodium: 1,
       },
       vitamins: {
         K: 0.36,
@@ -900,6 +912,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
         carbs: 15.4,
         fat: 0.2,
         fiber: 3.1,
+        sugar: 12,
+        sodium: 0,
       },
       vitamins: {
         C: 0.93, // 93% RDA - excellent source!

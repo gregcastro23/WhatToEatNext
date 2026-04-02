@@ -1,10 +1,12 @@
 /**
  * Email Service
- * Handles sending emails using nodemailer
+ * Primary: Resend API (via RESEND_API_KEY)
+ * Fallback: Nodemailer SMTP (via SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS)
  */
 
-import nodemailer from "nodemailer";
-import type { Transporter } from "nodemailer";
+// Remove top-level nodemailer import to support Edge runtime
+// import nodemailer from "nodemailer";
+// import type { Transporter } from "nodemailer";
 
 interface EmailOptions {
   to: string;
@@ -13,99 +15,142 @@ interface EmailOptions {
   text?: string;
 }
 
-interface EmailConfig {
-  host: string;
-  port: number;
-  secure: boolean;
-  auth: {
-    user: string;
-    pass: string;
-  };
-  from: {
-    name: string;
-    address: string;
-  };
-}
-
 class EmailService {
-  private transporter: Transporter | null = null;
-  private config: EmailConfig | null = null;
+  private resendApiKey: string | null = null;
+  private smtpTransporter: any | null = null; // Use any for Transporter to avoid type issues with dynamic import
+  private fromName: string = "alchm.kitchen";
+  private fromAddress: string = "noreply@alchm.kitchen";
 
   /**
-   * Initialize the email service with SMTP configuration
+   * Initialize the email service.
+   * Prefers Resend API key; falls back to SMTP/nodemailer.
    */
   initialize() {
-    // Get configuration from environment variables
-    const host = process.env.SMTP_HOST;
-    const port = process.env.SMTP_PORT;
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASS;
-    const fromName = process.env.EMAIL_FROM_NAME || "alchm.kitchen";
-    const fromAddress =
+    this.fromName = process.env.EMAIL_FROM_NAME || "alchm.kitchen";
+    this.fromAddress =
       process.env.EMAIL_FROM_ADDRESS || "noreply@alchm.kitchen";
 
-    // Check if email is configured
-    if (!host || !port || !user || !pass) {
-      console.warn(
-        "Email service not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS environment variables.",
+    // 1. Try Resend first
+    const resendKey = process.env.RESEND_API_KEY;
+    if (resendKey) {
+      this.resendApiKey = resendKey;
+      console.log(
+        `Email service initialized with Resend (from: ${this.fromAddress})`,
       );
       return;
     }
 
-    this.config = {
-      host,
-      port: parseInt(port, 10),
-      secure: parseInt(port, 10) === 465, // true for 465, false for other ports
-      auth: {
-        user,
-        pass,
-      },
-      from: {
-        name: fromName,
-        address: fromAddress,
-      },
-    };
+    // 2. Fall back to SMTP / nodemailer
+    const host = process.env.SMTP_HOST;
+    const port = process.env.SMTP_PORT;
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
 
-    // Create transporter
-    this.transporter = nodemailer.createTransport({
-      host: this.config.host,
-      port: this.config.port,
-      secure: this.config.secure,
-      auth: this.config.auth,
-    });
+    if (host && port && user && pass) {
+      const portNum = parseInt(port, 10);
+      
+      // Dynamic import nodemailer only when SMTP is needed
+      // Note: This will still fail at runtime on Edge, but won't crash the BUILD for Edge routes
+      void import("nodemailer").then((nodemailer) => {
+        this.smtpTransporter = nodemailer.createTransport({
+          host,
+          port: portNum,
+          secure: portNum === 465,
+          auth: { user, pass },
+        });
+        console.log(
+          `Email service initialized with SMTP (${host}:${port}, from: ${this.fromAddress})`,
+        );
+      }).catch((err) => {
+        console.error("Failed to load nodemailer for SMTP fallback:", err);
+      });
+      return;
+    }
 
-    console.log("Email service initialized successfully");
+    console.warn(
+      "Email service not configured. Set RESEND_API_KEY (preferred) or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.",
+    );
+  }
+
+  /**
+   * Re-check environment variables and initialize if not yet configured.
+   * Useful in serverless environments where env vars may not be available
+   * at initial module load time but are available when the function runs.
+   */
+  ensureInitialized() {
+    if (!this.isConfigured()) {
+      this.initialize();
+    }
   }
 
   /**
    * Check if email service is configured and ready
    */
   isConfigured(): boolean {
-    return this.transporter !== null;
+    return this.resendApiKey !== null || this.smtpTransporter !== null;
   }
 
   /**
-   * Send an email
+   * Send an email via the configured provider
    */
   async sendEmail(options: EmailOptions): Promise<boolean> {
-    if (!this.transporter || !this.config) {
-      console.error("Email service not configured. Cannot send email.");
+    if (this.resendApiKey) {
+      return this.sendViaResend(options);
+    }
+    if (this.smtpTransporter) {
+      return this.sendViaSMTP(options);
+    }
+    console.error("Email service not configured. Cannot send email.");
+    return false;
+  }
+
+  /** Send via Resend REST API (no SDK needed) */
+  private async sendViaResend(options: EmailOptions): Promise<boolean> {
+    try {
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: `${this.fromName} <${this.fromAddress}>`,
+          to: [options.to],
+          subject: options.subject,
+          html: options.html,
+          text: options.text,
+        }),
+      });
+
+      if (!response.ok) {
+        const body = await response.text();
+        console.error(`Resend API error (${response.status}): ${body}`);
+        return false;
+      }
+
+      const result = await response.json();
+      console.log("Email sent via Resend:", result.id);
+      return true;
+    } catch (error) {
+      console.error("Error sending email via Resend:", error);
       return false;
     }
+  }
 
+  /** Send via nodemailer SMTP */
+  private async sendViaSMTP(options: EmailOptions): Promise<boolean> {
     try {
-      const info = await this.transporter.sendMail({
-        from: `"${this.config.from.name}" <${this.config.from.address}>`,
+      const info = await this.smtpTransporter!.sendMail({
+        from: `"${this.fromName}" <${this.fromAddress}>`,
         to: options.to,
         subject: options.subject,
         html: options.html,
         text: options.text,
       });
-
-      console.log("Email sent successfully:", info.messageId);
+      console.log("Email sent via SMTP:", info.messageId);
       return true;
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error sending email via SMTP:", error);
       return false;
     }
   }
@@ -170,6 +215,140 @@ class EmailService {
     }
 
     return allSucceeded;
+  }
+
+  /**
+   * Send login notification email to admin recipients.
+   * Sent on every sign-in (new and returning users) so the team
+   * has visibility into who is actively using the platform.
+   */
+  async sendLoginNotificationEmail(
+    userEmail: string,
+    userName: string,
+    isNewUser: boolean,
+  ): Promise<boolean> {
+    const notificationRecipients = [
+      "xalchm@gmail.com",
+      "cookingwithcastrollc@gmail.com",
+    ];
+    const label = isNewUser ? "New User Sign-In" : "User Login";
+    const subject = `${label}: ${userName} on alchm.kitchen`;
+
+    const html = this.getLoginNotificationTemplate(
+      userEmail,
+      userName,
+      isNewUser,
+    );
+    const text = this.getLoginNotificationText(
+      userEmail,
+      userName,
+      isNewUser,
+    );
+
+    const results = await Promise.allSettled(
+      notificationRecipients.map((recipient) =>
+        this.sendEmail({ to: recipient, subject, html, text }),
+      ),
+    );
+
+    const allSucceeded = results.every(
+      (r) => r.status === "fulfilled" && r.value === true,
+    );
+    if (!allSucceeded) {
+      const failed = results
+        .map((r, i) => (r.status === "rejected" || (r.status === "fulfilled" && !r.value)) ? notificationRecipients[i] : null)
+        .filter(Boolean);
+      console.warn(`Login notification failed for: ${failed.join(", ")}`);
+    }
+
+    return allSucceeded;
+  }
+
+  /**
+   * Get HTML template for login notification email
+   */
+  private getLoginNotificationTemplate(
+    userEmail: string,
+    userName: string,
+    isNewUser: boolean,
+  ): string {
+    const label = isNewUser ? "New User Sign-In" : "Returning User Login";
+    const headerColor = isNewUser
+      ? "linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%)"
+      : "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)";
+    const statusBadge = isNewUser
+      ? '<span style="background: #8b5cf6; color: white; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 600;">NEW USER</span>'
+      : '<span style="background: #3b82f6; color: white; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 600;">RETURNING</span>';
+
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${label} - alchm.kitchen</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f9fafb;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+    <div style="background: ${headerColor}; border-radius: 16px 16px 0 0; padding: 32px 30px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 26px; font-weight: bold;">
+        ${label}
+      </h1>
+      <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 16px;">
+        alchm.kitchen Login Notification
+      </p>
+    </div>
+    <div style="background: white; padding: 32px 30px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+      <div style="margin: 0 0 20px 0;">
+        ${statusBadge}
+      </div>
+      <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 0 0 20px 0;">
+        <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
+          <strong>Name:</strong> ${userName}
+        </p>
+        <p style="color: #1f2937; font-size: 16px; margin: 0 0 10px 0;">
+          <strong>Email:</strong> <a href="mailto:${userEmail}" style="color: #7c3aed;">${userEmail}</a>
+        </p>
+        <p style="color: #1f2937; font-size: 16px; margin: 0;">
+          <strong>Login Time:</strong> ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
+        </p>
+      </div>
+      <p style="color: #6b7280; font-size: 14px; line-height: 1.6; margin: 0;">
+        This is an automated login notification from alchm.kitchen.
+      </p>
+    </div>
+    <div style="text-align: center; padding: 24px 20px 0 20px;">
+      <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+        &copy; ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+    `.trim();
+  }
+
+  /**
+   * Get plain text version of login notification email
+   */
+  private getLoginNotificationText(
+    userEmail: string,
+    userName: string,
+    isNewUser: boolean,
+  ): string {
+    const label = isNewUser ? "New User Sign-In" : "Returning User Login";
+    return `
+${label} - alchm.kitchen
+
+Name: ${userName}
+Email: ${userEmail}
+Status: ${isNewUser ? "NEW USER" : "RETURNING"}
+Login Time: ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
+
+This is an automated login notification from alchm.kitchen.
+
+© ${new Date().getFullYear()} alchm.kitchen. All rights reserved.
+    `.trim();
   }
 
   /**
@@ -387,12 +566,26 @@ class EmailService {
         <a href="mailto:cookingwithcastrollc@gmail.com" style="color: #7c3aed; font-weight: 600; text-decoration: none;">cookingwithcastrollc@gmail.com</a>
       </p>
 
-      <p style="color: #374151; font-size: 16px; line-height: 1.75; margin: 0;">
+      <p style="color: #374151; font-size: 16px; line-height: 1.75; margin: 0 0 28px 0;">
         With gratitude and good food,<br>
         <strong style="font-size: 17px;">Greg Castro</strong><br>
         <span style="color: #6b7280; font-size: 14px;">Chef &amp; Founder, alchm.kitchen<br>
-        Cooking With Castrol LLC</span>
+        Cooking With Castro LLC</span>
       </p>
+
+      <!-- Whitelist Signup -->
+      <div style="background: linear-gradient(135deg, #ede9fe 0%, #fef3c7 100%); border: 1px solid #c4b5fd; padding: 22px 24px; margin: 0; border-radius: 12px; text-align: center;">
+        <p style="color: #1f2937; font-size: 16px; font-weight: 700; margin: 0 0 8px 0;">
+          Join the alchm.kitchen Whitelist
+        </p>
+        <p style="color: #374151; font-size: 14px; line-height: 1.7; margin: 0 0 16px 0;">
+          Sign up for early access to new features, exclusive updates, and priority invites.
+        </p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSchAM6ARXl_TzZTmQUCBVHvfA4tlR8RNOcyaCbe6Lk86O3t8A/viewform?pli=1"
+           style="display: inline-block; background: linear-gradient(135deg, #7c3aed 0%, #d97706 100%); color: white; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-weight: 700; font-size: 15px;">
+          Sign Up for the Whitelist →
+        </a>
+      </div>
 
     </div>
 
@@ -402,7 +595,7 @@ class EmailService {
         You&apos;re receiving this email because you joined alchm.kitchen.
       </p>
       <p style="color: #9ca3af; font-size: 12px; margin: 8px 0 0 0;">
-        © ${new Date().getFullYear()} alchm.kitchen — Cooking With Castrol LLC. All rights reserved.
+        © ${new Date().getFullYear()} alchm.kitchen — Cooking With Castro LLC. All rights reserved.
       </p>
     </div>
 
@@ -476,11 +669,18 @@ Email: cookingwithcastrollc@gmail.com
 With gratitude and good food,
 Greg Castro
 Chef & Founder, alchm.kitchen
-Cooking With Castrol LLC
+Cooking With Castro LLC
+
+---
+
+JOIN THE ALCHM.KITCHEN WHITELIST
+
+Sign up for early access to new features, exclusive updates, and priority invites:
+https://docs.google.com/forms/d/e/1FAIpQLSchAM6ARXl_TzZTmQUCBVHvfA4tlR8RNOcyaCbe6Lk86O3t8A/viewform?pli=1
 
 ---
 You're receiving this email because you joined alchm.kitchen.
-© ${new Date().getFullYear()} alchm.kitchen — Cooking With Castrol LLC. All rights reserved.
+© ${new Date().getFullYear()} alchm.kitchen — Cooking With Castro LLC. All rights reserved.
     `.trim();
   }
 
@@ -608,29 +808,45 @@ This is an automated notification from alchm.kitchen.
   }
 
   /**
-   * Verify SMTP connection
+   * Verify email service connectivity
    */
   async verifyConnection(): Promise<boolean> {
-    if (!this.transporter) {
-      console.error("Email service not configured");
-      return false;
+    if (this.resendApiKey) {
+      try {
+        const res = await fetch("https://api.resend.com/domains", {
+          headers: { Authorization: `Bearer ${this.resendApiKey}` },
+        });
+        console.log(
+          res.ok
+            ? "Resend API connection verified"
+            : `Resend API verification failed (${res.status})`,
+        );
+        return res.ok;
+      } catch (error) {
+        console.error("Resend API verification failed:", error);
+        return false;
+      }
     }
 
-    try {
-      await this.transporter.verify();
-      console.log("SMTP connection verified successfully");
-      return true;
-    } catch (error) {
-      console.error("SMTP connection verification failed:", error);
-      return false;
+    if (this.smtpTransporter) {
+      try {
+        await this.smtpTransporter.verify();
+        console.log("SMTP connection verified successfully");
+        return true;
+      } catch (error) {
+        console.error("SMTP connection verification failed:", error);
+        return false;
+      }
     }
+
+    console.error("Email service not configured");
+    return false;
   }
 }
 
-// Create singleton instance
+// Create singleton instance — initialization is lazy.
+// ensureInitialized() is called in auth.ts and API routes before sending
+// any email, so env vars are available at that point (not at build time).
 const emailService = new EmailService();
-
-// Initialize email service if SMTP env vars are configured
-emailService.initialize();
 
 export default emailService;

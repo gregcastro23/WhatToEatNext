@@ -17,6 +17,12 @@ const rawLegumes = {
       Earth: 0.5,
       Air: 0.1,
     },
+    alchemicalProperties: {
+      Spirit: 0.10,
+      Essence: 0.35,
+      Matter: 0.80,
+      Substance: 0.75,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
       favorableZodiac: ["Virgo", "Gemini", "Taurus"],
@@ -53,6 +59,12 @@ const rawLegumes = {
       Water: 0.2,
       Earth: 0.5,
       Air: 0.1,
+    },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.40,
+      Matter: 0.75,
+      Substance: 0.70,
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
@@ -97,6 +109,12 @@ const rawLegumes = {
       Water: 0.3,
       Earth: 0.4,
       Air: 0.1,
+    },
+    alchemicalProperties: {
+      Spirit: 0.12,
+      Essence: 0.45,
+      Matter: 0.70,
+      Substance: 0.65,
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
@@ -355,6 +373,12 @@ const rawLegumes = {
       Water: 0.2,
       Earth: 0.4,
       Air: 0.2,
+    },
+    alchemicalProperties: {
+      Spirit: 0.30,
+      Essence: 0.50,
+      Matter: 0.65,
+      Substance: 0.70,
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],

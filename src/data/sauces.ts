@@ -1,4 +1,5 @@
 import type { ElementalProperties } from "@/types/alchemy";
+import type { AlchemicalProperties, ThermodynamicProperties } from "@/types/celestial";
 
 export interface Sauce {
   name: string;
@@ -8,6 +9,8 @@ export interface Sauce {
   culinaryUses: string[];
   variants?: string[];
   elementalProperties: ElementalProperties;
+  alchemicalProperties?: AlchemicalProperties;
+  thermodynamicProperties?: ThermodynamicProperties;
   astrologicalInfluences: string[];
   seasonality: string;
   preparationNotes?: string;
@@ -53,6 +56,8 @@ export const italianSauces: Record<string, Sauce> = {
       Water: 0.2,
       Air: 0.1,
     },
+    alchemicalProperties: { Spirit: 3.5, Essence: 4.2, Matter: 3.8, Substance: 3.5 },
+    thermodynamicProperties: { heat: 0.05, entropy: 0.25, reactivity: 2.1, gregsEnergy: -0.6 },
     astrologicalInfluences: ["Mars", "Sun", "leo"],
     seasonality: "all",
     preparationNotes:
@@ -114,6 +119,8 @@ export const italianSauces: Record<string, Sauce> = {
       Fire: 0.2,
       Water: 0.1,
     },
+    alchemicalProperties: { Spirit: 4.5, Essence: 5.0, Matter: 3.0, Substance: 3.2 },
+    thermodynamicProperties: { heat: 0.02, entropy: 0.35, reactivity: 2.8, gregsEnergy: -0.5 },
     astrologicalInfluences: ["Mercury", "Venus", "gemini"],
     seasonality: "summer",
     preparationNotes:
@@ -161,6 +168,8 @@ export const italianSauces: Record<string, Sauce> = {
       Fire: 0.2,
       Water: 0.1,
     },
+    alchemicalProperties: { Spirit: 3.2, Essence: 4.8, Matter: 5.5, Substance: 4.5 },
+    thermodynamicProperties: { heat: 0.06, entropy: 0.20, reactivity: 1.8, gregsEnergy: -0.7 },
     astrologicalInfluences: ["Jupiter", "Mars", "aries"],
     seasonality: "all",
     preparationNotes:
@@ -227,6 +236,8 @@ export const italianSauces: Record<string, Sauce> = {
       Water: 0.1,
       Air: 0.1,
     },
+    alchemicalProperties: { Spirit: 3.0, Essence: 4.5, Matter: 6.0, Substance: 5.0 },
+    thermodynamicProperties: { heat: 0.08, entropy: 0.15, reactivity: 1.5, gregsEnergy: -0.9 },
     astrologicalInfluences: ["Saturn", "Mars", "taurus"],
     seasonality: "autumn, winter",
     preparationNotes:
@@ -291,6 +302,8 @@ export const italianSauces: Record<string, Sauce> = {
       Air: 0.1,
       Fire: 0.1,
     },
+    alchemicalProperties: { Spirit: 2.5, Essence: 3.5, Matter: 4.5, Substance: 5.5 },
+    thermodynamicProperties: { heat: 0.04, entropy: 0.10, reactivity: 1.2, gregsEnergy: -0.4 },
     astrologicalInfluences: ["Moon", "Venus", "cancer"],
     seasonality: "all",
     preparationNotes:
@@ -350,6 +363,8 @@ export const italianSauces: Record<string, Sauce> = {
       Water: 0.1,
       Air: 0.0,
     },
+    alchemicalProperties: { Spirit: 4.8, Essence: 4.0, Matter: 3.5, Substance: 3.0 },
+    thermodynamicProperties: { heat: 0.12, entropy: 0.30, reactivity: 3.5, gregsEnergy: -0.8 },
     astrologicalInfluences: ["Mars", "Sun", "Aries"],
     seasonality: "all",
     preparationNotes:
@@ -403,6 +418,8 @@ export const mexicanSauces: Record<string, Sauce> = {
       Water: 0.1,
       Air: 0.1,
     },
+    alchemicalProperties: { Spirit: 4.5, Essence: 6.5, Matter: 5.0, Substance: 4.5 },
+    thermodynamicProperties: { heat: 0.09, entropy: 0.45, reactivity: 3.0, gregsEnergy: -1.2 },
     astrologicalInfluences: ["Mars", "Pluto", "Scorpio"],
     seasonality: "all",
     cuisine: "Mexican",
@@ -462,6 +479,8 @@ export const mexicanSauces: Record<string, Sauce> = {
       Earth: 0.1,
       Air: 0.1,
     },
+    alchemicalProperties: { Spirit: 4.0, Essence: 4.5, Matter: 2.5, Substance: 3.5 },
+    thermodynamicProperties: { heat: 0.10, entropy: 0.35, reactivity: 3.2, gregsEnergy: -0.6 },
     astrologicalInfluences: ["Mars", "Sun", "Aries"],
     seasonality: "all",
     cuisine: "Mexican",
@@ -507,29 +526,14 @@ export const mexicanSauces: Record<string, Sauce> = {
 export const asianSauces: Record<string, Sauce> = {
   thaiGreenCurry: {
     name: "Thai Green Curry Paste",
-    description:
-      "Aromatic and vibrant curry paste made with fresh green chilies, lemongrass, galangal and aromatic herbs. The foundation of Thai green curry dishes.",
+    description: "Aromatic and vibrant curry paste made with fresh green chilies, lemongrass, galangal and aromatic herbs. The foundation of Thai green curry dishes.",
     base: "herb-chili",
-    keyIngredients: [
-      "green chilies",
-      "lemongrass",
-      "galangal",
-      "kaffir lime",
-      "coriander root",
-    ],
-    culinaryUses: [
-      "curry base",
-      "marinade",
-      "stir-fry seasoning",
-      "soup flavoring",
-    ],
+    keyIngredients: ["green chilies", "lemongrass", "galangal", "kaffir lime", "coriander root"],
+    culinaryUses: ["curry base", "marinade", "stir-fry seasoning", "soup flavoring"],
     variants: ["Red Curry Paste", "Yellow Curry Paste", "Panang Curry Paste"],
-    elementalProperties: {
-      Fire: 0.5,
-      Water: 0.2,
-      Air: 0.2,
-      Earth: 0.1,
-    },
+    elementalProperties: { Fire: 0.5, Water: 0.2, Air: 0.2, Earth: 0.1 },
+    alchemicalProperties: { Spirit: 4.2, Essence: 5.1, Matter: 3.5, Substance: 3.2 },
+    thermodynamicProperties: { heat: 0.08, entropy: 0.35, reactivity: 3.2, gregsEnergy: -0.9 },
     astrologicalInfluences: ["Mars", "Mercury", "Leo"],
     seasonality: "all",
     cuisine: "Thai",
@@ -547,21 +551,362 @@ export const asianSauces: Record<string, Sauce> = {
       "1 tsp shrimp paste (omit for vegetarian version)",
       "1 tsp salt",
       "1 tbsp neutral oil to help blending",
-      "2 tbsp water or as needed",
+      "2 tbsp water or as needed"
     ],
     preparationSteps: [
       "If using whole spices, toast coriander seeds, cumin seeds, and white peppercorns in a dry skillet over medium heat until fragrant, about 1-2 minutes. Let cool, then grind in a spice grinder or mortar and pestle.",
       "Traditional method (mortar and pestle): Start with the hardest ingredients - lemongrass, galangal, and kaffir lime. Pound until broken down. Add garlic, shallots, and coriander roots, and continue pounding. Add chilies and pound until a rough paste forms. Add ground spices, shrimp paste, and salt, and continue pounding until homogeneous.",
-      "Food processor, method: Combine all ingredients except oil in a food processor. Pulse several times, then process continuously, scraping down the sides occasionally. Add oil slowly while machine is running to help form a smooth paste. Add water 1 teaspoon at a time if needed to help blending.",
-      "To, use: For a basic curry, fry 2-3 tablespoons of paste in coconut milk until fragrant before adding proteins and vegetables.",
+      "Food processor method: Combine all ingredients except oil in a food processor. Pulse several times, then process continuously, scraping down the sides occasionally. Add oil slowly while machine is running to help form a smooth paste. Add water 1 teaspoon at a time if needed to help blending.",
+      "To use: For a basic curry, fry 2-3 tablespoons of paste in coconut milk until fragrant before adding proteins and vegetables."
     ],
-    storageInstructions:
-      "Store in an airtight container in the refrigerator for up to 2 weeks or freeze in ice cube trays for up to 3 months. Freeze small portions for easy use. Add a thin layer of oil on top of refrigerated paste to preserve freshness.",
+    storageInstructions: "Store in an airtight container in the refrigerator for up to 2 weeks or freeze in ice cube trays for up to 3 months. Freeze small portions for easy use. Add a thin layer of oil on top of refrigerated paste to preserve freshness.",
     prepTime: "30 minutes",
     cookTime: "0 minutes",
     difficulty: "Medium",
     yield: "Makes about 1 cup of curry paste (enough for 3-4 curries)",
   },
+  thaiRedCurry: {
+    name: "Thai Red Curry Paste",
+    description: "Deep, robust, and moderately spicy paste anchored by dried red chilies, lemongrass, and galangal.",
+    base: "herb-chili",
+    keyIngredients: ["dried red chilies", "lemongrass", "galangal", "shrimp paste", "coriander root"],
+    culinaryUses: ["curry base", "marinade", "stir-fry seasoning", "soup flavoring"],
+    elementalProperties: { Fire: 0.6, Earth: 0.2, Water: 0.1, Air: 0.1 },
+    alchemicalProperties: { Spirit: 4.8, Essence: 4.2, Matter: 4.0, Substance: 3.5 },
+    thermodynamicProperties: { heat: 0.09, entropy: 0.32, reactivity: 3.0, gregsEnergy: -0.85 },
+    astrologicalInfluences: ["Mars", "Sun", "Aries"],
+    seasonality: "all",
+    cuisine: "Thai",
+    ingredients: [
+      "15 large dried red chilies (such as guajillo or puya), deseeded and soaked",
+      "2 stalks lemongrass, tough outer layers removed, sliced",
+      "1 inch (2.5cm) piece galangal, peeled and chopped",
+      "2 medium shallots, roughly chopped",
+      "4 cloves garlic, peeled",
+      "2 tbsp coriander roots and stems, chopped",
+      "4 kaffir lime leaves, deveined and chopped",
+      "1 tsp coriander seeds, toasted",
+      "1/2 tsp cumin seeds, toasted",
+      "1 tsp white peppercorns",
+      "1 tbsp shrimp paste",
+      "1 tsp salt"
+    ],
+    preparationSteps: [
+      "Soak the dried red chilies in hot water for 20 minutes until softened, then drain well.",
+      "Toast the coriander and cumin seeds until fragrant, then grind into a powder with the peppercorns.",
+      "Using a mortar and pestle, pound the softened chilies and salt into a coarse paste.",
+      "Add the lemongrass, galangal, and kaffir lime leaves, pounding until smooth.",
+      "Add the garlic, shallots, and coriander roots, continuing to pound.",
+      "Finally, incorporate the ground spices and shrimp paste, pounding until a uniform, deep red paste forms.",
+      "Alternatively, blend all ingredients in a food processor with a little water or oil until smooth."
+    ],
+    storageInstructions: "Store in an airtight container in the refrigerator for up to 2 weeks, or freeze in ice cube trays for up to 3 months.",
+    prepTime: "30 minutes",
+    cookTime: "0 minutes",
+    difficulty: "Medium",
+    yield: "Makes about 1 cup of curry paste"
+  },
+  thaiYellowCurry: {
+    name: "Thai Yellow Curry Paste",
+    description: "Mild, fragrant, and deeply savory curry paste characterized by fresh turmeric, dried spices, and a gentle heat.",
+    base: "herb-spice",
+    keyIngredients: ["turmeric", "curry powder", "lemongrass", "dried chilies", "shallots"],
+    culinaryUses: ["curry base", "marinade for chicken/seafood", "stew base"],
+    elementalProperties: { Earth: 0.5, Fire: 0.3, Air: 0.1, Water: 0.1 },
+    alchemicalProperties: { Spirit: 3.8, Essence: 4.5, Matter: 4.5, Substance: 3.8 },
+    thermodynamicProperties: { heat: 0.06, entropy: 0.28, reactivity: 2.5, gregsEnergy: -0.7 },
+    astrologicalInfluences: ["Jupiter", "Sun", "Taurus"],
+    seasonality: "all",
+    cuisine: "Thai",
+    ingredients: [
+      "10 large dried red chilies, deseeded and soaked",
+      "1 tbsp fresh turmeric, peeled and sliced (or 2 tsp ground turmeric)",
+      "1 tbsp curry powder",
+      "2 stalks lemongrass, tough outer layers removed, sliced",
+      "1 inch (2.5cm) piece galangal or ginger, peeled and chopped",
+      "3 medium shallots, roughly chopped",
+      "4 cloves garlic, peeled",
+      "1 tsp coriander seeds, toasted",
+      "1/2 tsp cumin seeds, toasted",
+      "1 tsp shrimp paste",
+      "1 tsp salt"
+    ],
+    preparationSteps: [
+      "Soak dried chilies in hot water for 20 minutes, then drain.",
+      "Toast coriander and cumin seeds, then grind into a powder.",
+      "Pound chilies and salt in a mortar and pestle into a paste.",
+      "Add lemongrass, galangal, and fresh turmeric, pounding until smooth.",
+      "Add shallots and garlic, continuing to pound.",
+      "Incorporate the ground spices, curry powder, and shrimp paste.",
+      "Pound until completely integrated, or use a food processor to blend all ingredients."
+    ],
+    storageInstructions: "Store in an airtight container in the refrigerator for up to 2 weeks, or freeze for up to 3 months.",
+    prepTime: "30 minutes",
+    cookTime: "0 minutes",
+    difficulty: "Medium",
+    yield: "Makes about 1 cup of curry paste"
+  },
+  thaiPanangCurry: {
+    name: "Thai Panang Curry Paste",
+    description: "Rich, nutty, and mildly spicy curry paste characterized by the addition of roasted peanuts and a slightly sweeter profile.",
+    base: "herb-nut",
+    keyIngredients: ["dried red chilies", "peanuts", "lemongrass", "galangal", "kaffir lime"],
+    culinaryUses: ["curry base (especially for beef/pork)", "thick sauces"],
+    elementalProperties: { Earth: 0.4, Fire: 0.4, Water: 0.1, Air: 0.1 },
+    alchemicalProperties: { Spirit: 4.0, Essence: 4.2, Matter: 4.8, Substance: 4.0 },
+    thermodynamicProperties: { heat: 0.07, entropy: 0.30, reactivity: 2.8, gregsEnergy: -0.8 },
+    astrologicalInfluences: ["Venus", "Mars", "Taurus"],
+    seasonality: "all",
+    cuisine: "Thai",
+    ingredients: [
+      "10 large dried red chilies, deseeded and soaked",
+      "2 tbsp roasted unsalted peanuts",
+      "2 stalks lemongrass, sliced",
+      "1 inch (2.5cm) piece galangal, peeled and chopped",
+      "2 medium shallots, roughly chopped",
+      "4 cloves garlic, peeled",
+      "1 tsp coriander roots, chopped",
+      "2 kaffir lime leaves, very finely minced",
+      "1 tsp coriander seeds, toasted",
+      "1/2 tsp cumin seeds, toasted",
+      "1 tsp shrimp paste",
+      "1 tsp salt"
+    ],
+    preparationSteps: [
+      "Soak dried chilies in hot water for 20 minutes; drain.",
+      "Toast coriander and cumin seeds; grind into a powder. Finely crush the roasted peanuts.",
+      "In a mortar and pestle, pound the chilies and salt into a paste.",
+      "Add lemongrass, galangal, and kaffir lime leaves; pound until broken down.",
+      "Add garlic, shallots, and coriander roots; continue pounding.",
+      "Add ground spices, crushed peanuts, and shrimp paste.",
+      "Pound until a thick, homogeneous paste forms (the peanuts will make it slightly coarser than red or green curry paste)."
+    ],
+    storageInstructions: "Refrigerate for up to 2 weeks or freeze for up to 3 months.",
+    prepTime: "30 minutes",
+    cookTime: "0 minutes",
+    difficulty: "Medium",
+    yield: "Makes about 1 cup of curry paste"
+  },
+  thaiMassamanCurry: {
+    name: "Thai Massaman Curry Paste",
+    description: "A fragrant, complex, and relatively mild curry paste featuring warm, sweet spices like cardamom, cinnamon, and cloves.",
+    base: "spice",
+    keyIngredients: ["dried red chilies", "cardamom", "cinnamon", "cloves", "shallots"],
+    culinaryUses: ["curry base (traditionally for beef or chicken with potatoes)"],
+    elementalProperties: { Earth: 0.6, Fire: 0.2, Air: 0.1, Water: 0.1 },
+    alchemicalProperties: { Spirit: 3.5, Essence: 5.0, Matter: 4.6, Substance: 4.2 },
+    thermodynamicProperties: { heat: 0.05, entropy: 0.25, reactivity: 2.0, gregsEnergy: -0.6 },
+    astrologicalInfluences: ["Saturn", "Jupiter", "Capricorn"],
+    seasonality: "all",
+    cuisine: "Thai",
+    ingredients: [
+      "8 large dried red chilies, deseeded and soaked",
+      "1 tsp coriander seeds, toasted",
+      "1 tsp cumin seeds, toasted",
+      "3 cardamom pods, toasted and seeded",
+      "1/2 inch piece cinnamon stick, toasted",
+      "3 whole cloves, toasted",
+      "1/4 tsp whole nutmeg, grated",
+      "2 stalks lemongrass, sliced",
+      "1 inch piece galangal, chopped",
+      "4 medium shallots, roasted",
+      "6 cloves garlic, roasted",
+      "1 tsp shrimp paste, roasted",
+      "1 tsp salt"
+    ],
+    preparationSteps: [
+      "Roast shallots and garlic (in their skins) in a dry pan or oven until soft and slightly charred. Peel them once cool.",
+      "Wrap shrimp paste in aluminum foil and roast in a dry pan for 2-3 minutes until fragrant.",
+      "Dry-toast coriander, cumin, cardamom seeds, cinnamon, and cloves. Grind all toasted spices (including grated nutmeg) into a fine powder.",
+      "Pound soaked and drained chilies with salt in a mortar and pestle until a paste forms.",
+      "Add lemongrass and galangal; pound until smooth.",
+      "Add roasted shallots and garlic; pound until incorporated.",
+      "Finally, stir or lightly pound in the ground spice mixture and roasted shrimp paste until fully combined."
+    ],
+    storageInstructions: "Refrigerate for up to 2 weeks or freeze for up to 3 months.",
+    prepTime: "40 minutes",
+    cookTime: "10 minutes",
+    difficulty: "High",
+    yield: "Makes about 1 cup of curry paste"
+  }
+};
+
+
+// French sauces
+export const frenchSauces: Record<string, Sauce> = {
+  hollandaise: {
+    name: "Hollandaise",
+    description: "A rich, buttery, and slightly tangy emulsion of egg yolks, melted butter, and lemon juice. One of the five French mother sauces.",
+    base: "egg-butter",
+    keyIngredients: ["egg yolks", "butter", "lemon juice", "cayenne pepper", "salt"],
+    culinaryUses: ["eggs benedict", "asparagus", "steamed vegetables", "poached fish"],
+    variants: ["Béarnaise", "Choron", "Mousseline"],
+    elementalProperties: { Water: 0.4, Earth: 0.4, Air: 0.1, Fire: 0.1 },
+    alchemicalProperties: { Spirit: 2.5, Essence: 3.8, Matter: 4.5, Substance: 5.0 },
+    thermodynamicProperties: { heat: 0.04, entropy: 0.12, reactivity: 1.3, gregsEnergy: -0.5 },
+    astrologicalInfluences: ["Venus", "Moon", "taurus"],
+    seasonality: "spring",
+    cuisine: "French",
+    ingredients: [
+      "3 large egg yolks",
+      "1 tbsp lemon juice",
+      "1/2 cup (115g) unsalted butter, melted and warm",
+      "Pinch of cayenne pepper",
+      "Pinch of salt"
+    ],
+    preparationSteps: [
+      "Whisk egg yolks and lemon juice together in a heatproof bowl until thickened and doubled in volume.",
+      "Place the bowl over a saucepan containing barely simmering water (double boiler). The water should not touch the bottom of the bowl.",
+      "Continue to whisk rapidly.",
+      "Slowly drizzle in the warm melted butter, whisking constantly until the sauce is thickened and emulsified.",
+      "Remove from heat and whisk in cayenne and salt."
+    ],
+    storageInstructions: "Best used immediately. Can be kept warm in a thermos for up to an hour. Does not reheat well.",
+    prepTime: "5 minutes",
+    cookTime: "10 minutes",
+    difficulty: "High",
+    yield: "Makes about 1 cup"
+  },
+  espagnole: {
+    name: "Sauce Espagnole",
+    description: "A basic brown sauce and one of the five French mother sauces. Deep, robust, and complex, it serves as the starting point for demi-glace.",
+    base: "brown-stock",
+    keyIngredients: ["brown stock", "mirepoix", "brown roux", "tomato purée", "bouquet garni"],
+    culinaryUses: ["base for demi-glace", "beef stews", "braised meats"],
+    variants: ["Demi-glace", "Bordelaise", "Chasseur", "Robert"],
+    elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
+    alchemicalProperties: { Spirit: 3.2, Essence: 4.5, Matter: 5.5, Substance: 4.8 },
+    thermodynamicProperties: { heat: 0.07, entropy: 0.18, reactivity: 1.6, gregsEnergy: -0.8 },
+    astrologicalInfluences: ["Saturn", "Pluto", "capricorn"],
+    seasonality: "autumn, winter",
+    cuisine: "French",
+    ingredients: [
+      "1/4 cup butter",
+      "1/4 cup all-purpose flour",
+      "1 cup mirepoix (diced onions, carrots, celery)",
+      "1/4 cup tomato purée",
+      "4 cups dark brown veal or beef stock",
+      "1 bouquet garni (parsley, thyme, bay leaf)"
+    ],
+    preparationSteps: [
+      "Melt butter in a saucepan, add mirepoix and sauté until browned.",
+      "Stir in flour to make a brown roux, cooking until it smells nutty and turns a deep brown color.",
+      "Whisk in the tomato purée.",
+      "Gradually whisk in the brown stock to prevent lumps.",
+      "Add the bouquet garni, bring to a simmer, and reduce heat.",
+      "Simmer gently for 45-60 minutes, skimming the surface as needed.",
+      "Strain through a fine-mesh sieve."
+    ],
+    storageInstructions: "Refrigerate for up to 5 days or freeze for up to 3 months.",
+    prepTime: "15 minutes",
+    cookTime: "1 hour",
+    difficulty: "Medium",
+    yield: "Makes about 2.5 cups"
+  }
+};
+
+// Japanese sauces
+export const japaneseSauces: Record<string, Sauce> = {
+  teriyaki: {
+    name: "Teriyaki Sauce",
+    description: "A glossy, sweet, and savory glaze made from soy sauce, mirin, sake, and sugar. Brings deep umami and caramelization to grilled foods.",
+    base: "soy-sweet",
+    keyIngredients: ["soy sauce", "mirin", "sake", "sugar"],
+    culinaryUses: ["glaze for grilled chicken/fish", "stir-fry sauce", "marinade"],
+    variants: ["Spicy Teriyaki", "Garlic Teriyaki"],
+    elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: { Spirit: 3.5, Essence: 4.2, Matter: 4.0, Substance: 4.5 },
+    thermodynamicProperties: { heat: 0.06, entropy: 0.22, reactivity: 2.0, gregsEnergy: -0.7 },
+    astrologicalInfluences: ["Sun", "Jupiter", "leo"],
+    seasonality: "all",
+    cuisine: "Japanese",
+    ingredients: [
+      "1/2 cup soy sauce",
+      "1/2 cup mirin",
+      "1/4 cup sake",
+      "2 tbsp brown sugar or white sugar",
+      "1 tsp ginger, freshly grated (optional)",
+      "1 clove garlic, minced (optional)"
+    ],
+    preparationSteps: [
+      "Combine soy sauce, mirin, sake, and sugar in a small saucepan.",
+      "Add ginger and garlic if using.",
+      "Bring the mixture to a boil over medium heat.",
+      "Reduce heat and simmer until the sauce is reduced by half and thick enough to coat the back of a spoon.",
+      "Let cool (it will thicken further as it cools)."
+    ],
+    storageInstructions: "Store in an airtight container in the refrigerator for up to 2-3 weeks.",
+    prepTime: "5 minutes",
+    cookTime: "15 minutes",
+    difficulty: "Easy",
+    yield: "Makes about 1/2 cup"
+  },
+  ponzu: {
+    name: "Ponzu",
+    description: "A citrus-based sauce with a tart, tangy, and umami-rich flavor profile. Refreshing and light.",
+    base: "citrus-soy",
+    keyIngredients: ["citrus juice (yuzu/sudachi/lemon)", "soy sauce", "mirin", "kombu", "katsuobushi"],
+    culinaryUses: ["dipping sauce for hot pot (shabu-shabu)", "sashimi", "grilled meats", "salads"],
+    variants: ["Ponzu Shoyu"],
+    elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
+    alchemicalProperties: { Spirit: 4.5, Essence: 4.0, Matter: 2.5, Substance: 3.0 },
+    thermodynamicProperties: { heat: 0.03, entropy: 0.30, reactivity: 2.5, gregsEnergy: -0.5 },
+    astrologicalInfluences: ["Mercury", "Uranus", "gemini"],
+    seasonality: "summer",
+    cuisine: "Japanese",
+    ingredients: [
+      "1/2 cup soy sauce",
+      "1/4 cup citrus juice (yuzu, lemon, or a mix of lemon and lime)",
+      "2 tbsp mirin",
+      "1 tbsp rice vinegar",
+      "1 small piece of kombu (dried kelp)",
+      "1/4 cup katsuobushi (bonito flakes)"
+    ],
+    preparationSteps: [
+      "Combine all ingredients in a glass jar or bowl.",
+      "Let it steep in the refrigerator for at least 24 hours (up to a few days for deeper flavor).",
+      "Strain the sauce through a fine-mesh sieve, pressing lightly on the solids.",
+      "Store the clear liquid."
+    ],
+    storageInstructions: "Store in the refrigerator for up to 1 month.",
+    prepTime: "5 minutes (plus 24 hours steeping)",
+    cookTime: "0 minutes",
+    difficulty: "Easy",
+    yield: "Makes about 1 cup"
+  },
+  gomaDare: {
+    name: "Goma Dare (Sesame Sauce)",
+    description: "A creamy, nutty, and savory-sweet dipping sauce made from ground toasted sesame seeds.",
+    base: "sesame",
+    keyIngredients: ["toasted sesame seeds", "soy sauce", "mirin", "rice vinegar", "sugar", "dashi"],
+    culinaryUses: ["shabu-shabu dipping sauce", "cold noodle salad", "blanched vegetables"],
+    elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
+    alchemicalProperties: { Spirit: 3.2, Essence: 4.5, Matter: 4.8, Substance: 4.2 },
+    thermodynamicProperties: { heat: 0.04, entropy: 0.25, reactivity: 1.8, gregsEnergy: -0.6 },
+    astrologicalInfluences: ["Venus", "Earth", "taurus"],
+    seasonality: "all",
+    cuisine: "Japanese",
+    ingredients: [
+      "4 tbsp white sesame seeds, toasted",
+      "2 tbsp soy sauce",
+      "1 tbsp rice vinegar",
+      "1 tbsp mirin",
+      "1 tbsp sugar",
+      "1 tsp sesame oil",
+      "1 tbsp dashi or water to thin"
+    ],
+    preparationSteps: [
+      "Grind the toasted sesame seeds in a suribachi (Japanese mortar) or food processor until they release their oils and form a rough paste.",
+      "Add the sugar and continue to grind.",
+      "Whisk in the soy sauce, rice vinegar, mirin, and sesame oil.",
+      "Add dashi or water gradually until you reach the desired consistency (it should be slightly thick but pourable)."
+    ],
+    storageInstructions: "Refrigerate in an airtight container for up to 1 week.",
+    prepTime: "10 minutes",
+    cookTime: "0 minutes",
+    difficulty: "Easy",
+    yield: "Makes about 1/2 cup"
+  }
 };
 
 // Consolidate all sauces
@@ -569,6 +914,8 @@ export const allSauces: Record<string, Sauce> = {
   ...italianSauces,
   ...mexicanSauces,
   ...asianSauces,
+  ...frenchSauces,
+  ...japaneseSauces,
   // Add other cuisine sauces as they become available
 };
 
@@ -683,6 +1030,8 @@ const saucesExport = {
   italianSauces,
   mexicanSauces,
   asianSauces,
+  frenchSauces,
+  japaneseSauces,
   allSauces,
   sauceRecommendations,
   getSaucesByAstrologicalInfluence,

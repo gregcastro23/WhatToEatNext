@@ -1,0 +1,804 @@
+[
+  {
+    "recipe_name": "Authentic Greek Skordalia",
+    "target_name": "Skordalia",
+    "cuisine_file": "greek.ts",
+    "description": "A fiercely pungent, elemental Greek garlic dip. It relies on the mechanical emulsification of raw garlic, starches (either potatoes or stale bread), and high-quality olive oil. The result is a dense, creamy, heavily aerated paste that bites aggressively and is traditionally served alongside fried salt cod (Bakalarios) or boiled beets.",
+    "details": {
+      "cuisine": "Greek",
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 25,
+      "base_serving_size": 4,
+      "spice_level": "None",
+      "season": [
+        "all"
+      ]
+    },
+    "ingredients": [
+      {
+        "amount": 500,
+        "unit": "g",
+        "name": "Russet or Yukon Gold potatoes",
+        "notes": "Peeled and cut into chunks. Must be a starchy potato, not waxy."
+      },
+      {
+        "amount": 6,
+        "unit": "cloves",
+        "name": "garlic",
+        "notes": "Peeled. Adjust down to 4 if you prefer less intense heat."
+      },
+      {
+        "amount": 0.75,
+        "unit": "cup",
+        "name": "extra virgin olive oil",
+        "notes": "Must be very high quality, as it is the primary flavor carrier."
+      },
+      {
+        "amount": 3,
+        "unit": "tbsp",
+        "name": "white wine vinegar or fresh lemon juice",
+        "notes": "Vinegar is more traditional in some regions, lemon in others."
+      },
+      {
+        "amount": 1,
+        "unit": "tsp",
+        "name": "kosher salt",
+        "notes": "To taste."
+      },
+      {
+        "amount": 0.25,
+        "unit": "cup",
+        "name": "almonds or walnuts",
+        "notes": "Finely crushed. Optional, but adds textural complexity and helps stabilize the emulsion."
+      }
+    ],
+    "instructions": [
+      "Step 1: Boil potatoes. Boil the potato chunks in salted water until completely fork-tender (about 20 mins). Drain well and return them to the hot, empty pot for 1 minute to evaporate excess moisture. They must be dry to emulsify properly.",
+      "Step 2: The Garlic Paste. While the potatoes cook, place the raw garlic cloves and the 1 tsp of salt in a mortar and pestle. Pound violently until it becomes a completely smooth, sticky, translucent paste.",
+      "Step 3: Mash the potatoes. Transfer the hot, dry potatoes to a large bowl. Mash them thoroughly until completely smooth. Do NOT use a blender or food processor for the potatoes, or they will turn into glue.",
+      "Step 4: Combine base. Stir the garlic paste (and crushed nuts, if using) into the hot mashed potatoes.",
+      "Step 5: The Emulsion (Crucial). While stirring the potato mixture continuously and vigorously with a wooden spoon or whisk, slowly drizzle in the olive oil in a thin, steady stream. The starch will absorb the oil.",
+      "Step 6: The Acid. Alternate drizzling the oil with splashes of the vinegar/lemon juice until the mixture becomes pale, light, and almost fluffy.",
+      "Step 7: Serve at room temperature or slightly chilled, heavily drizzled with more olive oil."
+    ],
+    "classifications": {
+      "meal_type": [
+        "appetizer",
+        "meze",
+        "dip",
+        "vegan"
+      ],
+      "cooking_methods": [
+        "boiling",
+        "mashing",
+        "emulsifying"
+      ]
+    },
+    "elemental_properties": {
+      "fire": 0.4,
+      "water": 0.1,
+      "earth": 0.35,
+      "air": 0.15
+    },
+    "astrological_affinities": {
+      "planets": [
+        "Mars",
+        "Earth"
+      ],
+      "signs": [
+        "Aries",
+        "Taurus"
+      ],
+      "lunar_phases": [
+        "Waning Gibbous"
+      ]
+    },
+    "nutrition_per_serving": {
+      "calories": 380,
+      "protein_g": 3,
+      "carbs_g": 25,
+      "fat_g": 32,
+      "fiber_g": 3,
+      "sodium_mg": 450,
+      "sugar_g": 2,
+      "vitamins": [
+        "Vitamin C",
+        "Vitamin B6"
+      ],
+      "minerals": [
+        "Potassium",
+        "Manganese"
+      ]
+    },
+    "substitutions": [
+      {
+        "original_ingredient": "potatoes",
+        "substitute_options": [
+          "3 thick slices of stale country bread (crusts removed, soaked in water, and squeezed dry)"
+        ]
+      },
+      {
+        "original_ingredient": "white wine vinegar",
+        "substitute_options": [
+          "red wine vinegar",
+          "fresh lemon juice"
+        ]
+      }
+    ],
+    "circuit_theory": {
+      "total_monica_potential": 3,
+      "monica_optimization_score": 60.01,
+      "thermodynamic_efficiency": 0.02,
+      "method_monica_constants": [
+        {
+          "method": "boiling",
+          "monica": 1,
+          "gregsEnergy": -0.20173487473640778,
+          "kalchm": 1
+        },
+        {
+          "method": "mashing",
+          "monica": 1,
+          "gregsEnergy": -1.0461197166758232,
+          "kalchm": 1
+        },
+        {
+          "method": "emulsifying",
+          "monica": 1,
+          "gregsEnergy": -1.0461197166758232,
+          "kalchm": 1
+        }
+      ]
+    }
+  },
+  {
+    "recipe_name": "Authentic Greek Souvlaki (Pork Skewers)",
+    "target_name": "Souvlaki",
+    "cuisine_file": "greek.ts",
+    "description": "The quintessential Greek street food. Success relies on selecting a cut of pork with sufficient intramuscular fat (neck or shoulder) and marinating it heavily in an acidic, herbaceous lemon-oregano bath to tenderize the meat before subjecting it to aggressive, high-heat charcoal grilling.",
+    "details": {
+      "cuisine": "Greek",
+      "prep_time_minutes": 120,
+      "cook_time_minutes": 15,
+      "base_serving_size": 4,
+      "spice_level": "None",
+      "season": [
+        "summer",
+        "spring"
+      ]
+    },
+    "ingredients": [
+      {
+        "amount": 800,
+        "unit": "g",
+        "name": "pork neck or shoulder (butt)",
+        "notes": "Cut into uniform 1-inch cubes. Do not use lean pork tenderloin or loin; they will dry out."
+      },
+      {
+        "amount": 0.33,
+        "unit": "cup",
+        "name": "extra virgin olive oil",
+        "notes": "For the marinade."
+      },
+      {
+        "amount": 0.25,
+        "unit": "cup",
+        "name": "fresh lemon juice",
+        "notes": "For the marinade. The acid tenderizes the meat."
+      },
+      {
+        "amount": 2,
+        "unit": "cloves",
+        "name": "garlic",
+        "notes": "Minced or pressed."
+      },
+      {
+        "amount": 1.5,
+        "unit": "tbsp",
+        "name": "dried Greek oregano (rigani)",
+        "notes": "Must be dried, not fresh."
+      },
+      {
+        "amount": 1,
+        "unit": "tsp",
+        "name": "kosher salt",
+        "notes": "To taste."
+      },
+      {
+        "amount": 0.5,
+        "unit": "tsp",
+        "name": "black pepper",
+        "notes": "Freshly ground."
+      },
+      {
+        "amount": 8,
+        "unit": "whole",
+        "name": "wooden skewers",
+        "notes": "Soaked in water for 30 minutes to prevent burning."
+      },
+      {
+        "amount": 4,
+        "unit": "whole",
+        "name": "Greek pita bread",
+        "notes": "Thick and pocketless, grilled with olive oil."
+      }
+    ],
+    "instructions": [
+      "Step 1: The Marinade. In a large bowl, whisk together the olive oil, lemon juice, minced garlic, oregano, salt, and pepper.",
+      "Step 2: Marinate the meat. Add the pork cubes to the bowl and toss thoroughly with your hands, massaging the liquid into the meat. Cover and refrigerate for at least 2 hours (up to 12 hours max; beyond that, the lemon juice turns the meat mushy).",
+      "Step 3: Skewer. Thread the pork cubes tightly onto the soaked wooden skewers, leaving about an inch bare at the bottom for handling.",
+      "Step 4: Heat the grill. Prepare a charcoal grill for high, direct heat (or use a heavy cast-iron grill pan).",
+      "Step 5: Grill the Souvlaki. Place the skewers directly over the high heat. Grill for 10-12 minutes, turning every 2-3 minutes, until all sides are deeply browned, slightly charred on the edges, and the pork is cooked through.",
+      "Step 6: Grill the pita. Lightly brush the pita breads with olive oil and grill them for 1 minute per side until warm and pliable.",
+      "Step 7: Serve immediately. Traditionally served either on the stick with a squeeze of fresh lemon, or wrapped inside the grilled pita with tzatziki, tomatoes, red onions, and french fries."
+    ],
+    "classifications": {
+      "meal_type": [
+        "lunch",
+        "dinner",
+        "street food",
+        "bbq"
+      ],
+      "cooking_methods": [
+        "marinating",
+        "grilling"
+      ]
+    },
+    "elemental_properties": {
+      "fire": 0.5,
+      "water": 0.1,
+      "earth": 0.2,
+      "air": 0.2
+    },
+    "astrological_affinities": {
+      "planets": [
+        "Mars",
+        "Sun"
+      ],
+      "signs": [
+        "Aries",
+        "Leo"
+      ],
+      "lunar_phases": [
+        "First Quarter"
+      ]
+    },
+    "nutrition_per_serving": {
+      "calories": 480,
+      "protein_g": 35,
+      "carbs_g": 28,
+      "fat_g": 26,
+      "fiber_g": 2,
+      "sodium_mg": 650,
+      "sugar_g": 3,
+      "vitamins": [
+        "Vitamin C",
+        "Niacin"
+      ],
+      "minerals": [
+        "Iron",
+        "Zinc"
+      ]
+    },
+    "substitutions": [
+      {
+        "original_ingredient": "pork neck",
+        "substitute_options": [
+          "chicken thighs (for Souvlaki Kotopoulo)",
+          "lamb shoulder",
+          "firm tofu chunks (vegan)"
+        ]
+      }
+    ],
+    "circuit_theory": {
+      "total_monica_potential": 1.15,
+      "monica_optimization_score": 26.83,
+      "thermodynamic_efficiency": 0,
+      "method_monica_constants": [
+        {
+          "method": "marinating",
+          "monica": 0.14967602333983723,
+          "gregsEnergy": -5.229552475747231,
+          "kalchm": 115.74074074074075
+        },
+        {
+          "method": "grilling",
+          "monica": 1,
+          "gregsEnergy": -0.22531633636840093,
+          "kalchm": 1
+        }
+      ]
+    }
+  },
+  {
+    "recipe_name": "Authentic Greek Youvetsi",
+    "target_name": "Youvetsi",
+    "cuisine_file": "greek.ts",
+    "description": "A profound, slow-baked, one-pot Sunday staple. It involves braising bone-in meat (usually beef or lamb) in a spiced tomato sauce until meltingly tender, then adding kritharaki (orzo) directly into the boiling meat juices in the oven. The pasta absorbs all the fat and liquid, swelling into a dense, savory, almost risotto-like mass.",
+    "details": {
+      "cuisine": "Greek",
+      "prep_time_minutes": 20,
+      "cook_time_minutes": 150,
+      "base_serving_size": 6,
+      "spice_level": "None",
+      "season": [
+        "winter",
+        "autumn"
+      ]
+    },
+    "ingredients": [
+      {
+        "amount": 1,
+        "unit": "kg",
+        "name": "beef chuck or lamb shoulder",
+        "notes": "Cut into large 2-inch chunks, bone-in preferred for depth of flavor."
+      },
+      {
+        "amount": 0.33,
+        "unit": "cup",
+        "name": "extra virgin olive oil",
+        "notes": "For searing the meat and sautéing aromatics."
+      },
+      {
+        "amount": 1,
+        "unit": "large",
+        "name": "yellow onion",
+        "notes": "Finely chopped."
+      },
+      {
+        "amount": 2,
+        "unit": "cloves",
+        "name": "garlic",
+        "notes": "Minced."
+      },
+      {
+        "amount": 0.5,
+        "unit": "cup",
+        "name": "dry red wine",
+        "notes": "For deglazing."
+      },
+      {
+        "amount": 400,
+        "unit": "g",
+        "name": "crushed tomatoes",
+        "notes": "Fresh or canned."
+      },
+      {
+        "amount": 2,
+        "unit": "tbsp",
+        "name": "tomato paste",
+        "notes": "For concentrated flavor."
+      },
+      {
+        "amount": 1,
+        "unit": "stick",
+        "name": "cinnamon",
+        "notes": "The defining aromatic profile of the dish."
+      },
+      {
+        "amount": 3,
+        "unit": "whole",
+        "name": "allspice berries",
+        "notes": "Or 1/4 tsp ground allspice."
+      },
+      {
+        "amount": 4,
+        "unit": "cups",
+        "name": "beef or vegetable broth",
+        "notes": "Kept hot. Needed to cook the pasta."
+      },
+      {
+        "amount": 400,
+        "unit": "g",
+        "name": "kritharaki (Greek orzo pasta)",
+        "notes": "Toasted briefly in butter or oil before baking."
+      },
+      {
+        "amount": 1,
+        "unit": "cup",
+        "name": "Kefalotyri or Mizithra cheese",
+        "notes": "Hard, salty sheep's milk cheese, grated heavily over the top."
+      }
+    ],
+    "instructions": [
+      "Step 1: Sear the meat. In a heavy oven-safe pot or Dutch oven, heat the olive oil over high heat. Brown the meat chunks aggressively on all sides. Remove meat and set aside.",
+      "Step 2: Sauté Aromatics. Reduce heat to medium. Add the chopped onions to the fat and sauté until soft (5 mins). Add the garlic and tomato paste, cooking for 1 minute until the paste darkens.",
+      "Step 3: Deglaze. Pour in the red wine and scrape up all the browned bits from the bottom. Let the alcohol boil off.",
+      "Step 4: The Braise. Return the meat to the pot. Add the crushed tomatoes, cinnamon stick, allspice, salt, pepper, and 1 cup of the broth. Bring to a boil, cover, and reduce heat to low. Simmer on the stove for 1.5 to 2 hours until the meat is very tender.",
+      "Step 5: Toast the pasta (Optional but recommended). In a separate dry skillet, toast the dry orzo for 2-3 minutes until slightly golden. This prevents it from turning to mush when baked.",
+      "Step 6: Assemble for baking. Preheat oven to 375°F (190°C). Remove the pot from the stove. Pour the remaining 3 cups of hot broth into the pot with the meat. Stir in the toasted orzo.",
+      "Step 7: The Bake. Place the uncovered pot into the oven. Bake for 25-30 minutes. Stir it gently exactly once halfway through to prevent the pasta from sticking to the bottom. It is done when the orzo is tender and has absorbed most of the liquid (it should still be slightly saucy, not completely dry).",
+      "Step 8: The Finish. Remove from the oven and immediately cover it with a towel for 10 minutes. The pasta will continue to absorb liquid. Serve hot, buried under a mountain of grated Kefalotyri cheese."
+    ],
+    "classifications": {
+      "meal_type": [
+        "dinner",
+        "casserole"
+      ],
+      "cooking_methods": [
+        "searing",
+        "braising",
+        "baking"
+      ]
+    },
+    "elemental_properties": {
+      "fire": 0.2,
+      "water": 0.25,
+      "earth": 0.45,
+      "air": 0.1
+    },
+    "astrological_affinities": {
+      "planets": [
+        "Jupiter",
+        "Saturn"
+      ],
+      "signs": [
+        "Taurus",
+        "Capricorn"
+      ],
+      "lunar_phases": [
+        "Waning Gibbous"
+      ]
+    },
+    "nutrition_per_serving": {
+      "calories": 680,
+      "protein_g": 42,
+      "carbs_g": 55,
+      "fat_g": 32,
+      "fiber_g": 5,
+      "sodium_mg": 950,
+      "sugar_g": 8,
+      "vitamins": [
+        "Vitamin A",
+        "Vitamin B12"
+      ],
+      "minerals": [
+        "Iron",
+        "Zinc",
+        "Calcium"
+      ]
+    },
+    "substitutions": [
+      {
+        "original_ingredient": "beef chuck",
+        "substitute_options": [
+          "lamb shoulder",
+          "whole chicken legs (requires less braising time)"
+        ]
+      },
+      {
+        "original_ingredient": "Kefalotyri cheese",
+        "substitute_options": [
+          "Pecorino Romano",
+          "Parmigiano-Reggiano"
+        ]
+      }
+    ],
+    "circuit_theory": {
+      "total_monica_potential": 2.049,
+      "monica_optimization_score": 29.37,
+      "thermodynamic_efficiency": 0.32,
+      "method_monica_constants": [
+        {
+          "method": "searing",
+          "monica": 1,
+          "gregsEnergy": -0.9308912594602179,
+          "kalchm": 1
+        },
+        {
+          "method": "braising",
+          "monica": 0.04868889013891888,
+          "gregsEnergy": -0.46039804096355463,
+          "kalchm": 115.74074074074075
+        },
+        {
+          "method": "baking",
+          "monica": 1,
+          "gregsEnergy": -0.18136461289271572,
+          "kalchm": 1
+        }
+      ]
+    }
+  },
+  {
+    "recipe_name": "Authentic Indian Kulfi",
+    "target_name": "Kulfi",
+    "cuisine_file": "indian.ts",
+    "description": "The traditional, unchurned ice cream of the Indian subcontinent. The alchemy relies on extreme, prolonged evaporation of milk (rabri) rather than whipping air into cream. This slow reduction creates intense caramelization, a dense, fudgy texture, and prevents large ice crystals from forming during freezing.",
+    "details": {
+      "cuisine": "Indian",
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 120,
+      "base_serving_size": 6,
+      "spice_level": "None",
+      "season": [
+        "summer"
+      ]
+    },
+    "ingredients": [
+      {
+        "amount": 2,
+        "unit": "liters",
+        "name": "whole milk",
+        "notes": "Must be full-fat. Do not use skim or 2%."
+      },
+      {
+        "amount": 0.5,
+        "unit": "cup",
+        "name": "granulated sugar",
+        "notes": "Added late in the reduction process."
+      },
+      {
+        "amount": 1,
+        "unit": "pinch",
+        "name": "saffron threads",
+        "notes": "Soaked in 1 tbsp of warm milk to extract color and aroma."
+      },
+      {
+        "amount": 0.5,
+        "unit": "tsp",
+        "name": "green cardamom powder",
+        "notes": "Freshly ground from the pods."
+      },
+      {
+        "amount": 0.25,
+        "unit": "cup",
+        "name": "pistachios",
+        "notes": "Unsalted, very finely chopped or ground into a coarse powder."
+      },
+      {
+        "amount": 0.25,
+        "unit": "cup",
+        "name": "almonds",
+        "notes": "Unsalted, very finely chopped or ground into a coarse powder."
+      },
+      {
+        "amount": 1,
+        "unit": "tbsp",
+        "name": "rose water",
+        "notes": "Optional, added off the heat."
+      }
+    ],
+    "instructions": [
+      "Step 1: The Long Boil (Rabri). Pour the milk into a very wide, heavy-bottomed pan or kadhai. Bring to a boil over medium-high heat. Once boiling, reduce the heat to medium-low.",
+      "Step 2: Evaporation and Scraping. Simmer the milk continuously for 1.5 to 2 hours. A skin (malai) will form on the surface; push this skin to the sides of the pan. Every few minutes, aggressively scrape the bottom and sides of the pan with a spatula to prevent scorching and reintegrate the caramelized milk solids back into the liquid.",
+      "Step 3: The Thickening. Continue this process until the milk has reduced to exactly one-third of its original volume. It should be thick, pale yellow/beige, and coated in tiny granules of milk solids.",
+      "Step 4: Flavoring. Stir in the sugar, soaked saffron (with its milk), and cardamom powder. Simmer for 5 more minutes until the sugar is completely dissolved.",
+      "Step 5: The Nuts. Turn off the heat. Stir in the finely chopped pistachios, almonds, and rose water (if using). Let the mixture cool completely to room temperature.",
+      "Step 6: The Mold. Pour the cooled, thick mixture into traditional conical Kulfi molds, or into small paper cups or popsicle molds.",
+      "Step 7: Freeze. Cover tightly with foil (insert a popsicle stick through the foil if not using molds with lids). Freeze for at least 8 hours, preferably overnight, until rock solid.",
+      "Step 8: Unmold. To serve, run the outside of the mold briefly under warm water or rub it between your palms to loosen the kulfi, then pull it out."
+    ],
+    "classifications": {
+      "meal_type": [
+        "dessert",
+        "sweet",
+        "frozen"
+      ],
+      "cooking_methods": [
+        "boiling",
+        "reducing",
+        "freezing"
+      ]
+    },
+    "elemental_properties": {
+      "fire": 0.3,
+      "water": 0.35,
+      "earth": 0.25,
+      "air": 0.1
+    },
+    "astrological_affinities": {
+      "planets": [
+        "Venus",
+        "Moon"
+      ],
+      "signs": [
+        "Taurus",
+        "Cancer"
+      ],
+      "lunar_phases": [
+        "Full Moon"
+      ]
+    },
+    "nutrition_per_serving": {
+      "calories": 280,
+      "protein_g": 10,
+      "carbs_g": 25,
+      "fat_g": 16,
+      "fiber_g": 1,
+      "sodium_mg": 110,
+      "sugar_g": 22,
+      "vitamins": [
+        "Vitamin D",
+        "Riboflavin"
+      ],
+      "minerals": [
+        "Calcium",
+        "Phosphorus"
+      ]
+    },
+    "substitutions": [
+      {
+        "original_ingredient": "whole milk",
+        "substitute_options": [
+          "1 can evaporated milk + 1 can sweetened condensed milk + 1 cup heavy cream (for a 'quick', no-cook version)"
+        ]
+      }
+    ],
+    "circuit_theory": {
+      "total_monica_potential": 3,
+      "monica_optimization_score": 60.01,
+      "thermodynamic_efficiency": 0.02,
+      "method_monica_constants": [
+        {
+          "method": "boiling",
+          "monica": 1,
+          "gregsEnergy": -0.20418348661949898,
+          "kalchm": 1
+        },
+        {
+          "method": "reducing",
+          "monica": 1,
+          "gregsEnergy": -1.058965771731503,
+          "kalchm": 1
+        },
+        {
+          "method": "freezing",
+          "monica": 1,
+          "gregsEnergy": -1.058965771731503,
+          "kalchm": 1
+        }
+      ]
+    }
+  },
+  {
+    "recipe_name": "Authentic Cioccolata Calda con Biscotti",
+    "target_name": "Cioccolata Calda con Biscotti",
+    "cuisine_file": "italian.ts",
+    "description": "True Italian hot chocolate is an exercise in viscosity, closer to a molten pudding than an American-style watery drink. The structural trick relies on cornstarch acting as a gelatinous matrix when heated, binding whole milk and intense dark chocolate into a spoonable, luxurious emulsion.",
+    "details": {
+      "cuisine": "Italian",
+      "prep_time_minutes": 5,
+      "cook_time_minutes": 10,
+      "base_serving_size": 2,
+      "spice_level": "None",
+      "season": [
+        "winter"
+      ]
+    },
+    "ingredients": [
+      {
+        "amount": 1.5,
+        "unit": "cups",
+        "name": "whole milk",
+        "notes": "Crucial for fat content."
+      },
+      {
+        "amount": 3,
+        "unit": "tbsp",
+        "name": "high-quality cocoa powder",
+        "notes": "Unsweetened, sifted."
+      },
+      {
+        "amount": 2,
+        "unit": "tbsp",
+        "name": "granulated sugar",
+        "notes": "Adjust based on the sweetness of the solid chocolate."
+      },
+      {
+        "amount": 1.5,
+        "unit": "tbsp",
+        "name": "cornstarch",
+        "notes": "The secret to Italian thickness."
+      },
+      {
+        "amount": 1,
+        "unit": "pinch",
+        "name": "kosher salt",
+        "notes": "Enhances the chocolate flavor."
+      },
+      {
+        "amount": 60,
+        "unit": "g",
+        "name": "dark chocolate (70%+)",
+        "notes": "Finely chopped."
+      },
+      {
+        "amount": 4,
+        "unit": "pieces",
+        "name": "Cantuccini (Biscotti)",
+        "notes": "Hard almond cookies for dipping."
+      }
+    ],
+    "instructions": [
+      "Step 1: The Slurry. In a small bowl, whisk the cornstarch with 3 tablespoons of the cold milk until completely smooth and lump-free.",
+      "Step 2: Whisk the dry. In a small saucepan, whisk together the sifted cocoa powder, sugar, and salt.",
+      "Step 3: Combine. Gradually whisk the remaining cold milk into the cocoa mixture in the saucepan until smooth.",
+      "Step 4: Heat and thicken. Place the saucepan over medium-low heat. Whisk continuously as the milk heats. Do not let it boil vigorously.",
+      "Step 5: Introduce the matrix. Just as steam begins to rise from the milk, whisk in the cornstarch slurry.",
+      "Step 6: The Melt. Continue to whisk constantly for 3-5 minutes. As it reaches a simmer, it will suddenly and dramatically thicken. Once it coats the back of a spoon thickly (like a custard), remove it from the heat immediately.",
+      "Step 7: The Chocolate. Stir the finely chopped dark chocolate into the hot mixture until melted and completely glossy.",
+      "Step 8: Serve immediately in small cups, accompanied by the hard biscotti for dipping."
+    ],
+    "classifications": {
+      "meal_type": [
+        "beverage",
+        "dessert",
+        "snack"
+      ],
+      "cooking_methods": [
+        "whisking",
+        "simmering"
+      ]
+    },
+    "elemental_properties": {
+      "fire": 0.15,
+      "water": 0.5,
+      "earth": 0.25,
+      "air": 0.1
+    },
+    "astrological_affinities": {
+      "planets": [
+        "Venus",
+        "Pluto"
+      ],
+      "signs": [
+        "Scorpio",
+        "Taurus"
+      ],
+      "lunar_phases": [
+        "Waning Crescent"
+      ]
+    },
+    "nutrition_per_serving": {
+      "calories": 420,
+      "protein_g": 9,
+      "carbs_g": 55,
+      "fat_g": 18,
+      "fiber_g": 4,
+      "sodium_mg": 180,
+      "sugar_g": 35,
+      "vitamins": [
+        "Vitamin D",
+        "Calcium"
+      ],
+      "minerals": [
+        "Iron",
+        "Magnesium"
+      ]
+    },
+    "substitutions": [
+      {
+        "original_ingredient": "whole milk",
+        "substitute_options": [
+          "oat milk (works very well with cornstarch)"
+        ]
+      },
+      {
+        "original_ingredient": "cornstarch",
+        "substitute_options": [
+          "potato starch"
+        ]
+      }
+    ],
+    "circuit_theory": {
+      "total_monica_potential": 2,
+      "monica_optimization_score": 60.04,
+      "thermodynamic_efficiency": 0.1,
+      "method_monica_constants": [
+        {
+          "method": "whisking",
+          "monica": 1,
+          "gregsEnergy": -1.0213388359571,
+          "kalchm": 1
+        },
+        {
+          "method": "simmering",
+          "monica": 1,
+          "gregsEnergy": -0.19800193638683256,
+          "kalchm": 1
+        }
+      ]
+    }
+  }
+]

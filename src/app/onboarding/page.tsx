@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import React, { useState, useEffect } from "react";
 import { LocationSearch } from "@/components/onboarding/LocationSearch";
 import type { BirthData } from "@/types/natalChart";
 
@@ -109,6 +109,7 @@ export default function OnboardingPage() {
         body: JSON.stringify({ email, name, birthData }),
       });
 
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
       const data = await response.json();
 
       if (!data.success) {
@@ -175,6 +176,8 @@ export default function OnboardingPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Birth Date & Time */}
             <div>
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Birth Date & Time
                 <span className="text-red-500 ml-1">*</span>

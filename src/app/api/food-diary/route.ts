@@ -1,23 +1,15 @@
 /**
- * Food Diary API Route
- * GET /api/food-diary - Get food diary entries
- * POST /api/food-diary - Create a new entry
+ * Food Diary Main API Route
+ * GET  /api/food-diary - List entries for a user (with optional date filter)
+ * POST /api/food-diary - Create a new food diary entry
  *
  * @file src/app/api/food-diary/route.ts
- * @created 2026-02-02
- * @requires Authentication - JWT token in cookie or Authorization header
  */
 
 import { NextResponse } from "next/server";
-import {
-  validateRequest,
-  getUserIdFromRequest,
-} from "@/lib/auth/validateRequest";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { foodDiaryService } from "@/services/FoodDiaryService";
-import type {
-  CreateFoodDiaryEntryInput,
-  FoodDiaryFilters,
-} from "@/types/foodDiary";
+import type { CreateFoodDiaryEntryInput } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -25,19 +17,23 @@ export const runtime = "nodejs";
 
 /**
  * GET /api/food-diary
- * Get food diary entries with optional filters (authenticated)
+ * Returns food diary entries for the authenticated user.
  *
  * Query params:
- * - date: string (optional, ISO date for specific day)
- * - startDate: string (optional, ISO date)
- * - endDate: string (optional, ISO date)
- * - mealType: string (optional, comma-separated)
- * - minRating: number (optional)
+ * - date: ISO date string (YYYY-MM-DD) — if provided, returns only that day's entries
+ * - startDate: ISO date string — range start (inclusive)
+ * - endDate:   ISO date string — range end (inclusive)
+ * - userId:    override (falls back to auth session)
  */
 export async function GET(request: NextRequest) {
   try {
-    // Get userId from auth token or query param (fallback for dev)
-    const userId = await getUserIdFromRequest(request);
+    const { searchParams } = new URL(request.url);
+
+    // Prefer session auth, fall back to explicit userId param for backwards compat
+    let userId = await getUserIdFromRequest(request);
+    if (!userId) {
+      userId = searchParams.get("userId");
+    }
 
     if (!userId) {
       return NextResponse.json(
@@ -46,53 +42,49 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { searchParams } = new URL(request.url);
-
-    // Build filters from query params
-    const filters: FoodDiaryFilters = {};
-
-    const date = searchParams.get("date");
+    const dateParam = searchParams.get("date");
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
-    const mealTypes = searchParams.get("mealTypes");
-    const minRating = searchParams.get("minRating");
-    const searchQuery = searchParams.get("search");
 
-    if (date) {
-      // Single day query
-      const dateObj = new Date(date);
-      const entries = await foodDiaryService.getDayEntries(userId, dateObj);
-      const summary = await foodDiaryService.getDailySummary(userId, dateObj);
-
-      return NextResponse.json({
-        success: true,
-        entries,
-        summary,
+    let entries;
+    if (dateParam) {
+      // Single-day query
+      entries = await foodDiaryService.getDayEntries(userId, new Date(dateParam));
+    } else {
+      entries = await foodDiaryService.getEntries(userId, {
+        ...(startDate ? { startDate: new Date(startDate) } : {}),
+        ...(endDate ? { endDate: new Date(endDate) } : {}),
       });
     }
 
-    if (startDate) filters.startDate = new Date(startDate);
-    if (endDate) filters.endDate = new Date(endDate);
-    if (mealTypes) filters.mealTypes = mealTypes.split(",") as any;
-    if (minRating) filters.minRating = parseFloat(minRating) as any;
-    if (searchQuery) filters.searchQuery = searchQuery;
-
-    const entries = await foodDiaryService.getEntries(
-      userId,
-      Object.keys(filters).length > 0 ? filters : undefined,
+    // Compute basic daily summary from the returned entries
+    const totalCalories = entries.reduce(
+      (sum, e) => sum + ((e.nutrition)?.calories ?? 0),
+      0,
     );
-    const stats = await foodDiaryService.getStats(userId);
+    const totalProtein = entries.reduce(
+      (sum, e) => sum + ((e.nutrition)?.protein ?? 0),
+      0,
+    );
+    const totalCarbs = entries.reduce(
+      (sum, e) => sum + ((e.nutrition)?.carbs ?? 0),
+      0,
+    );
+    const totalFat = entries.reduce(
+      (sum, e) => sum + ((e.nutrition)?.fat ?? 0),
+      0,
+    );
 
     return NextResponse.json({
       success: true,
       entries,
-      stats,
       count: entries.length,
+      summary: { totalCalories, totalProtein, totalCarbs, totalFat },
     });
   } catch (error) {
-    console.error("Get food diary error:", error);
+    console.error("Food diary GET error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to get food diary entries" },
+      { success: false, message: "Failed to load food diary entries" },
       { status: 500 },
     );
   }
@@ -100,50 +92,51 @@ export async function GET(request: NextRequest) {
 
 /**
  * POST /api/food-diary
- * Create a new food diary entry (authenticated)
+ * Create a new food diary entry for the authenticated user.
+ *
+ * Body: CreateFoodDiaryEntryInput (with optional userId override)
  */
 export async function POST(request: NextRequest) {
   try {
-    // Validate authentication
-    const authResult = await validateRequest(request);
-    if ("error" in authResult) {
-      return authResult.error;
-    }
+    // Prefer session auth, fall back to body userId for backwards compat
+    let userId = await getUserIdFromRequest(request);
 
-    const body = await request.json();
-    const { userId: bodyUserId, ...entryData } = body;
-
-    // Use authenticated user's ID (or body userId for admin)
-    const userId =
-      authResult.user.roles.includes("admin") && bodyUserId
-        ? bodyUserId
-        : authResult.user.userId;
-
-    // Validate required fields
-    if (!entryData.foodName || !entryData.mealType || !entryData.date) {
+    let body: Record<string, unknown>;
+    try {
+      body = await request.json();
+    } catch {
       return NextResponse.json(
-        {
-          success: false,
-          message: "foodName, mealType, and date are required",
-        },
+        { success: false, message: "Invalid JSON in request body" },
         { status: 400 },
       );
     }
 
-    // Parse date if string
-    const input: CreateFoodDiaryEntryInput = {
-      ...entryData,
-      date: new Date(entryData.date),
-    };
+    if (!userId) {
+      userId = body.userId as string | null;
+    }
+
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
+      );
+    }
+
+    const { userId: _uid, ...inputData } = body;
+    const input = inputData as unknown as CreateFoodDiaryEntryInput;
+
+    if (!input.foodName || !input.date || !input.mealType) {
+      return NextResponse.json(
+        { success: false, message: "foodName, date, and mealType are required" },
+        { status: 400 },
+      );
+    }
 
     const entry = await foodDiaryService.createEntry(userId, input);
 
-    return NextResponse.json({
-      success: true,
-      entry,
-    });
+    return NextResponse.json({ success: true, entry }, { status: 201 });
   } catch (error) {
-    console.error("Create food diary entry error:", error);
+    console.error("Food diary POST error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to create food diary entry" },
       { status: 500 },

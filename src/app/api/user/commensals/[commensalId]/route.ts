@@ -5,7 +5,8 @@
  */
 
 import { NextResponse } from "next/server";
-import { validateRequest } from "@/lib/auth/validateRequest";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -15,16 +16,12 @@ export const runtime = "nodejs";
 /** PUT /api/user/commensals/[commensalId] */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { commensalId: string } },
+  { params }: { params: Promise<{ commensalId: string }> },
 ) {
-  const authResult = await validateRequest(request);
-  if ("error" in authResult) return authResult.error;
-
-  const { commensalId } = params;
-  const userId = authResult.user.userId;
-
-  const user = await userDatabase.getUserById(userId);
+  const { commensalId } = await params;
+  const user = await getDatabaseUserFromRequest(request);
   if (!user) {
+    _logger.warn(`[PUT /api/user/commensals/${commensalId}] User not found or not authenticated`);
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
@@ -34,32 +31,40 @@ export async function PUT(
     return NextResponse.json({ success: false, message: "Commensal not found" }, { status: 404 });
   }
 
-  const body = await request.json();
-  const { name, relationship } = body;
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { success: false, message: "Invalid JSON in request body" },
+      { status: 400 },
+    );
+  }
+  const { name, relationship } = body as { name?: string; relationship?: string };
 
   const updated = { ...members[idx] };
   if (name) updated.name = name;
-  if (relationship) updated.relationship = relationship;
+  if (relationship) updated.relationship = relationship as any;
 
   members[idx] = updated;
-  await userDatabase.updateUserProfile(userId, { groupMembers: members });
-
-  return NextResponse.json({ success: true, commensal: updated });
+  try {
+    await userDatabase.updateUserProfile(user.id, { groupMembers: members });
+    return NextResponse.json({ success: true, commensal: updated });
+  } catch (error) {
+    _logger.error(`[PUT /api/user/commensals/${commensalId}] Failed to update profile`, error as any);
+    return NextResponse.json({ success: false, message: "Failed to update companion" }, { status: 500 });
+  }
 }
 
 /** DELETE /api/user/commensals/[commensalId] */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { commensalId: string } },
+  { params }: { params: Promise<{ commensalId: string }> },
 ) {
-  const authResult = await validateRequest(request);
-  if ("error" in authResult) return authResult.error;
-
-  const { commensalId } = params;
-  const userId = authResult.user.userId;
-
-  const user = await userDatabase.getUserById(userId);
+  const { commensalId } = await params;
+  const user = await getDatabaseUserFromRequest(request);
   if (!user) {
+    _logger.warn(`[DELETE /api/user/commensals/${commensalId}] User not found or not authenticated`);
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
@@ -76,7 +81,11 @@ export async function DELETE(
     memberIds: g.memberIds.filter((id) => id !== commensalId),
   }));
 
-  await userDatabase.updateUserProfile(userId, { groupMembers: filtered, diningGroups: groups });
-
-  return NextResponse.json({ success: true });
+  try {
+    await userDatabase.updateUserProfile(user.id, { groupMembers: filtered, diningGroups: groups });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    _logger.error(`[DELETE /api/user/commensals/${commensalId}] Failed to update profile`, error as any);
+    return NextResponse.json({ success: false, message: "Failed to remove companion" }, { status: 500 });
+  }
 }

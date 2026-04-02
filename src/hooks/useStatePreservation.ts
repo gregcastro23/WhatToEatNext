@@ -297,7 +297,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
   }, [componentId, getState]);
 
   const validateElementalCompatibility = useCallback(
-    (sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
+    (_sourceProps: ElementalProperties, _targetProps: ElementalProperties) => {
       // Simple validation for now
       const compatibility = 0.8; // Default good compatibility
 

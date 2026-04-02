@@ -6,6 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken, type FoodLabEntry } from "./shared";
 import type { NextRequest } from "next/server";
 
 let _dbMod: typeof import("@/lib/database") | null = null;
@@ -18,39 +19,6 @@ async function getDbModule() {
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-export interface FoodLabEntry {
-  id: string;
-  userId: string;
-  dishName: string;
-  description?: string;
-  notes?: string;
-  recipeName?: string;
-  cuisineType?: string;
-  cookingMethod?: string;
-  cookedAt: string;
-  photos: Array<{ dataUrl: string; caption?: string; uploadedAt: string }>;
-  elementalTags: Record<string, number>;
-  alchemicalTags: Record<string, number>;
-  planetaryContext: Record<string, unknown>;
-  rating?: number;
-  tags: string[];
-  isPublic: boolean;
-  shareToken?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-/** In-memory fallback when DB is unavailable */
-const memStore = new Map<string, FoodLabEntry[]>(); // userId -> entries
-
-function getUserEntries(userId: string): FoodLabEntry[] {
-  return memStore.get(userId) ?? [];
-}
-
-function saveUserEntries(userId: string, entries: FoodLabEntry[]) {
-  memStore.set(userId, entries);
-}
 
 /** GET /api/food-lab */
 export async function GET(request: NextRequest) {
@@ -157,33 +125,5 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ success: true, entry }, { status: 201 });
 }
 
-function generateShareToken(): string {
-  return `${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 10)}`;
-}
-
-function rowToEntry(row: Record<string, unknown>): FoodLabEntry {
-  return {
-    id: row.id as string,
-    userId: row.user_id as string,
-    dishName: row.dish_name as string,
-    description: row.description as string | undefined,
-    notes: row.notes as string | undefined,
-    recipeName: row.recipe_name as string | undefined,
-    cuisineType: row.cuisine_type as string | undefined,
-    cookingMethod: row.cooking_method as string | undefined,
-    cookedAt: (row.cooked_at as Date).toISOString(),
-    photos: (typeof row.photos === "string" ? JSON.parse(row.photos) : row.photos) as FoodLabEntry["photos"],
-    elementalTags: (typeof row.elemental_tags === "string" ? JSON.parse(row.elemental_tags) : row.elemental_tags) as Record<string, number>,
-    alchemicalTags: (typeof row.alchemical_tags === "string" ? JSON.parse(row.alchemical_tags) : row.alchemical_tags) as Record<string, number>,
-    planetaryContext: (typeof row.planetary_context === "string" ? JSON.parse(row.planetary_context) : row.planetary_context) as Record<string, unknown>,
-    rating: row.rating as number | undefined,
-    tags: (row.tags as string[]) ?? [],
-    isPublic: row.is_public as boolean,
-    shareToken: row.share_token as string | undefined,
-    createdAt: (row.created_at as Date).toISOString(),
-    updatedAt: (row.updated_at as Date).toISOString(),
-  };
-}
-
-// Export helper for sibling routes
-export { rowToEntry, memStore, getUserEntries, saveUserEntries, generateShareToken };
+// Re-export helpers for backward compatibility with sibling imports if any still point to ../route
+export { rowToEntry, getUserEntries, saveUserEntries, generateShareToken };

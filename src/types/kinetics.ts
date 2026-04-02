@@ -1,40 +1,36 @@
+import type { Element } from "@/types/celestial";
+import type { DayOfWeek, MealType } from "./menuPlanner";
+import type { Recipe } from "./recipe";
+
 /**
  * 🌟 Planetary Kinetics API Types
  * Real-time consciousness dynamics and aspect calculations
  */
-
-import type { Element } from "@/types/celestial";
-
 export interface KineticsLocation {
   lat: number;
   lon: number;
 }
-
 export interface KineticsOptions {
   includeAgentOptimization?: boolean;
   includePowerPrediction?: boolean;
   includeResonanceMap?: boolean;
   agentIds?: string[];
 }
-
 export interface KineticsPowerData {
   hour: number;
   power: number;
   planetary: string;
 }
-
 export interface KineticsTimingData {
   planetaryHours: string[];
   seasonalInfluence: "Winter" | "Spring" | "Summer" | "Autumn";
 }
-
 export interface KineticsElementalTotals {
   Fire: number;
   Water: number;
   Air: number;
   Earth: number;
 }
-
 export interface KineticsBaseData {
   power: KineticsPowerData[];
   timing: KineticsTimingData;
@@ -42,33 +38,28 @@ export interface KineticsBaseData {
     totals: KineticsElementalTotals;
   };
 }
-
 export interface KineticsAgentOptimization {
   recommendedAgents: string[];
   powerAmplification: number;
   harmonyScore: number;
 }
-
 export interface KineticsPowerPrediction {
   nextPeak: string; // ISO date string
   trend: "ascending" | "stable" | "descending";
   confidence: number;
 }
-
 export interface KineticsResonanceMap {
   [agentId: string]: {
     resonance: number;
     compatibility: number;
   };
 }
-
 export interface KineticsResponseData {
   base: KineticsBaseData;
   agentOptimization?: KineticsAgentOptimization;
   powerPrediction?: KineticsPowerPrediction;
   resonanceMap?: KineticsResonanceMap;
 }
-
 export interface KineticsResponse {
   success: boolean;
   data: KineticsResponseData;
@@ -78,18 +69,15 @@ export interface KineticsResponse {
     timestamp: string;
   };
 }
-
 export interface KineticsRequest {
   location: KineticsLocation;
   options?: KineticsOptions;
 }
-
 // Group Dynamics Types
 export interface GroupDynamicsRequest {
   agentIds: string[];
   location: KineticsLocation;
 }
-
 export interface GroupDynamicsData {
   harmony: number;
   powerAmplification: number;
@@ -102,7 +90,6 @@ export interface GroupDynamicsData {
     };
   };
 }
-
 export interface GroupDynamicsResponse {
   success: boolean;
   data: GroupDynamicsData;
@@ -112,7 +99,6 @@ export interface GroupDynamicsResponse {
     timestamp: string;
   };
 }
-
 // Food Recommendation Integration Types
 export type FoodEnergyCategory = "energizing" | "grounding" | "balanced";
 export interface TemporalFoodRecommendation {
@@ -124,14 +110,12 @@ export interface TemporalFoodRecommendation {
   optimalMealTimes?: string[];
   energyPhase?: string;
 }
-
 export interface AspectPhase {
   type: "applying" | "exact" | "separating";
   description: string;
   velocityBoost?: number;
   powerBoost?: number;
 }
-
 export interface KineticMetrics {
   velocity: Record<Element, number>; // Per-element d(element)/dt
   momentum: Record<Element, number>; // p = inertia × velocity
@@ -148,26 +132,22 @@ export interface KineticMetrics {
   aspectPhase: AspectPhase | null;
   thermalDirection: "heating" | "cooling" | "stable";
 }
-
 export interface KineticsEnhancedRecommendation extends TemporalFoodRecommendation {
   aspectPhase?: AspectPhase;
   groupHarmony?: number;
   portionModifier: number;
   seasonalTags: string[];
 }
-
 // Cache Types
 export interface KineticsCacheEntry {
   data: KineticsResponse;
   timestamp: number;
 }
-
 // Error Types
 export interface KineticsError extends Error {
   statusCode?: number;
   isKineticsError: true;
 }
-
 // Client Configuration
 export interface KineticsClientConfig {
   baseUrl: string;
@@ -175,15 +155,10 @@ export interface KineticsClientConfig {
   timeout: number;
   retryAttempts: number;
 }
-
 // ============================================================================
 // Circuit Model Types
 // Extended circuit metrics for meal and menu analysis
 // ============================================================================
-
-import type { DayOfWeek, MealType } from "./menuPlanner";
-import type { Recipe } from "./recipe";
-
 /**
  * Meal Circuit Metrics
  * Aggregate circuit properties for a single meal slot
@@ -193,7 +168,6 @@ export interface MealCircuitMetrics {
   mealSlotId: string;
   dayOfWeek: DayOfWeek;
   mealType: MealType;
-
   // Circuit Properties (from recipe)
   charge: number; // Q = Matter + Substance
   potentialDifference: number; // V = Greg's Energy / Q
@@ -202,18 +176,14 @@ export interface MealCircuitMetrics {
   resistance: number; // R = Entropy
   powerLosses: number; // I² × R
   efficiency: number; // η = (P - Losses) / P
-
   // Kinetic Properties
   kinetics: KineticMetrics;
-
   // Validation
   isValid: boolean;
   validationErrors: string[];
-
   // Timestamp
   calculatedAt: Date;
 }
-
 /**
  * Day Circuit Metrics
  * Aggregate circuit properties for all 4 meals in a day
@@ -222,7 +192,6 @@ export interface DayCircuitMetrics {
   // Identity
   dayOfWeek: DayOfWeek;
   date: Date;
-
   // Meal Circuits (4 slots)
   meals: {
     breakfast: MealCircuitMetrics | null;
@@ -230,7 +199,6 @@ export interface DayCircuitMetrics {
     dinner: MealCircuitMetrics | null;
     snack: MealCircuitMetrics | null;
   };
-
   // Series Connection Properties (temporal sequence)
   totalCharge: number; // Sum of all charges
   totalResistance: number; // R₁ + R₂ + R₃ + R₄
@@ -239,28 +207,22 @@ export interface DayCircuitMetrics {
   totalPower: number; // Sum of all powers
   totalLosses: number; // Sum of all losses
   dayEfficiency: number; // Total output / Total input
-
   // Energy Balance
   inputEnergy: number; // Total calories + alchemical input
   outputEnergy: number; // Kinetic work + heat
   netEnergy: number; // Input - Output
-
   // Kinetic Aggregate
   netMomentum: Record<Element, number>; // Sum of elemental momenta
   netForce: Record<Element, number>; // Sum of elemental forces
   thermalBalance: "heating" | "cooling" | "stable";
-
   // Planetary Influence
   dominantPlanet: string;
   planetaryHarmony: number; // 0-1 score
-
   // Validation
   isPowerBalanced: boolean; // KCL/KVL validation
   balanceDeviation: number; // % deviation from ideal
-
   calculatedAt: Date;
 }
-
 /**
  * Circuit Bottleneck
  * Identified inefficiency in the meal circuit
@@ -270,7 +232,6 @@ export interface CircuitBottleneck {
   reason: string;
   impactScore: number; // 0-1 (how much it affects overall)
 }
-
 /**
  * Circuit Improvement Suggestion
  * Recommended change to improve circuit efficiency
@@ -282,7 +243,6 @@ export interface CircuitImprovementSuggestion {
   expectedImprovement: number; // % improvement in efficiency
   reason: string;
 }
-
 /**
  * Weekly Menu Circuit Metrics
  * Complete circuit network for all 28 meal slots
@@ -292,7 +252,6 @@ export interface WeeklyMenuCircuitMetrics {
   weekStartDate: Date;
   weekEndDate: Date;
   menuId: string;
-
   // Day Circuits (7 days)
   days: {
     sunday: DayCircuitMetrics;
@@ -303,18 +262,15 @@ export interface WeeklyMenuCircuitMetrics {
     friday: DayCircuitMetrics;
     saturday: DayCircuitMetrics;
   };
-
   // Weekly Aggregate Properties
   totalWeekCharge: number;
   totalWeekPower: number;
   totalWeekLosses: number;
   weekEfficiency: number; // Overall efficiency
-
   // Network Topology
   parallelDays: number; // Days with concurrent power paths
   seriesDays: number; // Days in strict sequence
   networkComplexity: number; // Graph complexity metric
-
   // Power Flow Analysis
   powerDistribution: {
     morning: number; // % power in breakfast
@@ -322,28 +278,22 @@ export interface WeeklyMenuCircuitMetrics {
     evening: number; // % power in dinner
     snacks: number; // % power in snacks
   };
-
   // Elemental Balance
   weeklyElementalBalance: Record<Element, number>;
   elementalHarmony: number; // 0-1 score
-
   // Kinetic Summary
   weeklyMomentum: Record<Element, number>;
   weeklyForce: Record<Element, number>;
   weeklyThermalDirection: "heating" | "cooling" | "stable";
-
   // Optimization Metrics
   bottlenecks: CircuitBottleneck[];
   improvementSuggestions: CircuitImprovementSuggestion[];
-
   // Validation
   isFullyBalanced: boolean;
   weeklyKCLViolations: number; // Count of KCL violations
   weeklyKVLViolations: number; // Count of KVL violations
-
   calculatedAt: Date;
 }
-
 /**
  * Circuit Optimization Goal
  * User-defined optimization criteria
@@ -356,7 +306,6 @@ export interface CircuitOptimizationGoal {
     | "balance_elements"
     | "balance_thermal"
     | "custom";
-
   customWeights?: {
     power: number; // 0-1 weight
     efficiency: number;
@@ -364,7 +313,6 @@ export interface CircuitOptimizationGoal {
     kineticBalance: number;
     planetaryHarmony: number;
   };
-
   constraints?: {
     minEfficiency?: number; // e.g., 0.7 = 70% minimum
     maxLosses?: number; // e.g., 10 Watts max

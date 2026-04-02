@@ -8,7 +8,13 @@
  * @file src/components/recipe-builder/IngredientSearchBar.tsx
  */
 
-import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useMemo,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import type { SelectedIngredient } from "@/contexts/RecipeBuilderContext";
 import { getAllIngredients } from "@/utils/foodRecommender";
@@ -17,7 +23,10 @@ import { createLogger } from "@/utils/logger";
 const logger = createLogger("IngredientSearchBar");
 
 // Element colors for visual cards
-const ELEMENT_COLORS: Record<string, { bg: string; text: string; bar: string }> = {
+const ELEMENT_COLORS: Record<
+  string,
+  { bg: string; text: string; bar: string }
+> = {
   Fire: { bg: "bg-orange-50", text: "text-orange-700", bar: "bg-orange-400" },
   Water: { bg: "bg-blue-50", text: "text-blue-700", bar: "bg-blue-400" },
   Earth: { bg: "bg-amber-50", text: "text-amber-700", bar: "bg-amber-500" },
@@ -68,8 +77,13 @@ const ElementalBar: React.FC<ElementalBarProps> = ({ element, value }) => {
   if (pct <= 0) return null;
 
   return (
-    <div className="flex items-center gap-1.5 text-xs" title={`${element}: ${pct}%`}>
-      <span className={`${colors.text} w-8 font-medium`}>{element.slice(0, 2)}</span>
+    <div
+      className="flex items-center gap-1.5 text-xs"
+      title={`${element}: ${pct}%`}
+    >
+      <span className={`${colors.text} w-8 font-medium`}>
+        {element.slice(0, 2)}
+      </span>
       <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
         <div
           className={`h-full ${colors.bar} rounded-full transition-all`}
@@ -85,12 +99,21 @@ const ElementalBar: React.FC<ElementalBarProps> = ({ element, value }) => {
  * Single ingredient result card
  */
 interface IngredientCardProps {
-  ingredient: { name: string; category?: string; elementalProperties?: Record<string, number> };
+  ingredient: {
+    name: string;
+    category?: string;
+    description?: string;
+    elementalProperties?: Record<string, number>;
+  };
   isSelected: boolean;
   onAdd: () => void;
 }
 
-const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, isSelected, onAdd }) => {
+const IngredientCard: React.FC<IngredientCardProps> = ({
+  ingredient,
+  isSelected,
+  onAdd,
+}) => {
   const elementalProps = ingredient.elementalProperties || {};
 
   // Find dominant element
@@ -109,9 +132,10 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, isSelected,
     <div
       className={`
         flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all cursor-pointer
-        ${isSelected
-          ? "border-purple-300 bg-purple-50 opacity-60"
-          : "border-gray-200 hover:border-purple-200 hover:bg-gray-50"
+        ${
+          isSelected
+            ? "border-purple-300 bg-purple-50 opacity-60"
+            : "border-gray-200 hover:border-purple-200 hover:bg-gray-50"
         }
       `}
       onClick={isSelected ? undefined : onAdd}
@@ -134,7 +158,21 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, isSelected,
           {ingredient.name}
         </div>
         {ingredient.category && (
-          <div className="text-xs text-gray-500 truncate">{ingredient.category}</div>
+          <div className="text-xs text-gray-500 truncate">
+            {ingredient.category}
+          </div>
+        )}
+        {ingredient.description && (
+          <div
+            className="text-[10px] text-gray-400 mt-0.5 line-clamp-1"
+            title={ingredient.description
+              .replace(/\*\*(.*?)\*\*/g, "$1")
+              .replace(/\*(.*?)\*/g, "$1")}
+          >
+            {ingredient.description
+              .replace(/\*\*(.*?)\*\*/g, "$1")
+              .replace(/\*(.*?)\*/g, "$1")}
+          </div>
         )}
       </div>
 
@@ -156,9 +194,10 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, isSelected,
         disabled={isSelected}
         className={`
           ml-2 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all
-          ${isSelected
-            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-            : "bg-purple-600 text-white hover:bg-purple-700 hover:scale-110"
+          ${
+            isSelected
+              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+              : "bg-purple-600 text-white hover:bg-purple-700 hover:scale-110"
           }
         `}
         title={isSelected ? "Already added" : "Add to recipe"}
@@ -237,11 +276,16 @@ export default function IngredientSearchBar({
 
   // Handle adding an ingredient
   const handleAdd = useCallback(
-    (ing: { name: string; category?: string; elementalProperties?: Record<string, number> }) => {
+    (ing: {
+      name: string;
+      category?: string;
+      elementalProperties?: Record<string, number>;
+    }) => {
       const selected: SelectedIngredient = {
         name: ing.name,
         category: ing.category,
-        elementalProperties: ing.elementalProperties as SelectedIngredient["elementalProperties"],
+        elementalProperties:
+          ing.elementalProperties as SelectedIngredient["elementalProperties"],
       };
       addIngredient(selected);
     },
@@ -262,7 +306,8 @@ export default function IngredientSearchBar({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const showResults = isFocused && (query.trim().length >= 1 || selectedCategory);
+  const showResults =
+    isFocused && (query.trim().length >= 1 || selectedCategory);
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
@@ -353,7 +398,8 @@ export default function IngredientSearchBar({
           ) : (
             <div className="p-2 space-y-1">
               <div className="px-2 py-1 text-xs text-gray-400">
-                {filteredIngredients.length} result{filteredIngredients.length !== 1 ? "s" : ""}
+                {filteredIngredients.length} result
+                {filteredIngredients.length !== 1 ? "s" : ""}
               </div>
               {filteredIngredients.map((ing) => (
                 <IngredientCard

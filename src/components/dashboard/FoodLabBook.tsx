@@ -100,6 +100,7 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
         credentials: 'include',
         body: JSON.stringify({ isPublic: true }),
       });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setLocalEntry(data.entry);
     } finally {
@@ -109,7 +110,7 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
 
   const copyLink = () => {
     if (!shareUrl) return;
-    navigator.clipboard.writeText(shareUrl).then(() => {
+    void navigator.clipboard.writeText(shareUrl).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -125,12 +126,12 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
   const instagramCaption = `${localEntry.dishName}${localEntry.cuisineType ? ` • ${localEntry.cuisineType}` : ''}${localEntry.cookingMethod ? ` • ${localEntry.cookingMethod}` : ''}\n\n${
     localEntry.notes ? `${localEntry.notes}\n\n` : ''
   }${localEntry.rating ? `${'⭐'.repeat(localEntry.rating)} Rating\n\n` : ''}${
-    localEntry.tags.length > 0 ? localEntry.tags.map((t) => `#${t.replace(/\s/g, '')}`).join(' ') + '\n' : ''
+    localEntry.tags.length > 0 ? `${localEntry.tags.map((t) => `#${t.replace(/\s/g, '')}`).join(' ')  }\n` : ''
   }#WhatToEatNext #AlchemicalCooking #${(localEntry.cookingMethod ?? 'Cooking').replace(/\s/g, '')}`;
 
   const [igCopied, setIgCopied] = useState(false);
   const copyIgCaption = () => {
-    navigator.clipboard.writeText(instagramCaption).then(() => {
+    void navigator.clipboard.writeText(instagramCaption).then(() => {
       setIgCopied(true);
       setTimeout(() => setIgCopied(false), 2000);
     });
@@ -316,6 +317,7 @@ function EntryDetail({
   const [deleting, setDeleting] = useState(false);
 
   const handleDelete = async () => {
+    // eslint-disable-next-line no-alert
     if (!window.confirm(`Delete "${entry.dishName}"?`)) return;
     setDeleting(true);
     try {
@@ -443,7 +445,7 @@ function EntryDetail({
                       ELEMENT_COLORS[el] ?? 'bg-gray-100 text-gray-600'
                     }`}
                   >
-                    {el}: {Math.round((v as number) * 100)}%
+                    {el}: {Math.round((v) * 100)}%
                   </span>
                 ))}
               </div>
@@ -543,6 +545,7 @@ function NewEntryForm({
         credentials: 'include',
         body: fd,
       });
+      if (!res.ok) throw new Error(`Upload failed (${res.status})`);
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       setPhotos((prev) => [
@@ -600,6 +603,7 @@ function NewEntryForm({
           isPublic: form.isPublic,
         }),
       });
+      if (!res.ok) throw new Error(`Server error (${res.status})`);
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       onSaved(data.entry);
@@ -631,6 +635,8 @@ function NewEntryForm({
 
         {/* Photos */}
         <div>
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs font-medium text-gray-600 mb-2">Photos</label>
           <div className="flex gap-2 flex-wrap">
             {photos.map((p, i) => (
@@ -676,7 +682,7 @@ function NewEntryForm({
         {/* Core fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="sm:col-span-2">
-            <label className="block text-xs text-gray-500 mb-1">Dish Name *</label>
+            <label htmlFor="dishName" className="block text-xs text-gray-500 mb-1">Dish Name *</label>
             <input
               type="text"
               name="dishName"
@@ -687,7 +693,7 @@ function NewEntryForm({
             />
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Cuisine</label>
+            <label htmlFor="cuisineType" className="block text-xs text-gray-500 mb-1">Cuisine</label>
             <select
               name="cuisineType"
               value={form.cuisineType}
@@ -701,7 +707,7 @@ function NewEntryForm({
             </select>
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Cooking Method</label>
+            <label htmlFor="cookingMethod" className="block text-xs text-gray-500 mb-1">Cooking Method</label>
             <select
               name="cookingMethod"
               value={form.cookingMethod}
@@ -715,7 +721,7 @@ function NewEntryForm({
             </select>
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Recipe Name</label>
+            <label htmlFor="recipeName" className="block text-xs text-gray-500 mb-1">Recipe Name</label>
             <input
               type="text"
               name="recipeName"
@@ -726,7 +732,7 @@ function NewEntryForm({
             />
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Cooked On</label>
+            <label htmlFor="cookedAt" className="block text-xs text-gray-500 mb-1">Cooked On</label>
             <input
               type="datetime-local"
               name="cookedAt"
@@ -739,7 +745,7 @@ function NewEntryForm({
 
         {/* Description */}
         <div>
-          <label className="block text-xs text-gray-500 mb-1">Description</label>
+          <label htmlFor="description" className="block text-xs text-gray-500 mb-1">Description</label>
           <textarea
             name="description"
             value={form.description}
@@ -752,7 +758,7 @@ function NewEntryForm({
 
         {/* Lab Notes */}
         <div>
-          <label className="block text-xs text-gray-500 mb-1">Lab Notes</label>
+          <label htmlFor="notes" className="block text-xs text-gray-500 mb-1">Lab Notes</label>
           <textarea
             name="notes"
             value={form.notes}
@@ -765,6 +771,8 @@ function NewEntryForm({
 
         {/* Elemental tags */}
         <div>
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs text-gray-500 mb-2">Elemental Properties (select all that apply)</label>
           <div className="flex gap-2 flex-wrap">
             {(['Fire', 'Water', 'Earth', 'Air'] as const).map((el) => (
@@ -786,6 +794,8 @@ function NewEntryForm({
 
         {/* Rating */}
         <div>
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-xs text-gray-500 mb-2">Your Rating</label>
           <StarRating
             value={form.rating}
@@ -795,7 +805,7 @@ function NewEntryForm({
 
         {/* Tags */}
         <div>
-          <label className="block text-xs text-gray-500 mb-1">Tags (comma separated)</label>
+          <label htmlFor="tags" className="block text-xs text-gray-500 mb-1">Tags (comma separated)</label>
           <input
             type="text"
             name="tags"
@@ -853,6 +863,7 @@ export const FoodLabBook: React.FC = () => {
     setLoading(true);
     try {
       const res = await fetch('/api/food-lab', { credentials: 'include' });
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setEntries(data.entries ?? []);
     } catch {

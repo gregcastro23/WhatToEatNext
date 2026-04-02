@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ZodiacSignType, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Stir-frying cooking method
@@ -10,6 +9,8 @@ export const _stirFrying: CookingMethodData = {
   name: "stir-frying",
   description:
     "High-heat, quick cooking technique where food is rapidly tossed and stirred in a wok or pan, preserving texture and creating complex flavors",
+  shortDescription: "Whips ingredients through searing heat in seconds, preserving crunch and vitality.",
+  culinaryArchetype: "The Quicksilver",
   elementalEffect: {
     Fire: 0.7,  // Extreme wok heat (600-900°F) dominates
     Air: 0.2,   // Constant tossing, wok hei requires air exposure

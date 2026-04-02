@@ -109,7 +109,7 @@ export default function CopyMealModal({
   const handleApply = () => {
     const targetSlotIds = Array.from(selectedSlotIds);
     if (targetSlotIds.length === 0) {
-      alert("Please select at least one slot");
+      console.warn("Please select at least one slot");
       return;
     }
 
@@ -121,7 +121,8 @@ export default function CopyMealModal({
 
     if (occupiedSlots.length > 0) {
       if (
-        !confirm(
+        // eslint-disable-next-line no-alert
+        !window.confirm(
           `This will overwrite ${occupiedSlots.length} occupied slot(s). Continue?`,
         )
       ) {

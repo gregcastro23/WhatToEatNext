@@ -6,9 +6,9 @@
  */
 
 import type {
-  Planet,
+  Planet as _Planet,
   ZodiacSignType,
-  PlanetaryAspect,
+  PlanetaryAspect as _PlanetaryAspect,
   AspectType,
 } from "@/types/celestial";
 

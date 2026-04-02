@@ -12,7 +12,7 @@ export interface PerformanceReport {
 }
 
 export class PerformanceMetricsAnalytics {
-  static analyzeMetrics(metrics: any): PerformanceReport {
+  static analyzeMetrics(_metrics: any): PerformanceReport {
     return {
       summary: "No analysis available",
       metrics: {},

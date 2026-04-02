@@ -1,21 +1,14 @@
 import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
+import { getEdgeWorkerBaseUrl } from "@/utils/urlUtils";
 
 // Use local API endpoint instead of external
 // On server-side, we need an absolute URL since relative URLs don't work in Node.js
 const getBackendBaseUrl = () => {
-  if (typeof window === "undefined") {
-    // Server-side: use absolute URL from environment variables
-    return (
-      process.env.NEXT_PUBLIC_BACKEND_URL ||
-      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
-      "http://localhost:8001"
-    ); // Fallback to local Docker port
-  }
-  // Client-side: use relative URL if backend is proxied, or absolute if explicitly set
-  return process.env.NEXT_PUBLIC_BACKEND_URL || "";
+  return getEdgeWorkerBaseUrl();
 };
 
 const getAstrologizeApiUrl = () => {
@@ -155,7 +148,7 @@ function calculateApproximateAscendant(
   const signs = [
     "aries", "taurus", "gemini", "cancer", "leo", "virgo",
     "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
-  ];
+  ] as const;
 
   const now = new Date();
   const year = requestData.year ?? now.getFullYear();
@@ -194,7 +187,7 @@ function calculateApproximateAscendant(
     Math.cos(lstRad),
     -(Math.sin(oblRad) * Math.tan(latRad) + Math.cos(oblRad) * Math.sin(lstRad))
   );
-  let ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
+  const ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
 
   const signIndex = Math.floor(ascLongitude / 30);
   const degreeInSign = ascLongitude - signIndex * 30;

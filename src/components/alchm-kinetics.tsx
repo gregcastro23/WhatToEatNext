@@ -1,7 +1,7 @@
 "use client";
 
-import { Activity, TrendingUp, Zap, Gauge } from "lucide-react";
 import { useState, useEffect } from "react";
+import { FaHeartbeat, FaChartLine, FaBolt, FaTachometerAlt } from "react-icons/fa";
 
 interface ESMSKinetics {
   velocity:     { Spirit: number; Essence: number; Matter: number; Substance: number };
@@ -119,6 +119,7 @@ export default function AlchmKinetics() {
     const fetchData = async () => {
       try {
         const response = await fetch("/api/alchm-quantities");
+        if (!response.ok) return;
         const data = await response.json();
         if (data.kinetics && data.circuit) {
           setApiData({ kinetics: data.kinetics, circuit: data.circuit });
@@ -130,7 +131,7 @@ export default function AlchmKinetics() {
       }
     };
 
-    fetchData();
+    void fetchData();
     const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -164,7 +165,7 @@ export default function AlchmKinetics() {
       {/* ── Velocity ── */}
       <div className="space-y-3">
         <h4 className="font-medium text-cyan-300 flex items-center gap-2 text-sm">
-          <TrendingUp className="h-4 w-4" />
+          <FaChartLine className="h-4 w-4" />
           Velocity — rate of change tendency
         </h4>
         {QUANTITIES.map((q) => (
@@ -181,7 +182,7 @@ export default function AlchmKinetics() {
       {/* ── Acceleration ── */}
       <div className="space-y-3">
         <h4 className="font-medium text-cyan-300 flex items-center gap-2 text-sm">
-          <Activity className="h-4 w-4" />
+          <FaHeartbeat className="h-4 w-4" />
           Acceleration — ΔVelocity / ΔTime
         </h4>
         {QUANTITIES.map((q) => (
@@ -198,7 +199,7 @@ export default function AlchmKinetics() {
       {/* ── Momentum ── */}
       <div className="space-y-3">
         <h4 className="font-medium text-cyan-300 flex items-center gap-2 text-sm">
-          <Zap className="h-4 w-4" />
+          <FaBolt className="h-4 w-4" />
           Momentum — Quantity × Velocity
         </h4>
         {QUANTITIES.map((q) => (
@@ -215,7 +216,7 @@ export default function AlchmKinetics() {
       {/* ── P = IV Circuit ── */}
       <div className="space-y-3 pt-2 border-t border-cyan-900/30">
         <h4 className="font-medium text-cyan-300 flex items-center gap-2 text-sm">
-          <Gauge className="h-4 w-4" />
+          <FaTachometerAlt className="h-4 w-4" />
           P = IV Circuit Model
         </h4>
         <div className="grid grid-cols-2 gap-2">

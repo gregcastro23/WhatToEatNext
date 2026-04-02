@@ -12,11 +12,10 @@ import type {
   Season,
   ZodiacSignType,
 } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
 import { createElementalProperties } from "../../utils/elemental/elementalUtils";
 import { logger } from "../../utils/logger";
 import { consolidatedIngredientService } from "../ConsolidatedIngredientService";
-import { FoodAlchemySystem, type SystemState } from "../FoodAlchemySystem";
+import { type SystemState } from "../FoodAlchemySystem";
 import type { UnifiedIngredient } from "../../data/unified/unifiedTypes";
 import type { IngredientFilter } from "../interfaces/IngredientServiceInterface";
 

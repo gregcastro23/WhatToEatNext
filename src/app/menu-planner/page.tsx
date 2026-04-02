@@ -9,8 +9,8 @@
  */
 
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import { useToast, Toast } from "@/components/common/Toast";
+import { useEffect, useState } from "react";
+import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
 import WeekProgress from "@/components/menu-builder/WeekProgress";
@@ -19,15 +19,16 @@ import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard
 import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
 import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
+import TodaysMealsWidget from "@/components/menu-planner/TodaysMealsWidget";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
-import { InlineNutritionDashboard , WeeklyNutritionDashboard } from "@/components/nutrition";
+import { WeeklyNutritionDashboard } from "@/components/nutrition";
 import {
-  MenuPlannerProvider,
-  useMenuPlanner,
+    MenuPlannerProvider,
+    useMenuPlanner,
 } from "@/contexts/MenuPlannerContext";
 import {
-  RecipeQueueProvider,
-  useRecipeQueue,
+    RecipeQueueProvider,
+    useRecipeQueue,
 } from "@/contexts/RecipeQueueContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import type { Recipe } from "@/types/recipe";
@@ -47,17 +48,18 @@ interface SavedChart {
  * Menu Planner Content (inner component with context access)
  */
 function MenuPlannerContent() {
+  const menuPlannerActions = useMenuPlanner();
   const {
     currentMenu,
     weeklyStats,
-    groceryList,
+    groceryList: _groceryList,
     regenerateGroceryList,
-    clearWeek,
+    clearWeek: _clearWeek,
     saveAsTemplate,
-    refreshStats,
+    refreshStats: _refreshStats,
     syncWithLunarCycle,
     toggleSyncWithLunarCycle,
-  } = useMenuPlanner();
+  } = menuPlannerActions;
 
   const { queueSize } = useRecipeQueue();
 
@@ -72,7 +74,7 @@ function MenuPlannerContent() {
   const [showRecipeQueue, setShowRecipeQueue] = useState(true);
   const [showRecipeBrowser, setShowRecipeBrowser] = useState(false);
   const [detailRecipe, setDetailRecipe] = useState<Recipe | null>(null);
-  const [showDetailedNutrition, setShowDetailedNutrition] = useState(false);
+  const [_showDetailedNutrition, _setShowDetailedNutrition] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
   const [isWeeklyDashboardExpanded, setIsWeeklyDashboardExpanded] =
@@ -111,13 +113,13 @@ function MenuPlannerContent() {
 
     if (showParticipantSelection) {
       // Only fetch when the selection UI is active
-      fetchSavedCharts();
+      void fetchSavedCharts();
     }
   }, [showParticipantSelection]); // Re-fetch when UI visibility changes
 
   const handleSaveTemplate = async () => {
     if (!templateName.trim()) {
-      alert("Please enter a template name");
+      console.warn("Please enter a template name");
       return;
     }
 
@@ -134,7 +136,7 @@ function MenuPlannerContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-purple-50 via-pink-50 to-blue-50">
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="w-full px-4 xl:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -262,7 +264,7 @@ function MenuPlannerContent() {
             }
           />
         )}
-        {/* Week Progress + Inline Nutrition */}{" "}
+        {/* Week Progress + Today's Meals Widget */}
         <div className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-1">
             <WeekProgress
@@ -271,9 +273,17 @@ function MenuPlannerContent() {
             />
           </div>
           <div className="lg:col-span-2">
-            {weeklyNutrition && (
-              <InlineNutritionDashboard weeklyResult={weeklyNutrition} />
-            )}
+            <TodaysMealsWidget
+              weekPlan={currentMenu}
+              onAddRecipe={(dayOfWeek, mealType, recipe) => {
+                const { addMealToSlot } = menuPlannerActions;
+                void addMealToSlot(dayOfWeek, mealType, recipe);
+              }}
+              onGenerateMeal={(dayOfWeek, mealType) => {
+                const { generateMealsForDay } = menuPlannerActions;
+                void generateMealsForDay(dayOfWeek, { mealTypes: [mealType] });
+              }}
+            />
           </div>
         </div>
         {/* Recipe Browser Panel (collapsible) */}
@@ -289,16 +299,16 @@ function MenuPlannerContent() {
             />
           </div>
         )}
-        {/* Main Content - Calendar, Queue, and Smart Suggestions */}
-        <div className="flex gap-6">
-          {/* Calendar */}
-          <div className={`min-w-0 ${showRecipeQueue ? "flex-1" : "flex-1"}`}>
-            <WeeklyCalendar />
-          </div>
+        {/* Main Content - Full-width Calendar */}
+        <div className="w-full">
+          <WeeklyCalendar />
+        </div>
 
-          {/* Recipe Queue Sidebar */}
+        {/* Sidebars row - below calendar for better readability */}
+        <div className="flex flex-col lg:flex-row gap-4 mt-6">
+          {/* Recipe Queue */}
           {showRecipeQueue && (
-            <div className="hidden md:block w-96 flex-shrink-0">
+            <div className="w-full lg:w-96 flex-shrink-0">
               <RecipeQueue
                 onSelectRecipe={(queuedRecipe) => {
                   console.log("Selected from queue:", queuedRecipe.recipe.name);
@@ -310,8 +320,8 @@ function MenuPlannerContent() {
             </div>
           )}
 
-          {/* Smart Suggestions Sidebar - desktop only */}
-          <div className="hidden lg:block relative flex-shrink-0">
+          {/* Smart Suggestions - right side */}
+          <div className="flex-1 hidden lg:block">
             <SmartSuggestionsSidebar
               weekPlan={currentMenu}
               weeklyNutrition={weeklyNutrition}
@@ -321,20 +331,23 @@ function MenuPlannerContent() {
           </div>
         </div>
         {/* Mobile: Suggestions Bottom Sheet */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-amber-200 shadow-xl z-40">
           <button
             onClick={() => setShowMobileSuggestions(!showMobileSuggestions)}
-            className="w-full flex items-center justify-between px-4 py-3 focus:outline-none"
+            className="w-full flex items-center justify-between px-4 py-3 focus:outline-none bg-gradient-to-r from-amber-50 to-orange-50"
           >
-            <span className="font-semibold text-gray-800 text-sm">
-              Smart Suggestions
-            </span>
-            <span className="text-gray-500">
+            <div className="flex items-center gap-2">
+              <span className="text-base">✨</span>
+              <span className="font-bold text-gray-800 text-sm">
+                Smart Suggestions
+              </span>
+            </div>
+            <span className="text-amber-600 font-bold">
               {showMobileSuggestions ? "▼" : "▲"}
             </span>
           </button>
           {showMobileSuggestions && (
-            <div className="px-4 pb-4 max-h-64 overflow-y-auto animate-fade-in">
+            <div className="max-h-72 overflow-y-auto">
               <SmartSuggestionsSidebar
                 weekPlan={currentMenu}
                 weeklyNutrition={weeklyNutrition}
@@ -531,6 +544,8 @@ function MenuPlannerContent() {
               </div>
 
               <div className="p-6">
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="block mb-2 text-sm font-medium text-gray-700">
                   Template Name
                 </label>

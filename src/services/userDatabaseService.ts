@@ -4,6 +4,7 @@
  * Uses PostgreSQL for persistent storage with in-memory fallback
  */
 
+import { randomUUID } from "crypto";
 import type { UserProfile } from "@/contexts/UserContext";
 import type { User, UserRole } from "@/lib/auth/jwt-auth";
 import { _logger } from "@/lib/logger";
@@ -24,7 +25,7 @@ const getDbModule = async () => {
   if (!dbModule && isServerWithDB()) {
     try {
       dbModule = await import("@/lib/database");
-    } catch (error) {
+    } catch (_error) {
       _logger.warn("Database module not available, using in-memory storage");
     }
   }
@@ -62,17 +63,19 @@ class UserDatabaseService {
     await this.ensureInitialized();
     const db = await getDbModule();
 
+    const email = data.email.toLowerCase();
+
     // Check if email already exists
-    if (await this.emailExists(data.email)) {
+    if (await this.emailExists(email)) {
       throw new Error("User with this email already exists");
     }
 
-    const userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const userId = randomUUID();
     const now = new Date();
 
     const user: UserWithProfile = {
       id: userId,
-      email: data.email,
+      email,
       passwordHash: data.passwordHash || "TEMP_NO_PASSWORD",
       roles: data.roles || ["user" as UserRole],
       isActive: true,
@@ -80,7 +83,7 @@ class UserDatabaseService {
       profile: {
         userId,
         name: data.name,
-        email: data.email,
+        email,
         preferences: {},
         groupMembers: [],
         diningGroups: [],
@@ -100,7 +103,7 @@ class UserDatabaseService {
            VALUES ($1, $2, $3, $4::user_role, $5, $6, $7, $8)`,
           [
             userId,
-            data.email,
+            email,
             user.passwordHash,
             primaryRole,
             true,
@@ -144,9 +147,9 @@ class UserDatabaseService {
 
     // Always update in-memory cache
     this.users.set(userId, user);
-    this.emailIndex.set(data.email, userId);
+    this.emailIndex.set(email, userId);
 
-    _logger.info("User created:", { userId, email: data.email });
+    _logger.info("User created:", { userId, email });
     return user;
   }
 
@@ -188,6 +191,7 @@ class UserDatabaseService {
   async getUserByEmail(email: string): Promise<UserWithProfile | null> {
     await this.ensureInitialized();
     const db = await getDbModule();
+    const normalizedEmail = email.toLowerCase();
 
     // Try PostgreSQL first
     if (db) {
@@ -198,7 +202,7 @@ class UserDatabaseService {
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
            WHERE u.email = $1`,
-          [email],
+          [normalizedEmail],
         );
 
         if (result.rows.length > 0) {
@@ -210,7 +214,7 @@ class UserDatabaseService {
     }
 
     // Fallback to in-memory
-    const userId = this.emailIndex.get(email);
+    const userId = this.emailIndex.get(normalizedEmail);
     return userId ? this.users.get(userId) || null : null;
   }
 
@@ -227,6 +231,19 @@ class UserDatabaseService {
     // Get existing user
     const user = await this.getUserById(userId);
     if (!user) {
+      // Fallback: try resolving by email (handles Google sub vs DB id mismatch)
+      try {
+        const { auth } = await import("@/lib/auth/auth");
+        const session = await auth();
+        if (session?.user?.email) {
+          const byEmail = await this.getUserByEmail(session.user.email);
+          if (byEmail) {
+            return this.updateUserProfile(byEmail.id, profileData);
+          }
+        }
+      } catch {
+        // Auth unavailable — true not-found case
+      }
       return null;
     }
 
@@ -408,6 +425,27 @@ class UserDatabaseService {
   }
 
   /**
+   * Get the total number of active users
+   */
+  async getUserCount(): Promise<number> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          "SELECT COUNT(*) as count FROM users WHERE is_active = true",
+        );
+        return parseInt(result.rows[0].count, 10);
+      } catch (error) {
+        _logger.warn("PostgreSQL count failed:", error as any);
+      }
+    }
+
+    return this.users.size;
+  }
+
+  /**
    * Get all users (admin only)
    */
   async getAllUsers(): Promise<UserWithProfile[]> {
@@ -442,13 +480,14 @@ class UserDatabaseService {
   async emailExists(email: string): Promise<boolean> {
     await this.ensureInitialized();
     const db = await getDbModule();
+    const normalizedEmail = email.toLowerCase();
 
     // Try PostgreSQL first
     if (db) {
       try {
         const result = await db.executeQuery(
           `SELECT 1 FROM users WHERE email = $1 LIMIT 1`,
-          [email],
+          [normalizedEmail],
         );
         return result.rows.length > 0;
       } catch (error) {
@@ -457,7 +496,7 @@ class UserDatabaseService {
     }
 
     // Fallback to in-memory
-    return this.emailIndex.has(email);
+    return this.emailIndex.has(normalizedEmail);
   }
 
   /**

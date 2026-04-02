@@ -1,48 +1,25 @@
 "use client";
 
-import {
-  AccessTime,
-  Kitchen,
-  LocalFireDepartment,
-  Science,
-  ThermostatAuto,
-  Warning,
-  Whatshot,
-} from "@mui/icons-material";
-import {
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Container,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Typography,
-  useTheme,
-} from "@mui/material";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { 
+  FaClock, 
+  FaUtensils, 
+  FaFire, 
+  FaFlask, 
+  FaThermometerHalf, 
+  FaExclamationTriangle,
+  FaBolt,
+  FaArrowLeft
+} from "react-icons/fa";
 import { allCookingMethods } from "@/data/cooking/methods";
 import type { CookingMethodInfo } from "@/types/cooking";
 
 // Fallback placeholders for missing components to keep page functional
 const MethodImage = ({ method }: { method: string }) => (
-  <div
-    style={{
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "#f5f5f5",
-    }}
-  >
-    <span style={{ color: "#999" }}>Image for {method}</span>
+  <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg">
+    <span className="text-gray-400">Image for {method}</span>
   </div>
 );
 
@@ -52,11 +29,22 @@ const ZodiacSignType = ({
 }: {
   sign: string;
   size?: "small" | "medium" | "large";
-}) => <span>{sign}</span>;
+}) => {
+  const sizeClasses = {
+    small: "px-2 py-0.5 text-xs",
+    medium: "px-3 py-1 text-sm",
+    large: "px-4 py-2 text-base"
+  };
+  
+  return (
+    <span className={`inline-block bg-purple-100 text-purple-700 rounded-full font-medium ${sizeClasses[size]}`}>
+      {sign}
+    </span>
+  );
+};
 
 export default function CookingMethodPage() {
   const params = useParams();
-  const theme = useTheme();
   const [method, setMethod] = useState<CookingMethodInfo | null>(null);
   const [methodKey, setMethodKey] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -85,583 +73,458 @@ export default function CookingMethodPage() {
 
   if (loading) {
     return (
-      <Container>
-        <Typography variant="h4" sx={{ my: 4, textAlign: "center" }}>
-          Loading cooking method...
-        </Typography>
-      </Container>
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl font-bold text-center">Loading cooking method...</h1>
+      </div>
     );
   }
 
   if (!method) {
     return (
-      <Container>
-        <Typography variant="h4" sx={{ my: 4, textAlign: "center" }}>
-          Cooking method not found
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          <Link href="/cooking-methods">Return to cooking methods</Link>
-        </Typography>
-      </Container>
+      <div className="container mx-auto px-4 py-12 text-center">
+        <h1 className="text-3xl font-bold mb-4">Cooking method not found</h1>
+        <Link href="/cooking-methods" className="text-blue-600 hover:underline flex items-center justify-center gap-2">
+          <FaArrowLeft /> Return to cooking methods
+        </Link>
+      </div>
     );
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Link href="/cooking-methods" passHref>
-        <Typography
-          component="a"
-          sx={{
-            display: "block",
-            mb: 2,
-            color: theme.palette.primary.main,
-            textDecoration: "none",
-            "&:hover": { textDecoration: "underline" },
-          }}
-        >
-          ← Back to Cooking Methods
-        </Typography>
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <Link href="/cooking-methods" className="inline-flex items-center gap-2 text-blue-600 hover:underline mb-6 transition-colors">
+        <FaArrowLeft /> Back to Cooking Methods
       </Link>
 
-      <Paper
-        elevation={3}
-        sx={{
-          p: 4,
-          mb: 4,
-          borderRadius: 2,
-          backgroundImage: `radial-gradient(circle at 50% 0%, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
-        }}
-      >
-        <Grid container spacing={4} alignItems="center">
-          <Grid item xs={12} md={6}>
-            <Typography variant="h2" component="h1" gutterBottom>
-              {methodKey.charAt(0).toUpperCase() + methodKey.slice(1)}
-            </Typography>
+      <div className="bg-white shadow-lg rounded-2xl p-6 md:p-8 mb-8 bg-gradient-to-b from-white to-gray-50 border border-gray-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 capitalize text-gray-900">
+              {methodKey}
+            </h1>
 
-            <Typography variant="h6" color="text.secondary" paragraph>
+            <p className="text-xl text-gray-600 mb-6 leading-relaxed">
               {method && typeof method === "object" && "description" in method
-                ? String(
-                    (method as unknown as { description?: string }).description,
-                  )
+                ? String((method as unknown as { description?: string }).description)
                 : "No description available"}
-            </Typography>
+            </p>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 3 }}>
-              <AccessTime />
-              <Typography variant="body1">
+            <div className="flex items-center gap-3 text-gray-700 font-medium">
+              <FaClock className="text-blue-500 text-xl" />
+              <span>
                 {method && typeof method === "object" && "duration" in method
-                  ? String(
-                      (method as unknown as { duration?: string }).duration,
-                    )
+                  ? String((method as unknown as { duration?: string }).duration)
                   : "Duration not specified"}
-              </Typography>
-            </Box>
-          </Grid>
+              </span>
+            </div>
+          </div>
 
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                height: 300,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 2,
-                overflow: "hidden",
-                boxShadow: theme.shadows[4],
-              }}
-            >
-              <MethodImage method={methodKey} />
-            </Box>
-          </Grid>
-        </Grid>
-      </Paper>
+          <div className="h-64 md:h-80 w-full shadow-inner rounded-xl overflow-hidden border border-gray-200">
+            <MethodImage method={methodKey} />
+          </div>
+        </div>
+      </div>
 
-      <Grid container spacing={4}>
-        <Grid item xs={12} md={8}>
-          <Card sx={{ mb: 4 }}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom>
-                Benefits
-              </Typography>
-              <List>
-                {method &&
-                typeof method === "object" &&
-                "benefits" in method ? (
-                  Array.isArray(
-                    (method as unknown as { benefits?: string[] }).benefits,
-                  ) ? (
-                    (method as unknown as { benefits: string[] }).benefits.map(
-                      (benefit: string, index: number) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={benefit} />
-                        </ListItem>
-                      ),
-                    )
-                  ) : (
-                    <Typography variant="body1" paragraph>
-                      {String(
-                        (method as unknown as { benefits?: string | string[] })
-                          .benefits,
-                      )}
-                    </Typography>
-                  )
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <div className="md:col-span-8 space-y-8">
+          <section className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">Benefits</h2>
+            <ul className="space-y-3">
+              {method && typeof method === "object" && "benefits" in method ? (
+                Array.isArray((method as unknown as { benefits?: string[] }).benefits) ? (
+                  (method as unknown as { benefits: string[] }).benefits.map((benefit: string, index: number) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="text-green-500 mt-1">•</span>
+                      <span className="text-gray-700">{benefit}</span>
+                    </li>
+                  ))
                 ) : (
-                  <Typography variant="body1" paragraph>
-                    No benefits information available
-                  </Typography>
-                )}
-              </List>
+                  <p className="text-gray-700">
+                    {String((method as unknown as { benefits?: string | string[] }).benefits)}
+                  </p>
+                )
+              ) : (
+                <p className="text-gray-500 italic">No benefits information available</p>
+              )}
+            </ul>
 
-              <Divider sx={{ my: 3 }} />
+            <div className="my-8 border-t border-gray-100" />
 
-              <Typography variant="h5" gutterBottom>
-                Suitable Foods
-              </Typography>
-              <Grid container spacing={1} sx={{ mb: 2 }}>
-                {method &&
-                  typeof method === "object" &&
-                  "suitable_for" in method &&
-                  Array.isArray(
-                    (method as unknown as { suitable_for?: string[] })
-                      .suitable_for,
-                  ) &&
-                  (
-                    method as unknown as { suitable_for: string[] }
-                  ).suitable_for.map((food: string, index: number) => (
-                    <Grid item key={index}>
-                      <Chip label={food} variant="outlined" color="primary" />
-                    </Grid>
-                  ))}
-              </Grid>
-
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">Suitable Foods</h2>
+            <div className="flex flex-wrap gap-2">
               {method &&
                 typeof method === "object" &&
-                "variations" in method &&
-                (method as unknown as { variations?: string[] }).variations && (
-                  <>
-                    <Divider sx={{ my: 3 }} />
-                    <Typography variant="h5" gutterBottom>
-                      Variations
-                    </Typography>
-                    <List>
-                      {Array.isArray(
-                        (method as unknown as { variations?: string[] })
-                          .variations,
-                      ) &&
-                        (
-                          method as unknown as { variations: string[] }
-                        ).variations.map((variation: string, index: number) => (
-                          <ListItem key={index}>
-                            <ListItemText primary={variation} />
-                          </ListItem>
-                        ))}
-                    </List>
-                  </>
-                )}
-
-              {method.commonMistakes && (
-                <>
-                  <Divider sx={{ my: 3 }} />
-                  <Typography variant="h5" gutterBottom>
-                    Common Mistakes
-                  </Typography>
-                  {Array.isArray(method.commonMistakes) ? (
-                    <List>
-                      {method.commonMistakes.map((mistake, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={mistake} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  ) : (
-                    <Typography variant="body1" paragraph>
-                      {method.commonMistakes}
-                    </Typography>
-                  )}
-                </>
-              )}
-
-              {method.pairingSuggestions && (
-                <>
-                  <Divider sx={{ my: 3 }} />
-                  <Typography variant="h5" gutterBottom>
-                    Pairing Suggestions
-                  </Typography>
-                  {Array.isArray(method.pairingSuggestions) ? (
-                    <List>
-                      {method.pairingSuggestions.map((suggestion, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={suggestion} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  ) : (
-                    <Typography variant="body1" paragraph>
-                      {method.pairingSuggestions}
-                    </Typography>
-                  )}
-                </>
-              )}
-
-              {method.scientificPrinciples && (
-                <>
-                  <Divider sx={{ my: 3 }} />
-                  <Typography
-                    variant="h5"
-                    gutterBottom
-                    sx={{ display: "flex", alignItems: "center" }}
+                "suitable_for" in method &&
+                Array.isArray((method as unknown as { suitable_for?: string[] }).suitable_for) &&
+                (method as unknown as { suitable_for: string[] }).suitable_for.map((food: string, index: number) => (
+                  <span 
+                    key={index} 
+                    className="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-lg text-sm font-medium"
                   >
-                    <Science sx={{ mr: 1 }} /> Scientific Principles
-                  </Typography>
-                  {Array.isArray(method.scientificPrinciples) ? (
-                    <List>
-                      {method.scientificPrinciples.map((principle, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={principle} />
-                        </ListItem>
+                    {food}
+                  </span>
+                ))}
+            </div>
+
+            {method &&
+              typeof method === "object" &&
+              "variations" in method &&
+              (method as unknown as { variations?: string[] }).variations && (
+                <>
+                  <div className="my-8 border-t border-gray-100" />
+                  <h2 className="text-2xl font-bold mb-4 text-gray-800">Variations</h2>
+                  <ul className="space-y-2">
+                    {Array.isArray((method as unknown as { variations?: string[] }).variations) &&
+                      (method as unknown as { variations: string[] }).variations.map((variation: string, index: number) => (
+                        <li key={index} className="flex items-start gap-3 text-gray-700">
+                          <span className="text-blue-400 mt-1">•</span>
+                          {variation}
+                        </li>
                       ))}
-                    </List>
+                  </ul>
+                </>
+              )}
+
+            {method.commonMistakes && (
+              <>
+                <div className="my-8 border-t border-gray-100" />
+                <h2 className="text-2xl font-bold mb-4 text-gray-800">Common Mistakes</h2>
+                <ul className="space-y-2">
+                  {Array.isArray(method.commonMistakes) ? (
+                    method.commonMistakes.map((mistake, index) => (
+                      <li key={index} className="flex items-start gap-3 text-gray-700">
+                        <span className="text-red-400 mt-1">•</span>
+                        {mistake}
+                      </li>
+                    ))
                   ) : (
-                    <Typography variant="body1" paragraph>
-                      {method.scientificPrinciples}
-                    </Typography>
+                    <p className="text-gray-700">{method.commonMistakes}</p>
                   )}
-                </>
-              )}
+                </ul>
+              </>
+            )}
 
-              {method.history && (
-                <>
-                  <Divider sx={{ my: 3 }} />
-                  <Typography variant="h5" gutterBottom>
-                    Historical Context
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {method.history}
-                  </Typography>
-                </>
-              )}
+            {method.pairingSuggestions && (
+              <>
+                <div className="my-8 border-t border-gray-100" />
+                <h2 className="text-2xl font-bold mb-4 text-gray-800">Pairing Suggestions</h2>
+                <ul className="space-y-2">
+                  {Array.isArray(method.pairingSuggestions) ? (
+                    method.pairingSuggestions.map((suggestion, index) => (
+                      <li key={index} className="flex items-start gap-3 text-gray-700">
+                        <span className="text-purple-400 mt-1">•</span>
+                        {suggestion}
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-700">{method.pairingSuggestions}</p>
+                  )}
+                </ul>
+              </>
+            )}
 
-              {method.science && (
-                <>
-                  <Divider sx={{ my: 3 }} />
-                  <Typography variant="h5" gutterBottom>
-                    Science Behind It
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {method.science}
-                  </Typography>
-                </>
-              )}
-            </CardContent>
-          </Card>
+            {method.scientificPrinciples && (
+              <>
+                <div className="my-8 border-t border-gray-100" />
+                <h2 className="text-2xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                  <FaFlask className="text-indigo-500" /> Scientific Principles
+                </h2>
+                <ul className="space-y-2">
+                  {Array.isArray(method.scientificPrinciples) ? (
+                    method.scientificPrinciples.map((principle, index) => (
+                      <li key={index} className="flex items-start gap-3 text-gray-700">
+                        <span className="text-indigo-400 mt-1">•</span>
+                        {principle}
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-700">{method.scientificPrinciples}</p>
+                  )}
+                </ul>
+              </>
+            )}
 
-          <Card>
-            <CardContent>
-              <Typography variant="h5" gutterBottom>
-                Technical Details
-              </Typography>
+            {method.history && (
+              <>
+                <div className="my-8 border-t border-gray-100" />
+                <h2 className="text-2xl font-bold mb-4 text-gray-800">Historical Context</h2>
+                <p className="text-gray-700 leading-relaxed">{method.history}</p>
+              </>
+            )}
 
+            {method.science && (
+              <>
+                <div className="my-8 border-t border-gray-100" />
+                <h2 className="text-2xl font-bold mb-4 text-gray-800">Science Behind It</h2>
+                <p className="text-gray-700 leading-relaxed">{method.science}</p>
+              </>
+            )}
+          </section>
+
+          <section className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Technical Details</h2>
+            <div className="space-y-6">
               {method.optimalTemperature && (
-                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                  <ThermostatAuto sx={{ mr: 2 }} />
-                  <Typography variant="body1">
-                    <strong>Optimal Temperature:</strong>{" "}
-                    {method.optimalTemperature}
-                  </Typography>
-                </Box>
+                <div className="flex items-start gap-4">
+                  <div className="p-2 bg-red-50 rounded-lg text-red-500 mt-1">
+                    <FaThermometerHalf />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Optimal Temperature</h3>
+                    <p className="text-gray-700">{method.optimalTemperature}</p>
+                  </div>
+                </div>
               )}
 
               {method.nutrientRetention && (
-                <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
-                  <LocalFireDepartment sx={{ mr: 2, mt: 0.5 }} />
-                  <Typography variant="body1">
-                    <strong>Nutrient Retention:</strong>{" "}
-                    {method.nutrientRetention}
-                  </Typography>
-                </Box>
+                <div className="flex items-start gap-4">
+                  <div className="p-2 bg-green-50 rounded-lg text-green-500 mt-1">
+                    <FaUtensils />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Nutrient Retention</h3>
+                    <p className="text-gray-700">{method.nutrientRetention}</p>
+                  </div>
+                </div>
               )}
 
               {method.thermodynamicProperties && (
-                <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
-                  <Whatshot sx={{ mr: 2, mt: 0.5 }} />
-                  <Typography variant="body1">
-                    <strong>Thermodynamic Properties:</strong>{" "}
-                    {method.thermodynamicProperties}
-                  </Typography>
-                </Box>
+                <div className="flex items-start gap-4">
+                  <div className="p-2 bg-orange-50 rounded-lg text-orange-500 mt-1">
+                    <FaFire />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Thermodynamic Properties</h3>
+                    <p className="text-gray-700">{method.thermodynamicProperties}</p>
+                  </div>
+                </div>
               )}
 
               {method.chemicalChanges && (
-                <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
-                  <Science sx={{ mr: 2, mt: 0.5 }} />
-                  <Typography variant="body1">
-                    <strong>Chemical Changes:</strong> {method.chemicalChanges}
-                  </Typography>
-                </Box>
+                <div className="flex items-start gap-4">
+                  <div className="p-2 bg-indigo-50 rounded-lg text-indigo-500 mt-1">
+                    <FaFlask />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Chemical Changes</h3>
+                    <p className="text-gray-700">{method.chemicalChanges}</p>
+                  </div>
+                </div>
               )}
 
               {method.safetyFeatures && (
-                <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
-                  <Warning sx={{ mr: 2, mt: 0.5 }} />
-                  <Typography variant="body1">
-                    <strong>Safety Features:</strong> {method.safetyFeatures}
-                  </Typography>
-                </Box>
+                <div className="flex items-start gap-4">
+                  <div className="p-2 bg-yellow-50 rounded-lg text-yellow-500 mt-1">
+                    <FaExclamationTriangle />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Safety Features</h3>
+                    <p className="text-gray-700">{method.safetyFeatures}</p>
+                  </div>
+                </div>
               )}
 
               {method.equipmentComplexity && (
-                <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
-                  <Kitchen sx={{ mr: 2, mt: 0.5 }} />
-                  <Typography variant="body1">
-                    <strong>Equipment Complexity:</strong>{" "}
-                    {method.equipmentComplexity}
-                  </Typography>
-                </Box>
+                <div className="flex items-start gap-4">
+                  <div className="p-2 bg-blue-50 rounded-lg text-blue-500 mt-1">
+                    <FaBolt />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Equipment Complexity</h3>
+                    <p className="text-gray-700">{method.equipmentComplexity}</p>
+                  </div>
+                </div>
               )}
 
               {method.regionalVariations && (
-                <>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-                    Regional Variations
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {method.regionalVariations}
-                  </Typography>
-                </>
+                <div className="mt-6">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Regional Variations</h3>
+                  <p className="text-gray-700 leading-relaxed">{method.regionalVariations}</p>
+                </div>
               )}
 
               {method.modernVariations && (
-                <>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-                    Modern Variations
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {method.modernVariations}
-                  </Typography>
-                </>
+                <div className="mt-6">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Modern Variations</h3>
+                  <p className="text-gray-700 leading-relaxed">{method.modernVariations}</p>
+                </div>
               )}
-            </CardContent>
-          </Card>
-        </Grid>
+            </div>
+          </section>
+        </div>
 
-        <Grid item xs={12} md={4}>
-          <Card sx={{ mb: 4 }}>
-            <CardContent>
-              <Typography variant="h5" gutterBottom>
-                Method Details
-              </Typography>
-
+        <div className="md:col-span-4 space-y-8">
+          <aside className="bg-white rounded-xl shadow-md border border-gray-100 p-6 sticky top-8">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Method Details</h2>
+            
+            <div className="space-y-6">
               {method &&
                 typeof method === "object" &&
                 "time_range" in method &&
-                (
-                  method as unknown as {
-                    time_range?: { min?: number; max?: number };
-                  }
-                ).time_range && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 2,
-                      mb: 2,
-                    }}
-                  >
-                    <AccessTime />
-                    <Typography variant="body1">
-                      <strong>Time Range:</strong>{" "}
-                      {(
-                        method as unknown as {
-                          time_range?: { min?: number; max?: number };
-                        }
-                      ).time_range?.min || "N/A"}
-                      -
-                      {(
-                        method as unknown as {
-                          time_range?: { min?: number; max?: number };
-                        }
-                      ).time_range?.max || "N/A"}{" "}
-                      minutes
-                    </Typography>
-                  </Box>
+                (method as unknown as { time_range?: { min?: number; max?: number } }).time_range && (
+                  <div className="flex items-center gap-4">
+                    <FaClock className="text-blue-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Time Range</p>
+                      <p className="font-semibold">
+                        {(method as unknown as { time_range?: { min?: number; max?: number } }).time_range?.min || "N/A"}
+                        -
+                        {(method as unknown as { time_range?: { min?: number; max?: number } }).time_range?.max || "N/A"}{" "}
+                        minutes
+                      </p>
+                    </div>
+                  </div>
                 )}
 
               {method.temperature_range && (
-                <Box
-                  sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}
-                >
-                  <ThermostatAuto />
-                  <Typography variant="body1">
-                    <strong>Temperature Range:</strong>{" "}
-                    {typeof method.temperature_range === "object" &&
-                    "min" in method.temperature_range
-                      ? `${method.temperature_range.min}°C - ${method.temperature_range.max}°C`
-                      : JSON.stringify(method.temperature_range)}
-                  </Typography>
-                </Box>
+                <div className="flex items-center gap-4">
+                  <FaThermometerHalf className="text-red-500" />
+                  <div>
+                    <p className="text-sm text-gray-500">Temperature Range</p>
+                    <p className="font-semibold">
+                      {typeof method.temperature_range === "object" && "min" in method.temperature_range
+                        ? `${method.temperature_range.min}°C - ${method.temperature_range.max}°C`
+                        : JSON.stringify(method.temperature_range)}
+                    </p>
+                  </div>
+                </div>
               )}
 
               {method.alchemical_properties && (
-                <>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-                    Alchemical Properties
-                  </Typography>
-                  {method.alchemical_properties.element && (
-                    <Typography variant="body2" paragraph>
-                      <strong>Element:</strong>{" "}
-                      {String(method.alchemical_properties.element)}
-                    </Typography>
-                  )}
-                  {method.alchemical_properties.planetary_influence && (
-                    <Typography variant="body2" paragraph>
-                      <strong>Planetary Influence: </strong>{" "}
-                      {String(method.alchemical_properties.planetary_influence)}
-                    </Typography>
-                  )}
-                  {method.alchemical_properties.effect_on_ingredients && (
-                    <Typography variant="body2" paragraph>
-                      <strong>Effect on Ingredients: </strong>{" "}
-                      {String(
-                        method.alchemical_properties.effect_on_ingredients,
-                      )}
-                    </Typography>
-                  )}
-                </>
+                <div className="mt-8 pt-6 border-t border-gray-100">
+                  <h3 className="text-lg font-bold text-gray-800 mb-4">Alchemical Properties</h3>
+                  <div className="space-y-3 text-sm">
+                    {!!method.alchemical_properties.element && (
+                      <p className="text-gray-700">
+                        <strong className="text-gray-900">Element:</strong>{" "}
+                        {String(method.alchemical_properties.element)}
+                      </p>
+                    )}
+                    {!!method.alchemical_properties.planetary_influence && (
+                      <p className="text-gray-700">
+                        <strong className="text-gray-900">Planetary Influence:</strong>{" "}
+                        {String(method.alchemical_properties.planetary_influence)}
+                      </p>
+                    )}
+                    {!!method.alchemical_properties.effect_on_ingredients && (
+                      <p className="text-gray-700 leading-snug">
+                        <strong className="text-gray-900">Effect on Ingredients:</strong>{" "}
+                        {String(method.alchemical_properties.effect_on_ingredients)}
+                      </p>
+                    )}
+                  </div>
+                </div>
               )}
 
               {method.tools && (
-                <>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-                    Tools Needed
-                  </Typography>
-                  <List dense>
+                <div className="mt-8 pt-6 border-t border-gray-100">
+                  <h3 className="text-lg font-bold text-gray-800 mb-4">Tools Needed</h3>
+                  <ul className="grid grid-cols-1 gap-2">
                     {Array.isArray(method.tools) &&
                       method.tools.map((tool, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={tool} />
-                        </ListItem>
+                        <li key={index} className="flex items-center gap-2 text-sm text-gray-700">
+                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+                          {tool}
+                        </li>
                       ))}
-                  </List>
-                </>
+                  </ul>
+                </div>
               )}
 
               {method.famous_dishes && (
-                <>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-                    Famous Dishes
-                  </Typography>
-                  <List dense>
+                <div className="mt-8 pt-6 border-t border-gray-100">
+                  <h3 className="text-lg font-bold text-gray-800 mb-4">Famous Dishes</h3>
+                  <ul className="grid grid-cols-1 gap-2">
                     {Array.isArray(method.famous_dishes) &&
                       method.famous_dishes.map((dish, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={dish} />
-                        </ListItem>
+                        <li key={index} className="flex items-center gap-2 text-sm text-gray-700">
+                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+                          {dish}
+                        </li>
                       ))}
-                  </List>
-                </>
+                  </ul>
+                </div>
               )}
 
               {method.health_benefits && (
-                <>
-                  <Typography
-                    variant="h5"
-                    gutterBottom
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    <LocalFireDepartment sx={{ mr: 1 }} /> Health Benefits
-                  </Typography>
-                  <List dense>
+                <div className="mt-8 pt-6 border-t border-gray-100">
+                  <h3 className="text-lg font-bold text-green-700 mb-4 flex items-center gap-2">
+                    <FaUtensils className="text-green-500" /> Health Benefits
+                  </h3>
+                  <ul className="space-y-2">
                     {Array.isArray(method.health_benefits) &&
                       method.health_benefits.map((benefit, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={benefit} />
-                        </ListItem>
+                        <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
+                          <span className="text-green-400 mt-1">•</span>
+                          {benefit}
+                        </li>
                       ))}
-                  </List>
-                </>
+                  </ul>
+                </div>
               )}
 
               {method.health_considerations && (
-                <>
-                  <Typography
-                    variant="h5"
-                    gutterBottom
-                    sx={{ mt: 3, display: "flex", alignItems: "center" }}
-                  >
-                    <Warning sx={{ mr: 1 }} /> Health Considerations
-                  </Typography>
-                  <List dense>
+                <div className="mt-8 pt-6 border-t border-gray-100">
+                  <h3 className="text-lg font-bold text-red-700 mb-4 flex items-center gap-2">
+                    <FaExclamationTriangle className="text-red-500" /> Health Considerations
+                  </h3>
+                  <ul className="space-y-2">
                     {Array.isArray(method.health_considerations) &&
-                      method.health_considerations.map(
-                        (consideration, index) => (
-                          <ListItem key={index}>
-                            <ListItemText primary={consideration} />
-                          </ListItem>
-                        ),
-                      )}
-                  </List>
-                </>
+                      method.health_considerations.map((consideration, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
+                          <span className="text-red-400 mt-1">•</span>
+                          {consideration}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </aside>
 
           {(method.astrologicalInfluence ||
             method.zodiacResonance ||
             method.planetaryInfluences) && (
-            <Card sx={{ mb: 4 }}>
-              <CardContent>
-                <Typography variant="h5" gutterBottom>
-                  Astrological Influences
-                </Typography>
-                <Box sx={{ my: 2 }}>
-                  {method.astrologicalInfluence && (
-                    <Typography variant="body1" paragraph>
-                      {method.astrologicalInfluence}
-                    </Typography>
-                  )}
+            <section className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+              <h2 className="text-2xl font-bold mb-6 text-gray-800">Astrological Influences</h2>
+              <div className="space-y-6">
+                {method.astrologicalInfluence && (
+                  <p className="text-gray-700 leading-relaxed italic border-l-4 border-purple-200 pl-4">
+                    &quot;{method.astrologicalInfluence}&quot;
+                  </p>
+                )}
 
-                  {method.zodiacResonance &&
-                    method.zodiacResonance.length > 0 && (
-                      <Box sx={{ mt: 3 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Zodiac Resonance:
-                        </Typography>
-                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-                          {method.zodiacResonance.map((sign, index) => (
-                            <ZodiacSignType
-                              key={index}
-                              sign={sign}
-                              size="medium"
-                            />
-                          ))}
-                        </Box>
-                      </Box>
-                    )}
+                {method.zodiacResonance && method.zodiacResonance.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Zodiac Resonance</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {method.zodiacResonance.map((sign, index) => (
+                        <ZodiacSignType key={index} sign={sign} size="medium" />
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-                  {method.planetaryInfluences &&
-                    method.planetaryInfluences.length > 0 && (
-                      <Box sx={{ mt: 3 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Planetary Influences:
-                        </Typography>
-                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                          {method.planetaryInfluences.map((planet, index) => (
-                            <Chip
-                              key={index}
-                              label={planet}
-                              color="secondary"
-                              variant="outlined"
-                            />
-                          ))}
-                        </Box>
-                      </Box>
-                    )}
-                </Box>
-              </CardContent>
-            </Card>
+                {method.planetaryInfluences && method.planetaryInfluences.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Planetary Influences</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {method.planetaryInfluences.map((planet, index) => (
+                        <span 
+                          key={index} 
+                          className="px-3 py-1 bg-indigo-50 text-indigo-700 border border-indigo-100 rounded-lg text-xs font-bold uppercase"
+                        >
+                          {planet}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
           )}
-        </Grid>
-      </Grid>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }

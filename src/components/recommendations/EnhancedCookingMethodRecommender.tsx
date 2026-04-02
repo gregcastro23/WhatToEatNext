@@ -1,24 +1,28 @@
 "use client";
 
 /**
- * Enhanced Cooking Method Recommender — Revamped UI
+ * Enhanced Cooking Method Recommender — Refined UI
  *
- * Visual-first design showcasing the full alchemical cooking system:
- * - Rich collapsed cards with elemental bars, P=IV radar, and key metrics
+ * "Zen-to-Expert" experience featuring:
+ * - Harmony Index scoring via Resonance Gap model
+ * - Focus dropdown (Alchemical Harmony / Quickest / Stability / Flavorful)
+ * - User Intent selector (Crispy / Tender / Fast / Flavorful)
+ * - Alchemist's Hook descriptions & Culinary Archetypes
+ * - Spider Chart (Elemental Quadrant Map) for visual comparison
+ * - Color-coded Volatility Badge for Monica constant
+ * - Compare mode with Delta View
  * - Tabbed expanded views (Overview / Thermodynamics / Kinetics / Conditions)
- * - Sortable by Power, Energy, Monica Score, or Heat
- * - SVG radar chart for kineticProfile visualization
  */
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import type { KineticMetrics } from "@/calculations/kinetics";
 import {
   ALCHEMICAL_PILLARS,
-
   calculateOptimalCookingConditions,
   calculatePillarMonicaModifiers,
-  getCookingMethodThermodynamics} from "@/constants/alchemicalPillars";
+  getCookingMethodThermodynamics,
+} from "@/constants/alchemicalPillars";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
   dryCookingMethods,
@@ -32,13 +36,19 @@ import type {
   ElementalProperties,
 } from "@/types/celestial";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
-import { calculateMethodSpecificKinetics , getKineticProfile } from "@/utils/cookingMethodKinetics";
+import { calculateMethodSpecificKinetics, getKineticProfile } from "@/utils/cookingMethodKinetics";
 import {
   calculateKAlchm,
   calculateMonicaConstant,
   calculateMonicaOptimizationScore,
 } from "@/utils/monicaKalchmCalculations";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import {
+  calculateHarmonyIndex,
+  type FocusMode,
+  type UserIntent,
+  type HarmonyResult as _HarmonyResult,
+} from "@/utils/resonanceGapScoring";
 
 // ============================================================================
 // Types
@@ -47,6 +57,8 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 interface MethodData {
   name: string;
   description: string;
+  shortDescription?: string;
+  culinaryArchetype?: string;
   elementalEffect: ElementalProperties;
   alchemicalProperties?: AlchemicalProperties;
   thermodynamicProperties?: {
@@ -72,7 +84,6 @@ interface CategoryConfig {
   methods: Record<string, MethodData>;
 }
 
-type SortKey = "composite" | "power" | "energy" | "monica" | "heat";
 type ExpandedTab = "overview" | "thermo" | "kinetics" | "conditions";
 
 const categories: CategoryConfig[] = [
@@ -93,6 +104,21 @@ const DEFAULT_PLANETARY_POSITIONS = {
   Saturn: "Capricorn" as const, Uranus: "Aquarius" as const,
   Neptune: "Pisces" as const, Pluto: "Scorpio" as const,
 };
+
+const FOCUS_OPTIONS: Array<{ key: FocusMode; label: string; desc: string }> = [
+  { key: "harmony", label: "Alchemical Harmony", desc: "Overall resonance" },
+  { key: "quickest", label: "Quickest Transformation", desc: "Speed-first" },
+  { key: "stability", label: "Highest Stability", desc: "Low volatility" },
+  { key: "flavorful", label: "Most Flavorful", desc: "Max flavor" },
+];
+
+const INTENT_OPTIONS: Array<{ key: UserIntent; label: string; icon: string }> = [
+  { key: null, label: "Any", icon: "✨" },
+  { key: "crispy", label: "Crispy", icon: "🍞" },
+  { key: "tender", label: "Tender", icon: "🍖" },
+  { key: "fast", label: "Fast", icon: "⚡" },
+  { key: "flavorful", label: "Flavorful", icon: "🌿" },
+];
 
 function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
@@ -117,14 +143,14 @@ function normalizePlanetaryPositions(contextPositions: Record<string, unknown> |
   return normalized;
 }
 
-function classifyMonica(monica: number | null): { label: string; color: string; bgColor: string } {
-  if (monica === null || isNaN(monica)) return { label: "Undefined", color: "text-gray-500", bgColor: "bg-gray-100" };
-  if (monica > 10) return { label: "Highly Volatile", color: "text-red-700", bgColor: "bg-red-100" };
-  if (monica > 5) return { label: "Volatile", color: "text-orange-700", bgColor: "bg-orange-100" };
-  if (monica > 2) return { label: "Transformative", color: "text-yellow-700", bgColor: "bg-yellow-100" };
-  if (monica > 1) return { label: "Balanced", color: "text-green-700", bgColor: "bg-green-100" };
-  if (monica > 0.5) return { label: "Stable", color: "text-blue-700", bgColor: "bg-blue-100" };
-  return { label: "Very Stable", color: "text-indigo-700", bgColor: "bg-indigo-100" };
+function classifyMonica(monica: number | null): { label: string; color: string; bgColor: string; badgeColor: string } {
+  if (monica === null || isNaN(monica)) return { label: "Undefined", color: "text-gray-500", bgColor: "bg-gray-100", badgeColor: "bg-gray-400" };
+  if (monica > 10) return { label: "Highly Volatile", color: "text-red-700", bgColor: "bg-red-100", badgeColor: "bg-red-500" };
+  if (monica > 5) return { label: "Volatile", color: "text-orange-700", bgColor: "bg-orange-100", badgeColor: "bg-orange-500" };
+  if (monica > 2) return { label: "Transformative", color: "text-yellow-700", bgColor: "bg-yellow-100", badgeColor: "bg-yellow-500" };
+  if (monica > 1) return { label: "Balanced", color: "text-green-700", bgColor: "bg-green-100", badgeColor: "bg-green-500" };
+  if (monica > 0.5) return { label: "Stable", color: "text-blue-700", bgColor: "bg-blue-100", badgeColor: "bg-blue-500" };
+  return { label: "Very Stable", color: "text-indigo-700", bgColor: "bg-indigo-100", badgeColor: "bg-indigo-500" };
 }
 
 function getPillarColors(pillarId: number) {
@@ -145,6 +171,64 @@ function getPillarColors(pillarId: number) {
     14: { bg: "bg-amber-50", text: "text-amber-800", border: "border-amber-300", accent: "#f59e0b" },
   };
   return map[pillarId] || { bg: "bg-gray-50", text: "text-gray-800", border: "border-gray-300", accent: "#6b7280" };
+}
+
+// ============================================================================
+// SVG Spider Chart — Elemental Quadrant Map
+// ============================================================================
+
+function ElementalSpider({ effect, size = 100 }: { effect: Record<string, number>; size?: number }) {
+  const cx = size / 2;
+  const cy = size / 2;
+  const r = size * 0.38;
+  const axes = [
+    { key: "Fire", label: "🔥", value: effect.Fire || 0, color: "#ef4444" },
+    { key: "Air", label: "💨", value: effect.Air || 0, color: "#38bdf8" },
+    { key: "Water", label: "💧", value: effect.Water || 0, color: "#3b82f6" },
+    { key: "Earth", label: "🌍", value: effect.Earth || 0, color: "#d97706" },
+  ];
+  const n = axes.length;
+  const angleStep = (2 * Math.PI) / n;
+
+  const points = axes.map((a, i) => {
+    const angle = -Math.PI / 2 + i * angleStep;
+    return {
+      x: cx + r * a.value * Math.cos(angle),
+      y: cy + r * a.value * Math.sin(angle),
+      lx: cx + (r + 14) * Math.cos(angle),
+      ly: cy + (r + 14) * Math.sin(angle),
+      ...a,
+    };
+  });
+
+  const polygon = points.map(p => `${p.x},${p.y}`).join(" ");
+  const rings = [0.25, 0.5, 0.75, 1.0];
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="drop-shadow-sm">
+      {rings.map(ring => (
+        <polygon
+          key={ring}
+          points={Array.from({ length: n }, (_, i) => {
+            const angle = -Math.PI / 2 + i * angleStep;
+            return `${cx + r * ring * Math.cos(angle)},${cy + r * ring * Math.sin(angle)}`;
+          }).join(" ")}
+          fill="none" stroke="#e5e7eb" strokeWidth="0.5"
+        />
+      ))}
+      {axes.map((_, i) => {
+        const angle = -Math.PI / 2 + i * angleStep;
+        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#d1d5db" strokeWidth="0.5" />;
+      })}
+      <polygon points={polygon} fill="rgba(99, 102, 241, 0.15)" stroke="#6366f1" strokeWidth="1.5" />
+      {points.map((p, i) => (
+        <g key={i}>
+          <circle cx={p.x} cy={p.y} r="3" fill={p.color} />
+          <text x={p.lx} y={p.ly} textAnchor="middle" dominantBaseline="middle" className="text-[10px]" fill={p.color}>{p.label}</text>
+        </g>
+      ))}
+    </svg>
+  );
 }
 
 // ============================================================================
@@ -179,13 +263,10 @@ function KineticRadar({ profile, size = 120 }: { profile: { voltage: number; cur
   });
 
   const polygon = points.map(p => `${p.x},${p.y}`).join(" ");
-
-  // Grid rings at 25%, 50%, 75%, 100%
   const rings = [0.25, 0.5, 0.75, 1.0];
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="drop-shadow-sm">
-      {/* Grid rings */}
       {rings.map(ring => (
         <polygon
           key={ring}
@@ -193,27 +274,18 @@ function KineticRadar({ profile, size = 120 }: { profile: { voltage: number; cur
             const angle = -Math.PI / 2 + i * angleStep;
             return `${cx + r * ring * Math.cos(angle)},${cy + r * ring * Math.sin(angle)}`;
           }).join(" ")}
-          fill="none"
-          stroke="#e5e7eb"
-          strokeWidth="0.5"
+          fill="none" stroke="#e5e7eb" strokeWidth="0.5"
         />
       ))}
-      {/* Axis lines */}
       {axes.map((_, i) => {
         const angle = -Math.PI / 2 + i * angleStep;
-        return (
-          <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#d1d5db" strokeWidth="0.5" />
-        );
+        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#d1d5db" strokeWidth="0.5" />;
       })}
-      {/* Data polygon */}
       <polygon points={polygon} fill="rgba(139, 92, 246, 0.2)" stroke="#8b5cf6" strokeWidth="1.5" />
-      {/* Data points and labels */}
       {points.map((p, i) => (
         <g key={i}>
           <circle cx={p.x} cy={p.y} r="2.5" fill="#8b5cf6" />
-          <text x={p.lx} y={p.ly} textAnchor="middle" dominantBaseline="middle" className="text-[8px] font-bold fill-gray-500">
-            {p.label}
-          </text>
+          <text x={p.lx} y={p.ly} textAnchor="middle" dominantBaseline="middle" className="text-[8px] font-bold fill-gray-500">{p.label}</text>
         </g>
       ))}
     </svg>
@@ -221,24 +293,44 @@ function KineticRadar({ profile, size = 120 }: { profile: { voltage: number; cur
 }
 
 // ============================================================================
-// Elemental Composition Bar
+// Harmony Ring — circular progress indicator
 // ============================================================================
 
-function ElementalBar({ effect }: { effect: Record<string, number> }) {
-  const total = (effect.Fire || 0) + (effect.Water || 0) + (effect.Earth || 0) + (effect.Air || 0) || 1;
-  const pcts = {
-    Fire: ((effect.Fire || 0) / total) * 100,
-    Water: ((effect.Water || 0) / total) * 100,
-    Earth: ((effect.Earth || 0) / total) * 100,
-    Air: ((effect.Air || 0) / total) * 100,
+function HarmonyRing({ value, size = 56 }: { value: number; size?: number }) {
+  const getColor = (v: number) => {
+    if (v >= 75) return "text-emerald-500";
+    if (v >= 60) return "text-green-500";
+    if (v >= 45) return "text-yellow-500";
+    if (v >= 30) return "text-orange-500";
+    return "text-red-500";
   };
+  const r = 15.9;
   return (
-    <div className="flex h-2 w-full overflow-hidden rounded-full" title={`Fire ${pcts.Fire.toFixed(0)}% | Water ${pcts.Water.toFixed(0)}% | Earth ${pcts.Earth.toFixed(0)}% | Air ${pcts.Air.toFixed(0)}%`}>
-      {pcts.Fire > 0 && <div className="bg-red-400 transition-all" style={{ width: `${pcts.Fire}%` }} />}
-      {pcts.Water > 0 && <div className="bg-blue-400 transition-all" style={{ width: `${pcts.Water}%` }} />}
-      {pcts.Earth > 0 && <div className="bg-amber-600 transition-all" style={{ width: `${pcts.Earth}%` }} />}
-      {pcts.Air > 0 && <div className="bg-sky-300 transition-all" style={{ width: `${pcts.Air}%` }} />}
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg className="-rotate-90" viewBox="0 0 36 36" width={size} height={size}>
+        <circle cx="18" cy="18" r={r} fill="none" stroke="#f3f4f6" strokeWidth="2.5" />
+        <circle cx="18" cy="18" r={r} fill="none" stroke="currentColor" strokeWidth="2.5"
+          strokeDasharray={`${value} 100`} strokeLinecap="round"
+          className={getColor(value)} />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className={`text-sm font-black ${getColor(value)}`}>{Math.round(value)}%</span>
+      </div>
     </div>
+  );
+}
+
+// ============================================================================
+// Volatility Badge
+// ============================================================================
+
+function VolatilityBadge({ monica }: { monica: number | null }) {
+  const cls = classifyMonica(monica);
+  return (
+    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${cls.bgColor} ${cls.color}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${cls.badgeColor}`} />
+      {cls.label}
+    </span>
   );
 }
 
@@ -258,12 +350,15 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   const [selectedCategory, setSelectedCategory] = useState<string>("dry");
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [expandedTab, setExpandedTab] = useState<ExpandedTab>("overview");
-  const [sortBy, setSortBy] = useState<SortKey>("composite");
+  const [focusMode, setFocusMode] = useState<FocusMode>("harmony");
+  const [userIntent, setUserIntent] = useState<UserIntent>(null);
   const [showPillarsGuide, setShowPillarsGuide] = useState(false);
   const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(DEFAULT_PLANETARY_POSITIONS);
   const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
+  const [compareMode, setCompareMode] = useState(false);
+  const [compareSelections, setCompareSelections] = useState<string[]>([]);
 
-  // Get planetary positions from AlchemicalContext — called unconditionally (Rules of Hooks)
+  // Get planetary positions from AlchemicalContext
   const alchemicalContext = useAlchemical();
 
   useEffect(() => {
@@ -286,7 +381,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     }
   }, [alchemicalContext?.planetaryPositions, alchemicalContext?.refreshPlanetaryPositions]);
 
-  // ── Compute all methods with full metrics ──
+  // ── Compute all methods with full metrics + Harmony Index ──
   const currentMethods = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);
     if (!category) return [];
@@ -345,8 +440,25 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         method.elementalEffect as any,
       );
 
-      // Get the kinetic profile (from data file or fallback)
       const kProfile = getKineticProfile(id, (method as any).kineticProfile);
+
+      // Calculate Harmony Index via Resonance Gap model
+      const duration = method.duration || method.time_range;
+      const harmony = calculateHarmonyIndex(
+        {
+          transformedESMS,
+          elementalEffect: method.elementalEffect as unknown as { Fire: number; Water: number; Earth: number; Air: number },
+          thermodynamics: methodThermo,
+          gregsEnergy,
+          kalchm,
+          monica,
+          duration: duration || undefined,
+          kineticPower: kinetics?.power,
+        },
+        userIntent,
+        { highStress: false },
+        focusMode,
+      );
 
       return {
         id, ...method,
@@ -361,33 +473,30 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         kinetics,
         monicaScoreResult,
         kProfile,
+        harmony,
       };
     });
 
-    // Sort
-    return methods.sort((a, b) => {
-      switch (sortBy) {
-        case "power": return (b.kinetics?.power ?? 0) - (a.kinetics?.power ?? 0);
-        case "energy": return b.gregsEnergy - a.gregsEnergy;
-        case "monica": return (b.monicaScoreResult?.score ?? 0) - (a.monicaScoreResult?.score ?? 0);
-        case "heat": return (b.thermodynamicProperties?.heat ?? 0) - (a.thermodynamicProperties?.heat ?? 0);
-        default: {
-          const sa = (a.monicaScoreResult?.score ?? 50) * 0.6 + (a.gregsEnergy + 1) * 20;
-          const sb = (b.monicaScoreResult?.score ?? 50) * 0.6 + (b.gregsEnergy + 1) * 20;
-          return sb - sa;
-        }
-      }
-    });
-  }, [selectedCategory, planetaryPositions, sortBy]);
+    // Sort by Harmony Index (primary sort for all focus modes)
+    return methods.sort((a, b) => b.harmony.harmonyIndex - a.harmony.harmonyIndex);
+  }, [selectedCategory, planetaryPositions, focusMode, userIntent]);
 
-  const toggleMethod = (methodId: string) => {
+  const toggleMethod = useCallback((methodId: string) => {
+    if (compareMode) {
+      setCompareSelections(prev => {
+        if (prev.includes(methodId)) return prev.filter(id => id !== methodId);
+        if (prev.length >= 2) return [prev[1], methodId];
+        return [...prev, methodId];
+      });
+      return;
+    }
     if (expandedMethod === methodId) {
       setExpandedMethod(null);
     } else {
       setExpandedMethod(methodId);
       setExpandedTab("overview");
     }
-  };
+  }, [compareMode, expandedMethod]);
 
   const formatDuration = (method: MethodData) => {
     const t = method.duration || method.time_range;
@@ -398,6 +507,14 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   };
 
   const category = categories.find((cat) => cat.id === selectedCategory);
+
+  // Compare mode data
+  const compareData = useMemo(() => {
+    if (!compareMode || compareSelections.length !== 2) return null;
+    const [a, b] = compareSelections.map(id => currentMethods.find(m => m.id === id));
+    if (!a || !b) return null;
+    return { a, b };
+  }, [compareMode, compareSelections, currentMethods]);
 
   // ============================================================================
   // RENDER: Tabs for expanded view
@@ -413,54 +530,37 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // RENDER: Overview Tab
   // ============================================================================
   const renderOverviewTab = (method: (typeof currentMethods)[0]) => {
-    const { monicaClass, kalchm, gregsEnergy, pillar, monicaScoreResult } = method;
+    const { monicaClass: _monicaClass, kalchm, gregsEnergy, pillar, harmony } = method;
     const pillarColors = pillar ? getPillarColors(pillar.id) : null;
-    const score = monicaScoreResult?.score ?? 0;
-    const getScoreColor = (s: number) => {
-      if (s >= 75) return "text-yellow-700";
-      if (s >= 50) return "text-green-700";
-      if (s >= 25) return "text-blue-700";
-      return "text-red-700";
-    };
 
     return (
       <div className="space-y-4">
-        {/* Monica Vibe Score + Transformation Overview */}
+        {/* Harmony Index + Transformation Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Score Circle */}
+          {/* Harmony Index */}
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h4 className="text-sm font-bold text-gray-700 mb-3">Monica Vibe Score</h4>
+            <h4 className="text-sm font-bold text-gray-700 mb-3">Harmony Index</h4>
             <div className="flex items-center gap-5">
-              <div className="relative h-24 w-24 flex-shrink-0">
-                <svg className="h-24 w-24 -rotate-90" viewBox="0 0 36 36">
-                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f3f4f6" strokeWidth="2.5" />
-                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="currentColor" strokeWidth="2.5"
-                    strokeDasharray={`${score} 100`} strokeLinecap="round"
-                    className={getScoreColor(score)} />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className={`text-2xl font-black ${getScoreColor(score)}`}>{Math.round(score)}</span>
-                </div>
-              </div>
+              <HarmonyRing value={harmony.harmonyIndex} size={80} />
               <div className="space-y-2 flex-1">
-                <div className="text-lg font-bold text-gray-800">{monicaScoreResult?.label ?? "N/A"}</div>
-                {monicaScoreResult && (
-                  <div className="space-y-1">
-                    {[
-                      { n: "Thermo Eff.", v: monicaScoreResult.breakdown.thermodynamicEfficiency, w: "40%" },
-                      { n: "Alchm Eq.", v: monicaScoreResult.breakdown.alchemicalEquilibrium, w: "30%" },
-                      { n: "Monica Align", v: monicaScoreResult.breakdown.monicaAlignment, w: "30%" },
-                    ].map(({ n, v, w }) => (
-                      <div key={n} className="flex items-center gap-2 text-xs">
-                        <span className="w-20 text-gray-500">{n} <span className="text-gray-400">({w})</span></span>
-                        <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-purple-400 rounded-full" style={{ width: `${Math.min(100, v)}%` }} />
-                        </div>
-                        <span className="w-8 text-right font-semibold text-gray-600">{Math.round(v)}</span>
+                <div className="text-lg font-bold text-gray-800">{harmony.label}</div>
+                <div className="space-y-1">
+                  {[
+                    { n: "Stability", v: harmony.breakdown.stabilityResonance },
+                    { n: "Intent", v: harmony.breakdown.intentAlignment },
+                    { n: "Thermo", v: harmony.breakdown.thermoEfficiency },
+                    { n: "Balance", v: harmony.breakdown.alchemicalBalance },
+                    { n: "Speed", v: harmony.breakdown.speedFactor },
+                  ].map(({ n, v }) => (
+                    <div key={n} className="flex items-center gap-2 text-xs">
+                      <span className="w-14 text-gray-500">{n}</span>
+                      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-indigo-400 rounded-full" style={{ width: `${Math.min(100, v)}%` }} />
                       </div>
-                    ))}
-                  </div>
-                )}
+                      <span className="w-8 text-right font-semibold text-gray-600">{Math.round(v)}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -470,8 +570,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             <h4 className="text-sm font-bold text-gray-700 mb-3">Transformation Overview</h4>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <div className="text-xs text-gray-500">Monica Class</div>
-                <span className={`inline-block mt-1 rounded-full px-2.5 py-0.5 text-xs font-bold ${monicaClass.bgColor} ${monicaClass.color}`}>{monicaClass.label}</span>
+                <div className="text-xs text-gray-500">Volatility</div>
+                <div className="mt-1"><VolatilityBadge monica={method.monica} /></div>
               </div>
               <div>
                 <div className="text-xs text-gray-500">Kalchm</div>
@@ -610,7 +710,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             <div className={`text-xl font-black ${monicaClass.color}`}>
               {monica !== null && !isNaN(monica) ? monica.toFixed(3) : "N/A"}
             </div>
-            <span className={`inline-block mt-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${monicaClass.bgColor} ${monicaClass.color}`}>{monicaClass.label}</span>
+            <div className="mt-1"><VolatilityBadge monica={monica} /></div>
           </div>
         </div>
       </div>
@@ -625,7 +725,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
     return (
       <div className="space-y-4">
-        {/* P=IV Radar + Key Metrics side by side */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <h4 className="text-sm font-bold text-gray-700 mb-3">P=IV Circuit Profile</h4>
@@ -702,27 +801,19 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                     <div className="text-xl">{icons[el]}</div>
                     <div className="text-xs font-bold text-gray-700 mt-1">{el}</div>
                     <div className="mt-2 space-y-1">
-                      <div className="flex items-center gap-1 text-[10px]">
-                        <span className="text-gray-400 w-6">vel</span>
-                        <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
-                          <div className={`h-full ${colors[el]} rounded-full`} style={{ width: `${Math.min(100, v * 200)}%` }} />
+                      {[
+                        { label: "vel", value: v },
+                        { label: "mom", value: m },
+                        { label: "frc", value: f },
+                      ].map(({ label, value }) => (
+                        <div key={label} className="flex items-center gap-1 text-[10px]">
+                          <span className="text-gray-400 w-6">{label}</span>
+                          <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+                            <div className={`h-full ${colors[el]} rounded-full`} style={{ width: `${Math.min(100, value * 200)}%` }} />
+                          </div>
+                          <span className="text-gray-500 w-8 text-right">{value.toFixed(2)}</span>
                         </div>
-                        <span className="text-gray-500 w-8 text-right">{v.toFixed(2)}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-[10px]">
-                        <span className="text-gray-400 w-6">mom</span>
-                        <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
-                          <div className={`h-full ${colors[el]} rounded-full`} style={{ width: `${Math.min(100, m * 200)}%` }} />
-                        </div>
-                        <span className="text-gray-500 w-8 text-right">{m.toFixed(2)}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-[10px]">
-                        <span className="text-gray-400 w-6">frc</span>
-                        <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
-                          <div className={`h-full ${colors[el]} rounded-full`} style={{ width: `${Math.min(100, f * 200)}%` }} />
-                        </div>
-                        <span className="text-gray-500 w-8 text-right">{f.toFixed(2)}</span>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 );
@@ -797,6 +888,79 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   };
 
   // ============================================================================
+  // RENDER: Compare Delta View
+  // ============================================================================
+  const renderCompareView = () => {
+    if (!compareData) {
+      return (
+        <div className="rounded-xl border-2 border-dashed border-indigo-200 p-8 text-center">
+          <p className="text-gray-500">Select exactly 2 methods to compare by clicking on their cards.</p>
+          <p className="text-xs text-gray-400 mt-1">Selected: {compareSelections.length}/2</p>
+        </div>
+      );
+    }
+
+    const { a, b } = compareData;
+
+    const deltaRow = (label: string, aVal: number, bVal: number, fmt = (v: number) => v.toFixed(3)) => {
+      const diff = bVal - aVal;
+      return (
+        <div className="flex items-center gap-3 py-2 border-b border-gray-100 last:border-0">
+          <span className="w-32 text-xs font-medium text-gray-600">{label}</span>
+          <span className="w-20 text-right text-sm font-bold text-gray-700">{fmt(aVal)}</span>
+          <span className={`w-20 text-center text-xs font-bold ${diff > 0 ? "text-green-600" : diff < 0 ? "text-red-600" : "text-gray-400"}`}>
+            {diff > 0 ? "+" : ""}{fmt(diff)}
+          </span>
+          <span className="w-20 text-right text-sm font-bold text-gray-700">{fmt(bVal)}</span>
+        </div>
+      );
+    };
+
+    return (
+      <div className="rounded-xl border border-indigo-200 bg-white p-6 shadow-lg space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-bold text-gray-900">Delta View</h3>
+          <button onClick={() => { setCompareMode(false); setCompareSelections([]); }}
+            className="text-xs text-gray-400 hover:text-gray-600">Close Compare</button>
+        </div>
+
+        {/* Headers */}
+        <div className="flex items-center gap-3 pb-2 border-b border-gray-200">
+          <span className="w-32" />
+          <span className="w-20 text-right text-xs font-bold text-indigo-600 capitalize">{a.name}</span>
+          <span className="w-20 text-center text-xs font-bold text-gray-400">Δ Delta</span>
+          <span className="w-20 text-right text-xs font-bold text-indigo-600 capitalize">{b.name}</span>
+        </div>
+
+        {deltaRow("Harmony Index", a.harmony.harmonyIndex, b.harmony.harmonyIndex, v => `${Math.round(v)}%`)}
+        {deltaRow("Monica (Mᴄ)", a.monica ?? 0, b.monica ?? 0)}
+        {deltaRow("Greg's Energy", a.gregsEnergy, b.gregsEnergy)}
+        {deltaRow("Kalchm (K)", a.kalchm ?? 0, b.kalchm ?? 0)}
+        {deltaRow("Heat", a.thermodynamicProperties?.heat ?? 0, b.thermodynamicProperties?.heat ?? 0)}
+        {deltaRow("Entropy", a.thermodynamicProperties?.entropy ?? 0, b.thermodynamicProperties?.entropy ?? 0)}
+        {deltaRow("Reactivity", a.thermodynamicProperties?.reactivity ?? 0, b.thermodynamicProperties?.reactivity ?? 0)}
+        {deltaRow("Power (P=IV)", a.kinetics?.power ?? 0, b.kinetics?.power ?? 0)}
+
+        {/* Side-by-side Spider Charts */}
+        <div className="grid grid-cols-2 gap-4 pt-4">
+          <div className="text-center">
+            <h4 className="text-xs font-bold text-gray-600 mb-2 capitalize">{a.name}</h4>
+            <div className="flex justify-center">
+              <ElementalSpider effect={a.elementalEffect as unknown as Record<string, number>} size={120} />
+            </div>
+          </div>
+          <div className="text-center">
+            <h4 className="text-xs font-bold text-gray-600 mb-2 capitalize">{b.name}</h4>
+            <div className="flex justify-center">
+              <ElementalSpider effect={b.elementalEffect as unknown as Record<string, number>} size={120} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ============================================================================
   // MAIN RENDER
   // ============================================================================
   return (
@@ -804,7 +968,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       {/* Header */}
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-black text-gray-900">Cooking Methods</h2>
-        <p className="text-gray-500 mt-1">Alchemical Transformation System · P=IV Circuit Model · 14 Pillars</p>
+        <p className="text-gray-500 mt-1">Alchemical Transformation System · Harmony Index · 14 Pillars</p>
         <div className="mt-2 flex items-center justify-center gap-3">
           <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${
             positionsSource === "real" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
@@ -837,43 +1001,72 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         </div>
       )}
 
-      {/* Category Selector + Sort Controls */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex flex-wrap justify-center gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => { setSelectedCategory(cat.id); setExpandedMethod(null); }}
-              className={`rounded-lg px-4 py-2 text-sm font-bold transition-all duration-200 ${
-                selectedCategory === cat.id
-                  ? "bg-gray-900 text-white shadow-lg scale-105"
-                  : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400 hover:shadow"
-              }`}
-            >
-              <span className="mr-1.5">{cat.icon}</span>{cat.name}
-            </button>
-          ))}
-        </div>
+      {/* Category Selector */}
+      <div className="flex flex-wrap justify-center gap-2">
+        {categories.map((cat) => (
+          <button
+            key={cat.id}
+            onClick={() => { setSelectedCategory(cat.id); setExpandedMethod(null); setCompareSelections([]); }}
+            className={`rounded-lg px-4 py-2 text-sm font-bold transition-all duration-200 ${
+              selectedCategory === cat.id
+                ? "bg-gray-900 text-white shadow-lg scale-105"
+                : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400 hover:shadow"
+            }`}
+          >
+            <span className="mr-1.5">{cat.icon}</span>{cat.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Controls: Focus dropdown + Intent + Compare toggle */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+        {/* Focus dropdown */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-400">Sort:</span>
-          {([
-            { key: "composite", label: "Best Match" },
-            { key: "power", label: "Power" },
-            { key: "energy", label: "Energy" },
-            { key: "monica", label: "Monica" },
-            { key: "heat", label: "Heat" },
-          ] as Array<{ key: SortKey; label: string }>).map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => setSortBy(key)}
-              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
-                sortBy === key ? "bg-purple-100 text-purple-700 shadow-sm" : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+          <label className="text-xs font-semibold text-gray-500">Focus:</label>
+          <select
+            value={focusMode}
+            onChange={(e) => setFocusMode(e.target.value as FocusMode)}
+            className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 focus:outline-none"
+          >
+            {FOCUS_OPTIONS.map(({ key, label }) => (
+              <option key={key} value={key}>{label}</option>
+            ))}
+          </select>
         </div>
+
+        {/* User Intent chips */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-semibold text-gray-500">Intent:</span>
+          <div className="flex gap-1">
+            {INTENT_OPTIONS.map(({ key, label, icon }) => (
+              <button
+                key={label}
+                onClick={() => setUserIntent(key)}
+                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${
+                  userIntent === key
+                    ? "bg-indigo-100 text-indigo-700 shadow-sm ring-1 ring-indigo-300"
+                    : "text-gray-500 hover:bg-gray-100"
+                }`}
+              >
+                {icon} {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Compare toggle */}
+        <button
+          onClick={() => { setCompareMode(!compareMode); if (compareMode) setCompareSelections([]); }}
+          className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+            compareMode
+              ? "bg-indigo-600 text-white shadow-md"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          }`}
+        >
+          {compareMode ? "✔ Compare On" : "↔ Compare"}
+        </button>
       </div>
 
       {/* Category subtitle */}
@@ -881,27 +1074,36 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         <span className="text-3xl">{category?.icon}</span>
         <div>
           <h3 className="text-xl font-bold text-gray-900">{category?.name} Methods</h3>
-          <p className="text-xs text-gray-500">{currentMethods.length} methods · Sorted by {sortBy === "composite" ? "Best Match" : sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}</p>
+          <p className="text-xs text-gray-500">
+            {currentMethods.length} methods · Focus: {FOCUS_OPTIONS.find(f => f.key === focusMode)?.label}
+            {userIntent && ` · Intent: ${userIntent}`}
+          </p>
         </div>
       </div>
+
+      {/* Compare Delta View */}
+      {compareMode && renderCompareView()}
 
       {/* Methods */}
       <div className="space-y-4">
         {currentMethods.map((method, idx) => {
           if (!method) return null;
           const isExpanded = expandedMethod === method.id;
+          const isCompareSelected = compareSelections.includes(method.id);
           const pillarColors = method.pillar ? getPillarColors(method.pillar.id) : null;
 
           return (
             <div
               key={method.id}
               className={`rounded-xl border transition-all duration-300 ${
-                isExpanded
-                  ? `border-2 ${pillarColors?.border || "border-purple-300"} shadow-xl bg-gradient-to-br from-gray-50 to-white`
-                  : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-md"
+                isCompareSelected
+                  ? "border-2 border-indigo-400 shadow-lg bg-indigo-50/30"
+                  : isExpanded
+                    ? `border-2 ${pillarColors?.border || "border-purple-300"} shadow-xl bg-gradient-to-br from-gray-50 to-white`
+                    : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-md"
               }`}
             >
-              {/* ── Collapsed Card (always visible) ── */}
+              {/* -- Collapsed Card (always visible) -- */}
               <div
                 className="cursor-pointer p-5"
                 onClick={() => toggleMethod(method.id)}
@@ -917,55 +1119,48 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h4 className="text-lg font-bold capitalize text-gray-900">{method.name}</h4>
+                      {method.culinaryArchetype && (
+                        <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold bg-gray-100 text-gray-600 italic">
+                          {method.culinaryArchetype}
+                        </span>
+                      )}
                       {method.pillar && (
                         <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${pillarColors?.bg} ${pillarColors?.text}`}>
                           #{method.pillar.id}
                         </span>
                       )}
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${method.monicaClass.bgColor} ${method.monicaClass.color}`}>
-                        {method.monicaClass.label}
-                      </span>
+                      <VolatilityBadge monica={method.monica} />
                     </div>
-                    <p className="text-xs text-gray-500 mt-1 line-clamp-1">{method.description}</p>
 
-                    {/* Elemental bar */}
-                    <div className="mt-2.5">
-                      <ElementalBar effect={method.elementalEffect as unknown as Record<string, number>} />
-                    </div>
+                    {/* Alchemist's Hook */}
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-1 italic">
+                      {method.shortDescription || method.description}
+                    </p>
 
                     {/* Key metrics row */}
-                    <div className="mt-2.5 flex flex-wrap gap-2">
+                    <div className="mt-2.5 flex flex-wrap items-center gap-3">
+                      <HarmonyRing value={method.harmony.harmonyIndex} size={40} />
                       <span className="text-xs text-gray-500">⏱️ {formatDuration(method)}</span>
                       <span className={`text-xs font-semibold ${method.gregsEnergy >= 0 ? "text-green-600" : "text-red-500"}`}>
                         ⚡ {method.gregsEnergy >= 0 ? "+" : ""}{method.gregsEnergy.toFixed(2)}
                       </span>
-                      {method.monicaScoreResult && (
-                        <span className="text-xs font-semibold text-purple-600">
-                          🔮 {Math.round(method.monicaScoreResult.score)}/100
-                        </span>
-                      )}
                       {method.kinetics && (
                         <span className="text-xs font-semibold text-indigo-600">
                           ⚙️ P={method.kinetics.power.toFixed(2)}
                         </span>
                       )}
-                      {method.thermodynamicProperties && (
-                        <span className="text-xs text-red-500">
-                          🔥 {(method.thermodynamicProperties.heat * 100).toFixed(0)}%
-                        </span>
-                      )}
                     </div>
                   </div>
 
-                  {/* Mini radar (collapsed view) */}
+                  {/* Spider Chart (elemental quadrant map) */}
                   <div className="hidden md:block flex-shrink-0">
-                    <KineticRadar profile={method.kProfile} size={80} />
+                    <ElementalSpider effect={method.elementalEffect as unknown as Record<string, number>} size={80} />
                   </div>
                 </div>
               </div>
 
-              {/* ── Expanded View ── */}
-              {isExpanded && (
+              {/* -- Expanded View -- */}
+              {isExpanded && !compareMode && (
                 <div className="border-t border-gray-200 px-5 pb-5">
                   {/* Tab bar */}
                   <div className="flex gap-1 py-3 border-b border-gray-100 mb-4">
@@ -993,11 +1188,13 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
               )}
 
               {/* Expand indicator */}
-              <div className="text-center pb-2">
-                <span className="text-[10px] text-gray-400">
-                  {isExpanded ? "▲ collapse" : "▼ expand"}
-                </span>
-              </div>
+              {!compareMode && (
+                <div className="text-center pb-2">
+                  <span className="text-[10px] text-gray-400">
+                    {isExpanded ? "▲ collapse" : "▼ expand"}
+                  </span>
+                </div>
+              )}
             </div>
           );
         })}
@@ -1005,7 +1202,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
       {/* Footer */}
       <div className="text-center text-xs text-gray-400 pt-4">
-        Alchemical Cooking System · 14 Pillars · ESMS · P=IV Kinetics · Monica Constants · Planetary Alignments
+        Alchemical Cooking System · Harmony Index · 14 Pillars · ESMS · P=IV Kinetics · Monica Constants
       </div>
     </div>
   );

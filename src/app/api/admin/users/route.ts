@@ -1,12 +1,14 @@
 /**
  * Admin Users API Route
- * GET /api/admin/users - List all users
+ * GET  /api/admin/users         - List all users with tier info
+ * PATCH /api/admin/users/[id]   - Update user role or tier (handled in [id]/route.ts)
  *
  * @requires Authentication - Admin role required
  */
 
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { subscriptionService } from "@/services/subscriptionService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -15,25 +17,22 @@ export const runtime = "nodejs";
 
 /**
  * GET /api/admin/users
- * Returns all users with profile information
+ * Returns all users with profile and subscription tier information.
  */
 export async function GET(request: NextRequest) {
   try {
-    // Validate admin access
     const authResult = await validateAdminRequest(request);
     if ("error" in authResult) {
       return authResult.error;
     }
 
-    // Get query params for filtering
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search")?.toLowerCase();
-    const status = searchParams.get("status"); // "active", "inactive", or null for all
+    const status = searchParams.get("status"); // "active" | "inactive" | null
+    const tierFilter = searchParams.get("tier"); // "free" | "premium" | null
 
-    // Get all users
     let users = await userDatabase.getAllUsers();
 
-    // Apply filters
     if (search) {
       users = users.filter(
         (u) =>
@@ -48,32 +47,58 @@ export async function GET(request: NextRequest) {
       users = users.filter((u) => !u.isActive);
     }
 
-    // Sort by creation date (newest first)
+    // Sort newest first
     users.sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
 
-    // Map to response format
-    const mappedUsers = users.map((u) => ({
-      id: u.id,
-      email: u.email,
-      name: u.profile.name,
-      roles: u.roles,
-      isActive: u.isActive,
-      createdAt: u.createdAt,
-      lastLoginAt: u.lastLoginAt,
-      dominantElement: u.profile.natalChart?.dominantElement || null,
-      hasCompletedOnboarding: !!(u.profile.birthData && u.profile.natalChart),
-    }));
+    // Fetch subscription tiers in parallel — errors are non-fatal
+    const subscriptions = await Promise.allSettled(
+      users.map((u) => subscriptionService.getUserSubscription(u.id)),
+    );
+
+    const mappedUsers = users.map((u, i) => {
+      const subResult = subscriptions[i];
+      const sub =
+        subResult.status === "fulfilled" ? subResult.value : null;
+
+      // Admins always get premium regardless of DB subscription state
+      const isAdmin = u.roles.some(
+        (r) => String(r).toLowerCase() === "admin",
+      );
+      const tier = isAdmin ? "premium" : (sub?.tier ?? "free");
+
+      return {
+        id: u.id,
+        email: u.email,
+        name: u.profile.name ?? null,
+        roles: u.roles,
+        tier,
+        subscriptionStatus: sub?.status ?? null,
+        isActive: u.isActive,
+        createdAt: u.createdAt,
+        lastLoginAt: u.lastLoginAt ?? null,
+        dominantElement: u.profile.natalChart?.dominantElement ?? null,
+        hasCompletedOnboarding: !!(
+          u.profile.birthData && u.profile.natalChart
+        ),
+      };
+    });
+
+    // Apply tier filter after computing effective tier
+    const filtered =
+      tierFilter
+        ? mappedUsers.filter((u) => u.tier === tierFilter)
+        : mappedUsers;
 
     return NextResponse.json({
       success: true,
-      users: mappedUsers,
-      total: mappedUsers.length,
+      users: filtered,
+      total: filtered.length,
     });
   } catch (error) {
-    console.error("Admin users list error:", error);
+    console.error("[admin/users] List error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to load users" },
       { status: 500 },

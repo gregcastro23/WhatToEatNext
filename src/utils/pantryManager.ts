@@ -73,7 +73,7 @@ function savePantry(items: PantryItem[]): void {
     logger.debug(`Saved ${items.length} items to pantry`);
   } catch (error) {
     logger.error("Failed to save pantry to localStorage:", error);
-    throw new Error("Failed to save pantry");
+    throw new Error("Failed to save pantry", { cause: error });
   }
 }
 

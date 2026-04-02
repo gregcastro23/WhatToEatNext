@@ -235,13 +235,13 @@ export function calculateCulturalAlignment(
  */
 export function calculateSeasonalRelevance(
   userProfile: UserProfile,
-  cuisineProperties: CuisineComputedProperties,
+  _cuisineProperties: CuisineComputedProperties,
 ): number {
   if (!userProfile.locationPreferences?.currentSeason) {
     return 0.5; // Neutral if no seasonal data
   }
 
-  const { currentSeason } = userProfile.locationPreferences;
+  const { currentSeason: _currentSeason } = userProfile.locationPreferences;
 
   // This would be enhanced with actual seasonal cuisine data
   // For now, return neutral score

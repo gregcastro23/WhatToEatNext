@@ -1,12 +1,17 @@
 /**
  * Onboarding API Route
- * POST /api/onboarding - Complete user onboarding with birth data
+ * POST /api/onboarding — Save birth data, compute natal chart, mark onboarding complete
+ *
+ * Accepts: { email?, name?, birthData: BirthData }
+ * Returns: { success, profile, natalChart }
+ *
+ * @file src/app/api/onboarding/route.ts
  */
 
 import { NextResponse } from "next/server";
-import { UserRole } from "@/lib/auth/jwt-auth";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
-import emailService from "@/services/emailService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
@@ -16,328 +21,213 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-// Helper to calculate dominant element from planetary positions
-function calculateDominantElement(
-  planetaryPositions: Record<Planet, ZodiacSignType>,
-): Element {
-  const elementCounts: Record<Element, number> = {
-    Fire: 0,
-    Water: 0,
-    Earth: 0,
-    Air: 0,
-  };
+const SIGN_TO_ELEMENT: Record<ZodiacSignType, Element> = {
+  aries: "Fire", leo: "Fire", sagittarius: "Fire",
+  taurus: "Earth", virgo: "Earth", capricorn: "Earth",
+  gemini: "Air", libra: "Air", aquarius: "Air",
+  cancer: "Water", scorpio: "Water", pisces: "Water",
+};
 
-  // Zodiac sign to element mapping
-  const signToElement: Record<ZodiacSignType, Element> = {
-    aries: "Fire",
-    leo: "Fire",
-    sagittarius: "Fire",
-    taurus: "Earth",
-    virgo: "Earth",
-    capricorn: "Earth",
-    gemini: "Air",
-    libra: "Air",
-    aquarius: "Air",
-    cancer: "Water",
-    scorpio: "Water",
-    pisces: "Water",
-  };
+const SIGN_TO_MODALITY: Record<ZodiacSignType, Modality> = {
+  aries: "Cardinal", cancer: "Cardinal", libra: "Cardinal", capricorn: "Cardinal",
+  taurus: "Fixed", leo: "Fixed", scorpio: "Fixed", aquarius: "Fixed",
+  gemini: "Mutable", virgo: "Mutable", sagittarius: "Mutable", pisces: "Mutable",
+};
 
-  // Count elements from planetary positions
-  Object.values(planetaryPositions).forEach((sign) => {
-    const element = signToElement[sign];
-    if (element) {
-      elementCounts[element]++;
-    }
+function calcDominantElement(positions: Record<Planet, ZodiacSignType>): Element {
+  const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  Object.values(positions).forEach((sign) => {
+    const el = SIGN_TO_ELEMENT[sign];
+    if (el) counts[el]++;
   });
-
-  // Find dominant element
-  let maxCount = 0;
-  let dominantElement: Element = "Fire";
-
-  Object.entries(elementCounts).forEach(([element, count]) => {
-    if (count > maxCount) {
-      maxCount = count;
-      dominantElement = element as Element;
-    }
-  });
-
-  return dominantElement;
+  return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Element;
 }
 
-// Helper to calculate dominant modality from planetary positions
-function calculateDominantModality(
-  planetaryPositions: Record<Planet, ZodiacSignType>,
-): Modality {
-  const modalityCounts: Record<string, number> = {
-    Cardinal: 0,
-    Fixed: 0,
-    Mutable: 0,
-  };
-
-  const signToModality: Record<ZodiacSignType, string> = {
-    aries: "Cardinal",
-    cancer: "Cardinal",
-    libra: "Cardinal",
-    capricorn: "Cardinal",
-    taurus: "Fixed",
-    leo: "Fixed",
-    scorpio: "Fixed",
-    aquarius: "Fixed",
-    gemini: "Mutable",
-    virgo: "Mutable",
-    sagittarius: "Mutable",
-    pisces: "Mutable",
-  };
-
-  Object.values(planetaryPositions).forEach((sign) => {
-    const modality = signToModality[sign];
-    if (modality) {
-      modalityCounts[modality]++;
-    }
+function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modality {
+  const counts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
+  Object.values(positions).forEach((sign) => {
+    const m = SIGN_TO_MODALITY[sign];
+    if (m) counts[m]++;
   });
-
-  let maxCount = 0;
-  let dominantModality: Modality = "Cardinal";
-  Object.entries(modalityCounts).forEach(([modality, count]) => {
-    if (count > maxCount) {
-      maxCount = count;
-      dominantModality = modality as Modality;
-    }
-  });
-
-  return dominantModality;
+  return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Modality;
 }
 
-// Helper to calculate elemental balance
-function calculateElementalBalance(
-  planetaryPositions: Record<Planet, ZodiacSignType>,
-): { Fire: number; Water: number; Earth: number; Air: number } {
-  const elementCounts: Record<Element, number> = {
-    Fire: 0,
-    Water: 0,
-    Earth: 0,
-    Air: 0,
-  };
-
-  const signToElement: Record<ZodiacSignType, Element> = {
-    aries: "Fire",
-    leo: "Fire",
-    sagittarius: "Fire",
-    taurus: "Earth",
-    virgo: "Earth",
-    capricorn: "Earth",
-    gemini: "Air",
-    libra: "Air",
-    aquarius: "Air",
-    cancer: "Water",
-    scorpio: "Water",
-    pisces: "Water",
-  };
-
-  Object.values(planetaryPositions).forEach((sign) => {
-    const element = signToElement[sign];
-    if (element) {
-      elementCounts[element]++;
-    }
+function calcElementalBalance(positions: Record<Planet, ZodiacSignType>) {
+  const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  Object.values(positions).forEach((sign) => {
+    const el = SIGN_TO_ELEMENT[sign];
+    if (el) counts[el]++;
   });
-
-  // Normalize to 0-1 range
-  const total = Object.values(elementCounts).reduce((a, b) => a + b, 0);
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
   return {
-    Fire: elementCounts.Fire / total,
-    Water: elementCounts.Water / total,
-    Earth: elementCounts.Earth / total,
-    Air: elementCounts.Air / total,
+    Fire: counts.Fire / total,
+    Water: counts.Water / total,
+    Earth: counts.Earth / total,
+    Air: counts.Air / total,
   };
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { email, name, birthData } = body;
-
-    // Validate required fields
-    if (!email || !name || !birthData) {
+    let body: Record<string, unknown>;
+    try {
+      body = await request.json();
+    } catch {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Email, name, and birth data are required",
-        },
+        { success: false, message: "Invalid JSON in request body" },
         { status: 400 },
       );
     }
 
-    // Validate birth data
-    const { dateTime, latitude, longitude, timezone } = birthData;
-    if (!dateTime || latitude === undefined || longitude === undefined) {
-      return NextResponse.json(
-        {
-          success: false,
-          message:
-            "Complete birth data (dateTime, latitude, longitude) required",
-        },
-        { status: 400 },
-      );
-    }
-
-    // Check if user already exists, and whether they had birth data before
-    let user = await userDatabase.getUserByEmail(email);
-    const isNewUser = !user;
-    const hadBirthDataBefore = !!(user?.profile?.birthData);
-
-    if (!user) {
-      // Determine role: admin email or first-ever user gets ADMIN
-      const adminEmail = process.env.AUTH_ADMIN_EMAIL || "xalchm@gmail.com";
-      const allUsers = await userDatabase.getAllUsers();
-      const isAdmin = email === adminEmail || allUsers.length === 0;
-
-      user = await userDatabase.createUser({
-        email,
-        name,
-        roles: isAdmin
-          ? [UserRole.ADMIN, UserRole.USER]
-          : [UserRole.USER],
-      });
-    }
-
-    // Calculate natal chart
-    const birthDate = new Date(dateTime);
-    const planetaryPositions = await getPlanetaryPositionsForDateTime(
-      birthDate,
-      { latitude, longitude },
-    );
-
-    // Convert to Record<Planet, ZodiacSignType>
-    // Note: Ascendant is optional as it may not always be calculated
-    const positions: Record<Planet, ZodiacSignType> = {
-      Sun: planetaryPositions.Sun?.sign,
-      Moon: planetaryPositions.Moon?.sign,
-      Mercury: planetaryPositions.Mercury?.sign,
-      Venus: planetaryPositions.Venus?.sign,
-      Mars: planetaryPositions.Mars?.sign,
-      Jupiter: planetaryPositions.Jupiter?.sign,
-      Saturn: planetaryPositions.Saturn?.sign,
-      Uranus: planetaryPositions.Uranus?.sign,
-      Neptune: planetaryPositions.Neptune?.sign,
-      Pluto: planetaryPositions.Pluto?.sign,
-      Ascendant:
-        (planetaryPositions.Ascendant?.sign) || "aries", // Default fallback
+    const { name, birthData } = body as {
+      name?: string;
+      birthData?: BirthData;
     };
 
-    // Calculate alchemical properties
-    const alchemicalProperties = calculateAlchemicalFromPlanets(positions);
+    if (!birthData?.dateTime || birthData.latitude === undefined || birthData.longitude === undefined) {
+      return NextResponse.json(
+        { success: false, message: "birthData.dateTime, latitude, and longitude are required" },
+        { status: 400 },
+      );
+    }
 
-    // Calculate elemental balance
-    const elementalBalance = calculateElementalBalance(positions);
+    // Resolve user from session or fallback
+    const user = await getDatabaseUserFromRequest(request);
 
-    // Calculate dominant element
-    const dominantElement = calculateDominantElement(positions);
+    if (!user) {
+      _logger.warn("[POST /api/onboarding] User not found or not authenticated");
+      return NextResponse.json(
+        { success: false, message: "User not found. Please sign in first." },
+        { status: 401 },
+      );
+    }
 
-    // Create a `planets` array with real degree positions from the raw planetary data
-    const planets: PlanetInfo[] = Object.entries(positions).map(
-      ([name, sign]) => {
-        const rawPosition = planetaryPositions[name];
-        const exactLongitude = rawPosition?.exactLongitude ?? 0;
-        return {
-          name: name as Planet,
-          sign,
-          position: exactLongitude,
-        };
-      },
-    );
+    const userId = user.id;
 
-    // Calculate dominant modality from planetary positions
-    const dominantModality = calculateDominantModality(positions);
+    // Compute natal chart from birth data
+    const birthDate = new Date(birthData.dateTime);
+    if (isNaN(birthDate.getTime())) {
+      return NextResponse.json(
+        { success: false, message: "Invalid birthData.dateTime — must be a valid ISO date string" },
+        { status: 400 },
+      );
+    }
 
-    // Create natal chart
+    let rawPositions;
+    try {
+      rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
+        latitude: birthData.latitude,
+        longitude: birthData.longitude,
+      });
+    } catch (error) {
+      _logger.error("[POST /api/onboarding] Planetary calculation failed", error as any);
+      return NextResponse.json(
+        { success: false, message: "Planetary calculation service unavailable. Please try again later." },
+        { status: 503 },
+      );
+    }
+
+    const positions: Record<Planet, ZodiacSignType> = {
+      Sun: rawPositions.Sun?.sign,
+      Moon: rawPositions.Moon?.sign,
+      Mercury: rawPositions.Mercury?.sign,
+      Venus: rawPositions.Venus?.sign,
+      Mars: rawPositions.Mars?.sign,
+      Jupiter: rawPositions.Jupiter?.sign,
+      Saturn: rawPositions.Saturn?.sign,
+      Uranus: rawPositions.Uranus?.sign,
+      Neptune: rawPositions.Neptune?.sign,
+      Pluto: rawPositions.Pluto?.sign,
+      Ascendant: rawPositions.Ascendant?.sign || "aries",
+    };
+
+    const planets: PlanetInfo[] = Object.entries(positions).map(([pname, sign]) => ({
+      name: pname as Planet,
+      sign,
+      position: rawPositions[pname]?.exactLongitude ?? 0,
+    }));
+
     const natalChart: NatalChart = {
       birthData: {
-        dateTime,
-        latitude,
-        longitude,
-        timezone,
-      } as BirthData,
+        dateTime: birthData.dateTime,
+        latitude: birthData.latitude,
+        longitude: birthData.longitude,
+        timezone: birthData.timezone,
+      },
       planets,
       ascendant: positions.Ascendant,
       planetaryPositions: positions,
-      dominantElement,
-      dominantModality,
-      elementalBalance,
-      alchemicalProperties,
+      dominantElement: calcDominantElement(positions),
+      dominantModality: calcDominantModality(positions),
+      elementalBalance: calcElementalBalance(positions),
+      alchemicalProperties: calculateAlchemicalFromPlanets(positions),
       calculatedAt: new Date().toISOString(),
     };
 
-    // Update user profile with birth data and natal chart
-    const updatedUser = await userDatabase.updateUserProfile(user.id, {
+    // Persist birth data, natal chart, and onboarding status
+    const profileUpdates = {
       birthData: natalChart.birthData,
       natalChart,
-    });
+      onboardingComplete: true,  // stored as onboarding_completed in DB
+      ...(name ? { name } : {}),
+    };
 
-    if (!updatedUser) {
-      throw new Error("Failed to update user profile");
+    const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates as any);
+
+    // Send admin notification about completed onboarding
+    // This provides the admin team with the user's dominant element
+    try {
+      const emailService = (await import("@/services/emailService")).default;
+      emailService.ensureInitialized();
+      if (emailService.isConfigured()) {
+        const userName = name || user.profile.name || user.email;
+        void emailService.sendAdminNotificationEmail(
+          user.email,
+          userName,
+          natalChart.dominantElement,
+        );
+      }
+    } catch (err) {
+      _logger.error("[POST /api/onboarding] Failed to send admin notification:", err as any);
     }
 
-    // Send onboarding emails concurrently (non-blocking - don't fail onboarding if email fails)
-    const isFirstTimeBirthData = isNewUser || !hadBirthDataBefore;
+    return NextResponse.json({
+      success: true,
+      profile: updatedUser?.profile ?? null,
+      natalChart,
+    });
+  } catch (error) {
+    _logger.error("[POST /api/onboarding] Onboarding error", error as any);
+    return NextResponse.json(
+      { success: false, message: "Onboarding failed. Please try again." },
+      { status: 500 },
+    );
+  }
+}
 
-    if (emailService.isConfigured()) {
-      // Welcome email: send when user is new OR completing birth data for the first time
-      if (isFirstTimeBirthData) {
-        emailService
-          .sendWelcomeEmail(email, name, dominantElement)
-          .then((success) => {
-            if (success) {
-              console.log(`Welcome email sent successfully to ${email}`);
-            } else {
-              console.error(`Failed to send welcome email to ${email}`);
-            }
-          })
-          .catch((error) => {
-            console.error("Error sending welcome email:", error);
-          });
-      }
+/** GET /api/onboarding — Check onboarding status */
+export async function GET(request: NextRequest) {
+  try {
+    const user = await getDatabaseUserFromRequest(request);
 
-      // Admin notification: send whenever onboarding is completed (new user OR birth data update)
-      emailService
-        .sendAdminNotificationEmail(email, name, dominantElement)
-        .then((success) => {
-          if (success) {
-            console.log(
-              `Admin notification sent for onboarding completion: ${email} (new=${isNewUser}, firstBirthData=${isFirstTimeBirthData})`,
-            );
-          } else {
-            console.error(
-              `Failed to send admin notification for user: ${email}`,
-            );
-          }
-        })
-        .catch((error) => {
-          console.error("Error sending admin notification:", error);
-        });
-    } else {
-      console.log(
-        "Email service not configured - skipping onboarding emails. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS environment variables to enable email notifications.",
+    if (!user) {
+      _logger.warn("[GET /api/onboarding] User not found or not authenticated");
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
       );
     }
 
     return NextResponse.json({
       success: true,
-      message: "Onboarding completed successfully",
-      user: {
-        id: updatedUser.id,
-        email: updatedUser.email,
-        name: updatedUser.profile.name,
-      },
-      natalChart,
+      onboardingComplete: (user.profile as any).onboardingComplete ?? false,
+      hasNatalChart: !!user.profile.natalChart,
+      hasBirthData: !!user.profile.birthData,
     });
   } catch (error) {
-    console.error("Onboarding error:", error);
+    _logger.error("[GET /api/onboarding] Failed to check status", error as any);
     return NextResponse.json(
-      {
-        success: false,
-        message: error instanceof Error ? error.message : "Onboarding failed",
-      },
+      { success: false, message: "Failed to check onboarding status" },
       { status: 500 },
     );
   }

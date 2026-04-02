@@ -46,6 +46,8 @@ const rawWarmSpices = {
         carbs: 2.1,
         fat: 0.1,
         fiber: 1.4,
+        sugar: 0.1,
+        sodium: 1,
       },
       vitamins: {
         K: 0.01,

@@ -43,6 +43,7 @@ from backend.utils.lunar_engine import get_current_lunar_phase, get_lunar_modifi
 from backend.utils.seasonal_engine import get_seasonal_modifiers
 # Transit Engine import
 from backend.utils.transit_engine import get_transit_details, get_cooking_ritual, calculate_total_potency_score, get_planetary_hour
+from backend.schemas.planetary import CelestialCoordinates
 # Lunar Oracle import
 from backend.utils.lunar_oracle import get_optimal_cooking_windows
 # Alchemical Quantities import
@@ -51,6 +52,8 @@ from backend.utils.alchemical_quantities import calculate_alchemical_quantities
 from backend.utils.wellness_analytics import analyze_alchemical_balance
 # Transmutation Oracle import
 from backend.utils.transmutation_oracle import TransmutationOracle
+# Image Generator import
+from backend.utils.image_generator import generate_visual_prompt, NanoBananaPro
 # Collective Synastry Engine import
 from backend.utils.collective_engine import ChartData, CollectiveSynastryEngine # New imports
 # Centralized celestial config
@@ -102,9 +105,76 @@ app = FastAPI(
     version="2.0.0"
 )
 
+# Startup event to log configuration
+@app.on_event("startup")
+async def startup_event():
+    """Log startup configuration and test database connection for Railway deployment."""
+    import os
+    import socket
+    port = os.getenv("PORT", "8000")
+    database_url = os.getenv("DATABASE_URL", "not set")
+    
+    # Get hostname/IP for debugging
+    hostname = socket.gethostname()
+    try:
+        ip_addr = socket.gethostbyname(hostname)
+    except:
+        ip_addr = "unknown"
+        
+    # Mask the password in the URL for logging
+    masked_db = database_url
+    if "@" in database_url:
+        try:
+            prefix, suffix = database_url.split("@", 1)
+            if "://" in prefix:
+                protocol, creds = prefix.split("://", 1)
+                masked_db = f"{protocol}://***@{suffix}"
+            else:
+                masked_db = f"***@{suffix}"
+        except:
+            masked_db = "masked"
+            
+    print(f"🚀 alchm.kitchen Backend Starting...")
+    print(f"   Hostname: {hostname} ({ip_addr})")
+    print(f"   PORT: {port}")
+    print(f"   DATABASE_URL: {masked_db}")
+    print(f"   Environment: {os.getenv('ENVIRONMENT', 'development')}")
+    
+    # Test Database Connection (Non-blocking)
+    async def test_db():
+        try:
+            from backend.database.connection import get_db_engine
+            from sqlalchemy import text
+            print(f"   Testing database connection in background...")
+            engine = get_db_engine()
+            
+            # Define connection test
+            def check():
+                with engine.connect() as conn:
+                    conn.execute(text("SELECT 1"))
+            
+            # Run in executor with timeout to avoid blocking startup
+            loop = asyncio.get_event_loop()
+            await asyncio.wait_for(loop.run_in_executor(None, check), timeout=5.0)
+            print(f"   ✅ Database connection successful")
+        except asyncio.TimeoutError:
+            print(f"   ⚠️ Database connection test timed out (may still be connecting...)")
+        except Exception as e:
+            print(f"   ❌ Database connection failed: {str(e)}")
+
+    asyncio.create_task(test_db())
+    
+    print(f"✅ Startup complete - ready to accept requests on port {port}")
+
+# CORS Configuration
+CORS_ALLOWED_ORIGINS = os.getenv(
+    "CORS_ALLOWED_ORIGINS", 
+    "https://alchm.kitchen,https://v0-alchm-kitchen.vercel.app,http://localhost:3000"
+).split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -116,8 +186,7 @@ app.add_middleware(
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint for Docker and monitoring."""
-    return {"status": "healthy", "service": "alchm.kitchen", "version": "2.0.0"}
+    return {"status": "healthy"}
 
 # ==========================================
 # PROTECTED USER ROUTE
@@ -216,7 +285,7 @@ async def calculate_alchemical_quantities_endpoint(request: AlchemicalQuantities
             request.planetary_hour_ruler,
             request.thermo_rating
         )
-        return result
+        return result.model_dump()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Calculation failed: {str(e)}")
 
@@ -402,6 +471,41 @@ class ChartSummary(BaseModel):
 class RecipeGeneratorResponse(BaseModel):
     chart: ChartSummary
     recommendations: List[str]
+
+# ==========================================
+# IMAGE GENERATION (Alchemical Pipeline)
+# ==========================================
+
+class ImageGenerationRequest(BaseModel):
+    name: str
+    description: Optional[str] = ""
+    cuisine: Optional[str] = "Global"
+    elementalProperties: Optional[Dict[str, float]] = None
+    monicaScore: Optional[float] = None
+    energyProfile: Optional[Dict[str, Any]] = None
+    cookingMethods: Optional[List[str]] = None
+
+class ImageGenerationResponse(BaseModel):
+    url: str
+    prompt: str
+
+@app.post("/api/generate-alchemical-image", response_model=ImageGenerationResponse)
+async def generate_alchemical_image_endpoint(request: ImageGenerationRequest):
+    """
+    Generate an alchemical visual prompt and bridge to Nano Banana Pro for image generation.
+    """
+    try:
+        recipe_data = request.dict()
+        # Synthesize the 150-word visual prompt
+        prompt = generate_visual_prompt(recipe_data)
+        
+        # Call the Nano Banana Pro bridge
+        engine = NanoBananaPro()
+        image_url = await engine.generate(prompt)
+        
+        return ImageGenerationResponse(url=image_url, prompt=prompt)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Image generation failed: {str(e)}")
 
 class RecommendationRequest(BaseModel):
     current_time: str
@@ -1186,7 +1290,7 @@ async def get_recipe_recommendations_by_chart(
             raise HTTPException(status_code=500, detail=common_transit_info["error"])
         common_dominant_transit = common_transit_info.get("dominant_transit")
         common_sun_element = common_transit_info.get("sun_element")
-        common_planetary_hour_ruler = get_planetary_hour(current_latitude, current_longitude)
+        common_planetary_hour_ruler = get_planetary_hour(CelestialCoordinates(latitude=current_latitude, longitude=current_longitude))
         # --- End common data acquisition ---
 
         # --- Collective Synastry Logic (if secondary charts are provided) ---
@@ -1289,14 +1393,14 @@ async def get_recipe_recommendations_by_chart(
                 common_planetary_hour_ruler
             )
             # Apply collective potency modifier
-            potency_scores_and_physics["total_potency_score"] *= collective_potency_modifier
+            potency_scores_and_physics.total_potency_score *= collective_potency_modifier
 
             # Calculate SMES scores using the updated alchemical_quantities function
             smes_quantities = calculate_alchemical_quantities(
                 full_recipe,
-                potency_scores_and_physics["kinetic_rating"],
+                potency_scores_and_physics.kinetic_rating,
                 common_planetary_hour_ruler,
-                potency_scores_and_physics["thermo_rating"]
+                potency_scores_and_physics.thermo_rating
             )
 
             recommendations.append({
@@ -1314,13 +1418,13 @@ async def get_recipe_recommendations_by_chart(
                     "Air": elemental_properties.air,
                 } if elemental_properties else None,
                 # --- New SMES and Physical Quantities ---
-                "spirit_score": smes_quantities["spirit_score"],
-                "matter_score": smes_quantities["matter_score"],
-                "essence_score": smes_quantities["essence_score"],
-                "substance_score": smes_quantities["substance_score"],
-                "kinetic_val": smes_quantities["kinetic_val"],
-                "thermo_val": smes_quantities["thermo_val"],
-                "total_potency_score": potency_scores_and_physics["total_potency_score"],
+                "spirit_score": smes_quantities.spirit_score,
+                "matter_score": smes_quantities.matter_score,
+                "essence_score": smes_quantities.essence_score,
+                "substance_score": smes_quantities.substance_score,
+                "kinetic_val": smes_quantities.kinetic_val,
+                "thermo_val": smes_quantities.thermo_val,
+                "total_potency_score": potency_scores_and_physics.total_potency_score,
                 "collective_potency_modifier_applied": collective_potency_modifier, # Indicate if modifier was applied
                 # --- End New Quantities ---
             })
@@ -1368,8 +1472,9 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         # Using hardcoded coordinates for Forest Hills, Queens
         latitude = FOREST_HILLS_COORDINATES["latitude"]
         longitude = FOREST_HILLS_COORDINATES["longitude"]
-        planetary_hour_ruler = get_planetary_hour(latitude, longitude)
+        planetary_hour_ruler = get_planetary_hour(CelestialCoordinates(latitude=latitude, longitude=longitude))
         potency_scores = calculate_total_potency_score(recipe, dominant_transit, sun_element, planetary_hour_ruler)
+        smes_quantities = calculate_alchemical_quantities(recipe, potency_scores.kinetic_rating, planetary_hour_ruler, potency_scores.thermo_rating)
 
         # Get optimal cooking window
         optimal_windows = get_optimal_cooking_windows(days=1)
@@ -1385,21 +1490,21 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         num_participants = (len(request.secondary_chart_ids) + 1) if is_collective_ritual else 1
 
         # Use collective scores if provided, otherwise use individual recipe scores
-        spirit_score_to_log = request.collective_smes_scores.get("spirit_score", 0.0) if request.collective_smes_scores else potency_scores["spirit_score"]
-        essence_score_to_log = request.collective_smes_scores.get("essence_score", 0.0) if request.collective_smes_scores else potency_scores["essence_score"]
-        matter_score_to_log = request.collective_smes_scores.get("matter_score", 0.0) if request.collective_smes_scores else potency_scores["matter_score"]
-        substance_score_to_log = request.collective_smes_scores.get("substance_score", 0.0) if request.collective_smes_scores else potency_scores["substance_score"]
+        spirit_score_to_log = request.collective_smes_scores.get("spirit_score", 0.0) if request.collective_smes_scores else smes_quantities.spirit_score
+        essence_score_to_log = request.collective_smes_scores.get("essence_score", 0.0) if request.collective_smes_scores else smes_quantities.essence_score
+        matter_score_to_log = request.collective_smes_scores.get("matter_score", 0.0) if request.collective_smes_scores else smes_quantities.matter_score
+        substance_score_to_log = request.collective_smes_scores.get("substance_score", 0.0) if request.collective_smes_scores else smes_quantities.substance_score
 
         # Potency scores already include kinetic_rating and thermo_rating, so these are individual
         # For now, we log the recipe's inherent kinetic/thermo from potency_scores
-        kinetic_rating_to_log = potency_scores["kinetic_rating"]
-        thermo_rating_to_log = potency_scores["thermo_rating"]
+        kinetic_rating_to_log = potency_scores.kinetic_rating
+        thermo_rating_to_log = potency_scores.thermo_rating
 
         new_ritual_log = TransitHistory(
             recipe_id=request.recipe_id,
             dominant_transit=dominant_transit,
             ritual_instruction=ritual,
-            potency_score=potency_scores["total_potency_score"],
+            potency_score=potency_scores.total_potency_score,
             kinetic_rating=kinetic_rating_to_log,
             thermo_rating=thermo_rating_to_log,
             spirit_score=spirit_score_to_log,
@@ -1417,11 +1522,91 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
             "dominant_transit": dominant_transit,
             "ritual_instruction": ritual,
             "suggested_timestamp": suggested_timestamp,
-            "total_potency_score": potency_scores["total_potency_score"],
+            "total_potency_score": potency_scores.total_potency_score,
             "current_elemental_balance": transit_info.get("current_elemental_balance"),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate cooking instruction: {str(e)}")
+
+class AstroBlueprintRequest(BaseModel):
+    year: int
+    month: int
+    day: int
+    hour: int
+    minute: int
+    latitude: float
+    longitude: float
+
+class AstroBlueprintResponse(BaseModel):
+    sun_sign: str
+    moon_sign: str
+    ascendant: str
+    target_elemental_balance: Dict[str, float]
+    cosmic_instructions: List[str]
+
+@app.post("/api/astrological/context-blueprint", response_model=AstroBlueprintResponse)
+async def generate_astro_context_blueprint(request: AstroBlueprintRequest):
+    """
+    Generates a lightweight Astrological Context Blueprint (Sun, Moon, Ascendant,
+    and target elemental ratios) to pass to the Next.js Vercel AI SDK prompt
+    for the advanced HSCA Cosmic Recipe Generation.
+    """
+    try:
+        # 1. Calculate Planetary Positions
+        planetary_positions_data = calculate_planetary_positions_swisseph(
+            request.year, request.month, request.day, request.hour, request.minute
+        )
+        celestial_bodies = planetary_positions_data.get("positions", {})
+
+        # 2. Ascendant Calculation
+        import swisseph as swe
+        swe.set_ephe_path('')
+        julian_day = swe.julday(request.year, request.month, request.day, request.hour + request.minute / 60.0)
+        
+        try:
+            house_cusps_tropical, ascmc_tropical = swe.houses(
+                julian_day, request.latitude, request.longitude, b'P'
+            )
+            ascendant_longitude = ascmc_tropical[0]
+            ascendant_sign_index = int(ascendant_longitude / 30)
+            zodiac_signs_list = [
+                "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+                "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+            ]
+            ascendant_sign = zodiac_signs_list[ascendant_sign_index].title()
+        except Exception:
+            ascendant_sign = "Unknown"
+
+        sun_sign = celestial_bodies.get("Sun", {}).get("sign", "Unknown").title()
+        moon_sign = celestial_bodies.get("Moon", {}).get("sign", "Unknown").title()
+
+        # 3. Dummy elemental logic to instruct the AI (Ideally derived from chart dominance)
+        # Here we assign generic ratios that sum to ~100 based on standard needs,
+        # but in a fuller implementation, this would tally chart weights.
+        target_balance = {
+            "fire": 25.0,
+            "earth": 25.0,
+            "water": 25.0,
+            "air": 25.0
+        }
+        
+        # If fire sign, maybe they need grounding (Earth/Water).
+        # We can pass these explicit rules to the UI generator.
+        instructions = [
+            f"The user's Sun is in {sun_sign}, Moon in {moon_sign}, and Ascendant in {ascendant_sign}.",
+            "Incorporate ingredients that balance these specific placements."
+        ]
+
+        return AstroBlueprintResponse(
+            sun_sign=sun_sign,
+            moon_sign=moon_sign,
+            ascendant=ascendant_sign,
+            target_elemental_balance=target_balance,
+            cosmic_instructions=instructions
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate astro blueprint: {str(e)}")
 
 @app.post("/api/recipe-generator", response_model=RecipeGeneratorResponse)
 async def generate_personalized_recipe(request: RecipeGeneratorRequest, db: Session = Depends(get_db)):
@@ -1508,6 +1693,362 @@ async def generate_personalized_recipe(request: RecipeGeneratorRequest, db: Sess
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate personalized recipe: {str(e)}")
+
+class AlchemicalImageRequest(BaseModel):
+    recipe_id: Optional[str] = None
+    title: Optional[str] = None
+    description: Optional[str] = None
+    elemental_properties: Optional[Dict[str, float]] = None
+
+@app.post("/api/generate-alchemical-image")
+async def generate_alchemical_image(
+    request: AlchemicalImageRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    Synthesizes a 150-word alchemical visual prompt based on recipe properties 
+    and returns a generated image URL via OpenAI DALL-E 3.
+    """
+    try:
+        title = request.title or "Cosmic Dish"
+        desc = request.description or "A mystical culinary creation"
+        
+        if request.recipe_id:
+            recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
+            if recipe:
+                title = recipe.name
+                desc = recipe.description or ""
+                
+        prompt = f"Professional, high-end culinary photography of {title}. {desc}. Incorporate subtle mystical and alchemical visual elements. Cinematic lighting, depth of field, 8k resolution, food photography style."
+        
+        import os
+        from openai import AsyncOpenAI
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY is not set in the environment.")
+            
+        client = AsyncOpenAI(api_key=api_key)
+        
+        response = await client.images.generate(
+            model="dall-e-3",
+            prompt=prompt[:1000], # DALL-E prompt length limit
+            size="1024x1024",
+            quality="standard",
+            n=1,
+        )
+        
+        image_url = response.data[0].url
+        
+        # Save to DB if recipe_id provided
+        if request.recipe_id:
+            recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
+            if recipe:
+                recipe.image_url = image_url
+                db.commit()
+                
+        return {
+            "url": image_url,
+            "prompt": prompt
+        }
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to generate alchemical image: {str(e)}")
+
+# ==========================================
+# PREMIUM TIER CHECK DEPENDENCY
+# ==========================================
+
+def require_premium(user: dict = Depends(get_current_user)):
+    """
+    Dependency that ensures the authenticated user has premium access.
+    Admins always pass. Returns the user dict if authorized.
+    """
+    role = user.get("role", "user")
+    tier = user.get("tier", "free")
+    if role == "admin" or tier == "premium":
+        return user
+    raise HTTPException(
+        status_code=403,
+        detail={
+            "upgrade_required": True,
+            "message": "This feature requires a Premium subscription.",
+            "feature": "group_recommendations",
+        },
+    )
+
+# ==========================================
+# GROUP RECOMMENDATION ENDPOINTS (PREMIUM)
+# ==========================================
+
+class GroupMemberChart(BaseModel):
+    """Birth chart data for a group member"""
+    user_id: Optional[str] = None
+    name: Optional[str] = None
+    year: int
+    month: int
+    day: int
+    hour: int
+    minute: int
+    latitude: float
+    longitude: float
+    timezone_str: str = "America/New_York"
+
+class GroupRecommendationRequest(BaseModel):
+    """Request for group dining recommendations"""
+    members: List[GroupMemberChart]
+    strategy: str = "consensus"  # average, minimum, consensus
+    cuisine_filter: Optional[str] = None
+    max_results: int = 10
+
+class GroupCompatibilityRequest(BaseModel):
+    """Request for group elemental compatibility analysis"""
+    members: List[GroupMemberChart]
+
+@app.post("/api/group/recommendations")
+async def get_group_recommendations(
+    request: GroupRecommendationRequest,
+    db: Session = Depends(get_db),
+    user: dict = Depends(require_premium),
+):
+    """
+    Calculate personalized group dining recommendations.
+    Aggregates natal charts across multiple members and scores
+    cuisines/recipes based on collective elemental harmony.
+    Requires Premium subscription.
+    """
+    try:
+        if len(request.members) < 2:
+            raise HTTPException(status_code=400, detail="Group must have at least 2 members")
+        if len(request.members) > 10:
+            raise HTTPException(status_code=400, detail="Group size limited to 10 members")
+
+        engine = CollectiveSynastryEngine(db)
+
+        # Convert to ChartData for the engine
+        chart_data_list = [
+            ChartData(
+                year=m.year, month=m.month, day=m.day,
+                hour=m.hour, minute=m.minute,
+                latitude=m.latitude, longitude=m.longitude,
+                timezone_str=m.timezone_str,
+                user_id=m.user_id,
+            )
+            for m in request.members
+        ]
+
+        # Get individual snapshots for per-member scores
+        individual_snapshots = []
+        for chart_data in chart_data_list:
+            snapshot = await engine._get_individual_elemental_snapshot(chart_data)
+            individual_snapshots.append(snapshot)
+
+        # Get collective deficit analysis
+        collective_result = await engine.calculate_collective_elemental_deficits(chart_data_list)
+        collective_smes = collective_result.get("collective_smes_averages", {})
+
+        # Generate harmonizing recipe profile
+        harmonizing_profile = await engine.generate_harmonizing_recipe_profile(collective_result)
+
+        # Score cuisines from database if available
+        cuisine_recommendations = []
+        if CUISINES_AVAILABLE and cuisines:
+            for cuisine_name, cuisine_data in cuisines.items():
+                if request.cuisine_filter and cuisine_name.lower() != request.cuisine_filter.lower():
+                    continue
+
+                elemental = cuisine_data.get("elementalProperties", {})
+                cuisine_fire = elemental.get("Fire", 0.25)
+                cuisine_water = elemental.get("Water", 0.25)
+                cuisine_earth = elemental.get("Earth", 0.25)
+                cuisine_air = elemental.get("Air", 0.25)
+
+                # Calculate harmony score between collective SMES and cuisine elementals
+                collective_spirit = collective_smes.get("spirit_score", 0.5)
+                collective_matter = collective_smes.get("matter_score", 0.5)
+                collective_essence = collective_smes.get("essence_score", 0.5)
+                collective_substance = collective_smes.get("substance_score", 0.5)
+
+                # Harmony = alignment between cuisine elementals and group needs
+                harmony = (
+                    cuisine_fire * collective_spirit * 0.3 +
+                    cuisine_water * collective_essence * 0.3 +
+                    cuisine_earth * collective_matter * 0.2 +
+                    cuisine_air * collective_substance * 0.2
+                )
+
+                # Per-member scores
+                per_member = []
+                for i, snapshot in enumerate(individual_snapshots):
+                    member_smes = snapshot["smes_scores"]
+                    member_harmony = (
+                        cuisine_fire * member_smes.get("spirit_score", 0.5) * 0.3 +
+                        cuisine_water * member_smes.get("essence_score", 0.5) * 0.3 +
+                        cuisine_earth * member_smes.get("matter_score", 0.5) * 0.2 +
+                        cuisine_air * member_smes.get("substance_score", 0.5) * 0.2
+                    )
+                    member_info = request.members[i]
+                    per_member.append({
+                        "name": member_info.name or member_info.user_id or f"Member {i+1}",
+                        "score": round(member_harmony, 4),
+                        "natal_sun_element": snapshot.get("natal_sun_element", "Unknown"),
+                    })
+
+                # Strategy-based scoring
+                member_scores = [m["score"] for m in per_member]
+                if request.strategy == "minimum":
+                    final_score = min(member_scores) if member_scores else 0
+                elif request.strategy == "average":
+                    final_score = sum(member_scores) / len(member_scores) if member_scores else 0
+                else:  # consensus
+                    avg = sum(member_scores) / len(member_scores) if member_scores else 0
+                    variance = sum((s - avg) ** 2 for s in member_scores) / len(member_scores) if member_scores else 0
+                    # Higher consensus = lower variance
+                    consensus_bonus = max(0, 1 - variance * 10)
+                    final_score = avg * 0.6 + consensus_bonus * 0.4
+
+                cuisine_recommendations.append({
+                    "cuisine": cuisine_name,
+                    "score": round(final_score, 4),
+                    "harmony": round(harmony, 4),
+                    "per_member_scores": per_member,
+                    "description": cuisine_data.get("description", ""),
+                })
+
+            cuisine_recommendations.sort(key=lambda x: x["score"], reverse=True)
+            cuisine_recommendations = cuisine_recommendations[:request.max_results]
+
+        return {
+            "strategy": request.strategy,
+            "group_size": len(request.members),
+            "collective_profile": collective_smes,
+            "deficit_analysis": collective_result.get("collective_deficit_analysis", {}),
+            "harmonizing_profile": harmonizing_profile,
+            "recommendations": cuisine_recommendations,
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Group recommendation error: {str(e)}")
+
+
+@app.post("/api/group/compatibility")
+async def get_group_compatibility(
+    request: GroupCompatibilityRequest,
+    db: Session = Depends(get_db),
+    user: dict = Depends(require_premium),
+):
+    """
+    Calculate elemental compatibility matrix between group members.
+    Returns pairwise harmony scores and complementary element analysis.
+    Requires Premium subscription.
+    """
+    try:
+        if len(request.members) < 2:
+            raise HTTPException(status_code=400, detail="Need at least 2 members for compatibility")
+        if len(request.members) > 10:
+            raise HTTPException(status_code=400, detail="Group size limited to 10 members")
+
+        engine = CollectiveSynastryEngine(db)
+
+        chart_data_list = [
+            ChartData(
+                year=m.year, month=m.month, day=m.day,
+                hour=m.hour, minute=m.minute,
+                latitude=m.latitude, longitude=m.longitude,
+                timezone_str=m.timezone_str,
+                user_id=m.user_id,
+            )
+            for m in request.members
+        ]
+
+        # Get individual snapshots
+        snapshots = []
+        for chart_data in chart_data_list:
+            snapshot = await engine._get_individual_elemental_snapshot(chart_data)
+            snapshots.append(snapshot)
+
+        # Build compatibility matrix
+        members_info = []
+        for i, (member, snapshot) in enumerate(zip(request.members, snapshots)):
+            smes = snapshot["smes_scores"]
+            members_info.append({
+                "index": i,
+                "name": member.name or member.user_id or f"Member {i+1}",
+                "natal_sun_element": snapshot.get("natal_sun_element", "Unknown"),
+                "smes": {
+                    "spirit": round(smes.get("spirit_score", 0), 4),
+                    "essence": round(smes.get("essence_score", 0), 4),
+                    "matter": round(smes.get("matter_score", 0), 4),
+                    "substance": round(smes.get("substance_score", 0), 4),
+                },
+            })
+
+        # Pairwise compatibility
+        compatibility_matrix = []
+        for i in range(len(snapshots)):
+            for j in range(i + 1, len(snapshots)):
+                smes_i = snapshots[i]["smes_scores"]
+                smes_j = snapshots[j]["smes_scores"]
+
+                # Cosine similarity between SMES vectors
+                vec_i = [smes_i.get("spirit_score", 0), smes_i.get("essence_score", 0),
+                         smes_i.get("matter_score", 0), smes_i.get("substance_score", 0)]
+                vec_j = [smes_j.get("spirit_score", 0), smes_j.get("essence_score", 0),
+                         smes_j.get("matter_score", 0), smes_j.get("substance_score", 0)]
+
+                dot = sum(a * b for a, b in zip(vec_i, vec_j))
+                mag_i = sum(a ** 2 for a in vec_i) ** 0.5
+                mag_j = sum(a ** 2 for a in vec_j) ** 0.5
+                similarity = dot / (mag_i * mag_j) if (mag_i > 0 and mag_j > 0) else 0
+
+                # Complementary analysis
+                complementary_elements = []
+                element_names = ["Spirit", "Essence", "Matter", "Substance"]
+                for k, name in enumerate(element_names):
+                    diff = abs(vec_i[k] - vec_j[k])
+                    if diff > 0.2:
+                        stronger = members_info[i]["name"] if vec_i[k] > vec_j[k] else members_info[j]["name"]
+                        complementary_elements.append({
+                            "element": name,
+                            "difference": round(diff, 4),
+                            "stronger_in": stronger,
+                        })
+
+                compatibility_matrix.append({
+                    "member_a": members_info[i]["name"],
+                    "member_b": members_info[j]["name"],
+                    "harmony_score": round(similarity, 4),
+                    "complementary_elements": complementary_elements,
+                })
+
+        # Overall group harmony
+        if compatibility_matrix:
+            avg_harmony = sum(c["harmony_score"] for c in compatibility_matrix) / len(compatibility_matrix)
+        else:
+            avg_harmony = 0
+
+        return {
+            "group_size": len(request.members),
+            "members": members_info,
+            "compatibility_matrix": compatibility_matrix,
+            "overall_harmony": round(avg_harmony, 4),
+            "harmony_rating": (
+                "Excellent" if avg_harmony > 0.85 else
+                "Good" if avg_harmony > 0.7 else
+                "Moderate" if avg_harmony > 0.5 else
+                "Challenging"
+            ),
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Compatibility analysis error: {str(e)}")
+
 
 if __name__ == "__main__":
     import uvicorn

@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ZodiacSignType, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Frying cooking method
@@ -12,6 +11,8 @@ export const frying: CookingMethodData = {
   name: "frying",
   description:
     "Cooking food in hot oil or fat, creating a crispy exterior while keeping the interior moist and tender. The high-temperature process rapidly dehydrates the food surface through the expulsion of moisture, creating a protective barrier that seals in flavors while developing complex browning reactions that enhance taste and texture.",
+  shortDescription: "Plunges ingredients into hot oil to shatter textures and seal in moisture.",
+  culinaryArchetype: "The Alchemist",
   elementalEffect: {
     Fire: 0.6, // Primary element - intense heat is essential
     Air: 0.2, // Secondary element - creates space between molecules

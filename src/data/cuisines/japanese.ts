@@ -81,2191 +81,1557 @@ export const japanese: Cuisine = {
     breakfast: {
       all: [
         {
-          id: "traditional-japanese-breakfast",
-          name: "Traditional Japanese Breakfast Set",
-          description:
-            "Classic breakfast with grilled fish, rice, miso soup, and sides",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-          ],
-          tools: [
-            "rice cooker",
-            "fish grill",
-            "small pots",
-            "miso strainer",
-            "chopsticks",
-          ],
-          preparationSteps: [
-            "Cook rice",
-            "Grill fish until crispy",
-            "Prepare miso soup",
-            "Steam vegetables",
-            "Arrange components",
-            "Serve with pickles",
-          ],
-          ingredients: [
-            {
-              name: "steamed rice",
-              amount: "150",
-              unit: "g",
-              category: "grain",
-              swaps: ["quinoa"],
-            },
-            {
-              name: "grilled mackerel",
-              amount: "100",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu", "tempeh"],
-            },
-            {
-              name: "miso paste",
-              amount: "1",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            { name: "nori", amount: "1", unit: "sheet", category: "seaweed" },
-            {
-              name: "pickled vegetables",
-              amount: "30",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "raw egg",
-              amount: "1",
-              unit: "large",
-              category: "protein",
-              swaps: ["soft tofu"],
-            },
-          ],
-          substitutions: {
-            mackerel: ["salmon", "tofu", "tempeh"],
-            "raw egg": ["soft tofu", "scrambled egg"],
-            "white rice": ["brown rice", "quinoa"],
+          "name": "Traditional Japanese Breakfast Set (Ichiju Sansai)",
+          "description": "A perfectly balanced structural model of Japanese nutritional philosophy: 'One soup, three sides' (Ichiju Sansai). It provides a complete spectrum of elements—Fire (grilled fish), Water (miso soup), Earth (rice and fermented pickles), and Air (steamed vegetables).",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 1,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 1,
-          allergens: ["fish", "egg", "soy"],
-          prepTime: "10 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "The traditional Japanese breakfast emphasizes balance and variety, with each component serving a specific nutritional and cultural purpose",
-          pairingSuggestions: ["green tea", "miso soup", "umeboshi"],
-          dietaryInfo: ["pescatarian"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 450,
-            protein: 28,
-            carbs: 55,
-            fat: 16,
-            fiber: 3,
-            vitamins: ["D", "B12", "A"],
-            minerals: ["Omega-3", "Iodine", "Iron"],
-          },
-          timeToMake: "20 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.08,
-            Water: 0.45,
-            Earth: 0.37,
-            Air: 0.1,
-          },
-          instructions: [
-            "Cook rice in rice cooker",
-            "Grill fish until skin is crispy and flesh is cooked through",
-            "Prepare miso soup by dissolving paste in dashi and adding tofu and seaweed",
-            "Steam vegetables until tender",
-            "Arrange all components in traditional serving dishes",
-            "Serve with pickles and garnishes",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "fillet",
+              "name": "salted salmon (Shioyaki)",
+              "notes": "Grilled until the skin is crispy."
+            },
+            {
+              "amount": 1,
+              "unit": "bowl",
+              "name": "miso soup",
+              "notes": "Dashi-based with tofu and wakame."
+            },
+            {
+              "amount": 1,
+              "unit": "bowl",
+              "name": "steamed short-grain rice",
+              "notes": "The carbohydrate core."
+            },
+            {
+              "amount": 1,
+              "unit": "small dish",
+              "name": "Tsukemono (pickles)",
+              "notes": "Takuan or umeboshi for acidity."
+            },
+            {
+              "amount": 1,
+              "unit": "small dish",
+              "name": "Kobachi (side dish)",
+              "notes": "E.g., spinach ohitashi or hijiki seaweed salad."
+            }
           ],
-          astrologicalAffinities: {
-            planets: ["Neptune", "Moon"],
-            signs: ["Cancer", "Pisces"],
-            lunarPhases: ["Full Moon", "Third Quarter"],
+          "instructions": [
+            "Step 1: Rice. Start the rice cooker first. It is the grounding element.",
+            "Step 2: Fish. Grill the salted salmon over medium-high heat until the skin is blistered and golden.",
+            "Step 3: Soup. Prepare fresh dashi. Whisk in miso paste off the heat. Add tofu cubes.",
+            "Step 4: Sides. Prepare a small dish of blanched spinach with soy sauce and a few slices of pickled radish.",
+            "Step 5: Assemble. Arrange all bowls on a tray according to traditional placement: rice on the front left, soup on the front right, main dish at the back."
+          ],
+          "classifications": {
+            "mealType": [
+              "breakfast"
+            ],
+            "cookingMethods": [
+              "steaming",
+              "grilling",
+              "assembling"
+            ]
           },
-          lunarPhaseInfluences: ["Full Moon", "Third Quarter"],
-          zodiacInfluences: ["Cancer", "Pisces"],
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Sun"
+            ],
+            "signs": [
+              "Virgo",
+              "Pisces"
+            ],
+            "lunarPhases": [
+              "New Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 450,
+            "proteinG": 28,
+            "carbsG": 55,
+            "fatG": 12,
+            "fiberG": 4,
+            "sodiumMg": 950,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin D",
+              "B12",
+              "A"
+            ],
+            "minerals": [
+              "Iodine",
+              "Calcium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.43,"Essence":2.22,"Matter":2.2,"Substance":2.2},
+          thermodynamicProperties: {"heat":0.0379,"entropy":0.2764,"reactivity":1.9173,"gregsEnergy":-0.492,"kalchm":0.3051,"monica":0.772},
+          "substitutions": [
+            {
+              "originalIngredient": "salmon",
+              "substituteOptions": [
+                "mackerel (Saba)",
+                "fermented natto (for a vegan-centric set)"
+              ]
+            }
+          ]
         },
         {
-          name: "Tamagoyaki",
-          description: "Sweet-savory rolled Japanese omelette",
-          cuisine: "Japanese",
-          cookingMethods: [
-            "rolling",
-            {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-          ],
-          tools: [
-            "rectangular tamagoyaki pan",
-            "chopsticks",
-            "bamboo mat",
-            "mixing bowl",
-            "whisk",
-          ],
-          preparationSteps: [
-            "Beat eggs with seasonings",
-            "Heat pan and oil lightly",
-            "Pour thin layer of egg",
-            "Roll partially cooked egg",
-            "Add more egg mixture",
-            "Continue rolling until complete",
-            "Shape with bamboo mat",
-          ],
-          ingredients: [
-            {
-              name: "eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              swaps: ["JUST Egg"],
-            },
-            {
-              name: "dashi",
-              amount: "2",
-              unit: "tbsp",
-              category: "broth",
-              swaps: ["vegetable stock"],
-            },
-            { name: "mirin", amount: "1", unit: "tbsp", category: "seasoning" },
-            {
-              name: "soy sauce",
-              amount: "1",
-              unit: "tsp",
-              category: "seasoning",
-            },
-            { name: "sugar", amount: "1", unit: "tsp", category: "seasoning" },
-          ],
-          substitutions: {
-            eggs: ["JUST Egg", "chickpea flour mixture"],
-            dashi: ["vegetable stock", "mushroom stock"],
-            mirin: ["rice vinegar + sugar"],
+          "name": "Authentic Tamagoyaki (Japanese Omelet)",
+          "description": "An exercise in precise temperature control and layering. Thin sheets of egg seasoned with dashi, sugar, and soy are rolled consecutively in a square pan (makiyakinabe) to create a multi-layered, dense, yet springy custard block.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 2,
-          allergens: ["egg", "soy"],
-          prepTime: "5 minutes",
-          cookTime: "10 minutes",
-          culturalNotes:
-            "A staple in bento boxes and breakfast. The technique of rolling the omelette requires practice and is considered a test of a chef's skill",
-          pairingSuggestions: [
-            "steamed rice",
-            "miso soup",
-            "pickled vegetables",
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Gently beaten to avoid bubbles."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "dashi stock",
+              "notes": "Provides the essential umami and moisture."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "Tamagoyaki is traditionally sweet-savory."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "light soy sauce",
+              "notes": "For seasoning."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "mirin",
+              "notes": "For shine and sweetness."
+            }
           ],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 280,
-            protein: 20,
-            carbs: 8,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["B12", "D", "A"],
-            minerals: ["Iron", "Selenium"],
+          "instructions": [
+            "Step 1: The Mix. Whisk eggs with dashi, sugar, soy sauce, and mirin. Strain through a sieve for a perfectly smooth texture.",
+            "Step 2: Heat. Grease a square pan with oil. Heat over medium-low.",
+            "Step 3: First Layer. Pour a thin layer of egg to cover the bottom. When just set but still wet on top, roll it tightly from one end to the other.",
+            "Step 4: Subsequent Layers. Move the roll to the back. Grease the empty pan. Pour another thin layer, lifting the existing roll so the new egg flows beneath it. Roll again.",
+            "Step 5: Repeat. Continue until all egg is used. The result should be a thick rectangular log.",
+            "Step 6: Shape. Press the hot log into a bamboo mat (makisu) for 5 minutes to set the shape and create ridges. Slice into 1-inch pieces."
+          ],
+          "classifications": {
+            "mealType": [
+              "breakfast",
+              "snack",
+              "dim sum",
+              "vegetarian"
+            ],
+            "cookingMethods": [
+              "whisking",
+              "layering",
+              "rolling"
+            ]
           },
-          timeToMake: "15 minutes",
-          season: ["all"],
-          mealType: ["breakfast", "bento"],
-          elementalProperties: {
-            Fire: 0.17,
-            Water: 0.36,
-            Earth: 0.37,
-            Air: 0.09,
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.25,
+            "Air": 0.25
           },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Moon"
+            ],
+            "signs": [
+              "Leo",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 250,
+            "proteinG": 14,
+            "carbsG": 12,
+            "fatG": 16,
+            "fiberG": 0,
+            "sodiumMg": 380,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin D"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.43,"Essence":1.83,"Matter":1.81,"Substance":1.71},
+          thermodynamicProperties: {"heat":0.0538,"entropy":0.2811,"reactivity":2.009,"gregsEnergy":-0.511,"kalchm":0.688,"monica":1.3128},
+          "substitutions": [
+            {
+              "originalIngredient": "dashi",
+              "substituteOptions": [
+                "water with a pinch of dashi powder",
+                "vegetable stock"
+              ]
+            }
+          ]
         },
         {
-          name: "Natto Gohan",
-          description: "Fermented soybeans over rice with condiments",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "mixing",
-              elementalProperties: {
-                Fire: 0.07,
-                Water: 0.21,
-                Earth: 0.21,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-          ],
-          tools: ["rice cooker", "small bowls", "chopsticks", "rice paddle"],
-          preparationSteps: [
-            "Cook rice",
-            "Stir natto until sticky",
-            "Add seasonings to natto",
-            "Serve over hot rice",
-            "Top with egg and garnishes",
-            "Mix well before eating",
-          ],
-          ingredients: [
-            {
-              name: "steamed rice",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            { name: "natto", amount: "50", unit: "g", category: "protein" },
-            {
-              name: "raw egg",
-              amount: "1",
-              unit: "large",
-              category: "protein",
-              swaps: ["soft tofu"],
-            },
-            {
-              name: "green onion",
-              amount: "1",
-              unit: "stalk",
-              category: "vegetable",
-            },
-            {
-              name: "soy sauce",
-              amount: "1",
-              unit: "tsp",
-              category: "seasoning",
-            },
-            {
-              name: "karashi mustard",
-              amount: "1/4",
-              unit: "tsp",
-              category: "condiment",
-            },
-          ],
-          substitutions: {
-            "raw egg": ["soft tofu", "avocado"],
-            "karashi mustard": ["regular mustard", "wasabi"],
-            "white rice": ["brown rice", "quinoa"],
+          "name": "Authentic Natto Gohan",
+          "description": "An alchemical study in bacterial fermentation (Bacillus subtilis). Fermented soybeans develop a unique, sticky, thread-like mucilage (neba-neba) and a pungent aroma. The key is aggressive mechanical agitation (whipping) to aerate the mucilage before combining with hot rice.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 1,
+            "spiceLevel": "Mild",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 1,
-          allergens: ["soy", "egg"],
-          prepTime: "5 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A nutritious breakfast dish particularly popular in Eastern Japan. The sticky texture and strong flavor make it an acquired taste for many",
-          pairingSuggestions: ["miso soup", "pickled vegetables", "green tea"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 400,
-            protein: 20,
-            carbs: 65,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["K2", "B12", "D"],
-            minerals: ["Iron", "Calcium"],
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "pack (50g)",
+              "name": "natto",
+              "notes": "Fermented soybeans."
+            },
+            {
+              "amount": 1,
+              "unit": "bowl",
+              "name": "hot steamed rice",
+              "notes": "Must be very hot to slightly soften the natto."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "karashi (Japanese hot mustard)",
+              "notes": "Usually included in the pack."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "dashi-soy sauce",
+              "notes": "Usually included in the pack."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "scallions",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "egg yolk or raw egg",
+              "notes": "Optional, but highly traditional for extra creaminess."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Whipping (Critical). Place the natto in a small bowl. Use chopsticks to stir vigorously in a circular motion for exactly 50 to 100 strokes. The strings will become white, thick, and foamy.",
+            "Step 2: Season. Add the mustard and soy sauce. Stir another 20 times to incorporate.",
+            "Step 3: Combine. Pour the foamy natto over the center of the hot rice bowl.",
+            "Step 4: Top. Add the egg yolk and scallions. Mix slightly into the top layer of rice and consume immediately."
+          ],
+          "classifications": {
+            "mealType": [
+              "breakfast",
+              "vegetarian",
+              "vegan"
+            ],
+            "cookingMethods": [
+              "whipping",
+              "assembling"
+            ]
           },
-          timeToMake: "10 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.08,
-            Water: 0.47,
-            Earth: 0.35,
-            Air: 0.1,
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.2,
+            "Earth": 0.6,
+            "Air": 0.15
           },
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Moon"
+            ],
+            "signs": [
+              "Capricorn",
+              "Virgo"
+            ],
+            "lunarPhases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 12,
+            "carbsG": 48,
+            "fatG": 10,
+            "fiberG": 6,
+            "sodiumMg": 450,
+            "sugarG": 1,
+            "vitamins": [
+              "Vitamin K2",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Manganese",
+              "Iron",
+              "Calcium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.24,"Essence":2.79,"Matter":2.5,"Substance":2.37},
+          thermodynamicProperties: {"heat":0.0677,"entropy":0.2874,"reactivity":1.9234,"gregsEnergy":-0.4851,"kalchm":1.3957,"monica":0.3344},
+          "substitutions": [
+            {
+              "originalIngredient": "egg yolk",
+              "substituteOptions": [
+                "omit entirely (vegan)"
+              ]
+            }
+          ]
         },
       ],
     },
     lunch: {
       all: [
         {
-          name: "Onigiri Selection",
-          description: "Rice balls with various fillings",
-          cuisine: "Japanese",
-          cookingMethods: [
-            "shaping",
-            "wrapping",
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-          ],
-          tools: [
-            "rice cooker",
-            "onigiri mold (optional)",
-            "bowl of water",
-            "plastic wrap",
-            "cutting board",
-          ],
-          preparationSteps: [
-            "Cook sushi rice",
-            "Wet hands with water",
-            "Place rice in palm",
-            "Create indent for filling",
-            "Add chosen filling",
-            "Shape into triangle",
-            "Wrap with nori",
-          ],
-          ingredients: [
-            {
-              name: "sushi rice",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "umeboshi",
-              amount: "2",
-              unit: "pieces",
-              category: "pickle",
-            },
-            {
-              name: "grilled salmon",
-              amount: "100",
-              unit: "g",
-              category: "protein",
-              swaps: ["tempeh"],
-            },
-            {
-              name: "tuna mayo",
-              amount: "100",
-              unit: "g",
-              category: "protein",
-              swaps: ["mashed chickpea"],
-            },
-            { name: "nori", amount: "2", unit: "sheets", category: "seaweed" },
-          ],
-          substitutions: {
-            "grilled salmon": ["tempeh", "tofu", "mushrooms"],
-            "tuna mayo": ["mashed chickpea", "tofu salad"],
-            "white rice": ["brown rice", "quinoa"],
+          "name": "Authentic Onigiri Selection",
+          "description": "The quintessential Japanese handheld meal. It relies on the structural properties of short-grain rice (Japonica) which, when compressed while warm, forms a self-supporting matrix. The nori seaweed acts as both a moisture barrier and a structural handle.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["fish", "soy"],
-          prepTime: "20 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A portable food dating back to samurai times. Each region has its preferred fillings and shapes",
-          pairingSuggestions: ["green tea", "miso soup", "pickled vegetables"],
-          dietaryInfo: ["pescatarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 450,
-            protein: 18,
-            carbs: 75,
-            fat: 10,
-            fiber: 3,
-            vitamins: ["B12", "D"],
-            minerals: ["Iron", "Iodine"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "steamed Japanese rice",
+              "notes": "Must be warm. Do not use sushi rice (vinegarized) for traditional onigiri."
+            },
+            {
+              "amount": 2,
+              "unit": "sheets",
+              "name": "nori seaweed",
+              "notes": "Cut into strips or squares."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "sea salt",
+              "notes": "For the hands while shaping."
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "umeboshi (pickled plums)",
+              "notes": "For filling 1."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "grilled salted salmon (shioyaki)",
+              "notes": "Flaked, for filling 2."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "toasted sesame seeds",
+              "notes": "For coating."
+            }
+          ],
+          "instructions": [
+            "Step 1: Prep. Wet your hands with water and rub them with a generous amount of sea salt. This seasons the outside of the rice and prevents sticking.",
+            "Step 2: Mold. Pick up a handful of warm rice. Create a small indentation in the center.",
+            "Step 3: Fill. Place the filling (umeboshi or salmon) in the indentation. Cover with a little more rice.",
+            "Step 4: Shape. Use your palms to compress and shape the rice into a triangle, ball, or cylinder. Do not pack too tightly; the rice should remain airy.",
+            "Step 5: Wrap. Wrap a strip of nori around the base of the rice shape. Serve immediately while nori is crisp, or wrap in plastic for later."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "snack",
+              "street food"
+            ],
+            "cookingMethods": [
+              "steaming",
+              "compressing"
+            ]
           },
-          timeToMake: "30 minutes",
-          season: ["all"],
-          mealType: ["lunch", "snack"],
-          elementalProperties: {
-            Fire: 0.07,
-            Water: 0.58,
-            Earth: 0.27,
-            Air: 0.09,
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.15,
+            "Earth": 0.65,
+            "Air": 0.15
           },
+          "astrologicalAffinities": {
+            "planets": [
+              "Earth",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 320,
+            "proteinG": 8,
+            "carbsG": 62,
+            "fatG": 2,
+            "fiberG": 2,
+            "sodiumMg": 550,
+            "sugarG": 1,
+            "vitamins": [
+              "Iodine",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.75,"Essence":3.0,"Matter":3.3,"Substance":3.2},
+          thermodynamicProperties: {"heat":0.0281,"entropy":0.2644,"reactivity":1.4325,"gregsEnergy":-0.3507,"kalchm":0.0338,"monica":0.3344},
+          "substitutions": [
+            {
+              "originalIngredient": "umeboshi",
+              "substituteOptions": [
+                "pickled ginger",
+                "salted kombu"
+              ]
+            }
+          ]
         },
       ],
       summer: [
         {
-          name: "Hiyashi Chuka",
-          description: "Cold ramen noodles with colorful toppings",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            {
-              name: "chilling",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.54,
-                Earth: 0.15,
-                Air: 0.31,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "colander",
-            "mixing bowls",
-            "sharp knife",
-            "serving plates",
-          ],
-          preparationSteps: [
-            "Cook and chill noodles",
-            "Prepare toppings",
-            "Make sesame sauce",
-            "Arrange noodles",
-            "Add toppings in sections",
-            "Serve with sauce",
-          ],
-          ingredients: [
-            {
-              name: "ramen noodles",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              swaps: ["rice noodles"],
-            },
-            {
-              name: "ham",
-              amount: "50",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            {
-              name: "cucumber",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            { name: "egg", amount: "1", unit: "large", category: "protein" },
-            {
-              name: "sesame sauce",
-              amount: "60",
-              unit: "ml",
-              category: "sauce",
-            },
-          ],
-          substitutions: {
-            ham: ["tofu", "tempeh", "seitan"],
-            egg: ["tofu", "vegan egg"],
-            "ramen noodles": ["soba", "rice noodles"],
+          "name": "Authentic Hiyashi Chuka (Cold Ramen)",
+          "description": "A summer masterpiece of temperature and acidity. Ramen noodles are chilled and dressed in a tart soy-vinegar-sesame emulsion, topped with a geometric arrangement of cooling, colorful ingredients representing the 'five colors' of Japanese cuisine.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 2,
-          allergens: ["egg", "wheat", "soy", "sesame"],
-          prepTime: "15 minutes",
-          cookTime: "10 minutes",
-          culturalNotes:
-            "A refreshing summer dish that became popular in the post-war period. The colorful presentation is as important as the taste",
-          pairingSuggestions: ["cold barley tea", "gyoza", "pickled ginger"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 420,
-            protein: 22,
-            carbs: 65,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["A", "C", "B12"],
-            minerals: ["Iron", "Selenium"],
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "packs",
+              "name": "fresh ramen noodles",
+              "notes": "Boiled, then rapidly chilled in ice water."
+            },
+            {
+              "amount": 0.33,
+              "unit": "cup",
+              "name": "soy sauce",
+              "notes": "For the dressing."
+            },
+            {
+              "amount": 0.33,
+              "unit": "cup",
+              "name": "rice vinegar",
+              "notes": "For the dressing."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "toasted sesame oil",
+              "notes": "For the dressing."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "To balance the vinegar."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "cucumber",
+              "notes": "Julienned into thin matchsticks."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Made into a thin crepe (kinshi tamago) and shredded."
+            },
+            {
+              "amount": 2,
+              "unit": "slices",
+              "name": "ham",
+              "notes": "Julienned."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "tomato",
+              "notes": "Sliced into wedges."
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "shrimp",
+              "notes": "Boiled and chilled."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Dressing. Whisk soy sauce, vinegar, sesame oil, and sugar. Chill in the fridge.",
+            "Step 2: The Noodles. Boil noodles until al dente. Drain and immediately submerge in ice water. Rub the noodles to remove surface starch. Drain and pat dry.",
+            "Step 3: The Toppings. Prepare all toppings into uniform, thin matchsticks. This ensures every bite has multiple textures.",
+            "Step 4: Assemble. Mound the cold noodles in a shallow bowl. Arrange the toppings in distinct radial sections on top, like a flower.",
+            "Step 5: Pour the cold dressing over everything and serve immediately with a dab of karashi mustard."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "noodle"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "chilling",
+              "assembling"
+            ]
           },
-          timeToMake: "25 minutes",
-          season: ["summer"],
-          mealType: ["lunch"],
-          elementalProperties: {
-            Fire: 0.08,
-            Water: 0.32,
-            Earth: 0.51,
-            Air: 0.09,
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.55,
+            "Earth": 0.2,
+            "Air": 0.2
           },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Mercury"
+            ],
+            "signs": [
+              "Cancer",
+              "Gemini"
+            ],
+            "lunarPhases": [
+              "New Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 480,
+            "proteinG": 24,
+            "carbsG": 65,
+            "fatG": 14,
+            "fiberG": 3,
+            "sodiumMg": 920,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.75,"Essence":4.41,"Matter":3.39,"Substance":3.41},
+          thermodynamicProperties: {"heat":0.0512,"entropy":0.2631,"reactivity":3.0248,"gregsEnergy":-0.7447,"kalchm":2.7294,"monica":0.528},
+          "substitutions": [
+            {
+              "originalIngredient": "ham/shrimp",
+              "substituteOptions": [
+                "fried tofu strips and shiitake (vegan)"
+              ]
+            }
+          ]
         },
         {
-          name: "Soba Salad",
-          description: "Chilled buckwheat noodles with seasonal vegetables",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            {
-              name: "chilling",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.54,
-                Earth: 0.15,
-                Air: 0.31,
-              },
-            },
-            "tossing",
-          ],
-          tools: [
-            "large pot",
-            "colander",
-            "mixing bowls",
-            "sharp knife",
-            "tongs",
-          ],
-          preparationSteps: [
-            "Cook soba noodles",
-            "Rinse and chill noodles",
-            "Prepare vegetables",
-            "Make sesame dressing",
-            "Toss ingredients",
-            "Garnish and serve",
-          ],
-          ingredients: [
-            {
-              name: "soba noodles",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              swaps: ["gluten-free soba"],
-            },
-            {
-              name: "mixed vegetables",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "sesame dressing",
-              amount: "60",
-              unit: "ml",
-              category: "sauce",
-            },
-            {
-              name: "nori strips",
-              amount: "2",
-              unit: "sheets",
-              category: "seaweed",
-            },
-            {
-              name: "toasted sesame seeds",
-              amount: "1",
-              unit: "tbsp",
-              category: "garnish",
-            },
-          ],
-          substitutions: {
-            "soba noodles": ["gluten-free soba", "rice noodles"],
-            "sesame dressing": ["ponzu", "ginger dressing"],
-            nori: ["kale chips", "toasted sesame"],
+          "name": "Authentic Soba Salad with Sesame-Ginger Dressing",
+          "description": "A study in buckwheat chemistry. Soba noodles (buckwheat) have a fragile gluten structure and must be handled with care. They are paired with a high-friction ginger-sesame dressing that clings to the nutty noodles, providing an earthy, airy meal.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 5,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
+            "season": [
+              "summer",
+              "all"
+            ]
           },
-          servingSize: 2,
-          allergens: ["wheat", "soy", "sesame"],
-          prepTime: "10 minutes",
-          cookTime: "10 minutes",
-          culturalNotes:
-            "A modern take on traditional soba, popular in summer. The nutty flavor of buckwheat pairs well with fresh vegetables",
-          pairingSuggestions: ["cold tea", "edamame", "pickled vegetables"],
-          dietaryInfo: ["vegetarian", "vegan"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 16,
-            carbs: 70,
-            fat: 8,
-            fiber: 3,
-            vitamins: ["B1", "B2", "E"],
-            minerals: ["Manganese", "Iron"],
+          "ingredients": [
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "dried soba noodles",
+              "notes": "Must be at least 30-50% buckwheat."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "tahini or Chinese sesame paste",
+              "notes": "For the dressing."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh ginger",
+              "notes": "Grated, for the dressing."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "soy sauce",
+              "notes": "For the dressing."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "honey or maple syrup",
+              "notes": "For the dressing."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "edamame beans",
+              "notes": "Shelled."
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "carrot",
+              "notes": "Shredded."
+            }
+          ],
+          "instructions": [
+            "Step 1: Boil Soba. Cook in boiling water for exactly 4-5 mins. Do not overcook.",
+            "Step 2: The Rinse (Critical). Drain and rinse vigorously in cold water, rubbing the noodles between your hands to remove the thick starch layer. This ensures they don't become gummy.",
+            "Step 3: The Dressing. Whisk sesame paste, ginger, soy, and honey until emulsified.",
+            "Step 4: Combine. Toss the cold noodles with the dressing, edamame, and carrots. Serve immediately chilled."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "vegan",
+              "noodle"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "chilling"
+            ]
           },
-          timeToMake: "20 minutes",
-          season: ["summer"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.08,
-            Water: 0.32,
-            Earth: 0.51,
-            Air: 0.09,
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.2
           },
+          "astrologicalAffinities": {
+            "planets": [
+              "Earth",
+              "Mercury"
+            ],
+            "signs": [
+              "Virgo",
+              "Gemini"
+            ],
+            "lunarPhases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 380,
+            "proteinG": 16,
+            "carbsG": 58,
+            "fatG": 12,
+            "fiberG": 8,
+            "sodiumMg": 450,
+            "sugarG": 6,
+            "vitamins": [
+              "Vitamin K",
+              "Vitamin B1"
+            ],
+            "minerals": [
+              "Magnesium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.73,"Essence":2.82,"Matter":2.78,"Substance":2.51},
+          thermodynamicProperties: {"heat":0.0919,"entropy":0.3478,"reactivity":2.1603,"gregsEnergy":-0.6593,"kalchm":1.6703,"monica":0.0904},
+          "substitutions": [
+            {
+              "originalIngredient": "soba",
+              "substituteOptions": [
+                "buckwheat pasta",
+                "whole wheat spaghetti"
+              ]
+            }
+          ]
         },
       ],
       winter: [
         {
-          name: "Curry Rice",
-          description: "Japanese-style curry with vegetables and rice",
-          cuisine: "Japanese",
-          ingredients: [
+          "name": "Authentic Japanese Curry Rice (Kare Raisu)",
+          "description": "A unique British-influenced Japanese stew. The alchemy involves a 'brown roux' base—flour and butter cooked until toasted—combined with a specific curry powder blend. It is characterized by its thick, glossy consistency and its sweet-savory balance achieved through grated apple and caramelized onions.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild-Medium",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
             {
-              name: "rice",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 500,
+              "unit": "g",
+              "name": "beef or pork shoulder",
+              "notes": "Cut into chunks."
             },
             {
-              name: "curry roux",
-              amount: "100",
-              unit: "g",
-              category: "sauce",
-              elementalProperties: {
-                Fire: 0.55,
-                Water: 0.1,
-                Earth: 0.25,
-                Air: 0.1,
-              },
+              "amount": 2,
+              "unit": "large",
+              "name": "onions",
+              "notes": "Thinly sliced and caramelized."
             },
             {
-              name: "potato",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
+              "amount": 2,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Peeled and chunked."
             },
             {
-              name: "carrot",
-              amount: "100",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "large",
+              "name": "carrot",
+              "notes": "Cut into rounds."
             },
             {
-              name: "onion",
-              amount: "150",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "For the roux."
             },
             {
-              name: "beef",
-              amount: "150",
-              unit: "g",
-              category: "protein",
-              swaps: ["seitan", "mushrooms"],
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "all-purpose flour",
+              "notes": "For the roux."
             },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "S&B Curry Powder",
+              "notes": "Or similar Japanese-style blend."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "tomato ketchup",
+              "notes": "Adds acidity and sweetness."
+            },
+            {
+              "amount": 0.5,
+              "unit": "whole",
+              "name": "apple",
+              "notes": "Finely grated. The 'secret' ingredient."
+            }
           ],
-          nutrition: {
-            calories: 650,
-            protein: 25,
-            carbs: 95,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "B6", "C"],
-            minerals: ["Iron", "Potassium"],
+          "instructions": [
+            "Step 1: The Roux. Melt butter, whisk in flour. Cook on low heat for 15-20 mins, stirring constantly, until it turns a dark peanut butter brown. Stir in curry powder and remove from heat.",
+            "Step 2: The Base. In a pot, sear meat and onions. Add carrots, potatoes, and 4 cups of water. Simmer for 20 mins until vegetables are soft.",
+            "Step 3: Combine. Ladle a bit of the hot broth into the roux to loosen it, then pour the roux back into the main pot. It will thicken instantly.",
+            "Step 4: The 'Secret' flavors. Stir in the ketchup, grated apple, and honey. Simmer for another 10 mins until glossy. Serve over hot white rice with Fukujinzuke pickles."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "comfort food"
+            ],
+            "cookingMethods": [
+              "browning",
+              "simmering"
+            ]
           },
-          timeToMake: "45 minutes",
-          season: ["winter"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.24,
-            Water: 0.25,
-            Earth: 0.41,
-            Air: 0.1,
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.1
           },
+          "astrologicalAffinities": {
+            "planets": [
+              "Jupiter",
+              "Earth"
+            ],
+            "signs": [
+              "Taurus",
+              "Sagittarius"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 550,
+            "proteinG": 32,
+            "carbsG": 62,
+            "fatG": 24,
+            "fiberG": 6,
+            "sodiumMg": 850,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.42,"Essence":3.77,"Matter":4.49,"Substance":4.04},
+          thermodynamicProperties: {"heat":0.0348,"entropy":0.2803,"reactivity":1.4958,"gregsEnergy":-0.3845,"kalchm":0.0053,"monica":0.4188},
+          "substitutions": [
+            {
+              "originalIngredient": "beef",
+              "substituteOptions": [
+                "chickpeas and extra potatoes (vegan)"
+              ]
+            }
+          ]
         },
       ],
     },
     dinner: {
       all: [
         {
-          name: "Sushi Selection",
-          description: "Assorted nigiri and maki sushi",
-          cuisine: "Japanese",
-          ingredients: [
+          "name": "Authentic Sushi Selection",
+          "description": "True sushi is not about the fish; it is entirely about the rice (shari).",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "sushi rice",
-              amount: "300",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "assorted fish",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["marinated vegetables"],
-            },
-            { name: "nori", amount: "4", unit: "sheets", category: "seaweed" },
-            { name: "wasabi", amount: "15", unit: "g", category: "condiment" },
-            {
-              name: "pickled ginger",
-              amount: "30",
-              unit: "g",
-              category: "pickle",
-            },
+              "amount": 2,
+              "unit": "cups",
+              "name": "sushi rice",
+              "notes": "Washed thoroughly."
+            }
           ],
-          nutrition: {
-            calories: 550,
-            protein: 30,
-            carbs: 80,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["D", "B12", "A"],
-            minerals: ["Omega-3", "Iodine"],
+          "instructions": [
+            "Step 1: Wash and soak rice.",
+            "Step 2: Cook rice with kombu.",
+            "Step 3: Season with vinegar and fan cool.",
+            "Step 4: Assemble nigiri."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner"
+            ],
+            "cookingMethods": [
+              "assembling"
+            ]
           },
-          timeToMake: "60 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.08,
-            Water: 0.52,
-            Earth: 0.31,
-            Air: 0.09,
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.45,
+            "Earth": 0.3,
+            "Air": 0.2
           },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon"
+            ],
+            "signs": [
+              "Pisces"
+            ],
+            "lunarPhases": [
+              "New Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 320,
+            "proteinG": 20,
+            "carbsG": 55,
+            "fatG": 2,
+            "fiberG": 1,
+              "sodiumMg": 424,
+              "sugarG": 14,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
+
+          alchemicalProperties: {"Spirit":0.18,"Essence":0.42,"Matter":0.6,"Substance":0.55},
+          thermodynamicProperties: {"heat":0.0055,"entropy":0.1205,"reactivity":0.9337,"gregsEnergy":-0.107,"kalchm":0.963,"monica":0.4376},
+          "substitutions": []
+        },
+        {
+          name: "Miso Soup (Miso Shiru)",
+          description: "The foundational pillar of Japanese cuisine: a bowl of dashi broth seasoned with fermented miso paste, containing tofu and wakame seaweed. The critical technique is dissolving miso off direct heat to preserve its living enzymes and complex umami depth.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":5,"cookTimeMinutes":10,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [
+            {"amount":3,"unit":"cups","name":"dashi stock","notes":"Awase dashi from kombu and katsuobushi is ideal."},
+            {"amount":2,"unit":"tbsp","name":"white miso paste (shiro miso)","notes":"Or use aka miso for a deeper, saltier flavor."},
+            {"amount":100,"unit":"g","name":"silken tofu","notes":"Cut into small cubes."},
+            {"amount":2,"unit":"tbsp","name":"dried wakame seaweed","notes":"Rehydrated in cold water for 5 minutes."},
+            {"amount":1,"unit":"stalk","name":"scallion","notes":"Thinly sliced, for garnish."}
+          ],
+          instructions: [
+            "Step 1: The Dashi. Gently heat the dashi stock in a saucepan over medium heat until it just begins to simmer. Do not allow it to come to a full, rolling boil.",
+            "Step 2: The Tofu. Add the cubed silken tofu and rehydrated wakame to the hot dashi. Warm gently for 2 minutes. The tofu is already cooked and only needs to be heated through.",
+            "Step 3: The Miso. Remove the pot from direct heat. Place the miso paste in a small ladle or strainer and dip it into the hot broth. Use chopsticks to dissolve the miso directly into the broth through the ladle, preventing any undissolved clumps. This off-heat technique preserves the beneficial microorganisms.",
+            "Step 4: The Season. Taste the broth. The saltiness should be present but gentle. Adjust by adding a small amount more miso if needed, always dissolving it off heat.",
+            "Step 5: Serve. Ladle immediately into warmed ceramic bowls. Garnish with thinly sliced scallion. Miso soup should never be reheated to a boil after the miso is added."
+          ],
+          classifications: {"mealType":["breakfast","lunch","dinner","side"],"cookingMethods":["simmering"]},
+          elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
+          astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["New Moon"]},
+          nutritionPerServing: {"calories":65,"proteinG":5,"carbsG":7,"fatG":2,"fiberG":1,"sodiumMg":620,"sugarG":2,"vitamins":["Vitamin K","Folate"],"minerals":["Manganese","Calcium"]},
+
+          alchemicalProperties: {"Spirit":1.23,"Essence":1.69,"Matter":1.53,"Substance":1.42},
+          thermodynamicProperties: {"heat":0.0496,"entropy":0.2138,"reactivity":2.0008,"gregsEnergy":-0.3782,"kalchm":0.9929,"monica":-0.0188},
+          substitutions: [{"originalIngredient":"silken tofu","substituteOptions":["abura-age (fried tofu pouches)","nameko mushrooms"]},{"originalIngredient":"wakame seaweed","substituteOptions":["spinach","shredded napa cabbage"]}]
+        },
+        {
+          name: "Yakisoba (Stir-Fried Noodles)",
+          description: "A beloved Japanese street food of soft wheat noodles stir-fried in a blazing hot wok with pork, cabbage, and a complex sweet-savory-tangy sauce. The key is extreme heat that creates wok hei, charring the noodles slightly for a smoky complexity.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":15,"cookTimeMinutes":10,"baseServingSize":2,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [
+            {"amount":2,"unit":"portions","name":"yakisoba noodles","notes":"Fresh or pre-steamed wheat noodles. Separate them gently before use."},
+            {"amount":150,"unit":"g","name":"pork belly","notes":"Thinly sliced into bite-sized pieces."},
+            {"amount":2,"unit":"cups","name":"green cabbage","notes":"Roughly chopped into 1-inch pieces."},
+            {"amount":1,"unit":"medium","name":"carrot","notes":"Julienned into thin matchsticks."},
+            {"amount":3,"unit":"tbsp","name":"yakisoba sauce","notes":"A blend of Worcestershire sauce, oyster sauce, ketchup, soy sauce, and sugar."},
+            {"amount":2,"unit":"tbsp","name":"vegetable oil","notes":"High smoke-point neutral oil."},
+            {"amount":2,"unit":"tbsp","name":"aonori (dried green seaweed flakes)","notes":"For garnish."},
+            {"amount":2,"unit":"tbsp","name":"beni shoga (pickled red ginger)","notes":"Tangy garnish that cuts through the richness."},
+            {"amount":2,"unit":"tbsp","name":"katsuobushi (bonito flakes)","notes":"For garnish, will dance from the heat."}
+          ],
+          instructions: [
+            "Step 1: The Heat. Heat a wok or large iron skillet over the highest possible flame until it is smoking. This extreme heat is non-negotiable for proper yakisoba.",
+            "Step 2: The Pork. Add the oil and immediately add the pork belly slices. Stir-fry aggressively until the fat renders and the edges are just beginning to brown.",
+            "Step 3: The Vegetables. Add the cabbage and carrot to the pork. Continue to stir-fry over high heat, tossing constantly. The vegetables should soften slightly but retain a firm bite.",
+            "Step 4: The Noodles. Add the noodles to the wok. Spread them across the hot surface and let them sit undisturbed for 30 seconds to develop light char marks. Then toss everything together with the pork and vegetables.",
+            "Step 5: The Sauce and Serve. Pour the yakisoba sauce over the noodles and toss vigorously to coat every strand evenly. The sauce will caramelize slightly on contact with the hot pan. Plate immediately and top with aonori, beni shoga, and dancing katsuobushi."
+          ],
+          classifications: {"mealType":["lunch","dinner","snack"],"cookingMethods":["stir-frying"]},
+          elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.25,"Air":0.15},
+          astrologicalAffinities: {"planets":["Mars","Jupiter"],"signs":["aries","sagittarius"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":520,"proteinG":22,"carbsG":58,"fatG":22,"fiberG":4,"sodiumMg":980,"sugarG":9,"vitamins":["Vitamin C","Thiamin"],"minerals":["Iron","Zinc"]},
+
+          alchemicalProperties: {"Spirit":2.58,"Essence":3.28,"Matter":3.9,"Substance":3.63},
+          thermodynamicProperties: {"heat":0.0524,"entropy":0.3438,"reactivity":1.7892,"gregsEnergy":-0.5628,"kalchm":0.0261,"monica":0.2786},
+          substitutions: [{"originalIngredient":"pork belly","substituteOptions":["chicken thigh","shrimp","firm tofu"]},{"originalIngredient":"yakisoba noodles","substituteOptions":["ramen noodles","udon noodles"]}]
+        },
+        {
+          name: "Takoyaki (Octopus Balls)",
+          description: "A festive Osaka street food: spherical dumplings of creamy, barely-cooked batter encasing tender chunks of octopus, shaped in a specialized cast-iron pan. The master technique is the quarter-turn flip that builds the perfect crisp shell around a molten, custardy interior.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":20,"cookTimeMinutes":15,"baseServingSize":2,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [
+            {"amount":1,"unit":"cup","name":"all-purpose flour","notes":"For the takoyaki batter base."},
+            {"amount":2,"unit":"large","name":"eggs","notes":"At room temperature."},
+            {"amount":2,"unit":"cups","name":"dashi stock","notes":"Cool dashi, for a light and savory batter."},
+            {"amount":1,"unit":"tbsp","name":"soy sauce","notes":"For seasoning the batter."},
+            {"amount":100,"unit":"g","name":"cooked octopus (tako)","notes":"Boiled and cut into 1 cm cubes."},
+            {"amount":2,"unit":"stalks","name":"scallions","notes":"Finely sliced."},
+            {"amount":2,"unit":"tbsp","name":"tenkasu (tempura scraps)","notes":"For internal crunch."},
+            {"amount":2,"unit":"tbsp","name":"beni shoga (pickled red ginger)","notes":"Minced, for flavor inside the ball."},
+            {"amount":3,"unit":"tbsp","name":"takoyaki sauce","notes":"Similar to okonomiyaki sauce."},
+            {"amount":2,"unit":"tbsp","name":"Kewpie mayonnaise","notes":"For drizzling."},
+            {"amount":1,"unit":"tbsp","name":"vegetable oil","notes":"For the takoyaki pan."}
+          ],
+          instructions: [
+            "Step 1: The Batter. Whisk together flour, eggs, dashi, and soy sauce until the batter is completely smooth and slightly thinner than pancake batter.",
+            "Step 2: The Pan. Heat the takoyaki pan over medium-high heat. Brush every mold generously with oil.",
+            "Step 3: The Fill. Pour the batter into the molds, filling them to slightly overflowing. Immediately add a cube of octopus, a pinch of tenkasu, some scallion, and beni shoga into each mold.",
+            "Step 4: The Flip. When the base of each ball is set and golden (about 3 minutes), use two metal skewers to rotate each ball exactly 90 degrees. The uncooked batter will flow down into the mold, forming the new outer shell. Repeat the turn to reach a full 360 degrees, building up a perfectly round sphere.",
+            "Step 5: The Dress. Transfer the golden, crisp takoyaki to a plate. Apply takoyaki sauce with a brush, then drizzle mayonnaise over the top. Sprinkle with aonori and add a pinch of katsuobushi, which will wave from the heat."
+          ],
+          classifications: {"mealType":["snack","appetizer"],"cookingMethods":["pan-frying"]},
+          elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
+          astrologicalAffinities: {"planets":["Neptune","Venus"],"signs":["pisces","taurus"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":380,"proteinG":18,"carbsG":42,"fatG":14,"fiberG":2,"sodiumMg":760,"sugarG":6,"vitamins":["Vitamin B12","Choline"],"minerals":["Iodine","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":3.86,"Essence":4.54,"Matter":3.78,"Substance":3.63},
+          thermodynamicProperties: {"heat":0.0946,"entropy":0.3585,"reactivity":3.0116,"gregsEnergy":-0.9852,"kalchm":10.7617,"monica":0.4376},
+          substitutions: [{"originalIngredient":"cooked octopus (tako)","substituteOptions":["shrimp","squid","melting cheese (for cheese takoyaki)"]},{"originalIngredient":"tenkasu (tempura scraps)","substituteOptions":["corn","pickled daikon"]}]
+        },
+        {
+          name: "Zaru Soba (Cold Buckwheat Noodles)",
+          description: "The purest expression of Japanese buckwheat craftsmanship: chilled soba noodles, drained on a bamboo mat (zaru), served with a cold mentsuyu dipping sauce. Every element is stripped back to showcase the earthy, nutty flavor of the noodle itself.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":10,"cookTimeMinutes":5,"baseServingSize":2,"spiceLevel":"None","season":["summer","spring"]},
+          ingredients: [
+            {"amount":200,"unit":"g","name":"dried soba noodles","notes":"High buckwheat content (juwari soba, 100% buckwheat, or at minimum 80%)."},
+            {"amount":1,"unit":"cup","name":"mentsuyu dipping sauce","notes":"Concentrated noodle dipping sauce diluted to about 1:2 with cold water."},
+            {"amount":2,"unit":"tbsp","name":"wasabi","notes":"Freshly grated if possible, or good-quality paste."},
+            {"amount":3,"unit":"stalks","name":"scallions","notes":"Finely sliced, for mixing into the dipping sauce."},
+            {"amount":1,"unit":"sheet","name":"nori seaweed","notes":"Toasted and cut into thin strips, for garnish on top of soba."},
+            {"amount":1,"unit":"tbsp","name":"toasted sesame seeds","notes":"Optional garnish."}
+          ],
+          instructions: [
+            "Step 1: The Boil. Bring a large pot of unsalted water to a vigorous boil. Add the soba noodles and cook for the time indicated on the package, typically 4-5 minutes. Do not add salt; the noodles are seasoned by the dipping sauce.",
+            "Step 2: The Shock. When the soba is just cooked (tender but still with a slight bite), drain immediately into a colander. Rinse the noodles under running cold water while rubbing them gently to remove excess starch. This stops the cooking process and makes the noodles smooth and firm.",
+            "Step 3: The Ice Bath. Transfer the rinsed noodles into a bowl of ice water for 30 seconds to achieve the ideal cold, firm, slightly springy texture (koshi). Drain thoroughly.",
+            "Step 4: The Presentation. Arrange the cold soba noodles on a bamboo zaru tray or a plate. Top with strips of nori. Prepare the dipping sauce by diluting mentsuyu with cold water in a small cup. Place the wasabi and scallions on the side.",
+            "Step 5: The Dip. The correct method of eating is to place a small amount of wasabi and scallion into the dipping cup, pick up a small bundle of noodles with chopsticks, briefly dip the tips into the sauce (not the whole bundle), and eat in one clean motion."
+          ],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["boiling"]},
+          elementalProperties: {"Fire":0.05,"Water":0.45,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Mercury","Moon"],"signs":["virgo","cancer"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":62,"fatG":2,"fiberG":4,"sodiumMg":720,"sugarG":5,"vitamins":["Thiamin","Niacin"],"minerals":["Manganese","Magnesium"]},
+
+          alchemicalProperties: {"Spirit":2.11,"Essence":2.6,"Matter":2.28,"Substance":2.14},
+          thermodynamicProperties: {"heat":0.0701,"entropy":0.2807,"reactivity":2.316,"gregsEnergy":-0.58,"kalchm":1.7378,"monica":-0.0188},
+          substitutions: [{"originalIngredient":"dried soba noodles","substituteOptions":["udon noodles (for zaru udon)","rice noodles"]},{"originalIngredient":"mentsuyu dipping sauce","substituteOptions":["homemade soy sauce, mirin, and dashi blend"]}]
+        },
+        {
+          name: "Gyudon (Beef Rice Bowl)",
+          description: "A fast-moving, soulful Japanese comfort bowl of thinly sliced beef and soft onions simmered in a sweet-savory soy and mirin broth, served over a mound of steamed rice. The cooking time is under ten minutes, making it the defining example of Japanese quick cooking done with precision.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":10,"cookTimeMinutes":10,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [
+            {"amount":300,"unit":"g","name":"thinly sliced beef ribeye or chuck","notes":"Must be paper-thin, about 2mm. Freeze briefly for easier slicing at home."},
+            {"amount":1,"unit":"large","name":"onion","notes":"Halved and sliced into 5mm half-moon slivers."},
+            {"amount":3,"unit":"tbsp","name":"soy sauce","notes":"Regular koikuchi soy sauce."},
+            {"amount":2,"unit":"tbsp","name":"mirin","notes":"For sweetness and glaze."},
+            {"amount":1,"unit":"tbsp","name":"sake","notes":"For aroma and to tenderize the meat."},
+            {"amount":1,"unit":"tbsp","name":"sugar","notes":"A touch of sweetness."},
+            {"amount":0.5,"unit":"cup","name":"dashi stock","notes":"Kombu dashi or instant dashi is fine."},
+            {"amount":2,"unit":"cups","name":"steamed Japanese rice","notes":"Hot, freshly cooked short-grain rice."},
+            {"amount":1,"unit":"tbsp","name":"beni shoga (pickled red ginger)","notes":"For serving, cuts through the richness."}
+          ],
+          instructions: [
+            "Step 1: The Broth. Combine the dashi, soy sauce, mirin, sake, and sugar in a wide, shallow pan. Bring to a simmer over medium heat.",
+            "Step 2: The Onions. Add the sliced onions to the simmering broth. Cook for 4-5 minutes until they are soft, translucent, and have absorbed the flavors of the broth.",
+            "Step 3: The Beef. Separate the thin slices of beef and add them to the pan over the onions. Do not stir aggressively. Cook for only 1-2 minutes until the beef just changes color; it will continue cooking in the residual heat. Overcooking makes the thin slices tough.",
+            "Step 4: The Bowl. Place a generous mound of steamed rice into a large bowl. Using a ladle or large spoon, scoop the beef and onion mixture over the rice, adding a generous amount of the sweet and savory broth as well.",
+            "Step 5: Serve. Top with a small mound of beni shoga on the side of the bowl. For the classic preparation, a soft-poached egg (onsen tamago) placed on top is highly traditional and recommended."
+          ],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering"]},
+          elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["taurus","capricorn"],"lunarPhases":["Waxing Gibbous"]},
+          nutritionPerServing: {"calories":590,"proteinG":30,"carbsG":68,"fatG":18,"fiberG":2,"sodiumMg":860,"sugarG":10,"vitamins":["Vitamin B12","Niacin"],"minerals":["Iron","Zinc"]},
+
+          alchemicalProperties: {"Spirit":3.16,"Essence":3.73,"Matter":4.21,"Substance":3.86},
+          thermodynamicProperties: {"heat":0.0631,"entropy":0.334,"reactivity":1.8742,"gregsEnergy":-0.5629,"kalchm":0.0659,"monica":-0.0188},
+          substitutions: [{"originalIngredient":"thinly sliced beef ribeye or chuck","substituteOptions":["pork belly (for butadon)","chicken thigh (for toriniku don)"]},{"originalIngredient":"dashi stock","substituteOptions":["chicken broth","water with kombu"]}]
+        },
+        {
+          name: "Ochazuke (Tea Over Rice)",
+          description: "A quietly elegant Japanese dish of leftover steamed rice revived with hot green tea or dashi poured over it, topped with simple savory garnishes. It embodies the Japanese concept of mottainai (no waste) and is the perfect late-night or post-meal comfort.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":5,"cookTimeMinutes":5,"baseServingSize":1,"spiceLevel":"None","season":["all"]},
+          ingredients: [
+            {"amount":1,"unit":"cup","name":"steamed Japanese rice","notes":"Day-old rice works perfectly."},
+            {"amount":1.5,"unit":"cups","name":"hot green tea (sencha or hojicha)","notes":"Brewed strong and hot. Alternatively use hot dashi for a more savory version."},
+            {"amount":1,"unit":"piece","name":"umeboshi (pickled plum)","notes":"One of the classic toppings; pit removed and torn."},
+            {"amount":1,"unit":"tbsp","name":"grilled salted salmon flakes (sake flakes)","notes":"A common and satisfying topping."},
+            {"amount":1,"unit":"tsp","name":"nori strips","notes":"Cut into thin shreds."},
+            {"amount":1,"unit":"tsp","name":"toasted sesame seeds","notes":"For nutty aroma."},
+            {"amount":0.5,"unit":"tsp","name":"wasabi","notes":"A small amount, for a gentle heat."},
+            {"amount":1,"unit":"tbsp","name":"arare rice crackers","notes":"Small, for crunch."}
+          ],
+          instructions: [
+            "Step 1: The Rice. Place the cooked rice into a wide, deep bowl. If using cold rice, briefly microwave or steam it until warm.",
+            "Step 2: The Toppings. Arrange the toppings over the warm rice: a torn umeboshi, a scattering of salmon flakes, nori strips, and sesame seeds.",
+            "Step 3: The Tea. Brew a fresh cup of strong green tea. Hojicha (roasted green tea) gives a nutty, low-bitterness flavor while sencha is brighter and more grassy. For a more savory version, use hot dashi instead.",
+            "Step 4: The Pour. Pour the hot tea directly over the rice and toppings at the table. The heat of the tea warms the rice and gently wilts the nori.",
+            "Step 5: Serve. Add a small dab of wasabi to the side and drop in the arare crackers just before eating for textural contrast. Eat immediately while the tea is hot and the crackers still have some crunch."
+          ],
+          classifications: {"mealType":["breakfast","lunch","dinner","snack"],"cookingMethods":["steeping","assembling"]},
+          elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
+          astrologicalAffinities: {"planets":["Moon","Mercury"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":230,"proteinG":9,"carbsG":38,"fatG":4,"fiberG":1,"sodiumMg":480,"sugarG":1,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Manganese","Selenium"]},
+
+          alchemicalProperties: {"Spirit":2.38,"Essence":3.85,"Matter":3.65,"Substance":3.42},
+          thermodynamicProperties: {"heat":0.0406,"entropy":0.2523,"reactivity":2.08,"gregsEnergy":-0.4842,"kalchm":0.1869,"monica":0.8752},
+          substitutions: [{"originalIngredient":"hot green tea (sencha or hojicha)","substituteOptions":["hot dashi","hot kombu water"]},{"originalIngredient":"umeboshi (pickled plum)","substituteOptions":["salted cod roe (mentaiko)","pickled daikon"]}]
+        },
+        {
+          name: "Tamago Kake Gohan (Raw Egg Over Rice)",
+          description: "The simplest and most intimate of Japanese breakfasts: a raw egg cracked over a bowl of scorching hot freshly cooked rice, seasoned with soy sauce. The heat of the rice partially cooks the egg, creating a rich, silky, golden coating around every grain. It is a dish of absolute trust in ingredient quality.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":2,"cookTimeMinutes":0,"baseServingSize":1,"spiceLevel":"None","season":["all"]},
+          ingredients: [
+            {"amount":1,"unit":"cup","name":"freshly steamed Japanese short-grain rice","notes":"Must be freshly cooked and screaming hot. This is essential; cold rice will not cook the egg properly."},
+            {"amount":1,"unit":"large","name":"egg","notes":"Must be the freshest possible, ideally a Japanese tamago or farm-fresh egg."},
+            {"amount":1,"unit":"tsp","name":"soy sauce","notes":"High quality; use a lighter tamari or dashi-soy for a more delicate flavor."},
+            {"amount":0.5,"unit":"tsp","name":"mirin","notes":"Optional, for a very subtle sweetness."},
+            {"amount":1,"unit":"sheet","name":"nori seaweed","notes":"Optional, torn into small pieces."},
+            {"amount":1,"unit":"pinch","name":"toasted sesame seeds","notes":"Optional garnish."}
+          ],
+          instructions: [
+            "Step 1: The Rice. Scoop freshly cooked, piping-hot rice into a bowl. The rice temperature is the cooking instrument; do not use leftover or reheated rice.",
+            "Step 2: The Egg. Crack the egg directly over the center of the hot rice. You may separate the white from the yolk first, if preferred: add just the yolk for maximum richness and discard the white, or whisk the whole egg separately for an airier texture.",
+            "Step 3: The Mix. Add the soy sauce over the egg and rice. Using chopsticks, quickly break the yolk and fold the egg vigorously into the rice. The heat of the rice will begin to cook the white while the yolk remains creamy.",
+            "Step 4: The Fold. Continue mixing until the egg forms a light, golden, slightly foamy coating around the rice grains. The result should be a loose, creamy, unified mixture, not scrambled egg on rice.",
+            "Step 5: Serve. Top with torn nori and sesame seeds. Eat immediately while warm. The entire dish should be eaten within 2 minutes of preparation."
+          ],
+          classifications: {"mealType":["breakfast"],"cookingMethods":["assembling"]},
+          elementalProperties: {"Fire":0.15,"Water":0.3,"Earth":0.45,"Air":0.1},
+          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["leo","cancer"],"lunarPhases":["New Moon"]},
+          nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":44,"fatG":8,"fiberG":0,"sodiumMg":380,"sugarG":1,"vitamins":["Choline","Vitamin B12","Vitamin D"],"minerals":["Selenium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.91,"Essence":2.67,"Matter":2.83,"Substance":2.5},
+          thermodynamicProperties: {"heat":0.0469,"entropy":0.2542,"reactivity":1.5941,"gregsEnergy":-0.3584,"kalchm":0.2524,"monica":0.4376},
+          substitutions: [{"originalIngredient":"egg","substituteOptions":["onsen tamago (slow-poached egg) for a safer alternative"]},{"originalIngredient":"soy sauce","substituteOptions":["tamari","ponzu"]}]
+        },
+        {
+          name: "Nikujaga (Meat and Potato Stew)",
+          description: "A deeply comforting Japanese home-style stew of thinly sliced beef, potatoes, onions, and shirataki noodles braised together in a sweet soy and mirin broth. It is considered the definitive example of Japanese home cooking, evoking nostalgia and warmth.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":15,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"None","season":["winter","autumn"]},
+          ingredients: [
+            {"amount":300,"unit":"g","name":"thinly sliced beef","notes":"Ribeye or chuck, sliced paper-thin."},
+            {"amount":3,"unit":"medium","name":"potatoes","notes":"Peeled and cut into large, bite-sized chunks. Soak in water to remove starch."},
+            {"amount":1,"unit":"large","name":"onion","notes":"Sliced into thick wedges."},
+            {"amount":1,"unit":"medium","name":"carrot","notes":"Sliced into thick diagonal rounds."},
+            {"amount":1,"unit":"pack","name":"shirataki noodles","notes":"Konnyaku noodles, drained and briefly blanched to remove odor."},
+            {"amount":3,"unit":"tbsp","name":"soy sauce","notes":"For the braising broth."},
+            {"amount":2,"unit":"tbsp","name":"mirin","notes":"For sweetness and gloss."},
+            {"amount":1,"unit":"tbsp","name":"sake","notes":"For aroma."},
+            {"amount":1,"unit":"tbsp","name":"sugar","notes":"Enhances the sweetness of the broth."},
+            {"amount":1.5,"unit":"cups","name":"dashi stock","notes":"The foundation of the braising liquid."},
+            {"amount":1,"unit":"tsp","name":"vegetable oil","notes":"For briefly sauteing the beef."}
+          ],
+          instructions: [
+            "Step 1: The Beef. Heat a drop of oil in a wide pot or Dutch oven over medium-high heat. Add the thinly sliced beef and cook briefly, just until no longer pink. Do not fully cook it at this stage.",
+            "Step 2: The Broth. Add the dashi, soy sauce, mirin, sake, and sugar to the pot. Stir to combine and bring to a simmer.",
+            "Step 3: The Vegetables. Add the potatoes, onions, and carrot to the simmering broth. Bring back to a simmer, then reduce heat to medium-low.",
+            "Step 4: The Braise. Place a drop lid (otoshibuta) or a piece of parchment paper cut to fit inside the pot directly on top of the ingredients. This maintains even, gentle heat and ensures all the components absorb the broth evenly. Simmer for 20-25 minutes until the potatoes are completely tender and have absorbed the broth.",
+            "Step 5: The Finish. Add the blanched shirataki noodles and cook for a final 5 minutes. Check seasoning. Serve in deep bowls with ample broth and a side of steamed rice."
+          ],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["braising","simmering"]},
+          elementalProperties: {"Fire":0.15,"Water":0.45,"Earth":0.35,"Air":0.05},
+          astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Gibbous"]},
+          nutritionPerServing: {"calories":440,"proteinG":26,"carbsG":52,"fatG":12,"fiberG":5,"sodiumMg":820,"sugarG":8,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Potassium","Iron"]},
+
+          alchemicalProperties: {"Spirit":2.83,"Essence":3.89,"Matter":5.36,"Substance":5.03},
+          thermodynamicProperties: {"heat":0.0351,"entropy":0.33,"reactivity":1.4927,"gregsEnergy":-0.4576,"kalchm":0.0001,"monica":0.0278},
+          substitutions: [{"originalIngredient":"thinly sliced beef","substituteOptions":["pork belly (more traditional in Osaka)","chicken thigh"]},{"originalIngredient":"shirataki noodles","substituteOptions":["snap peas","green beans"]}]
         },
       ],
       winter: [
         {
-          name: "Sukiyaki",
-          description: "Hot pot with thinly sliced beef and vegetables",
-          cuisine: "Japanese",
-          ingredients: [
+          "name": "Authentic Sukiyaki",
+          "description": "A ceremonial one-pot 'Nabemono' dish. The alchemy involves 'searing-braising' paper-thin marbled beef in a high-sugar soy broth (Warishita). The ingredients are cooked sequentially in a cast-iron pot at the table, then dipped into raw, whisked egg to provide a cooling, velvety mantle.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
             {
-              name: "thinly sliced beef",
-              amount: "400",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms", "tofu"],
+              "amount": 500,
+              "unit": "g",
+              "name": "thinly sliced marbled beef (Ribeye)",
+              "notes": "Must be paper-thin."
             },
             {
-              name: "napa cabbage",
-              amount: "300",
-              unit: "g",
-              category: "vegetable",
+              "amount": 1,
+              "unit": "block",
+              "name": "firm tofu",
+              "notes": "Grilled (Yaki-dofu) and cubed."
             },
             {
-              name: "shirataki noodles",
-              amount: "200",
-              unit: "g",
-              category: "noodles",
+              "amount": 1,
+              "unit": "bunch",
+              "name": "Shungiku (chrysanthemum greens)",
+              "notes": "Or spinach."
             },
-            { name: "tofu", amount: "200", unit: "g", category: "protein" },
             {
-              name: "raw eggs",
-              amount: "4",
-              unit: "large",
-              category: "protein",
-              swaps: ["soft tofu"],
+              "amount": 4,
+              "unit": "whole",
+              "name": "Shiitake mushrooms",
+              "notes": "Stems removed, tops scored."
             },
+            {
+              "amount": 1,
+              "unit": "pack",
+              "name": "Shirataki noodles",
+              "notes": "Konnyaku noodles."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "soy sauce",
+              "notes": "For the Warishita."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "mirin",
+              "notes": "For the Warishita."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "Sukiyaki is characterized by its high sugar content."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Fresh, for dipping."
+            }
           ],
-          nutrition: {
-            calories: 580,
-            protein: 45,
-            carbs: 25,
-            fat: 35,
-            fiber: 3,
-            vitamins: ["B12", "D", "K"],
-            minerals: ["Iron", "Zinc"],
+          "instructions": [
+            "Step 1: The Warishita. Mix soy sauce, mirin, sake, and sugar in a jug.",
+            "Step 2: The Sear. Rub a piece of beef fat over a hot cast-iron pot. Sear a few slices of beef. Pour in a little Warishita to glaze them. Eat these first.",
+            "Step 3: The Assembly. Arrange the tofu, mushrooms, noodles, and greens in distinct sections of the pot. Pour in the remaining Warishita.",
+            "Step 4: Simmer. Add more beef slices. Simmer briefly until the greens wilt. Do not overcook the beef.",
+            "Step 5: The Ritual. Crack a raw egg into a small bowl and whisk it. Dip the hot beef and vegetables into the raw egg before eating."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "celebration"
+            ],
+            "cookingMethods": [
+              "searing",
+              "simmering"
+            ]
           },
-          timeToMake: "40 minutes",
-          season: ["winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.26,
-            Water: 0.25,
-            Earth: 0.39,
-            Air: 0.1,
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.25,
+            "Earth": 0.3,
+            "Air": 0.1
           },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 620,
+            "proteinG": 38,
+            "carbsG": 35,
+            "fatG": 38,
+            "fiberG": 4,
+            "sodiumMg": 1400,
+            "sugarG": 22,
+            "vitamins": [
+              "Vitamin B12",
+              "Zinc"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.61,"Essence":3.5,"Matter":4.15,"Substance":3.95},
+          thermodynamicProperties: {"heat":0.0462,"entropy":0.3353,"reactivity":1.7604,"gregsEnergy":-0.5441,"kalchm":0.0118,"monica":0.4188},
+          "substitutions": [
+            {
+              "originalIngredient": "beef",
+              "substituteOptions": [
+                "sliced seitan",
+                "king oyster mushrooms (vegan)"
+              ]
+            }
+          ]
         },
         {
           name: "Ramen",
-          description: "Rich miso ramen with chashu pork and vegetables",
-          cuisine: "Japanese",
-          ingredients: [
-            {
-              name: "ramen noodles",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              swaps: ["rice noodles"],
-            },
-            {
-              name: "chashu pork",
-              amount: "100",
-              unit: "g",
-              category: "protein",
-              swaps: ["marinated mushrooms"],
-            },
-            { name: "miso broth", amount: "500", unit: "ml", category: "soup" },
-            { name: "corn", amount: "50", unit: "g", category: "vegetable" },
-            {
-              name: "bamboo shoots",
-              amount: "30",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "soft-boiled egg",
-              amount: "1",
-              unit: "large",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-          ],
-          nutrition: {
-            calories: 650,
-            protein: 35,
-            carbs: 85,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["B12", "A", "K"],
-            minerals: ["Iron", "Zinc"],
-          },
-          timeToMake: "30 minutes",
-          season: ["winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.09,
-            Water: 0.25,
-            Earth: 0.57,
-            Air: 0.1,
-          },
+          description: "A profound Japanese noodle soup where the alchemy of slow-simmered broth, alkaline noodles, and umami-rich tare creates a deeply restorative and complex sensory experience.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":45,"cookTimeMinutes":720,"baseServingSize":2,"spiceLevel":"Medium","season":["winter","autumn"]},
+          ingredients: [{"amount":4,"unit":"cups","name":"Pork and chicken bone broth","notes":"Simmered for 12 hours for rich mouthfeel."},{"amount":2,"unit":"portions","name":"Alkaline wheat noodles","notes":"Kansui gives them their distinct chew and yellow hue."},{"amount":4,"unit":"tbsp","name":"Shoyu tare","notes":"A concentrated seasoning blend of soy sauce, mirin, and kombu."},{"amount":4,"unit":"slices","name":"Chashu pork","notes":"Braised pork belly, rolled and sliced."},{"amount":1,"unit":"whole","name":"Ajitsuke Tamago","notes":"Soft-boiled egg marinated in soy and mirin."},{"amount":2,"unit":"tbsp","name":"Scallions","notes":"Finely chopped for aromatic sharpness."}],
+          instructions: ["Step 1: The Broth. Bring the long-simmered bone broth to a rolling boil, ensuring the fat is fully emulsified into the liquid.","Step 2: The Tare. Place 2 tablespoons of the concentrated shoyu tare into the bottom of each warmed serving bowl.","Step 3: The Noodles. Boil the alkaline noodles in unsalted water for exactly 60 seconds to maintain a firm, toothsome 'katame' texture.","Step 4: The Assembly. Vigorously pour the boiling broth over the tare to mix them instantly, then fold the drained noodles into the broth, arranging them neatly.","Step 5: The Toppings. Carefully lay the chashu slices, halved marinated egg, and scallions over the noodles. Serve immediately while fiercely hot."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","boiling","braising"]},
+          elementalProperties: {"Fire":0.25,"Water":0.5,"Earth":0.15,"Air":0.1},
+          astrologicalAffinities: {"planets":["Pluto","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Gibbous"]},
+          nutritionPerServing: {"calories":850,"proteinG":35,"carbsG":65,"fatG":45,"fiberG":4,"sodiumMg":1500,"sugarG":5,"vitamins":["Vitamin B12","Niacin"],"minerals":["Iron","Zinc"]},
+
+          alchemicalProperties: {"Spirit":1.51,"Essence":2.52,"Matter":2.97,"Substance":2.95},
+          thermodynamicProperties: {"heat":0.0277,"entropy":0.2932,"reactivity":1.8137,"gregsEnergy":-0.5041,"kalchm":0.031,"monica":0.009},
+          substitutions: [{"originalIngredient":"Chashu pork","substituteOptions":["Braised tofu","Roasted chicken"]}]
         },
       ],
       summer: [
         {
           name: "Yakitori Assortment",
-          description: "Grilled chicken skewers with various seasonings",
-          cuisine: "Japanese",
-          ingredients: [
-            {
-              name: "chicken thigh",
-              amount: "300",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms", "tofu"],
-            },
-            {
-              name: "green onion",
-              amount: "4",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "tare sauce",
-              amount: "100",
-              unit: "ml",
-              category: "sauce",
-            },
-            {
-              name: "shichimi togarashi",
-              amount: "1",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-          ],
-          nutrition: {
-            calories: 450,
-            protein: 35,
-            carbs: 15,
-            fat: 28,
-            fiber: 3,
-            vitamins: ["B6", "B12"],
-            minerals: ["Iron", "Zinc"],
-          },
-          timeToMake: "25 minutes",
-          season: ["summer"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.31,
-            Earth: 0.33,
-            Air: 0.14,
-          },
+          description: "The essence of Japanese grilling: skewered chicken, meticulously butchered into specific cuts, grilled over binchotan charcoal for extreme, clean heat that crisps the exterior while locking in the juices.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":30,"cookTimeMinutes":15,"baseServingSize":2,"spiceLevel":"Mild","season":["summer","spring"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"Chicken thighs","notes":"Deboned and cut into uniform bite-sized pieces."},{"amount":0.5,"unit":"lb","name":"Chicken meatballs (Tsukune)","notes":"Minced chicken with cartilage for texture."},{"amount":4,"unit":"stalks","name":"Tokyo negi (scallions)","notes":"Cut into 1-inch pieces."},{"amount":0.5,"unit":"cup","name":"Tare sauce","notes":"Thickened soy, mirin, sake, and sugar glaze."},{"amount":1,"unit":"pinch","name":"Shichimi togarashi","notes":"Seven-spice blend for finishing."}],
+          instructions: ["Step 1: Butchery. Cut the chicken thighs with exacting precision so all pieces are uniform, ensuring even cooking. Alternate meat and negi on bamboo skewers.","Step 2: The Fire. Prepare a binchotan charcoal grill. The coals must be white-hot but producing no flames, emitting pure infrared heat.","Step 3: The Grill. Place the skewers over the heat. Rotate frequently, allowing the rendering fat to drop and smoke, flavoring the meat without causing flare-ups.","Step 4: The Glaze. For tare-flavored skewers, dip them into the thick tare sauce when they are 80% cooked, then return to the grill to caramelize the sugars.","Step 5: The Finish. Serve immediately, straight from the grill, sprinkled lightly with shichimi togarashi or salt depending on the cut."],
+          classifications: {"mealType":["dinner","snack"],"cookingMethods":["grilling"]},
+          elementalProperties: {"Fire":0.6,"Water":0.1,"Earth":0.2,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":420,"proteinG":38,"carbsG":12,"fatG":22,"fiberG":1,"sodiumMg":680,"sugarG":8,"vitamins":["Niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus"]},
+
+          alchemicalProperties: {"Spirit":1.31,"Essence":2.42,"Matter":2.17,"Substance":2.25},
+          thermodynamicProperties: {"heat":0.0396,"entropy":0.299,"reactivity":2.3171,"gregsEnergy":-0.6531,"kalchm":0.363,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Pork belly","Shiitake mushrooms"]}]
         },
         {
-          name: "Oyakodon",
-          description: "Chicken and egg rice bowl with onions in dashi sauce",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            "donburi-style",
-          ],
-          tools: [
-            "donburi pan",
-            "rice cooker",
-            "cooking chopsticks",
-            "sharp knife",
-            "serving bowls",
-          ],
-          preparationSteps: [
-            "Cook rice",
-            "Slice chicken and onions",
-            "Simmer in dashi mixture",
-            "Add beaten eggs",
-            "Cover and steam briefly",
-            "Serve over hot rice",
-          ],
+          name: "Oyakodon (Chicken and Egg Rice Bowl)",
+          description: "A poetic Japanese comfort dish whose name translates to parent and child, referring to the chicken and egg cooked together. Chicken thighs and onion are simmered in a dashi-soy broth, then eggs are drizzled in at the last moment and cooked to a barely-set, silky, custard-like state before being slid over rice.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":10,"cookTimeMinutes":12,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
           ingredients: [
-            {
-              name: "steamed rice",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "chicken thigh",
-              amount: "300",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            { name: "eggs", amount: "4", unit: "large", category: "protein" },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "large",
-              category: "vegetable",
-            },
-            { name: "dashi", amount: "200", unit: "ml", category: "broth" },
-            { name: "mirin", amount: "2", unit: "tbsp", category: "seasoning" },
-            {
-              name: "soy sauce",
-              amount: "2",
-              unit: "tbsp",
-              category: "seasoning",
-            },
+            {"amount":300,"unit":"g","name":"chicken thighs","notes":"Boneless, skinless. Cut into bite-sized pieces on a slight diagonal for more surface area."},
+            {"amount":1,"unit":"medium","name":"onion","notes":"Halved and thinly sliced into half-moon slivers."},
+            {"amount":4,"unit":"large","name":"eggs","notes":"Lightly whisked in a bowl. Do not overmix; some streaks of white and yolk are ideal for a layered result."},
+            {"amount":0.5,"unit":"cup","name":"dashi stock","notes":"Awase dashi from kombu and katsuobushi."},
+            {"amount":2.5,"unit":"tbsp","name":"soy sauce","notes":"Regular koikuchi soy sauce."},
+            {"amount":2,"unit":"tbsp","name":"mirin","notes":"For sweetness and glossy finish."},
+            {"amount":0.5,"unit":"tbsp","name":"sake","notes":"For aroma and to tenderize the chicken."},
+            {"amount":1,"unit":"tsp","name":"sugar","notes":"A small amount to round out the broth."},
+            {"amount":2,"unit":"cups","name":"steamed Japanese rice","notes":"Hot, freshly cooked."},
+            {"amount":1,"unit":"tbsp","name":"mitsuba or scallion","notes":"For garnish, finely sliced."}
           ],
-          substitutions: {
-            chicken: ["tofu", "mushrooms"],
-            dashi: ["vegetable stock", "mushroom stock"],
-            eggs: ["Just Egg", "soft tofu"],
-          },
-          servingSize: 2,
-          allergens: ["egg", "soy"],
-          prepTime: "15 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan",
-          pairingSuggestions: ["miso soup", "pickled vegetables", "green tea"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 650,
-            protein: 45,
-            carbs: 70,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["B12", "D", "A"],
-            minerals: ["Iron", "Selenium"],
-          },
-          season: ["all"],
+          instructions: [
+            "Step 1: The Broth. In a wide, shallow oyakodon pan or small skillet (one per serving), combine the dashi, soy sauce, mirin, sake, and sugar. Bring to a simmer over medium heat.",
+            "Step 2: The Chicken. Add the sliced onion to the simmering broth and cook for 2-3 minutes until softened. Add the chicken pieces in a single layer over the onions. Cook for 4-5 minutes, turning once, until the chicken is just cooked through.",
+            "Step 3: The Egg. Pour two-thirds of the beaten egg in a slow, circular motion over the chicken and onions. Do not stir. Cover the pan immediately and cook for 45 seconds over medium heat.",
+            "Step 4: The Second Pour. Drizzle the remaining egg over the top and immediately cover the pan again. Turn off the heat. The residual heat will set the second pour to a creamy, barely-cooked, translucent consistency. This two-stage egg technique is the critical step for the correct texture.",
+            "Step 5: The Serve. The eggs should be 70% set: the bottom layer fully cooked and the top layer still trembling and soft. Slide the entire contents of the pan over a bowl of hot rice in one motion. Garnish with mitsuba or scallion. Eat immediately."
+          ],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering"]},
+          elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
+          astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":510,"proteinG":36,"carbsG":52,"fatG":14,"fiberG":2,"sodiumMg":780,"sugarG":7,"vitamins":["Choline","Vitamin B12","Niacin"],"minerals":["Selenium","Phosphorus","Iron"]},
 
-          elementalProperties: {
-            Fire: 0.1,
-            Water: 0.5,
-            Earth: 0.3,
-            Air: 0.1,
-          },
-          mealType: ["lunch", "dinner"],
+          alchemicalProperties: {"Spirit":3.04,"Essence":4.17,"Matter":4.13,"Substance":3.96},
+          thermodynamicProperties: {"heat":0.0539,"entropy":0.3047,"reactivity":2.1178,"gregsEnergy":-0.5914,"kalchm":0.139,"monica":-0.0188},
+          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["salmon (for sake don)","ground pork"]},{"originalIngredient":"mitsuba","substituteOptions":["scallions","shiso leaves"]}]
         },
         {
           name: "Okonomiyaki",
-          description: "Savory cabbage pancake with various toppings",
-          cuisine: "Japanese (Osaka-style)",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-            {
-              name: "mixing",
-              elementalProperties: {
-                Fire: 0.07,
-                Water: 0.21,
-                Earth: 0.21,
-                Air: 0.5,
-              },
-            },
-          ],
-          tools: [
-            "flat griddle",
-            "spatulas",
-            "mixing bowls",
-            "grater",
-            "brush for sauce",
-          ],
-          preparationSteps: [
-            "Mix batter ingredients",
-            "Fold in shredded cabbage",
-            "Cook on hot griddle",
-            "Flip when golden",
-            "Add toppings",
-            "Apply sauces and garnishes",
-          ],
-          ingredients: [
-            {
-              name: "cabbage",
-              amount: "400",
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.3,
-                Air: 0.3,
-              },
-            },
-            {
-              name: "okonomiyaki flour",
-              amount: "150",
-              unit: "g",
-              category: "grain",
-              swaps: ["all-purpose flour + dashi powder"],
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            {
-              name: "pork belly",
-              amount: "100",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            {
-              name: "okonomiyaki sauce",
-              amount: "4",
-              unit: "tbsp",
-              category: "sauce",
-            },
-            {
-              name: "mayonnaise",
-              amount: "2",
-              unit: "tbsp",
-              category: "sauce",
-            },
-            {
-              name: "bonito flakes",
-              amount: "10",
-              unit: "g",
-              category: "garnish",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            "pork belly": ["mushrooms", "tofu", "shrimp"],
-            "bonito flakes": ["nori strips", "sesame seeds"],
-            "okonomiyaki flour": ["all-purpose flour + dashi powder"],
-          },
-          servingSize: 2,
-          allergens: ["wheat", "egg", "fish", "soy"],
-          prepTime: "20 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A popular street food from Osaka. The name means 'grilled as you like it', reflecting its customizable nature",
-          pairingSuggestions: ["beer", "sake", "green tea"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 550,
-            protein: 25,
-            carbs: 45,
-            fat: 32,
-            fiber: 3,
-            vitamins: ["A", "C", "B12"],
-            minerals: ["Iron", "Calcium"],
-          },
-          season: ["all"],
+          description: "A savory, highly customizable Japanese cabbage pancake, bound by a yam-infused batter and griddled to develop a crisp exterior while maintaining a soft, steamy interior, finished with an iconic crosshatch of sauces.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":20,"cookTimeMinutes":15,"baseServingSize":2,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cups","name":"Cabbage","notes":"Finely shredded."},{"amount":1,"unit":"cup","name":"Okonomiyaki flour","notes":"Wheat flour mixed with nagaimo (mountain yam) powder for aeration."},{"amount":0.75,"unit":"cup","name":"Dashi stock","notes":"Cooled, to hydrate the batter."},{"amount":2,"unit":"large","name":"Eggs","notes":"For binding."},{"amount":4,"unit":"slices","name":"Pork belly","notes":"Thinly sliced."},{"amount":2,"unit":"tbsp","name":"Tenkasu","notes":"Tempura scraps for internal crunch."},{"amount":3,"unit":"tbsp","name":"Okonomiyaki sauce","notes":"Thick, sweet, and savory."},{"amount":2,"unit":"tbsp","name":"Kewpie mayonnaise","notes":"Rich, egg-yolk-heavy mayo."},{"amount":1,"unit":"pinch","name":"Katsuobushi and Aonori","notes":"Bonito flakes and dried seaweed powder for garnish."}],
+          instructions: ["Step 1: The Batter. Whisk the okonomiyaki flour with the cool dashi stock. Let it rest for 10 minutes, then gently fold in the eggs, shredded cabbage, and tenkasu. Do not overmix; air must remain in the batter.","Step 2: The Griddle. Heat a teppan or large cast-iron skillet to 400°F (200°C). Pour the batter onto the hot surface, shaping it into a thick, 1-inch high circle.","Step 3: The Pork. Lay the thin slices of pork belly over the top of the uncooked batter.","Step 4: The Flip. Once the bottom is deeply browned (about 5 minutes), flip the pancake confidently. Press down lightly to crisp the pork belly.","Step 5: The Dress. When fully cooked, transfer to a plate. Brush generously with okonomiyaki sauce. Squeeze the mayonnaise over it in a crosshatch pattern. Sprinkle with aonori and top with katsuobushi, which will dance in the heat."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["griddling","pan-frying"]},
+          elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
+          astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["taurus","sagittarius"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":550,"proteinG":22,"carbsG":45,"fatG":32,"fiberG":5,"sodiumMg":950,"sugarG":12,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Iron"]},
 
-          elementalProperties: {
-            Fire: 0.11,
-            Water: 0.19,
-            Earth: 0.42,
-            Air: 0.28,
-          },
-          mealType: ["lunch", "dinner", "street food"],
+          alchemicalProperties: {"Spirit":2.68,"Essence":3.38,"Matter":3.61,"Substance":3.46},
+          thermodynamicProperties: {"heat":0.0585,"entropy":0.3389,"reactivity":1.9597,"gregsEnergy":-0.6056,"kalchm":0.1141,"monica":0.8752},
+          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Shrimp","Mochi"]}]
         },
         {
           name: "Tempura",
-          description: "Light and crispy battered seafood and vegetables",
-          cuisine: "Japanese",
-          cookingMethods: ["deep-frying", "battering"],
-          tools: [
-            "deep pot",
-            "cooking chopsticks",
-            "wire skimmer",
-            "thermometer",
-            "paper towels",
-            "strainer",
-          ],
-          preparationSteps: [
-            "Prepare dipping sauce",
-            "Make tempura batter",
-            "Heat oil to 180°C",
-            "Coat ingredients in batter",
-            "Fry until golden",
-            "Drain on paper towels",
-          ],
-          ingredients: [
-            {
-              name: "shrimp",
-              amount: "8",
-              unit: "pieces",
-              category: "seafood",
-              swaps: ["vegetables"],
-            },
-            {
-              name: "assorted vegetables",
-              amount: "400",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "tempura flour",
-              amount: "200",
-              unit: "g",
-              category: "grain",
-              swaps: ["rice flour mix"],
-            },
-            {
-              name: "ice water",
-              amount: "200",
-              unit: "ml",
-              category: "liquid",
-            },
-            { name: "dashi", amount: "200", unit: "ml", category: "broth" },
-            { name: "mirin", amount: "2", unit: "tbsp", category: "seasoning" },
-          ],
-          substitutions: {
-            shrimp: ["sweet potato", "mushrooms", "tofu"],
-            "tempura flour": ["rice flour + cornstarch"],
-            dashi: ["vegetable stock"],
-          },
-          servingSize: 4,
-          allergens: ["wheat", "shellfish"],
-          prepTime: "20 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "Originally introduced by Portuguese missionaries, tempura has become a refined Japanese art form emphasizing lightness and crispiness",
-          pairingSuggestions: ["tentsuyu sauce", "green tea", "rice"],
-          dietaryInfo: ["pescatarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 420,
-            protein: 18,
-            carbs: 45,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "C", "D"],
-            minerals: ["Iron", "Calcium"],
-          },
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
+          description: "The delicate art of deep-frying, where ice-cold, barely-mixed batter meets hot oil to create a lacework of shattering crispness around perfectly steamed seafood and vegetables.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":20,"cookTimeMinutes":10,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":1,"unit":"cup","name":"Cake flour","notes":"Low-protein flour to prevent gluten development."},{"amount":1,"unit":"cup","name":"Ice water","notes":"Must be ice-cold to shock the batter and create crispness."},{"amount":1,"unit":"large","name":"Egg yolk","notes":"For richness and binding."},{"amount":8,"unit":"large","name":"Shrimp","notes":"Peeled, deveined, with tails on; scored to stay straight."},{"amount":1,"unit":"cup","name":"Assorted vegetables","notes":"Sweet potato, eggplant, shiso leaves."},{"amount":4,"unit":"cups","name":"Frying oil","notes":"Light vegetable oil mixed with a touch of sesame oil."},{"amount":0.5,"unit":"cup","name":"Tentsuyu","notes":"Dipping sauce made from dashi, soy, and mirin."}],
+          instructions: ["Step 1: Preparation. Score the underside of the shrimp to prevent curling. Slice all vegetables into uniform, quick-cooking pieces.","Step 2: The Oil. Heat the oil to exactly 340°F (170°C) for vegetables, and 350°F (175°C) for seafood. Temperature control is the absolute essence of tempura.","Step 3: The Batter. In a chilled bowl, beat the egg yolk with the ice water. Sift the cake flour over the liquid and barely mix with chopsticks. Lumps of flour must remain; overmixing creates a heavy, doughy crust.","Step 4: The Fry. Dip the ingredients lightly in flour, then into the cold batter. Drop gently into the hot oil. Fry in small batches to avoid dropping the oil temperature.","Step 5: The Skim. Continuously skim the loose batter bits (tenkasu) from the oil. Remove the tempura when the bubbling subsides (indicating water has evaporated). Serve immediately with warm tentsuyu."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["deep-frying"]},
+          elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.1,"Air":0.3},
+          astrologicalAffinities: {"planets":["Uranus","Mercury"],"signs":["aquarius","gemini"],"lunarPhases":["New Moon"]},
+          nutritionPerServing: {"calories":480,"proteinG":20,"carbsG":40,"fatG":28,"fiberG":3,"sodiumMg":520,"sugarG":2,"vitamins":["Vitamin A","Vitamin E"],"minerals":["Iodine","Copper"]},
+
+          alchemicalProperties: {"Spirit":1.99,"Essence":3.16,"Matter":2.66,"Substance":2.59},
+          thermodynamicProperties: {"heat":0.0518,"entropy":0.2975,"reactivity":2.7527,"gregsEnergy":-0.767,"kalchm":0.9399,"monica":0.4376},
+          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Kabocha squash","Mushroom"]}]
         },
         {
           name: "Udon Noodle Soup",
-          description: "Thick wheat noodles in hot dashi broth",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "strainer",
-            "ladle",
-            "cooking chopsticks",
-            "serving bowls",
-          ],
-          preparationSteps: [
-            "Prepare dashi broth",
-            "Cook udon noodles",
-            "Slice toppings",
-            "Heat broth with seasonings",
-            "Assemble in bowls",
-            "Add garnishes",
-          ],
-          ingredients: [
-            {
-              name: "udon noodles",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-              swaps: ["rice noodles"],
-            },
-            { name: "dashi stock", amount: "1", unit: "L", category: "broth" },
-            {
-              name: "green onions",
-              amount: "2",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            {
-              name: "kamaboko",
-              amount: "100",
-              unit: "g",
-              category: "seafood",
-              optional: true,
-            },
-            {
-              name: "tempura bits",
-              amount: "30",
-              unit: "g",
-              category: "topping",
-              optional: true,
-            },
-            {
-              name: "soy sauce",
-              amount: "3",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-          ],
-          substitutions: {
-            udon: ["rice noodles", "soba"],
-            kamaboko: ["tofu", "mushrooms"],
-            dashi: ["vegetable stock", "mushroom stock"],
-          },
-          servingSize: 2,
-          allergens: ["wheat", "soy"],
-          prepTime: "10 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A comforting noodle dish with regional variations across Japan. The chewy texture of udon is highly prized",
-          pairingSuggestions: ["tempura", "onigiri", "green tea"],
-          dietaryInfo: ["vegetarian possible"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 380,
-            protein: 14,
-            carbs: 75,
-            fat: 4,
-            fiber: 3,
-            vitamins: ["B1", "B2"],
-            minerals: ["Iron", "Manganese"],
-          },
-          season: ["winter", "all"],
+          description: "A comforting bowl of thick, chewy, dramatically satisfying wheat noodles suspended in a translucent, deeply savory dashi broth, embodying the concept of 'koshi' (the perfect texture).",
+          details: {"cuisine":"Japanese","prepTimeMinutes":15,"cookTimeMinutes":15,"baseServingSize":2,"spiceLevel":"Mild","season":["winter","autumn"]},
+          ingredients: [{"amount":2,"unit":"portions","name":"Fresh or frozen udon noodles","notes":"Thick wheat noodles with a strong, elastic bite."},{"amount":4,"unit":"cups","name":"Dashi","notes":"Clear broth made from kombu and katsuobushi."},{"amount":2,"unit":"tbsp","name":"Usukuchi soy sauce","notes":"Light-colored soy sauce to keep the broth translucent."},{"amount":2,"unit":"tbsp","name":"Mirin","notes":"For subtle sweetness and depth."},{"amount":2,"unit":"pieces","name":"Kamaboko","notes":"Sliced fish cake with a pink edge."},{"amount":2,"unit":"tbsp","name":"Scallions","notes":"Finely sliced."}],
+          instructions: ["Step 1: The Broth (Tsuyu). In a saucepan, gently heat the dashi. Add the usukuchi soy sauce and mirin. Bring to a bare simmer; do not boil aggressively, which clouds the broth and destroys the delicate aromas.","Step 2: The Noodles. In a separate large pot of boiling water, cook the udon noodles until they are heated through but retain a strong, chewy center (koshi). Drain completely.","Step 3: The Assembly. Divide the hot noodles into large, warmed serving bowls. The noodles should fold beautifully upon themselves.","Step 4: The Pour. Ladle the hot, fragrant broth over the noodles until they are just submerged.","Step 5: The Garnish. Top elegantly with slices of kamaboko and a generous scattering of sharp scallions. Serve immediately."],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering","boiling"]},
+          elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.15,"Air":0.1},
+          astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":380,"proteinG":12,"carbsG":75,"fatG":2,"fiberG":3,"sodiumMg":1100,"sugarG":4,"vitamins":["Folate","Thiamin"],"minerals":["Manganese","Selenium"]},
 
-          elementalProperties: {
-            Fire: 0.07,
-            Water: 0.37,
-            Earth: 0.48,
-            Air: 0.08,
-          },
-          mealType: ["lunch", "dinner"],
+          alchemicalProperties: {"Spirit":1.85,"Essence":2.46,"Matter":2.0,"Substance":1.94},
+          thermodynamicProperties: {"heat":0.0655,"entropy":0.2659,"reactivity":2.9487,"gregsEnergy":-0.7186,"kalchm":1.975,"monica":-0.0376},
+          substitutions: [{"originalIngredient":"Kamaboko","substituteOptions":["Fried tofu (Abura-age)","Poached egg"]}]
         },
         {
           name: "Tonkatsu",
-          description: "Breaded and deep-fried pork cutlet",
-          cuisine: "Japanese",
-          cookingMethods: [
-            "breading",
-            {
-              name: "deep-frying",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.06,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-            "cutting",
-          ],
-          tools: [
-            "deep pot",
-            "wire rack",
-            "tongs",
-            "thermometer",
-            "sharp knife",
-            "paper towels",
-          ],
-          preparationSteps: [
-            "Tenderize pork cutlet",
-            "Season with salt and pepper",
-            "Coat with flour",
-            "Dip in beaten egg",
-            "Cover with panko",
-            "Deep fry until golden",
-            "Rest and slice",
-          ],
-          ingredients: [
-            {
-              name: "pork loin",
-              amount: "400",
-              unit: "g",
-              category: "protein",
-              swaps: ["chicken", "tofu"],
-            },
-            {
-              name: "panko breadcrumbs",
-              amount: "200",
-              unit: "g",
-              category: "coating",
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            { name: "flour", amount: "100", unit: "g", category: "grain" },
-            {
-              name: "tonkatsu sauce",
-              amount: "60",
-              unit: "ml",
-              category: "sauce",
-            },
-            {
-              name: "cabbage",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-          ],
-          substitutions: {
-            pork: ["chicken breast", "firm tofu", "seitan"],
-            panko: ["gluten-free breadcrumbs"],
-            eggs: ["plant-based egg substitute"],
-          },
-          servingSize: 2,
-          allergens: ["wheat", "egg"],
-          prepTime: "15 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A Western-inspired dish that became a Japanese favorite in the early 1900s. The specific cutting technique and shredded cabbage are essential elements",
-          pairingSuggestions: [
-            "steamed rice",
-            "miso soup",
-            "pickled vegetables",
-          ],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 650,
-            protein: 42,
-            carbs: 48,
-            fat: 34,
-            fiber: 3,
-            vitamins: ["B1", "B6", "B12"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
+          description: "A mastery of contrasting textures: a thick cut of pork, breaded in large, airy panko crumbs, and deep-fried to create a shatteringly crisp armor over impossibly tender, juicy meat.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":15,"cookTimeMinutes":12,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cuts","name":"Pork loin chops","notes":"About 3/4 inch thick. The fat cap should be scored to prevent curling."},{"amount":0.5,"unit":"cup","name":"All-purpose flour","notes":"For the initial dredge."},{"amount":1,"unit":"large","name":"Egg","notes":"Beaten, to adhere the panko."},{"amount":1.5,"unit":"cups","name":"Panko breadcrumbs","notes":"Fresh, large-flake panko creates the iconic spikey texture."},{"amount":3,"unit":"cups","name":"Frying oil","notes":"Neutral oil."},{"amount":2,"unit":"cups","name":"Cabbage","notes":"Shredded as finely as possible (hair-like) and soaked in ice water."},{"amount":3,"unit":"tbsp","name":"Tonkatsu sauce","notes":"A thick, fruity, savory-sweet sauce."}],
+          instructions: ["Step 1: The Meat. Take the pork chops and make several small cuts along the fat and connective tissue on the edge. This severs the bands that cause the meat to curl when frying. Pound the meat slightly to tenderize, then season aggressively with salt and pepper.","Step 2: The Breading. Dredge the pork thoroughly in flour, shaking off the excess. Dip it completely into the beaten egg, then lay it into the panko. Press the panko firmly into the meat so every millimeter is covered with the jagged crumbs.","Step 3: The Fry. Heat the oil in a heavy pot to 340°F (170°C). Carefully lower the pork into the oil. Fry for 5-6 minutes, flipping halfway, until the crust is a deep, majestic golden brown.","Step 4: The Rest. Remove the tonkatsu and place it on a wire rack. This resting period (about 3-4 minutes) is crucial; carryover heat finishes cooking the center while the crust remains dry and crisp.","Step 5: The Serve. Slice the pork into 1-inch strips. Serve alongside a mountain of ice-cold, hyper-crisp shredded cabbage. Drizzle the tonkatsu sauce generously over the meat."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["deep-frying","breading"]},
+          elementalProperties: {"Fire":0.4,"Water":0.1,"Earth":0.4,"Air":0.1},
+          astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":680,"proteinG":42,"carbsG":45,"fatG":35,"fiberG":4,"sodiumMg":750,"sugarG":8,"vitamins":["Thiamin","Vitamin B6"],"minerals":["Zinc","Phosphorus"]},
 
-          elementalProperties: {
-            Fire: 0.24,
-            Water: 0.25,
-            Earth: 0.41,
-            Air: 0.11,
-          },
-          mealType: ["lunch", "dinner"],
+          alchemicalProperties: {"Spirit":1.98,"Essence":3.2,"Matter":3.35,"Substance":3.05},
+          thermodynamicProperties: {"heat":0.0392,"entropy":0.2695,"reactivity":1.6813,"gregsEnergy":-0.4138,"kalchm":0.0929,"monica":0.8752},
+          substitutions: [{"originalIngredient":"Pork loin chops","substituteOptions":["Chicken breast (for Chicken Katsu)","Firm tofu"]}]
         },
         {
           name: "Chawanmushi",
-          description: "Savory steamed egg custard with various ingredients",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            "straining",
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "steamer",
-            "fine-mesh strainer",
-            "small cups",
-            "whisk",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Strain beaten eggs",
-            "Mix with dashi stock",
-            "Place ingredients in cups",
-            "Pour egg mixture",
-            "Steam gently",
-            "Garnish and serve",
-          ],
-          ingredients: [
-            {
-              name: "eggs",
-              amount: "3",
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            { name: "dashi", amount: "300", unit: "ml", category: "broth" },
-            {
-              name: "chicken",
-              amount: "60",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            {
-              name: "shrimp",
-              amount: "4",
-              unit: "pieces",
-              category: "seafood",
-              optional: true,
-            },
-            {
-              name: "mitsuba",
-              amount: "4",
-              unit: "sprigs",
-              category: "herb",
-              swaps: ["spinach"],
-            },
-            {
-              name: "kamaboko",
-              amount: "30",
-              unit: "g",
-              category: "seafood",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            chicken: ["mushrooms", "tofu"],
-            shrimp: ["vegetables"],
-            dashi: ["vegetable stock"],
-          },
-          servingSize: 4,
-          allergens: ["egg", "shellfish", "fish"],
-          prepTime: "20 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A delicate dish that showcases the Japanese mastery of egg cookery. The name means 'steamed in a tea bowl'",
-          pairingSuggestions: ["sake", "green tea", "rice"],
-          dietaryInfo: ["contains seafood", "contains meat"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 120,
-            protein: 14,
-            carbs: 2,
-            fat: 7,
-            fiber: 3,
-            vitamins: ["B12", "D", "A"],
-            minerals: ["Selenium", "Iodine"],
-          },
-          season: ["all"],
+          description: "A delicate, ethereal savory egg custard, steamed in a teacup. It relies on a high ratio of dashi to egg, resulting in a wobbly, silken texture that suspends elegant morsels of seafood, chicken, and aromatics.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":15,"cookTimeMinutes":20,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":2,"unit":"large","name":"Eggs","notes":"Fresh."},{"amount":1.5,"unit":"cups","name":"Dashi","notes":"High quality, cooled to room temperature."},{"amount":1,"unit":"tbsp","name":"Usukuchi soy sauce","notes":"Light soy sauce."},{"amount":1,"unit":"tsp","name":"Mirin","notes":"For subtle sweetness."},{"amount":2,"unit":"pieces","name":"Shrimp","notes":"Peeled and deveined."},{"amount":2,"unit":"pieces","name":"Chicken thigh","notes":"Bite-sized chunks."},{"amount":2,"unit":"slices","name":"Kamaboko","notes":"Fish cake."},{"amount":1,"unit":"piece","name":"Shiitake mushroom","notes":"Sliced."},{"amount":2,"unit":"leaves","name":"Mitsuba","notes":"Japanese parsley, or cilantro as substitute."}],
+          instructions: ["Step 1: The Base. In a bowl, gently beat the eggs. You must break up the proteins without incorporating air; no foam should form. Whisk in the cooled dashi, soy sauce, and mirin.","Step 2: The Strain. Pour the egg mixture through a fine-mesh sieve. This step is non-negotiable; it removes the chalazae and any unmixed albumen, ensuring a flawless, silken texture.","Step 3: The Assembly. Divide the chicken, shrimp, shiitake, and kamaboko among two heat-proof teacups or ramekins. Pour the strained egg mixture over the ingredients, filling the cups near the top.","Step 4: The Steam. Cover each cup individually with foil to prevent condensation from dripping in. Place in a steamer over gently simmering (not violently boiling) water. Steam for 15-20 minutes. Aggressive heat will cause the egg to curdle and become porous instead of smooth.","Step 5: The Test. The custard is done when it is set but jiggles like soft tofu, and a skewer inserted comes out clean with clear liquid. Top with mitsuba leaf and serve immediately."],
+          classifications: {"mealType":["appetizer","side"],"cookingMethods":["steaming"]},
+          elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.1,"Air":0.3},
+          astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["Waxing Crescent"]},
+          nutritionPerServing: {"calories":180,"proteinG":18,"carbsG":6,"fatG":9,"fiberG":1,"sodiumMg":650,"sugarG":3,"vitamins":["Choline","Vitamin D"],"minerals":["Selenium","Phosphorus"]},
 
-          elementalProperties: {
-            Fire: 0.14,
-            Water: 0.44,
-            Earth: 0.3,
-            Air: 0.12,
-          },
-          mealType: ["appetizer", "side dish"],
+          alchemicalProperties: {"Spirit":2.73,"Essence":3.75,"Matter":3.45,"Substance":3.55},
+          thermodynamicProperties: {"heat":0.055,"entropy":0.3313,"reactivity":2.735,"gregsEnergy":-0.8511,"kalchm":0.3424,"monica":-0.1032},
+          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Ginkgo nuts","Extra mushrooms"]}]
         },
         {
           name: "Yakitori",
-          description: "Grilled chicken skewers with various seasonings",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "grilling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.11,
-                Air: 0.33,
-              },
-            },
-            "skewering",
-            "basting",
-          ],
-          tools: [
-            "yakitori grill",
-            "bamboo skewers",
-            "basting brush",
-            "cutting board",
-            "sharp knife",
-            "tongs",
-          ],
-          preparationSteps: [
-            "Soak bamboo skewers",
-            "Cut chicken into bite-size pieces",
-            "Thread onto skewers",
-            "Prepare tare sauce",
-            "Grill while basting",
-            "Apply final glaze",
-          ],
-          ingredients: [
-            {
-              name: "chicken thigh",
-              amount: "500",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms", "tofu"],
-            },
-            {
-              name: "green onion",
-              amount: "4",
-              unit: "stalks",
-              category: "vegetable",
-            },
-            { name: "sake", amount: "60", unit: "ml", category: "seasoning" },
-            { name: "mirin", amount: "60", unit: "ml", category: "seasoning" },
-            {
-              name: "soy sauce",
-              amount: "60",
-              unit: "ml",
-              category: "seasoning",
-            },
-            { name: "sugar", amount: "2", unit: "tbsp", category: "seasoning" },
-          ],
-          substitutions: {
-            chicken: ["mushrooms", "tofu", "seitan"],
-            sake: ["rice vinegar + water"],
-            mirin: ["sweet rice wine", "rice vinegar + sugar"],
-          },
-          servingSize: 4,
-          allergens: ["soy"],
-          prepTime: "30 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A popular izakaya dish, yakitori represents the Japanese art of grilling. Each part of the chicken is traditionally used",
-          pairingSuggestions: ["beer", "sake", "shishito peppers", "rice"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 320,
-            protein: 28,
-            carbs: 12,
-            fat: 18,
-            fiber: 3,
-            vitamins: ["B6", "B12"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
+          description: "Bite-sized chicken pieces (thigh, skin, cartilage, heart) threaded on bamboo skewers and grilled over bincho-tan charcoal, basted with tare (sweet soy glaze) or simply salted with shio.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":30,"cookTimeMinutes":20,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":500,"unit":"g","name":"chicken thigh","notes":"Cut into bite-sized pieces, skin on for some skewers."},{"amount":8,"unit":"sticks","name":"bamboo skewers","notes":"Soaked in water for 30 minutes to prevent burning."},{"amount":3,"unit":"tbsp","name":"soy sauce","notes":"For the tare glaze base."},{"amount":2,"unit":"tbsp","name":"mirin","notes":"Adds sweetness and gloss to the tare."},{"amount":1,"unit":"tbsp","name":"sake","notes":"Deepens the savory character of the glaze."},{"amount":1,"unit":"tbsp","name":"sugar","notes":"Balances the salt in the tare."},{"amount":1,"unit":"tsp","name":"flaky sea salt","notes":"For shio-style skewers, applied just before grilling."},{"amount":1,"unit":"pinch","name":"shichimi togarashi","notes":"Optional seven-spice blend for finishing."}],
+          instructions: ["Step 1: The Tare. Combine soy sauce, mirin, sake, and sugar in a small saucepan. Bring to a boil, then reduce heat and simmer for 8-10 minutes until the glaze thickens enough to coat the back of a spoon. Set aside to cool slightly.","Step 2: The Skewering. Thread chicken pieces onto soaked bamboo skewers, alternating between thigh meat and skin pieces. Keep pieces uniform in size for even cooking. Compact them tightly so edges touch.","Step 3: The Seasoning. Decide each skewer as tare or shio. For shio skewers, season generously with flaky salt on both sides. For tare skewers, leave unseasoned for now.","Step 4: The Grill. Grill skewers over high direct heat (charcoal preferred) for 3-4 minutes per side, turning frequently. For tare skewers, brush with glaze during the last 2 minutes, turning and basting repeatedly to build up a lacquered coating.","Step 5: The Serve. Transfer to a plate immediately. Give tare skewers one final brush of glaze. Dust shio skewers with shichimi togarashi if desired. Serve hot alongside cold beer or highball."],
+          classifications: {"mealType":["dinner","snack"],"cookingMethods":["grilling"]},
+          elementalProperties: {"Fire":0.45,"Water":0.1,"Earth":0.25,"Air":0.2},
+          astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":350,"proteinG":28,"carbsG":8,"fatG":22,"fiberG":0,"sodiumMg":720,"sugarG":5,"vitamins":["Niacin","Vitamin B6"],"minerals":["Iron","Zinc","Phosphorus"]},
 
-          elementalProperties: {
-            Fire: 0.29,
-            Water: 0.24,
-            Earth: 0.32,
-            Air: 0.15,
-          },
-          mealType: ["dinner", "appetizer"],
+          alchemicalProperties: {"Spirit":2.23,"Essence":2.93,"Matter":3.67,"Substance":3.7},
+          thermodynamicProperties: {"heat":0.044,"entropy":0.3914,"reactivity":1.7896,"gregsEnergy":-0.6565,"kalchm":0.0093,"monica":0.4376},
+          substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","chicken hearts","chicken skin skewers"]},{"originalIngredient":"bamboo skewers","substituteOptions":["metal skewers"]}]
         },
         {
           name: "Miso Ramen",
-          description: "Hearty noodle soup with miso-based broth",
-          cuisine: "Japanese (Hokkaido-style)",
-          cookingMethods: [
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "strainer",
-            "ladle",
-            "serving bowls",
-            "sharp knife",
-          ],
-          preparationSteps: [
-            "Prepare rich broth",
-            "Cook noodles",
-            "Sauté corn and bean sprouts",
-            "Slice chashu pork",
-            "Assemble bowls",
-            "Add toppings",
-          ],
-          ingredients: [
-            {
-              name: "ramen noodles",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-              swaps: ["rice noodles"],
-            },
-            {
-              name: "miso paste",
-              amount: "4",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            {
-              name: "pork broth",
-              amount: "1",
-              unit: "L",
-              category: "broth",
-              swaps: ["vegetable broth"],
-            },
-            {
-              name: "chashu pork",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["tofu"],
-            },
-            { name: "corn", amount: "200", unit: "g", category: "vegetable" },
-            {
-              name: "bean sprouts",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            {
-              name: "butter",
-              amount: "20",
-              unit: "g",
-              category: "dairy",
-              optional: true,
-            },
-          ],
-          substitutions: {
-            "pork broth": ["vegetable broth", "mushroom broth"],
-            "chashu pork": ["marinated tofu", "seitan"],
-            butter: ["vegan butter", "sesame oil"],
-          },
-          servingSize: 2,
-          allergens: ["wheat", "soy", "dairy"],
-          prepTime: "20 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "Miso ramen originated in Hokkaido, where the hearty, warming soup helped people endure cold winters",
-          pairingSuggestions: ["gyoza", "edamame", "beer"],
-          dietaryInfo: ["contains meat", "contains dairy"],
-          spiceLevel: "mild to medium",
-          nutrition: {
-            calories: 680,
-            protein: 38,
-            carbs: 85,
-            fat: 24,
-            fiber: 3,
-            vitamins: ["B12", "A", "C"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["winter", "all"],
+          description: "Rich pork bone broth blended with fermented miso paste, topped with chashu pork, soft-boiled egg (ajitama), corn, butter, bean sprouts, scallions, and nori.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":30,"cookTimeMinutes":480,"baseServingSize":2,"spiceLevel":"Medium","season":["winter","autumn"]},
+          ingredients: [{"amount":1,"unit":"kg","name":"pork bones","notes":"Femur and neck bones, blanched and scrubbed clean for a milky tonkotsu base."},{"amount":3,"unit":"tbsp","name":"white miso paste","notes":"Aka or awase miso also works. Adds fermented depth and salinity."},{"amount":2,"unit":"portions","name":"fresh ramen noodles","notes":"Wavy, medium-thick. Cook separately and drain just before serving."},{"amount":200,"unit":"g","name":"chashu pork belly","notes":"Braised in soy, mirin, and sake until meltingly tender, then sliced."},{"amount":2,"unit":"whole","name":"soft-boiled eggs","notes":"Marinated overnight in soy-mirin brine for ajitama."},{"amount":1,"unit":"tbsp","name":"unsalted butter","notes":"A pat per bowl, Sapporo-style. Melts into the broth."},{"amount":0.5,"unit":"cup","name":"sweet corn kernels","notes":"Adds sweetness that contrasts the salty miso."},{"amount":1,"unit":"cup","name":"bean sprouts","notes":"Raw or briefly blanched for crunch."},{"amount":2,"unit":"sheets","name":"nori","notes":"Toasted seaweed, tucked into the side of each bowl."},{"amount":2,"unit":"stalks","name":"scallions","notes":"Thinly sliced for garnish."}],
+          instructions: ["Step 1: The Broth. Blanch pork bones in boiling water for 10 minutes, then drain and scrub off any scum. Return to a clean pot, cover with fresh water, and boil aggressively for 6-8 hours, adding water as needed, until the broth turns opaque and creamy white.","Step 2: The Tare. In a separate pan, heat a splash of sesame oil and fry minced garlic and ginger until fragrant. Add miso paste and stir constantly for 2 minutes to deepen its flavor without burning. Set aside as the flavor base.","Step 3: The Assembly. Cook ramen noodles in rapidly boiling water for 60-90 seconds until just al dente. Drain thoroughly and shake dry. Place the miso tare in the bottom of each bowl.","Step 4: The Pour. Ladle the boiling pork broth over the tare and stir vigorously to dissolve. Add the drained noodles to the center of each bowl.","Step 5: The Toppings. Arrange chashu slices, halved ajitama egg, corn, bean sprouts, a pat of butter, nori sheets, and sliced scallions on top. Serve immediately while the broth is still rolling hot."],
+          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["boiling","simmering","braising"]},
+          elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.25,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Crescent"]},
+          nutritionPerServing: {"calories":680,"proteinG":32,"carbsG":65,"fatG":32,"fiberG":4,"sodiumMg":1200,"sugarG":6,"vitamins":["Vitamin B12","Niacin","Folate"],"minerals":["Iron","Zinc","Manganese"]},
 
-          elementalProperties: {
-            Fire: 0.07,
-            Water: 0.37,
-            Earth: 0.48,
-            Air: 0.08,
-          },
-          mealType: ["lunch", "dinner"],
+          alchemicalProperties: {"Spirit":2.56,"Essence":3.56,"Matter":4.1,"Substance":3.75},
+          thermodynamicProperties: {"heat":0.0453,"entropy":0.3036,"reactivity":1.771,"gregsEnergy":-0.4924,"kalchm":0.022,"monica":0.009},
+          substitutions: [{"originalIngredient":"pork bones","substituteOptions":["chicken bones (for tori paitan)","vegetable stock with soy milk (for vegan)"]},{"originalIngredient":"chashu pork belly","substituteOptions":["braised chicken thigh","marinated tofu"]}]
         },
         {
-          name: "Katsudon",
-          description: "Breaded pork cutlet with egg over rice",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "frying",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            "donburi-style",
-          ],
-          tools: [
-            "deep pot",
-            "donburi pan",
-            "rice cooker",
-            { name: "wire rack", category: "coating" },
-            "sharp knife",
-          ],
-          preparationSteps: [
-            "Prepare tonkatsu",
-            "Cook rice",
-            "Simmer dashi mixture",
-            "Add sliced tonkatsu",
-            "Pour beaten eggs",
-            "Steam until set",
-            "Serve over rice",
-          ],
+          name: "Katsudon (Breaded Pork Cutlet Rice Bowl)",
+          description: "A triumphant Japanese rice bowl that takes the already-spectacular Tonkatsu and transforms it into something even more comforting: the fried cutlet is sliced and simmered briefly in a sweet dashi-soy broth with onions and softly set egg before being poured over rice. The panko crust softens slightly to absorb the broth while retaining its character.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":20,"cookTimeMinutes":20,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
           ingredients: [
-            {
-              name: "pork cutlet",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-              swaps: ["chicken", "tofu"],
-            },
-            { name: "eggs", amount: "2", unit: "large", category: "protein" },
-            {
-              name: "onion",
-              amount: "1",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "steamed rice",
-              amount: "400",
-              unit: "g",
-              category: "grain",
-            },
-            { name: "dashi", amount: "200", unit: "ml", category: "broth" },
-            {
-              name: "panko breadcrumbs",
-              amount: "100",
-              unit: "g",
-              category: "coating",
-            },
+            {"amount":2,"unit":"cuts","name":"pork loin chops","notes":"About 3/4 inch thick, fat scored. Used to make Tonkatsu first."},
+            {"amount":0.5,"unit":"cup","name":"all-purpose flour","notes":"For dredging the pork."},
+            {"amount":1,"unit":"large","name":"egg for breading","notes":"Beaten, for the breading stage."},
+            {"amount":1.5,"unit":"cups","name":"panko breadcrumbs","notes":"Fresh, large-flake panko for maximum crunch."},
+            {"amount":3,"unit":"cups","name":"frying oil","notes":"Neutral oil for deep-frying the cutlets."},
+            {"amount":1,"unit":"medium","name":"onion","notes":"Halved and thinly sliced."},
+            {"amount":4,"unit":"large","name":"eggs for topping","notes":"Lightly beaten, for the egg finish."},
+            {"amount":0.5,"unit":"cup","name":"dashi stock","notes":"The braising liquid base."},
+            {"amount":3,"unit":"tbsp","name":"soy sauce","notes":"For the braising broth."},
+            {"amount":2,"unit":"tbsp","name":"mirin","notes":"For sweetness and gloss."},
+            {"amount":1,"unit":"tsp","name":"sugar","notes":"Rounds the broth flavor."},
+            {"amount":2,"unit":"cups","name":"steamed Japanese rice","notes":"Hot, freshly cooked."}
           ],
-          substitutions: {
-            pork: ["chicken cutlet", "tofu steak"],
-            dashi: ["vegetable stock"],
-            eggs: ["Just Egg", "soft tofu"],
-          },
-          servingSize: 2,
-          allergens: ["wheat", "egg", "soy"],
-          prepTime: "20 minutes",
-          cookTime: "25 minutes",
-          culturalNotes:
-            "A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese",
-          pairingSuggestions: ["miso soup", "pickled vegetables", "green tea"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 850,
-            protein: 45,
-            carbs: 90,
-            fat: 38,
-            fiber: 3,
-            vitamins: ["B1", "B12", "D"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
+          instructions: [
+            "Step 1: The Tonkatsu. Score the fat cap of each pork chop. Season with salt and pepper. Bread in flour, beaten egg, and panko, pressing firmly. Deep-fry in oil at 340 degrees F (170 degrees C) for 5-6 minutes until deeply golden. Rest on a wire rack for 3 minutes, then slice into 1-inch strips.",
+            "Step 2: The Broth. In a wide, shallow oyakodon pan, combine dashi, soy sauce, mirin, and sugar. Bring to a simmer over medium heat.",
+            "Step 3: The Onions. Add the sliced onions to the broth and simmer for 3-4 minutes until they are soft and sweet.",
+            "Step 4: The Katsu. Lay the sliced Tonkatsu strips over the onions in the pan. Let them sit in the simmering broth for 1 minute to absorb flavor. The crust will soften slightly and soak up the savory liquid.",
+            "Step 5: The Egg and Serve. Pour the beaten egg in a circular motion over the katsu. Cover immediately and cook for 45-60 seconds until the egg is barely set and still trembling in the center. Slide the entire contents over a bowl of hot rice. Serve immediately."
+          ],
+          classifications: {"mealType":["lunch","dinner"],"cookingMethods":["deep-frying","simmering","breading"]},
+          elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
+          astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":820,"proteinG":46,"carbsG":72,"fatG":36,"fiberG":4,"sodiumMg":920,"sugarG":9,"vitamins":["Thiamin","Vitamin B6","Choline"],"minerals":["Zinc","Iron","Phosphorus"]},
 
-          elementalProperties: {
-            Fire: 0.21,
-            Water: 0.32,
-            Earth: 0.37,
-            Air: 0.1,
-          },
-          mealType: ["lunch", "dinner"],
+          alchemicalProperties: {"Spirit":3.76,"Essence":4.95,"Matter":5.36,"Substance":5.01},
+          thermodynamicProperties: {"heat":0.0564,"entropy":0.3372,"reactivity":1.9962,"gregsEnergy":-0.6168,"kalchm":0.0154,"monica":0.8564},
+          substitutions: [{"originalIngredient":"pork loin chops","substituteOptions":["chicken breast (for chicken katsudon)","firm tofu (for vegan katsudon)"]},{"originalIngredient":"panko breadcrumbs","substituteOptions":["crushed cornflakes","regular breadcrumbs"]}]
         },
         {
           name: "Gyoza",
-          description: "Pan-fried dumplings with meat and vegetable filling",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-            {
-              name: "steaming",
-              elementalProperties: {
-                Fire: 0.06,
-                Water: 0.56,
-                Earth: 0.13,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "folding",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.18,
-                Earth: 0.18,
-                Air: 0.61,
-              },
-            },
-          ],
-          tools: [
-            "non-stick pan",
-            "spatula",
-            "mixing bowls",
-            "cutting board",
-            "gyoza press (optional)",
-          ],
-          preparationSteps: [
-            "Mix filling ingredients",
-            "Fill and fold wrappers",
-            "Heat pan with oil",
-            "Arrange gyoza",
-            "Add water and steam",
-            "Crisp bottom",
-            "Serve with dipping sauce",
-          ],
-          ingredients: [
-            {
-              name: "gyoza wrappers",
-              amount: "30",
-              unit: "pieces",
-              category: "grain",
-            },
-            {
-              name: "ground pork",
-              amount: "300",
-              unit: "g",
-              category: "protein",
-              swaps: ["mushrooms"],
-            },
-            {
-              name: "cabbage",
-              amount: "200",
-              unit: "g",
-              category: "vegetable",
-            },
-            { name: "chives", amount: "50", unit: "g", category: "vegetable" },
-            {
-              name: "ginger",
-              amount: "1",
-              unit: "tbsp",
-              category: "seasoning",
-            },
-            {
-              name: "garlic",
-              amount: "2",
-              unit: "cloves",
-              category: "seasoning",
-            },
-          ],
-          substitutions: {
-            "ground pork": ["minced mushrooms", "plant-based meat"],
-            "gyoza wrappers": ["rice paper", "homemade wrappers"],
-            cabbage: ["napa cabbage", "bok choy"],
-          },
-          servingSize: 4,
-          allergens: ["wheat", "soy"],
-          prepTime: "45 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "Adapted from Chinese jiaozi, gyoza became a Japanese favorite after WWII. The crispy bottom is a distinctive Japanese touch",
-          pairingSuggestions: ["ramen", "rice", "beer", "green tea"],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 280,
-            protein: 14,
-            carbs: 30,
-            fat: 12,
-            fiber: 3,
-            vitamins: ["A", "C"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
+          description: "Thin wheat wrappers filled with ground pork, cabbage, garlic chives, ginger, and sesame oil, pan-fried to achieve a crispy golden bottom while the top steams to tenderness.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":45,"cookTimeMinutes":15,"baseServingSize":2,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":250,"unit":"g","name":"ground pork","notes":"Not too lean; some fat keeps the filling juicy."},{"amount":2,"unit":"cups","name":"napa cabbage","notes":"Finely chopped, salted, and squeezed dry to prevent soggy wrappers."},{"amount":0.25,"unit":"cup","name":"garlic chives (nira)","notes":"Finely minced. Essential for authentic gyoza flavor."},{"amount":1,"unit":"tbsp","name":"fresh ginger","notes":"Grated finely. Brightens the pork filling."},{"amount":1,"unit":"tbsp","name":"sesame oil","notes":"Toasted, mixed into the filling for fragrance."},{"amount":1,"unit":"tbsp","name":"soy sauce","notes":"Seasons the filling from within."},{"amount":30,"unit":"sheets","name":"gyoza wrappers","notes":"Thin, round wrappers. Thinner than wonton skins."},{"amount":2,"unit":"tbsp","name":"vegetable oil","notes":"For pan-frying the bottoms to golden crispness."}],
+          instructions: ["Step 1: The Filling. Combine ground pork, squeezed cabbage, garlic chives, grated ginger, sesame oil, and soy sauce in a bowl. Mix vigorously in one direction until the mixture becomes sticky and cohesive. Refrigerate for 15 minutes to firm up.","Step 2: The Pleating. Place a scant tablespoon of filling in the center of each wrapper. Wet the edge with water, fold in half, and create 5-6 pleats along one side, pressing firmly to seal. Stand each gyoza upright so the flat bottom rests evenly.","Step 3: The Sear. Heat vegetable oil in a large non-stick skillet over medium-high heat. Arrange gyoza in tight rows, flat side down. Cook without moving for 2-3 minutes until the bottoms are deeply golden brown.","Step 4: The Steam. Add 0.25 cup water to the hot pan and immediately cover with a tight lid. Steam for 3-4 minutes until the wrappers turn translucent and the filling is cooked through. Remove the lid and let any remaining water evaporate.","Step 5: The Serve. Slide the gyoza onto a plate, crispy side up. Serve with a dipping sauce of rice vinegar, soy sauce, and chili oil. Eat immediately while the bottoms are still crackling."],
+          classifications: {"mealType":["dinner","appetizer"],"cookingMethods":["pan-frying","steaming"]},
+          elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.3,"Air":0.15},
+          astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","virgo"],"lunarPhases":["First Quarter"]},
+          nutritionPerServing: {"calories":320,"proteinG":18,"carbsG":28,"fatG":16,"fiberG":2,"sodiumMg":680,"sugarG":2,"vitamins":["Vitamin K","Vitamin C","Thiamin"],"minerals":["Iron","Manganese","Selenium"]},
 
-          elementalProperties: {
-            Fire: 0.12,
-            Water: 0.47,
-            Earth: 0.31,
-            Air: 0.09,
-          },
-          mealType: ["appetizer", "side dish"],
+          alchemicalProperties: {"Spirit":3.7,"Essence":3.69,"Matter":3.53,"Substance":3.27},
+          thermodynamicProperties: {"heat":0.1113,"entropy":0.4116,"reactivity":2.6031,"gregsEnergy":-0.96,"kalchm":3.7884,"monica":0.3344},
+          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp and pork mix"]},{"originalIngredient":"napa cabbage","substituteOptions":["regular green cabbage","bok choy"]}]
         },
         {
           name: "Karaage",
-          description: "Japanese-style fried chicken",
-          cuisine: "Japanese",
-          cookingMethods: [
-            {
-              name: "marinating",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.44,
-                Earth: 0.19,
-                Air: 0.25,
-              },
-            },
-            {
-              name: "deep-frying",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.06,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-          ],
-          tools: [
-            "deep pot",
-            "wire rack",
-            "mixing bowls",
-            "paper towels",
-            "thermometer",
-          ],
-          preparationSteps: [
-            "Cut chicken into pieces",
-            "Marinate with seasonings",
-            "Coat with potato starch",
-            "Heat oil to 170°C",
-            "Double fry for crispiness",
-            "Drain and serve",
-          ],
-          ingredients: [
-            {
-              name: "chicken thigh",
-              amount: "600",
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.25,
-                Earth: 0.35,
-                Air: 0.15,
-              },
-            },
-            {
-              name: "soy sauce",
-              amount: "3",
-              unit: "tbsp",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            { name: "sake", amount: "2", unit: "tbsp", category: "seasoning" },
-            {
-              name: "ginger",
-              amount: "1",
-              unit: "tbsp",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garlic",
-              amount: "2",
-              unit: "cloves",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "potato starch",
-              amount: "100",
-              unit: "g",
-              category: "coating",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
-            },
-          ],
-          substitutions: {
-            "chicken thigh": ["tofu", "cauliflower"],
-            "potato starch": ["cornstarch"],
-            sake: ["rice vinegar + water"],
-          },
-          servingSize: 4,
-          allergens: ["soy"],
-          prepTime: "30 minutes",
-          cookTime: "20 minutes",
-          culturalNotes:
-            "A popular izakaya dish that showcases the Japanese approach to fried foods - light, crispy, and well-seasoned",
-          pairingSuggestions: [
-            "beer",
-            "rice",
-            "shredded cabbage",
-            "lemon wedges",
-          ],
-          dietaryInfo: ["contains meat"],
-          spiceLevel: "mild",
-          nutrition: {
-            calories: 380,
-            protein: 28,
-            carbs: 15,
-            fat: 24,
-            fiber: 3,
-            vitamins: ["B6", "B12"],
-            minerals: ["Iron", "Zinc"],
-          },
-          season: ["all"],
+          description: "Bite-sized chicken thigh marinated in ginger, garlic, soy sauce, and sake, then coated in potato starch and double-fried for extreme crispness.",
+          details: {"cuisine":"Japanese","prepTimeMinutes":40,"cookTimeMinutes":15,"baseServingSize":2,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":500,"unit":"g","name":"chicken thigh","notes":"Boneless, skin-on, cut into bite-sized pieces. Thigh meat stays juicy through double frying."},{"amount":2,"unit":"tbsp","name":"soy sauce","notes":"The base of the marinade. Use regular, not low-sodium."},{"amount":1,"unit":"tbsp","name":"sake","notes":"Tenderizes the meat and removes gaminess."},{"amount":1,"unit":"tbsp","name":"fresh ginger","notes":"Grated finely, juice and pulp included."},{"amount":2,"unit":"cloves","name":"garlic","notes":"Grated or minced very finely into the marinade."},{"amount":0.5,"unit":"cup","name":"potato starch (katakuriko)","notes":"Creates an ultra-crispy, shatteringly light crust. Not cornstarch."},{"amount":3,"unit":"cups","name":"frying oil","notes":"Neutral oil heated to 325 degrees F for first fry, 375 degrees F for second."},{"amount":1,"unit":"whole","name":"lemon","notes":"Cut into wedges for serving. The acid cuts through the richness."}],
+          instructions: ["Step 1: The Marinade. Combine soy sauce, sake, grated ginger, and garlic in a bowl. Add the chicken pieces and toss to coat. Marinate for 30 minutes at room temperature, or up to overnight in the refrigerator.","Step 2: The Coating. Remove chicken from marinade and let excess drip off. Toss pieces in potato starch, pressing lightly to adhere. Let sit for 5 minutes so the starch hydrates and forms a thin paste on the surface.","Step 3: The First Fry. Heat oil to 325 degrees F (160 degrees C). Fry chicken in batches for 3-4 minutes until pale golden and just cooked through. Remove to a wire rack and rest for 4 minutes. The residual heat continues cooking the interior.","Step 4: The Second Fry. Raise oil temperature to 375 degrees F (190 degrees C). Return all chicken to the oil for 60-90 seconds until the crust turns deep golden brown and audibly crackles. This second fry drives out surface moisture for maximum crispness.","Step 5: The Serve. Drain on a wire rack for 30 seconds. Pile onto a plate lined with paper, with lemon wedges and a small mound of Japanese mayonnaise on the side. Eat immediately."],
+          classifications: {"mealType":["dinner","snack","lunch"],"cookingMethods":["deep-frying"]},
+          elementalProperties: {"Fire":0.45,"Water":0.1,"Earth":0.25,"Air":0.2},
+          astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["leo","aries"],"lunarPhases":["Full Moon"]},
+          nutritionPerServing: {"calories":450,"proteinG":32,"carbsG":22,"fatG":26,"fiberG":1,"sodiumMg":780,"sugarG":2,"vitamins":["Niacin","Vitamin B6","Vitamin C"],"minerals":["Zinc","Iron","Selenium"]},
 
-          elementalProperties: {
-            Fire: 0.32,
-            Water: 0.24,
-            Earth: 0.32,
-            Air: 0.12,
-          },
-          mealType: ["appetizer", "main dish"],
+          alchemicalProperties: {"Spirit":3.48,"Essence":4.18,"Matter":3.85,"Substance":3.63},
+          thermodynamicProperties: {"heat":0.0826,"entropy":0.3635,"reactivity":2.5587,"gregsEnergy":-0.8476,"kalchm":1.5658,"monica":0.4376},
+          substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","firm tofu"]},{"originalIngredient":"potato starch","substituteOptions":["cornstarch","tapioca starch"]}]
         },
       ],
     },
@@ -2379,25 +1745,25 @@ export const japanese: Cuisine = {
       steaming: ["ponzu", "ginger sauce", "yuzu sauce", "dashi vinegar"],
     },
     byAstrological: {
-      fire: [
+      Fire: [
         "spicy yuzu kosho",
         "karashi mustard sauce",
         "wasabi dressing",
         "chili oil",
       ],
-      water: [
+      Water: [
         "clear dashi-based sauces",
         "gentle ponzu",
         "light broths",
         "nikiri",
       ],
-      earth: [
+      Earth: [
         "miso-based sauces",
         "thick teriyaki",
         "rich tonkatsu sauce",
         "sesame",
       ],
-      air: [
+      Air: [
         "citrus dressings",
         "light vinaigrettes",
         "delicate herb sauces",

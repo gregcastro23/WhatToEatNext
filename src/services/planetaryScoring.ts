@@ -7,6 +7,7 @@
  */
 
 import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type {
   Planet,
   ZodiacSignType,
@@ -174,6 +175,7 @@ export class PlanetaryScoringService {
       const response = await fetch("/api/astrologize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(4000), // 4 second timeout
         body: JSON.stringify({
           year: now.getFullYear(),
           month: now.getMonth() + 1,
@@ -539,45 +541,44 @@ export class PlanetaryScoringService {
   }
 
   private estimatePositions(date: Date): PlanetaryPosition[] {
-    const daysSinceJ2000 =
-      (date.getTime() - Date.UTC(2000, 0, 1, 12)) / 86400000;
-    const baseLongitudes: Record<string, number> = {
-      Sun: 280.46,
-      Moon: 218.32,
-      Mercury: 252.25,
-      Venus: 181.98,
-      Mars: 355.43,
-      Jupiter: 34.35,
-      Saturn: 49.94,
-    };
-    const dailyMotion: Record<string, number> = {
-      Sun: 0.9856,
-      Moon: 13.176,
-      Mercury: 1.383,
-      Venus: 1.2,
-      Mars: 0.524,
-      Jupiter: 0.0831,
-      Saturn: 0.0335,
-    };
-
-    return SCORING_PLANETS.map((planet) => {
-      const longitude =
-        ((baseLongitudes[planet] ?? 0) +
-          (dailyMotion[planet] ?? 0) * daysSinceJ2000) %
-        360;
-      const posLong = longitude < 0 ? longitude + 360 : longitude;
-      const signIdx = Math.floor(posLong / 30);
-      const degree = Math.floor(posLong % 30);
-      const minute = Math.floor(((posLong % 30) - degree) * 60);
-
-      return {
-        sign: ZODIAC_SIGNS[signIdx],
-        degree,
-        minute,
-        exactLongitude: posLong,
+    try {
+      const accuratePositions = getAccuratePlanetaryPositions(date);
+      return SCORING_PLANETS.map((planet) => {
+        const pos = accuratePositions[planet];
+        if (pos) {
+          const degreeInt = Math.floor(pos.degree);
+          const minuteInt = Math.floor((pos.degree - degreeInt) * 60);
+          return {
+            sign: pos.sign,
+            degree: degreeInt,
+            minute: minuteInt,
+            exactLongitude: pos.exactLongitude,
+            isRetrograde: pos.isRetrograde,
+            planet,
+          } as any;
+        }
+        
+        // Should not happen, but safe fallback
+        return {
+          sign: "aries",
+          degree: 0,
+          minute: 0,
+          exactLongitude: 0,
+          isRetrograde: false,
+          planet,
+        } as any;
+      });
+    } catch (e) {
+      console.error("Error calculating local accurate positions: ", e);
+      // Absolute worst case fallback to Aries 0
+      return SCORING_PLANETS.map((planet) => ({
+        sign: "aries",
+        degree: 0,
+        minute: 0,
+        exactLongitude: 0,
         isRetrograde: false,
         planet,
-      } as any;
-    });
+      } as any));
+    }
   }
 }

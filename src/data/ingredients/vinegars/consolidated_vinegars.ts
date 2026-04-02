@@ -1,5 +1,5 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
-import type { /* _ , */ ZodiacSignType } from "@/types/alchemy";
+import type { /* _ , */} from "@/types/alchemy";
 import type { Season } from "@/types/seasons";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 

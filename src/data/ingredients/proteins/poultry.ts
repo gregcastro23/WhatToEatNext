@@ -13,11 +13,11 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 170, unit: "g" }, // Standard serving: 6oz
     scaledElemental: { Fire: 0.14, Water: 0.36, Air: 0.36, Earth: 0.14 },
     alchemicalProperties: {
-      Spirit: 0.255,
-      Essence: 0.25,
-      Matter: 0.07,
-      Substance: 0.18,
-    },
+      Spirit: 0.12,
+      Essence: 0.40,
+      Matter: 0.65,
+      Substance: 0.70,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.02, forceMagnitude: 0.88 },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mercury"],
@@ -91,11 +91,11 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 150, unit: "g" }, // Standard serving: 5oz
     scaledElemental: { Fire: 0.34, Water: 0.26, Air: 0.26, Earth: 0.14 },
     alchemicalProperties: {
-      Spirit: 0.3,
-      Essence: 0.2,
-      Matter: 0.07,
-      Substance: 0.26,
-    },
+      Spirit: 0.30,
+      Essence: 0.55,
+      Matter: 0.70,
+      Substance: 0.65,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.12, forceMagnitude: 1.05 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
@@ -169,11 +169,11 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     quantityBase: { amount: 150, unit: "g" }, // Standard serving: 5oz breast
     scaledElemental: { Fire: 0.19, Water: 0.31, Air: 0.31, Earth: 0.19 }, // Scaled for harmony
     alchemicalProperties: {
-      Spirit: 0.25,
-      Essence: 0.245,
-      Matter: 0.095,
-      Substance: 0.19,
-    }, // Derived from scaled elemental
+      Spirit: 0.15,
+      Essence: 0.45,
+      Matter: 0.60,
+      Substance: 0.65,
+    }, // Independent SMES - not normalized
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.92 }, // Mild warming, gentle force
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],

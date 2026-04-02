@@ -600,7 +600,7 @@ export function getRecommendedCookingMethods(
  */
 export function getRecommendedIngredients(
   dayOfWeek: DayOfWeek,
-  mealType: MealType,
+  _mealType: MealType,
 ): string[] {
   const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
 

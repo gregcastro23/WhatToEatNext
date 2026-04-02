@@ -8,7 +8,6 @@
  *   Planetary: 30% | Nutrition: 30% | Preferences: 20% | Seasonal: 10% | Meal Timing: 10%
  */
 
-import type { Planet } from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
 import { MealTypeService, type MealType } from "./mealTypeService";
 import {
@@ -83,7 +82,7 @@ const WEIGHTS = {
 
 // --- Season data ---
 
-const SEASON_MONTHS: Record<string, number[]> = {
+const _SEASON_MONTHS: Record<string, number[]> = {
   spring: [3, 4, 5],
   summer: [6, 7, 8],
   autumn: [9, 10, 11],

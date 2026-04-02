@@ -12,9 +12,9 @@
 
 import Link from "next/link";
 import React, { useRef, type TouchEvent as ReactTouchEvent } from "react";
-import type { RecommendedMeal } from "@/utils/menuPlanner/recommendationBridge";
 import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
+import type { RecommendedMeal } from "@/utils/menuPlanner/recommendationBridge";
 
 const logger = createLogger("RecipeSuggestionCarousel");
 
@@ -75,6 +75,13 @@ export default function RecipeSuggestionCarousel({
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const MIN_SWIPE = 50;
+
+  // Expandable sections state
+  const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({});
+
+  const toggleSection = (section: string) => {
+    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
+  };
 
   // ---- Navigation ----
   const handlePrev = () => {
@@ -319,14 +326,21 @@ export default function RecipeSuggestionCarousel({
             </div>
           )}
 
-          {/* Key ingredients */}
+          {/* Key ingredients — expandable */}
           {recipe.ingredients && recipe.ingredients.length > 0 && (
             <div className="px-5 pb-3">
-              <div className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
-                Key Ingredients
-              </div>
+              <button
+                onClick={() => toggleSection("ingredients")}
+                className="flex items-center justify-between w-full text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide hover:text-gray-700 transition-colors"
+              >
+                <span>Ingredients ({recipe.ingredients.length})</span>
+                <span className="text-sm">{expandedSections["ingredients"] ? "▲" : "▼"}</span>
+              </button>
               <div className="flex flex-wrap gap-1.5">
-                {recipe.ingredients.slice(0, 8).map((ing, idx) => (
+                {(expandedSections["ingredients"]
+                  ? recipe.ingredients
+                  : recipe.ingredients.slice(0, 8)
+                ).map((ing, idx) => (
                   <span
                     key={idx}
                     className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-lg"
@@ -334,33 +348,48 @@ export default function RecipeSuggestionCarousel({
                     {ing.amount} {ing.unit} {ing.name}
                   </span>
                 ))}
-                {recipe.ingredients.length > 8 && (
-                  <span className="px-2 py-1 bg-gray-50 text-gray-400 text-xs rounded-lg">
+                {!expandedSections["ingredients"] && recipe.ingredients.length > 8 && (
+                  <button
+                    onClick={() => toggleSection("ingredients")}
+                    className="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-lg hover:bg-purple-100 transition-colors"
+                  >
                     +{recipe.ingredients.length - 8} more
-                  </span>
+                  </button>
                 )}
               </div>
             </div>
           )}
 
-          {/* Instructions preview */}
+          {/* Instructions — expandable */}
           {recipe.instructions && recipe.instructions.length > 0 && (
             <div className="px-5 pb-4">
-              <div className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
-                Cooking Steps
-              </div>
+              <button
+                onClick={() => toggleSection("steps")}
+                className="flex items-center justify-between w-full text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide hover:text-gray-700 transition-colors"
+              >
+                <span>Cooking Steps ({recipe.instructions.length})</span>
+                <span className="text-sm">{expandedSections["steps"] ? "▲" : "▼"}</span>
+              </button>
               <ol className="space-y-1.5">
-                {recipe.instructions.slice(0, 4).map((step, idx) => (
+                {(expandedSections["steps"]
+                  ? recipe.instructions
+                  : recipe.instructions.slice(0, 4)
+                ).map((step, idx) => (
                   <li key={idx} className="flex gap-2 text-sm text-gray-700">
                     <span className="shrink-0 w-5 h-5 rounded-full bg-purple-100 text-purple-700 text-xs font-bold flex items-center justify-center mt-0.5">
                       {idx + 1}
                     </span>
-                    <span className="line-clamp-2">{step}</span>
+                    <span>{step}</span>
                   </li>
                 ))}
-                {recipe.instructions.length > 4 && (
-                  <li className="text-xs text-gray-400 pl-7">
-                    + {recipe.instructions.length - 4} more steps
+                {!expandedSections["steps"] && recipe.instructions.length > 4 && (
+                  <li>
+                    <button
+                      onClick={() => toggleSection("steps")}
+                      className="text-xs text-purple-600 pl-7 hover:text-purple-800 transition-colors"
+                    >
+                      + {recipe.instructions.length - 4} more steps
+                    </button>
                   </li>
                 )}
               </ol>

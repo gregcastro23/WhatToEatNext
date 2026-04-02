@@ -157,6 +157,7 @@ export interface AlchemicalProperties {
   Essence: number;
   Matter: number;
   Substance: number;
+  [key: string]: number;
 }
 
 // Thermodynamic properties

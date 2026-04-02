@@ -351,7 +351,7 @@ export function calculateDiversityScore(variance: PropertyVariance): number {
   if (allVariances.length === 0) return 0;
 
   // Normalize variances to 0-1 scale (assuming max variance of 0.25 for properties)
-  const normalizedVariances = allVariances.map((v) => Math.min(v / 0.25, 1));
+  const normalizedVariances = allVariances.filter((v): v is number => v != null).map((v) => Math.min(v / 0.25, 1));
   const averageVariance =
     normalizedVariances.reduce((sum, v) => sum + v, 0) /
     normalizedVariances.length;

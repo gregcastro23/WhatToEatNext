@@ -12,6 +12,8 @@ export const braising: CookingMethodData = {
   name: "braising",
   description:
     "Slow cooking method where food is first seared at high temperature, then finished in a covered pot with liquid at lower temperature. This dual-stage process transforms tough, collagen-rich ingredients into tender, flavorful dishes through the gradual breakdown of connective tissues and the concentration of flavors. The enclosed environment creates a cycle of evaporation and condensation that continuously bastes the food, while the liquid medium facilitates the exchange of flavors between ingredients.",
+  shortDescription: "Combines searing Fire with slow, moist heat to break down and transform.",
+  culinaryArchetype: "The Alchemical Welder",
   elementalEffect: {
     Water: 0.4, // Primary element - dissolving and transformative
     Fire: 0.3, // Secondary element - initial sear and sustained heat

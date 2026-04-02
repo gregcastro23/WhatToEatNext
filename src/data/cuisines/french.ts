@@ -170,10 +170,10 @@ export const french: Cuisine = {
       braising: ["espagnole", "romesco", "chasseur"],
     },
     byAstrological: {
-      fire: ["espagnole", "bearnaise", "spicy tomato"],
-      earth: ["bechamel", "mornay", "mushroom"],
-      air: ["vinaigrette", "ravigote", "herb-infused"],
-      water: ["veloute", "hollandaise", "beurre blanc"],
+      Fire: ["espagnole", "bearnaise", "spicy tomato"],
+      Earth: ["bechamel", "mornay", "mushroom"],
+      Air: ["vinaigrette", "ravigote", "herb-infused"],
+      Water: ["veloute", "hollandaise", "beurre blanc"],
     },
     byDietary: {
       vegetarian: ["bechamel", "tomato", "romesco"],
@@ -192,2850 +192,2937 @@ export const french: Cuisine = {
     breakfast: {
       all: [
         {
-          id: "parisian-breakfast",
-          name: "Parisian Breakfast",
-          description:
-            "Traditional Parisian breakfast with croissant, café au lait, and strawberry preserves",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "warming",
-              elementalProperties: {
-                Fire: 0.31,
-                Water: 0.23,
-                Earth: 0.23,
-                Air: 0.23,
-              },
-            },
-            {
-              name: "brewing",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.41,
-                Earth: 0.12,
-                Air: 0.24,
-              },
-            },
-          ],
-          tools: [
-            "coffee maker",
-            "milk frother",
-            "small plates",
-            "butter knife",
-            "serving tray",
-          ],
-          preparationSteps: [
-            "Warm croissant in oven if desired",
-            "Brew strong coffee",
-            "Heat and froth milk",
-            "Combine coffee and hot milk for café au lait",
-            "Serve croissant with butter and preserves",
-            "Arrange everything on serving tray",
-          ],
-          instructions: [
-            "Warm croissant in oven if desired",
-            "Brew strong coffee",
-            "Heat and froth milk",
-            "Combine coffee and hot milk for café au lait",
-            "Serve croissant with butter and preserves",
-            "Arrange everything on serving tray",
-          ],
-          substitutions: {
-            croissant: ["sourdough bread", "whole grain bread"],
-            "whole milk": ["almond milk", "oat milk"],
-            "French butter": ["plant-based butter"],
+          "name": "Authentic Parisian Breakfast",
+          "description": "An exercise in extreme carbohydrate minimalism and ingredient perfection. A true Parisian breakfast is not a heavy cooked meal; it relies entirely on the structural integrity of freshly baked, laminated butter pastries (viennoiserie), a segment of fresh baguette, high-quality butter, preserves, and the sharp bitterness of espresso or café au lait.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 5,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 1,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 1,
-          allergens: ["dairy", "gluten"],
-          prepTime: "5 minutes",
-          cookTime: "10 minutes",
-          culturalNotes:
-            "The quintessential Parisian breakfast, traditionally enjoyed at a café or home",
-          pairingSuggestions: ["fresh orange juice", "fresh fruit", "yogurt"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          ingredients: [
+          "ingredients": [
             {
-              name: "butter croissant",
-              amount: 1,
-              unit: "piece",
-              category: "pastry",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "whole",
+              "name": "Croissant au Beurre",
+              "notes": "Must be made with pure butter, featuring a shatteringly crisp exterior and a highly aerated, honeycomb interior."
             },
             {
-              name: "French butter",
-              amount: 30,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 0.25,
+              "unit": "loaf",
+              "name": "Baguette Tradition",
+              "notes": "Freshly baked that morning. Sliced horizontally."
             },
             {
-              name: "strawberry preserves",
-              amount: 30,
-              unit: "g",
-              category: "preserve",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.15,
-                Air: 0.15,
-              },
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "beurre d'Isigny (cultured butter)",
+              "notes": "Slightly salted, cultured butter provides a complex tang."
             },
             {
-              name: "coffee",
-              amount: 120,
-              unit: "ml",
-              category: "beverage",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.3,
-                Earth: 0.2,
-                Air: 0.1,
-              },
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "Confiture (fruit preserves)",
+              "notes": "Strawberry, apricot, or bitter orange."
             },
             {
-              name: "whole milk",
-              amount: 120,
-              unit: "ml",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "cup",
+              "name": "Café au Lait or Espresso",
+              "notes": "Strong coffee."
             },
+            {
+              "amount": 1,
+              "unit": "glass",
+              "name": "fresh orange juice",
+              "notes": "Freshly squeezed."
+            }
           ],
-          nutrition: {
-            calories: 420,
-            protein: 8,
-            carbs: 48,
-            fat: 24,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium"],
-          },
-          timeToMake: "15 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.37,
-            Earth: 0.34,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Venus - The buttery richness of the croissant",
-            "Mercury - The stimulating effects of coffee",
+          "instructions": [
+            "Step 1: Procure the items. This meal involves no active cooking, only sourcing. The croissant and baguette must be purchased fresh from a boulangerie that morning.",
+            "Step 2: Prepare the Tartine. Slice the baguette segment horizontally. Spread the cultured butter generously on the crumb. Top with a layer of fruit preserves.",
+            "Step 3: The Beverage. Prepare a strong espresso or a large bowl of café au lait (equal parts brewed coffee and hot, un-frothed milk).",
+            "Step 4: The Ritual. Consume the croissant plain, tearing it gently to appreciate the lamination. Dip the tartine (buttered baguette) directly into the hot coffee. Serve alongside cold orange juice."
           ],
-          astrologicalAffinities: {
-            planets: ["Moon", "Venus"],
-            signs: ["Taurus", "Cancer"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "classifications": {
+            "mealType": [
+              "breakfast"
+            ],
+            "cookingMethods": [
+              "assembling"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Taurus", "Cancer"],
-          numberOfServings: 1,
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.3
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Gemini"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 520,
+            "proteinG": 9,
+            "carbsG": 62,
+            "fatG": 26,
+            "fiberG": 3,
+            "sodiumMg": 380,
+            "sugarG": 24,
+            "vitamins": [
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.37,"Essence":3.11,"Matter":2.23,"Substance":2.03},
+          thermodynamicProperties: {"heat":0.0812,"entropy":0.274,"reactivity":2.7209,"gregsEnergy":-0.6643,"kalchm":10.4641,"monica":0.4376},
+          "substitutions": [
+            {
+              "originalIngredient": "Croissant",
+              "substituteOptions": [
+                "Pain au Chocolat"
+              ]
+            }
+          ]
         },
         {
-          id: "eggs-en-cocotte",
-          name: "Eggs en Cocotte with Cream and Herbs",
-          description:
-            "Baked eggs in ramekins with cream and fine herbs - a refined French breakfast",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "water bath",
-              elementalProperties: {
-                Fire: 0.13,
-                Water: 0.6,
-                Earth: 0.13,
-                Air: 0.13,
-              },
-            },
-          ],
-          tools: [
-            "ramekins",
-            "baking dish",
-            "kettle",
-            "measuring spoons",
-            "serving plates",
-          ],
-          preparationSteps: [
-            "Preheat oven to 350°F/180°C",
-            "Butter ramekins generously",
-            "Add cream and herbs to ramekins",
-            "Crack eggs into ramekins",
-            "Place in baking dish with hot water",
-            "Bake for 12-15 minutes",
-            "Season with salt and white pepper",
-            "Serve with toasted bread",
-          ],
-          instructions: [
-            "Preheat oven to 350°F/180°C",
-            "Butter ramekins generously",
-            "Add cream and herbs to ramekins",
-            "Crack eggs into ramekins",
-            "Place in baking dish with hot water",
-            "Bake for 12-15 minutes",
-            "Season with salt and white pepper",
-            "Serve with toasted bread",
-          ],
-          substitutions: {
-            "crème fraîche": ["soy cream", "almond cream"],
-            eggs: ["vegan egg substitute"],
-            butter: ["olive oil"],
+          "name": "Authentic Oeufs en Cocotte (Baked Eggs)",
+          "description": "A refined French breakfast technique. Eggs are gently baked in individual ramekins within a water bath (bain-marie) with heavy cream and herbs. The goal is a perfectly set, opaque white with a warm, completely fluid yolk that mixes into the cream to form a rich sauce.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 2,
-          allergens: ["eggs", "dairy"],
-          prepTime: "5 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "A refined breakfast dish popular in French bistros and home kitchens",
-          pairingSuggestions: ["rustic bread", "fresh herbs", "fleur de sel"],
-          dietaryInfo: ["vegetarian", "gluten-free optional"],
-          spiceLevel: "none",
-          ingredients: [
+          "ingredients": [
             {
-              name: "fresh eggs",
-              amount: 2,
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Must be very fresh."
             },
             {
-              name: "crème fraîche",
-              amount: 60,
-              unit: "ml",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.5,
-                Earth: 0.3,
-                Air: 0.1,
-              },
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "crème fraîche or heavy cream",
+              "notes": "Divided use: bottom and top."
             },
             {
-              name: "fine herbs",
-              amount: 1,
-              unit: "tbsp",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "For greasing the ramekins."
             },
             {
-              name: "unsalted butter",
-              amount: 15,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh chives",
+              "notes": "Finely chopped."
             },
             {
-              name: "sea salt",
-              amount: 0,
-              unit: "to taste",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.15,
-                Earth: 0.65,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh tarragon",
+              "notes": "Finely chopped."
             },
             {
-              name: "white pepper",
-              amount: 0,
-              unit: "to taste",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.6,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.1,
-              },
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "flaky sea salt",
+              "notes": "To taste."
             },
             {
-              name: "rustic bread",
-              amount: 2,
-              unit: "slices",
-              category: "bread",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground."
             },
+            {
+              "amount": 2,
+              "unit": "slices",
+              "name": "baguette",
+              "notes": "Toasted, cut into 'mouillettes' (soldiers) for dipping."
+            }
           ],
-          nutrition: {
-            calories: 380,
-            protein: 18,
-            carbs: 22,
-            fat: 26,
-            fiber: 3,
-            vitamins: ["A", "D", "B12"],
-            minerals: ["Iron", "Calcium"],
-          },
-          timeToMake: "20 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.18,
-            Earth: 0.47,
-            Air: 0.14,
-          },
-          astrologicalInfluences: [
-            "Moon - The nurturing quality of eggs and cream",
-            "Neptune - The dreamy texture of baked eggs",
+          "instructions": [
+            "Step 1: Prep. Preheat oven to 375°F (190°C). Generously butter two 8-oz ramekins.",
+            "Step 2: The Base. Place 1 tablespoon of crème fraîche in the bottom of each ramekin.",
+            "Step 3: The Eggs. Carefully crack two eggs into each ramekin, ensuring the yolks remain intact.",
+            "Step 4: The Top. Spoon another 1 tablespoon of crème fraîche over the egg whites in each ramekin (try to avoid covering the yolks so they remain visible). Season with salt and pepper.",
+            "Step 5: The Bain-Marie. Place the ramekins in a deep baking dish. Pour boiling water into the dish until it reaches halfway up the sides of the ramekins.",
+            "Step 6: Bake. Carefully transfer to the oven. Bake for 12-15 minutes. The whites should be just set and slightly jiggly, and the yolks completely runny.",
+            "Step 7: Serve. Carefully remove the ramekins from the water bath (they will continue to cook slightly). Garnish generously with chives and tarragon. Serve immediately with toasted baguette soldiers for dipping."
           ],
-          astrologicalAffinities: {
-            planets: ["Moon", "Neptune"],
-            signs: ["Cancer", "Pisces"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "classifications": {
+            "mealType": [
+              "breakfast",
+              "brunch",
+              "vegetarian"
+            ],
+            "cookingMethods": [
+              "baking",
+              "water bath"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Cancer", "Pisces"],
-          numberOfServings: 2,
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.45,
+            "Earth": 0.2,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Cancer",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 380,
+            "proteinG": 14,
+            "carbsG": 15,
+            "fatG": 28,
+            "fiberG": 1,
+            "sodiumMg": 450,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin D",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Calcium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.13,"Essence":2.14,"Matter":3.17,"Substance":3.01},
+          thermodynamicProperties: {"heat":0.0542,"entropy":0.3845,"reactivity":1.6238,"gregsEnergy":-0.5702,"kalchm":0.0239,"monica":0.8752},
+          "substitutions": [
+            {
+              "originalIngredient": "crème fraîche",
+              "substituteOptions": [
+                "heavy cream"
+              ]
+            }
+          ]
         },
         {
-          id: "classic-french-toast",
-          name: "Classic French Toast",
-          description: "Traditional French toast with brioche and vanilla bean",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-            {
-              name: "soaking",
-              elementalProperties: {
-                Fire: 0,
-                Water: 0.75,
-                Earth: 0.17,
-                Air: 0.08,
-              },
-            },
-          ],
-          tools: [
-            "non-stick pan",
-            "shallow dish",
-            "whisk",
-            "spatula",
-            "measuring cups",
-          ],
-          preparationSteps: [
-            "Split vanilla bean and scrape seeds",
-            "Whisk eggs with milk, vanilla, and sugar",
-            "Soak brioche slices in mixture",
-            "Heat butter in pan until foamy",
-            "Cook slices until golden brown",
-            "Dust with powdered sugar",
-            "Serve with maple syrup or honey",
-          ],
-          instructions: [
-            "Split vanilla bean and scrape seeds",
-            "Whisk eggs with milk, vanilla, and sugar",
-            "Soak brioche slices in mixture",
-            "Heat butter in pan until foamy",
-            "Cook slices until golden brown",
-            "Dust with powdered sugar",
-            "Serve with maple syrup or honey",
-          ],
-          substitutions: {
-            brioche: ["gluten-free milk bread", "challah"],
-            "whole milk": ["almond milk", "soy milk"],
-            "clarified butter": ["coconut oil", "ghee"],
+          "name": "Authentic French Toast",
+          "description": "An essential technique for utilizing stale bread. The bread must be sufficiently dehydrated to absorb the egg-and-milk custard without disintegrating, then cooked slowly in butter to create a caramelized, slightly crisp exterior and a molten, custardy interior.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 3,
-          allergens: ["eggs", "dairy", "gluten"],
-          prepTime: "10 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "While called 'French toast' in English, in France it's known as 'pain perdu' (lost bread), as it was originally a way to use stale bread",
-          pairingSuggestions: ["fresh berries", "crème fraîche", "maple syrup"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          ingredients: [
+          "ingredients": [
             {
-              name: "brioche",
-              amount: 6,
-              unit: "slices",
-              category: "bread",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.15,
-                Earth: 0.5,
-                Air: 0.15,
-              },
+              "amount": 4,
+              "unit": "slices",
+              "name": "stale brioche or challah",
+              "notes": "Cut 1-inch thick. If not stale, toast lightly in the oven to dry out."
             },
             {
-              name: "eggs",
-              amount: 3,
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Room temperature."
             },
             {
-              name: "whole milk",
-              amount: 240,
-              unit: "ml",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.6,
-                Earth: 0.2,
-                Air: 0.1,
-              },
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "whole milk",
+              "notes": "Provides richness."
             },
             {
-              name: "vanilla bean",
-              amount: 1,
-              unit: "piece",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For a denser custard."
             },
             {
-              name: "granulated sugar",
-              amount: 30,
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "granulated sugar",
+              "notes": "Aids in caramelization."
             },
             {
-              name: "clarified butter",
-              amount: 45,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "tsp",
+              "name": "pure vanilla extract",
+              "notes": "Flavor enhancer."
             },
             {
-              name: "cinnamon",
-              amount: 0.25,
-              unit: "tsp",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.45,
-                Water: 0.1,
-                Earth: 0.35,
-                Air: 0.1,
-              },
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "ground cinnamon",
+              "notes": "Aromatic."
             },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "salt",
+              "notes": "To balance the sweetness."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "For frying."
+            }
           ],
-          nutrition: {
-            calories: 460,
-            protein: 16,
-            carbs: 52,
-            fat: 24,
-            fiber: 3,
-            vitamins: ["A", "D", "E"],
-            minerals: ["Calcium", "Iron"],
-          },
-          timeToMake: "25 minutes",
-          season: ["all"],
-          mealType: ["breakfast"],
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.25,
-            Earth: 0.45,
-            Air: 0.11,
-          },
-          astrologicalInfluences: [
-            "Venus - The sweet, indulgent nature",
-            "Jupiter - The expansive, celebratory quality",
+          "instructions": [
+            "Step 1: The Custard. In a wide, shallow dish, thoroughly whisk the eggs, milk, cream, sugar, vanilla, cinnamon, and salt.",
+            "Step 2: The Soak. Place the bread slices in the custard. Let them soak for exactly 1 minute per side. The bread should feel heavy but must not be falling apart.",
+            "Step 3: Heat the pan. Melt 1 tbsp of butter in a large skillet over medium-low heat. Do not let the pan get too hot, or the outside will burn before the inside cooks.",
+            "Step 4: The Fry. Transfer the soaked bread to the skillet. Cook slowly for 3-4 minutes until deeply golden brown.",
+            "Step 5: The Flip. Add the remaining butter to the pan, flip the bread, and cook for another 3-4 minutes. The center should puff up slightly, indicating the eggs are cooked.",
+            "Step 6: Serve immediately with powdered sugar and real maple syrup."
           ],
-          astrologicalAffinities: {
-            planets: ["Venus", "Jupiter"],
-            signs: ["Taurus", "Leo"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "classifications": {
+            "mealType": [
+              "breakfast",
+              "brunch",
+              "vegetarian"
+            ],
+            "cookingMethods": [
+              "soaking",
+              "pan-frying"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Taurus", "Leo"],
-          numberOfServings: 3,
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.35,
+            "Air": 0.15
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Venus"
+            ],
+            "signs": [
+              "Leo",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 450,
+            "proteinG": 12,
+            "carbsG": 42,
+            "fatG": 26,
+            "fiberG": 2,
+            "sodiumMg": 380,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin A",
+              "Calcium"
+            ],
+            "minerals": [
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.23,"Essence":3.05,"Matter":3.28,"Substance":2.92},
+          thermodynamicProperties: {"heat":0.0496,"entropy":0.2784,"reactivity":1.742,"gregsEnergy":-0.4353,"kalchm":0.1595,"monica":0.8752},
+          "substitutions": [
+            {
+              "originalIngredient": "brioche",
+              "substituteOptions": [
+                "stale sourdough (for a tangier profile)",
+                "gluten-free bread"
+              ]
+            }
+          ]
         },
         {
-          name: "Quiche Lorraine",
-          description:
-            "Classic French savory custard tart with bacon, Gruyère cheese, and cream in buttery pastry",
-          cuisine: "french",
-          cookingMethods: [
+          "name": "Authentic Quiche Lorraine",
+          "description": "The definitive savory tart from the Lorraine region. It eschews cheese entirely in its traditional form, relying instead on a heavily reduced, ultra-rich egg and crème fraîche custard suspended over crisp lardons in a blind-baked shortcrust pastry.",
+          "details": {
+            "cuisine": "French (Lorraine)",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
+              "amount": 1,
+              "unit": "sheet",
+              "name": "pâte brisée (shortcrust pastry)",
+              "notes": "Blind-baked."
             },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "smoked bacon (lardons)",
+              "notes": "Cut into thick matchsticks."
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Plus 2 extra yolks for richness."
+            },
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "crème fraîche or heavy cream",
+              "notes": "Must be very high fat."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "whole milk",
+              "notes": "To thin the cream slightly."
+            },
+            {
+              "amount": 0.25,
+              "unit": "tsp",
+              "name": "freshly grated nutmeg",
+              "notes": "Essential aromatic."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Use sparingly depending on bacon saltiness."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "white pepper",
+              "notes": "Freshly ground."
+            }
           ],
-          ingredients: [
-            {
-              name: "pie crust",
-              amount: "1",
-              unit: "9-inch",
-              category: "grain",
-            },
-            { name: "bacon", amount: "200", unit: "g", category: "protein" },
-            {
-              name: "Gruyère cheese",
-              amount: "150",
-              unit: "g",
-              category: "dairy",
-            },
-            {
-              name: "heavy cream",
-              amount: "1",
-              unit: "cup",
-              category: "dairy",
-            },
-            { name: "eggs", amount: "4", unit: "large", category: "protein" },
-            { name: "nutmeg", amount: "1/4", unit: "tsp", category: "spice" },
+          "instructions": [
+            "Step 1: Blind Bake. Preheat oven to 375°F (190°C). Line a tart pan with the pastry. Cover with parchment, fill with pie weights, and bake for 15 mins. Remove weights and bake 5-10 mins more until the bottom is golden and completely dry. Let cool.",
+            "Step 2: The Lardons. Blanch the bacon in boiling water for 1 minute to remove harsh smokiness. Drain. In a dry skillet, fry the lardons until just crispy but not hard. Drain on paper towels.",
+            "Step 3: The Custard (Migaine). In a large bowl, whisk the eggs, extra yolks, crème fraîche, and milk together gently. Do not over-whisk, or you will create air bubbles that ruin the texture. Stir in the nutmeg, salt, and white pepper.",
+            "Step 4: Assemble. Scatter the cooked lardons evenly over the bottom of the blind-baked crust.",
+            "Step 5: The Pour. Carefully pour the liquid custard over the lardons until it reaches just below the rim of the crust.",
+            "Step 6: Bake. Carefully transfer to the oven. Bake for 30-35 minutes.",
+            "Step 7: The Jiggle. The quiche is done when the edges are puffed and set, but the center still jiggles slightly. It will continue to cook as it cools.",
+            "Step 8: Rest. Let it cool on a wire rack for at least 30 minutes before slicing. It is traditionally served warm or at room temperature, never piping hot."
           ],
-          substitutions: {
-            bacon: ["ham", "mushrooms"],
-            Gruyère: ["Swiss cheese", "Emmental"],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "brunch",
+              "dinner"
+            ],
+            "cookingMethods": [
+              "baking",
+              "whisking"
+            ]
           },
-          servingSize: 6,
-          allergens: ["gluten", "eggs", "dairy"],
-          prepTime: "20 minutes",
-          cookTime: "45 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 18,
-            carbs: 22,
-            fat: 26,
-            fiber: 1,
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          timeToMake: "65 minutes",
-          season: ["all"],
-          mealType: ["breakfast", "brunch", "lunch"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.25,
-            Earth: 0.45,
-            Air: 0.1,
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Moon"
+            ],
+            "signs": [
+              "taurus",
+              "cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
           },
+          "nutritionPerServing": {
+            "calories": 520,
+            "proteinG": 14,
+            "carbsG": 22,
+            "fatG": 42,
+            "fiberG": 1,
+            "sodiumMg": 580,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.36,"Essence":2.84,"Matter":3.15,"Substance":3.16},
+          thermodynamicProperties: {"heat":0.0559,"entropy":0.3431,"reactivity":1.8866,"gregsEnergy":-0.5914,"kalchm":0.1044,"monica":0.8752},
+          "substitutions": [
+            {
+              "originalIngredient": "bacon",
+              "substituteOptions": [
+                "sautéed mushrooms and leeks (for a vegetarian Quiche aux Champignons)"
+              ]
+            }
+          ]
         },
         {
-          name: "Brioche Perdue",
-          description:
-            "French brioche bread pudding with vanilla custard and caramelized sugar",
-          cuisine: "french",
-          cookingMethods: [
+          "name": "Authentic Brioche Perdue",
+          "description": "The luxurious, dessert-like iteration of French toast. Using enriched brioche bread allows the crumb to absorb an immense amount of a vanilla-heavy custard without disintegrating. It is cooked slowly in clarified butter to develop a deep, resonant caramel crust.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
+              "amount": 8,
+              "unit": "slices",
+              "name": "stale brioche loaf",
+              "notes": "Must be very stale. Cut exactly 1 inch thick."
             },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Room temperature."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "heavy whipping cream",
+              "notes": "Essential for the custard density."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "whole milk",
+              "notes": "To thin the cream."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "pure vanilla extract or paste",
+              "notes": "The dominant flavor."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "kosher salt",
+              "notes": "Flavor balance."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "clarified butter (ghee)",
+              "notes": "Prevents the milk solids from burning during the slow fry."
+            }
           ],
-          ingredients: [
-            {
-              name: "brioche",
-              amount: "4",
-              unit: "thick slices",
-              category: "grain",
-            },
-            { name: "eggs", amount: "3", unit: "large", category: "protein" },
-            {
-              name: "heavy cream",
-              amount: "1/2",
-              unit: "cup",
-              category: "dairy",
-            },
-            {
-              name: "vanilla extract",
-              amount: "1",
-              unit: "tsp",
-              category: "flavoring",
-            },
-            { name: "butter", amount: "3", unit: "tbsp", category: "fat" },
-            {
-              name: "powdered sugar",
-              amount: "2",
-              unit: "tbsp",
-              category: "sweetener",
-            },
+          "instructions": [
+            "Step 1: Stale the bread. If the brioche is fresh, dry the slices in a 250°F (120°C) oven for 15 minutes. It must be structurally rigid.",
+            "Step 2: The Custard. In a wide, shallow dish, whisk the eggs vigorously. Add the cream, milk, sugar, vanilla, and salt. Whisk until the sugar dissolves completely.",
+            "Step 3: The Deep Soak. Place the brioche slices in the custard. Let them soak for 2-3 minutes per side. They should be heavy and completely saturated through to the center.",
+            "Step 4: Heat the pan. Heat a large skillet over medium-low heat. Add the clarified butter.",
+            "Step 5: The Slow Fry. Carefully transfer the soaked slices to the skillet. Cook very slowly (about 4-5 minutes per side). The low heat allows the dense, wet interior to cook into a pudding-like texture before the outside burns.",
+            "Step 6: The Caramelization. The exterior should become deeply brown and caramelized. Serve immediately with fresh fruit and chantilly cream."
           ],
-          substitutions: {
-            brioche: ["challah", "croissants"],
-            "heavy cream": ["milk"],
+          "classifications": {
+            "mealType": [
+              "dessert",
+              "brunch"
+            ],
+            "cookingMethods": [
+              "soaking",
+              "pan-frying"
+            ]
           },
-          servingSize: 4,
-          allergens: ["gluten", "eggs", "dairy"],
-          prepTime: "10 minutes",
-          cookTime: "15 minutes",
-          nutrition: {
-            calories: 420,
-            protein: 12,
-            carbs: 45,
-            fat: 22,
-            fiber: 1,
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.35,
+            "Earth": 0.4,
+            "Air": 0.1
           },
-          timeToMake: "25 minutes",
-          season: ["all"],
-          mealType: ["breakfast", "brunch"],
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.2,
-            Earth: 0.35,
-            Air: 0.15,
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Leo",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
           },
+          "nutritionPerServing": {
+            "calories": 620,
+            "proteinG": 14,
+            "carbsG": 55,
+            "fatG": 38,
+            "fiberG": 2,
+            "sodiumMg": 450,
+            "sugarG": 22,
+            "vitamins": [
+              "Vitamin A",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.81,"Essence":3.19,"Matter":4.1,"Substance":3.74},
+          thermodynamicProperties: {"heat":0.0234,"entropy":0.2676,"reactivity":1.3627,"gregsEnergy":-0.3412,"kalchm":0.0026,"monica":0.8752},
+          "substitutions": [
+            {
+              "originalIngredient": "brioche",
+              "substituteOptions": [
+                "challah bread"
+              ]
+            }
+          ]
         },
       ],
     },
     lunch: {
       all: [
         {
-          id: "croque-monsieur",
-          name: "Classic Croque Monsieur",
-          description:
-            "The quintessential French grilled ham and cheese sandwich, elevated with creamy béchamel sauce",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "broiling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.12,
-                Air: 0.32,
-              },
-            },
-            {
-              name: "sauce-making",
-              elementalProperties: {
-                Fire: 0.27,
-                Water: 0.33,
-                Earth: 0.2,
-                Air: 0.2,
-              },
-            },
-          ],
-          tools: [
-            "saucepan",
-            "whisk",
-            "baking sheet",
-            "grater",
-            "pastry brush",
-          ],
-          preparationSteps: [
-            "Prepare béchamel sauce",
-            "Toast bread slices lightly",
-            "Layer ham and cheese",
-            "Spread béchamel on top",
-            "Add additional cheese",
-            "Broil until golden and bubbly",
-            "Garnish with fresh herbs",
-          ],
-          instructions: [
-            "Prepare béchamel sauce",
-            "Toast bread slices lightly",
-            "Layer ham and cheese",
-            "Spread béchamel on top",
-            "Add additional cheese",
-            "Broil until golden and bubbly",
-            "Garnish with fresh herbs",
-          ],
-          substitutions: {
-            "white ham": ["vegetarian ham", "smoked turkey"],
-            "Gruyère cheese": ["Emmental", "Swiss cheese"],
-            "white sandwich bread": ["gluten-free bread"],
+          "name": "Authentic Croque Monsieur",
+          "description": "A structural masterpiece of the Parisian café. It is a pressed sandwich that utilizes a thick béchamel sauce both inside (as moisture) and outside (as a gratin layer), combining with Gruyère cheese and Jambon de Paris to form a molten, savory, crispy brick.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
           },
-          servingSize: 2,
-          allergens: ["dairy", "gluten", "eggs"],
-          prepTime: "15 minutes",
-          cookTime: "10 minutes",
-          culturalNotes:
-            "A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a 'Croque Madame'",
-          pairingSuggestions: ["green salad", "cornichons", "Dijon mustard"],
-          dietaryInfo: ["contains pork"],
-          spiceLevel: "none",
-          ingredients: [
+          "ingredients": [
             {
-              name: "white sandwich bread",
-              amount: 4,
-              unit: "slices",
-              category: "bread",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
+              "amount": 4,
+              "unit": "slices",
+              "name": "Pain de Mie (white sandwich bread)",
+              "notes": "Must be firm enough to hold the béchamel without dissolving."
             },
             {
-              name: "white ham",
-              amount: 200,
-              unit: "g",
-              category: "charcuterie",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.25,
-                Earth: 0.5,
-                Air: 0.05,
-              },
+              "amount": 4,
+              "unit": "slices",
+              "name": "Jambon de Paris (high-quality cooked ham)",
+              "notes": "Thinly sliced."
             },
             {
-              name: "Gruyère cheese",
-              amount: 200,
-              unit: "g",
-              category: "cheese",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "Gruyère cheese",
+              "notes": "Freshly grated. Divided use."
             },
             {
-              name: "béchamel sauce",
-              amount: 200,
-              unit: "ml",
-              category: "sauce",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Dijon mustard",
+              "notes": "For spreading inside."
             },
             {
-              name: "unsalted butter",
-              amount: 30,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "For the béchamel."
             },
             {
-              name: "nutmeg",
-              amount: 1,
-              unit: "pinch",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.5,
-                Air: 0.2,
-              },
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "all-purpose flour",
+              "notes": "For the béchamel."
             },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "whole milk",
+              "notes": "Warm, for the béchamel."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "freshly grated nutmeg",
+              "notes": "For the béchamel."
+            }
           ],
-          nutrition: {
-            calories: 680,
-            protein: 42,
-            carbs: 45,
-            fat: 38,
-            fiber: 3,
-            vitamins: ["B12", "D", "A"],
-            minerals: ["Calcium", "Iron"],
-          },
-          timeToMake: "25 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.16,
-            Water: 0.22,
-            Earth: 0.51,
-            Air: 0.11,
-          },
-          astrologicalInfluences: [
-            "Taurus - The sensuous, indulgent nature",
-            "Venus - The harmonious balance of flavors",
+          "instructions": [
+            "Step 1: The Béchamel (Mornay). Melt butter in a small saucepan. Whisk in flour and cook for 1 minute. Slowly whisk in the warm milk until smooth. Simmer for 3 minutes until thick. Remove from heat, season with salt, pepper, and nutmeg. Stir in 1/4 cup of the grated Gruyère.",
+            "Step 2: Toast the bread. Lightly toast the bread slices in the oven so they are slightly rigid.",
+            "Step 3: Assemble the interior. Spread a thin layer of Dijon mustard on the inside of two slices. Top with a layer of the béchamel sauce. Add the ham slices, then a handful of Gruyère cheese.",
+            "Step 4: Close the sandwich. Place the top slices of bread on the sandwiches. Press down firmly.",
+            "Step 5: The Gratin. Spread a very thick, generous layer of the remaining béchamel over the top of the closed sandwiches. Pile the remaining Gruyère cheese high on top of the sauce.",
+            "Step 6: Bake. Place the sandwiches on a parchment-lined baking sheet. Bake at 400°F (200°C) for 10 minutes.",
+            "Step 7: Broil. Turn on the broiler. Broil the sandwiches for 2-3 minutes until the cheese is bubbling, completely melted, and has dark, scorched brown spots.",
+            "Step 8: Serve immediately. (Top with a fried egg to make it a Croque Madame)."
           ],
-          astrologicalAffinities: {
-            planets: ["Taurus", "Venus"],
-            signs: ["Taurus", "Virgo"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "sandwich",
+              "bistro food"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "assembling",
+              "baking",
+              "broiling"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Taurus", "Virgo"],
-          numberOfServings: 2,
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.15
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 680,
+            "proteinG": 35,
+            "carbsG": 45,
+            "fatG": 40,
+            "fiberG": 2,
+            "sodiumMg": 1200,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.42,"Essence":2.9,"Matter":2.95,"Substance":2.71},
+          thermodynamicProperties: {"heat":0.0683,"entropy":0.3193,"reactivity":1.9368,"gregsEnergy":-0.5502,"kalchm":0.5134,"monica":1.294},
+          "substitutions": [
+            {
+              "originalIngredient": "Gruyère cheese",
+              "substituteOptions": [
+                "Comté",
+                "Emmental"
+              ]
+            }
+          ]
         },
         {
-          id: "nicoise-salad",
-          name: "Niçoise Salad",
-          description:
-            "Classic Mediterranean salad from Nice with tuna, olives, and vegetables",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "boiling",
-              elementalProperties: {
-                Fire: 0.24,
-                Water: 0.59,
-                Earth: 0.12,
-                Air: 0.06,
-              },
-            },
-            {
-              name: "assembling",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.16,
-                Earth: 0.4,
-                Air: 0.4,
-              },
-            },
-          ],
-          tools: [
-            "large bowl",
-            "saucepan",
-            "colander",
-            "sharp knife",
-            "serving platter",
-          ],
-          preparationSteps: [
-            "Boil eggs until hard-cooked",
-            "Cook green beans until tender-crisp",
-            "Quarter tomatoes and arrange on platter",
-            "Add tuna, olives, and anchovies",
-            "Arrange eggs and vegetables",
-            "Drizzle with vinaigrette",
-            "Garnish with fresh herbs",
-          ],
-          instructions: [
-            "Boil eggs until hard-cooked",
-            "Cook green beans until tender-crisp",
-            "Quarter tomatoes and arrange on platter",
-            "Add tuna, olives, and anchovies",
-            "Arrange eggs and vegetables",
-            "Drizzle with vinaigrette",
-            "Garnish with fresh herbs",
-          ],
-          substitutions: {
-            tuna: ["marinated tempeh", "chickpeas"],
-            anchovies: ["capers", "black olives"],
-            eggs: ["firm tofu"],
+          "name": "Authentic Salade Niçoise",
+          "description": "A pristine, composed salad from the French Riviera. The authenticity of this dish is fiercely debated; a traditional Niçoise uses only raw, crisp vegetables (tomatoes, radishes, broad beans), hard-boiled eggs, anchovies, and tuna, dressed solely in olive oil. Cooked potatoes and green beans are technically a Parisian bastardization, though widely accepted today.",
+          "details": {
+            "cuisine": "French (Provence)",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "summer"
+            ]
           },
-          servingSize: 4,
-          allergens: ["eggs", "fish"],
-          prepTime: "20 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "Originally from Nice, this salad represents the essence of Provençal cuisine",
-          pairingSuggestions: ["crusty baguette", "rosé wine", "aioli"],
-          dietaryInfo: ["gluten-free"],
-          spiceLevel: "none",
-          ingredients: [
+          "ingredients": [
             {
-              name: "oil-packed tuna",
-              amount: 200,
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
+              "amount": 4,
+              "unit": "large",
+              "name": "vine-ripened tomatoes",
+              "notes": "Cut into wedges. The absolute star of the dish."
             },
             {
-              name: "green beans",
-              amount: 200,
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "can (5oz)",
+              "name": "high-quality tuna packed in olive oil",
+              "notes": "Drained, but reserve the oil for the dressing. (Fresh seared tuna is modern, canned is traditional)."
             },
             {
-              name: "tomatoes",
-              amount: 4,
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
+              "amount": 8,
+              "unit": "fillets",
+              "name": "anchovies in oil",
+              "notes": "Essential for umami."
             },
             {
-              name: "eggs",
-              amount: 4,
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Hard-boiled, peeled, and quartered."
             },
             {
-              name: "Niçoise olives",
-              amount: 100,
-              unit: "g",
-              category: "garnish",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.1,
-                Earth: 0.4,
-                Air: 0.2,
-              },
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "Niçoise olives",
+              "notes": "Small, black, and briny. Pit-in."
             },
             {
-              name: "anchovies",
-              amount: 8,
-              unit: "fillets",
-              category: "fish",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.55,
-                Earth: 0.2,
-                Air: 0.05,
-              },
+              "amount": 1,
+              "unit": "medium",
+              "name": "cucumber",
+              "notes": "Peeled and sliced."
             },
             {
-              name: "vinaigrette",
-              amount: 120,
-              unit: "ml",
-              category: "dressing",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.2,
-              },
+              "amount": 1,
+              "unit": "bunch",
+              "name": "radishes",
+              "notes": "Thinly sliced."
             },
+            {
+              "amount": 1,
+              "unit": "small",
+              "name": "red onion or scallions",
+              "notes": "Thinly sliced."
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "haricots verts (green beans)",
+              "notes": "Blanched (Parisian style) or raw broad beans (Traditional Niçoise style)."
+            },
+            {
+              "amount": 0.33,
+              "unit": "cup",
+              "name": "extra virgin olive oil",
+              "notes": "High quality."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "red wine vinegar",
+              "notes": "Optional; traditionalists use only the tomato juice and olive oil."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "flaky sea salt",
+              "notes": "To taste."
+            }
           ],
-          nutrition: {
-            calories: 420,
-            protein: 28,
-            carbs: 18,
-            fat: 32,
-            fiber: 3,
-            vitamins: ["D", "B12", "K"],
-            minerals: ["Iron", "Omega-3"],
-          },
-          timeToMake: "35 minutes",
-          season: ["spring", "summer"],
-          mealType: ["lunch"],
-          elementalProperties: {
-            Fire: 0.16,
-            Water: 0.47,
-            Earth: 0.27,
-            Air: 0.1,
-          },
-          astrologicalInfluences: [
-            "Mercury - The light, fresh quality",
-            "Neptune - The Mediterranean sea influence",
+          "instructions": [
+            "Step 1: Prep the vegetables. Arrange the tomato wedges on a large, wide serving platter. Sprinkle them generously with sea salt and let them sit for 5 minutes to release their juices.",
+            "Step 2: Architecture. Arrange the cucumbers, radishes, blanched green beans (if using), and onions aesthetically around the tomatoes. Do not toss the salad in a bowl.",
+            "Step 3: The Protein. Flake the canned tuna and mound it in the center of the platter. Arrange the quartered hard-boiled eggs around the edges.",
+            "Step 4: The Brine. Drape the anchovy fillets over the tomatoes and eggs. Scatter the Niçoise olives across the entire platter.",
+            "Step 5: The Dressing. Whisk the reserved tuna oil with the extra virgin olive oil and red wine vinegar. Drizzle this evenly over the composed salad. Season with fresh black pepper.",
+            "Step 6: Serve immediately. The diner mixes the salad on their own plate."
           ],
-          astrologicalAffinities: {
-            planets: ["Mercury", "Neptune"],
-            signs: ["Gemini", "Pisces"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "classifications": {
+            "mealType": [
+              "salad",
+              "lunch",
+              "dinner",
+              "low carb"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "assembling"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Gemini", "Pisces"],
-          numberOfServings: 4,
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.5,
+            "Earth": 0.3,
+            "Air": 0.15
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Neptune"
+            ],
+            "signs": [
+              "Virgo",
+              "Pisces"
+            ],
+            "lunarPhases": [
+              "Waning Crescent"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 420,
+            "proteinG": 22,
+            "carbsG": 12,
+            "fatG": 32,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 6,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin K",
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":3.75,"Essence":5.2,"Matter":5.34,"Substance":5.11},
+          thermodynamicProperties: {"heat":0.051,"entropy":0.3126,"reactivity":2.1217,"gregsEnergy":-0.6122,"kalchm":0.0235,"monica":0.4188},
+          "substitutions": [
+            {
+              "originalIngredient": "canned tuna and anchovies",
+              "substituteOptions": [
+                "chickpeas and capers (vegan)"
+              ]
+            },
+            {
+              "originalIngredient": "Niçoise olives",
+              "substituteOptions": [
+                "Kalamata olives"
+              ]
+            }
+          ]
         },
         {
-          id: "french-onion-soup",
-          name: "French Onion Soup",
-          description:
-            "Rich onion soup topped with toasted bread and melted Gruyère cheese",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "caramelizing",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.25,
-                Air: 0.19,
-              },
-            },
-            {
-              name: "simmering",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.53,
-                Earth: 0.17,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "broiling",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.12,
-                Air: 0.32,
-              },
-            },
-          ],
-          tools: [
-            "large pot",
-            "wooden spoon",
-            "ladle",
-            "oven-safe bowls",
-            "broiler",
-          ],
-          preparationSteps: [
-            "Slice onions thinly",
-            "Caramelize onions slowly in butter (30-40 minutes)",
-            "Add flour and cook briefly",
-            "Add wine and reduce by half",
-            "Add broth and simmer for 30 minutes",
-            "Toast bread slices",
-            "Ladle soup into bowls, top with bread and cheese",
-            "Broil until cheese is golden and bubbly",
-          ],
-          instructions: [
-            "Slice onions thinly",
-            "Caramelize onions slowly in butter (30-40 minutes)",
-            "Add flour and cook briefly",
-            "Add wine and reduce by half",
-            "Add broth and simmer for 30 minutes",
-            "Toast bread slices",
-            "Ladle soup into bowls, top with bread and cheese",
-            "Broil until cheese is golden and bubbly",
-          ],
-          substitutions: {
-            "beef stock": ["vegetable stock"],
-            "Gruyère cheese": ["Emmental", "plant-based cheese"],
-            butter: ["olive oil"],
+          "name": "Authentic Soupe à l'Oignon Gratinée (French Onion Soup)",
+          "description": "An exercise in extreme patience and reduction. A mountain of yellow onions is dry-cooked over hours until they collapse into a sweet, dark mahogany paste. This deep caramelization acts as the flavor engine for a rich beef broth, all sealed beneath a crusty bread raft and a violently bubbling mantle of Gruyère cheese.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy", "gluten"],
-          prepTime: "20 minutes",
-          cookTime: "70 minutes",
-          culturalNotes:
-            "Originally a peasant dish, this soup became a French classic. Traditional Parisian versions use beef stock and lots of sweet onions",
-          pairingSuggestions: ["red wine", "crusty bread", "green salad"],
-          dietaryInfo: ["vegetarian option"],
-          spiceLevel: "none",
-          ingredients: [
+          "ingredients": [
             {
-              name: "yellow onions",
-              amount: 1,
-              unit: "kg",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
+              "amount": 1.5,
+              "unit": "kg",
+              "name": "yellow onions",
+              "notes": "Thinly sliced pole-to-pole (not into rings) so they retain structure."
             },
             {
-              name: "beef stock",
-              amount: 1.5,
-              unit: "L",
-              category: "broth",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.7,
-                Earth: 0.1,
-                Air: 0.1,
-              },
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "For caramelizing the onions."
             },
             {
-              name: "baguette",
-              amount: 0.5,
-              unit: "piece",
-              category: "bread",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.55,
-                Air: 0.15,
-              },
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "olive oil",
+              "notes": "Raises the smoke point of the butter."
             },
             {
-              name: "Gruyère cheese",
-              amount: 200,
-              unit: "g",
-              category: "cheese",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "granulated sugar",
+              "notes": "Aids the Maillard reaction."
             },
             {
-              name: "butter",
-              amount: 50,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Draws out moisture."
             },
             {
-              name: "dry white wine",
-              amount: 200,
-              unit: "ml",
-              category: "wine",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "all-purpose flour",
+              "notes": "To slightly thicken the broth."
             },
             {
-              name: "fresh thyme",
-              amount: 4,
-              unit: "sprigs",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.5,
-              },
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "dry white wine or dry vermouth",
+              "notes": "For deglazing the fond."
             },
             {
-              name: "bay leaf",
-              amount: 1,
-              unit: "piece",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.15,
-                Earth: 0.2,
-                Air: 0.5,
-              },
+              "amount": 6,
+              "unit": "cups",
+              "name": "beef stock",
+              "notes": "Must be high quality, rich, and dark."
             },
             {
-              name: "all-purpose flour",
-              amount: 2,
-              unit: "tbsp",
-              category: "thickener",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
+              "amount": 2,
+              "unit": "sprigs",
+              "name": "fresh thyme",
+              "notes": "Aromatic."
             },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "bay leaf",
+              "notes": "Dried."
+            },
+            {
+              "amount": 4,
+              "unit": "slices",
+              "name": "French baguette",
+              "notes": "Toasted until rock hard."
+            },
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "Gruyère cheese",
+              "notes": "Freshly grated."
+            }
           ],
-          nutrition: {
-            calories: 420,
-            protein: 18,
-            carbs: 45,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["C", "B1"],
-            minerals: ["Iron", "Calcium"],
-          },
-          timeToMake: "90 minutes",
-          season: ["autumn", "winter"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.15,
-            Water: 0.3,
-            Earth: 0.38,
-            Air: 0.16,
-          },
-          astrologicalInfluences: [
-            "Saturn - The slow transformation of ingredients",
-            "Moon - The comforting, nurturing quality",
+          "instructions": [
+            "Step 1: The Caramelization (Crucial). In a large, heavy Dutch oven, melt the butter and oil over medium heat. Add the onions and toss to coat. Cover the pot and cook for 15 minutes to let them release their water and collapse.",
+            "Step 2: The Maillard Reaction. Remove the lid. Stir in the salt and sugar. Cook over medium-low heat for 45 to 60 minutes, stirring occasionally at first, then frequently as they darken. The onions must turn a deep, dark, rich mahogany brown. If they are blonde, the soup will be weak.",
+            "Step 3: The Roux. Once deeply caramelized, sprinkle the flour over the onions. Cook, stirring constantly, for 2 minutes to eliminate the raw flour taste.",
+            "Step 4: Deglaze. Pour in the white wine. Scrape up all the deeply browned bits (fond) from the bottom of the pot. Cook until the wine evaporates.",
+            "Step 5: The Broth. Pour in the beef stock. Add the thyme and bay leaf. Bring to a simmer, partially cover, and cook for 30-40 minutes to meld the flavors. Discard the herbs. Taste and adjust seasoning with salt and heavy black pepper.",
+            "Step 6: The Bread Raft. Lightly toast the baguette slices. Rub them with a raw clove of garlic if desired.",
+            "Step 7: The Gratin. Preheat the broiler. Ladle the hot soup into broiler-safe crocks. Place 1-2 slices of toasted baguette onto the surface of the soup (they should float). Pile a massive handful of grated Gruyère cheese over the bread, ensuring it touches the edges of the crock.",
+            "Step 8: Broil. Place the crocks under the broiler for 3-5 minutes until the cheese is bubbling, molten, and deeply browned with scorched spots. Serve immediately (carefully, as the bowls are molten hot)."
           ],
-          astrologicalAffinities: {
-            planets: ["Saturn", "Moon"],
-            signs: ["Capricorn", "Cancer"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "classifications": {
+            "mealType": [
+              "soup",
+              "dinner",
+              "comfort food"
+            ],
+            "cookingMethods": [
+              "caramelizing",
+              "simmering",
+              "broiling"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Capricorn", "Cancer"],
-          numberOfServings: 6,
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.45,
+            "Earth": 0.25,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Sun"
+            ],
+            "signs": [
+              "Capricorn",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 480,
+            "proteinG": 22,
+            "carbsG": 35,
+            "fatG": 26,
+            "fiberG": 5,
+            "sodiumMg": 950,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron",
+              "Zinc"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":3.05,"Essence":3.5,"Matter":5.56,"Substance":5.05},
+          thermodynamicProperties: {"heat":0.042,"entropy":0.3659,"reactivity":1.4015,"gregsEnergy":-0.4708,"kalchm":0.0,"monica":0.6974},
+          "substitutions": [
+            {
+              "originalIngredient": "beef stock",
+              "substituteOptions": [
+                "rich mushroom and kombu broth (for a vegetarian version)"
+              ]
+            },
+            {
+              "originalIngredient": "Gruyère cheese",
+              "substituteOptions": [
+                "Comté",
+                "Emmental"
+              ]
+            }
+          ]
         },
         {
-          name: "Salade Lyonnaise",
-          description:
-            "Classic Lyon-style salad with frisée, bacon lardons, poached egg, and warm vinaigrette",
-          cuisine: "french",
-          cookingMethods: [
+          "name": "Authentic Salade Lyonnaise",
+          "description": "A robust bistro classic from Lyon. It balances the bitter, sturdy greens of frisée with the intense, fatty richness of crispy pork lardons and a hot, bacon-fat vinaigrette. The dish is crowned with a perfectly poached egg, the yolk of which breaks to create a secondary, rich dressing.",
+          "details": {
+            "cuisine": "French (Lyon)",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "autumn",
+              "spring"
+            ]
+          },
+          "ingredients": [
             {
-              name: "poaching",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.5,
-                Earth: 0.13,
-                Air: 0.19,
-              },
+              "amount": 1,
+              "unit": "large head",
+              "name": "frisée lettuce",
+              "notes": "Washed, dried, and torn into bite-sized pieces. Only use the tender, pale yellow/green inner leaves."
             },
+            {
+              "amount": 150,
+              "unit": "g",
+              "name": "thick-cut smoked bacon (lardons)",
+              "notes": "Cut into 1/4-inch matchsticks."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "For poaching. Must be very fresh."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "white vinegar",
+              "notes": "For the poaching water."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Dijon mustard",
+              "notes": "For the vinaigrette."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "red wine vinegar",
+              "notes": "For the vinaigrette."
+            },
+            {
+              "amount": 1,
+              "unit": "small",
+              "name": "shallot",
+              "notes": "Finely minced."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "extra virgin olive oil",
+              "notes": "For the vinaigrette."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "croutons",
+              "notes": "Torn country bread, fried in butter or bacon fat."
+            }
           ],
-          ingredients: [
-            {
-              name: "frisée lettuce",
-              amount: "2",
-              unit: "heads",
-              category: "vegetable",
-            },
-            {
-              name: "bacon lardons",
-              amount: "150",
-              unit: "g",
-              category: "protein",
-            },
-            { name: "eggs", amount: "4", unit: "large", category: "protein" },
-            {
-              name: "shallots",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "red wine vinegar",
-              amount: "3",
-              unit: "tbsp",
-              category: "vinegar",
-            },
-            {
-              name: "Dijon mustard",
-              amount: "1",
-              unit: "tsp",
-              category: "condiment",
-            },
+          "instructions": [
+            "Step 1: The Greens. Place the dry frisée leaves in a large heatproof mixing bowl.",
+            "Step 2: The Lardons. In a skillet, fry the bacon matchsticks over medium heat until the fat renders out and they are crispy but still chewy (about 6-8 minutes). Remove the lardons with a slotted spoon and place them on the frisée.",
+            "Step 3: The Hot Vinaigrette. Leave exactly 2 tablespoons of hot bacon fat in the skillet. Add the minced shallot and cook for 30 seconds until softened. Remove from heat. Whisk in the Dijon mustard, red wine vinegar, and olive oil. Season with coarse black pepper.",
+            "Step 4: Poach the Eggs. Bring a deep pot of water to a gentle simmer. Add 1 tbsp white vinegar. Stir the water to create a gentle vortex. Slip the cracked eggs into the center. Poach for exactly 2.5 to 3 minutes for a fluid yolk. Remove with a slotted spoon and drain on a paper towel.",
+            "Step 5: The Toss. Pour the hot vinaigrette directly over the frisée and lardons. Add the croutons. Toss vigorously. The heat of the dressing will slightly wilt the sturdy greens.",
+            "Step 6: Assemble. Divide the dressed salad between two plates. Carefully place one warm poached egg on top of each mound. Serve immediately."
           ],
-          substitutions: {
-            frisée: ["escarole", "mixed greens"],
-            "bacon lardons": ["pancetta"],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "salad",
+              "bistro food"
+            ],
+            "cookingMethods": [
+              "frying",
+              "poaching",
+              "emulsifying"
+            ]
           },
-          servingSize: 4,
-          allergens: ["eggs"],
-          prepTime: "15 minutes",
-          cookTime: "15 minutes",
-          nutrition: {
-            calories: 320,
-            protein: 18,
-            carbs: 8,
-            fat: 24,
-            fiber: 3,
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.2
           },
-          timeToMake: "30 minutes",
-          season: ["all"],
-          mealType: ["lunch"],
-          elementalProperties: {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.3,
-            Air: 0.2,
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Earth"
+            ],
+            "signs": [
+              "Taurus",
+              "Virgo"
+            ],
+            "lunarPhases": [
+              "Waning Crescent"
+            ]
           },
+          "nutritionPerServing": {
+            "calories": 480,
+            "proteinG": 20,
+            "carbsG": 18,
+            "fatG": 38,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin A",
+              "Folate",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Iron",
+              "Selenium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":3.57,"Essence":3.61,"Matter":3.47,"Substance":3.28},
+          thermodynamicProperties: {"heat":0.1027,"entropy":0.3998,"reactivity":2.4475,"gregsEnergy":-0.8759,"kalchm":2.6219,"monica":0.8564},
+          "substitutions": [
+            {
+              "originalIngredient": "frisée lettuce",
+              "substituteOptions": [
+                "escarole",
+                "curly endive"
+              ]
+            },
+            {
+              "originalIngredient": "bacon",
+              "substituteOptions": [
+                "smoked duck breast"
+              ]
+            }
+          ]
         },
         {
-          name: "Crêpes Complètes",
-          description:
-            "Savory Breton buckwheat crêpes filled with ham, cheese, and a fried egg",
-          cuisine: "french",
-          cookingMethods: [
+          "name": "Authentic Crêpes Complètes (Galette Bretonne)",
+          "description": "The iconic savory street food of Brittany. True Breton galettes are made exclusively with buckwheat flour and water, creating an earthy, nutty, naturally gluten-free batter. It is cooked on a blazing hot flat griddle (billig) and filled with a 'complète' matrix of ham, Gruyère, and an egg with a runny yolk.",
+          "details": {
+            "cuisine": "French (Brittany)",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 5,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
+              "amount": 250,
+              "unit": "g",
+              "name": "buckwheat flour (farine de sarrasin)",
+              "notes": "Must be 100% buckwheat for authenticity and gluten-free status."
             },
+            {
+              "amount": 500,
+              "unit": "ml",
+              "name": "cold water",
+              "notes": "To hydrate the batter."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "egg",
+              "notes": "For the batter (helps bind it since there's no gluten)."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "coarse sea salt (sel de Guérande)",
+              "notes": "Essential."
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "salted butter",
+              "notes": "Melted, for greasing the pan."
+            },
+            {
+              "amount": 4,
+              "unit": "slices",
+              "name": "jambon blanc (cooked ham)",
+              "notes": "High quality."
+            },
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "Gruyère or Emmental cheese",
+              "notes": "Freshly grated."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "For the filling."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground."
+            }
           ],
-          ingredients: [
-            {
-              name: "buckwheat flour",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-            },
-            { name: "eggs", amount: "5", unit: "large", category: "protein" },
-            { name: "ham", amount: "200", unit: "g", category: "protein" },
-            {
-              name: "Gruyère cheese",
-              amount: "150",
-              unit: "g",
-              category: "dairy",
-            },
-            { name: "butter", amount: "4", unit: "tbsp", category: "fat" },
+          "instructions": [
+            "Step 1: The Batter. In a large bowl, whisk the buckwheat flour and sea salt. Make a well in the center and add the egg. Gradually whisk in the cold water until you have a smooth, thin, fluid batter.",
+            "Step 2: Rest (Crucial). Cover the bowl and let the batter rest in the refrigerator for at least 2 hours, or overnight. The buckwheat needs time to hydrate and swell, which creates the lacy texture.",
+            "Step 3: Heat the pan. Heat a large crepe pan or a flat cast-iron griddle over medium-high heat. Grease it generously with salted butter using a folded paper towel.",
+            "Step 4: Pour and Swirl. Pour a ladle of batter into the center of the pan. Immediately tilt and swirl the pan (or use a crepe spreader) to form a very thin, large circle. Cook for 1 minute until the edges begin to crisp.",
+            "Step 5: The Fill. Flip the crepe. Immediately sprinkle a ring of grated cheese around the center. Place a slice of ham over the cheese.",
+            "Step 6: The Egg. Carefully crack an egg directly into the center of the ham. Use a spatula to gently spread the egg white out slightly so it cooks, but leave the yolk perfectly intact in the middle.",
+            "Step 7: The Fold. Cook until the egg white is opaque and the cheese is melted. Fold the four edges of the circular crepe inward over the filling, creating a square package with the bright yellow yolk exposed in the center.",
+            "Step 8: Serve immediately while the edges are crispy and the yolk is fluid. Brush the folded edges with a little extra melted butter."
           ],
-          substitutions: {
-            "buckwheat flour": ["regular flour"],
-            ham: ["smoked salmon"],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food",
+              "gluten-free"
+            ],
+            "cookingMethods": [
+              "resting",
+              "griddling",
+              "folding"
+            ]
           },
-          servingSize: 4,
-          allergens: ["eggs", "dairy", "gluten"],
-          prepTime: "15 minutes",
-          cookTime: "20 minutes",
-          nutrition: {
-            calories: 420,
-            protein: 25,
-            carbs: 28,
-            fat: 24,
-            fiber: 2,
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.45,
+            "Air": 0.15
           },
-          timeToMake: "35 minutes",
-          season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.2,
-            Earth: 0.35,
-            Air: 0.15,
+          "astrologicalAffinities": {
+            "planets": [
+              "Earth",
+              "Venus"
+            ],
+            "signs": [
+              "Taurus",
+              "Virgo"
+            ],
+            "lunarPhases": [
+              "Waning Crescent"
+            ]
           },
+          "nutritionPerServing": {
+            "calories": 480,
+            "proteinG": 26,
+            "carbsG": 45,
+            "fatG": 22,
+            "fiberG": 6,
+            "sodiumMg": 950,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin B12",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Calcium",
+              "Magnesium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.38,"Essence":3.16,"Matter":4.07,"Substance":3.77},
+          thermodynamicProperties: {"heat":0.041,"entropy":0.3211,"reactivity":1.4667,"gregsEnergy":-0.43,"kalchm":0.0066,"monica":0.9862},
+          "substitutions": [
+            {
+              "originalIngredient": "ham and egg",
+              "substituteOptions": [
+                "spinach and goat cheese",
+                "sautéed mushrooms and onions (vegetarian)"
+              ]
+            },
+            {
+              "originalIngredient": "buckwheat flour",
+              "substituteOptions": [
+                "all-purpose flour (creates a sweet crêpe, not a savory galette)"
+              ]
+            }
+          ]
         },
       ],
     },
     dinner: {
       all: [
         {
-          id: "coq-au-vin",
-          name: "Coq au Vin",
-          description:
-            "Classic French chicken braised in red wine with mushrooms and lardons",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-          ],
-          tools: [
-            "Dutch oven",
-            "tongs",
-            "wooden spoon",
-            "chef's knife",
-            "kitchen twine",
-          ],
-          preparationSteps: [
-            "Pat chicken pieces dry and season",
-            "Render fat from lardons in Dutch oven",
-            "Brown chicken in batches",
-            "Sauté mushrooms and pearl onions",
-            "Deglaze with cognac (optional flame)",
-            "Add wine, stock, and herbs",
-            "Simmer until chicken is tender",
-            "Thicken sauce with beurre manié",
-            "Adjust seasoning and serve",
-          ],
-          instructions: [
-            "Pat chicken pieces dry and season",
-            "Render fat from lardons in Dutch oven",
-            "Brown chicken in batches",
-            "Sauté mushrooms and pearl onions",
-            "Deglaze with cognac (optional flame)",
-            "Add wine, stock, and herbs",
-            "Simmer until chicken is tender",
-            "Thicken sauce with beurre manié",
-            "Adjust seasoning and serve",
-          ],
-          substitutions: {
-            chicken: ["mushroom medley", "seitan"],
-            lardons: ["smoked tofu"],
-            "red wine": ["mushroom stock with red wine vinegar"],
+          "name": "Authentic Coq au Vin",
+          "description": "A classic rustic French braise from Burgundy. Originally designed to tenderize a tough, old rooster (coq), modern recipes use chicken, relying on a prolonged marination and braising in red Burgundy wine to transform the flesh to a deep purple, infused with the earthy funk of bacon, mushrooms, and pearl onions.",
+          "details": {
+            "cuisine": "French (Burgundy)",
+            "prepTimeMinutes": 1440,
+            "cookTimeMinutes": 90,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
           },
-          servingSize: 6,
-          allergens: ["alcohol"],
-          prepTime: "30 minutes",
-          cookTime: "90 minutes",
-          culturalNotes:
-            "A rustic dish from Burgundy that has been elevated to haute cuisine. Julia Child helped popularize it in America",
-          pairingSuggestions: [
-            "Burgundy wine",
-            "crusty bread",
-            "mashed potatoes",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "chicken (or rooster if available)",
+              "notes": "Cut into 8 pieces, skin on, bone-in."
+            },
+            {
+              "amount": 1,
+              "unit": "bottle (750ml)",
+              "name": "red wine (Burgundy/Pinot Noir)",
+              "notes": "For the marinade and braise. Must be a wine you would drink."
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "slab bacon (lardons)",
+              "notes": "Cut into matchsticks."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "chicken stock",
+              "notes": "For the braise."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "yellow onion",
+              "notes": "Chopped, for the base."
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "carrots",
+              "notes": "Chopped, for the base."
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Smashed."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "For depth."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "all-purpose flour",
+              "notes": "For thickening."
+            },
+            {
+              "amount": 1,
+              "unit": "bouquet",
+              "name": "garni (thyme, bay leaf, parsley)",
+              "notes": "Aromatic bundle."
+            },
+            {
+              "amount": 20,
+              "unit": "whole",
+              "name": "pearl onions",
+              "notes": "Peeled, braised separately."
+            },
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "button mushrooms",
+              "notes": "Quartered, sautéed separately."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "For cooking the garnish."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "Cognac or Brandy",
+              "notes": "Optional, for flambéing the chicken."
+            }
           ],
-          dietaryInfo: ["contains alcohol", "contains pork"],
-          spiceLevel: "none",
-          ingredients: [
-            {
-              name: "chicken",
-              amount: 1,
-              unit: "whole cut into 8 pieces",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.25,
-                Earth: 0.35,
-                Air: 0.15,
-              },
-            },
-            {
-              name: "lardons",
-              amount: 200,
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.15,
-                Earth: 0.45,
-                Air: 0.05,
-              },
-            },
-            {
-              name: "red wine",
-              amount: 750,
-              unit: "ml",
-              category: "wine",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cremini mushrooms",
-              amount: 500,
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pearl onions",
-              amount: 12,
-              unit: "small",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "carrots",
-              amount: 4,
-              unit: "whole",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "bouquet garni",
-              amount: 1,
-              unit: "piece",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.15,
-                Earth: 0.15,
-                Air: 0.55,
-              },
-            },
-            {
-              name: "cognac",
-              amount: 60,
-              unit: "ml",
-              category: "spirit",
-              optional: true,
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.4,
-                Earth: 0.15,
-                Air: 0.1,
-              },
-            },
+          "instructions": [
+            "Step 1: The Marinade. Place the chicken pieces, chopped onion, carrots, garlic, and bouquet garni in a large bowl. Pour the entire bottle of red wine over it. Cover and refrigerate for 12-24 hours. This dyes the meat purple and tenderizes it.",
+            "Step 2: Dry the meat. Remove the chicken from the marinade (reserve the wine and veg). Pat the chicken pieces completely dry with paper towels (crucial for a good sear).",
+            "Step 3: Render the Lardons. In a large Dutch oven, fry the bacon lardons until crisp. Remove with a slotted spoon.",
+            "Step 4: The Sear. In the bacon fat, aggressively brown the chicken pieces on all sides over medium-high heat. Remove the chicken.",
+            "Step 5: The Base. Add the marinated vegetables (strained from the wine) to the pot. Sauté for 5 mins. Stir in the tomato paste and flour, cooking for 2 mins.",
+            "Step 6: Flambé and Deglaze. (Optional) Pour in the Cognac and ignite it to burn off alcohol. Pour in the reserved red wine marinade. Bring to a boil, scraping the bottom.",
+            "Step 7: The Braise. Return the chicken and lardons to the pot. Add the chicken stock. Cover and simmer over low heat (or in a 325°F oven) for 45-60 minutes until the chicken is tender.",
+            "Step 8: The Garnish. While braising, brown the pearl onions and mushrooms in butter in a separate skillet until deeply caramelized.",
+            "Step 9: Finish. Remove the chicken from the pot. Strain the sauce into a saucepan, discarding the mushy braising vegetables. Boil the sauce until it reduces and thickens enough to coat a spoon. Pour the glossy sauce over the chicken and top with the caramelized pearl onions and mushrooms."
           ],
-          nutrition: {
-            calories: 520,
-            protein: 45,
-            carbs: 12,
-            fat: 32,
-            fiber: 3,
-            vitamins: ["B12", "A", "D"],
-            minerals: ["Iron", "Zinc", "Potassium"],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "stew",
+              "poultry"
+            ],
+            "cookingMethods": [
+              "marinating",
+              "searing",
+              "braising",
+              "reducing"
+            ]
           },
-          timeToMake: "120 minutes",
-          season: ["autumn", "winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.3,
-            Earth: 0.36,
-            Air: 0.11,
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.4,
+            "Earth": 0.35,
+            "Air": 0.05
           },
-          astrologicalInfluences: [
-            "Saturn - The slow transformation through long cooking",
-            "Pluto - The deep flavors revealed through reduction",
-          ],
-          astrologicalAffinities: {
-            planets: ["Saturn", "Pluto"],
-            signs: ["Capricorn", "Scorpio"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Pluto"
+            ],
+            "signs": [
+              "scorpio",
+              "capricorn"
+            ],
+            "lunarPhases": [
+              "Waning Gibbous"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Capricorn", "Scorpio"],
-          numberOfServings: 6,
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 45,
+            "carbsG": 18,
+            "fatG": 38,
+            "fiberG": 3,
+            "sodiumMg": 750,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B6",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":5.03,"Essence":5.5,"Matter":6.14,"Substance":5.56},
+          thermodynamicProperties: {"heat":0.0782,"entropy":0.3665,"reactivity":2.0576,"gregsEnergy":-0.6758,"kalchm":0.0416,"monica":0.1945},
+          "substitutions": [
+            {
+              "originalIngredient": "chicken",
+              "substituteOptions": [
+                "beef chuck (to make Boeuf Bourguignon)"
+              ]
+            },
+            {
+              "originalIngredient": "red wine",
+              "substituteOptions": [
+                "white wine (for Coq au Riesling)"
+              ]
+            }
+          ]
         },
         {
-          id: "sole-meuniere",
-          name: "Sole Meunière",
-          description:
-            "Classic pan-fried sole with brown butter, lemon and parsley",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "pan-frying",
-              elementalProperties: {
-                Fire: 0.42,
-                Water: 0.09,
-                Earth: 0.21,
-                Air: 0.27,
-              },
-            },
-            {
-              name: "sauce-making",
-              elementalProperties: {
-                Fire: 0.27,
-                Water: 0.33,
-                Earth: 0.2,
-                Air: 0.2,
-              },
-            },
-          ],
-          tools: [
-            "large skillet",
-            "fish spatula",
-            "small saucepan",
-            "sieve",
-            "serving platter",
-          ],
-          preparationSteps: [
-            "Pat sole fillets dry",
-            "Season with salt and pepper",
-            "Dredge sole in flour, shaking off excess",
-            "Heat butter in skillet until foaming",
-            "Cook fish until golden, about 2 minutes per side",
-            "Transfer to warm platter",
-            "Make brown butter sauce in pan",
-            "Add lemon juice and parsley",
-            "Pour sauce over fish",
-            "Serve immediately with lemon wedges",
-          ],
-          instructions: [
-            "Pat sole fillets dry",
-            "Season with salt and pepper",
-            "Dredge sole in flour, shaking off excess",
-            "Heat butter in skillet until foaming",
-            "Cook fish until golden, about 2 minutes per side",
-            "Transfer to warm platter",
-            "Make brown butter sauce in pan",
-            "Add lemon juice and parsley",
-            "Pour sauce over fish",
-            "Serve immediately with lemon wedges",
-          ],
-          substitutions: {
-            sole: ["flounder", "eggplant for vegetarian version"],
-            butter: ["plant-based brown butter"],
-            flour: ["gluten-free flour"],
+          "name": "Authentic Sole Meunière",
+          "description": "A classic of French coastal cuisine. The alchemy lies in the 'Meunière' (miller's wife) style: dredging delicate flatfish in flour and frying it in 'beurre noisette' (brown butter). The nutty, toasted milk solids of the butter are instantly brightened by a final splash of lemon juice, creating a sophisticated yet simple emulsion.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 4,
-          allergens: ["fish", "dairy", "gluten"],
-          prepTime: "10 minutes",
-          cookTime: "15 minutes",
-          culturalNotes:
-            "This dish famously converted Julia Child to French cuisine when she first tasted it in Rouen",
-          pairingSuggestions: [
-            "white Burgundy wine",
-            "steamed vegetables",
-            "boiled potatoes",
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "Dover sole fillets",
+              "notes": "Skin removed, patted completely dry."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "all-purpose flour",
+              "notes": "For dredging."
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "To be browned."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "neutral oil",
+              "notes": "Prevents butter from burning too quickly."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "lemon",
+              "notes": "Half juiced, half sliced into rounds for garnish."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fresh parsley",
+              "notes": "Finely chopped."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste."
+            }
           ],
-          dietaryInfo: ["contains fish"],
-          spiceLevel: "none",
-          ingredients: [
-            {
-              name: "sole fillets",
-              amount: 800,
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.55,
-                Earth: 0.25,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "all-purpose flour",
-              amount: 100,
-              unit: "g",
-              category: "flour",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "unsalted butter",
-              amount: 150,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lemon",
-              amount: 2,
-              unit: "whole",
-              category: "fruit",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "flat-leaf parsley",
-              amount: 30,
-              unit: "g",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "sea salt",
-              amount: 0,
-              unit: "to taste",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.15,
-                Earth: 0.65,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "white pepper",
-              amount: 0,
-              unit: "to taste",
-              category: "seasoning",
-              elementalProperties: {
-                Fire: 0.6,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
+          "instructions": [
+            "Step 1: Prep the fish. Season the sole fillets with salt and pepper. Dredge them in flour, shaking off all excess until only a translucent film remains.",
+            "Step 2: Heat the pan. In a large skillet, heat the oil and 1 tbsp of butter over medium-high heat until the butter foam subsides.",
+            "Step 3: Sauté. Place the fish in the pan. Cook for 2-3 minutes per side until the edges are golden and the flesh is just opaque. Remove fish to warm plates.",
+            "Step 4: The Beurre Noisette. Wipe the pan clean. Add the remaining 3 tbsp of butter. Cook over medium heat, swirling constantly. The butter will foam, then the foam will subside, and the milk solids will turn a toasted hazelnut brown and smell nutty.",
+            "Step 5: The Emulsion. Immediately remove the pan from the heat. Whisk in the lemon juice and parsley. It will sizzle and foam.",
+            "Step 6: Finish. Pour the hot brown butter sauce directly over the fish. Garnish with lemon slices and serve immediately."
           ],
-          nutrition: {
-            calories: 480,
-            protein: 45,
-            carbs: 12,
-            fat: 32,
-            fiber: 3,
-            vitamins: ["D", "B12", "A"],
-            minerals: ["Selenium", "Iodine"],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "seafood"
+            ],
+            "cookingMethods": [
+              "dredging",
+              "pan-frying",
+              "browning"
+            ]
           },
-          timeToMake: "25 minutes",
-          season: ["all"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.18,
-            Water: 0.26,
-            Earth: 0.4,
-            Air: 0.16,
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.4,
+            "Earth": 0.15,
+            "Air": 0.25
           },
-          astrologicalInfluences: [
-            "Jupiter - The elegance and richness",
-            "Mercury - The bright, quick quality",
-          ],
-          astrologicalAffinities: {
-            planets: ["Jupiter", "Mercury"],
-            signs: ["Leo", "Gemini"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Pisces",
+              "Libra"
+            ],
+            "lunarPhases": [
+              "Waning Crescent"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Leo", "Gemini"],
-          numberOfServings: 4,
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 28,
+            "carbsG": 12,
+            "fatG": 22,
+            "fiberG": 1,
+            "sodiumMg": 450,
+            "sugarG": 1,
+            "vitamins": [
+              "Vitamin B12",
+              "Selenium"
+            ],
+            "minerals": [
+              "Iodine",
+              "Phosphorus"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.02,"Essence":2.54,"Matter":3.19,"Substance":2.96},
+          thermodynamicProperties: {"heat":0.0458,"entropy":0.3282,"reactivity":1.753,"gregsEnergy":-0.5296,"kalchm":0.044,"monica":1.3128},
+          "substitutions": [
+            {
+              "originalIngredient": "Dover sole",
+              "substituteOptions": [
+                "flounder",
+                "lemon sole",
+                "cod (texture will be flakier)"
+              ]
+            }
+          ]
         },
         {
-          id: "beef-bourguignon",
-          name: "Beef Bourguignon",
-          description:
-            "Classic Burgundian beef stew braised in red wine with pearl onions and mushrooms",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sautéing",
-              elementalProperties: {
-                Fire: 0.41,
-                Water: 0.12,
-                Earth: 0.18,
-                Air: 0.29,
-              },
-            },
-            {
-              name: "reducing",
-              elementalProperties: {
-                Fire: 0.29,
-                Water: 0.34,
-                Earth: 0.17,
-                Air: 0.2,
-              },
-            },
-          ],
-          tools: [
-            "Dutch oven",
-            "strainer",
-            "kitchen twine",
-            "cheesecloth",
-            "wooden spoon",
-          ],
-          preparationSteps: [
-            "Cut beef into 2-inch cubes and dry thoroughly",
-            "Cook lardons until crisp, set aside",
-            "Brown beef in batches in the rendered fat",
-            "Sauté carrots and onion",
-            "Deglaze with wine, scraping up browned bits",
-            "Add beef stock, bouquet garni, tomato paste",
-            "Simmer covered in 325°F oven for 2-3 hours",
-            "Meanwhile, brown mushrooms and pearl onions separately",
-            "Add to stew for final 30 minutes of cooking",
-            "Thicken sauce if desired with beurre manié",
-          ],
-          instructions: [
-            "Cut beef into 2-inch cubes and dry thoroughly",
-            "Cook lardons until crisp, set aside",
-            "Brown beef in batches in the rendered fat",
-            "Sauté carrots and onion",
-            "Deglaze with wine, scraping up browned bits",
-            "Add beef stock, bouquet garni, tomato paste",
-            "Simmer covered in 325°F oven for 2-3 hours",
-            "Meanwhile, brown mushrooms and pearl onions separately",
-            "Add to stew for final 30 minutes of cooking",
-            "Thicken sauce if desired with beurre manié",
-          ],
-          ingredients: [
-            {
-              name: "beef chuck",
-              amount: 1.5,
-              unit: "kg",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.4,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "lardons",
-              amount: 200,
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.15,
-                Earth: 0.45,
-                Air: 0.05,
-              },
-            },
-            {
-              name: "red wine",
-              amount: 750,
-              unit: "ml",
-              category: "wine",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "beef stock",
-              amount: 500,
-              unit: "ml",
-              category: "broth",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.7,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "pearl onions",
-              amount: 250,
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "cremini mushrooms",
-              amount: 500,
-              unit: "g",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.3,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "carrots",
-              amount: 3,
-              unit: "medium",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "yellow onion",
-              amount: 1,
-              unit: "large",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.4,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "garlic",
-              amount: 4,
-              unit: "cloves",
-              category: "vegetable",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.1,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "tomato paste",
-              amount: 2,
-              unit: "tbsp",
-              category: "condiment",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.5,
-                Earth: 0.1,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "bouquet garni",
-              amount: 1,
-              unit: "piece",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.15,
-                Earth: 0.15,
-                Air: 0.55,
-              },
-            },
-            {
-              name: "bacon or pancetta",
-              amount: 150,
-              unit: "g",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.35,
-                Water: 0.15,
-                Earth: 0.45,
-                Air: 0.05,
-              },
-            },
-            {
-              name: "butter",
-              amount: 30,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "all-purpose flour",
-              amount: 3,
-              unit: "tbsp",
-              category: "thickener",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.1,
-                Earth: 0.6,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "thyme",
-              amount: 4,
-              unit: "sprigs",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.1,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-            {
-              name: "bay leaf",
-              amount: 2,
-              unit: "pieces",
-              category: "herb",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.15,
-                Earth: 0.2,
-                Air: 0.5,
-              },
-            },
-          ],
-          numberOfServings: 6,
-          allergens: ["alcohol"],
-          prepTime: "45 minutes",
-          cookTime: "3 hours",
-          culturalNotes:
-            "The epitome of French country cooking, this dish represents the marriage of wine and food culture in Burgundy",
-          pairingSuggestions: [
-            "Burgundy red wine",
-            "crusty bread",
-            "mashed potatoes",
-          ],
-          dietaryInfo: ["contains alcohol", "contains pork"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 620,
-            protein: 52,
-            carbs: 18,
-            fat: 38,
-            fiber: 3,
-            vitamins: ["B12", "A", "D"],
-            minerals: ["Iron", "Zinc", "Potassium"],
+          "name": "Authentic Bœuf Bourguignon",
+          "description": "The quintessential French agrarian stew, elevated to high culinary art. It is an alchemical masterpiece where tough, earth-bound cuts of beef are slowly transmuted into yielding tenderness via the fiery acidity and fruit notes of Burgundy wine.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "autumn",
+              "winter"
+            ]
           },
-          timeToMake: "3 hours 45 minutes",
-          season: ["autumn", "winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.22,
-            Water: 0.28,
-            Earth: 0.37,
-            Air: 0.13,
-          },
-          astrologicalInfluences: [
-            "Saturn - The slow cooking process and aged flavors",
-            "Pluto - The transformative quality and depth",
+          "ingredients": [
+            {
+              "amount": 170,
+              "unit": "g",
+              "name": "slab bacon (lardons)",
+              "notes": "Cut into matchsticks."
+            },
+            {
+              "amount": 1.5,
+              "unit": "kg",
+              "name": "beef chuck",
+              "notes": "Cut into 2-inch cubes."
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "red wine",
+              "notes": "Burgundy"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "beef stock",
+              "notes": "Concentrated."
+            },
+            {
+              "amount": 18,
+              "unit": "whole",
+              "name": "pearl onions",
+              "notes": "Braised separately."
+            },
+            {
+              "amount": 450,
+              "unit": "g",
+              "name": "mushrooms",
+              "notes": "Sautéed separately."
+            }
           ],
-          astrologicalAffinities: {
-            planets: ["Saturn", "Pluto"],
-            signs: ["Capricorn", "Scorpio"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "instructions": [
+            "Step 1: Simmer lardons, drain.",
+            "Step 2: Sauté lardons in oil, set aside.",
+            "Step 3: Sear dry beef cubes in bacon fat.",
+            "Step 4: Sauté carrots and onions.",
+            "Step 5: Toss beef with flour, bake 4 mins.",
+            "Step 6: Add wine, stock, aromatics. Braise 3 hours.",
+            "Step 7: Prepare pearl onions and mushrooms separately.",
+            "Step 8: Combine and reduce sauce."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner"
+            ],
+            "cookingMethods": [
+              "searing",
+              "braising"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Capricorn", "Scorpio"],
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.4,
+            "Earth": 0.35,
+            "Air": 0.05
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn"
+            ],
+            "signs": [
+              "Capricorn"
+            ],
+            "lunarPhases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 45,
+            "carbsG": 15,
+            "fatG": 38,
+            "fiberG": 3,
+              "sodiumMg": 526,
+              "sugarG": 4,
+              "vitamins": ["Vitamin C","Vitamin A"],
+              "minerals": ["Iron","Calcium"]
+        },
+
+          alchemicalProperties: {"Spirit":1.72,"Essence":2.48,"Matter":3.22,"Substance":2.93},
+          thermodynamicProperties: {"heat":0.0337,"entropy":0.2785,"reactivity":1.4042,"gregsEnergy":-0.3573,"kalchm":0.024,"monica":0.4842},
+          "substitutions": [
+            {
+              "originalIngredient": "slab bacon",
+              "substituteOptions": [
+                "pancetta"
+              ]
+            }
+          ]
         },
         {
-          name: "Duck Confit",
-          description:
-            "Traditional Gascon duck legs slowly cooked in their own fat until tender and crispy",
-          cuisine: "french",
-          cookingMethods: [
+          "name": "Authentic Duck Confit (Confit de Canard)",
+          "description": "An ancient Gascon method of preservation transformed into a luxury staple. Duck legs are cured in salt and aromatics to remove moisture, then submerged in rendered duck fat and 'poached' at a sub-simmering temperature for hours. This creates meat that is meltingly tender, which is then pan-seared to achieve a shatteringly crisp skin.",
+          "details": {
+            "cuisine": "French (Gascony)",
+            "prepTimeMinutes": 1440,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
+          },
+          "ingredients": [
             {
-              name: "confiting",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
+              "amount": 4,
+              "unit": "whole",
+              "name": "duck legs",
+              "notes": "Thigh and drumstick attached."
             },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "kosher salt",
+              "notes": "For the dry cure."
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Smashed, for the cure."
+            },
+            {
+              "amount": 4,
+              "unit": "sprigs",
+              "name": "fresh thyme",
+              "notes": "For the cure."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black peppercorns",
+              "notes": "Crushed."
+            },
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "rendered duck fat",
+              "notes": "Must be enough to completely submerge the legs."
+            }
           ],
-          ingredients: [
-            {
-              name: "duck legs",
-              amount: "4",
-              unit: "whole",
-              category: "protein",
-            },
-            { name: "duck fat", amount: "4", unit: "cups", category: "fat" },
-            {
-              name: "kosher salt",
-              amount: "1/4",
-              unit: "cup",
-              category: "seasoning",
-            },
-            { name: "thyme", amount: "4", unit: "sprigs", category: "herb" },
-            {
-              name: "garlic",
-              amount: "6",
-              unit: "cloves",
-              category: "vegetable",
-            },
-            {
-              name: "bay leaves",
-              amount: "2",
-              unit: "pieces",
-              category: "herb",
-            },
+          "instructions": [
+            "Step 1: The Cure. Toss the duck legs with salt, garlic, thyme, and pepper. Arrange in a dish, cover, and refrigerate for 24 hours. The salt draws out moisture, intensifying the flavor and firming the meat.",
+            "Step 2: Rinse. Rinse the legs thoroughly under cold water to remove all salt. Pat them completely dry with paper towels.",
+            "Step 3: The Melt. In a heavy Dutch oven, melt the duck fat over low heat until liquid.",
+            "Step 4: The Confit. Submerge the duck legs in the fat. Place in a 225°F (110°C) oven. The fat should never boil; it should only show the occasional bubble. Cook for 3 hours until the meat is extremely tender and pulling away from the bone.",
+            "Step 5: Storage (Optional). For maximum flavor, store the duck legs submerged in their fat in the fridge for at least 3 days before eating.",
+            "Step 6: The Crisp. To serve, remove legs from the fat. Place skin-side down in a cold skillet. Turn heat to medium. Fry until the fat renders out and the skin becomes deeply golden and incredibly crispy (about 10 mins). Do not flip. Serve hot."
           ],
-          substitutions: {
-            "duck legs": ["chicken legs"],
-            "duck fat": ["olive oil"],
+          "classifications": {
+            "mealType": [
+              "dinner"
+            ],
+            "cookingMethods": [
+              "curing",
+              "confit",
+              "searing"
+            ]
           },
-          servingSize: 4,
-          allergens: [],
-          prepTime: "24 hours",
-          cookTime: "4 hours",
-          nutrition: {
-            calories: 520,
-            protein: 38,
-            carbs: 2,
-            fat: 42,
-            fiber: 0,
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.1,
+            "Earth": 0.6,
+            "Air": 0.15
           },
-          timeToMake: "28 hours",
-          season: ["autumn", "winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.2,
-            Earth: 0.5,
-            Air: 0.1,
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Mars"
+            ],
+            "signs": [
+              "Capricorn",
+              "Scorpio"
+            ],
+            "lunarPhases": [
+              "Waning Gibbous"
+            ]
           },
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 32,
+            "carbsG": 0,
+            "fatG": 58,
+            "fiberG": 0,
+            "sodiumMg": 920,
+            "sugarG": 0,
+            "vitamins": [
+              "Vitamin B12",
+              "Iron"
+            ],
+            "minerals": [
+              "Zinc",
+              "Selenium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":2.42,"Essence":2.32,"Matter":3.25,"Substance":3.14},
+          thermodynamicProperties: {"heat":0.0643,"entropy":0.4009,"reactivity":1.4271,"gregsEnergy":-0.5078,"kalchm":0.0357,"monica":0.9862},
+          "substitutions": [
+            {
+              "originalIngredient": "rendered duck fat",
+              "substituteOptions": [
+                "rendered pork lard (authentic but changes flavor profile)"
+              ]
+            }
+          ]
         },
         {
-          name: "Cassoulet",
-          description:
-            "Rich slow-cooked casserole with white beans, duck confit, and sausage from Toulouse",
-          cuisine: "french",
-          cookingMethods: [
+          "name": "Authentic Cassoulet de Castelnaudary",
+          "description": "The 'God of French stews'. A slow-baked masterpiece involving white beans, duck confit, pork sausage, and pork skin. The alchemy lies in the repeated breaking of the 'crust' (the skin that forms on top) during the long bake, folding it back into the stew to create a profound, gelatinous depth of flavor.",
+          "details": {
+            "cuisine": "French (Occitanie)",
+            "prepTimeMinutes": 1440,
+            "cookTimeMinutes": 360,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
             {
-              name: "braising",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.35,
-                Earth: 0.3,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "kg",
+              "name": "dried white Tarbais beans",
+              "notes": "Must be Tarbais for their thin skin and creamy interior. Soaked overnight."
             },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "fresh pork skin",
+              "notes": "Boiled and lined at the bottom of the pot for gelatin."
+            },
+            {
+              "amount": 4,
+              "unit": "pieces",
+              "name": "duck confit legs",
+              "notes": "Home-made preferred."
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "Toulouse sausage",
+              "notes": "Garlic pork sausage."
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "pork shoulder",
+              "notes": "Cut into chunks."
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "yellow onion",
+              "notes": "Studded with 2 cloves."
+            },
+            {
+              "amount": 1,
+              "unit": "head",
+              "name": "garlic",
+              "notes": "Peeled."
+            },
+            {
+              "amount": 1,
+              "unit": "bouquet",
+              "name": "garni",
+              "notes": "Thyme, bay leaf."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "Minimal, for depth."
+            }
           ],
-          ingredients: [
-            {
-              name: "white beans",
-              amount: "500",
-              unit: "g",
-              category: "legume",
-            },
-            {
-              name: "duck confit",
-              amount: "2",
-              unit: "legs",
-              category: "protein",
-            },
-            {
-              name: "Toulouse sausage",
-              amount: "300",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "pork belly",
-              amount: "200",
-              unit: "g",
-              category: "protein",
-            },
-            {
-              name: "tomatoes",
-              amount: "2",
-              unit: "medium",
-              category: "vegetable",
-            },
-            {
-              name: "breadcrumbs",
-              amount: "1",
-              unit: "cup",
-              category: "grain",
-            },
+          "instructions": [
+            "Step 1: The Beans. Boil the soaked beans with the pork skin, onion, and bouquet garni for 1 hour until just tender. Drain, reserving the liquid. Discard the onion and herbs.",
+            "Step 2: The Meat. Brown the pork shoulder and sausages in a pan. Slice sausages into chunks.",
+            "Step 3: The Setup. Line the bottom of a heavy earthenware pot (cassole) with the cooked pork skin. Add a layer of beans, then nestle the pork shoulder and sausages inside.",
+            "Step 4: The Top. Cover with the remaining beans. Place the duck confit legs on the very top.",
+            "Step 5: The Liquid. Mix tomato paste with the bean cooking liquid and pour over the dish until beans are just covered.",
+            "Step 6: The Long Bake. Bake at 300°F (150°C) for 4 to 5 hours.",
+            "Step 7: Break the Crust. Every hour, a brown skin will form on top. Use a spoon to break this crust and push it back into the beans. Traditionally, this is done seven times. This incorporates the Maillard products into the sauce.",
+            "Step 8: Serve bubbling hot. The beans should be creamy, the meat falling apart, and the liquid reduced to a thick, savory glaze."
           ],
-          substitutions: {
-            "duck confit": ["chicken thighs"],
-            "Toulouse sausage": ["Italian sausage"],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "celebration"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "searing",
+              "braising",
+              "baking"
+            ]
           },
-          servingSize: 8,
-          allergens: ["gluten"],
-          prepTime: "45 minutes",
-          cookTime: "4 hours",
-          nutrition: {
-            calories: 680,
-            protein: 48,
-            carbs: 42,
-            fat: 38,
-            fiber: 12,
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.25,
+            "Earth": 0.55,
+            "Air": 0.05
           },
-          timeToMake: "5 hours",
-          season: ["winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Fire: 0.2,
-            Water: 0.25,
-            Earth: 0.45,
-            Air: 0.1,
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Jupiter"
+            ],
+            "signs": [
+              "Capricorn",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Waning Gibbous"
+            ]
           },
+          "nutritionPerServing": {
+            "calories": 850,
+            "proteinG": 52,
+            "carbsG": 45,
+            "fatG": 48,
+            "fiberG": 12,
+            "sodiumMg": 1100,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin B12",
+              "Folate"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc",
+              "Magnesium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":3.25,"Essence":3.96,"Matter":4.98,"Substance":4.49},
+          thermodynamicProperties: {"heat":0.0519,"entropy":0.3241,"reactivity":1.5203,"gregsEnergy":-0.4408,"kalchm":0.0043,"monica":0.903},
+          "substitutions": [
+            {
+              "originalIngredient": "Tarbais beans",
+              "substituteOptions": [
+                "Cannellini beans",
+                "Great Northern beans"
+              ]
+            }
+          ]
         },
-      ],
+            {
+              "name": "Authentic Beef Bourguignon",
+              "description": "The definitive French stew. Beef is slow-braised in a full-bodied Burgundy wine, transforming tough fibers into melting tenderness, enriched with pearl onions, mushrooms, and lardons.",
+              "details": {
+                "cuisine": "French (Burgundy)",
+                "prepTimeMinutes": 30,
+                "cookTimeMinutes": 180,
+                "baseServingSize": 6,
+                "spiceLevel": "None",
+                "season": [
+                  "winter"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 3,
+                  "unit": "lbs",
+                  "name": "Beef chuck",
+                  "notes": "Cut into large cubes."
+                },
+                {
+                  "amount": 1,
+                  "unit": "bottle",
+                  "name": "Red Burgundy wine",
+                  "notes": "Pinot Noir."
+                }
+              ],
+              "instructions": [
+                "Step 1: Fry lardons until crisp; reserve fat.",
+                "Step 2: Sear beef cubes in lardon fat.",
+                "Step 3: Sauté aromatics; add flour to create a roux.",
+                "Step 4: Pour in wine and stock; return beef.",
+                "Step 5: Simmer for 3 hours; add mushrooms and onions at the end."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner"
+                ],
+                "cookingMethods": [
+                  "braising"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.35,
+                "Earth": 0.45,
+                "Air": 0.05
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Saturn"
+                ],
+                "signs": [
+                  "capricorn"
+                ],
+                "lunarPhases": [
+                  "Waning Gibbous"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 620,
+                "proteinG": 48,
+                "carbsG": 15,
+                "fatG": 38,
+                "fiberG": 3,
+                "sodiumMg": 850,
+                "sugarG": 4,
+                "vitamins": [
+                  "Vitamin B12"
+                ],
+                "minerals": [
+                  "Iron"
+                ]
+              },
+
+              alchemicalProperties: {"Spirit":0.45,"Essence":0.68,"Matter":1.04,"Substance":1.03},
+              thermodynamicProperties: {"heat":0.0174,"entropy":0.2029,"reactivity":0.8438,"gregsEnergy":-0.1538,"kalchm":0.5002,"monica":0.0466},
+              "substitutions": []
+            },
+            {
+              name: "Bouillabaisse",
+              description: "The defining dish of Marseille, a Provencal fisherman's stew built in two distinct stages: first a concentrated fish stock made from bony rockfish and aromatics, then the poaching of premium fish portions in that same broth. The dish is governed by the Charter of Bouillabaisse requiring at least four specific Mediterranean species including rascasse. Saffron, fennel, and orange zest provide the hallmark aromatic signature. It is served deconstructed: the broth ladled over rouille-spread croutons, with the fish presented separately.",
+              details: {"cuisine":"French","prepTimeMinutes":45,"cookTimeMinutes":60,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+              ingredients: [{"amount":1,"unit":"kg","name":"Mixed firm white fish fillets","notes":"Such as monkfish, sea bass, or red mullet, cut into large pieces."},{"amount":500,"unit":"g","name":"Small bony fish for stock","notes":"Such as rascasse, gurnard, or sea robin, gutted and cleaned."},{"amount":500,"unit":"g","name":"Shellfish","notes":"Mussels and clams, scrubbed clean."},{"amount":1,"unit":"large","name":"Fennel bulb","notes":"Thinly sliced, fronds reserved."},{"amount":1,"unit":"large","name":"White onion","notes":"Diced."},{"amount":4,"unit":"cloves","name":"Garlic","notes":"Smashed, for the broth."},{"amount":400,"unit":"g","name":"Canned whole tomatoes","notes":"Crushed by hand."},{"amount":1,"unit":"generous pinch","name":"Saffron threads","notes":"Steeped in 2 tbsp warm water for 10 minutes before use."},{"amount":1,"unit":"strip","name":"Orange zest","notes":"About 5cm long, dried or fresh."},{"amount":3,"unit":"tbsp","name":"Extra virgin olive oil","notes":"For building the base."},{"amount":4,"unit":"thick slices","name":"Baguette","notes":"Toasted, for serving."},{"amount":4,"unit":"tbsp","name":"Rouille","notes":"Saffron and garlic mayonnaise, spread on the toasted croutons."}],
+              instructions: ["Step 1: Build the stock base. Heat olive oil in a large, heavy pot over medium-high heat. Add the sliced fennel and onion and cook, stirring often, for 8 minutes until softened and beginning to caramelize. Add the garlic and cook for 1 minute. Add the small bony fish and stir well, breaking them apart slightly with a spoon.","Step 2: Add the crushed tomatoes, orange zest, steeped saffron with its water, and enough cold water to cover everything by about 5cm (approximately 1.5 liters). Bring to a vigorous boil and cook on high heat for 20 minutes, skimming any foam that rises to the surface. The aggressive boil emulsifies the olive oil into the broth, creating its characteristic rich consistency.","Step 3: Strain the stock through a fine-mesh sieve or food mill, pressing hard on all the solids to extract maximum flavor. Discard the solids. Return the strained broth to the pot. Taste and season aggressively with salt and pepper. The broth should be intensely flavored.","Step 4: Bring the strained broth back to a simmer. Add the shellfish first and cook for 3 minutes until they begin to open. Add the firm fish fillet pieces and poach gently for 5 to 8 minutes until just cooked through. Do not stir; use a spoon to submerge the fish gently. Discard any shellfish that have not opened.","Step 5: To serve, place 1 to 2 rouille-spread croutons in each warmed soup bowl. Ladle the fragrant saffron broth over the croutons first, then carefully transfer the poached fish and shellfish pieces alongside. Garnish with reserved fennel fronds and serve immediately."],
+              classifications: {"mealType":["dinner"],"cookingMethods":["simmering","poaching","straining"]},
+              elementalProperties: {"Fire":0.20,"Water":0.50,"Earth":0.20,"Air":0.10},
+              astrologicalAffinities: {"planets":["Neptune","Moon"],"signs":["pisces","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":480,"proteinG":55,"carbsG":22,"fatG":18,"fiberG":4,"sodiumMg":1150,"sugarG":6,"vitamins":["Vitamin B12","Vitamin C","Vitamin D"],"minerals":["Selenium","Iodine","Iron","Zinc"]},
+
+              alchemicalProperties: {"Spirit":5.0,"Essence":5.7,"Matter":4.18,"Substance":3.83},
+              thermodynamicProperties: {"heat":0.1189,"entropy":0.3548,"reactivity":3.777,"gregsEnergy":-1.2213,"kalchm":940.0881,"monica":-0.3001},
+              substitutions: [{"originalIngredient":"Fresh shellfish","substituteOptions":["Frozen mussels (thawed)","Shrimp"]},{"originalIngredient":"Rascasse or bony stock fish","substituteOptions":["Fish stock made from store-bought fish stock base"]}]
+            },
+            {
+              name: "Quiche Lorraine",
+              description: "The definitive savory tart from the Lorraine region of northeastern France. The classic preparation strictly omits cheese, relying instead on the richness of a heavily fatted egg and cream custard called the migaine. The custard is suspended over a base of lardons in a blind-baked shortcrust shell. The chemistry of the dish centers on egg protein coagulation: the high fat content of the cream inhibits coagulation, keeping the set silky rather than rubbery. The quiche is correctly served warm or at room temperature, never hot.",
+              details: {"cuisine":"French","prepTimeMinutes":60,"cookTimeMinutes":45,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+              ingredients: [{"amount":1,"unit":"sheet","name":"Pate brisee shortcrust pastry","notes":"Chilled, rolled to 3mm thickness. Blind-baked before filling."},{"amount":200,"unit":"g","name":"Smoked bacon lardons","notes":"Thick-cut slab bacon, cut into matchsticks. Blanched and then fried."},{"amount":3,"unit":"large","name":"Eggs","notes":"Room temperature."},{"amount":2,"unit":"large","name":"Egg yolks","notes":"Extra yolks for added richness and a silkier set."},{"amount":300,"unit":"ml","name":"Creme fraiche or heavy cream","notes":"Must be 35 percent fat or higher for correct texture."},{"amount":100,"unit":"ml","name":"Whole milk","notes":"To lighten the custard slightly."},{"amount":0.25,"unit":"tsp","name":"Freshly grated nutmeg","notes":"Essential aromatic for the migaine."},{"amount":0.5,"unit":"tsp","name":"White pepper","notes":"Freshly ground, milder than black pepper."},{"amount":0.5,"unit":"tsp","name":"Fine sea salt","notes":"Adjusted based on the saltiness of the bacon."}, {"amount":1,"unit":"tbsp","name":"Unsalted butter","notes":"For greasing the tart pan."}],
+              instructions: ["Step 1: Preheat the oven to 190C (375F). Line a 23cm tart tin with the chilled shortcrust pastry, pressing it into the base and sides without stretching. Trim the excess. Line with parchment paper, fill with ceramic baking beans or dried rice, and blind bake for 15 minutes. Remove the weights and parchment and bake for a further 8 to 10 minutes until the base is dry and faintly golden. Let cool slightly.","Step 2: Blanch the lardons in boiling water for 1 minute to reduce harsh smokiness, then drain thoroughly. In a dry skillet, fry the blanched lardons over medium heat until the fat has rendered and they are just beginning to crisp, about 5 to 6 minutes. Remove with a slotted spoon and drain on paper towels.","Step 3: Prepare the migaine custard. In a large bowl, whisk together the whole eggs, egg yolks, creme fraiche, and whole milk until just combined. Do not whisk vigorously, as incorporated air bubbles will cause an uneven texture. Season with the salt, white pepper, and freshly grated nutmeg.","Step 4: Scatter the cooked lardons evenly over the base of the warm blind-baked pastry shell. Set the tart tin on the oven rack, then carefully pour the migaine custard over the lardons until it reaches just below the top of the pastry rim. This in-oven pouring method prevents spillage.","Step 5: Bake at 180C (350F) for 28 to 35 minutes. The quiche is correctly done when the outer edge is fully puffed and set but the center still has a distinct wobble when the tin is gently shaken. It will continue to set as it cools. Rest on a wire rack for at least 20 minutes before unmolding and slicing. Serve warm or at room temperature."],
+              classifications: {"mealType":["lunch","dinner","brunch"],"cookingMethods":["baking","blind-baking","whisking"]},
+              elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.35,"Air":0.15},
+              astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
+              nutritionPerServing: {"calories":510,"proteinG":15,"carbsG":24,"fatG":40,"fiberG":1,"sodiumMg":620,"sugarG":2,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Iron","Phosphorus"]},
+
+              alchemicalProperties: {"Spirit":2.88,"Essence":3.41,"Matter":3.94,"Substance":3.8},
+              thermodynamicProperties: {"heat":0.0578,"entropy":0.3515,"reactivity":1.8762,"gregsEnergy":-0.6018,"kalchm":0.0389,"monica":1.3128},
+              substitutions: [{"originalIngredient":"Smoked bacon lardons","substituteOptions":["Sauteed mushrooms and leeks for a vegetarian version","Ham (cooked, diced)"]},{"originalIngredient":"Creme fraiche","substituteOptions":["Heavy whipping cream","Sour cream mixed with cream"]}]
+            },
+            {
+              "name": "Authentic Ratatouille (Confit Byaldi)",
+              "description": "The refined, structural version of the Provencal stew. Paper-thin rounds of summer vegetables are layered in an infinite spiral over a 'piperade' base, slow-roasted until their flavors unify into a sweet, concentrated essence.",
+              "details": {
+                "cuisine": "French (Provence)",
+                "prepTimeMinutes": 45,
+                "cookTimeMinutes": 90,
+                "baseServingSize": 4,
+                "spiceLevel": "None",
+                "season": [
+                  "summer"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 2,
+                  "unit": "whole",
+                  "name": "Zucchini/Eggplant",
+                  "notes": "Sliced into 1mm rounds."
+                },
+                {
+                  "amount": 1,
+                  "unit": "cup",
+                  "name": "Piperade",
+                  "notes": "Roasted pepper and tomato sauce."
+                }
+              ],
+              "instructions": [
+                "Step 1: Create a thick piperade base in a round dish.",
+                "Step 2: Slice vegetables with a mandoline for precision.",
+                "Step 3: Layer vegetables in an overlapping spiral.",
+                "Step 4: Top with parchment paper to steam-roast.",
+                "Step 5: Bake at 300°F for 90 minutes."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dinner",
+                  "side",
+                  "vegan"
+                ],
+                "cookingMethods": [
+                  "roasting"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.1,
+                "Water": 0.4,
+                "Earth": 0.4,
+                "Air": 0.1
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Sun"
+                ],
+                "signs": [
+                  "leo"
+                ],
+                "lunarPhases": [
+                  "Full Moon"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 220,
+                "proteinG": 6,
+                "carbsG": 28,
+                "fatG": 8,
+                "fiberG": 12,
+                "sodiumMg": 450,
+                "sugarG": 14,
+                "vitamins": [
+                  "Vitamin C",
+                  "Vitamin A"
+                ],
+                "minerals": [
+                  "Potassium"
+                ]
+              },
+
+              alchemicalProperties: {"Spirit":0.45,"Essence":0.73,"Matter":0.63,"Substance":0.59},
+              thermodynamicProperties: {"heat":0.0262,"entropy":0.1223,"reactivity":1.191,"gregsEnergy":-0.1195,"kalchm":1.0134,"monica":0.4376},
+              "substitutions": []
+            },
+            {
+              "name": "Authentic Soufflé au Chocolat",
+              "description": "The most fragile structure in French pastry. A rich chocolate base is lightened with an intense volume of whipped egg whites, relying on the physical expansion of trapped air to rise high above the ramekin.",
+              "details": {
+                "cuisine": "French",
+                "prepTimeMinutes": 20,
+                "cookTimeMinutes": 15,
+                "baseServingSize": 2,
+                "spiceLevel": "None",
+                "season": [
+                  "all"
+                ]
+              },
+              "ingredients": [
+                {
+                  "amount": 100,
+                  "unit": "g",
+                  "name": "Dark chocolate",
+                  "notes": "70% cocoa."
+                },
+                {
+                  "amount": 3,
+                  "unit": "large",
+                  "name": "Egg whites",
+                  "notes": "Whipped to stiff peaks."
+                }
+              ],
+              "instructions": [
+                "Step 1: Melt chocolate with butter; stir in yolks.",
+                "Step 2: Whip egg whites with sugar until glossy.",
+                "Step 3: Fold whites into chocolate matrix in thirds.",
+                "Step 4: Butter and sugar ramekins; pour in batter.",
+                "Step 5: Bake at 400°F; do not open the door."
+              ],
+              "classifications": {
+                "mealType": [
+                  "dessert"
+                ],
+                "cookingMethods": [
+                  "baking",
+                  "whipping"
+                ]
+              },
+              "elementalProperties": {
+                "Fire": 0.15,
+                "Water": 0.1,
+                "Earth": 0.25,
+                "Air": 0.5
+              },
+              "astrologicalAffinities": {
+                "planets": [
+                  "Mercury"
+                ],
+                "signs": [
+                  "gemini"
+                ],
+                "lunarPhases": [
+                  "First Quarter"
+                ]
+              },
+              "nutritionPerServing": {
+                "calories": 350,
+                "proteinG": 12,
+                "carbsG": 32,
+                "fatG": 22,
+                "fiberG": 4,
+                "sodiumMg": 110,
+                "sugarG": 24,
+                "vitamins": [
+                  "Magnesium"
+                ],
+                "minerals": [
+                  "Iron"
+                ]
+              },
+
+              alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
+              thermodynamicProperties: {"heat":0.0589,"entropy":0.409,"reactivity":1.9418,"gregsEnergy":-0.7353,"kalchm":1.0,"monica":0.3344},
+              "substitutions": []
+            }
+        ],
     },
     dessert: {
       all: [
         {
-          id: "creme-brulee",
-          name: "Classic Crème Brûlée",
-          description:
-            "Traditional vanilla custard with caramelized sugar crust",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "caramelizing",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.25,
-                Air: 0.19,
-              },
-            },
-          ],
-          tools: [
-            "ramekins",
-            "baking dish",
-            "kitchen torch",
-            "whisk",
-            "fine strainer",
-          ],
-          preparationSteps: [
-            "Preheat oven to 325°F/165°C",
-            "Heat cream with vanilla bean",
-            "Whisk egg yolks with sugar",
-            "Temper eggs with hot cream",
-            "Strain mixture into ramekins",
-            "Bake in water bath for 30-35 minutes",
-            "Chill thoroughly (at least 4 hours)",
-            "Sprinkle thin layer of sugar on top",
-            "Caramelize with torch or under broiler",
-            "Let caramel harden before serving",
-          ],
-          substitutions: {
-            "heavy cream": ["coconut cream", "almond cream"],
-            "egg yolks": ["plant-based substitute"],
-            sugar: ["coconut sugar"],
+          "name": "Authentic Crème Brûlée",
+          "description": "A paradigm of French pastry physics. The base is a heavy-fat custard (crème liquide and egg yolks) baked at a very low temperature to ensure a perfectly smooth, non-porous set. The dish is defined by the final alchemical transformation: the rapid pyrolysis of sugar into a thin, brittle glass sheet using extreme heat.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy", "eggs"],
-          prepTime: "20 minutes",
-          cookTime: "35 minutes",
-          culturalNotes:
-            "A classic French dessert dating back to the 17th century, the name means 'burnt cream'",
-          pairingSuggestions: ["fresh berries", "dessert wine", "coffee"],
-          dietaryInfo: ["vegetarian", "gluten-free"],
-          spiceLevel: "none",
-          ingredients: [
+          "ingredients": [
             {
-              name: "heavy cream",
-              amount: 500,
-              unit: "ml",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.5,
-                Earth: 0.3,
-                Air: 0.1,
-              },
+              "amount": 2,
+              "unit": "cups",
+              "name": "heavy cream (35%+ fat)",
+              "notes": "Must be high fat for the correct silky mouthfeel."
             },
             {
-              name: "egg yolks",
-              amount: 6,
-              unit: "large",
-              category: "protein",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.3,
-                Earth: 0.4,
-                Air: 0.1,
-              },
+              "amount": 5,
+              "unit": "large",
+              "name": "egg yolks",
+              "notes": "No whites; whites would make the custard too firm and rubbery."
             },
             {
-              name: "granulated sugar",
-              amount: 100,
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "Divided use: custard and topping."
             },
             {
-              name: "vanilla bean",
-              amount: 1,
-              unit: "piece",
-              category: "spice",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.6,
-                Air: 0.1,
-              },
+              "amount": 1,
+              "unit": "whole",
+              "name": "vanilla bean",
+              "notes": "Scraped. Do not use extract if possible."
             },
             {
-              name: "sugar for caramelizing",
-              amount: 60,
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
+              "amount": 1,
+              "unit": "pinch",
+              "name": "kosher salt",
+              "notes": "Enhances the vanilla."
+            }
           ],
-          nutrition: {
-            calories: 380,
-            protein: 6,
-            carbs: 28,
-            fat: 29,
-            fiber: 3,
-            vitamins: ["A", "D", "E"],
-            minerals: ["Calcium"],
-          },
-          timeToMake: "55 minutes plus chilling",
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.23,
-            Earth: 0.46,
-            Air: 0.11,
-          },
-          astrologicalInfluences: [
-            "Venus - The sensual, creamy nature",
-            "Sun - The fire element in caramelization",
+          "instructions": [
+            "Step 1: Infuse. In a saucepan, combine cream and the scraped vanilla bean seeds and pod. Heat until it just begins to simmer. Remove from heat and let sit for 15 minutes. Discard the pod.",
+            "Step 2: Whisk. In a bowl, whisk the egg yolks and 1/4 cup sugar until pale and slightly thickened. Do not whisk in air; keep the whisk submerged.",
+            "Step 3: Temper. Slowly drizzle the warm cream into the egg yolks while whisking constantly. This prevents the eggs from scrambling.",
+            "Step 4: The Strain. Pass the mixture through a fine-mesh sieve to remove any bubbles or solids. Let it sit for 10 minutes and skim any foam from the top. A smooth top is essential.",
+            "Step 5: Bake. Preheat oven to 300°F (150°C). Place ramekins in a baking dish. Fill ramekins with custard. Pour boiling water into the dish halfway up the sides of the ramekins.",
+            "Step 6: The Set. Bake for 30-40 minutes until the edges are set but the center still jiggles like gelatin. Do not overbake.",
+            "Step 7: Chill. Remove from water bath, let cool, then refrigerate for at least 4 hours, preferably overnight.",
+            "Step 8: The Brûlée. Just before serving, sprinkle a thin, even layer of sugar over the top. Use a blowtorch to melt the sugar until it bubbles and turns a dark amber glass. Let it sit for 2 minutes to harden before serving."
           ],
-          astrologicalAffinities: {
-            planets: ["Venus", "Sun"],
-            signs: ["Taurus", "Leo"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "classifications": {
+            "mealType": [
+              "dessert"
+            ],
+            "cookingMethods": [
+              "infusing",
+              "baking",
+              "torching"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Taurus", "Leo"],
-          instructions: [
-            "Preheat oven to 325°F/165°C",
-            "Heat cream with vanilla bean",
-            "Whisk egg yolks with sugar",
-            "Temper eggs with hot cream",
-            "Strain mixture into ramekins",
-            "Bake in water bath for 30-35 minutes",
-            "Chill thoroughly (at least 4 hours)",
-            "Sprinkle thin layer of sugar on top",
-            "Caramelize with torch or under broiler",
-            "Let caramel harden before serving",
-          ],
+          "elementalProperties": {
+            "Fire": 0.25,
+            "Water": 0.35,
+            "Earth": 0.2,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "taurus",
+              "leo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 420,
+            "proteinG": 6,
+            "carbsG": 28,
+            "fatG": 35,
+            "fiberG": 0,
+            "sodiumMg": 85,
+            "sugarG": 24,
+            "vitamins": [
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.18,"Essence":1.44,"Matter":2.27,"Substance":2.29},
+          thermodynamicProperties: {"heat":0.0319,"entropy":0.3713,"reactivity":1.4646,"gregsEnergy":-0.5119,"kalchm":0.0479,"monica":0.6887},
+          "substitutions": [
+            {
+              "originalIngredient": "heavy cream",
+              "substituteOptions": [
+                "coconut cream (for a vegan version, requires cornstarch or agar agar to set)"
+              ]
+            }
+          ]
         },
         {
-          id: "tarte-tatin",
-          name: "Tarte Tatin",
-          description: "Upside-down caramelized apple tart",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "caramelizing",
-              elementalProperties: {
-                Fire: 0.5,
-                Water: 0.06,
-                Earth: 0.25,
-                Air: 0.19,
-              },
-            },
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "pastry-making",
-              elementalProperties: {
-                Fire: 0.19,
-                Water: 0.13,
-                Earth: 0.37,
-                Air: 0.31,
-              },
-            },
-          ],
-          tools: [
-            "heavy-bottomed tatin pan or cast iron skillet",
-            "rolling pin",
-            "paring knife",
-            "serving plate",
-            "pastry brush",
-          ],
-          preparationSteps: [
-            "Prepare pastry dough and chill",
-            "Peel, core, and quarter apples",
-            "Make caramel in pan",
-            "Arrange apples in tight pattern",
-            "Cook until apples are partly caramelized",
-            "Cover with pastry dough",
-            "Bake until golden brown",
-            "Cool slightly and invert onto plate",
-          ],
-          ingredients: [
-            {
-              name: "apples",
-              amount: 8,
-              unit: "large",
-              category: "fruit",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.5,
-                Earth: 0.2,
-                Air: 0.15,
-              },
-            },
-            {
-              name: "unsalted butter",
-              amount: 150,
-              unit: "g",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.2,
-                Earth: 0.5,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "granulated sugar",
-              amount: 150,
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
-            {
-              name: "shortcrust pastry",
-              amount: 1,
-              unit: "piece",
-              category: "pastry",
-              elementalProperties: {
-                Fire: 0.15,
-                Water: 0.1,
-                Earth: 0.55,
-                Air: 0.2,
-              },
-            },
-          ],
-          substitutions: {
-            apples: ["pears", "quinces"],
-            butter: ["plant-based butter"],
-            "shortcrust pastry": ["puff pastry"],
+          "name": "Authentic Tarte Tatin",
+          "description": "An accidental masterpiece of upside-down baking. Apples are violently caramelized in butter and sugar directly in a pan before being capped with pastry and baked. The alchemy involves the high-heat reduction of apple juices into a thick, sticky toffee that glazes the fruit when inverted.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "autumn",
+              "winter"
+            ]
           },
-          servingSize: 8,
-          allergens: ["dairy", "gluten"],
-          prepTime: "45 minutes",
-          cookTime: "45 minutes",
-          culturalNotes:
-            "Created accidentally at Hotel Tatin in Lamotte-Beuvron when Stéphanie Tatin tried to rescue an overcooked apple pie by putting the pastry on top",
-          pairingSuggestions: [
-            "crème fraîche",
-            "vanilla ice cream",
-            "Sauternes wine",
-            "Calvados",
+          "ingredients": [
+            {
+              "amount": 6,
+              "unit": "large",
+              "name": "firm cooking apples (Braeburn or Cox)",
+              "notes": "Must hold their shape. Peeled, cored, and halved."
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "unsalted butter",
+              "notes": "High quality."
+            },
+            {
+              "amount": 150,
+              "unit": "g",
+              "name": "granulated sugar",
+              "notes": "For the caramel."
+            },
+            {
+              "amount": 1,
+              "unit": "sheet",
+              "name": "puff pastry or shortcrust pastry",
+              "notes": "Rolled into a circle slightly larger than your pan."
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "vanilla bean paste",
+              "notes": "Optional."
+            }
           ],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          nutrition: {
-            calories: 385,
-            protein: 4,
-            carbs: 48,
-            fat: 22,
-            fiber: 3,
-            vitamins: ["A", "C"],
-            minerals: ["Iron", "Calcium"],
-          },
-          season: ["autumn", "winter"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.19,
-            Water: 0.21,
-            Earth: 0.47,
-            Air: 0.13,
-          },
-          astrologicalInfluences: [
-            "Venus - The sweet, indulgent nature",
-            "Jupiter - The transformative quality",
+          "instructions": [
+            "Step 1: The Caramel. In a heavy, oven-safe skillet, melt the butter and sugar over medium heat. Cook without stirring until it turns a deep, golden amber caramel. Do not let it burn.",
+            "Step 2: The Fruit. Carefully arrange the apple halves in the hot caramel, rounded side down. Pack them very tightly together; they will shrink as they cook. Cook on the stovetop for 10-15 minutes until the apples soften slightly and the juices reduce to a thick syrup.",
+            "Step 3: The Cap. Preheat oven to 400°F (200°C). Drape the pastry over the apples. Use a spoon to tuck the edges of the pastry down into the sides of the pan.",
+            "Step 4: Bake. Prick a few holes in the pastry for steam. Bake for 25-30 minutes until the pastry is puffed and deeply golden brown.",
+            "Step 5: The Rest (Crucial). Remove from oven and let sit for exactly 5 minutes. If you flip too soon, the caramel will run everywhere; if too late, the caramel will stick to the pan.",
+            "Step 6: The Inversion. Place a large plate over the pan. In one quick, confident motion, flip the pan and plate together. Lift the pan to reveal the caramelized apple dome. Serve warm with crème fraîche."
           ],
-          astrologicalAffinities: {
-            planets: ["Venus", "Jupiter"],
-            signs: ["Taurus", "Virgo"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "classifications": {
+            "mealType": [
+              "dessert"
+            ],
+            "cookingMethods": [
+              "caramelizing",
+              "baking"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Taurus", "Virgo"],
-          instructions: [
-            "Prepare pastry dough and chill",
-            "Peel, core, and quarter apples",
-            "Make caramel in pan",
-            "Arrange apples in tight pattern",
-            "Cook until apples are partly caramelized",
-            "Cover with pastry dough",
-            "Bake until golden brown",
-            "Cool slightly and invert onto plate",
-          ],
-          timeToMake: "90 minutes",
+          "elementalProperties": {
+            "Fire": 0.35,
+            "Water": 0.15,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 380,
+            "proteinG": 3,
+            "carbsG": 48,
+            "fatG": 22,
+            "fiberG": 4,
+            "sodiumMg": 150,
+            "sugarG": 32,
+            "vitamins": [
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Calcium",
+              "Potassium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.45,"Essence":2.02,"Matter":2.24,"Substance":1.89},
+          thermodynamicProperties: {"heat":0.0481,"entropy":0.251,"reactivity":1.4219,"gregsEnergy":-0.3088,"kalchm":0.3497,"monica":0.7162},
+          "substitutions": [
+            {
+              "originalIngredient": "apples",
+              "substituteOptions": [
+                "firm pears",
+                "quinces"
+              ]
+            }
+          ]
         },
         {
-          id: "chocolate-profiteroles",
-          name: "Chocolate Profiteroles",
-          description:
-            "Choux pastry puffs filled with vanilla ice cream and topped with warm chocolate sauce",
-          cuisine: "french",
-          cookingMethods: [
-            {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
-            },
-            {
-              name: "piping",
-              elementalProperties: {
-                Fire: 0.04,
-                Water: 0.22,
-                Earth: 0.22,
-                Air: 0.52,
-              },
-            },
-            {
-              name: "sauce-making",
-              elementalProperties: {
-                Fire: 0.27,
-                Water: 0.33,
-                Earth: 0.2,
-                Air: 0.2,
-              },
-            },
-          ],
-          tools: [
-            "saucepan",
-            "piping bags",
-            "baking sheets",
-            "whisk",
-            "double boiler",
-          ],
-          preparationSteps: [
-            "Make choux pastry dough",
-            "Pipe onto baking sheets",
-            "Bake until hollow and crisp",
-            "Prepare chocolate sauce",
-            "Cut pastry puffs in half",
-            "Fill with small scoops of ice cream",
-            "Serve with warm chocolate sauce",
-          ],
-          substitutions: {
-            "vanilla ice cream": ["coconut ice cream", "sorbet"],
-            "dark chocolate": ["vegan chocolate"],
-            butter: ["plant-based butter"],
+          "name": "Authentic Chocolate Profiteroles",
+          "description": "An exercise in steam-based leavening. The choux pastry (pâte à choux) is cooked twice: once on the stove to gelatinize the starches so they can trap steam, and once in the oven where the moisture explodes, hollowing out the interior to create a light, airy shell for vanilla cream and bitter chocolate.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
           },
-          servingSize: 6,
-          allergens: ["dairy", "eggs", "gluten"],
-          prepTime: "45 minutes",
-          cookTime: "30 minutes",
-          culturalNotes:
-            "A classic French dessert that showcases three distinct pastry, techniques: choux, ice cream making, and sauce preparation",
-          pairingSuggestions: [
-            "espresso",
-            "vanilla ice cream",
-            "fresh berries",
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "water or whole milk",
+              "notes": "For the choux."
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "unsalted butter",
+              "notes": "For the choux."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "all-purpose flour",
+              "notes": "For the choux."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "For the choux. Added one at a time."
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "crème pâtissière or whipped cream",
+              "notes": "For the filling."
+            },
+            {
+              "amount": 150,
+              "unit": "g",
+              "name": "dark chocolate",
+              "notes": "For the sauce."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For the sauce."
+            }
           ],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
-          ingredients: [
-            {
-              name: "choux pastry",
-              amount: 1,
-              unit: "batch",
-              category: "pastry",
-              elementalProperties: {
-                Fire: 0.2,
-                Water: 0.15,
-                Earth: 0.5,
-                Air: 0.15,
-              },
-            },
-            {
-              name: "vanilla ice cream",
-              amount: 500,
-              unit: "ml",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.5,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "dark chocolate",
-              amount: 200,
-              unit: "g",
-              category: "chocolate",
-              elementalProperties: {
-                Fire: 0.25,
-                Water: 0.2,
-                Earth: 0.45,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "heavy cream",
-              amount: 200,
-              unit: "ml",
-              category: "dairy",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.5,
-                Earth: 0.3,
-                Air: 0.1,
-              },
-            },
-            {
-              name: "sugar",
-              amount: 50,
-              unit: "g",
-              category: "sweetener",
-              elementalProperties: {
-                Fire: 0.3,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.2,
-              },
-            },
+          "instructions": [
+            "Step 1: The Panade. Boil water/milk and butter in a saucepan. Dump in all the flour at once. Stir vigorously until it forms a dough that pulls away from the sides. Cook for 2 mins to dry the starch.",
+            "Step 2: The Eggs. Transfer dough to a mixer. Add eggs one at a time, beating until the dough is glossy and falls in a 'V' shape from the paddle. It must be thick enough to hold its shape.",
+            "Step 3: Pipe. Pipe 2-inch mounds onto a baking sheet. Flick water over the sheet (creates steam).",
+            "Step 4: Bake. Bake at 400°F (200°C) for 15 mins, then reduce to 350°F (175°C) for 15 mins. Do not open the door! Once done, pierce each puff with a knife to let steam escape. Let cool.",
+            "Step 5: Fill. Inject the puffs with cold cream.",
+            "Step 6: The Ganache. Melt chocolate with hot cream until glossy. Pour generously over the puffs before serving."
           ],
-          nutrition: {
-            calories: 450,
-            protein: 8,
-            carbs: 48,
-            fat: 26,
-            fiber: 3,
-            vitamins: ["A", "D"],
-            minerals: ["Calcium", "Iron"],
+          "classifications": {
+            "mealType": [
+              "dessert"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "whisking",
+              "baking"
+            ]
           },
-          timeToMake: "75 minutes",
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.18,
-            Water: 0.26,
-            Earth: 0.45,
-            Air: 0.1,
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.25,
+            "Earth": 0.2,
+            "Air": 0.35
           },
-          astrologicalInfluences: [
-            "Venus - The indulgent, sweet quality",
-            "Jupiter - The expansive, celebratory nature",
-          ],
-          astrologicalAffinities: {
-            planets: ["Venus", "Jupiter"],
-            signs: ["Taurus", "Leo"],
-            lunarPhases: ["First Quarter", "Full Moon"],
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Mercury"
+            ],
+            "signs": [
+              "Libra",
+              "Gemini"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
           },
-          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Taurus", "Leo"],
-          instructions: [
-            "Make choux pastry dough",
-            "Pipe onto baking sheets",
-            "Bake until hollow and crisp",
-            "Prepare chocolate sauce",
-            "Cut pastry puffs in half",
-            "Fill with small scoops of ice cream",
-            "Serve with warm chocolate sauce",
-          ],
-          numberOfServings: 6,
+          "nutritionPerServing": {
+            "calories": 420,
+            "proteinG": 8,
+            "carbsG": 35,
+            "fatG": 28,
+            "fiberG": 2,
+            "sodiumMg": 180,
+            "sugarG": 18,
+            "vitamins": [
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.48,"Essence":2.46,"Matter":2.56,"Substance":2.34},
+          thermodynamicProperties: {"heat":0.0335,"entropy":0.2616,"reactivity":1.8303,"gregsEnergy":-0.4454,"kalchm":0.2017,"monica":0.8564},
+          "substitutions": [
+            {
+              "originalIngredient": "eggs",
+              "substituteOptions": [
+                "no easy substitute for choux expansion"
+              ]
+            }
+          ]
         },
         {
-          name: "Mousse au Chocolat",
-          description:
-            "Classic French chocolate mousse with rich dark chocolate and airy whipped texture",
-          cuisine: "french",
-          cookingMethods: [
+          "name": "Authentic Mousse au Chocolat",
+          "description": "A study in structural aeration. True French mousse contains no cream in the base; it relies on the physical emulsion of chocolate and egg yolks, lightened by the mechanical folding of air trapped within stiff-peaked egg whites. The texture must be both rich and impossibly light.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "folding",
-              elementalProperties: {
-                Fire: 0.1,
-                Water: 0.2,
-                Earth: 0.3,
-                Air: 0.4,
-              },
+              "amount": 200,
+              "unit": "g",
+              "name": "dark chocolate (70%+)",
+              "notes": "Must be high quality."
             },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Separated. Whites must be at room temperature for maximum volume."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "granulated sugar",
+              "notes": "To stabilize the egg whites."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "Optional, for extra shine."
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "kosher salt",
+              "notes": "Essential contrast."
+            }
           ],
-          ingredients: [
-            {
-              name: "dark chocolate",
-              amount: "200",
-              unit: "g",
-              category: "sweetener",
-            },
-            { name: "eggs", amount: "4", unit: "large", category: "protein" },
-            {
-              name: "sugar",
-              amount: "1/4",
-              unit: "cup",
-              category: "sweetener",
-            },
-            {
-              name: "heavy cream",
-              amount: "1",
-              unit: "cup",
-              category: "dairy",
-            },
-            { name: "butter", amount: "2", unit: "tbsp", category: "fat" },
+          "instructions": [
+            "Step 1: Melt. Gently melt the chocolate and butter in a double boiler. Let it cool slightly (it must be warm, but not hot enough to cook the yolks).",
+            "Step 2: Emulsify. Whisk the egg yolks into the melted chocolate one by one until smooth and glossy.",
+            "Step 3: The Meringue. In a clean bowl, whisk the egg whites with a pinch of salt until soft peaks form. Gradually add the sugar and whisk until stiff, glossy peaks form.",
+            "Step 4: The Fold. Gently fold one-third of the egg whites into the chocolate mixture to lighten it. Then, using a rubber spatula, very carefully fold in the remaining whites until just combined. Do not over-mix, or you will deflate the air.",
+            "Step 5: Chill. Spoon into glasses. Refrigerate for at least 4 hours to allow the chocolate to set and the texture to stabilize."
           ],
-          substitutions: {
-            "dark chocolate": ["milk chocolate"],
-            "heavy cream": ["coconut cream"],
+          "classifications": {
+            "mealType": [
+              "dessert"
+            ],
+            "cookingMethods": [
+              "melting",
+              "whisking",
+              "folding",
+              "chilling"
+            ]
           },
-          servingSize: 6,
-          allergens: ["eggs", "dairy"],
-          prepTime: "30 minutes",
-          cookTime: "0 minutes",
-          nutrition: {
-            calories: 380,
-            protein: 8,
-            carbs: 32,
-            fat: 26,
-            fiber: 3,
+          "elementalProperties": {
+            "Fire": 0.05,
+            "Water": 0.2,
+            "Earth": 0.25,
+            "Air": 0.5
           },
-          timeToMake: "4 hours",
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.15,
-            Water: 0.2,
-            Earth: 0.3,
-            Air: 0.35,
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Pluto"
+            ],
+            "signs": [
+              "Libra",
+              "Scorpio"
+            ],
+            "lunarPhases": [
+              "Waning Gibbous"
+            ]
           },
+          "nutritionPerServing": {
+            "calories": 320,
+            "proteinG": 9,
+            "carbsG": 18,
+            "fatG": 24,
+            "fiberG": 4,
+            "sodiumMg": 120,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.23,"Essence":1.25,"Matter":2.41,"Substance":2.29},
+          thermodynamicProperties: {"heat":0.0318,"entropy":0.415,"reactivity":1.2171,"gregsEnergy":-0.4732,"kalchm":0.0307,"monica":1.0954},
+          "substitutions": [
+            {
+              "originalIngredient": "eggs",
+              "substituteOptions": [
+                "whipped aquafaba (chickpea water) for a vegan version"
+              ]
+            }
+          ]
         },
         {
-          name: "Mille-Feuille",
-          description:
-            "Thousand-layer pastry with flaky puff pastry, pastry cream, and fondant glaze",
-          cuisine: "french",
-          cookingMethods: [
+          "name": "Authentic Mille-Feuille",
+          "description": "The 'thousand-layer' pastry. It is a mathematical exercise in pastry crispness and custard stability. Three layers of intensely caramelized, compressed puff pastry are sandwiched with two layers of dense, vanilla-scented pastry cream (crème pâtissière), topped with iconic fondant marbling.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
             {
-              name: "baking",
-              elementalProperties: {
-                Fire: 0.32,
-                Water: 0.11,
-                Earth: 0.21,
-                Air: 0.37,
-              },
+              "amount": 1,
+              "unit": "sheet",
+              "name": "all-butter puff pastry",
+              "notes": "Must be high quality."
             },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "whole milk",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "egg yolks",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "cornstarch",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "vanilla bean",
+              "notes": "For the custard."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fondant or powdered sugar",
+              "notes": "For the glaze."
+            }
           ],
-          ingredients: [
-            {
-              name: "puff pastry",
-              amount: "500",
-              unit: "g",
-              category: "grain",
-            },
-            {
-              name: "pastry cream",
-              amount: "2",
-              unit: "cups",
-              category: "filling",
-            },
-            {
-              name: "powdered sugar",
-              amount: "1",
-              unit: "cup",
-              category: "sweetener",
-            },
-            {
-              name: "vanilla extract",
-              amount: "1",
-              unit: "tsp",
-              category: "flavoring",
-            },
+          "instructions": [
+            "Step 1: The Pastry. Roll the puff pastry flat. Place on a baking sheet, cover with another sheet of parchment and a second baking sheet (to weigh it down). Bake at 400°F (200°C) for 20 mins. This prevents it from rising too high and makes it dense and crisp.",
+            "Step 2: Caramelize. Remove the top sheet. Dust the pastry with powdered sugar and bake for 5 mins until it melts into a glassy, brown caramel. Let cool and cut into three equal rectangles.",
+            "Step 3: The Custard. Make a thick crème pâtissière by boiling milk with vanilla, then whisking into yolks/sugar/cornstarch. Chill until very firm.",
+            "Step 4: Assemble. Pipe thick dots of custard over the first pastry layer. Place second layer on top. Repeat. Top with third layer.",
+            "Step 5: Glaze. Decorate the top with white fondant and draw lines of chocolate to create the classic chevron pattern. Serve immediately while pastry is shatteringly crisp."
           ],
-          substitutions: {
-            "puff pastry": ["phyllo dough"],
-            "pastry cream": ["whipped cream"],
+          "classifications": {
+            "mealType": [
+              "dessert",
+              "pastry"
+            ],
+            "cookingMethods": [
+              "baking",
+              "whisking",
+              "piping"
+            ]
           },
-          servingSize: 8,
-          allergens: ["gluten", "eggs", "dairy"],
-          prepTime: "45 minutes",
-          cookTime: "25 minutes",
-          nutrition: {
-            calories: 420,
-            protein: 6,
-            carbs: 52,
-            fat: 22,
-            fiber: 1,
+          "elementalProperties": {
+            "Fire": 0.15,
+            "Water": 0.2,
+            "Earth": 0.25,
+            "Air": 0.4
           },
-          timeToMake: "2 hours",
-          season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.25,
-            Water: 0.15,
-            Earth: 0.25,
-            Air: 0.35,
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Mercury"
+            ],
+            "signs": [
+              "Libra",
+              "Gemini"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
           },
+          "nutritionPerServing": {
+            "calories": 480,
+            "proteinG": 7,
+            "carbsG": 52,
+            "fatG": 28,
+            "fiberG": 1,
+            "sodiumMg": 210,
+            "sugarG": 28,
+            "vitamins": [
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Calcium"
+            ]
+          },
+
+          alchemicalProperties: {"Spirit":1.98,"Essence":3.0,"Matter":2.88,"Substance":2.65},
+          thermodynamicProperties: {"heat":0.0448,"entropy":0.2777,"reactivity":2.0583,"gregsEnergy":-0.5267,"kalchm":0.3751,"monica":1.3128},
+          "substitutions": [
+            {
+              "originalIngredient": "egg yolks",
+              "substituteOptions": [
+                "custard powder (not authentic)"
+              ]
+            }
+          ]
         },
       ],
     },

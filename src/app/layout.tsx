@@ -1,17 +1,20 @@
-// app/layout.tsx
+import { Analytics } from "@vercel/analytics/next";
 import Link from "next/link";
 import React from "react";
+import NavAuthLink from "@/components/nav/NavAuthLink";
+import NotificationBell from "@/components/nav/NotificationBell";
+import PayPalButton from "@/components/PayPalButton";
+import PremiumLink from "@/components/nav/PremiumLink";
+import SignInModal from "@/components/auth/SignInModal";
+import ClientProviders from "./ClientProviders";
 import type { Metadata } from "next";
 import "./globals.css";
-import ClientProviders from "./ClientProviders";
-import PayPalButton from "@/components/PayPalButton";
-import NavAuthLink from "@/components/nav/NavAuthLink";
 
+// app/layout.tsx
 // Force dynamic rendering for all pages - the app relies on runtime
 // context providers (Chakra, Theme, User, Alchemical) that require
 // a client-side React environment during rendering.
 export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "What to Eat Next",
   description:
@@ -24,7 +27,6 @@ export const metadata: Metadata = {
     apple: "/icon-192x192.png",
   },
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -47,12 +49,14 @@ export default function RootLayout({
                       The Menu of the Moment in the Stars and Elements
                     </p>
                   </Link>
-                  {/* PayPal Button */}
-                  <div className="hidden md:block">
-                    <PayPalButton />
+                  <div className="flex items-center gap-3">
+                    <NotificationBell />
+                    {/* PayPal Button */}
+                    <div className="hidden md:block">
+                      <PayPalButton />
+                    </div>
                   </div>
                 </div>
-
                 {/* Navigation Menu */}
                 <nav
                   className="flex flex-wrap gap-2 md:gap-4"
@@ -101,6 +105,21 @@ export default function RootLayout({
                     ⚗️ Alchm Quantities
                   </Link>
                   <Link
+                    href="/cosmic-recipe"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-pink-100 text-pink-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-pink-200"
+                    aria-label="AI cosmic recipe generator"
+                  >
+                    🌌 Cosmic Recipes
+                  </Link>
+                  <Link
+                    href="/restaurant-creator"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-rose-100 text-rose-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-rose-200"
+                    aria-label="Create your cosmic restaurant"
+                  >
+                    🏪 Restaurant Creator
+                  </Link>
+                  <PremiumLink />
+                  <Link
                     href="https://planetary-agents.vercel.app/planetary-agents"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -115,7 +134,6 @@ export default function RootLayout({
             </div>
           </header>
           <main>{children}</main>
-
           {/* Footer */}
           <footer className="bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 text-white py-12 mt-20 border-t-4 border-purple-500">
             <div className="mx-auto max-w-7xl px-4">
@@ -130,7 +148,6 @@ export default function RootLayout({
                     help you discover the perfect meal for every moment.
                   </p>
                 </div>
-
                 {/* Explore Column */}
                 <div>
                   <h4 className="font-bold mb-4 text-purple-300">Explore</h4>
@@ -180,7 +197,6 @@ export default function RootLayout({
                     </li>
                   </ul>
                 </div>
-
                 {/* Discover Column */}
                 <div>
                   <h4 className="font-bold mb-4 text-orange-300">Discover</h4>
@@ -195,7 +211,6 @@ export default function RootLayout({
                     </li>
                   </ul>
                 </div>
-
                 {/* System Status Column */}
                 <div>
                   <h4 className="font-bold mb-4 text-green-300">
@@ -217,14 +232,15 @@ export default function RootLayout({
                   </div>
                 </div>
               </div>
-
               {/* Copyright */}
               <div className="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-400">
                 <p>&copy; 2025 Alchm Kitchen. Crafted with cosmic intention.</p>
               </div>
             </div>
           </footer>
+          <SignInModal />
         </ClientProviders>
+        <Analytics />
       </body>
     </html>
   );

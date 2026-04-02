@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { LocationSearch } from '@/components/onboarding/LocationSearch';
+import React, { useEffect, useState, useCallback } from 'react';
 import { UserDashboard } from '@/components/dashboard';
+import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { FoodPreferences } from '@/components/profile/FoodPreferences';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { BirthData } from '@/types/natalChart';
 
 type ProfileStep = 'birth-data' | 'preferences' | 'dashboard';
@@ -33,7 +33,7 @@ function getStorageItem(key: string): string | null {
 
 export default function ProfilePage() {
   const { data: session, status, update: updateSession } = useSession();
-  const { state } = useAlchemical();
+  const { state: _state } = useAlchemical();
 
   const [profileData, setProfileData] = useState<any>(null);
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_PREFERENCES);
@@ -121,7 +121,7 @@ export default function ProfilePage() {
       setCurrentStep(determineStep(profile, loadedPrefs, prefsComplete));
       setIsFetchingProfile(false);
     }
-    fetchProfile();
+    void fetchProfile();
   }, [status, session, determineStep]);
 
   // Handle birth data submission
@@ -162,6 +162,7 @@ export default function ProfilePage() {
         }),
       });
 
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
       const result = await response.json();
 
       if (!result.success) {
@@ -354,7 +355,7 @@ export default function ProfilePage() {
 function BirthDataStep({
   birthDateTime,
   setBirthDateTime,
-  birthLocation,
+  birthLocation: _birthLocation,
   setBirthLocation,
   onSubmit,
   isLoading,
@@ -383,6 +384,8 @@ function BirthDataStep({
 
       <form onSubmit={onSubmit} className="space-y-5">
         <div>
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Birth Date &amp; Time
             <span className="text-red-500 ml-1">*</span>

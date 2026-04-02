@@ -103,7 +103,7 @@ describe("AlertingSystem", () => {
 
       const ruleId = alertingSystem.addAlertRule(rule);
       expect(ruleId).toBeDefined();
-      expect(ruleId).toMatch(/^rule-\d+$/);
+      expect(ruleId).toMatch(/^rule-\d+-[a-z0-9]+$/);
 
       const rules = alertingSystem.getAlertRules();
       const addedRule = rules.find((r) => r.id === ruleId);

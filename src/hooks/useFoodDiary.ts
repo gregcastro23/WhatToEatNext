@@ -117,21 +117,50 @@ export function useFoodDiary(): UseFoodDiaryReturn {
 
   // Load data on mount and when date changes
   useEffect(() => {
-    loadData();
+    void loadData();
   }, [userId, selectedDate]);
 
   // Load weekly summary when week changes
   useEffect(() => {
-    loadWeeklySummary();
+    void loadWeeklySummary();
   }, [userId, selectedDate]);
 
   /**
-   * Load data for the current view
+   * Load data for the current view.
+   * Authenticated users fetch from the API (persisted DB); guests use in-memory service.
    */
   const loadData = useCallback(async () => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
+      if (userId && userId !== "guest") {
+        // Fetch persisted entries from the API
+        const dateStr = selectedDate.toISOString().split("T")[0];
+        const res = await fetch(
+          `/api/food-diary?userId=${encodeURIComponent(userId)}&date=${dateStr}`,
+          { credentials: "include" },
+        );
+        if (res.ok) {
+          const data = await res.json();
+          const entries = data.entries ?? [];
+          const summary = data.summary ?? null;
+          const [stats, favorites] = await Promise.all([
+            foodDiaryService.getStats(userId),
+            foodDiaryService.getFavorites(userId),
+          ]);
+          setState((prev) => ({
+            ...prev,
+            entries,
+            dailySummary: summary,
+            stats,
+            favorites,
+            isLoading: false,
+          }));
+          return;
+        }
+      }
+
+      // Fallback: unauthenticated or API unavailable — use in-memory service
       const [entries, dailySummary, stats, favorites] = await Promise.all([
         foodDiaryService.getDayEntries(userId, selectedDate),
         foodDiaryService.getDailySummary(userId, selectedDate),
@@ -178,14 +207,30 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   }, [userId, selectedDate]);
 
   /**
-   * Add a new entry
+   * Add a new entry.
+   * Authenticated users persist via API; guests use in-memory service.
    */
   const addEntry = useCallback(
     async (
       input: CreateFoodDiaryEntryInput,
     ): Promise<FoodDiaryEntry | null> => {
       try {
-        const entry = await foodDiaryService.createEntry(userId, input);
+        let entry: FoodDiaryEntry | null = null;
+
+        if (userId && userId !== "guest") {
+          const res = await fetch("/api/food-diary", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ userId, ...input }),
+          });
+          if (!res.ok) throw new Error(`Server error (${res.status})`);
+          const data = await res.json();
+          entry = data.entry ?? null;
+        } else {
+          entry = await foodDiaryService.createEntry(userId, input);
+        }
+
         await loadData();
         return entry;
       } catch (error) {
@@ -342,7 +387,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
           return true;
         }
         return false;
-      } catch (error) {
+      } catch (_error) {
         return false;
       }
     },
@@ -412,7 +457,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
 
   // Load insights on mount
   useEffect(() => {
-    refreshInsights();
+    void refreshInsights();
   }, [refreshInsights]);
 
   return {

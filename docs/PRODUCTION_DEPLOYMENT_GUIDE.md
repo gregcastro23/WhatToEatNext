@@ -72,6 +72,24 @@ vercel --prod
 # Configure environment variables in Vercel dashboard
 ```
 
+### **Custom Domain Setup**
+
+To connect your custom domain to Vercel, you have two options:
+
+#### **Option 1: Nameservers (Recommended)**
+Update your domain's nameservers at your registrar to:
+- `ns1.vercel-dns.com`
+- `ns2.vercel-dns.com`
+
+#### **Option 2: DNS Records**
+If you prefer to keep your existing nameservers, configure the following records:
+
+| Type  | Name  | Value                                      |
+| ----- | ----- | ------------------------------------------ |
+| CNAME | `www` | `dd4dc5df64b5e573.vercel-dns-016.com.`      |
+
+*Note: The old records `cname.vercel-dns.com` and `76.76.21.21` will continue to work, but using the new expansion records is recommended.*
+
 **Vercel Configuration** (`vercel.json`):
 
 ```json
@@ -218,7 +236,7 @@ module.exports = {
 
   // Optimize images
   images: {
-    domains: ["your-domain.com"],
+    domains: ["alchm.kitchen"],
     formats: ["image/webp", "image/avif"],
   },
 
@@ -255,14 +273,14 @@ The Phase 8 caching system is automatically configured with optimal settings:
 ```bash
 # Secure environment variables
 NEXTAUTH_SECRET=your_secure_secret_here
-NEXTAUTH_URL=https://your-domain.com
+NEXTAUTH_URL=https://alchm.kitchen
 
 # API rate limiting
 RATE_LIMIT_MAX=100
 RATE_LIMIT_WINDOW=900000
 
 # CORS configuration
-ALLOWED_ORIGINS=https://your-domain.com,https://www.your-domain.com
+ALLOWED_ORIGINS=https://alchm.kitchen,https://www.alchm.kitchen
 ```
 
 ### **Security Headers**

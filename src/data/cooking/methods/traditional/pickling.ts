@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Pickling cooking method
@@ -10,6 +9,8 @@ export const pickling: CookingMethodData = {
   name: "pickling",
   description:
     "The preservation and flavoring of foods through immersion in an acidic solution, typically vinegar (quick pickling) or through fermentation in salt brine (fermented pickling), creating tangy, preserved foods with distinctive flavors and extended shelf life.",
+  shortDescription: "Preserves and transforms through acidic immersion and patient waiting.",
+  culinaryArchetype: "The Preserver",
   elementalEffect: {
     Water: 0.5,
     Earth: 0.2,

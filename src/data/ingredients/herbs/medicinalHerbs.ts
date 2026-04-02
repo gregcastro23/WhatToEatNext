@@ -5,6 +5,7 @@ const rawMedicinalHerbs = {
   echinacea: {
     name: "Echinacea",
     elementalProperties: { Earth: 0.3, Fire: 0.4, Air: 0.2, Water: 0.1 },
+    alchemicalProperties: { Spirit: 0.32, Essence: 0.21, Matter: 0.24, Substance: 0.23 },
     astrologicalProfile: {
       planetaryRuler: "Mars",
       zodiacRuler: "Aries",
@@ -325,6 +326,7 @@ const rawMedicinalHerbs = {
   elderberry: {
     name: "Elderberry",
     elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.27, Air: 0.27 },
+    alchemicalProperties: { Spirit: 0.16, Essence: 0.26, Matter: 0.29, Substance: 0.29 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
       favorableZodiac: ["Gemini", "Virgo", "Cancer"],
@@ -356,6 +358,7 @@ const rawMedicinalHerbs = {
   chamomile: {
     name: "Chamomile",
     elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.18, Air: 0.36 },
+    alchemicalProperties: { Spirit: 0.20, Essence: 0.29, Matter: 0.25, Substance: 0.26 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["Cancer", "Taurus", "Pisces"],

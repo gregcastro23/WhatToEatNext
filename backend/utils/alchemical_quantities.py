@@ -1,12 +1,13 @@
 
 from typing import Dict, Any
+from backend.schemas.planetary import AlchemicalQuantities
 
 def calculate_alchemical_quantities(
     recipe: Any, # Assuming recipe object with elementalProperties
     kinetic_rating: float,
     planetary_hour_ruler: str,
     thermo_rating: float
-) -> Dict[str, float]:
+) -> AlchemicalQuantities:
     """
     Calculates the four fundamental alchemical quantities: Spirit, Essence, Matter, and Substance.
     """
@@ -48,11 +49,11 @@ def calculate_alchemical_quantities(
     matter_score = min(matter_score, 1.0)
     substance_score = min(substance_score, 1.0)
 
-    return {
-        "spirit_score": spirit_score,
-        "essence_score": essence_score,
-        "matter_score": matter_score,
-        "substance_score": substance_score,
-        "kinetic_val": kinetic_rating, # Include kinetic_rating in the return
-        "thermo_val": thermo_rating,   # Include thermo_rating in the return
-    }
+    return AlchemicalQuantities(
+        spirit_score=spirit_score,
+        essence_score=essence_score,
+        matter_score=matter_score,
+        substance_score=substance_score,
+        kinetic_val=kinetic_rating, # Include kinetic_rating in the return
+        thermo_val=thermo_rating,   # Include thermo_rating in the return
+    )

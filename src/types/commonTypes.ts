@@ -18,8 +18,10 @@ import type {
 // Import LunarPhase as type from constants.ts
 
 // Define types directly since they're not exported from constants
-type Element = "Fire" | "Water" | "Earth" | "Air";
-type PlanetName =
+     // eslint-disable-next-line @typescript-eslint/naming-convention
+type _Element = "Fire" | "Water" | "Earth" | "Air";
+     // eslint-disable-next-line @typescript-eslint/naming-convention
+type _PlanetName =
   | "Sun"
   | "Moon"
   | "Mercury"

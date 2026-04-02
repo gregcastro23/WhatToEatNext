@@ -106,7 +106,7 @@ NODE_ENV=production
 LOG_LEVEL=info
 NEXT_TELEMETRY_DISABLED=1
 JWT_SECRET=<generated-secret>
-NEXT_PUBLIC_APP_URL=https://yourdomain.com
+NEXT_PUBLIC_APP_URL=https://alchm.kitchen
 ```
 
 **Security Notes**:
@@ -285,6 +285,24 @@ vercel env add JWT_SECRET production
 vercel env add NODE_ENV production
 ```
 
+### Custom Domain Setup
+
+To connect your custom domain (e.g., `alchm.kitchen`) to Vercel, you have two options:
+
+#### Option 1: Nameservers (Recommended)
+Update your domain's nameservers at your registrar to:
+- `ns1.vercel-dns.com`
+- `ns2.vercel-dns.com`
+
+#### Option 2: DNS Records
+If you prefer to keep your existing nameservers, configure the following records:
+
+| Type  | Name  | Value                                      |
+| ----- | ----- | ------------------------------------------ |
+| CNAME | `www` | `dd4dc5df64b5e573.vercel-dns-016.com.`      |
+
+*Note: The old records `cname.vercel-dns.com` and `76.76.21.21` will continue to work, but using the new expansion records is recommended.*
+
 ### Vercel-Specific Configuration
 
 **vercel.json** (optional):
@@ -416,7 +434,7 @@ vercel env add NODE_ENV production
 curl http://localhost:3000/api/health
 
 # Production
-curl https://yourdomain.com/api/health
+curl https://alchm.kitchen/api/health
 
 # With timeout
 curl --max-time 5 http://localhost:3000/api/health

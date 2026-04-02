@@ -8,13 +8,15 @@ import { useForm } from "react-hook-form"; // For form management
 import { z } from "zod"; // For validation
 
 // Assuming these types are defined elsewhere (e.g., src/types/auth.ts, src/types/chart.ts)
-interface UserIdentity {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+interface _UserIdentity {
   email: string;
   password: string;
   confirmPassword?: string;
 }
 
-interface BirthData {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+interface _BirthData {
   birthDate: string; // YYYY-MM-DD
   birthTime: string; // HH:MM (24-hour format)
   birthLatitude: number;
@@ -22,7 +24,8 @@ interface BirthData {
   timezone: string;
 }
 
-interface KitchenPreferences {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+interface _KitchenPreferences {
   thermodynamicDefaults: string; // e.g., "neutral", "warming", "cooling"
   kineticDefaults: string; // e.g., "gentle", "moderate", "intense"
 }

@@ -13,15 +13,13 @@ import type {
   Season,
   ZodiacSignType,
 } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
 import type { Recipe , ScoredRecipe } from "@/types/recipe";
 import { logger } from "../../utils/logger";
 import { consolidatedRecipeService } from "../ConsolidatedRecipeService";
 import { FoodAlchemySystem } from "../FoodAlchemySystem";
 import type { UnifiedIngredient } from "../../data/unified/unifiedTypes";
 import type {
-  FoodCompatibility,
+  FoodCompatibility as _FoodCompatibility,
   SystemState,
 } from "../../lib/FoodAlchemySystem";
 
@@ -133,7 +131,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
           typeof planet === "string"
             ? planet.charAt(0).toUpperCase() + planet.slice(1)
             : planet;
-        const signFormatted =
+        const _signFormatted =
           typeof sign === "string"
             ? sign.charAt(0).toUpperCase() + sign.slice(1)
             : sign;

@@ -1,6 +1,5 @@
 // src/data/enhancedDishes.ts
 
-import { cuisines } from "./cuisines";
 import type { FoodProperty } from "./foodTypes";
 
 export const dishProperties: Record<string, FoodProperty[]> = {

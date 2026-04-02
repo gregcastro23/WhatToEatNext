@@ -5,6 +5,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   mango: {
     name: "Mango",
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.55,
+      Essence: 0.85,
+      Matter: 0.30,
+      Substance: 0.22,
+    },
+    kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
       favorableZodiac: ["leo", "taurus"],
@@ -92,6 +101,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   pineapple: {
     name: "Pineapple",
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
+    quantityBase: { amount: 165, unit: "g" },
+    scaledElemental: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.60,
+      Essence: 0.80,
+      Matter: 0.28,
+      Substance: 0.25,
+    },
+    kineticsImpact: { thermalDirection: 0.20, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
       favorableZodiac: ["leo", "aries"],
@@ -154,6 +172,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   papaya: {
     name: "Papaya",
     elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
+    quantityBase: { amount: 145, unit: "g" },
+    scaledElemental: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.35,
+      Essence: 0.75,
+      Matter: 0.25,
+      Substance: 0.20,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.90 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Moon"],
       favorableZodiac: ["cancer", "leo"],
@@ -216,6 +243,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   passion_fruit: {
     name: "Passion Fruit",
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
+    quantityBase: { amount: 18, unit: "g" },
+    scaledElemental: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.72,
+      Essence: 0.78,
+      Matter: 0.15,
+      Substance: 0.18,
+    },
+    kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.90 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["libra", "gemini"],
@@ -285,6 +321,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   guava: {
     name: "Guava",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 55, unit: "g" },
+    scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.48,
+      Essence: 0.75,
+      Matter: 0.30,
+      Substance: 0.25,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer"],
@@ -347,6 +392,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   dragon_fruit: {
     name: "Dragon Fruit",
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 227, unit: "g" },
+    scaledElemental: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.15,
+      Essence: 0.65,
+      Matter: 0.25,
+      Substance: 0.20,
+    },
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "pisces"],
@@ -409,6 +463,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   lychee: {
     name: "Lychee",
     elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
+    quantityBase: { amount: 190, unit: "g" },
+    scaledElemental: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.55,
+      Essence: 0.80,
+      Matter: 0.18,
+      Substance: 0.15,
+    },
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["libra", "cancer"],
@@ -471,6 +534,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   rambutan: {
     name: "Rambutan",
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.40,
+      Essence: 0.75,
+      Matter: 0.20,
+      Substance: 0.18,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
       favorableZodiac: ["taurus", "sagittarius"],
@@ -533,6 +605,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   longan: {
     name: "Longan",
     elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.35,
+      Essence: 0.72,
+      Matter: 0.18,
+      Substance: 0.16,
+    },
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "taurus"],
@@ -595,6 +676,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   starfruit: {
     name: "Starfruit",
     elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
+    quantityBase: { amount: 108, unit: "g" },
+    scaledElemental: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.38,
+      Essence: 0.70,
+      Matter: 0.18,
+      Substance: 0.15,
+    },
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["libra", "gemini"],
@@ -657,6 +747,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   persimmon: {
     name: "Persimmon",
     elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
+    quantityBase: { amount: 168, unit: "g" },
+    scaledElemental: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.22,
+      Essence: 0.65,
+      Matter: 0.40,
+      Substance: 0.35,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["taurus", "capricorn"],
@@ -719,6 +818,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   kiwi: {
     name: "Kiwi",
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 69, unit: "g" },
+    scaledElemental: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.42,
+      Essence: 0.78,
+      Matter: 0.22,
+      Substance: 0.20,
+    },
+    kineticsImpact: { thermalDirection: 0.00, forceMagnitude: 0.85 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["gemini", "libra"],
@@ -781,6 +889,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   jackfruit: {
     name: "Jackfruit",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 165, unit: "g" },
+    scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.18,
+      Essence: 0.55,
+      Matter: 0.60,
+      Substance: 0.50,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.75 },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
       favorableZodiac: ["sagittarius", "taurus"],
@@ -843,6 +960,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   durian: {
     name: "Durian",
     elementalProperties: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
+    quantityBase: { amount: 100, unit: "g" },
+    scaledElemental: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.85,
+      Essence: 0.60,
+      Matter: 0.55,
+      Substance: 0.45,
+    },
+    kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 0.70 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Pluto"],
       favorableZodiac: ["capricorn", "scorpio"],
@@ -905,6 +1031,15 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   coconut: {
     name: "Coconut",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    quantityBase: { amount: 80, unit: "g" },
+    scaledElemental: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    alchemicalProperties: {
+      Spirit: 0.25,
+      Essence: 0.55,
+      Matter: 0.65,
+      Substance: 0.60,
+    },
+    kineticsImpact: { thermalDirection: 0.00, forceMagnitude: 0.75 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "taurus"],

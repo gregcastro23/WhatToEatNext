@@ -1,8 +1,9 @@
 import type { ElementalProperties } from "@/types/alchemy";
+import type { AlchemicalProperties } from "@/types/celestial";
 
 // Re-export ElementalProperties to fix TS2459 errors
 export type { ElementalProperties };
-
+export type { AlchemicalProperties };
 export type IngredientCategory =
   | "culinary_herb"
   | "spice"
@@ -14,7 +15,6 @@ export type IngredientCategory =
   | "oil"
   | "vinegar"
   | "seasoning";
-
 // New interface for sensory profiles
 export interface SensoryProfile {
   taste:
@@ -48,7 +48,6 @@ export interface SensoryProfile {
       }
     | Record<string, number>;
 }
-
 // New interface for cooking methods
 export interface CookingMethod {
   name: string;
@@ -65,7 +64,6 @@ export interface CookingMethod {
   };
   description: string;
 }
-
 export interface BaseIngredient {
   name: string;
   category: IngredientCategory;
@@ -76,14 +74,12 @@ export interface BaseIngredient {
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: CookingMethod[];
 }
-
 export interface LunarPhaseModifier {
   elementalBoost?: Partial<ElementalProperties>;
   preparationTips?: string[];
   potencyMultiplier?: number;
   recommendedUses?: string[];
 }
-
 export interface Ingredient extends BaseIngredient {
   origin?: string[];
   subCategory?: string;
@@ -149,7 +145,6 @@ export interface Ingredient extends BaseIngredient {
     whenDried?: Partial<ElementalProperties>;
   };
 }
-
 export const _VALID_CATEGORIES: IngredientCategory[] = [
   "culinary_herb",
   "spice",
@@ -162,7 +157,6 @@ export const _VALID_CATEGORIES: IngredientCategory[] = [
   "vinegar",
   "seasoning",
 ];
-
 // Improved subcategories
 export type VegetableSubcategory =
   | "leafy_green"
@@ -181,14 +175,6 @@ export type ProteinSubcategory =
 export type SeasoningSubcategory = "salt" | "pepper" | "aromatic" | "blend";
 export type OilSubcategory = "cooking" | "finishing" | "infused";
 export type VinegarSubcategory = "wine" | "fruit" | "grain" | "specialty";
-// Updated AlchemicalProperties interface with more accurate values
-export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}
-
 // Updated ThermodynamicProperties interface based on the FoodAlchemySystem
 export interface ThermodynamicProperties {
   heat: number;
@@ -196,7 +182,6 @@ export interface ThermodynamicProperties {
   reactivity: number;
   energy: number;
 }
-
 // Add Modality type to the types file
 export type Modality = "Cardinal" | "Fixed" | "Mutable";
 // Update the IngredientProfile interface to include modality
@@ -208,7 +193,6 @@ export interface IngredientProfile {
   thermodynamicProperties: ThermodynamicProperties;
   modality: Modality;
 }
-
 export interface IngredientMapping {
   name: string;
   elementalProperties: ElementalProperties;

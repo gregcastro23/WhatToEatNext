@@ -6,6 +6,8 @@ const config = {
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    "^react$": "<rootDir>/node_modules/react",
+    "^react-dom$": "<rootDir>/node_modules/react-dom",
   },
   transform: {
     "^.+\\.(ts|tsx)$": [
@@ -27,12 +29,12 @@ const config = {
     "/archive/",
     "/__tests__/temp-validation/", // Exclude temp validation components (not actual tests)
     "/docs/Alchm Kitchen/", // Exclude Alchm Kitchen docs from tests to resolve Haste collision
-    // Orphaned tests referencing deleted modules
-    "src/services/__tests__/EnterpriseIntelligenceIntegration",
+    // Excluded integration tests
     "tests/cross-backend-rectification",
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  modulePathIgnorePatterns: ["<rootDir>/Alchm Kitchen/", "<rootDir>/docs/Alchm Kitchen/"],
+  setupFilesAfterEnv: ["<rootDir>/tests/setup/jest.setup.ts"],
 
   // Memory Management Configuration
   testTimeout: 30000, // 30s timeout for CI environment

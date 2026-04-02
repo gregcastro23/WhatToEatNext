@@ -12,7 +12,8 @@ import { validateRequest } from "@/lib/auth/validateRequest";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
+// Note: Removed `runtime = "edge"` - Cloudflare Workers are already edge functions
+// and OpenNext requires edge functions to be configured separately.
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
@@ -54,7 +55,10 @@ export async function POST(request: NextRequest) {
   }
 
   const bytes = await file.arrayBuffer();
-  const base64 = Buffer.from(bytes).toString("base64");
+  // Use Web API for base64 encoding — Buffer is not available in Edge runtime
+  const uint8Array = new Uint8Array(bytes);
+  const binary = Array.from(uint8Array, (b) => String.fromCharCode(b)).join("");
+  const base64 = btoa(binary);
   const dataUrl = `data:${file.type};base64,${base64}`;
 
   return NextResponse.json({

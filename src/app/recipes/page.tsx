@@ -66,7 +66,7 @@ export default function RecipesPage() {
         }
       };
 
-      fetchAndScoreRecipes();
+      void fetchAndScoreRecipes();
     }
   }, [cuisine]);
 

@@ -5,12 +5,13 @@
  */
 
 import { NextResponse } from "next/server";
-import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { userDatabase } from "@/services/userDatabaseService";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { _logger } from "@/lib/logger";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo, GroupMember } from "@/types/natalChart";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -64,13 +65,9 @@ function calcElementalBalance(positions: Record<Planet, ZodiacSignType>) {
 
 /** GET /api/user/commensals */
 export async function GET(request: NextRequest) {
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
-    return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
-  }
-
-  const user = await userDatabase.getUserById(userId);
+  const user = await getDatabaseUserFromRequest(request);
   if (!user) {
+    _logger.warn("[GET /api/user/commensals] User not found or not authenticated");
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
@@ -82,10 +79,22 @@ export async function GET(request: NextRequest) {
 
 /** POST /api/user/commensals - Add a new commensal */
 export async function POST(request: NextRequest) {
-  const authResult = await validateRequest(request);
-  if ("error" in authResult) return authResult.error;
+  const user = await getDatabaseUserFromRequest(request);
 
-  const body = await request.json();
+  if (!user) {
+    _logger.warn("[POST /api/user/commensals] User not found or not authenticated");
+    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { success: false, message: "Invalid JSON in request body" },
+      { status: 400 },
+    );
+  }
   const { name, relationship, birthData } = body as {
     name: string;
     relationship?: GroupMember["relationship"];
@@ -99,18 +108,21 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const userId = authResult.user.userId;
-  const user = await userDatabase.getUserById(userId);
-  if (!user) {
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
-  }
-
   // Calculate natal chart for the commensal
   const birthDate = new Date(birthData.dateTime);
-  const rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
-    latitude: birthData.latitude,
-    longitude: birthData.longitude,
-  });
+  let rawPositions;
+  try {
+    rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
+      latitude: birthData.latitude,
+      longitude: birthData.longitude,
+    });
+  } catch (error) {
+    _logger.error("[POST /api/user/commensals] Planetary calculation failed", error as any);
+    return NextResponse.json(
+      { success: false, message: "Planetary calculation service unavailable. Please try again later." },
+      { status: 503 },
+    );
+  }
 
   const positions: Record<Planet, ZodiacSignType> = {
     Sun: rawPositions.Sun?.sign,
@@ -156,7 +168,11 @@ export async function POST(request: NextRequest) {
   const existingMembers = user.profile.groupMembers || [];
   const updatedMembers = [...existingMembers, newCommensal];
 
-  await userDatabase.updateUserProfile(userId, { groupMembers: updatedMembers });
-
-  return NextResponse.json({ success: true, commensal: newCommensal }, { status: 201 });
+  try {
+    await userDatabase.updateUserProfile(user.id, { groupMembers: updatedMembers });
+    return NextResponse.json({ success: true, commensal: newCommensal }, { status: 201 });
+  } catch (error) {
+    _logger.error("[POST /api/user/commensals] Failed to update user profile", error as any);
+    return NextResponse.json({ success: false, message: "Failed to save companion chart" }, { status: 500 });
+  }
 }

@@ -9,6 +9,8 @@ export const emulsification: CookingMethodData = {
   name: "Emulsification" as CookingMethod,
   description:
     "A technique that combines normally immiscible liquids, such as oil and water, into a stable, homogeneous mixture through the use of emulsifiers, agitation, or specialized equipment.",
+  shortDescription: "Binds opposing liquids into stable, creamy unions through forceful mixing.",
+  culinaryArchetype: "The Binder",
   elementalEffect: {
     Fire: 0.1,
     Water: 0.6,

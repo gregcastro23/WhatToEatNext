@@ -1,15 +1,13 @@
-// Type imports
 import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
-
-// Internal imports
 import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
-import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import type { ThermodynamicMetrics } from "@/utils/kineticCalculations";
+import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { createLogger } from "@/utils/logger";
 
+// Type imports
+// Internal imports
 // Logger
 const logger = createLogger("EnhancedCuisineRecommender");
-
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
   name?: string;
@@ -38,7 +36,6 @@ interface RecipeData {
   lunarPhaseInfluences?: string[];
   allergens?: string[];
 }
-
 interface EnhancedRecipeMatch {
   cuisine: string;
   recipeName: string;
@@ -57,15 +54,14 @@ interface EnhancedRecipeMatch {
   season: string[];
   mealType: string[];
 }
-
-interface TimeFactors {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+interface _TimeFactors {
   planetaryDay: PlanetaryDay;
   planetaryHour: PlanetaryHour;
   timeOfDay: TimeOfDay;
   currentSeason: Season;
   currentDate: Date;
 }
-
 type PlanetaryDay =
   | "Sun"
   | "Moon"
@@ -87,16 +83,13 @@ type Season = "spring" | "summer" | "autumn" | "winter";
  */
 export class EnhancedCuisineRecommender {
   private static instance: EnhancedCuisineRecommender;
-
   private constructor() {}
-
   public static getInstance(): EnhancedCuisineRecommender {
     if (!EnhancedCuisineRecommender.instance) {
       EnhancedCuisineRecommender.instance = new EnhancedCuisineRecommender();
     }
     return EnhancedCuisineRecommender.instance;
   }
-
   /**
    * Get enhanced recipe recommendations for a specific cuisine
    *
@@ -121,7 +114,6 @@ export class EnhancedCuisineRecommender {
         logger.warn(`No recipes found for cuisine: ${cuisineName}`);
         return [];
       }
-
       // Calculate matches for each recipe
       const matches = recipes.map((recipe) =>
         this.calculateRecipeMatch(
@@ -132,7 +124,6 @@ export class EnhancedCuisineRecommender {
           dietaryRestrictions,
         ),
       );
-
       // Sort by match percentage and return top results
       return matches
         .sort((a, b) => b.matchPercentage - a.matchPercentage)
@@ -145,16 +136,14 @@ export class EnhancedCuisineRecommender {
       return [];
     }
   }
-
   /**
    * Get recipes for a specific cuisine
    */
-  private getRecipesForCuisine(cuisineName: string): RecipeData[] {
+  private getRecipesForCuisine(_cuisineName: string): RecipeData[] {
     // This would typically load recipes from the cuisine data files
     // For now, return empty array - can be expanded
     return [];
   }
-
   /**
    * Calculate match score for a recipe
    */
@@ -162,8 +151,8 @@ export class EnhancedCuisineRecommender {
     recipe: RecipeData,
     cuisineName: string,
     astroState: AstrologicalState,
-    mealType?: string,
-    dietaryRestrictions?: string[],
+    _mealType?: string,
+    _dietaryRestrictions?: string[],
   ): EnhancedRecipeMatch {
     try {
       // Calculate individual scores
@@ -183,7 +172,6 @@ export class EnhancedCuisineRecommender {
       );
       const timeOfDayScore = this.calculateTimeOfDayScore(recipe);
       const kineticScore = this.calculateKineticScore(recipe, astroState);
-
       // Calculate overall match score (0-1 range) with kinetics integration
       // Adjusted weights to include kinetics (0.13) while maintaining balance
       const overallScore =
@@ -194,10 +182,8 @@ export class EnhancedCuisineRecommender {
         astrologicalScore * 0.13 + // Astrological (reduced from 0.15)
         timeOfDayScore * 0.1 + // Time of day (same)
         kineticScore * 0.13; // Kinetic (NEW - P=IV circuit model)
-
       // Convert to match percentage with enhanced differentiation
       const matchPercentage = compatibilityToMatchPercentage(overallScore);
-
       return {
         cuisine: cuisineName,
         recipeName: recipe.name || "Unknown Recipe",
@@ -221,7 +207,6 @@ export class EnhancedCuisineRecommender {
         recipe: recipe.name,
         error: error instanceof Error ? error.message : String(error),
       });
-
       // Return default match with low score
       return {
         cuisine: cuisineName,
@@ -243,74 +228,67 @@ export class EnhancedCuisineRecommender {
       };
     }
   }
-
   /**
    * Calculate seasonal compatibility score
    */
-  private calculateSeasonalScore(recipe: RecipeData): number {
+  private calculateSeasonalScore(_recipe: RecipeData): number {
     // Simple implementation - can be expanded
     return 0.7;
   }
-
   /**
    * Calculate planetary day compatibility score
    */
   private calculatePlanetaryDayScore(
-    recipe: RecipeData,
-    astroState: AstrologicalState,
+    _recipe: RecipeData,
+    _astroState: AstrologicalState,
   ): number {
     // Simple implementation - can be expanded
     return 0.6;
   }
-
   /**
    * Calculate planetary hour compatibility score
    */
   private calculatePlanetaryHourScore(
-    recipe: RecipeData,
-    astroState: AstrologicalState,
+    _recipe: RecipeData,
+    _astroState: AstrologicalState,
   ): number {
     // Simple implementation - can be expanded
     return 0.6;
   }
-
   /**
    * Calculate elemental compatibility score
    */
   private calculateElementalScore(
-    recipe: RecipeData,
-    astroState: AstrologicalState,
+    _recipe: RecipeData,
+    _astroState: AstrologicalState,
   ): number {
     // Simple implementation - can be expanded
     return 0.7;
   }
-
   /**
    * Calculate astrological compatibility score
    */
   private calculateAstrologicalScore(
-    recipe: RecipeData,
-    astroState: AstrologicalState,
+    _recipe: RecipeData,
+    _astroState: AstrologicalState,
   ): number {
     // Simple implementation - can be expanded
     return 0.6;
   }
-
   /**
    * Calculate time of day compatibility score
    */
-  private calculateTimeOfDayScore(recipe: RecipeData): number {
+  private calculateTimeOfDayScore(_recipe: RecipeData): number {
     // Simple implementation - can be expanded
     return 0.8;
   }
-
   /**
    * Calculate kinetic compatibility score using P=IV circuit model
    * Evaluates temporal power dynamics, force, and transformation potential
    */
   private calculateKineticScore(
     recipe: RecipeData,
-    astroState: AstrologicalState,
+    _astroState: AstrologicalState,
   ): number {
     try {
       // Extract elemental properties from recipe
@@ -320,7 +298,6 @@ export class EnhancedCuisineRecommender {
         Earth: 0.25,
         Air: 0.25,
       };
-
       const Fire =
         typeof elementalProps.Fire === "number" ? elementalProps.Fire : 0.25;
       const Water =
@@ -329,20 +306,17 @@ export class EnhancedCuisineRecommender {
         typeof elementalProps.Earth === "number" ? elementalProps.Earth : 0.25;
       const Air =
         typeof elementalProps.Air === "number" ? elementalProps.Air : 0.25;
-
       // Estimate ESMS from elements (same approach as ingredient recommender)
       const Spirit = (Fire + Air) / 2;
       const Essence = Water;
       const Matter = Earth;
       const Substance = (Fire + Water) / 2;
-
       // Calculate thermodynamic properties
       const elementSum = Substance + Essence + Matter + Water + Air + Earth;
       const heat =
         elementSum > 0
           ? (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) / Math.pow(elementSum, 2)
           : 0.08;
-
       const entropyDenom = Essence + Matter + Earth + Water;
       const entropy =
         entropyDenom > 0
@@ -352,7 +326,6 @@ export class EnhancedCuisineRecommender {
               Math.pow(Air, 2)) /
             Math.pow(entropyDenom, 2)
           : 0.15;
-
       const reactivityDenom = Matter + Earth;
       const reactivity =
         reactivityDenom > 0
@@ -364,9 +337,7 @@ export class EnhancedCuisineRecommender {
               Math.pow(Water, 2)) /
             Math.pow(reactivityDenom, 2)
           : 0.45;
-
       const gregsEnergy = heat - entropy * reactivity;
-
       const s = Math.max(0.01, Spirit);
       const e = Math.max(0.01, Essence);
       const m = Math.max(0.01, Matter);
@@ -374,7 +345,6 @@ export class EnhancedCuisineRecommender {
       const kalchm =
         (Math.pow(s, s) * Math.pow(e, e)) /
         (Math.pow(m, m) * Math.pow(sub, sub));
-
       let monica = 1.0;
       if (kalchm > 0 && reactivity > 0) {
         const lnKalchm = Math.log(kalchm);
@@ -382,7 +352,6 @@ export class EnhancedCuisineRecommender {
           monica = -gregsEnergy / (reactivity * lnKalchm);
         }
       }
-
       const thermodynamics: ThermodynamicMetrics = {
         heat,
         entropy,
@@ -391,30 +360,24 @@ export class EnhancedCuisineRecommender {
         kalchm,
         monica,
       };
-
       // Calculate kinetic properties
       const kinetics = calculateKineticProperties(
         { Spirit, Essence, Matter, Substance },
         { Fire, Water, Earth, Air },
         thermodynamics,
       );
-
       // Score based on kinetic properties for cuisine/recipe matching
       // Power (P=IV) indicates current energy level (normalized -1 to 1 → 0 to 1)
       const powerScore = 0.5 + kinetics.power / 2;
-
       // Force magnitude for transformation potential (0-10 → 0-1)
       const forceScore = Math.min(1, kinetics.forceMagnitude / 10);
-
       // Current flow indicates dynamic activity (typical 0-2 → 0-1)
       const currentScore = Math.min(1, kinetics.currentFlow / 2);
-
       // Combined kinetic score weighted for cuisine matching
       const kineticScore =
         powerScore * 0.4 + // Power is primary indicator
         forceScore * 0.35 + // Force shows transformation
         currentScore * 0.25; // Current shows activity level
-
       return Math.max(0.1, Math.min(1, kineticScore));
     } catch (error) {
       logger.warn("Error calculating kinetic score", {

@@ -11,9 +11,10 @@
  */
 
 import React, { useCallback } from "react";
-import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { useUser } from "@/contexts/UserContext";
+import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import { createLogger } from "@/utils/logger";
 import {
   generateDayRecommendations,
@@ -21,7 +22,6 @@ import {
   type AstrologicalState,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
-import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 
 const logger = createLogger("GenerateRecipeButton");
 

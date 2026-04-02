@@ -58,6 +58,8 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         carbs: 9,
         fat: 11,
         fiber: 6,
+        sugar: 0,
+        sodium: 10,
       },
       vitamins: {
         B2: 0.18,
@@ -239,6 +241,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     origin: ["China", "Buddhist Cuisine"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "3 oz",
+      calories: 140,
+      macros: {
+        protein: 21,
+        carbs: 4,
+        fat: 1.5,
+        fiber: 0.2,
+        sugar: 0,
+        sodium: 250,
+      },
+      vitamins: {},
+      minerals: { iron: 0.08, phosphorus: 0.15 },
+      source: "USDA FoodData Central",
+    },
     preparation: {
       basic: {
         ingredients: ["vital wheat gluten", "spices"],
@@ -382,6 +399,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     origin: ["China", "East Asia"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "3.5 oz (100g)",
+      calories: 94,
+      macros: {
+        protein: 10,
+        carbs: 2,
+        fat: 5,
+        fiber: 1,
+        sugar: 0.5,
+        sodium: 5,
+      },
+      vitamins: { B1: 0.08, B2: 0.03 },
+      minerals: { calcium: 0.35, iron: 0.15, magnesium: 0.1 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       silken: {
         name: "Silken",
@@ -557,6 +589,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     qualities: ["hearty", "versatile", "nutritious"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "1/2 cup cooked (approx. 100g)",
+      calories: 164,
+      macros: {
+        protein: 9,
+        carbs: 27,
+        fat: 2.6,
+        fiber: 7.6,
+        sugar: 4.8,
+        sodium: 7,
+      },
+      vitamins: { folate: 0.43, B1: 0.1, B6: 0.07 },
+      minerals: { manganese: 0.4, copper: 0.19, phosphorus: 0.14, iron: 0.13 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       chickpeas: {
         name: "Chickpeas",
@@ -835,6 +882,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       origin: ["United States", "Industrial Development"],
       category: "proteins",
       subCategory: "plant_based",
+      nutritionalProfile: {
+        serving_size: "1/4 cup dry (24g)",
+        calories: 80,
+        macros: {
+          protein: 12,
+          carbs: 7,
+          fat: 0,
+          fiber: 4,
+          sugar: 1,
+          sodium: 2,
+        },
+        vitamins: {},
+        minerals: { iron: 0.1, phosphorus: 0.15, magnesium: 0.18 },
+        source: "USDA FoodData Central",
+      },
       varieties: {
         Granules: {
           name: "Granules",
@@ -932,6 +994,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     origin: ["Southeast Asia"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "3.5 oz (100g)",
+      calories: 45,
+      macros: {
+        protein: 1.5,
+        carbs: 9,
+        fat: 0.5,
+        fiber: 1.5,
+        sugar: 1,
+        sodium: 3,
+      },
+      vitamins: { C: 0.11, B6: 0.05 },
+      minerals: { potassium: 0.04, magnesium: 0.03 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       Canned: {
         name: "Canned",
@@ -1050,6 +1127,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     origin: ["Andean Region"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "1 cup cooked (185g)",
+      calories: 222,
+      macros: {
+        protein: 8,
+        carbs: 39,
+        fat: 3.6,
+        fiber: 5,
+        sugar: 1.6,
+        sodium: 13,
+      },
+      vitamins: { folate: 0.19, B6: 0.11, thiamin: 0.13 },
+      minerals: { manganese: 0.58, magnesium: 0.3, phosphorus: 0.28, copper: 0.21 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       White: {
         name: "White",
@@ -1179,6 +1271,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     qualities: ["complete protein", "nutty", "sustainable"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "3 tbsp (30g)",
+      calories: 166,
+      macros: {
+        protein: 9.5,
+        carbs: 2.6,
+        fat: 14.6,
+        fiber: 1.2,
+        sugar: 0.5,
+        sodium: 2,
+      },
+      vitamins: { E: 0.05 },
+      minerals: { magnesium: 0.45, phosphorus: 0.35, zinc: 0.25, iron: 0.15 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       Seeds: {
         name: "Seeds",
@@ -1275,6 +1382,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     origin: ["Global"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "30g powder",
+      calories: 120,
+      macros: {
+        protein: 24,
+        carbs: 1,
+        fat: 2,
+        fiber: 1,
+        sugar: 0,
+        sodium: 230,
+      },
+      vitamins: {},
+      minerals: { iron: 0.3, potassium: 0.02 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       Isolate: {
         name: "Isolate",
@@ -1365,6 +1487,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     origin: ["Mediterranean", "Middle East"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "30g flour/protein",
+      calories: 110,
+      macros: {
+        protein: 6,
+        carbs: 18,
+        fat: 2,
+        fiber: 3,
+        sugar: 3,
+        sodium: 20,
+      },
+      vitamins: { folate: 0.3, B6: 0.1 },
+      minerals: { iron: 0.1, magnesium: 0.1, phosphorus: 0.1 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       Whole: {
         name: "Whole",
@@ -1450,6 +1587,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     origin: ["Mediterranean", "Australia"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "100g",
+      calories: 371,
+      macros: {
+        protein: 36,
+        carbs: 40,
+        fat: 10,
+        fiber: 19,
+        sugar: 0,
+        sodium: 15,
+      },
+      vitamins: { folate: 0.1, thiamin: 0.05 },
+      minerals: { potassium: 0.2, magnesium: 0.05, phosphorus: 0.1 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       Flour: {
         name: "Flour",
@@ -1548,6 +1700,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     origin: ["Mediterranean", "Middle East"],
     category: "proteins",
     subCategory: "plant_based",
+    nutritionalProfile: {
+      serving_size: "100g cooked",
+      calories: 110,
+      macros: {
+        protein: 8,
+        carbs: 18,
+        fat: 0.4,
+        fiber: 5,
+        sugar: 1.8,
+        sodium: 5,
+      },
+      vitamins: { folate: 0.2, C: 0.05 },
+      minerals: { manganese: 0.15, copper: 0.1, phosphorus: 0.08, magnesium: 0.08 },
+      source: "USDA FoodData Central",
+    },
     varieties: {
       Whole_Beans: {
         name: "Whole Beans",

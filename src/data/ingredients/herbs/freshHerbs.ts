@@ -14,11 +14,11 @@ const rawFreshHerbs = {
     quantityBase: { amount: 5, unit: "g" }, // Standard serving: 2 tablespoons chopped
     scaledElemental: { Air: 0.43, Water: 0.27, Fire: 0.22, Earth: 0.08 }, // Scaled for harmony (already balanced)
     alchemicalProperties: {
-      Spirit: 0.325,
-      Essence: 0.175,
-      Matter: 0.15,
-      Substance: 0.35,
-    }, // Derived from scaled elemental
+      Spirit: 0.75,
+      Essence: 0.80,
+      Matter: 0.10,
+      Substance: 0.12,
+    }, // Independent dimensions (0.0-1.0 each, do not sum to 1.0)
     kineticsImpact: { thermalDirection: 0.12, forceMagnitude: 1.15 }, // Mild warming, high force (concentrated flavor)
     qualities: ["aromatic", "sweet", "peppery", "fresh", "vibrant", "delicate"],
     origin: ["India", "Southeast Asia", "Mediterranean"],

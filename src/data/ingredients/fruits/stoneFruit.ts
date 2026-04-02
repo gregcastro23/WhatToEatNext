@@ -5,6 +5,12 @@ const rawStoneFruit = {
   peach: {
     name: "Peach",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.38,
+      Essence: 0.80,
+      Matter: 0.28,
+      Substance: 0.22,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer"],
@@ -24,12 +30,18 @@ const rawStoneFruit = {
     affinities: ["vanilla", "almond", "honey", "raspberry", "cream"],
     cookingMethods: ["raw", "grilled", "baked", "poached"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "100g",
+      calories: 39,
+      macros: {
+        protein: 0.9,
+        carbs: 9.5,
+        fat: 0.3,
+        fiber: 1.5,
+        sugar: 8.4,
+        sodium: 0,
+      },
       vitamins: ["a", "c", "e"],
       minerals: ["potassium", "magnesium"],
-      calories: 39,
-      carbs_g: 10,
-      fiber_g: 1.5,
       antioxidants: ["beta-carotene", "lutein"],
     },
     preparation: {
@@ -48,6 +60,12 @@ const rawStoneFruit = {
   plum: {
     name: "Plum",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.32,
+      Essence: 0.75,
+      Matter: 0.30,
+      Substance: 0.25,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
       favorableZodiac: ["taurus", "scorpio"],
@@ -67,12 +85,18 @@ const rawStoneFruit = {
     affinities: ["cinnamon", "ginger", "vanilla", "almond", "star anise"],
     cookingMethods: ["raw", "poached", "baked", "preserved"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "100g",
+      calories: 46,
+      macros: {
+        protein: 0.7,
+        carbs: 11.4,
+        fat: 0.3,
+        fiber: 1.4,
+        sugar: 9.9,
+        sodium: 0,
+      },
       vitamins: ["c", "k", "a"],
       minerals: ["potassium", "copper"],
-      calories: 30,
-      carbs_g: 8,
-      fiber_g: 0.9,
       antioxidants: ["anthocyanins", "quercetin"],
     },
     preparation: {
@@ -91,6 +115,12 @@ const rawStoneFruit = {
   apricot: {
     name: "Apricot",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.42,
+      Essence: 0.78,
+      Matter: 0.25,
+      Substance: 0.20,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra", "Aries"],
@@ -103,12 +133,18 @@ const rawStoneFruit = {
     affinities: ["almond", "honey", "vanilla", "lavender", "thyme"],
     cookingMethods: ["raw", "poached", "baked", "dried"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "100g",
+      calories: 48,
+      macros: {
+        protein: 1.4,
+        carbs: 11.1,
+        fat: 0.4,
+        fiber: 2.0,
+        sugar: 9.2,
+        sodium: 1,
+      },
       vitamins: ["a", "c", "e"],
       minerals: ["potassium", "copper"],
-      calories: 17,
-      carbs_g: 3.9,
-      fiber_g: 0.7,
       antioxidants: ["beta-carotene", "lutein"],
     },
     preparation: {
@@ -127,6 +163,12 @@ const rawStoneFruit = {
   cherry: {
     name: "Cherry",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.35,
+      Essence: 0.82,
+      Matter: 0.22,
+      Substance: 0.20,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra"],
@@ -139,12 +181,18 @@ const rawStoneFruit = {
     affinities: ["almond", "chocolate", "vanilla", "brandy", "cinnamon"],
     cookingMethods: ["raw", "baked", "preserved", "poached"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "100g",
+      calories: 63,
+      macros: {
+        protein: 1.1,
+        carbs: 16.0,
+        fat: 0.2,
+        fiber: 2.1,
+        sugar: 12.8,
+        sodium: 0,
+      },
       vitamins: ["c", "a", "k"],
       minerals: ["potassium", "manganese"],
-      calories: 50,
-      carbs_g: 12,
-      fiber_g: 1.6,
       antioxidants: ["anthocyanins", "quercetin"],
     },
     preparation: {
@@ -163,6 +211,12 @@ const rawStoneFruit = {
   nectarine: {
     name: "Nectarine",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
+    alchemicalProperties: {
+      Spirit: 0.36,
+      Essence: 0.78,
+      Matter: 0.30,
+      Substance: 0.24,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra"],
@@ -175,12 +229,18 @@ const rawStoneFruit = {
     affinities: ["peach", "berry", "vanilla", "honey", "ginger"],
     cookingMethods: ["raw", "grilled", "baked", "poached"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "100g",
+      calories: 44,
+      macros: {
+        protein: 1.1,
+        carbs: 10.6,
+        fat: 0.3,
+        fiber: 1.7,
+        sugar: 7.9,
+        sodium: 0,
+      },
       vitamins: ["a", "c", "e"],
       minerals: ["potassium", "magnesium"],
-      calories: 44,
-      carbs_g: 10.5,
-      fiber_g: 1.7,
       antioxidants: ["beta-carotene", "lutein"],
     },
     preparation: {
@@ -199,6 +259,12 @@ const rawStoneFruit = {
   greengage: {
     name: "Greengage",
     elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 },
+    alchemicalProperties: {
+      Spirit: 0.25,
+      Essence: 0.72,
+      Matter: 0.28,
+      Substance: 0.22,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra"],
@@ -211,12 +277,18 @@ const rawStoneFruit = {
     affinities: ["almond", "vanilla", "lavender", "honey", "yogurt"],
     cookingMethods: ["raw", "baked", "preserved", "poached"],
     nutritionalProfile: {
-      fiber: "moderate",
+      serving_size: "100g",
+      calories: 46,
+      macros: {
+        protein: 0.7,
+        carbs: 11.4,
+        fat: 0.3,
+        fiber: 1.4,
+        sugar: 9.9,
+        sodium: 0,
+      },
       vitamins: ["c", "a", "k"],
       minerals: ["potassium", "copper"],
-      calories: 34,
-      carbs_g: 8.5,
-      fiber_g: 1.1,
       antioxidants: ["chlorophyll", "beta-carotene"],
     },
     preparation: {
@@ -235,6 +307,12 @@ const rawStoneFruit = {
   damson: {
     name: "Damson",
     elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 },
+    alchemicalProperties: {
+      Spirit: 0.28,
+      Essence: 0.60,
+      Matter: 0.40,
+      Substance: 0.35,
+    },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
       favorableZodiac: ["Taurus", "Leo", "Libra"],
@@ -247,12 +325,18 @@ const rawStoneFruit = {
     affinities: ["cinnamon", "star anise", "vanilla", "almond", "clove"],
     cookingMethods: ["preserved", "baked", "stewed", "distilled"],
     nutritionalProfile: {
-      fiber: "high",
+      serving_size: "100g",
+      calories: 46,
+      macros: {
+        protein: 0.7,
+        carbs: 11.4,
+        fat: 0.3,
+        fiber: 1.4,
+        sugar: 9.9,
+        sodium: 0,
+      },
       vitamins: ["c", "k", "b6"],
       minerals: ["potassium", "copper"],
-      calories: 30,
-      carbs_g: 7.5,
-      fiber_g: 1.7,
       antioxidants: ["anthocyanins", "quercetin"],
     },
     preparation: {

@@ -28,18 +28,18 @@ const StatBar = ({ label, value, color, description }: { label: string; value: n
 function normalizeData(data: any) {
   // Format A – Python backend / legacy
   if (data?.alchemical_quantities) {
-    const { alchemical_quantities, natal_chart, birth_data } = data;
+    const { alchemical_quantities: alchemicalQuantities, natal_chart: natalChart, birth_data: birthData } = data;
     return {
-      spirit: alchemical_quantities.spirit ?? 0,
-      essence: alchemical_quantities.essence ?? 0,
-      matter: alchemical_quantities.matter ?? 0,
-      substance: alchemical_quantities.substance ?? 0,
-      elementalBalance: alchemical_quantities.elemental_balance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      dominantElement: Object.entries((alchemical_quantities.elemental_balance ?? {}) as Record<string, number>)
+      spirit: alchemicalQuantities.spirit ?? 0,
+      essence: alchemicalQuantities.essence ?? 0,
+      matter: alchemicalQuantities.matter ?? 0,
+      substance: alchemicalQuantities.substance ?? 0,
+      elementalBalance: alchemicalQuantities.elemental_balance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      dominantElement: Object.entries((alchemicalQuantities.elemental_balance ?? {}) as Record<string, number>)
         .reduce((a, b) => (a[1] > b[1] ? a : b), ['Fire', 0])[0],
-      planetaryPositions: natal_chart ?? {},
-      location: birth_data?.city_name
-        ? `${birth_data.city_name}${birth_data.state_country ? ', ' + birth_data.state_country : ''}`
+      planetaryPositions: natalChart ?? {},
+      location: birthData?.city_name
+        ? `${birthData.city_name}${birthData.state_country ? `, ${  birthData.state_country}` : ''}`
         : null,
     };
   }
@@ -56,7 +56,7 @@ function normalizeData(data: any) {
 
     // Build positions from the chart's planetaryPositions (Record<Planet, ZodiacSign>)
     // or from the planets array
-    let positions: Record<string, any> = {};
+    const positions: Record<string, any> = {};
     if (chart.planetaryPositions && typeof chart.planetaryPositions === 'object') {
       // If values are simple strings (sign names), wrap them
       for (const [planet, val] of Object.entries(chart.planetaryPositions)) {
@@ -70,7 +70,7 @@ function normalizeData(data: any) {
 
     const bd = data.birthData ?? chart.birthData;
     const location = bd?.cityName
-      ? `${bd.cityName}${bd.stateCountry ? ', ' + bd.stateCountry : ''}`
+      ? `${bd.cityName}${bd.stateCountry ? `, ${  bd.stateCountry}` : ''}`
       : null;
 
     return {

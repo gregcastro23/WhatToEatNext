@@ -82,9 +82,9 @@ export function generateEnhancedCuisineRecommendations(
     preferences = [],
     dietaryRestrictions = [],
     astrologicalProfile,
-    useAdvancedAnalysis = true,
-    includePlanetaryData = true,
-    includeSignatures = true,
+    useAdvancedAnalysis: _useAdvancedAnalysis = true,
+    includePlanetaryData: _includePlanetaryData = true,
+    includeSignatures: _includeSignatures = true,
   } = params;
 
   try {
@@ -116,8 +116,8 @@ export function generateEnhancedCuisineRecommendations(
     }
 
     // Get available cuisines from cache
-    const cache = getGlobalCache();
-    const availableCuisines = new Map<
+    const _cache = getGlobalCache();
+    const _availableCuisines = new Map<
       string,
       { name: string; properties; any }
     >();

@@ -93,7 +93,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
    SMTP_PORT=587
    SMTP_USER=apikey
    SMTP_PASS=your-sendgrid-api-key
-   EMAIL_FROM_ADDRESS=noreply@yourdomain.com
+   EMAIL_FROM_ADDRESS=noreply@alchm.kitchen
    ```
 
 ### Option 3: AWS SES
@@ -107,7 +107,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
    SMTP_PORT=587
    SMTP_USER=your-aws-smtp-username
    SMTP_PASS=your-aws-smtp-password
-   EMAIL_FROM_ADDRESS=noreply@yourdomain.com
+   EMAIL_FROM_ADDRESS=noreply@alchm.kitchen
    ```
 
 ### Option 4: Mailgun
@@ -119,9 +119,9 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
    ```bash
    SMTP_HOST=smtp.mailgun.org
    SMTP_PORT=587
-   SMTP_USER=postmaster@mg.yourdomain.com
+   SMTP_USER=postmaster@mg.alchm.kitchen
    SMTP_PASS=your-mailgun-password
-   EMAIL_FROM_ADDRESS=noreply@yourdomain.com
+   EMAIL_FROM_ADDRESS=noreply@alchm.kitchen
    ```
 
 ## Testing Email Configuration

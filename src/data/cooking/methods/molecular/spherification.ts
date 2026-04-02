@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Spherification cooking method
@@ -11,6 +10,8 @@ export const spherification: CookingMethodData = {
   name: "spherification",
   description:
     "Molecular gastronomy technique that creates caviar-like spheres or larger droplets with thin gel membranes containing liquid centers",
+  shortDescription: "Encapsulates liquid essence into delicate spheres through alchemical gelling.",
+  culinaryArchetype: "The Encapsulator",
   elementalEffect: {
     Water: 0.6,
     Air: 0.2,

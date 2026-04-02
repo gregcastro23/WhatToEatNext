@@ -2,7 +2,7 @@
 -- NextAuth (Auth.js v5) Database Schema Migration
 -- Designed for raw Postgres
 
--- 1. Scrub Legacy Privy Fields
+-- 1. Scrub Legacy Identity Fields
 ALTER TABLE users DROP COLUMN IF EXISTS privy_id;
 
 -- 2. Setup Custom User Fields

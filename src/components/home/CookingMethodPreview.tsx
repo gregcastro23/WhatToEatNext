@@ -40,7 +40,7 @@ interface MethodData {
     gregsEnergy?: number;
   };
   duration?: { min: number; max: number };
-  time_range?: { min: number; max: number };
+  timeRange?: { min: number; max: number };
   suitable_for?: string[];
   benefits?: string[];
   toolsRequired?: string[];
@@ -369,15 +369,15 @@ export default function CookingMethodPreview() {
   };
 
   const formatDuration = (method: MethodData) => {
-    const time_range = method.duration || method.time_range;
-    if (!time_range) return "Variable";
-    if (time_range.min >= 1440) {
-      return `${Math.floor(time_range.min / 1440)}-${Math.floor(time_range.max / 1440)} days`;
+    const timeRange = method.duration || method.timeRange;
+    if (!timeRange) return "Variable";
+    if (timeRange.min >= 1440) {
+      return `${Math.floor(timeRange.min / 1440)}-${Math.floor(timeRange.max / 1440)} days`;
     }
-    if (time_range.min >= 60) {
-      return `${Math.floor(time_range.min / 60)}-${Math.floor(time_range.max / 60)} hrs`;
+    if (timeRange.min >= 60) {
+      return `${Math.floor(timeRange.min / 60)}-${Math.floor(timeRange.max / 60)} hrs`;
     }
-    return `${time_range.min}-${time_range.max} min`;
+    return `${timeRange.min}-${timeRange.max} min`;
   };
 
   const category = categories.find((cat) => cat.id === selectedCategory);
@@ -629,7 +629,7 @@ export default function CookingMethodPreview() {
                         </div>
                         <div className="pt-2 border-t border-red-200 flex justify-between">
                           <span className="text-gray-700">
-                            ⚙️ Greg's Energy:
+                            ⚙️ Greg&apos;s Energy:
                           </span>
                           <span
                             className={`font-bold ${method.gregsEnergy >= 0 ? "text-green-700" : "text-red-700"}`}

@@ -173,7 +173,7 @@ class ErrorTrackingSystem {
 
   public async analyzeTypeScriptErrors(): Promise<TypeScriptError[]> {
     try {
-      const result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+      const _result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
         encoding: "utf8",
         stdio: "pipe",
       });
@@ -580,7 +580,7 @@ class ErrorTrackingSystem {
         },
       );
       return parseInt(result.trim(), 10) || 0;
-    } catch (error) {
+    } catch (_error) {
       return 0;
     }
   }

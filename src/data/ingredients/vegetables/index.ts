@@ -2,27 +2,28 @@ import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { alliums } from "./alliums";
 import { cruciferous } from "./cruciferous";
-import { enhancedVegetablesIngredients } from "./enhancedVegetables";
+import { fungi } from "./fungi";
 import { leafyGreens } from "./leafyGreens";
 import { legumes } from "./legumes";
 import { nightshades } from "./nightshades";
+import { otherVegetables } from "./otherVegetables";
 import { roots } from "./roots";
 import { squash } from "./squash";
-import { starchyVegetables } from "./starchy";
+import { starchy } from "./starchy";
 
 // Combine all vegetable categories
-// Enhanced vegetables with comprehensive data take precedence
 export const vegetables: Record<string, IngredientMapping> =
   fixIngredientMappings({
-    ...leafyGreens,
     ...roots,
+    ...otherVegetables,
+    ...leafyGreens,
     ...cruciferous,
     ...nightshades,
     ...alliums,
     ...squash,
-    ...starchyVegetables,
+    ...starchy,
     ...legumes,
-    ...enhancedVegetablesIngredients, // Add our enhanced vegetables with full data
+    ...fungi,
   });
 
 // Create enhanced vegetables with additional properties
@@ -35,12 +36,14 @@ export const _standardizedVegetables = vegetables;
 export {
   alliums,
   cruciferous,
+  fungi,
   leafyGreens,
   legumes,
   nightshades,
+  otherVegetables,
   roots,
   squash,
-  starchyVegetables,
+  starchy,
 };
 
 // Helper functions
@@ -72,4 +75,4 @@ export const _getVegetablesByCookingMethod = (
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export default roots;
+export default vegetables;

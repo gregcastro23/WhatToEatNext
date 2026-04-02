@@ -31,7 +31,7 @@ export const config: AppConfig = {
     retryCount: 3,
     baseUrl:
       process.env.API_BASE_URL ||
-      (isDev ? "http://localhost:3000/api" : "https://yourdomain.com/api"),
+      (isDev ? "http://localhost:3000/api" : "https://alchm.kitchen/api"),
   },
   astrology: {
     defaultTimezoneName: "UTC",

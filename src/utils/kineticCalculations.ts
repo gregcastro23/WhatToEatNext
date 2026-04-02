@@ -114,7 +114,7 @@ export function calculateKineticProperties(
     !isNaN(thermodynamics.gregsEnergy)
       ? thermodynamics.gregsEnergy
       : -0.02;
-  const monica =
+  const _monica =
     typeof thermodynamics.monica === "number" && !isNaN(thermodynamics.monica)
       ? thermodynamics.monica
       : 1.0;

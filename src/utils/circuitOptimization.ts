@@ -13,7 +13,7 @@ import type {
   DayCircuitMetrics,
   CircuitBottleneck,
   CircuitImprovementSuggestion,
-  MealCircuitMetrics,
+  MealCircuitMetrics as _MealCircuitMetrics,
 } from "@/types/kinetics";
 import type { WeeklyMenu, MealSlot, DayOfWeek } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
@@ -298,8 +298,8 @@ export function scoreRecipeCircuitCompatibility(
 export function generateCircuitSuggestions(
   dayCircuits: Record<DayOfWeek, DayCircuitMetrics>,
   currentMenu: WeeklyMenu,
-  planetaryPositions?: PlanetaryPositions,
-  recipeDatabase?: Recipe[],
+  _planetaryPositions?: PlanetaryPositions,
+  _recipeDatabase?: Recipe[],
 ): CircuitImprovementSuggestion[] {
   const suggestions: CircuitImprovementSuggestion[] = [];
   const bottlenecks = findCircuitBottlenecks(dayCircuits, currentMenu);
@@ -315,7 +315,7 @@ export function generateCircuitSuggestions(
     );
     if (!mealSlot) continue;
 
-    const dayCircuit = dayCircuits[mealSlot.dayOfWeek];
+    const _dayCircuit = dayCircuits[mealSlot.dayOfWeek];
 
     suggestions.push({
       type: "add_meal",

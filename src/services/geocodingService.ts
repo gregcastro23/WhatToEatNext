@@ -12,6 +12,8 @@ export interface GeocodingResult {
   longitude: number;
   type: string; // city, town, village, etc.
   country: string;
+  /** Estimated UTC offset string, e.g. "UTC+5" */
+  estimatedTimezone?: string;
 }
 
 interface NominatimResult {
@@ -61,16 +63,24 @@ export async function geocodeLocation(
 
     const data: NominatimResult[] = await response.json();
 
-    return data.map((result) => ({
-      displayName: result.display_name,
-      latitude: parseFloat(result.lat),
-      longitude: parseFloat(result.lon),
-      type: result.type,
-      country: result.address.country,
-    }));
+    return data.map((result) => {
+      const lat = parseFloat(result.lat);
+      const lon = parseFloat(result.lon);
+      const offsetHours = Math.round(lon / 15);
+      const absOffset = Math.abs(offsetHours);
+      const sign = offsetHours >= 0 ? "+" : "-";
+      return {
+        displayName: result.display_name,
+        latitude: lat,
+        longitude: lon,
+        type: result.type,
+        country: result.address.country,
+        estimatedTimezone: `UTC${sign}${absOffset}`,
+      };
+    });
   } catch (error) {
     _logger.error("Geocoding error:", error);
-    throw new Error("Failed to geocode location");
+    throw new Error("Failed to geocode location", { cause: error });
   }
 }
 

@@ -9,6 +9,8 @@ export const _pressureCooking: CookingMethodData = {
   name: "Pressure Cooking" as CookingMethod,
   description:
     "A cooking method that uses steam pressure in a sealed vessel to cook food quickly. The high pressure raises the boiling point of water, allowing food to cook at higher temperatures and much faster than conventional methods.",
+  shortDescription: "Traps superheated steam under pressure to accelerate deep transformation.",
+  culinaryArchetype: "The Accelerator",
   elementalEffect: {
     Fire: 0.3,
     Water: 0.8,

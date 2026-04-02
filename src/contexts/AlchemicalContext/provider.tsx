@@ -1,24 +1,21 @@
+"use client";
+
+import React, { useEffect, useReducer, useState } from "react";
+import { AstrologicalService } from "@/services/AstrologicalService";
+import { defaultState, _AlchemicalContext } from "./context";
+import type {
+    // AlchemicalAction,
+    AlchemicalContextType, AlchemicalState
+} from "./types";
+import type { ReactNode } from "react";
+
 /**
  * Alchemical Context Provider - Minimal Recovery Version
  *
  * Provides alchemical state management with real-time updates,
  * planetary calculations, and elemental harmony tracking.
  */
-
-"use client";
-
-import React, { useReducer, useEffect, useState } from "react";
-import { AstrologicalService } from "@/services/AstrologicalService";
-import { _AlchemicalContext, defaultState } from "./context";
-import type {
-  AlchemicalState,
-  // AlchemicalAction,
-  AlchemicalContextType,
-} from "./types";
-
 type AlchemicalAction = any; // Type not exported
-import type { ReactNode } from "react";
-
 // Structured logger for browser console visibility
 const logger = {
   debug: (message: string, ...args: any[]) => {
@@ -36,7 +33,6 @@ const logger = {
   error: (message: string, ...args: any[]) =>
     console.error(`[AlchemicalProvider] ${message}`, ...args),
 };
-
 // Reducer function for state management
 const alchemicalReducer = (
   state: AlchemicalState,
@@ -49,14 +45,12 @@ const alchemicalReducer = (
         currentSeason: action.payload,
         lastUpdated: new Date(),
       };
-
     case "UPDATE_TIME_OF_DAY":
       return {
         ...state,
         timeOfDay: action.payload,
         lastUpdated: new Date(),
       };
-
     case "UPDATE_ASTROLOGICAL_STATE":
       return {
         ...state,
@@ -66,46 +60,39 @@ const alchemicalReducer = (
         },
         lastUpdated: new Date(),
       };
-
     case "UPDATE_PLANETARY_POSITIONS":
       return {
         ...state,
         planetaryPositions: action.payload,
         lastUpdated: new Date(),
       };
-
     case "UPDATE_LUNAR_PHASE":
       return {
         ...state,
         lunarPhase: action.payload,
         lastUpdated: new Date(),
       };
-
     case "UPDATE_DOMINANT_ELEMENT":
       return {
         ...state,
         dominantElement: action.payload,
         lastUpdated: new Date(),
       };
-
     case "UPDATE_PLANETARY_HOUR":
       return {
         ...state,
         planetaryHour: action.payload,
         lastUpdated: new Date(),
       };
-
     case "RESET_STATE":
       return {
         ...defaultState,
         lastUpdated: new Date(),
       };
-
     default:
       return state;
   }
 };
-
 // Provider component
 export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -114,19 +101,15 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const isMountedRef = React.useRef(true);
-
   React.useEffect(() => {
     return () => { isMountedRef.current = false; };
   }, []);
-
   // Helper function to get dominant element
   const getDominantElement = (): string => {
     const elementalProps = state.astrologicalState?.elementalProperties;
     if (!elementalProps) return "Fire";
-
     const entries = (Object.entries as any)(elementalProps);
     if (!entries || entries.length === 0) return "Fire";
-
     return entries.reduce(
       (max, [element, value]) =>
         (value as number) > max.value
@@ -135,7 +118,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       { element: "Fire", value: 0 },
     ).element;
   };
-
   // Helper function to get current elemental balance
   const getCurrentElementalBalance = () =>
     state.astrologicalState?.elementalProperties || {
@@ -144,22 +126,18 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       Earth: 0.25,
       Air: 0.25,
     };
-
   // Helper function to calculate alchemical harmony
   const getAlchemicalHarmony = (): number => {
     const elementalProperties = state.astrologicalState?.elementalProperties;
     if (!elementalProperties) return 0.5;
-
     const values = (Object.values as any)(elementalProperties);
     if (!values || values.length === 0) return 0.5;
-
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
       values.length;
     return Math.max(0, 1 - Math.sqrt(variance));
   };
-
   // Helper function to update astrological state
   const updateAstrologicalState = (
     updates: Partial<AlchemicalState["astrologicalState"]>,
@@ -169,7 +147,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       payload: updates,
     });
   };
-
   // Helper function to calculate seasonal influence
   const calculateSeasonalInfluence = (): number => {
     const seasonModifiers = {
@@ -180,7 +157,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     };
     return seasonModifiers[state.currentSeason as any] || 0.5;
   };
-
   // Helper function to get thermodynamic state
   const getThermodynamicState = () =>
     state.astrologicalState?.thermodynamicProperties || {
@@ -189,22 +165,18 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       entropy: 0.5,
       enthalpy: 0.5,
     };
-
   // Update time-based values periodically
   useEffect(() => {
     const updateTimeBasedValues = () => {
       const now = new Date();
       const hour = now.getHours();
-
       // Update time of day
       let timeOfDay: "morning" | "afternoon" | "evening" | "night";
       if (hour >= 6 && hour < 12) timeOfDay = "morning";
       else if (hour >= 12 && hour < 18) timeOfDay = "afternoon";
       else if (hour >= 18 && hour < 22) timeOfDay = "evening";
       else timeOfDay = "night";
-
       dispatch({ type: "UPDATE_TIME_OF_DAY", payload: timeOfDay });
-
       // Update planetary hour (simplified)
       const planetaryHours = [
         "Sun",
@@ -217,7 +189,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       ];
       const planetaryHour = planetaryHours[hour % 7];
       dispatch({ type: "UPDATE_PLANETARY_HOUR", payload: planetaryHour });
-
       // Update timestamp only - don't spread entire state to avoid loops
       dispatch({
         type: "UPDATE_ASTROLOGICAL_STATE",
@@ -226,36 +197,28 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
         },
       });
     };
-
     // Initial update
     updateTimeBasedValues();
-
     // Update every 5 minutes
     const interval = setInterval(updateTimeBasedValues, 5 * 60 * 1000);
     return () => clearInterval(interval);
-     
   }, []); // Empty deps intentional - we only want this to run once on mount
-
   // Planetary positions state
   const [planetaryPositions, setPlanetaryPositions] = useState<any>({});
   const [normalizedPositions, setNormalizedPositions] = useState<any>({});
-
   // Update seasonal values
   useEffect(() => {
     const now = new Date();
     const month = now.getMonth();
-
     let season: "spring" | "summer" | "autumn" | "winter";
     if (month >= 2 && month <= 4) season = "spring";
     else if (month >= 5 && month <= 7) season = "summer";
     else if (month >= 8 && month <= 10) season = "autumn";
     else season = "winter";
-
     if (season !== state.currentSeason) {
       dispatch({ type: "UPDATE_SEASON", payload: season });
     }
   }, [state.currentSeason]);
-
   // Fetch real planetary positions from the astrologize API
   useEffect(() => {
     const fetchLivePlanetaryPositions = async () => {
@@ -263,25 +226,19 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
         logger.info("Fetching live planetary positions from /api/astrologize...");
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 8000);
-
         const response = await fetch("/api/astrologize", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           signal: controller.signal,
         });
-
         clearTimeout(timeoutId);
-
         if (!response.ok) {
           throw new Error(`API returned ${response.status}`);
         }
-
         const data = await response.json();
-
         if (data.success && data._celestialBodies) {
           const positions: Record<string, any> = {};
           const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
-
           for (const key of planetKeys) {
             const body = data._celestialBodies[key];
             if (body) {
@@ -295,7 +252,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
               };
             }
           }
-
           if (isMountedRef.current && Object.keys(positions).length > 0) {
             logger.info(`Loaded ${Object.keys(positions).length} live planetary positions`);
             setPlanetaryPositions(positions);
@@ -331,29 +287,23 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
         }
       }
     };
-
     void fetchLivePlanetaryPositions();
-
     // Refresh planetary positions every 30 minutes
     const interval = setInterval(() => {
       void fetchLivePlanetaryPositions();
     }, 30 * 60 * 1000);
-
     return () => clearInterval(interval);
   }, []); // Run once on mount
-
   // Compute isDaytime from current hour
   const isDaytime = (() => {
     const hour = new Date().getHours();
     return hour >= 6 && hour < 18;
   })();
-
   // Stub methods for full interface compatibility
   const updatePlanetaryPositionsDirectly = (positions: Record<string, unknown>) => {
     setPlanetaryPositions(positions);
     setNormalizedPositions(positions);
   };
-
   const refreshPlanetaryPositionsAsync = async (): Promise<Record<string, unknown>> => {
     try {
       setIsLoading(true);
@@ -362,14 +312,11 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
         headers: { "Content-Type": "application/json" },
         signal: AbortSignal.timeout(8000),
       });
-
       if (!response.ok) throw new Error(`API returned ${response.status}`);
-
       const data = await response.json();
       if (data.success && data._celestialBodies) {
         const positions: Record<string, any> = {};
         const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
-
         for (const key of planetKeys) {
           const body = data._celestialBodies[key];
           if (body) {
@@ -383,7 +330,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
             };
           }
         }
-
         if (Object.keys(positions).length > 0) {
           setPlanetaryPositions(positions);
           setNormalizedPositions(positions);
@@ -401,7 +347,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       if (isMountedRef.current) setIsLoading(false);
     }
   };
-
   const contextValue: AlchemicalContextType = {
     state,
     dispatch,
@@ -421,19 +366,16 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     setDaytime: () => {},
     updateState: (updates) => dispatch({ type: "UPDATE_ASTROLOGICAL_STATE", payload: updates }),
   } as any;
-
   logger.debug("AlchemicalProvider rendered with state:", {
     season: state.currentSeason,
     timeOfDay: state.timeOfDay,
     dominantElement: getDominantElement(),
     harmony: getAlchemicalHarmony(),
   });
-
   return (
     <_AlchemicalContext.Provider value={contextValue}>
       {children}
     </_AlchemicalContext.Provider>
   );
 };
-
 export default AlchemicalProvider;

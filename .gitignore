@@ -64,6 +64,11 @@ yarn-error.log*
 # local files
 temp.log
 
+# Local Babel config (Termux/Android workaround — must NOT reach Vercel/SWC)
+.babelrc
+babel.config.js
+babel.config.json
+
 # Add this to ignore Next.js cache
 .next/
 
@@ -128,3 +133,8 @@ reports/
 backend/.env
 .env*.local
 .jest-cache/
+.vercel
+
+# OpenNext
+.open-next
+.wrangler/

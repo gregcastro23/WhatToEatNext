@@ -1,7 +1,7 @@
 // src/constants/alchemicalPillars.ts
 
 import type { Season, ElementalProperties, QuantityScaledProperties, ThermodynamicMetrics } from "@/types/alchemy"; // Importing ElementalProperties and QuantityScaledProperties from alchemy (or celestial if preferred)
-import type { AlchemicalProperty, Element, LunarPhase, PlanetName } from "@/types/celestial";
+import type { AlchemicalProperty, Element, LunarPhase} from "@/types/celestial";
 
 /**
  * Interface representing an Alchemical Pillar
@@ -1325,7 +1325,7 @@ export interface EnhancedCookingMethod {
  * @param input The input to alchemize.
  * @returns The alchemized output.
  */
-export function alchemize<T>(input: T): ThermodynamicMetrics {
+export function alchemize<T>(_input: T): ThermodynamicMetrics {
   console.warn("alchemize function is a placeholder, returning mock ThermodynamicMetrics.");
   // Placeholder implementation to return a mock ThermodynamicMetrics object
   // In a real scenario, this function would perform complex alchemical calculations
@@ -1480,7 +1480,6 @@ export function calculatePillarMonicaModifiers(monica: number): {
  * @returns {EnhancedCookingMethod[]}
  */
 export function getAllEnhancedCookingMethods(): EnhancedCookingMethod[] {
-  console.warn("getAllEnhancedCookingMethods is a placeholder function.");
   return ALCHEMICAL_PILLARS.map((pillar) => ({
     id: String(pillar.id),
     name: pillar.name,
@@ -1501,119 +1500,83 @@ export function getAllEnhancedCookingMethods(): EnhancedCookingMethod[] {
   }));
 }
 
-// Sample ingredients for demonstration and testing purposes
+// Comprehensive ingredient database for recipe generation
 const ALL_ENHANCED_INGREDIENTS: EnhancedRecipeIngredient[] = [
-  {
-    id: "chicken-breast",
-    name: "Chicken Breast",
-    amount: 1,
-    unit: "piece",
-    category: "protein",
-    cuisine: "universal",
-    seasonality: "all",
-    elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.5, Air: 0.2 },
-    tags: ["lean-protein"],
-  },
-  {
-    id: "broccoli",
-    name: "Broccoli",
-    amount: 1,
-    unit: "cup",
-    category: "vegetable",
-    cuisine: "universal",
-    seasonality: ["spring", "fall"],
-    elementalProperties: { Fire: 0.1, Water: 0.6, Earth: 0.3, Air: 0.5 },
-    tags: ["green-vegetable", "cruciferous"],
-  },
-  {
-    id: "rice",
-    name: "Rice",
-    amount: 1,
-    unit: "cup",
-    category: "grain",
-    cuisine: "asian",
-    seasonality: "all",
-    elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.7, Air: 0.1 },
-    tags: ["staple", "carbohydrate"],
-  },
-  {
-    id: "salmon-fillet",
-    name: "Salmon Fillet",
-    amount: 1,
-    unit: "piece",
-    category: "protein",
-    cuisine: "universal",
-    seasonality: ["summer", "fall"],
-    elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.4, Air: 0.2 },
-    tags: ["fatty-fish", "omega-3"],
-    allergens: ["fish"],
-  },
-  {
-    id: "spinach",
-    name: "Spinach",
-    amount: 1,
-    unit: "cup",
-    category: "leafy-green",
-    cuisine: "mediterranean",
-    seasonality: ["spring", "fall"],
-    elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.6 },
-    tags: ["nutrient-dense", "iron"],
-  },
-  {
-    id: "quinoa",
-    name: "Quinoa",
-    amount: 1,
-    unit: "cup",
-    category: "grain",
-    cuisine: "south-american",
-    seasonality: "all",
-    elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.6, Air: 0.4 },
-    tags: ["complete-protein", "gluten-free"],
-  },
-  {
-    id: "bell-pepper",
-    name: "Bell Pepper",
-    amount: 1,
-    unit: "piece",
-    category: "vegetable",
-    cuisine: "mexican",
-    seasonality: ["summer"],
-    elementalProperties: { Fire: 0.5, Water: 0.4, Earth: 0.3, Air: 0.4 },
-    tags: ["colorful", "vitamin-c"],
-  },
-  {
-    id: "garlic",
-    name: "Garlic",
-    amount: 1,
-    unit: "clove",
-    category: "aromatic",
-    cuisine: "universal",
-    seasonality: "all",
-    elementalProperties: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.3 },
-    tags: ["pungent", "flavor-enhancer"],
-  },
-  {
-    id: "onion",
-    name: "Onion",
-    amount: 1,
-    unit: "medium",
-    category: "aromatic",
-    cuisine: "universal",
-    seasonality: "all",
-    elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.5, Air: 0.2 },
-    tags: ["base-flavor", "pungent"],
-  },
-  {
-    id: "tomato",
-    name: "Tomato",
-    amount: 1,
-    unit: "medium",
-    category: "fruit",
-    cuisine: "mediterranean",
-    seasonality: ["summer"],
-    elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.3 },
-    tags: ["acidic", "juicy"],
-  },
+  // ===== PROTEINS (12) =====
+  { id: "chicken-breast", name: "Chicken Breast", amount: 1, unit: "piece", category: "protein", cuisine: "universal", seasonality: "all", elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.5, Air: 0.2 }, tags: ["lean-protein"] },
+  { id: "salmon-fillet", name: "Salmon Fillet", amount: 1, unit: "piece", category: "protein", cuisine: "universal", seasonality: ["summer", "fall"], elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.4, Air: 0.2 }, tags: ["fatty-fish", "omega-3"], allergens: ["fish"] },
+  { id: "beef-sirloin", name: "Beef Sirloin", amount: 1, unit: "piece", category: "protein", cuisine: "universal", seasonality: "all", elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.6, Air: 0.1 }, tags: ["red-meat", "iron-rich"] },
+  { id: "shrimp", name: "Shrimp", amount: 1, unit: "lb", category: "protein", cuisine: "asian", seasonality: ["spring", "summer"], elementalProperties: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.3 }, tags: ["shellfish", "quick-cook"], allergens: ["shellfish"] },
+  { id: "tofu", name: "Tofu", amount: 1, unit: "block", category: "protein", cuisine: "asian", seasonality: "all", elementalProperties: { Fire: 0.1, Water: 0.6, Earth: 0.4, Air: 0.3 }, tags: ["plant-protein", "versatile"] },
+  { id: "lamb-chop", name: "Lamb Chop", amount: 2, unit: "pieces", category: "protein", cuisine: "mediterranean", seasonality: ["spring"], elementalProperties: { Fire: 0.6, Water: 0.3, Earth: 0.5, Air: 0.2 }, tags: ["red-meat", "gamey"] },
+  { id: "eggs", name: "Eggs", amount: 2, unit: "large", category: "protein", cuisine: "universal", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.4, Air: 0.5 }, tags: ["versatile", "binding"], allergens: ["eggs"] },
+  { id: "pork-tenderloin", name: "Pork Tenderloin", amount: 1, unit: "piece", category: "protein", cuisine: "universal", seasonality: "all", elementalProperties: { Fire: 0.5, Water: 0.3, Earth: 0.5, Air: 0.2 }, tags: ["lean-meat", "mild"] },
+  { id: "tuna-steak", name: "Tuna Steak", amount: 1, unit: "piece", category: "protein", cuisine: "japanese", seasonality: ["summer", "fall"], elementalProperties: { Fire: 0.4, Water: 0.7, Earth: 0.3, Air: 0.2 }, tags: ["fatty-fish", "sashimi-grade"], allergens: ["fish"] },
+  { id: "chicken-thigh", name: "Chicken Thigh", amount: 2, unit: "pieces", category: "protein", cuisine: "universal", seasonality: "all", elementalProperties: { Fire: 0.5, Water: 0.4, Earth: 0.4, Air: 0.2 }, tags: ["dark-meat", "flavorful"] },
+  { id: "tempeh", name: "Tempeh", amount: 1, unit: "block", category: "protein", cuisine: "indonesian", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.6, Air: 0.4 }, tags: ["fermented", "plant-protein"] },
+  { id: "duck-breast", name: "Duck Breast", amount: 1, unit: "piece", category: "protein", cuisine: "french", seasonality: ["fall", "winter"], elementalProperties: { Fire: 0.6, Water: 0.4, Earth: 0.5, Air: 0.1 }, tags: ["rich", "gamey"] },
+
+  // ===== VEGETABLES (14) =====
+  { id: "broccoli", name: "Broccoli", amount: 1, unit: "cup", category: "vegetable", cuisine: "universal", seasonality: ["spring", "fall"], elementalProperties: { Fire: 0.1, Water: 0.6, Earth: 0.3, Air: 0.5 }, tags: ["green-vegetable", "cruciferous"] },
+  { id: "bell-pepper", name: "Bell Pepper", amount: 1, unit: "piece", category: "vegetable", cuisine: "mexican", seasonality: ["summer"], elementalProperties: { Fire: 0.5, Water: 0.4, Earth: 0.3, Air: 0.4 }, tags: ["colorful", "vitamin-c"] },
+  { id: "spinach", name: "Spinach", amount: 1, unit: "cup", category: "leafy-green", cuisine: "mediterranean", seasonality: ["spring", "fall"], elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.6 }, tags: ["nutrient-dense", "iron"] },
+  { id: "tomato", name: "Tomato", amount: 1, unit: "medium", category: "fruit", cuisine: "mediterranean", seasonality: ["summer"], elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.3 }, tags: ["acidic", "juicy"] },
+  { id: "sweet-potato", name: "Sweet Potato", amount: 1, unit: "medium", category: "root-vegetable", cuisine: "universal", seasonality: ["fall", "winter"], elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.7, Air: 0.1 }, tags: ["starchy", "beta-carotene"] },
+  { id: "zucchini", name: "Zucchini", amount: 1, unit: "medium", category: "vegetable", cuisine: "italian", seasonality: ["summer"], elementalProperties: { Fire: 0.1, Water: 0.7, Earth: 0.3, Air: 0.3 }, tags: ["summer-squash", "mild"] },
+  { id: "mushroom", name: "Mushrooms", amount: 1, unit: "cup", category: "fungi", cuisine: "universal", seasonality: ["fall"], elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.6, Air: 0.3 }, tags: ["umami", "earthy"] },
+  { id: "kale", name: "Kale", amount: 1, unit: "cup", category: "leafy-green", cuisine: "universal", seasonality: ["fall", "winter"], elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.7 }, tags: ["superfood", "bitter"] },
+  { id: "eggplant", name: "Eggplant", amount: 1, unit: "medium", category: "vegetable", cuisine: "mediterranean", seasonality: ["summer"], elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.5, Air: 0.2 }, tags: ["meaty", "absorbent"] },
+  { id: "asparagus", name: "Asparagus", amount: 1, unit: "bunch", category: "vegetable", cuisine: "french", seasonality: ["spring"], elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.3, Air: 0.5 }, tags: ["spring-vegetable", "elegant"] },
+  { id: "cauliflower", name: "Cauliflower", amount: 1, unit: "head", category: "vegetable", cuisine: "indian", seasonality: ["fall", "winter"], elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.4, Air: 0.4 }, tags: ["cruciferous", "versatile"] },
+  { id: "carrot", name: "Carrot", amount: 2, unit: "medium", category: "root-vegetable", cuisine: "universal", seasonality: ["fall", "winter"], elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.6, Air: 0.2 }, tags: ["sweet", "beta-carotene"] },
+  { id: "green-beans", name: "Green Beans", amount: 1, unit: "cup", category: "vegetable", cuisine: "universal", seasonality: ["summer"], elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.4, Air: 0.4 }, tags: ["snap", "fresh"] },
+  { id: "butternut-squash", name: "Butternut Squash", amount: 1, unit: "medium", category: "vegetable", cuisine: "universal", seasonality: ["fall", "winter"], elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.7, Air: 0.2 }, tags: ["winter-squash", "sweet"] },
+
+  // ===== GRAINS & LEGUMES (8) =====
+  { id: "rice", name: "Rice", amount: 1, unit: "cup", category: "grain", cuisine: "asian", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.7, Air: 0.1 }, tags: ["staple", "carbohydrate"] },
+  { id: "quinoa", name: "Quinoa", amount: 1, unit: "cup", category: "grain", cuisine: "south-american", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.6, Air: 0.4 }, tags: ["complete-protein", "gluten-free"] },
+  { id: "pasta", name: "Pasta", amount: 1, unit: "lb", category: "grain", cuisine: "italian", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.7, Air: 0.2 }, tags: ["staple", "comfort"], allergens: ["gluten"] },
+  { id: "lentils", name: "Lentils", amount: 1, unit: "cup", category: "legume", cuisine: "indian", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.7, Air: 0.3 }, tags: ["plant-protein", "fiber"] },
+  { id: "chickpeas", name: "Chickpeas", amount: 1, unit: "can", category: "legume", cuisine: "middle-eastern", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.6, Air: 0.4 }, tags: ["hummus", "plant-protein"] },
+  { id: "black-beans", name: "Black Beans", amount: 1, unit: "can", category: "legume", cuisine: "mexican", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.7, Air: 0.2 }, tags: ["fiber", "hearty"] },
+  { id: "couscous", name: "Couscous", amount: 1, unit: "cup", category: "grain", cuisine: "middle-eastern", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.6, Air: 0.3 }, tags: ["quick-cook", "light"], allergens: ["gluten"] },
+  { id: "farro", name: "Farro", amount: 1, unit: "cup", category: "grain", cuisine: "italian", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.7, Air: 0.3 }, tags: ["ancient-grain", "nutty"], allergens: ["gluten"] },
+
+  // ===== AROMATICS & HERBS (10) =====
+  { id: "garlic", name: "Garlic", amount: 1, unit: "clove", category: "aromatic", cuisine: "universal", seasonality: "all", elementalProperties: { Fire: 0.6, Water: 0.2, Earth: 0.4, Air: 0.3 }, tags: ["pungent", "flavor-enhancer"] },
+  { id: "onion", name: "Onion", amount: 1, unit: "medium", category: "aromatic", cuisine: "universal", seasonality: "all", elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.5, Air: 0.2 }, tags: ["base-flavor", "pungent"] },
+  { id: "ginger", name: "Fresh Ginger", amount: 1, unit: "thumb", category: "aromatic", cuisine: "asian", seasonality: "all", elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.3, Air: 0.4 }, tags: ["warming", "zingy"] },
+  { id: "cilantro", name: "Cilantro", amount: 1, unit: "bunch", category: "herb", cuisine: "mexican", seasonality: ["spring", "summer"], elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.7 }, tags: ["fresh", "citrusy"] },
+  { id: "basil", name: "Fresh Basil", amount: 1, unit: "cup", category: "herb", cuisine: "italian", seasonality: ["summer"], elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.7 }, tags: ["aromatic", "sweet"] },
+  { id: "rosemary", name: "Fresh Rosemary", amount: 2, unit: "sprigs", category: "herb", cuisine: "mediterranean", seasonality: "all", elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.4, Air: 0.5 }, tags: ["woodsy", "piney"] },
+  { id: "thyme", name: "Fresh Thyme", amount: 4, unit: "sprigs", category: "herb", cuisine: "french", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.6 }, tags: ["earthy", "delicate"] },
+  { id: "lemongrass", name: "Lemongrass", amount: 2, unit: "stalks", category: "aromatic", cuisine: "thai", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.7 }, tags: ["citrusy", "fragrant"] },
+  { id: "shallot", name: "Shallot", amount: 2, unit: "pieces", category: "aromatic", cuisine: "french", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.5, Air: 0.3 }, tags: ["mild", "refined"] },
+  { id: "green-onion", name: "Green Onion", amount: 4, unit: "stalks", category: "aromatic", cuisine: "asian", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.5 }, tags: ["garnish", "mild"] },
+
+  // ===== DAIRY & FATS (6) =====
+  { id: "butter", name: "Butter", amount: 2, unit: "tbsp", category: "fat", cuisine: "french", seasonality: "all", elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.5, Air: 0.2 }, tags: ["rich", "creamy"], allergens: ["dairy"] },
+  { id: "olive-oil", name: "Olive Oil", amount: 2, unit: "tbsp", category: "fat", cuisine: "mediterranean", seasonality: "all", elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.5, Air: 0.3 }, tags: ["healthy-fat", "fruity"] },
+  { id: "coconut-milk", name: "Coconut Milk", amount: 1, unit: "can", category: "fat", cuisine: "thai", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.6, Earth: 0.4, Air: 0.2 }, tags: ["creamy", "tropical"] },
+  { id: "parmesan", name: "Parmesan Cheese", amount: 0.5, unit: "cup", category: "dairy", cuisine: "italian", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.7, Air: 0.3 }, tags: ["umami", "aged"], allergens: ["dairy"] },
+  { id: "heavy-cream", name: "Heavy Cream", amount: 1, unit: "cup", category: "dairy", cuisine: "french", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.4, Air: 0.3 }, tags: ["rich", "luscious"], allergens: ["dairy"] },
+  { id: "yogurt", name: "Greek Yogurt", amount: 1, unit: "cup", category: "dairy", cuisine: "mediterranean", seasonality: "all", elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.4, Air: 0.4 }, tags: ["tangy", "probiotic"], allergens: ["dairy"] },
+
+  // ===== SPICES & SEASONINGS (8) =====
+  { id: "cumin", name: "Cumin", amount: 1, unit: "tsp", category: "spice", cuisine: "indian", seasonality: "all", elementalProperties: { Fire: 0.6, Water: 0.1, Earth: 0.5, Air: 0.3 }, tags: ["warming", "earthy"] },
+  { id: "turmeric", name: "Turmeric", amount: 1, unit: "tsp", category: "spice", cuisine: "indian", seasonality: "all", elementalProperties: { Fire: 0.5, Water: 0.2, Earth: 0.5, Air: 0.3 }, tags: ["anti-inflammatory", "golden"] },
+  { id: "smoked-paprika", name: "Smoked Paprika", amount: 1, unit: "tsp", category: "spice", cuisine: "spanish", seasonality: "all", elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.4, Air: 0.3 }, tags: ["smoky", "sweet-heat"] },
+  { id: "cinnamon", name: "Cinnamon", amount: 0.5, unit: "tsp", category: "spice", cuisine: "middle-eastern", seasonality: "all", elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.4, Air: 0.5 }, tags: ["warming", "sweet"] },
+  { id: "soy-sauce", name: "Soy Sauce", amount: 2, unit: "tbsp", category: "condiment", cuisine: "asian", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.5, Air: 0.2 }, tags: ["umami", "salty"], allergens: ["soy"] },
+  { id: "fish-sauce", name: "Fish Sauce", amount: 1, unit: "tbsp", category: "condiment", cuisine: "thai", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.4, Air: 0.2 }, tags: ["funky", "umami"], allergens: ["fish"] },
+  { id: "miso-paste", name: "Miso Paste", amount: 2, unit: "tbsp", category: "condiment", cuisine: "japanese", seasonality: "all", elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.6, Air: 0.3 }, tags: ["fermented", "umami"], allergens: ["soy"] },
+  { id: "harissa", name: "Harissa Paste", amount: 1, unit: "tbsp", category: "condiment", cuisine: "middle-eastern", seasonality: "all", elementalProperties: { Fire: 0.8, Water: 0.2, Earth: 0.3, Air: 0.3 }, tags: ["spicy", "smoky"] },
+
+  // ===== FRUITS & CITRUS (4) =====
+  { id: "lemon", name: "Lemon", amount: 1, unit: "piece", category: "citrus", cuisine: "mediterranean", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.1, Air: 0.5 }, tags: ["acidic", "bright"] },
+  { id: "lime", name: "Lime", amount: 1, unit: "piece", category: "citrus", cuisine: "mexican", seasonality: "all", elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.1, Air: 0.6 }, tags: ["tart", "tropical"] },
+  { id: "avocado", name: "Avocado", amount: 1, unit: "piece", category: "fruit", cuisine: "mexican", seasonality: ["spring", "summer"], elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.6, Air: 0.3 }, tags: ["creamy", "healthy-fat"] },
+  { id: "pomegranate", name: "Pomegranate Seeds", amount: 0.5, unit: "cup", category: "fruit", cuisine: "middle-eastern", seasonality: ["fall", "winter"], elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.2, Air: 0.4 }, tags: ["jewel-like", "tart-sweet"] },
 ];
 
 /**

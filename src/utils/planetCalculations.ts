@@ -123,13 +123,13 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
       exactLongitude: southNodeLongitude,
       isRetrograde,
     };
-  } catch (error) {
+  } catch (_error) {
     // If that fails, fall back to the simplified calculation
     try {
       const lunarNodes = astrologyUtils.calculateLunarNodes(date);
       northNode = (lunarNodes as any).northNode;
       southNode = (lunarNodes as any).southNode;
-    } catch (fallbackError) {
+    } catch (_fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {
         sign: "aries",

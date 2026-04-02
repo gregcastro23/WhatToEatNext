@@ -11,8 +11,8 @@ import { createLazyComponent } from "@/utils/lazyLoading";
 // Lazy load the alchemical calculation engine
 const AlchemicalCalculator = createLazyComponent(
   () =>
-    import("@/calculations/alchemicalEngine").then((module) => ({
-      default: React.memo((props: any) => (
+    import("@/calculations/alchemicalEngine").then((_module) => ({
+      default: React.memo((_props: any) => (
         // This would wrap the actual calculation logic
         <div className="alchemical-calculator">
           <h3>Alchemical Calculation Engine</h3>

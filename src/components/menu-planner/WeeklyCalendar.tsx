@@ -20,12 +20,11 @@ import type {
 } from "@/types/menuPlanner";
 import {
   getDayName,
-  getShortDayName,
+  getShortDayName as _getShortDayName,
   getPlanetaryDayCharacteristics,
-  PLANETARY_DAY_RULERS,
+  PLANETARY_DAY_RULERS as _PLANETARY_DAY_RULERS,
   formatDateForDisplay,
 } from "@/types/menuPlanner";
-import type { Recipe } from "@/types/recipe";
 import CopyMealModal from "./CopyMealModal";
 import FocusedDayView from "./FocusedDayView";
 import MealSlot from "./MealSlot";
@@ -41,7 +40,7 @@ function DayColumn({
   dayOfWeek,
   date,
   meals,
-  onMealClick,
+  onMealClick: _onMealClick,
   onCopyMealClick,
   onFocusDay,
   currentPlanetaryHour,
@@ -276,14 +275,14 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
   // Handle copy operation
   const handleCopy = (targetSlotIds: string[], servings?: number) => {
     if (!copyMealModalState.sourceMeal) return;
-    copyMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
+    void copyMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
     setCopyMealModalState({ isOpen: false, sourceMeal: null });
   };
 
   // Handle move operation
   const handleMove = (targetSlotIds: string[], servings?: number) => {
     if (!copyMealModalState.sourceMeal) return;
-    moveMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
+    void moveMealToSlots(copyMealModalState.sourceMeal.id, targetSlotIds, servings);
     setCopyMealModalState({ isOpen: false, sourceMeal: null });
   };
 
@@ -358,7 +357,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
               <div className="flex items-center gap-2">
                 <span className="text-purple-600">✨</span>
                 <span>
-                  Click "Generate" on any day for planetary-aligned suggestions
+                  Click &quot;Generate&quot; on any day for planetary-aligned suggestions
                 </span>
               </div>
               <div className="hidden sm:block text-gray-400">•</div>
@@ -472,7 +471,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       {/* Helper Text */}
       <div className="text-center text-sm text-gray-500 mt-6">
         <p>
-          Click "+ Add Recipe" to add meals. Drag between slots to rearrange.
+          Click &quot;+ Add Recipe&quot; to add meals. Drag between slots to rearrange.
           Click 📋 to copy/move to multiple slots.
         </p>
       </div>

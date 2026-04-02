@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Fermentation cooking method
@@ -10,6 +9,8 @@ export const fermentation: CookingMethodData = {
   name: "fermentation",
   description:
     "Biological transformation of food through controlled microbial activity, creating complex flavors, preserving foods, and enhancing nutritional value",
+  shortDescription: "Surrenders ingredients to microbial transformation over deep time.",
+  culinaryArchetype: "The Time Weaver",
   elementalEffect: {
     Water: 0.3,
     Earth: 0.3,

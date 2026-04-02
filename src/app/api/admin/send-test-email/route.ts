@@ -2,15 +2,15 @@
  * Admin API: Send Test Onboarding Email
  *
  * POST /api/admin/send-test-email
- * Body: { to?: string, name?: string, dominantElement?: string, type?: "welcome" | "admin" }
+ * Body: { to?: string, name?: string, dominantElement?: string, type?: "welcome" | "admin" | "login" }
  *
  * Sends a test welcome or admin-notification email.
  * Protected: requires AUTH_ADMIN_EMAIL or a valid session with admin role.
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import emailService from "@/services/emailService";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       to?: string;
       name?: string;
       dominantElement?: string;
-      type?: "welcome" | "admin";
+      type?: "welcome" | "admin" | "login";
     };
 
     // Simple admin gate: request must come from an admin email or include the admin secret
@@ -47,13 +47,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Re-check env vars in case they weren't available at module load
+    emailService.ensureInitialized();
+
     if (!emailService.isConfigured()) {
       return NextResponse.json(
         {
           success: false,
           error:
-            "Email service not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS environment variables.",
-          hint: "For Gmail: use smtp.gmail.com:587 with an App Password.",
+            "Email service not configured. Set RESEND_API_KEY (preferred) or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.",
+          hint: "For Resend: set RESEND_API_KEY and EMAIL_FROM_ADDRESS=noreply@alchm.kitchen",
         },
         { status: 503 },
       );
@@ -66,6 +69,8 @@ export async function POST(request: NextRequest) {
         name,
         dominantElement,
       );
+    } else if (type === "login") {
+      success = await emailService.sendLoginNotificationEmail(to, name, true);
     } else {
       success = await emailService.sendWelcomeEmail(to, name, dominantElement);
     }
@@ -101,11 +106,12 @@ export async function POST(request: NextRequest) {
 
 /** Health check — returns email service configuration status */
 export async function GET() {
+  emailService.ensureInitialized();
   return NextResponse.json({
     configured: emailService.isConfigured(),
     message: emailService.isConfigured()
       ? "Email service is ready. POST to this endpoint to send a test email."
-      : "Email service not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS.",
+      : "Email service not configured. Set RESEND_API_KEY (preferred) or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS.",
     example: {
       method: "POST",
       body: {

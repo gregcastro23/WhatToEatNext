@@ -252,7 +252,7 @@ export default function QuickActionsToolbar() {
   /**
    * Fallback: fill slots using UnifiedRecipeService
    */
-  const fillWithRecipeService = async () => {
+  const _fillWithRecipeService = async () => {
     if (!currentMenu) return;
 
     try {
@@ -594,8 +594,9 @@ export default function QuickActionsToolbar() {
 
           <button
             onClick={() => {
-              if (confirm("Clear entire week? This cannot be undone.")) {
-                clearWeek();
+              // eslint-disable-next-line no-alert
+              if (window.confirm("Clear entire week? This cannot be undone.")) {
+                void clearWeek();
               }
             }}
             disabled={totalMeals === 0}

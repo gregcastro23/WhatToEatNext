@@ -123,6 +123,7 @@ export function getElementForZodiac(
   if (fireZodiacs.includes(sign)) return "Fire";
   if (earthZodiacs.includes(sign)) return "Earth";
   if (airZodiacs.includes(sign)) return "Air";
+  if (waterZodiacs.includes(sign)) return "Water";
   return "Water";
 }
 
@@ -288,6 +289,7 @@ export function getModalityForZodiac(
 
   if (cardinalZodiacs.includes(sign)) return "cardinal";
   if (fixedZodiacs.includes(sign)) return "fixed";
+  if (mutableZodiacs.includes(sign)) return "mutable";
   return "mutable";
 }
 

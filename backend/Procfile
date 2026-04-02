@@ -1,0 +1,1 @@
+web: uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port $PORT

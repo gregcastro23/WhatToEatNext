@@ -7,7 +7,7 @@
 import type { ElementalProperties } from "@/types/alchemy";
 
 export class RecipeElementalService {
-  static calculateElementalProperties(recipe: any): ElementalProperties {
+  static calculateElementalProperties(_recipe: any): ElementalProperties {
     return {
       Fire: 0.25,
       Water: 0.25,
@@ -24,7 +24,7 @@ export class RecipeElementalService {
     return RecipeElementalService.calculateElementalProperties(recipe);
   }
 
-  calculateSimilarity(recipe1: any, recipe2: any): number {
+  calculateSimilarity(_recipe1: any, _recipe2: any): number {
     return 0.5;
   }
 }

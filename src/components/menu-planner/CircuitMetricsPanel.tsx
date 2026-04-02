@@ -389,7 +389,7 @@ function EmptyStatePrompt({ mealCount }: { mealCount: number }) {
       {mealCount === 0 && (
         <div className="mt-4 text-xs text-gray-500 max-w-md mx-auto">
           <p>
-            💡 Tip: Click "✨ Generate" on any day or search recipes below to
+            💡 Tip: Click &quot;✨ Generate&quot; on any day or search recipes below to
             get started!
           </p>
         </div>
@@ -410,7 +410,7 @@ export default function CircuitMetricsPanel() {
   const hasEnoughMeals = totalMeals >= 6;
 
   // Auto-collapse when not enough meals
-  const shouldShowFullPanel = hasEnoughMeals && !isCollapsed;
+  const _shouldShowFullPanel = hasEnoughMeals && !isCollapsed;
 
   return (
     <div className="bg-white rounded-xl shadow-md border-2 border-purple-200 overflow-hidden">

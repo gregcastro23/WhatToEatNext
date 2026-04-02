@@ -1,7 +1,7 @@
 import {
   alchmAPI,
   type RuneAgentRequest,
-  type RuneResult as APIRuneResult,
+  type RuneResult as _APIRuneResult,
 } from "@/lib/api/alchm-client";
 import { logger } from "@/lib/logger";
 import { getCurrentAlchemicalState } from "@/services/RealAlchemizeService";
