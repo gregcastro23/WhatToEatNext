@@ -10,11 +10,11 @@
 
 import React, { useState, useMemo } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import type { InstacartShoppingListRequest } from "@/types/instacart";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
-import type { InstacartShoppingListRequest } from "@/types/instacart";
 
 const logger = createLogger("GroceryListModal");
 
@@ -396,19 +396,19 @@ export default function GroceryListModal({
         {/* Actions */}
         <div className="p-4 border-b bg-gray-50 flex gap-2 flex-wrap">
           <button
-            onClick={() => handleExport("clipboard")}
+            onClick={() => { void handleExport("clipboard"); }}
             className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
           >
             📋 Copy
           </button>
           <button
-            onClick={() => handleExport("email")}
+            onClick={() => { void handleExport("email"); }}
             className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm"
           >
             ✉️ Email
           </button>
           <button
-            onClick={() => handleExport("print")}
+            onClick={() => { void handleExport("print"); }}
             className="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm"
           >
             🖨️ Print
@@ -420,7 +420,7 @@ export default function GroceryListModal({
             🔄 Regenerate
           </button>
           <button
-            onClick={handleOrderOnInstacart}
+            onClick={() => { void handleOrderOnInstacart(); }}
             disabled={instacartLoading || stats.remaining === 0}
             className="px-3 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
             title={stats.remaining === 0 ? "No items to order" : "Order groceries via Instacart"}

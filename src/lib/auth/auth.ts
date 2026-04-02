@@ -182,8 +182,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
               // Premium daily insight — only if user has a natal chart
               const isPremium =
-                isAdminEmail(user.email) ||
-                isPremiumEmail(user.email) ||
+                isAdminEmail(user.email!) ||
+                isPremiumEmail(user.email!) ||
                 (dbUser as any)?.tier === "premium";
               const natalChart =
                 (dbUser as any)?.profile?.natalChart ||
