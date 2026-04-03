@@ -1043,6 +1043,18 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
               }
             : undefined;
 
+        // Extract existing meals from the weekly plan for context-aware recommendations
+        const existingMeals = currentMenu.meals
+          .filter((m) => m.recipe && m.dayOfWeek !== dayOfWeek)
+          .map((m) => ({
+            recipeId: m.recipe!.id,
+            recipeName: m.recipe!.name,
+            cuisine: m.recipe!.cuisine,
+            primaryProtein: m.recipe!.ingredients?.find(
+              (i: any) => i.category === "protein",
+            )?.name,
+          }));
+
         // Generate recommendations using planetary intelligence + user personalization
         const recommendations = await generateDayRecommendations(
           dayOfWeek,
@@ -1053,6 +1065,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             useCurrentPlanetary,
             maxRecipesPerMeal: 1, // Take top recommendation per meal
             userContext,
+            existingMeals,
           },
         );
 

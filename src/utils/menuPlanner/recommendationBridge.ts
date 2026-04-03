@@ -9,15 +9,15 @@
  */
 
 import type { AlchemicalProfile } from "@/contexts/UserContext";
+import { allRecipes } from "@/data/recipes/index";
 import {
-    UnifiedRecipeBuildingSystem,
     type MonicaOptimizedRecipe,
 } from "@/data/unified/recipeBuilding";
 import type { ChartComparison } from "@/services/ChartComparisonService";
 import type { LunarPhase } from "@/types/celestial";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { NatalChart } from "@/types/natalChart";
-import type { ElementalProperties } from "@/types/recipe";
+import type { ElementalProperties, Recipe } from "@/types/recipe";
 import { calculateConstitutionalCompatibility } from "@/utils/alchemy/constitutionalBalancing";
 import {
     getRecipeKAlchm,
@@ -25,6 +25,7 @@ import {
 } from "@/utils/alchemy/derivedStats";
 import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
 import { createLogger } from "@/utils/logger";
+import { isSuitableForMealType } from "@/utils/menuPlanner/mealTypeMatching";
 import {
     calculateDayFoodCompatibility,
     getPlanetaryDayCharacteristics,
@@ -73,6 +74,13 @@ export interface DayRecommendationOptions {
   flavorPreferences?: string[];
   /** User personalization context for chart-based recommendations */
   userContext?: UserPersonalizationContext;
+  /** Meals already planned for the week, used to avoid repetition */
+  existingMeals?: Array<{
+    recipeId: string;
+    recipeName: string;
+    cuisine?: string;
+    primaryProtein?: string;
+  }>;
 }
 
 /**
@@ -117,6 +125,7 @@ export async function generateDayRecommendations(
       preferredCookingMethods = [],
       flavorPreferences = [],
       userContext,
+      existingMeals = [],
     } = options;
 
     const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
@@ -145,6 +154,7 @@ export async function generateDayRecommendations(
           requiredIngredients,
           preferredCookingMethods,
           flavorPreferences,
+          existingMeals,
         },
       );
 
@@ -365,10 +375,16 @@ async function generateMealRecommendations(
     requiredIngredients?: string[];
     preferredCookingMethods?: string[];
     flavorPreferences?: string[];
+    existingMeals?: Array<{
+      recipeId: string;
+      recipeName: string;
+      cuisine?: string;
+      primaryProtein?: string;
+    }>;
   },
 ): Promise<RecommendedMeal[]> {
   try {
-    // Get candidate recipes
+    // Get candidate recipes from the real recipe database
     const candidateRecipes = await searchRecipesForDay(
       dayChar,
       mealType,
@@ -501,13 +517,137 @@ const PLANET_CULINARY_PROFILES: Record<string, {
   },
 };
 
-// All planets in order for cycling through different recipe angles
-const ALL_PLANETS = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+// ===== SEASON HELPER =====
 
 /**
- * Search for recipes appropriate for a specific day and meal type.
- * Now generates diverse recipes by cycling through planetary influence
- * profiles, ensuring different proteins, cooking methods, and flavour angles.
+ * Get the current season based on the month.
+ */
+function getCurrentSeason(): string {
+  const month = new Date().getMonth();
+  if (month >= 2 && month <= 4) return "spring";
+  if (month >= 5 && month <= 7) return "summer";
+  if (month >= 8 && month <= 10) return "autumn";
+  return "winter";
+}
+
+// ===== RECIPE ADAPTER =====
+
+/**
+ * Adapt a database Recipe into the MonicaOptimizedRecipe shape
+ * expected by the scoring and personalization pipeline.
+ * Uses stub metadata since the recipe is already a real, curated recipe.
+ */
+function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
+  return {
+    ...recipe,
+    alchemicalProperties: (recipe as any).alchemicalProperties ?? undefined,
+    cookingOptimization: undefined,
+    monicaOptimization: {
+      originalMonica: null,
+      optimizedMonica: 1.0,
+      optimizationScore: 0.5,
+      temperatureAdjustments: [],
+      timingAdjustments: [],
+      intensityModifications: [],
+      planetaryTimingRecommendations: [],
+    },
+    seasonalAdaptation: {
+      currentSeason: getCurrentSeason() as any,
+      seasonalScore: 0.7,
+      seasonalIngredientSubstitutions: [],
+      seasonalCookingMethodAdjustments: [],
+    },
+    cuisineIntegration: {
+      authenticity: 0.9,
+      fusionPotential: 0.5,
+      culturalNotes: [],
+      traditionalVariations: [],
+      modernAdaptations: [],
+    },
+    nutritionalOptimization: {
+      alchemicalNutrition: {
+        spiritNutrients: [],
+        essenceNutrients: [],
+        matterNutrients: [],
+        substanceNutrients: [],
+      },
+      elementalNutrition: recipe.elementalProperties,
+      kalchmNutritionalBalance: 0.5,
+      monicaNutritionalHarmony: 0.5,
+    },
+  } as MonicaOptimizedRecipe;
+}
+
+// ===== DIETARY FILTER HELPERS =====
+
+/**
+ * Check if a recipe satisfies all dietary restrictions.
+ */
+function matchesDietaryRestrictions(
+  recipe: Recipe,
+  restrictions: string[],
+): boolean {
+  for (const restriction of restrictions) {
+    const r = restriction.toLowerCase();
+    if (r === "vegetarian" && !recipe.isVegetarian) return false;
+    if (r === "vegan" && !recipe.isVegan) return false;
+    if (r === "gluten-free" && !recipe.isGlutenFree) return false;
+    if (r === "dairy-free" && !recipe.isDairyFree) return false;
+    if (r === "nut-free" && !recipe.isNutFree) return false;
+    if (r === "low-carb" && !recipe.isLowCarb) return false;
+    if (r === "keto" && !recipe.isKeto) return false;
+    if (r === "paleo" && !recipe.isPaleo) return false;
+  }
+  return true;
+}
+
+/**
+ * Check if a recipe contains any excluded ingredients.
+ */
+function containsExcludedIngredient(
+  recipe: Recipe,
+  excludeIngredients: string[],
+): boolean {
+  if (excludeIngredients.length === 0) return false;
+  const excluded = new Set(excludeIngredients.map((i) => i.toLowerCase()));
+  return recipe.ingredients.some((ing) => {
+    const name = (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase();
+    return excluded.has(name) || [...excluded].some((e) => name.includes(e));
+  });
+}
+
+/**
+ * Check if a recipe matches the current season.
+ */
+function matchesSeason(recipe: Recipe, currentSeason: string): boolean {
+  if (!recipe.season) return true; // No season info = all-season
+  const seasons = Array.isArray(recipe.season)
+    ? recipe.season.map((s) => s.toLowerCase())
+    : [recipe.season.toLowerCase()];
+  if (seasons.length === 0) return true;
+  // "all" means any season
+  if (seasons.includes("all")) return true;
+  // Match "autumn" or "fall" interchangeably
+  if (currentSeason === "autumn") {
+    return seasons.includes("autumn") || seasons.includes("fall");
+  }
+  return seasons.includes(currentSeason);
+}
+
+/**
+ * Get the primary protein from a recipe's ingredients.
+ */
+function getPrimaryProtein(recipe: Recipe): string | undefined {
+  const proteinIng = recipe.ingredients?.find(
+    (ing: any) => ing.category === "protein",
+  );
+  return proteinIng ? (proteinIng as any).name?.toLowerCase() : undefined;
+}
+
+/**
+ * Search for recipes from the curated database appropriate for a specific day and meal type.
+ * Filters by meal type, season, dietary restrictions, and weekly context,
+ * then scores by planetary/elemental alignment and cuisine match.
  */
 async function searchRecipesForDay(
   dayChar: PlanetaryDayCharacteristics,
@@ -519,125 +659,234 @@ async function searchRecipesForDay(
     requiredIngredients?: string[];
     preferredCookingMethods?: string[];
     flavorPreferences?: string[];
+    existingMeals?: Array<{
+      recipeId: string;
+      recipeName: string;
+      cuisine?: string;
+      primaryProtein?: string;
+    }>;
   },
 ): Promise<MonicaOptimizedRecipe[]> {
   try {
-    logger.debug("Searching recipes for day (diversity mode)", {
+    logger.debug("Searching recipes from database", {
       planet: dayChar.planet,
       mealType,
-      cuisines: dayChar.recommendedCuisines,
-      requiredIngredients: options.requiredIngredients,
+      recommendedCuisines: dayChar.recommendedCuisines,
     });
 
-    const recipeBuilder = new UnifiedRecipeBuildingSystem();
-    const results: MonicaOptimizedRecipe[] = [];
-    const usedProteinNames = new Set<string>();
-    const usedCookingMethods = new Set<string>();
+    const recipes = allRecipes as unknown as Recipe[];
+    const currentSeason = getCurrentSeason();
+    const existingMeals = options.existingMeals || [];
+    const existingRecipeIds = new Set(existingMeals.map((m) => m.recipeId));
+    const existingCuisines = existingMeals
+      .map((m) => m.cuisine?.toLowerCase())
+      .filter(Boolean) as string[];
+    const existingProteins = existingMeals
+      .map((m) => m.primaryProtein?.toLowerCase())
+      .filter(Boolean) as string[];
 
-    // Build the list of planetary influences to explore.
-    // Start with the day's ruling planet, then add active planets and fill with others.
-    const dayPlanet = dayChar.planet;
-    const explorationPlanets: string[] = [dayPlanet];
+    const planetProfile =
+      PLANET_CULINARY_PROFILES[dayChar.planet] ||
+      PLANET_CULINARY_PROFILES["Sun"];
 
-    // Add recommended cuisines' natural planetary affinity
-    for (const p of ALL_PLANETS) {
-      if (!explorationPlanets.includes(p)) {
-        explorationPlanets.push(p);
+    // ── Step 1: Filter pipeline ──
+
+    let candidates = recipes.filter((recipe) => {
+      // Hard-exclude recipes already in the weekly plan
+      if (existingRecipeIds.has(recipe.id)) return false;
+
+      // Meal type suitability
+      if (!isSuitableForMealType(recipe, mealType)) return false;
+
+      // Season match
+      if (!matchesSeason(recipe, currentSeason)) return false;
+
+      // Dietary restrictions
+      if (
+        options.dietaryRestrictions.length > 0 &&
+        !matchesDietaryRestrictions(recipe, options.dietaryRestrictions)
+      )
+        return false;
+
+      // Excluded ingredients
+      if (containsExcludedIngredient(recipe, options.excludeIngredients))
+        return false;
+
+      // Required ingredients (if specified, must contain at least one)
+      if (options.requiredIngredients && options.requiredIngredients.length > 0) {
+        const required = options.requiredIngredients.map((i) => i.toLowerCase());
+        const recipeIngNames = recipe.ingredients.map((ing) =>
+          (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase(),
+        );
+        const hasRequired = required.some((req) =>
+          recipeIngNames.some((name) => name.includes(req)),
+        );
+        if (!hasRequired) return false;
       }
-      if (explorationPlanets.length >= 6) break; // Generate up to 6 diverse recipes
+
+      return true;
+    });
+
+    // ── Step 2: Progressive fallback if filters are too restrictive ──
+
+    if (candidates.length === 0) {
+      // Relax: drop season filter
+      candidates = recipes.filter((recipe) => {
+        if (existingRecipeIds.has(recipe.id)) return false;
+        if (!isSuitableForMealType(recipe, mealType)) return false;
+        if (
+          options.dietaryRestrictions.length > 0 &&
+          !matchesDietaryRestrictions(recipe, options.dietaryRestrictions)
+        )
+          return false;
+        if (containsExcludedIngredient(recipe, options.excludeIngredients))
+          return false;
+        return true;
+      });
     }
 
-    // Determine cuisines to explore
-    const cuisinePool = options.preferredCuisines.length > 0
-      ? options.preferredCuisines
-      : dayChar.recommendedCuisines.slice(0, 5);
-
-    // Generate a diverse recipe for each planetary influence
-    for (let i = 0; i < explorationPlanets.length; i++) {
-      const planet = explorationPlanets[i];
-      const profile = PLANET_CULINARY_PROFILES[planet] || PLANET_CULINARY_PROFILES["Sun"];
-
-      // Rotate through cuisines so each recipe explores a different cuisine
-      const cuisine = cuisinePool[i % cuisinePool.length] || cuisinePool[0];
-
-      // Determine cooking methods: use user preference if provided, otherwise
-      // draw from the planetary profile to ensure variety
-      let cookingMethods = options.preferredCookingMethods && options.preferredCookingMethods.length > 0
-        ? options.preferredCookingMethods
-        : profile.cookingMethods.filter((m) => !usedCookingMethods.has(m));
-
-      // Fallback: if all methods were used, allow reuse
-      if (cookingMethods.length === 0) cookingMethods = profile.cookingMethods;
-
-      const criteria = {
-        cuisine,
-        mealType: [mealType],
-        dietaryRestrictions: options.dietaryRestrictions,
-        excludedIngredients: [
-          ...options.excludeIngredients,
-          // Exclude proteins already used by previous recipes to force variety
-          ...Array.from(usedProteinNames),
-        ],
-        requiredIngredients:
-          options.requiredIngredients && options.requiredIngredients.length > 0
-            ? options.requiredIngredients
-            : undefined,
-        cookingMethods,
-        planetaryHour: planet as any,
-        elementalPreference: profile.elementalEmphasis,
-      };
-
-      try {
-        const result = recipeBuilder.generateMonicaOptimizedRecipe(criteria);
-
-        if (result.recipe) {
-          // Track the primary protein to prevent reuse
-          const proteinIngredient = result.recipe.ingredients?.find(
-            (ing: any) =>
-              ing.category === "protein" ||
-              profile.proteinAffinity.some((p) =>
-                ing.name?.toLowerCase().includes(p.toLowerCase()),
-              ),
-          );
-          if (proteinIngredient) {
-            usedProteinNames.add(proteinIngredient.name);
-          }
-
-          // Track cooking methods used
-          for (const m of result.recipe.cookingMethod || []) {
-            usedCookingMethods.add(m);
-          }
-
-          results.push(result.recipe);
-        }
-      } catch {
-        // Skip failed generation for this planetary angle
-      }
+    if (candidates.length === 0) {
+      // Relax further: drop meal type filter, keep dietary only
+      candidates = recipes.filter((recipe) => {
+        if (existingRecipeIds.has(recipe.id)) return false;
+        if (
+          options.dietaryRestrictions.length > 0 &&
+          !matchesDietaryRestrictions(recipe, options.dietaryRestrictions)
+        )
+          return false;
+        return true;
+      });
     }
 
-    // If we didn't generate enough, add alternatives from the primary recipe
-    if (results.length < 3) {
-      const baseCuisine = cuisinePool[0] || "fusion";
-      try {
-        const fallbackResult = recipeBuilder.generateMonicaOptimizedRecipe({
-          cuisine: baseCuisine,
-          mealType: [mealType],
-          dietaryRestrictions: options.dietaryRestrictions,
-          excludedIngredients: options.excludeIngredients,
-          planetaryHour: dayPlanet as any,
-        });
-        if (fallbackResult.recipe) results.push(fallbackResult.recipe);
-        results.push(...fallbackResult.alternatives);
-      } catch {
-        // Skip
+    if (candidates.length === 0) {
+      logger.warn("No recipes found even after relaxing all filters");
+      return [];
+    }
+
+    // ── Step 3: Score each candidate ──
+
+    const recommendedCuisinesLower = dayChar.recommendedCuisines.map((c) =>
+      c.toLowerCase(),
+    );
+    const preferredCuisinesLower = options.preferredCuisines.map((c) =>
+      c.toLowerCase(),
+    );
+
+    const scored = candidates.map((recipe) => {
+      let score = 0;
+
+      // Elemental alignment (weight: 0.4)
+      if (recipe.elementalProperties) {
+        const elementalScore = calculateDayFoodCompatibility(
+          dayChar,
+          recipe.elementalProperties,
+        );
+        score += elementalScore * 0.4;
+      }
+
+      // Cuisine match with day's recommended cuisines (weight: 0.2)
+      const recipeCuisine = recipe.cuisine?.toLowerCase() || "";
+      if (
+        recommendedCuisinesLower.some(
+          (c) => recipeCuisine.includes(c) || c.includes(recipeCuisine),
+        )
+      ) {
+        score += 0.2;
+      }
+
+      // Cooking method alignment with planetary profile (weight: 0.15)
+      if (recipe.cookingMethod && recipe.cookingMethod.length > 0) {
+        const methodMatch = recipe.cookingMethod.some((m) =>
+          planetProfile.cookingMethods.some((pm) =>
+            m.toLowerCase().includes(pm.toLowerCase()),
+          ),
+        );
+        if (methodMatch) score += 0.15;
+      }
+
+      // Preferred cuisine match (weight: 0.1)
+      if (
+        preferredCuisinesLower.length > 0 &&
+        preferredCuisinesLower.some(
+          (c) => recipeCuisine.includes(c) || c.includes(recipeCuisine),
+        )
+      ) {
+        score += 0.1;
+      }
+
+      // Preferred cooking methods match (weight: 0.05)
+      if (
+        options.preferredCookingMethods &&
+        options.preferredCookingMethods.length > 0 &&
+        recipe.cookingMethod
+      ) {
+        const prefMethodMatch = recipe.cookingMethod.some((m) =>
+          options.preferredCookingMethods!.some((pm) =>
+            m.toLowerCase().includes(pm.toLowerCase()),
+          ),
+        );
+        if (prefMethodMatch) score += 0.05;
+      }
+
+      // Weekly variety penalties
+      // Same cuisine as existing meal: -0.15
+      if (
+        recipeCuisine &&
+        existingCuisines.some(
+          (c) => recipeCuisine.includes(c) || c.includes(recipeCuisine),
+        )
+      ) {
+        score -= 0.15;
+      }
+
+      // Same primary protein as existing meal: -0.10
+      const protein = getPrimaryProtein(recipe);
+      if (protein && existingProteins.includes(protein)) {
+        score -= 0.10;
+      }
+
+      return { recipe, score, protein };
+    });
+
+    // Sort by score descending
+    scored.sort((a, b) => b.score - a.score);
+
+    // ── Step 4: Greedy diversity-aware selection ──
+
+    const selected: MonicaOptimizedRecipe[] = [];
+    const selectedProteins = new Set<string>();
+    const selectedCuisines = new Set<string>();
+    const maxCandidates = 6;
+
+    for (const entry of scored) {
+      if (selected.length >= maxCandidates) break;
+
+      const recipeCuisine = entry.recipe.cuisine?.toLowerCase() || "";
+      const recipeProtein = entry.protein || "";
+
+      // Prefer recipes that don't duplicate protein or cuisine within this batch
+      if (recipeProtein && selectedProteins.has(recipeProtein)) continue;
+      if (recipeCuisine && selectedCuisines.has(recipeCuisine)) continue;
+
+      if (recipeProtein) selectedProteins.add(recipeProtein);
+      if (recipeCuisine) selectedCuisines.add(recipeCuisine);
+      selected.push(adaptRecipeToMonicaOptimized(entry.recipe));
+    }
+
+    // Fill remaining slots if diversity constraints were too strict
+    if (selected.length < maxCandidates) {
+      for (const entry of scored) {
+        if (selected.length >= maxCandidates) break;
+        if (selected.some((s) => s.id === entry.recipe.id)) continue;
+        selected.push(adaptRecipeToMonicaOptimized(entry.recipe));
       }
     }
 
     logger.info(
-      `Generated ${results.length} diverse recipes for ${mealType} on ${dayChar.planet} day`,
+      `Selected ${selected.length} database recipes for ${mealType} on ${dayChar.planet} day`,
     );
 
-    return results;
+    return selected;
   } catch (error) {
     logger.error("Failed to search recipes:", error);
     return [];
