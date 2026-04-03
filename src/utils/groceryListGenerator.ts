@@ -293,6 +293,58 @@ export function generateGroceryList(
       });
     });
 
+    // Extract sauce ingredients
+    meals.forEach((meal) => {
+      if (!meal.sauce?.ingredients) return;
+
+      const sauceServings = meal.sauce.servings || 1;
+
+      meal.sauce.ingredients.forEach((rawIngredient: string) => {
+        const ingredient = { name: rawIngredient, amount: 1, unit: 'unit' };
+        const normalizedName = normalizeIngredientName(ingredient.name);
+        const key =
+          consolidateBy === "ingredient"
+            ? normalizedName
+            : `${normalizedName}-sauce-${meal.sauce!.id}`;
+
+        let amount = Number(ingredient.amount) * sauceServings;
+        let unit = ingredient.unit;
+
+        if (convertUnits) {
+          const converted = convertToBaseUnit(amount, unit);
+          amount = converted.amount;
+          unit = converted.unit;
+        }
+
+        if (ingredientMap.has(key)) {
+          const existing = ingredientMap.get(key)!;
+          if (existing.baseUnit === unit) {
+            existing.baseAmount += amount;
+            existing.usedInRecipes.push(`sauce-${meal.sauce!.id}`);
+          } else {
+            const newKey = `${key}-${unit}`;
+            ingredientMap.set(newKey, {
+              ingredient: normalizedName,
+              baseAmount: amount,
+              baseUnit: unit,
+              originalUnits: [ingredient.unit],
+              category: detectCategory(normalizedName),
+              usedInRecipes: [`sauce-${meal.sauce!.id}`],
+            });
+          }
+        } else {
+          ingredientMap.set(key, {
+            ingredient: normalizedName,
+            baseAmount: amount,
+            baseUnit: unit,
+            originalUnits: [ingredient.unit],
+            category: detectCategory(normalizedName),
+            usedInRecipes: [`sauce-${meal.sauce!.id}`],
+          });
+        }
+      });
+    });
+
     // Convert to grocery items
     const groceryItems: GroceryItem[] = Array.from(ingredientMap.entries()).map(
       ([_key, data], index) => {

@@ -1,6 +1,17 @@
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties, ThermodynamicProperties } from "@/types/celestial";
 
+export interface SauceNutritionalProfile {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
+  sodium?: number;
+  sugar?: number;
+  servingSize?: string;
+}
+
 export interface Sauce {
   name: string;
   description: string;
@@ -24,6 +35,7 @@ export interface Sauce {
   cookTime?: string;
   difficulty?: string;
   yield?: string;
+  nutritionalProfile?: SauceNutritionalProfile;
 }
 
 export interface SauceRecommendation {
@@ -92,6 +104,16 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: "30 minutes",
     difficulty: "Easy",
     yield: "Makes about 3 cups",
+    nutritionalProfile: {
+      calories: 70,
+      protein: 2,
+      carbs: 10,
+      fat: 3,
+      fiber: 2,
+      sodium: 450,
+      sugar: 6,
+      servingSize: "1/2 cup (120ml)",
+    },
   },
   pesto: {
     name: "Pesto alla Genovese",
@@ -149,6 +171,16 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: "0 minutes",
     difficulty: "Easy",
     yield: "Makes about 1 cup",
+    nutritionalProfile: {
+      calories: 230,
+      protein: 5,
+      carbs: 3,
+      fat: 22,
+      fiber: 1,
+      sodium: 200,
+      sugar: 1,
+      servingSize: "1/4 cup (60ml)",
+    },
   },
   carbonara: {
     name: "Carbonara",
@@ -204,6 +236,16 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: "15 minutes",
     difficulty: "Medium",
     yield: "Serves 4",
+    nutritionalProfile: {
+      calories: 380,
+      protein: 18,
+      carbs: 4,
+      fat: 32,
+      fiber: 0,
+      sodium: 520,
+      sugar: 1,
+      servingSize: "1 serving (sauce only, no pasta)",
+    },
   },
   ragu: {
     name: "Ragù alla Bolognese",
@@ -282,6 +324,16 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: "3-4 hours",
     difficulty: "Medium",
     yield: "Makes about 6 cups (enough for 8-10 servings)",
+    nutritionalProfile: {
+      calories: 185,
+      protein: 14,
+      carbs: 5,
+      fat: 12,
+      fiber: 1,
+      sodium: 380,
+      sugar: 2,
+      servingSize: "3/4 cup (180ml)",
+    },
   },
   bechamel: {
     name: "Besciamella",
@@ -338,6 +390,16 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: "25 minutes",
     difficulty: "Medium",
     yield: "Makes about 4 cups",
+    nutritionalProfile: {
+      calories: 120,
+      protein: 4,
+      carbs: 10,
+      fat: 8,
+      fiber: 0,
+      sodium: 340,
+      sugar: 4,
+      servingSize: "1/2 cup (120ml)",
+    },
   },
   arrabbiata: {
     name: "Arrabbiata",
@@ -399,6 +461,16 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: "25 minutes",
     difficulty: "Easy",
     yield: "Makes about 3 cups",
+    nutritionalProfile: {
+      calories: 65,
+      protein: 2,
+      carbs: 9,
+      fat: 3,
+      fiber: 2,
+      sodium: 480,
+      sugar: 5,
+      servingSize: "1/2 cup (120ml)",
+    },
   },
 };
 
@@ -464,6 +536,16 @@ export const mexicanSauces: Record<string, Sauce> = {
     cookTime: "1 hour",
     difficulty: "Complex",
     yield: "Makes about 4 cups",
+    nutritionalProfile: {
+      calories: 150,
+      protein: 5,
+      carbs: 14,
+      fat: 9,
+      fiber: 4,
+      sodium: 310,
+      sugar: 6,
+      servingSize: "1/4 cup (60ml)",
+    },
   },
   salsa: {
     name: "Salsa Roja",
@@ -519,6 +601,16 @@ export const mexicanSauces: Record<string, Sauce> = {
     cookTime: "0 minutes (fresh) or 20 minutes (roasted)",
     difficulty: "Easy",
     yield: "Makes about 3 cups",
+    nutritionalProfile: {
+      calories: 20,
+      protein: 1,
+      carbs: 4,
+      fat: 0,
+      fiber: 1,
+      sodium: 220,
+      sugar: 3,
+      servingSize: "2 tbsp (30ml)",
+    },
   },
 };
 
@@ -564,6 +656,16 @@ export const asianSauces: Record<string, Sauce> = {
     cookTime: "0 minutes",
     difficulty: "Medium",
     yield: "Makes about 1 cup of curry paste (enough for 3-4 curries)",
+    nutritionalProfile: {
+      calories: 35,
+      protein: 1,
+      carbs: 3,
+      fat: 2,
+      fiber: 1,
+      sodium: 290,
+      sugar: 1,
+      servingSize: "1 tbsp (15g)",
+    },
   },
   thaiRedCurry: {
     name: "Thai Red Curry Paste",
@@ -604,7 +706,17 @@ export const asianSauces: Record<string, Sauce> = {
     prepTime: "30 minutes",
     cookTime: "0 minutes",
     difficulty: "Medium",
-    yield: "Makes about 1 cup of curry paste"
+    yield: "Makes about 1 cup of curry paste",
+    nutritionalProfile: {
+      calories: 30,
+      protein: 1,
+      carbs: 3,
+      fat: 2,
+      fiber: 1,
+      sodium: 310,
+      sugar: 1,
+      servingSize: "1 tbsp (15g)",
+    },
   },
   thaiYellowCurry: {
     name: "Thai Yellow Curry Paste",
@@ -644,7 +756,17 @@ export const asianSauces: Record<string, Sauce> = {
     prepTime: "30 minutes",
     cookTime: "0 minutes",
     difficulty: "Medium",
-    yield: "Makes about 1 cup of curry paste"
+    yield: "Makes about 1 cup of curry paste",
+    nutritionalProfile: {
+      calories: 30,
+      protein: 1,
+      carbs: 4,
+      fat: 1,
+      fiber: 1,
+      sodium: 280,
+      sugar: 1,
+      servingSize: "1 tbsp (15g)",
+    },
   },
   thaiPanangCurry: {
     name: "Thai Panang Curry Paste",
@@ -685,7 +807,17 @@ export const asianSauces: Record<string, Sauce> = {
     prepTime: "30 minutes",
     cookTime: "0 minutes",
     difficulty: "Medium",
-    yield: "Makes about 1 cup of curry paste"
+    yield: "Makes about 1 cup of curry paste",
+    nutritionalProfile: {
+      calories: 40,
+      protein: 2,
+      carbs: 3,
+      fat: 3,
+      fiber: 1,
+      sodium: 270,
+      sugar: 1,
+      servingSize: "1 tbsp (15g)",
+    },
   },
   thaiMassamanCurry: {
     name: "Thai Massaman Curry Paste",
@@ -727,7 +859,17 @@ export const asianSauces: Record<string, Sauce> = {
     prepTime: "40 minutes",
     cookTime: "10 minutes",
     difficulty: "High",
-    yield: "Makes about 1 cup of curry paste"
+    yield: "Makes about 1 cup of curry paste",
+    nutritionalProfile: {
+      calories: 35,
+      protein: 1,
+      carbs: 4,
+      fat: 2,
+      fiber: 1,
+      sodium: 300,
+      sugar: 1,
+      servingSize: "1 tbsp (15g)",
+    },
   }
 };
 
@@ -765,7 +907,17 @@ export const frenchSauces: Record<string, Sauce> = {
     prepTime: "5 minutes",
     cookTime: "10 minutes",
     difficulty: "High",
-    yield: "Makes about 1 cup"
+    yield: "Makes about 1 cup",
+    nutritionalProfile: {
+      calories: 170,
+      protein: 2,
+      carbs: 1,
+      fat: 18,
+      fiber: 0,
+      sodium: 150,
+      sugar: 0,
+      servingSize: "2 tbsp (30ml)",
+    },
   },
   espagnole: {
     name: "Sauce Espagnole",
@@ -801,7 +953,17 @@ export const frenchSauces: Record<string, Sauce> = {
     prepTime: "15 minutes",
     cookTime: "1 hour",
     difficulty: "Medium",
-    yield: "Makes about 2.5 cups"
+    yield: "Makes about 2.5 cups",
+    nutritionalProfile: {
+      calories: 45,
+      protein: 2,
+      carbs: 4,
+      fat: 3,
+      fiber: 0,
+      sodium: 250,
+      sugar: 1,
+      servingSize: "1/4 cup (60ml)",
+    },
   }
 };
 
@@ -839,7 +1001,17 @@ export const japaneseSauces: Record<string, Sauce> = {
     prepTime: "5 minutes",
     cookTime: "15 minutes",
     difficulty: "Easy",
-    yield: "Makes about 1/2 cup"
+    yield: "Makes about 1/2 cup",
+    nutritionalProfile: {
+      calories: 45,
+      protein: 1,
+      carbs: 8,
+      fat: 0,
+      fiber: 0,
+      sodium: 610,
+      sugar: 7,
+      servingSize: "1 tbsp (15ml)",
+    },
   },
   ponzu: {
     name: "Ponzu",
@@ -872,7 +1044,17 @@ export const japaneseSauces: Record<string, Sauce> = {
     prepTime: "5 minutes (plus 24 hours steeping)",
     cookTime: "0 minutes",
     difficulty: "Easy",
-    yield: "Makes about 1 cup"
+    yield: "Makes about 1 cup",
+    nutritionalProfile: {
+      calories: 15,
+      protein: 1,
+      carbs: 2,
+      fat: 0,
+      fiber: 0,
+      sodium: 490,
+      sugar: 1,
+      servingSize: "1 tbsp (15ml)",
+    },
   },
   gomaDare: {
     name: "Goma Dare (Sesame Sauce)",
@@ -905,7 +1087,17 @@ export const japaneseSauces: Record<string, Sauce> = {
     prepTime: "10 minutes",
     cookTime: "0 minutes",
     difficulty: "Easy",
-    yield: "Makes about 1/2 cup"
+    yield: "Makes about 1/2 cup",
+    nutritionalProfile: {
+      calories: 60,
+      protein: 2,
+      carbs: 4,
+      fat: 4,
+      fiber: 1,
+      sodium: 320,
+      sugar: 2,
+      servingSize: "2 tbsp (30ml)",
+    },
   }
 };
 

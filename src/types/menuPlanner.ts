@@ -50,6 +50,25 @@ export interface PlanetarySnapshot {
 }
 
 /**
+ * Sauce attachment on a meal slot
+ * Stores the sauce data needed for nutrition, grocery list, and display
+ */
+export interface MealSlotSauce {
+  id: string;
+  name: string;
+  servings: number;
+  nutritionalProfile?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+  };
+  elementalProperties?: ElementalProperties;
+  ingredients?: string[];
+}
+
+/**
  * Individual meal slot in the weekly menu
  * Represents one meal assignment (breakfast, lunch, dinner, or snack)
  */
@@ -59,6 +78,7 @@ export interface MealSlot {
   mealType: MealType;
   recipe?: EnhancedRecipe; // Changed from MonicaOptimizedRecipe to EnhancedRecipe
   servings: number;
+  sauce?: MealSlotSauce;
   planetarySnapshot: PlanetarySnapshot;
   notes?: string;
   isLocked?: boolean; // Whether this meal is locked from changes

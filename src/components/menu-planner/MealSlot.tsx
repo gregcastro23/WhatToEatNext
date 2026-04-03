@@ -21,6 +21,7 @@ import type { WeeklyNutritionResult } from "@/types/nutrition";
 import type { Recipe } from "@/types/recipe";
 import RecipeRitualModal from "./RecipeRitualModal";
 import RecipeSelector from "./RecipeSelector";
+import SauceSelector from "./SauceSelector";
 
 interface MealSlotProps {
   mealSlot: MealSlotType;
@@ -31,6 +32,9 @@ interface MealSlotProps {
   onSwapMeals?: (targetSlotId: string) => void;
   onCopyMeal?: () => void;
   onGenerateMeal?: () => void;
+  onAddSauce?: (sauceId: string, servings?: number) => void;
+  onRemoveSauce?: () => void;
+  onUpdateSauceServings?: (servings: number) => void;
   isDragging?: boolean;
   isDropTarget?: boolean;
   isDropValid?: boolean;
@@ -306,6 +310,9 @@ function RecipeDisplay({
         elementalProperties={recipe.elementalProperties}
         alchemicalQuantities={alchemicalQuantities}
       />
+      {/* Sauce Section - rendered by parent, injected here as children would be complex,
+          so sauce display is handled in the main MealSlot component below */}
+
       {/* Elemental Properties */}
       {recipe.elementalProperties && (
         <div className="mb-2">
@@ -428,6 +435,9 @@ export default function MealSlot({
   onSwapMeals,
   onCopyMeal,
   onGenerateMeal,
+  onAddSauce,
+  onRemoveSauce,
+  onUpdateSauceServings,
   isDragging = false,
   isDropTarget = false,
   isDropValid = true,
@@ -436,9 +446,11 @@ export default function MealSlot({
   weeklyNutrition,
 }: MealSlotProps) {
   const [showRecipeSelector, setShowRecipeSelector] = useState(false);
+  const [showSauceSelector, setShowSauceSelector] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const colors = getMealTypeColors(mealSlot.mealType);
   const hasRecipe = !!mealSlot.recipe;
+  const hasSauce = !!mealSlot.sauce;
 
   // Handle recipe selection
   const handleRecipeSelect = (recipe: Recipe) => {
@@ -579,6 +591,57 @@ export default function MealSlot({
         />
       )}
 
+      {/* Sauce Section */}
+      {hasRecipe && (
+        <div className="mt-2 pt-2 border-t border-gray-200">
+          {hasSauce ? (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <span className="text-xs text-amber-600 font-medium truncate">
+                  + {mealSlot.sauce!.name}
+                </span>
+                {mealSlot.sauce!.nutritionalProfile?.calories && (
+                  <span className="text-[10px] text-gray-400">
+                    +{Math.round((mealSlot.sauce!.nutritionalProfile.calories || 0) * (mealSlot.sauce!.servings || 1))} cal
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => onUpdateSauceServings?.(Math.max(0.5, (mealSlot.sauce!.servings || 1) - 0.5))}
+                  className="w-4 h-4 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-[10px]"
+                >
+                  -
+                </button>
+                <span className="w-6 text-center text-[10px] font-medium">
+                  {mealSlot.sauce!.servings || 1}x
+                </span>
+                <button
+                  onClick={() => onUpdateSauceServings?.((mealSlot.sauce!.servings || 1) + 0.5)}
+                  className="w-4 h-4 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-[10px]"
+                >
+                  +
+                </button>
+                <button
+                  onClick={onRemoveSauce}
+                  className="text-gray-400 hover:text-red-500 ml-1 text-xs"
+                  title="Remove sauce"
+                >
+                  x
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowSauceSelector(true)}
+              className="w-full text-xs text-amber-600 hover:text-amber-700 hover:bg-amber-50 py-1 rounded transition-colors"
+            >
+              + Add Sauce
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Planetary Indicator (subtle) */}
       <div
         className="absolute top-2 right-2 text-xs text-gray-400"
@@ -603,6 +666,18 @@ export default function MealSlot({
           dayOfWeek: mealSlot.dayOfWeek,
           planetarySnapshot: mealSlot.planetarySnapshot,
         }}
+      />
+
+      {/* Sauce Selector Modal */}
+      <SauceSelector
+        isOpen={showSauceSelector}
+        onClose={() => setShowSauceSelector(false)}
+        onSelectSauce={(sauceId) => {
+          onAddSauce?.(sauceId);
+          setShowSauceSelector(false);
+        }}
+        recipeElementalProperties={mealSlot.recipe?.elementalProperties}
+        recipeAlchemicalProperties={mealSlot.recipe?.alchemicalProperties as any}
       />
     </div>
   );
