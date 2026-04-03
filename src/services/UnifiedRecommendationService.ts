@@ -134,6 +134,34 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           score = 0; // Automatic disqualification if excluded ingredients are present
         }
       }
+
+      // NEW: Monica Optimization & Thermodynamics
+      if (typeof recipe.monicaScore === 'number') {
+        score += (recipe.monicaScore / 100) * 0.4;
+      } else if (recipe.monicaOptimization?.optimizationScore) {
+        score += (recipe.monicaOptimization.optimizationScore / 100) * 0.4;
+      }
+
+      // NEW: Convenience & Real-world human use (Prep/Total time)
+      const timeStr = recipe.totalTime || recipe.timeToMake || recipe.prepTime || "";
+      if (timeStr) {
+        const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
+        if (timeMatch) {
+          const val = parseInt(timeMatch[1]);
+          const totalMins = timeMatch[2].toLowerCase().startsWith("h") ? val * 60 : val;
+          if (totalMins <= 30) score += 0.3;
+          else if (totalMins <= 45) score += 0.2;
+          else if (totalMins <= 60) score += 0.1;
+        }
+      }
+
+      // NEW: Nutritional Quality
+      if (recipe.nutritionalOptimization?.monicaNutritionalHarmony) {
+        score += recipe.nutritionalOptimization.monicaNutritionalHarmony * 0.2;
+      } else if (recipe.nutrition && Object.keys(recipe.nutrition).length > 0) {
+        score += 0.15;
+      }
+
       return {
         recipe,
         score,
@@ -674,6 +702,34 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         }
         score += inclusionRatio * 0.1 + quantityBonus * 0.05;
       }
+
+      // NEW: Monica Optimization & Thermodynamics
+      if (typeof recipe.monicaScore === 'number') {
+        score += (recipe.monicaScore / 100) * 0.4;
+      } else if (recipe.monicaOptimization?.optimizationScore) {
+        score += (recipe.monicaOptimization.optimizationScore / 100) * 0.4;
+      }
+
+      // NEW: Convenience & Real-world human use (Prep/Total time)
+      const timeStr = recipe.totalTime || recipe.timeToMake || recipe.prepTime || "";
+      if (timeStr) {
+        const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
+        if (timeMatch) {
+          const val = parseInt(timeMatch[1]);
+          const totalMins = timeMatch[2].toLowerCase().startsWith("h") ? val * 60 : val;
+          if (totalMins <= 30) score += 0.3;
+          else if (totalMins <= 45) score += 0.2;
+          else if (totalMins <= 60) score += 0.1;
+        }
+      }
+
+      // NEW: Nutritional Quality
+      if (recipe.nutritionalOptimization?.monicaNutritionalHarmony) {
+        score += recipe.nutritionalOptimization.monicaNutritionalHarmony * 0.2;
+      } else if (recipe.nutrition && Object.keys(recipe.nutrition).length > 0) {
+        score += 0.15;
+      }
+
       return {
         recipe,
         score,

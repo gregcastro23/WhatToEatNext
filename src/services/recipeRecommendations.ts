@@ -165,6 +165,9 @@ export class RecipeRecommender {
         variety: 0.2, // Doubled from 0.1
         ingredients: 0.2, // Doubled from 0.1
         techniques: 0.2, // Doubled from 0.1
+        monica: 0.5, // NEW: Monica Optimization & Thermodynamics
+        convenience: 0.4, // NEW: Prep Time / Realistic Daily Use
+        nutrition: 0.3, // NEW: Nutritional Harmony
       };
 
       // Elemental alignment - enhanced with improved calculation
@@ -226,7 +229,7 @@ export class RecipeRecommender {
         totalWeight += weights.variety;
       }
 
-      // NEW: Ingredient preferences
+      // Ingredient preferences
       if (recipe.ingredients && criteria.preferredIngredients) {
         const ingredientScore = this.calculateIngredientPreferenceMatch(
           recipe.ingredients,
@@ -237,7 +240,7 @@ export class RecipeRecommender {
         totalWeight += weights.ingredients;
       }
 
-      // NEW: Cooking techniques
+      // Cooking techniques
       if (recipe.cookingMethod && criteria.preferredTechniques) {
         const techniqueScore = this.calculateTechniqueMatch(
           recipe.cookingMethod,
@@ -247,6 +250,21 @@ export class RecipeRecommender {
         score += weights.techniques * techniqueScore;
         totalWeight += weights.techniques;
       }
+
+      // NEW: Monica Optimization & Thermodynamics
+      const monicaScore = this.calculateMonicaScore(recipe);
+      score += weights.monica * monicaScore;
+      totalWeight += weights.monica;
+
+      // NEW: Realistic Human Use / Daily Convenience
+      const convenienceScore = this.calculateConvenienceScore(recipe);
+      score += weights.convenience * convenienceScore;
+      totalWeight += weights.convenience;
+
+      // NEW: Nutritional Harmony
+      const nutritionScore = this.calculateNutritionScore(recipe);
+      score += weights.nutrition * nutritionScore;
+      totalWeight += weights.nutrition;
 
       // Normalize score based on weights actually used
       const normalizedScore = totalWeight > 0 ? score / totalWeight : 0.5;
@@ -455,6 +473,62 @@ export class RecipeRecommender {
     return matchCount > 0
       ? Math.min(1.0, matchCount / Math.min(2, preferredTechniques.length))
       : 0.2; // Small baseline score even for no matches
+  }
+
+  // NEW: Monica constant optimization scorer
+  private calculateMonicaScore(recipe: Recipe): number {
+    // If recipe has explicit monicaScore (0-100), use it
+    if (typeof recipe.monicaScore === 'number') {
+      return Math.min(1.0, recipe.monicaScore / 100);
+    }
+    // Check optimization nested object
+    if (recipe.monicaOptimization?.optimizationScore) {
+      return Math.min(1.0, recipe.monicaOptimization.optimizationScore / 100);
+    }
+    // Fallback neutral
+    return 0.5;
+  }
+
+  // NEW: Convenience / Prep Time scorer for daily human use
+  private calculateConvenienceScore(recipe: Recipe): number {
+    let totalMinutes = 0;
+    
+    // Parse timeToMake, totalTime, prepTime
+    const timeStr = recipe.totalTime || recipe.timeToMake || recipe.prepTime || "";
+    if (!timeStr) return 0.5; // Neutral if no time specified
+    
+    const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
+    if (timeMatch) {
+      const val = parseInt(timeMatch[1]);
+      if (timeMatch[2].toLowerCase().startsWith("h")) {
+        totalMinutes = val * 60;
+      } else {
+        totalMinutes = val;
+      }
+    } else {
+      return 0.5;
+    }
+
+    // Score based on daily convenience (less time = higher score)
+    // Under 30 mins = 1.0, 30-45 = 0.8, 45-60 = 0.6, 60-90 = 0.4, >90 = 0.2
+    if (totalMinutes <= 30) return 1.0;
+    if (totalMinutes <= 45) return 0.8;
+    if (totalMinutes <= 60) return 0.6;
+    if (totalMinutes <= 90) return 0.4;
+    return 0.2;
+  }
+
+  // NEW: Nutritional Harmony scorer
+  private calculateNutritionScore(recipe: Recipe): number {
+    // Favor recipes that have nutritional harmony scored
+    if (recipe.nutritionalOptimization?.monicaNutritionalHarmony) {
+      return recipe.nutritionalOptimization.monicaNutritionalHarmony;
+    }
+    // Or if they just have nutrition info (shows it's a high quality recipe)
+    if (recipe.nutrition && Object.keys(recipe.nutrition).length > 0) {
+      return 0.8;
+    }
+    return 0.4; // Slightly lower for missing nutritional info
   }
 }
 

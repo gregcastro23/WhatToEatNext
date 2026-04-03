@@ -125,5 +125,4 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ success: true, entry }, { status: 201 });
 }
 
-// Re-export helpers for backward compatibility with sibling imports if any still point to ../route
-export { rowToEntry, getUserEntries, saveUserEntries, generateShareToken };
+// Backward compatibility exports removed to comply with Next.js App Router typing rules
