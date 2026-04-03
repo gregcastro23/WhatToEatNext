@@ -133,13 +133,11 @@ export default function RootLayout({
                   </Link>
                   <PremiumLink />
                   <Link
-                    href="https://planetary-agents.vercel.app/planetary-agents"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/sauces"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-green-100 text-green-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-200"
-                    aria-label="Visit Planetary Agents project"
+                    aria-label="Discover Cosmic Sauces"
                   >
-                    🧪 Planetary Agents
+                    🥣 Sauces
                   </Link>
                   <NavAuthLink />
                 </nav>
