@@ -126,10 +126,30 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
       alchemicalAccumulator.Matter += (mappedAlchemicalProps.Matter || 0) * servings;
       alchemicalAccumulator.Substance += (mappedAlchemicalProps.Substance || 0) * servings;
     }
+
+    // Sauce nutrition (adds to meal totals)
+    if (meal.sauce?.nutritionalProfile) {
+      const sauceServings = meal.sauce.servings || 1;
+      const sauceNutrition = meal.sauce.nutritionalProfile;
+      totalCalories += (sauceNutrition.calories || 0) * sauceServings;
+      totalProtein += (sauceNutrition.protein || 0) * sauceServings;
+      totalCarbs += (sauceNutrition.carbs || 0) * sauceServings;
+      totalFat += (sauceNutrition.fat || 0) * sauceServings;
+      totalFiber += (sauceNutrition.fiber || 0) * sauceServings;
+    }
+
+    // Sauce elemental properties
+    if (meal.sauce?.elementalProperties) {
+      const sauceServings = meal.sauce.servings || 1;
+      elementalAccumulator.Fire += meal.sauce.elementalProperties.Fire * sauceServings;
+      elementalAccumulator.Water += meal.sauce.elementalProperties.Water * sauceServings;
+      elementalAccumulator.Earth += meal.sauce.elementalProperties.Earth * sauceServings;
+      elementalAccumulator.Air += meal.sauce.elementalProperties.Air * sauceServings;
+    }
   });
 
   // Normalize elemental properties (average across meals)
-  const mealCount = meals.filter((m) => m.recipe).length;
+  const mealCount = meals.filter((m) => m.recipe || m.sauce).length;
   if (mealCount > 0) {
     elementalAccumulator.Fire /= mealCount;
     elementalAccumulator.Water /= mealCount;

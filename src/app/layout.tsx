@@ -1,5 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import NavAuthLink from "@/components/nav/NavAuthLink";
 import NotificationBell from "@/components/nav/NotificationBell";
@@ -22,9 +23,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
-    apple: "/icon-192x192.png",
+    apple: "/icon.png",
   },
 };
 export default function RootLayout({
@@ -41,13 +43,24 @@ export default function RootLayout({
               <div className="flex flex-col gap-4">
                 {/* Top Row: Logo and PayPal */}
                 <div className="flex flex-row items-center justify-between">
-                  <Link href="/" className="group">
-                    <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600 group-hover:from-purple-700 group-hover:to-orange-700 transition-all">
-                      Alchm Kitchen
-                    </h1>
-                    <p className="mt-1 text-gray-700 text-sm md:text-lg">
-                      The Menu of the Moment in the Stars and Elements
-                    </p>
+                  <Link href="/" className="group flex flex-row items-center gap-4">
+                    <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+                      <Image
+                        src="/brand/logo.png"
+                        alt="Alchm Kitchen Logo"
+                        fill
+                        className="rounded-xl object-contain shadow-sm border border-purple-100 group-hover:scale-105 transition-transform"
+                        priority
+                      />
+                    </div>
+                    <div>
+                      <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600 group-hover:from-purple-700 group-hover:to-orange-700 transition-all">
+                        Alchm Kitchen
+                      </h1>
+                      <p className="mt-1 text-gray-700 text-sm md:text-lg">
+                        The Menu of the Moment in the Stars and Elements
+                      </p>
+                    </div>
                   </Link>
                   <div className="flex items-center gap-3">
                     <NotificationBell />
@@ -120,13 +133,11 @@ export default function RootLayout({
                   </Link>
                   <PremiumLink />
                   <Link
-                    href="https://planetary-agents.vercel.app/planetary-agents"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/sauces"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-green-100 text-green-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-200"
-                    aria-label="Visit Planetary Agents project"
+                    aria-label="Discover Cosmic Sauces"
                   >
-                    🧪 Planetary Agents
+                    🥣 Sauces
                   </Link>
                   <NavAuthLink />
                 </nav>

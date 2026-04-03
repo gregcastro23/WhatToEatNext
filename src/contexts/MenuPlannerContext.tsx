@@ -145,6 +145,11 @@ interface MenuPlannerContextType {
     },
   ) => Promise<void>;
 
+  // Sauce operations
+  addSauceToMeal: (mealSlotId: string, sauceId: string, servings?: number) => void;
+  removeSauceFromMeal: (mealSlotId: string) => void;
+  updateSauceServings: (mealSlotId: string, servings: number) => void;
+
   // Meal lock operations
   lockMeal: (mealSlotId: string) => void;
   unlockMeal: (mealSlotId: string) => void;
@@ -864,6 +869,123 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   }, [currentMenu]);
 
   /**
+   * Add a sauce to a meal slot
+   */
+  const addSauceToMeal = useCallback(
+    (mealSlotId: string, sauceId: string, servings: number = 1) => {
+      if (!currentMenu) return;
+
+      // Dynamic import to avoid circular deps at module level
+      const { allSauces } = require("@/data/sauces");
+      const sauceData = allSauces[sauceId];
+      if (!sauceData) {
+        logger.warn(`Sauce not found: ${sauceId}`);
+        return;
+      }
+
+      const updatedMeals = currentMenu.meals.map((meal) => {
+        if (meal.id === mealSlotId) {
+          return {
+            ...meal,
+            sauce: {
+              id: sauceId,
+              name: sauceData.name,
+              servings,
+              nutritionalProfile: sauceData.nutritionalProfile ? {
+                calories: sauceData.nutritionalProfile.calories,
+                protein: sauceData.nutritionalProfile.protein,
+                carbs: sauceData.nutritionalProfile.carbs,
+                fat: sauceData.nutritionalProfile.fat,
+                fiber: sauceData.nutritionalProfile.fiber,
+              } : undefined,
+              elementalProperties: sauceData.elementalProperties,
+              ingredients: sauceData.ingredients,
+            },
+            updatedAt: new Date(),
+          };
+        }
+        return meal;
+      });
+
+      const updatedMenu = {
+        ...currentMenu,
+        meals: updatedMeals,
+        updatedAt: new Date(),
+      };
+
+      setCurrentMenu(updatedMenu as any);
+      regenerateGroceryList();
+      logger.info(`Added sauce ${sauceData.name} to meal ${mealSlotId}`);
+    },
+    [currentMenu],
+  );
+
+  /**
+   * Remove sauce from a meal slot
+   */
+  const removeSauceFromMeal = useCallback(
+    (mealSlotId: string) => {
+      if (!currentMenu) return;
+
+      const updatedMeals = currentMenu.meals.map((meal) => {
+        if (meal.id === mealSlotId) {
+          const { sauce: _sauce, ...mealWithoutSauce } = meal;
+          return {
+            ...mealWithoutSauce,
+            updatedAt: new Date(),
+          };
+        }
+        return meal;
+      });
+
+      const updatedMenu = {
+        ...currentMenu,
+        meals: updatedMeals,
+        updatedAt: new Date(),
+      };
+
+      setCurrentMenu(updatedMenu as any);
+      regenerateGroceryList();
+      logger.info(`Removed sauce from meal ${mealSlotId}`);
+    },
+    [currentMenu],
+  );
+
+  /**
+   * Update sauce servings on a meal slot
+   */
+  const updateSauceServings = useCallback(
+    (mealSlotId: string, servings: number) => {
+      if (!currentMenu) return;
+
+      const updatedMeals = currentMenu.meals.map((meal) => {
+        if (meal.id === mealSlotId && meal.sauce) {
+          return {
+            ...meal,
+            sauce: {
+              ...meal.sauce,
+              servings: Math.max(0.5, servings),
+            },
+            updatedAt: new Date(),
+          };
+        }
+        return meal;
+      });
+
+      const updatedMenu = {
+        ...currentMenu,
+        meals: updatedMeals,
+        updatedAt: new Date(),
+      };
+
+      setCurrentMenu(updatedMenu as any);
+      regenerateGroceryList();
+      logger.info(`Updated sauce servings to ${servings} for meal ${mealSlotId}`);
+    },
+    [currentMenu],
+  );
+
+  /**
    * Lock a meal to prevent changes
    */
   const lockMeal = useCallback(
@@ -1043,6 +1165,18 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
               }
             : undefined;
 
+        // Extract existing meals from the weekly plan for context-aware recommendations
+        const existingMeals = currentMenu.meals
+          .filter((m) => m.recipe && m.dayOfWeek !== dayOfWeek)
+          .map((m) => ({
+            recipeId: m.recipe!.id,
+            recipeName: m.recipe!.name,
+            cuisine: m.recipe!.cuisine,
+            primaryProtein: m.recipe!.ingredients?.find(
+              (i: any) => i.category === "protein",
+            )?.name,
+          }));
+
         // Generate recommendations using planetary intelligence + user personalization
         const recommendations = await generateDayRecommendations(
           dayOfWeek,
@@ -1053,6 +1187,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             useCurrentPlanetary,
             maxRecipesPerMeal: 1, // Take top recommendation per meal
             userContext,
+            existingMeals,
           },
         );
 
@@ -1514,6 +1649,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       clearWeek,
       regenerateDay,
       generateMealsForDay,
+      addSauceToMeal,
+      removeSauceFromMeal,
+      updateSauceServings,
       lockMeal,
       unlockMeal,
       isMealLocked,
@@ -1555,6 +1693,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       clearWeek,
       regenerateDay,
       generateMealsForDay,
+      addSauceToMeal,
+      removeSauceFromMeal,
+      updateSauceServings,
       lockMeal,
       unlockMeal,
       isMealLocked,

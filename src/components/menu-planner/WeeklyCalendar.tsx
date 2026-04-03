@@ -57,6 +57,9 @@ function DayColumn({
     addMealToSlot,
     removeMealFromSlot,
     updateMealServings,
+    addSauceToMeal,
+    removeSauceFromMeal,
+    updateSauceServings,
     clearDay,
     moveMeal,
     swapMeals,
@@ -182,6 +185,13 @@ function DayColumn({
             onCopyMeal={() => onCopyMealClick?.(mealSlot)}
             onGenerateMeal={() =>
               generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] })
+            }
+            onAddSauce={(sauceId: string, servings?: number) =>
+              addSauceToMeal(mealSlot.id, sauceId, servings)
+            }
+            onRemoveSauce={() => removeSauceFromMeal(mealSlot.id)}
+            onUpdateSauceServings={(servings: number) =>
+              updateSauceServings(mealSlot.id, servings)
             }
           />
         ))}

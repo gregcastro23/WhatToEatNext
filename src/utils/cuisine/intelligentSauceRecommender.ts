@@ -47,6 +47,18 @@ export interface Sauce {
 
   /** Flavor profile tags */
   flavorTags?: string[];
+
+  /** Nutritional data per serving */
+  nutritionalProfile?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+    sodium?: number;
+    sugar?: number;
+    servingSize?: string;
+  };
 }
 
 export interface SauceRecommendationCriteria {
@@ -201,23 +213,34 @@ export function recommendSauces(
       }
 
       // Calculate overall compatibility score
-      const weights = {
-        elemental: 0.35,
-        alchemical: alchemicalScore !== undefined ? 0.2 : 0,
-        thermodynamic: thermodynamicScore !== undefined ? 0.15 : 0,
-        kinetic: kineticScore !== undefined ? 0.15 : 0,
-        circuit: circuitOptimizationScore !== undefined ? 0.15 : 0,
-      };
+      // Redistribute weights proportionally based on which dimensions have valid scores
+      const hasAlchemical = alchemicalScore !== undefined && !isNaN(alchemicalScore);
+      const hasThermodynamic = thermodynamicScore !== undefined && !isNaN(thermodynamicScore);
+      const hasKinetic = kineticScore !== undefined && !isNaN(kineticScore);
+      const hasCircuit = circuitOptimizationScore !== undefined && !isNaN(circuitOptimizationScore);
 
-      const totalWeight = Object.values(weights).reduce((sum, w) => sum + w, 0);
+      let weights: { elemental: number; alchemical: number; thermodynamic: number; kinetic: number; circuit: number };
+
+      if (hasAlchemical && hasThermodynamic && hasKinetic && hasCircuit) {
+        // All dimensions available - use base weights
+        weights = { elemental: 0.35, alchemical: 0.20, thermodynamic: 0.15, kinetic: 0.15, circuit: 0.15 };
+      } else if (hasAlchemical && hasThermodynamic) {
+        // Elemental + Alchemical + Thermodynamic only
+        weights = { elemental: 0.55, alchemical: 0.30, thermodynamic: 0.15, kinetic: 0, circuit: 0 };
+      } else if (hasAlchemical) {
+        // Elemental + Alchemical only
+        weights = { elemental: 0.65, alchemical: 0.35, thermodynamic: 0, kinetic: 0, circuit: 0 };
+      } else {
+        // Elemental only
+        weights = { elemental: 1.0, alchemical: 0, thermodynamic: 0, kinetic: 0, circuit: 0 };
+      }
 
       const compatibilityScore =
-        ((elementalScore * weights.elemental +
+        (elementalScore * weights.elemental +
           (alchemicalScore || 0) * weights.alchemical +
           (thermodynamicScore || 0) * weights.thermodynamic +
           (kineticScore || 0) * weights.kinetic +
-          (circuitOptimizationScore || 0) * weights.circuit) /
-          totalWeight) *
+          (circuitOptimizationScore || 0) * weights.circuit) *
         userPreferenceScore;
 
       // Generate main reason
