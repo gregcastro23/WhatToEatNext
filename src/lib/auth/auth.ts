@@ -49,6 +49,9 @@ const CACHE_TTL = 30000; // 30 seconds
 async function getCachedUser(email: string) {
   const cached = userCache.get(email);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    if (cached.data === "TIMEOUT_ERROR") {
+      throw new Error("DB Timeout (Cached)");
+    }
     return cached.data;
   }
   
@@ -60,16 +63,20 @@ async function getCachedUser(email: string) {
   const lookupPromise = (async () => {
     try {
       const { userDatabase } = await import("@/services/userDatabaseService");
-      // Set a timeout for the DB lookup
+      // Set strict 4.5s timeout for DB lookup to avoid Vercel 10s limits (signIn + jwt combined)
       const dbUser = await Promise.race([
         userDatabase.getUserByEmail(email),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8000))
+        new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 4500))
       ]);
       
-      if (dbUser) {
-        userCache.set(email, { data: dbUser, timestamp: Date.now() });
-      }
+      // Cache both valid users and null (not found)
+      userCache.set(email, { data: dbUser, timestamp: Date.now() });
       return dbUser;
+    } catch (error) {
+      // Cache the timeout/error momentarily so the jwt callback doesn't hang again
+      // Using a string symbol for error caching
+      userCache.set(email, { data: "TIMEOUT_ERROR", timestamp: Date.now() });
+      throw error;
     } finally {
       pendingLookups.delete(email);
     }
@@ -103,13 +110,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const isAdmin = isAdminEmail(user.email);
           console.log(`[auth] Creating new user. isAdmin: ${isAdmin}`);
 
-          dbUser = await userDatabase.createUser({
-            email: user.email,
-            name: user.name || "",
-            roles: isAdmin
-              ? [UserRole.ADMIN, UserRole.USER]
-              : [UserRole.USER],
-          });
+          // Add a timeout to createUser to prevent total hang
+          dbUser = await Promise.race([
+            userDatabase.createUser({
+              email: user.email,
+              name: user.name || "",
+              roles: isAdmin
+                ? [UserRole.ADMIN, UserRole.USER]
+                : [UserRole.USER],
+            }),
+            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 4500))
+          ]);
           
           if (dbUser) {
             userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
