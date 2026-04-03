@@ -20,6 +20,10 @@ import {
   getDominantElement,
 } from "@/utils/planetaryAlchemyMapping";
 import { getModalityForZodiac } from "@/utils/zodiacUtils";
+import {
+  validateBirthChartAgainstEstimates,
+  detectStaticFallback,
+} from "@/utils/astrology/birthChartSignEstimator";
 
 /**
  * Interface for the astrologize API response (simplified)
@@ -267,6 +271,21 @@ export async function calculateNatalChart(
   try {
     // Fetch planetary positions from astrologize API
     const planetaryPositions = await fetchPlanetaryPositions(birthData);
+
+    // Validate birth chart positions against astronomical estimates
+    const birthDate = new Date(birthData.dateTime);
+    if (detectStaticFallback(planetaryPositions)) {
+      _logger.error(
+        "Birth chart returned STATIC FALLBACK positions — these do not reflect the actual birth date. The API circuit breaker may be open.",
+      );
+    }
+    const validation = validateBirthChartAgainstEstimates(birthDate, planetaryPositions);
+    if (validation.hasWarnings) {
+      _logger.warn(
+        `Birth chart validation: ${validation.passedPlanets}/${validation.validatedPlanets} planets passed.`,
+        validation.warnings.map((w) => w.message),
+      );
+    }
 
     // Convert to format expected by planetary alchemy mapping
     const positionsForAlchemy: Record<string, string> = {};

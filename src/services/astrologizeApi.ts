@@ -204,96 +204,42 @@ function calculateApproximateAscendant(
 export async function fetchPlanetaryPositions(
   customDateTime?: Partial<LocalAstrologizeRequest>,
 ): Promise<Record<string, PlanetPosition>> {
+  // Get current date/time or use provided values (needed by both main path and fallback)
+  const defaultDateTime = getCurrentDateTimeLocation();
+  const requestData: LocalAstrologizeRequest = {
+    ...defaultDateTime,
+    ...customDateTime,
+  };
+
   const fallbackPositions = (): Record<string, PlanetPosition> => {
-    log.info("Using fallback planetary positions due to API failure");
-    return {
-      Sun: {
-        sign: "sagittarius",
-        degree: 2,
-        minute: 30,
-        exactLongitude: 242.5,
-        isRetrograde: false,
-      },
-      Moon: {
-        sign: "cancer",
-        degree: 15,
-        minute: 20,
-        exactLongitude: 105.33,
-        isRetrograde: false,
-      },
-      Mercury: {
-        sign: "sagittarius",
-        degree: 18,
-        minute: 45,
-        exactLongitude: 258.75,
-        isRetrograde: false,
-      },
-      Venus: {
-        sign: "capricorn",
-        degree: 10,
-        minute: 30,
-        exactLongitude: 280.5,
-        isRetrograde: false,
-      },
-      Mars: {
-        sign: "leo",
-        degree: 25,
-        minute: 15,
-        exactLongitude: 145.25,
-        isRetrograde: false,
-      },
-      Jupiter: {
-        sign: "gemini",
-        degree: 16,
-        minute: 40,
-        exactLongitude: 76.67,
-        isRetrograde: false,
-      },
-      Saturn: {
-        sign: "pisces",
-        degree: 14,
-        minute: 20,
-        exactLongitude: 344.33,
-        isRetrograde: false,
-      },
-      Uranus: {
-        sign: "taurus",
-        degree: 22,
-        minute: 10,
-        exactLongitude: 52.17,
-        isRetrograde: true,
-      },
-      Neptune: {
-        sign: "pisces",
-        degree: 27,
-        minute: 45,
-        exactLongitude: 357.75,
-        isRetrograde: false,
-      },
-      Pluto: {
-        sign: "aquarius",
-        degree: 0,
-        minute: 15,
-        exactLongitude: 300.25,
-        isRetrograde: false,
-      },
-      Ascendant: {
-        sign: "aries",
-        degree: 16,
-        minute: 16,
-        exactLongitude: 16.27,
-        isRetrograde: false,
-      },
-    };
+    log.info("Using date-aware fallback via astronomy-engine (API circuit breaker active)");
+    // Build a date from the request data so fallback positions match the actual request
+    const fallbackDate = new Date(
+      requestData.year ?? new Date().getFullYear(),
+      ((requestData.month ?? 1) - 1),
+      requestData.date ?? 1,
+      requestData.hour ?? 12,
+      requestData.minute ?? 0,
+    );
+    const accurate = getAccuratePlanetaryPositions(fallbackDate);
+    const positions: Record<string, PlanetPosition> = {};
+    for (const [planet, data] of Object.entries(accurate)) {
+      positions[planet] = {
+        sign: data.sign || "aries",
+        degree: Math.floor(data.degree),
+        minute: Math.floor((data.degree - Math.floor(data.degree)) * 60),
+        exactLongitude: data.exactLongitude,
+        isRetrograde: data.isRetrograde,
+      };
+    }
+    // Add Ascendant from approximate calculation if not present
+    if (!positions.Ascendant) {
+      positions.Ascendant = calculateApproximateAscendant(requestData);
+    }
+    return positions;
   };
 
   return astrologizeApiCircuitBreaker.call(async () => {
-    // Get current date/time or use provided values
-    const defaultDateTime = getCurrentDateTimeLocation();
-    const requestData: LocalAstrologizeRequest = {
-      ...defaultDateTime,
-      ...customDateTime,
-    };
 
     log.info("Calling local astrologize API with: ", requestData);
 
