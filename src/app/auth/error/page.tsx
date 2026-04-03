@@ -1,7 +1,8 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Suspense } from 'react';
+import { signIn } from 'next-auth/react';
+import { Suspense, useEffect, useState } from 'react';
 
 const ERROR_MESSAGES: Record<string, string> = {
   Configuration: "There's a problem with the server configuration. Please contact support.",
@@ -20,8 +21,57 @@ const ERROR_MESSAGES: Record<string, string> = {
 function AuthErrorContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const errorType = searchParams.get('error') || 'Default';
+  const errorType = searchParams?.get('error') || 'Default';
   const errorMessage = ERROR_MESSAGES[errorType] || ERROR_MESSAGES.Default;
+  
+  const [isRetrying, setIsRetrying] = useState(false);
+  const [failedRetries, setFailedRetries] = useState(false);
+
+  // Auto-retry specifically for database cold-start timeouts (Configuration or Callback)
+  useEffect(() => {
+    if ((errorType === 'Configuration' || errorType === 'Callback' || errorType === 'OAuthCallback') && !failedRetries) {
+      // Check if we've been in a retry loop
+      const retryCount = parseInt(sessionStorage.getItem('auth_retry_count') || '0', 10);
+      
+      if (retryCount < 2) {
+        setIsRetrying(true);
+        sessionStorage.setItem('auth_retry_count', (retryCount + 1).toString());
+        
+        // Wait a brief moment before retrying to let the DB actually wake up
+        const timer = setTimeout(() => {
+          signIn('google', { callbackUrl: '/profile' });
+        }, 1500);
+        
+        return () => clearTimeout(timer);
+      } else {
+        // Too many retries, database might actually be down
+        setFailedRetries(true);
+        sessionStorage.removeItem('auth_retry_count'); // reset for next manual attempt
+      }
+    }
+  }, [errorType, failedRetries]);
+
+  // If we are currently auto-retrying, show a friendly loading state instead of an error
+  if (isRetrying) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 py-12">
+        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full border border-purple-100 flex flex-col items-center text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mb-6" />
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Waking up the Kitchen
+          </h1>
+          <p className="text-gray-600 text-sm">
+            Our secure database is warming up. Just a moment...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Clear retry count if user actually hit a non-retryable error
+  if (errorType !== 'Configuration' && errorType !== 'Callback' && errorType !== 'OAuthCallback') {
+    if (typeof window !== 'undefined') sessionStorage.removeItem('auth_retry_count');
+  }
 
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 py-12">
@@ -33,16 +83,21 @@ function AuthErrorContent() {
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Sign-in Error
+            Sign-in Issue
           </h1>
           <p className="text-gray-600 text-sm">
-            {errorMessage}
+            {failedRetries 
+              ? "We're having trouble connecting to our database. Please try again in an hour."
+              : errorMessage}
           </p>
         </div>
 
         <div className="space-y-3">
           <button
-            onClick={() => router.push('/login')}
+            onClick={() => {
+               sessionStorage.removeItem('auth_retry_count');
+               router.push('/login');
+            }}
             className="w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200"
           >
             Try Again

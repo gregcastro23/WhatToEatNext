@@ -29,12 +29,15 @@ function LoginContent() {
 
   // Check for error from OAuth callback
   useEffect(() => {
-    const callbackError = searchParams.get('error');
+    const callbackError = searchParams?.get('error');
     if (callbackError) {
       if (callbackError === 'OAuthCallback') {
         setError('Google sign-in was interrupted. Please try again.');
       } else if (callbackError === 'OAuthAccountNotLinked') {
         setError('This email is already linked to another account.');
+      } else if (callbackError === 'Configuration' || callbackError === 'Callback') {
+        // If the database timeout bounces them to login page instead of error page
+        setError('Database was asleep. Please try signing in again.');
       } else {
         setError('Something went wrong during sign-in. Please try again.');
       }

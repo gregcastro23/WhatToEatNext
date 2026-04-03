@@ -75,12 +75,15 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
 
   const bodies: Record<string, any> = {};
   const allBodies: any[] = [];
+  
+  const positionsData = railwayData.planetary_positions || railwayData.positions || railwayData;
 
   for (const key of planetKeys) {
-    const planetData = railwayData[key] || railwayData[key.charAt(0).toUpperCase() + key.slice(1)];
+    const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+    const planetData = positionsData[key] || positionsData[capitalizedKey];
     if (!planetData) continue;
 
-    const longitude = planetData.longitude ?? planetData.eclipticLongitude ?? 0;
+    const longitude = planetData.exactLongitude ?? planetData.longitude ?? planetData.eclipticLongitude ?? 0;
     const { sign, degree: degreeInSign } = getSignFromLongitude(longitude);
     const degrees = Math.floor(degreeInSign);
     const minutes = Math.floor((degreeInSign - degrees) * 60);
@@ -88,7 +91,7 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
 
     const body = {
       key,
-      label: key.charAt(0).toUpperCase() + key.slice(1),
+      label: capitalizedKey,
       Sign: {
         key: sign,
         zodiac: sign,
@@ -107,10 +110,12 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
     allBodies.push(body);
   }
 
-  // Extract Ascendant if the backend computed it
+  // Extract Ascendant if the backend computed it (added via PySwisseph modifications)
   let ascendant: { sign: string; degree: number; minute: number; exactLongitude: number } | undefined;
-  if (railwayData.ascendant) {
-    const ascLong = railwayData.ascendant.longitude ?? railwayData.ascendant.eclipticLongitude ?? 0;
+  const ascData = positionsData.Ascendant || positionsData.ascendant;
+  
+  if (ascData) {
+    const ascLong = ascData.exactLongitude ?? ascData.longitude ?? ascData.eclipticLongitude ?? 0;
     const { sign: ascSign, degree: ascDeg } = getSignFromLongitude(ascLong);
     ascendant = {
       sign: ascSign,

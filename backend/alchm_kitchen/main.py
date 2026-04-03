@@ -405,11 +405,13 @@ async def calculate_planetary_positions(request: PlanetaryPositionsRequest):
         day = request.day or now.day
         hour = request.hour or now.hour
         minute = request.minute or now.minute
+        latitude = request.latitude or 0.0
+        longitude = request.longitude or 0.0
         zodiac_system = request.zodiacSystem or "tropical"
 
         # Calculate positions
         result = calculate_planetary_positions_swisseph(
-            year, month, day, hour, minute, zodiac_system
+            year, month, day, hour, minute, latitude, longitude, zodiac_system
         )
 
         return {

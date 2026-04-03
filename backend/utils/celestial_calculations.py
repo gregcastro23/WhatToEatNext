@@ -14,6 +14,7 @@ except ImportError:
 
 def calculate_planetary_positions_swisseph(
     year: int, month: int, day: int, hour: int = 0, minute: int = 0,
+    latitude: float = 0.0, longitude: float = 0.0,
     zodiac_system: str = "tropical"
 ) -> Dict[str, Any]:
     """
@@ -22,7 +23,7 @@ def calculate_planetary_positions_swisseph(
     """
     if not swe:
         print("pyswisseph not available, falling back to pyephem")
-        return calculate_planetary_positions_pyephem(year, month, day, hour, minute, zodiac_system)
+        return calculate_planetary_positions_pyephem(year, month, day, hour, minute, latitude, longitude, zodiac_system)
     try:
         # Set ephemeris path (use built-in ephemeris)
         swe.set_ephe_path('')
@@ -152,6 +153,42 @@ def calculate_planetary_positions_swisseph(
         except Exception as node_error:
             print(f"Error calculating nodes: {node_error}")
 
+        # Calculate Houses (specifically Ascendant and MC)
+        try:
+            # For sidereal, we already set the sidereal mode above if needed
+            # swe.houses expects (julday, lat, lon), Returns (cusps, ascmc)
+            # ascmc indices: 0 = Ascendant, 1 = MC, 2 = ARMC, 3 = Vertex, ...
+            cusps, ascmc = swe.houses(julian_day, latitude, longitude)
+            
+            asc_longitude = ascmc[0] % 360
+            mc_longitude = ascmc[1] % 360
+
+            asc_sign_index = int(asc_longitude / 30)
+            asc_degree_in_sign = asc_longitude % 30
+            
+            mc_sign_index = int(mc_longitude / 30)
+            mc_degree_in_sign = mc_longitude % 30
+
+            positions["Ascendant"] = {
+                "sign": zodiac_signs[asc_sign_index],
+                "degree": int(asc_degree_in_sign),
+                "minute": int((asc_degree_in_sign - int(asc_degree_in_sign)) * 60),
+                "exactLongitude": asc_longitude,
+                "isRetrograde": False,
+                "retrogradeSymbol": "",
+            }
+
+            positions["MC"] = {
+                "sign": zodiac_signs[mc_sign_index],
+                "degree": int(mc_degree_in_sign),
+                "minute": int((mc_degree_in_sign - int(mc_degree_in_sign)) * 60),
+                "exactLongitude": mc_longitude,
+                "isRetrograde": False,
+                "retrogradeSymbol": "",
+            }
+        except Exception as house_error:
+            print(f"Error calculating houses: {house_error}")
+
         return {
             "positions": positions,
             "source": "pyswisseph",
@@ -162,10 +199,11 @@ def calculate_planetary_positions_swisseph(
     except Exception as e:
         print(f"Swiss Ephemeris calculation failed: {e}")
         # Fallback to pyephem
-        return calculate_planetary_positions_pyephem(year, month, day, hour, minute, zodiac_system)
+        return calculate_planetary_positions_pyephem(year, month, day, hour, minute, latitude, longitude, zodiac_system)
 
 def calculate_planetary_positions_pyephem(
     year: int, month: int, day: int, hour: int = 0, minute: int = 0,
+    latitude: float = 0.0, longitude: float = 0.0,
     zodiac_system: str = "tropical"
 ) -> Dict[str, Any]:
     """
@@ -177,10 +215,10 @@ def calculate_planetary_positions_pyephem(
         return {"error": "pyephem not installed or available."}
 
     try:
-        # Create observer at Greenwich (0, 0) for geocentric calculations
+        # Create observer precisely at the birth location
         observer = ephem.Observer()
-        observer.lat = '0'
-        observer.lon = '0'
+        observer.lat = str(latitude)
+        observer.lon = str(longitude)
         observer.date = f"{year}/{month}/{day} {hour}:{minute}:00"
 
         # Define planets
