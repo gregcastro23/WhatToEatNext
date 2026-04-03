@@ -71,7 +71,7 @@ export class IngredientFilterService {
     string,
     Record<string, IngredientMapping>
   >;
-  // spoonacularCache removed with cleanup
+
 
   private constructor() {
     // Initialize with all available ingredient data
@@ -644,7 +644,7 @@ export class IngredientFilterService {
     ingredientName: string,
   ): Promise<any | null> {
     try {
-      // Use local nutritional profiles instead of Spoonacular API
+      // Use local nutritional profiles
       const ingredient = this.findIngredientByName(ingredientName);
       if (ingredient && ingredient.nutritionalProfile) {
         return {

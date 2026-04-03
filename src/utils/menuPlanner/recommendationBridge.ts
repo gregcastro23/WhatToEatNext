@@ -24,6 +24,7 @@ import {
     getUserTargetKAlchm,
 } from "@/utils/alchemy/derivedStats";
 import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
+import { calculateRecipeEstimatedCost, calculateBangForBuck } from "@/utils/instacart/priceEstimator";
 import { createLogger } from "@/utils/logger";
 import { isSuitableForMealType } from "@/utils/menuPlanner/mealTypeMatching";
 import {
@@ -81,6 +82,8 @@ export interface DayRecommendationOptions {
     cuisine?: string;
     primaryProtein?: string;
   }>;
+  /** Budget limit per meal in USD. When set, expensive recipes are penalised. */
+  budgetPerMeal?: number;
 }
 
 /**
@@ -126,6 +129,7 @@ export async function generateDayRecommendations(
       flavorPreferences = [],
       userContext,
       existingMeals = [],
+      budgetPerMeal,
     } = options;
 
     const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
@@ -155,6 +159,7 @@ export async function generateDayRecommendations(
           preferredCookingMethods,
           flavorPreferences,
           existingMeals,
+          budgetPerMeal,
         },
       );
 
@@ -381,6 +386,7 @@ async function generateMealRecommendations(
       cuisine?: string;
       primaryProtein?: string;
     }>;
+    budgetPerMeal?: number;
   },
 ): Promise<RecommendedMeal[]> {
   try {
@@ -665,6 +671,7 @@ async function searchRecipesForDay(
       cuisine?: string;
       primaryProtein?: string;
     }>;
+    budgetPerMeal?: number;
   },
 ): Promise<MonicaOptimizedRecipe[]> {
   try {
@@ -845,7 +852,36 @@ async function searchRecipesForDay(
         score -= 0.10;
       }
 
-      return { recipe, score, protein };
+      // ── Budget-aware scoring (weight: ±0.2) ──
+      let costPerServing = 0;
+      if (options.budgetPerMeal && options.budgetPerMeal > 0) {
+        const ingredients = recipe.ingredients.map((ing: any) => ({
+          name: typeof ing === "string" ? ing : ing.name ?? "",
+          amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
+          unit: typeof ing === "string" ? "each" : ing.unit ?? "each",
+          category: typeof ing === "string" ? undefined : ing.category,
+          optional: typeof ing === "string" ? false : ing.optional,
+        }));
+        const estimate = calculateRecipeEstimatedCost(ingredients, (recipe as any).servings ?? 4);
+        costPerServing = estimate.costPerServing;
+
+        const budgetRatio = costPerServing / options.budgetPerMeal;
+
+        if (budgetRatio > 1.5) {
+          // Way over budget → heavy penalty
+          score -= 0.25;
+        } else if (budgetRatio > 1.0) {
+          // Slightly over budget → moderate penalty
+          score -= 0.15 * (budgetRatio - 1.0) / 0.5;
+        } else if (budgetRatio < 0.6) {
+          // Well under budget → bonus for value
+          const nutrition = (recipe as any).nutrition ?? (recipe as any).nutritionalProfile;
+          const bfb = calculateBangForBuck(nutrition, costPerServing);
+          score += Math.min(0.2, bfb.score / 500);
+        }
+      }
+
+      return { recipe, score, protein, costPerServing };
     });
 
     // Sort by score descending

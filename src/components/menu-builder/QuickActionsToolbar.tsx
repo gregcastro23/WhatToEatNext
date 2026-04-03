@@ -45,8 +45,16 @@ function calculateNutritionScore(recipe: Recipe): number {
 }
 
 export default function QuickActionsToolbar() {
-  const { currentMenu, addMealToSlot, clearWeek, generateMealsForDay } =
-    useMenuPlanner();
+  const {
+    currentMenu,
+    addMealToSlot,
+    clearWeek,
+    generateMealsForDay,
+    weeklyBudget,
+    setWeeklyBudget,
+    estimatedWeeklyCost,
+    budgetPerMeal,
+  } = useMenuPlanner();
 
   // Get user context for personalization status
   const { currentUser } = useUser();
@@ -57,6 +65,10 @@ export default function QuickActionsToolbar() {
   const [isDiversifying, setIsDiversifying] = useState(false);
   const [currentGeneratingDay, setCurrentGeneratingDay] =
     useState<DayOfWeek | null>(null);
+  const [budgetInputVisible, setBudgetInputVisible] = useState(false);
+  const [budgetInputValue, setBudgetInputValue] = useState(
+    weeklyBudget?.toString() ?? "",
+  );
 
   /**
    * Get the next day that needs meals generated
@@ -535,7 +547,130 @@ export default function QuickActionsToolbar() {
             <span>🗑️</span>
             Clear Week
           </button>
+
+          {/* Budget Toggle */}
+          <button
+            onClick={() => setBudgetInputVisible(!budgetInputVisible)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              weeklyBudget
+                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 focus:ring-emerald-500"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-400"
+            }`}
+            title="Set a weekly grocery budget"
+          >
+            <span>💰</span>
+            {weeklyBudget ? `$${weeklyBudget}/wk` : "Set Budget"}
+          </button>
         </div>
+
+        {/* Budget Control Panel */}
+        {budgetInputVisible && (
+          <div className="mt-3 p-3 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-200">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-3">
+                <label className="text-sm font-semibold text-emerald-800">
+                  Weekly Budget
+                </label>
+                <div className="flex items-center gap-1">
+                  <span className="text-emerald-600 font-medium">$</span>
+                  <input
+                    id="budget-input"
+                    type="number"
+                    min="20"
+                    max="500"
+                    step="5"
+                    value={budgetInputValue}
+                    onChange={(e) => setBudgetInputValue(e.target.value)}
+                    onBlur={() => {
+                      const val = parseFloat(budgetInputValue);
+                      if (!isNaN(val) && val >= 20) {
+                        setWeeklyBudget(val);
+                      } else if (budgetInputValue === "" || budgetInputValue === "0") {
+                        setWeeklyBudget(null);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        const val = parseFloat(budgetInputValue);
+                        if (!isNaN(val) && val >= 20) setWeeklyBudget(val);
+                      }
+                    }}
+                    className="w-20 px-2 py-1 text-sm rounded-md border border-emerald-300 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 bg-white text-gray-800"
+                    placeholder="100"
+                  />
+                </div>
+                {weeklyBudget && (
+                  <button
+                    onClick={() => {
+                      setWeeklyBudget(null);
+                      setBudgetInputValue("");
+                    }}
+                    className="text-xs text-emerald-600 hover:text-emerald-800 underline"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+
+              {weeklyBudget && totalMeals > 0 && (
+                <div className="flex items-center gap-4 text-sm">
+                  <div className="flex flex-col items-end">
+                    <span className="text-xs text-gray-500">Est. Cost</span>
+                    <span className="font-semibold text-gray-800">
+                      ${estimatedWeeklyCost.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <span className="text-xs text-gray-500">Remaining</span>
+                    <span
+                      className={`font-semibold ${
+                        weeklyBudget - estimatedWeeklyCost >= 0
+                          ? "text-emerald-700"
+                          : "text-red-600"
+                      }`}
+                    >
+                      ${(weeklyBudget - estimatedWeeklyCost).toFixed(2)}
+                    </span>
+                  </div>
+                  {budgetPerMeal && (
+                    <div className="flex flex-col items-end">
+                      <span className="text-xs text-gray-500">Per Meal</span>
+                      <span className="font-semibold text-gray-700">
+                        ${budgetPerMeal.toFixed(2)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Budget progress bar */}
+            {weeklyBudget && totalMeals > 0 && (
+              <div className="mt-2">
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      estimatedWeeklyCost / weeklyBudget > 1
+                        ? "bg-red-500"
+                        : estimatedWeeklyCost / weeklyBudget > 0.8
+                          ? "bg-amber-500"
+                          : "bg-emerald-500"
+                    }`}
+                    style={{
+                      width: `${Math.min(100, (estimatedWeeklyCost / weeklyBudget) * 100)}%`,
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between mt-1">
+                  <span className="text-[10px] text-gray-400">$0</span>
+                  <span className="text-[10px] text-gray-400">
+                    ${weeklyBudget}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </>
   );

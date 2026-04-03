@@ -148,7 +148,7 @@ export interface RecipeServiceConfig {
   _cacheTtlSeconds: number;
   _apiTimeout: number;
   _enableValidation: boolean;
-  dataSource: "local" | "spoonacular" | "hybrid";
+  dataSource: "local" | "hybrid";
   _fallbackEnabled: boolean;
 }
 

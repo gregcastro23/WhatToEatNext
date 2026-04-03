@@ -58,6 +58,11 @@ import {
   getMealsForDay,
 } from "@/utils/dayCircuitCalculations";
 import { generateGroceryList } from "@/utils/groceryListGenerator";
+import {
+  estimateWeeklyGroceryCost,
+  calculateRecipeEstimatedCost,
+  type RecipeCostEstimate,
+} from "@/utils/instacart/priceEstimator";
 import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
 import {
@@ -187,6 +192,12 @@ interface MenuPlannerContextType {
   // Lunar Sync
   syncWithLunarCycle: boolean;
   toggleSyncWithLunarCycle: () => void;
+
+  // Budget
+  weeklyBudget: number | null;
+  setWeeklyBudget: (budget: number | null) => void;
+  estimatedWeeklyCost: number;
+  budgetPerMeal: number | null;
 }
 
 /**
@@ -314,6 +325,28 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   // Astrological state for planetary recommendations (Phase 3)
   const astrologicalState = useAstrologicalState();
   const [syncWithLunarCycle, setSyncWithLunarCycle] = useState<boolean>(false);
+
+  // Budget state
+  const [weeklyBudget, setWeeklyBudgetRaw] = useState<number | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const saved = localStorage.getItem("weeklyBudget");
+      return saved ? Number(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const setWeeklyBudget = useCallback((budget: number | null) => {
+    setWeeklyBudgetRaw(budget);
+    try {
+      if (budget !== null) {
+        localStorage.setItem("weeklyBudget", String(budget));
+      } else {
+        localStorage.removeItem("weeklyBudget");
+      }
+    } catch { /* ignore storage errors */ }
+  }, []);
 
   const isMountedRef = useRef(false);
 
@@ -1170,12 +1203,21 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           .filter((m) => m.recipe && m.dayOfWeek !== dayOfWeek)
           .map((m) => ({
             recipeId: m.recipe!.id,
-            recipeName: m.recipe!.name,
+            recipeName: m.recipe!.name ?? "",
             cuisine: m.recipe!.cuisine,
-            primaryProtein: m.recipe!.ingredients?.find(
-              (i: any) => i.category === "protein",
-            )?.name,
+            primaryProtein: (() => {
+              const proteinIng = m.recipe!.ingredients?.find(
+                (i: any) => typeof i !== "string" && i.category === "protein",
+              );
+              return proteinIng && typeof proteinIng !== "string" ? (proteinIng as any).name : undefined;
+            })(),
           }));
+
+        // Derive per-meal budget if weekly budget is set
+        const totalPlannedMeals = currentMenu.meals.filter((m) => m.recipe).length;
+        const budgetPerMealValue = weeklyBudget
+          ? weeklyBudget / Math.max(21, totalPlannedMeals)
+          : undefined;
 
         // Generate recommendations using planetary intelligence + user personalization
         const recommendations = await generateDayRecommendations(
@@ -1188,6 +1230,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             maxRecipesPerMeal: 1, // Take top recommendation per meal
             userContext,
             existingMeals,
+            budgetPerMeal: budgetPerMealValue,
           },
         );
 
@@ -1245,6 +1288,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       addMealToSlot,
       natalChart,
       chartComparison,
+      weeklyBudget,
     ],
   );
 
@@ -1672,6 +1716,27 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       loadMenu,
       syncWithLunarCycle,
       toggleSyncWithLunarCycle,
+      weeklyBudget,
+      setWeeklyBudget,
+      estimatedWeeklyCost: (() => {
+        if (!currentMenu) return 0;
+        const recipesWithIngredients = currentMenu.meals
+          .filter((m) => m.recipe)
+          .map((m) => ({
+            ingredients: (m.recipe!.ingredients || []).map((ing: any) => ({
+              name: typeof ing === "string" ? ing : ing.name ?? "",
+              amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
+              unit: typeof ing === "string" ? "each" : ing.unit ?? "each",
+              category: typeof ing === "string" ? undefined : ing.category,
+              optional: typeof ing === "string" ? false : ing.optional,
+            })),
+            servings: m.servings || 1,
+          }));
+        if (recipesWithIngredients.length === 0) return 0;
+        const { totalCost } = estimateWeeklyGroceryCost(recipesWithIngredients);
+        return totalCost;
+      })(),
+      budgetPerMeal: weeklyBudget ? Math.round((weeklyBudget / 21) * 100) / 100 : null,
     }),
     [
       currentMenu,
@@ -1714,6 +1779,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       getSuggestions,
       saveMenu,
       loadMenu,
+      weeklyBudget,
+      setWeeklyBudget,
     ],
   );
 

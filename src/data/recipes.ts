@@ -51,6 +51,17 @@ interface DishData {
   tools?: string[];
   spiceLevel?: number | string;
   nutrition?: unknown;
+  nutritionPerServing?: {
+    calories?: number;
+    proteinG?: number;
+    carbsG?: number;
+    fatG?: number;
+    fiberG?: number;
+    sodiumMg?: number;
+    sugarG?: number;
+    vitamins?: string[];
+    minerals?: string[];
+  };
   preparationNotes?: string;
   culturalNotes?: string;
   technicalTips?: string[];
@@ -63,6 +74,9 @@ export interface Nutrition {
   protein?: number;
   carbs?: number;
   fat?: number;
+  fiber?: number;
+  sodium?: number;
+  sugar?: number;
   vitamins?: string[];
   minerals?: string[];
 }
@@ -110,6 +124,28 @@ export interface RecipeData {
   cookingMethod?: string; // Primary cooking method
   cookingMethods?: string[]; // Multiple cooking methods
   matchPercentage?: number; // For display purposes
+}
+
+/**
+ * Map raw dish nutrition data (nutritionPerServing or legacy nutrition) to standardized Nutrition interface.
+ * The cuisine files store fields like `proteinG`, `carbsG`, `fatG` under `nutritionPerServing`.
+ * This normalises those into the flat `Nutrition` shape used everywhere else.
+ */
+function mapNutritionData(dishData: DishData): Nutrition | undefined {
+  const raw = dishData.nutritionPerServing ?? (dishData.nutrition as any);
+  if (!raw || typeof raw !== "object") return undefined;
+
+  return {
+    calories: raw.calories ?? undefined,
+    protein: raw.proteinG ?? raw.protein ?? undefined,
+    carbs: raw.carbsG ?? raw.carbs ?? undefined,
+    fat: raw.fatG ?? raw.fat ?? undefined,
+    fiber: raw.fiberG ?? raw.fiber ?? undefined,
+    sodium: raw.sodiumMg ?? raw.sodium ?? undefined,
+    sugar: raw.sugarG ?? raw.sugar ?? undefined,
+    vitamins: Array.isArray(raw.vitamins) ? raw.vitamins : undefined,
+    minerals: Array.isArray(raw.minerals) ? raw.minerals : undefined,
+  };
 }
 
 const transformCuisineData = async (): Promise<RecipeData[]> => {
@@ -369,7 +405,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                             : typeof dishData.spiceLevel === "number"
                               ? dishData.spiceLevel
                               : 1,
-                        nutrition: dishData.nutrition as any,
+                        nutrition: mapNutritionData(dishData),
                         preparationNotes: dishData.preparationNotes,
                         technicalTips: Array.isArray(dishData.technicalTips)
                           ? dishData.technicalTips

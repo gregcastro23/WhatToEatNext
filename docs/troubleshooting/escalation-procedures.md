@@ -402,7 +402,6 @@ Consider escalation if:
 **Primary APIs**:
 
 - **Astronomy APIs**: Contact API provider support
-- **Nutritional APIs**: USDA/Spoonacular support channels
 - **Infrastructure**: Cloud provider support
 
 **Process**:

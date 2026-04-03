@@ -353,7 +353,6 @@ interface APIIntegrationPattern {
 - **NASA JPL Horizons**: Primary astronomical data source
 - **Swiss Ephemeris**: Secondary calculation validation
 - **USDA Food Database**: Nutritional information
-- **Spoonacular API**: Recipe data and search
 - **Cultural APIs**: Cuisine and tradition databases
 
 ### MCP (Model Context Protocol) Integration

@@ -3,7 +3,6 @@ import { logger } from "../utils/logger";
 import { _celestialCalculator } from "./celestialCalculations";
 import type { ElementalProperties } from "../types/alchemy";
 import type { Recipe, ScoredRecipe } from "../types/recipe";
-// SpoonacularService removed with cleanup
 
 interface RecommendationCriteria {
   celestialInfluence?: ElementalProperties;
@@ -421,18 +420,6 @@ export class RecipeRecommender {
     };
   }
 
-  private async getSpoonacularRecommendations(
-    _criteria: RecommendationCriteria,
-  ): Promise<Recipe[]> {
-    try {
-      // SpoonacularService removed - returning empty array (local recipes used instead)
-      logger.info("Spoonacular recommendations disabled - using local recipes");
-      return [];
-    } catch (error) {
-      logger.error("Failed to fetch Spoonacular recommendations: ", error);
-      return [];
-    }
-  }
 
   // NEW: Helper method for calculating ingredient preference matches
   private calculateIngredientPreferenceMatch(

@@ -18,12 +18,10 @@ interface ExternalAPIs {
   };
   nutritional: {
     primary: "USDA Food Data Central";
-    secondary: "Spoonacular API";
     fallback: "Local nutritional database";
   };
   recipes: {
-    primary: "Spoonacular Recipe API";
-    fallback: "Local recipe database";
+    primary: "Local recipe database (351 alchemical recipes)";
   };
 }
 ```
@@ -278,7 +276,6 @@ class APIRateLimiter {
   constructor() {
     // Configure rate limits for different APIs
     this.rateLimits.set("astronomy", { requests: 100, window: 60000 }); // 100/minute
-    this.rateLimits.set("spoonacular", { requests: 150, window: 86400000 }); // 150/day
     this.rateLimits.set("usda", { requests: 1000, window: 3600000 }); // 1000/hour
   }
 
@@ -396,7 +393,6 @@ class APIRateLimiter {
 ```bash
 # 1. Check environment variables
 echo "Astronomy API Key: ${ASTRONOMY_API_KEY:0:10}..."
-echo "Spoonacular API Key: ${SPOONACULAR_API_KEY:0:10}..."
 echo "USDA API Key: ${USDA_API_KEY:0:10}..."
 
 # 2. Test API key validity
@@ -418,7 +414,6 @@ class APIAuthenticationTester {
     console.log("🔐 Testing API authentication...");
 
     await this.testAstronomyAuth();
-    await this.testSpoonacularAuth();
     await this.testUSDAAuth();
   }
 
@@ -463,49 +458,6 @@ class APIAuthenticationTester {
       }
     } catch (error) {
       console.log(`❌ Astronomy API authentication error: ${error.message}`);
-    }
-  }
-
-  async testSpoonacularAuth() {
-    console.log("Testing Spoonacular API authentication...");
-
-    const apiKey = process.env.SPOONACULAR_API_KEY;
-
-    if (!apiKey) {
-      console.log("❌ Spoonacular API key not found");
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=1`,
-      );
-
-      if (response.ok) {
-        console.log("✅ Spoonacular API authentication successful");
-
-        // Check remaining quota
-        const quotaUsed = response.headers.get("X-API-Quota-Used");
-        const quotaLeft = response.headers.get("X-API-Quota-Left");
-
-        if (quotaUsed && quotaLeft) {
-          console.log(
-            `Spoonacular quota: ${quotaUsed} used, ${quotaLeft} remaining`,
-          );
-        }
-      } else {
-        console.log(
-          `❌ Spoonacular API authentication failed: ${response.status} ${response.statusText}`,
-        );
-
-        if (response.status === 401) {
-          console.log("Invalid API key");
-        } else if (response.status === 402) {
-          console.log("Quota exceeded - upgrade plan needed");
-        }
-      }
-    } catch (error) {
-      console.log(`❌ Spoonacular API authentication error: ${error.message}`);
     }
   }
 
@@ -699,189 +651,7 @@ class USDAAPIDebugger {
 }
 ```
 
-#### Issue: Spoonacular Recipe API Problems
-
-**Symptoms:**
-
-```
-Recipe search returns no results
-Missing recipe instructions or ingredients
-API quota exceeded quickly
-```
-
-**Spoonacular API Debugging:**
-
-```typescript
-// Debug Spoonacular Recipe API
-class SpoonacularAPIDebugger {
-  private baseUrl = "https://api.spoonacular.com";
-  private apiKey = process.env.SPOONACULAR_API_KEY;
-
-  async debugSpoonacularAPI() {
-    console.log("🍳 Debugging Spoonacular Recipe API...");
-
-    await this.testRecipeSearch();
-    await this.testRecipeDetails();
-    await this.testIngredientSearch();
-    await this.checkQuotaUsage();
-  }
-
-  async testRecipeSearch() {
-    console.log("Testing Spoonacular recipe search...");
-
-    const testQueries = [
-      { query: "pasta", cuisine: "italian" },
-      { query: "chicken", diet: "gluten-free" },
-      { query: "vegetarian", type: "main course" },
-    ];
-
-    for (const searchParams of testQueries) {
-      try {
-        const params = new URLSearchParams({
-          apiKey: this.apiKey,
-          number: "5",
-          ...searchParams,
-        });
-
-        const response = await fetch(
-          `${this.baseUrl}/recipes/complexSearch?${params}`,
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-
-          console.log(
-            `✅ Found ${data.results?.length || 0} recipes for ${JSON.stringify(searchParams)}`,
-          );
-
-          // Check recipe data quality
-          if (data.results && data.results.length > 0) {
-            const recipe = data.results[0];
-
-            if (recipe.id && recipe.title) {
-              console.log(`✅ Recipe has required fields: ${recipe.title}`);
-            } else {
-              console.log(`⚠️ Recipe missing required fields`);
-            }
-          }
-        } else {
-          console.log(
-            `❌ Recipe search failed: ${response.status} ${response.statusText}`,
-          );
-
-          if (response.status === 402) {
-            console.log("⚠️ Quota exceeded - consider upgrading plan");
-          }
-        }
-      } catch (error) {
-        console.log(`❌ Recipe search error: ${error.message}`);
-      }
-    }
-  }
-
-  async testRecipeDetails() {
-    console.log("Testing Spoonacular recipe details...");
-
-    // First get a recipe ID
-    try {
-      const searchResponse = await fetch(
-        `${this.baseUrl}/recipes/complexSearch?apiKey=${this.apiKey}&number=1`,
-      );
-
-      if (!searchResponse.ok) {
-        console.log("❌ Cannot test recipe details - search failed");
-        return;
-      }
-
-      const searchData = await searchResponse.json();
-
-      if (!searchData.results || searchData.results.length === 0) {
-        console.log("❌ Cannot test recipe details - no recipes found");
-        return;
-      }
-
-      const recipeId = searchData.results[0].id;
-
-      // Get detailed recipe information
-      const detailsResponse = await fetch(
-        `${this.baseUrl}/recipes/${recipeId}/information?apiKey=${this.apiKey}&includeNutrition=true`,
-      );
-
-      if (detailsResponse.ok) {
-        const recipe = await detailsResponse.json();
-
-        console.log(`✅ Recipe details retrieved: ${recipe.title}`);
-
-        // Check essential fields
-        const essentialFields = [
-          "instructions",
-          "extendedIngredients",
-          "readyInMinutes",
-          "servings",
-        ];
-
-        for (const field of essentialFields) {
-          if (recipe[field] !== undefined) {
-            console.log(`✅ Recipe has ${field}`);
-          } else {
-            console.log(`⚠️ Recipe missing ${field}`);
-          }
-        }
-
-        // Check nutrition data
-        if (recipe.nutrition && recipe.nutrition.nutrients) {
-          console.log(
-            `✅ Recipe has nutrition data (${recipe.nutrition.nutrients.length} nutrients)`,
-          );
-        } else {
-          console.log(`⚠️ Recipe missing nutrition data`);
-        }
-      } else {
-        console.log(`❌ Recipe details failed: ${detailsResponse.status}`);
-      }
-    } catch (error) {
-      console.log(`❌ Recipe details error: ${error.message}`);
-    }
-  }
-
-  async checkQuotaUsage() {
-    console.log("Checking Spoonacular quota usage...");
-
-    try {
-      // Make a simple request to check headers
-      const response = await fetch(
-        `${this.baseUrl}/recipes/random?apiKey=${this.apiKey}&number=1`,
-      );
-
-      // Check quota headers
-      const quotaUsed = response.headers.get("X-API-Quota-Used");
-      const quotaLeft = response.headers.get("X-API-Quota-Left");
-      const quotaLimit = response.headers.get("X-API-Quota-Limit");
-
-      if (quotaUsed && quotaLeft && quotaLimit) {
-        console.log(`📊 Quota Status:`);
-        console.log(`   Used: ${quotaUsed}`);
-        console.log(`   Remaining: ${quotaLeft}`);
-        console.log(`   Limit: ${quotaLimit}`);
-
-        const usagePercent = (parseInt(quotaUsed) / parseInt(quotaLimit)) * 100;
-
-        if (usagePercent > 90) {
-          console.log("🚨 Quota usage critical (>90%)");
-        } else if (usagePercent > 75) {
-          console.log("⚠️ Quota usage high (>75%)");
-        } else {
-          console.log("✅ Quota usage normal");
-        }
-      } else {
-        console.log("⚠️ Quota information not available in headers");
-      }
-    } catch (error) {
-      console.log(`❌ Quota check error: ${error.message}`);
-    }
-  }
-}
-```
+> **Note:** Spoonacular Recipe API has been removed. The application relies entirely on its built-in local database of 351 alchemical recipes. Recipe recommendations are driven by the planetary scoring engine and elemental harmony algorithms with no external recipe API dependency.
 
 ## 🔄 Fallback Mechanism Issues
 
