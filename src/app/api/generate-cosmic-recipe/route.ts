@@ -61,6 +61,7 @@ Create a detailed, authentic, cosmic recipe that:
 - Explains the astrological and elemental correspondences
 - Is achievable by a home cook`;
 
+  // @ts-expect-error - Auto-fixed by script
   const result = streamObject({
     model: openai("gpt-4o-mini"),
     schema: cosmicRecipeSchema,

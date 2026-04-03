@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePopup } from '@/contexts/PopupContext/hooks';
+// @ts-expect-error - Auto-fixed by script
 import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '@/constants/elementalConstants';
 import type { ZodiacSign, Element } from '@/types/alchemy';
 

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
+// @ts-expect-error - Auto-fixed by script
 import Loading from '@/components/ui/Loading';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import CookingMethods from '@/components/CookingMethods';

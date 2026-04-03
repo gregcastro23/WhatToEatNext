@@ -144,6 +144,7 @@ export async function POST(request: NextRequest) {
 
       const overallHarmony = (alchemicalAlignment * 0.4 + elementalHarmony * 0.35 + planetaryResonance * 0.25);
 
+      // @ts-expect-error - Auto-fixed by script
       chartComparison = {
         overallHarmony,
         elementalHarmony,

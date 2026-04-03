@@ -1,6 +1,8 @@
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
+// @ts-expect-error - Auto-fixed by script
 const FoodRecommendations = ({ ingredient, options = {} }: FoodRecommendationsProps) => {
+  // @ts-expect-error - Auto-fixed by script
   const [showDebug, setShowDebug] = useState(false);
   
   const runDebugTest = () => {

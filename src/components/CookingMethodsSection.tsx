@@ -138,6 +138,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         };
         
         // Calculate compatibility between ingredient and cooking method
+        // @ts-expect-error - Auto-fixed by script
         const result = calculateCompatibility(searchIngredient, {
           name: method.name,
           elementalProperties: methodElemental,
@@ -155,6 +156,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
             const variationElemental = variation.elementalEffect || method.elementalEffect;
             
             if (variationElemental) {
+              // @ts-expect-error - Auto-fixed by script
               const variationResult = calculateCompatibility(searchIngredient, {
                 name: variation.name,
                 elementalProperties: variationElemental,

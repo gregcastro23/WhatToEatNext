@@ -4,7 +4,7 @@
  */
 
 export interface InstacartLineItemMeasurement {
-  quantity: number;
+  quantity: string;
   unit: string;
 }
 
@@ -15,7 +15,8 @@ export interface InstacartLineItem {
 
 export interface InstacartShoppingListRequest {
   title: string;
-  line_items: InstacartLineItem[];
+  line_items?: InstacartLineItem[];
+  ingredients?: string[];
   image_url?: string;
   link_type?: "shopping_list";
   instructions?: string[];

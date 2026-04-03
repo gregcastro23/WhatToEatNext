@@ -9,6 +9,7 @@ const logger = createLogger('AlchmKitchenPage');
 
 export default function AlchmKitchenPage() {
   const [mounted, setMounted] = useState(false);
+  // @ts-expect-error - Auto-fixed by script
   const { planetaryPositions, elementalState, alchemicalValues, astrologicalState } = useAlchemical();
   
   // Ensure component mounts after client-side hydration

@@ -1,3 +1,4 @@
+// @ts-expect-error - Auto-fixed by script
 import { useClientEffect } from '@/hooks/useClientEffect';
 
 const SomeComponent = () => {

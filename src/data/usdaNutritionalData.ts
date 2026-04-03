@@ -43,7 +43,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.21217391304347827,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "kale": {
     "name": "Kale, raw",
@@ -81,7 +81,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.4,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "broccoli": {
     "name": "Broccoli, raw",
@@ -119,7 +119,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.08565217391304349,
       "selenium": 0.02909090909090909
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "carrot": {
     "name": "Carrots, baby, raw",
@@ -157,7 +157,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.04039130434782609,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "bell_pepper": {
     "name": "Peppers, bell, red, raw",
@@ -195,7 +195,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.05782608695652175,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "tomato": {
     "name": "Tomatoes, grape, raw",
@@ -233,7 +233,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.052608695652173916,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "cucumber": {
     "name": "Cucumber, with peel, raw",
@@ -271,7 +271,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.036913043478260875,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "onion": {
     "name": "Onions, red, raw",
@@ -309,7 +309,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.05173913043478261,
       "selenium": 0.00909090909090909
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "garlic": {
     "name": "Garlic, raw",
@@ -347,7 +347,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0.1781818181818182
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "potato": {
     "name": "Potatoes, gold, without skin, raw",
@@ -385,7 +385,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.06956521739130435,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "apple": {
     "name": "Apples, fuji, with skin, raw",
@@ -423,7 +423,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.01417391304347826,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "banana": {
     "name": "Bananas, overripe, raw",
@@ -461,7 +461,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "orange": {
     "name": "Oranges, raw, navels",
@@ -499,7 +499,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.012608695652173915,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "strawberry": {
     "name": "Strawberries, raw",
@@ -537,7 +537,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.16,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "blueberry": {
     "name": "Blueberries, raw",
@@ -575,7 +575,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.18391304347826087,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "avocado": {
     "name": "Avocado, Hass, peeled, raw",
@@ -613,7 +613,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.08565217391304349,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "lemon": {
     "name": "Beets, raw",
@@ -651,7 +651,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "lime": {
     "name": "Beets, raw",
@@ -689,7 +689,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "grapefruit": {
     "name": "Beets, raw",
@@ -727,7 +727,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "pineapple": {
     "name": "Pineapple, raw",
@@ -765,7 +765,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.3765217391304348,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "chicken_breast": {
     "name": "Chicken, breast, boneless, skinless, raw",
@@ -803,7 +803,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "beef": {
     "name": "Pork, ground, raw",
@@ -841,7 +841,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "salmon": {
     "name": "Fish, salmon, Atlantic, farm raised, raw",
@@ -879,7 +879,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0.41454545454545455
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "tuna": {
     "name": "Beets, raw",
@@ -917,7 +917,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "pork": {
     "name": "Pork, ground, raw",
@@ -955,7 +955,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "lamb": {
     "name": "Beets, raw",
@@ -993,7 +993,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "egg": {
     "name": "Egg, white, raw, frozen, pasteurized",
@@ -1031,7 +1031,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "tofu": {
     "name": "Beets, raw",
@@ -1069,7 +1069,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "tempeh": {
     "name": "Beets, raw",
@@ -1107,7 +1107,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "seitan": {
     "name": "Beets, raw",
@@ -1145,7 +1145,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "milk": {
     "name": "Cheese, ricotta, whole milk",
@@ -1183,7 +1183,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0.1
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "yogurt": {
     "name": "Yogurt, plain, nonfat",
@@ -1221,7 +1221,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "cheese": {
     "name": "Cheese, cheddar",
@@ -1259,7 +1259,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.011304347826086957,
       "selenium": 0.5145454545454545
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "butter": {
     "name": "Pretzels, soft, unsalted",
@@ -1297,7 +1297,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0.3127272727272727
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "cream": {
     "name": "Cream, fluid, heavy whipping",
@@ -1335,7 +1335,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.0026086956521739132,
       "selenium": 0.05454545454545454
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "almond_milk": {
     "name": "Almond milk, unsweetened, plain, refrigerated",
@@ -1373,7 +1373,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.024521739130434785,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "coconut_milk": {
     "name": "Flour, coconut",
@@ -1411,7 +1411,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 2.3000000000000003,
       "selenium": 0.4872727272727273
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "oat_milk": {
     "name": "Oat milk, unsweetened, plain, refrigerated",
@@ -1449,7 +1449,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.05478260869565218,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "soy_milk": {
     "name": "Soy milk, unsweetened, plain, shelf stable",
@@ -1487,7 +1487,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.09043478260869565,
       "selenium": 0.035272727272727275
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "rice": {
     "name": "Rice, brown, long grain, unenriched, raw",
@@ -1525,7 +1525,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.173913043478261,
       "selenium": 0.2690909090909091
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "quinoa": {
     "name": "Flour, quinoa",
@@ -1563,7 +1563,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.8782608695652174,
       "selenium": 0.07454545454545454
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "oats": {
     "name": "Beets, raw",
@@ -1601,7 +1601,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "barley": {
     "name": "Flour, barley",
@@ -1639,7 +1639,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.5130434782608696,
       "selenium": 0.2381818181818182
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "wheat_flour": {
     "name": "Flour, whole wheat, unenriched",
@@ -1677,7 +1677,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.547826086956522,
       "selenium": 0.42909090909090913
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "cornmeal": {
     "name": "Cornmeal, blue (Navajo)",
@@ -1715,7 +1715,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.3295652173913044,
       "selenium": 0.21454545454545457
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "bread": {
     "name": "Bread, whole-wheat, commercially prepared",
@@ -1753,7 +1753,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.9478260869565219,
       "selenium": 0.4690909090909091
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "pasta": {
     "name": "Beets, raw",
@@ -1791,7 +1791,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.11173913043478262,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "almonds": {
     "name": "Nuts, almonds, whole, raw",
@@ -1829,7 +1829,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.9347826086956522,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "walnuts": {
     "name": "Nuts, walnuts, English, halves, raw",
@@ -1867,7 +1867,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.3043478260869565,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "cashews": {
     "name": "Nuts, cashew nuts, raw",
@@ -1905,7 +1905,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.8478260869565218,
       "selenium": 0.37636363636363634
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "peanuts": {
     "name": "Peanuts, raw",
@@ -1943,7 +1943,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.7304347826086957,
       "selenium": 0.32363636363636367
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "sunflower_seeds": {
     "name": "Seeds, sunflower seed, kernel, raw",
@@ -1981,7 +1981,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.1434782608695653,
       "selenium": 0.32363636363636367
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "flaxseed": {
     "name": "Flaxseed, ground",
@@ -2019,7 +2019,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.0434782608695652,
       "selenium": 2.4727272727272727
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "chia_seeds": {
     "name": "Chia seeds, dry, raw",
@@ -2057,7 +2057,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 3.2869565217391306,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "pumpkin_seeds": {
     "name": "Seeds, pumpkin seeds (pepitas), raw",
@@ -2095,7 +2095,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.791304347826087,
       "selenium": 0.37272727272727274
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "lentils": {
     "name": "Lentils, dry",
@@ -2133,7 +2133,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.682608695652174,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "chickpeas": {
     "name": "Chickpeas, (garbanzo beans, bengal gram), dry",
@@ -2171,7 +2171,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.556521739130435,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "black_beans": {
     "name": "Plum, black, with skin, raw",
@@ -2209,7 +2209,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.017565217391304348,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "kidney_beans": {
     "name": "Beans, snap, green, raw",
@@ -2247,7 +2247,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.14434782608695654,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "pinto_beans": {
     "name": "Beans, Dry, Pinto (0% moisture)",
@@ -2285,7 +2285,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.773913043478261,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "basil": {
     "name": "Basil, fresh",
@@ -2323,7 +2323,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.5,
       "selenium": 0.005454545454545454
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "oregano": {
     "name": "Spices, oregano, dried",
@@ -2361,7 +2361,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 2.1695652173913045,
       "selenium": 0.08181818181818182
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "rosemary": {
     "name": "Spices, rosemary, dried",
@@ -2399,7 +2399,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.8130434782608696,
       "selenium": 0.08363636363636363
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "thyme": {
     "name": "Spices, thyme, dried",
@@ -2437,7 +2437,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 3.421739130434783,
       "selenium": 0.08363636363636363
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "cilantro": {
     "name": "Coriander (cilantro) leaves, raw",
@@ -2475,7 +2475,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.18521739130434783,
       "selenium": 0.016363636363636365
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "cumin": {
     "name": "Spices, cumin seed",
@@ -2513,7 +2513,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.4478260869565218,
       "selenium": 0.09454545454545454
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "cinnamon": {
     "name": "Spices, cinnamon, ground",
@@ -2551,7 +2551,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 7.608695652173914,
       "selenium": 0.056363636363636366
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "turmeric": {
     "name": "Spices, turmeric, ground",
@@ -2589,7 +2589,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 8.608695652173914,
       "selenium": 0.11272727272727273
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "black_pepper": {
     "name": "Flaxseed, ground",
@@ -2627,7 +2627,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.0434782608695652,
       "selenium": 2.4727272727272727
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "salt": {
     "name": "Butter, salted",
@@ -2665,7 +2665,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0.01818181818181818
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "olive_oil": {
     "name": "Oil, olive, extra light",
@@ -2703,7 +2703,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "coconut_oil": {
     "name": "Oil, coconut",
@@ -2741,7 +2741,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "avocado_oil": {
     "name": "Avocado, Hass, peeled, raw",
@@ -2779,7 +2779,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.08565217391304349,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "sesame_oil": {
     "name": "Sesame butter, creamy",
@@ -2817,7 +2817,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.7000000000000001,
       "selenium": 0.8454545454545455
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "flaxseed_oil": {
     "name": "Flaxseed, ground",
@@ -2855,7 +2855,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.0434782608695652,
       "selenium": 2.4727272727272727
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "honey": {
     "name": "Honey",
@@ -2893,7 +2893,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.034782608695652174,
       "selenium": 0.014545454545454545
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "maple_syrup": {
     "name": "Syrups, maple",
@@ -2931,7 +2931,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 1.265217391304348,
       "selenium": 0.010909090909090908
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "sugar": {
     "name": "Sugar, turbinado",
@@ -2969,7 +2969,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.02,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "vinegar": {
     "name": "Vinegar, cider",
@@ -3007,7 +3007,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.1082608695652174,
       "selenium": 0.0018181818181818182
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "soy_sauce": {
     "name": "Soy sauce made from soy (tamari)",
@@ -3045,7 +3045,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.21695652173913046,
       "selenium": 0.014545454545454545
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "mustard": {
     "name": "Oil, mustard",
@@ -3083,7 +3083,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "ketchup": {
     "name": "Catsup",
@@ -3121,7 +3121,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.036521739130434785,
       "selenium": 0.012727272727272726
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "mayonnaise": {
     "name": "Salad dressing, mayonnaise and mayonnaise-type, low calorie",
@@ -3159,7 +3159,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0,
       "selenium": 0.02909090909090909
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "hot_sauce": {
     "name": "Sauce, hot chile, sriracha",
@@ -3197,7 +3197,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.06347826086956522,
       "selenium": 0.007272727272727273
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   },
   "tomato_sauce": {
     "name": "Tomato, sauce, canned, with salt added",
@@ -3235,7 +3235,7 @@ export const usdaNutritionalData: Record<string, NutritionalProfile> = {
       "manganese": 0.05695652173913044,
       "selenium": 0
     },
-    "phytonutrients": {}
+    "phytonutrients": []
   }
 };
 

@@ -129,7 +129,7 @@ async function createInstacartShoppingList(
       return {
         name: item.ingredient,
         ...(unit !== undefined && {
-          line_item_measurements: [{ quantity: item.quantity, unit }],
+          line_item_measurements: [{ quantity: String(item.quantity), unit }],
         }),
       };
     }),

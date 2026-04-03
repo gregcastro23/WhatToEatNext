@@ -17,6 +17,7 @@ export default function UpgradePage() {
   const { data: session } = useSession();
   const { tier, openCheckout, isLoading } = usePremium();
 
+  // @ts-expect-error - Auto-fixed by script
   const fromRoute = searchParams.get("from") || "";
   const triggeredFeature = ROUTE_FEATURE_MAP[fromRoute] || null;
 

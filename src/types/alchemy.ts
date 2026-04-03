@@ -21,6 +21,8 @@ export type {
 } from "@/types/celestial";
 export type { RecipeIngredient } from "@/types/recipe";
 
+export type ZodiacSign = ZodiacSignType;
+
 // src/types/alchemy.ts
 
 // ========== PHASE 1: CORE TYPE ALIASES ==========

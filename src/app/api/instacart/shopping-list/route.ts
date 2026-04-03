@@ -3,40 +3,109 @@
  *
  * Calls the Instacart Developer Platform (IDP) API to create a shoppable
  * shopping list page from the meal planner grocery list.
- *
- * Docs: https://docs.instacart.com/developer_platform_api/api/products/create_shopping_list_page/
- *
- * IDP Terms compliance:
- * - API key stored server-side only, never exposed to client
- * - Shopping list URL returned to client, not raw API response
- * - Rate limit errors handled gracefully per IDP error handling guidelines
  */
 
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import type {
   InstacartShoppingListRequest,
   InstacartShoppingListResponse,
+  InstacartLineItem,
 } from "@/types/instacart";
-import { createLogger } from "@/utils/logger";
-import type { NextRequest} from "next/server";
-
-const logger = createLogger("InstacartAPI");
 
 const INSTACART_IDP_BASE_URL = "https://connect.instacart.com";
 const INSTACART_IDP_BASE_URL_DEV = "https://connect.dev.instacart.tools";
 const FETCH_TIMEOUT_MS = 15_000;
 
+// Supported Instacart units
+const IDP_UNITS = new Set([
+  "ounce",
+  "fluid_ounce",
+  "pound",
+  "pint",
+  "quart",
+  "gallon",
+  "milliliter",
+  "liter",
+  "gram",
+  "kilogram",
+]);
+
+// Map common unit abbreviations to IDP units
+const UNIT_MAP: Record<string, string> = {
+  oz: "ounce",
+  ounces: "ounce",
+  "fl oz": "fluid_ounce",
+  "fluid ounce": "fluid_ounce",
+  lb: "pound",
+  lbs: "pound",
+  pt: "pint",
+  pints: "pint",
+  qt: "quart",
+  quarts: "quart",
+  gal: "gallon",
+  gallons: "gallon",
+  ml: "milliliter",
+  l: "liter",
+  liters: "liter",
+  g: "gram",
+  grams: "gram",
+  kg: "kilogram",
+  kgs: "kilogram",
+};
+
+/**
+ * Resilient ingredient parser that converts a string like "2 lbs chicken breast"
+ * into a proper InstacartLineItem with quantity and mapped unit.
+ */
+function parseIngredientString(ingredient: string): InstacartLineItem {
+  // Regex to extract quantity and unit if present
+  // e.g., "1.5 lbs chicken breast", "2 apples", "1/2 cup sugar"
+  const match = ingredient.trim().match(/^([\d./]+)\s+([A-Za-z]+)\s+(.+)$/);
+
+  if (match) {
+    const [, qtyRaw, rawUnit, name] = match;
+    const lowerUnit = rawUnit.toLowerCase();
+    const mappedUnit = UNIT_MAP[lowerUnit] || lowerUnit;
+
+    let quantity = qtyRaw;
+    if (qtyRaw.includes("/")) {
+      const [num, den] = qtyRaw.split("/");
+      if (num && den && !isNaN(Number(num)) && !isNaN(Number(den))) {
+        quantity = (Number(num) / Number(den)).toFixed(2);
+      }
+    }
+
+    if (IDP_UNITS.has(mappedUnit)) {
+      return {
+        name: name.trim(),
+        line_item_measurements: [{ quantity: String(quantity), unit: mappedUnit }],
+      };
+    } else {
+      // Unit not supported by IDP (like cups, tbsp), just send the full string as name
+      return { name: ingredient.trim() };
+    }
+  }
+
+  // Fallback: no obvious qty/unit pattern
+  return { name: ingredient.trim() };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as InstacartShoppingListRequest;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { title, line_items } = body;
+    
+    let parsedLineItems: InstacartLineItem[] = [];
 
-    if (!line_items || line_items.length === 0) {
+    if (body.line_items && body.line_items.length > 0) {
+      parsedLineItems = body.line_items;
+    } else if (body.ingredients && body.ingredients.length > 0) {
+      parsedLineItems = body.ingredients.map(parseIngredientString);
+    } else {
       return NextResponse.json({ error: "No items provided" }, { status: 400 });
     }
 
-    const apiKey = process.env.INSTACART_API_KEY;
+    const apiKey = process.env.INSTACART_API_KEY || process.env.instacart_development_api;
     if (!apiKey) {
       return NextResponse.json(
         {
@@ -47,22 +116,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const useProd =
-      process.env.NODE_ENV === "production" &&
-      process.env.INSTACART_USE_PROD === "true";
-    const baseUrl = useProd ? INSTACART_IDP_BASE_URL : INSTACART_IDP_BASE_URL_DEV;
+    const isDevEnv =
+      process.env.NODE_ENV !== "production" ||
+      process.env.INSTACART_USE_PROD !== "true";
+      
+    const baseUrl = isDevEnv ? INSTACART_IDP_BASE_URL_DEV : INSTACART_IDP_BASE_URL;
 
+    const finalTitle = body.title || "Grocery List from WhatToEatNext";
     const instacartPayload: InstacartShoppingListRequest = {
-      title: title || "Grocery List from WhatToEatNext",
+      title: finalTitle,
       link_type: "shopping_list",
-      line_items,
+      line_items: parsedLineItems,
     };
-
-    logger.info("Creating Instacart shopping list", {
-      itemCount: line_items.length,
-      title: instacartPayload.title,
-      environment: useProd ? "production" : "development",
-    });
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
@@ -88,48 +153,59 @@ export async function POST(request: NextRequest) {
 
     if (!instacartResponse.ok) {
       const errorText = await instacartResponse.text();
-      logger.error("Instacart API error", {
-        status: instacartResponse.status,
-        error: errorText,
-      });
 
+      let statusCode = instacartResponse.status;
       const statusMessages: Record<number, string> = {
-        401: "Invalid API key",
-        422: `Invalid request: ${errorText}`,
-        429: "Rate limit exceeded, please try again shortly",
+        400: `Bad Request: ${errorText}`,
+        401: "Unauthorized: Invalid API key",
+        403: "Forbidden: API key does not have required permissions",
+        422: `Unprocessable Entity: Invalid request format: ${errorText}`,
+        429: "Too Many Requests: Rate limit exceeded, please try again shortly",
       };
+      
       const details =
-        statusMessages[instacartResponse.status] ??
-        (instacartResponse.status >= 500
+        statusMessages[statusCode] ??
+        (statusCode >= 500
           ? "Instacart service unavailable"
-          : `Instacart returned status ${instacartResponse.status}`);
+          : `Instacart returned status ${statusCode}`);
+
+      // Map upstream 500s to 502 Bad Gateway
+      if (statusCode >= 500) statusCode = 502;
 
       return NextResponse.json(
         { error: "Failed to create Instacart shopping list", details },
-        { status: instacartResponse.status >= 500 ? 502 : instacartResponse.status },
+        { status: statusCode },
       );
     }
 
-    const data =
-      (await instacartResponse.json()) as InstacartShoppingListResponse;
+    const data = (await instacartResponse.json()) as InstacartShoppingListResponse;
+    let productsLinkUrl = data.products_link_url;
 
-    logger.info("Instacart shopping list created", {
-      url: data.products_link_url,
-    });
+    // Append affiliate UTM parameters
+    try {
+      const urlObj = new URL(productsLinkUrl);
+      urlObj.searchParams.set("utm_source", "whattoeatnext");
+      urlObj.searchParams.set("utm_medium", "affiliate");
+      urlObj.searchParams.set("utm_campaign", "idp_integration");
+      productsLinkUrl = urlObj.toString();
+    } catch (e) {
+      // fallback if URL parsing fails
+      const separator = productsLinkUrl.includes("?") ? "&" : "?";
+      productsLinkUrl += `${separator}utm_source=whattoeatnext&utm_medium=affiliate&utm_campaign=idp_integration`;
+    }
 
     return NextResponse.json({
-      url: data.products_link_url,
-      item_count: line_items.length,
+      url: productsLinkUrl,
+      item_count: parsedLineItems.length,
+      title: finalTitle
     });
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
-      logger.error("Instacart API request timed out");
       return NextResponse.json(
         { error: "Failed to reach Instacart", details: "Request timed out" },
         { status: 504 },
       );
     }
-    logger.error("Instacart shopping list creation failed:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

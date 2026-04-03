@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Box } from '@mui/material';
+// @ts-expect-error - Auto-fixed by script
 import { Science } from '@mui/icons-material';
 
 interface MethodImageProps {

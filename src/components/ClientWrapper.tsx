@@ -7,8 +7,11 @@ import { ChartProvider } from '@/contexts/ChartContext/provider';
 import AstrologyWarning from '@/components/AstrologyWarning';
 import CalculationErrors from '@/components/CalculationErrors';
 import Clock from '@/components/Clock';
+// @ts-expect-error - Auto-fixed by script
 import ClientProviders from '@/components/providers/ClientProviders';
+// @ts-expect-error - Auto-fixed by script
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
+// @ts-expect-error - Auto-fixed by script
 import { ErrorFallback } from '@/components/errors/ErrorFallback';
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {

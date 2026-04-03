@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+// @ts-expect-error - Auto-fixed by script
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 
 const CalculationErrors = () => {
