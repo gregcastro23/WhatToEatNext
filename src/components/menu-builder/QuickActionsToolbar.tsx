@@ -20,79 +20,9 @@ import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
+import { isSuitableForMealType } from "@/utils/menuPlanner/mealTypeMatching";
 
 const logger = createLogger("QuickActionsToolbar");
-
-/**
- * Check if a recipe is suitable for a given meal type
- */
-function isSuitableForMealType(recipe: Recipe, mealType: MealType): boolean {
-  // Check explicit mealType field
-  if (recipe.mealType) {
-    const recipeMealTypes = Array.isArray(recipe.mealType)
-      ? recipe.mealType
-      : [recipe.mealType];
-    const normalized = recipeMealTypes.map((t) => t.toLowerCase());
-    if (normalized.includes(mealType)) return true;
-  }
-
-  // Check tags for meal type hints
-  const tags = (recipe.tags || []).map((t) => t.toLowerCase());
-  const name = (recipe.name || "").toLowerCase();
-
-  if (mealType === "breakfast") {
-    const breakfastKeywords = [
-      "egg",
-      "oat",
-      "pancake",
-      "waffle",
-      "smoothie",
-      "cereal",
-      "toast",
-      "breakfast",
-      "muffin",
-      "granola",
-      "yogurt",
-    ];
-    return breakfastKeywords.some(
-      (k) => name.includes(k) || tags.some((t) => t.includes(k)),
-    );
-  }
-
-  if (mealType === "lunch") {
-    const lunchKeywords = [
-      "sandwich",
-      "salad",
-      "soup",
-      "wrap",
-      "bowl",
-      "lunch",
-    ];
-    return lunchKeywords.some(
-      (k) => name.includes(k) || tags.some((t) => t.includes(k)),
-    );
-  }
-
-  if (mealType === "dinner") {
-    const dinnerKeywords = [
-      "pasta",
-      "steak",
-      "roast",
-      "stir-fry",
-      "curry",
-      "stew",
-      "dinner",
-      "casserole",
-      "grill",
-      "bake",
-    ];
-    return dinnerKeywords.some(
-      (k) => name.includes(k) || tags.some((t) => t.includes(k)),
-    );
-  }
-
-  return true; // snacks - anything works
-}
 
 /**
  * Score a recipe for nutritional gap-filling potential
