@@ -15,6 +15,7 @@ import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
+import { normalizeIngredientList } from "@/utils/instacart/ingredientNormalizer";
 
 const logger = createLogger("GroceryListModal");
 
@@ -121,15 +122,24 @@ async function createInstacartShoppingList(
     throw new Error("No items to order — all items are either purchased or already in your pantry.");
   }
 
-  const UNITLESS = new Set(["count", "pieces", "piece"]);
+  // Pass through our new pipeline
+  const normalizedItems = normalizeIngredientList(
+    activeItems.map((item) => ({
+      text: `${item.quantity} ${item.unit} ${item.ingredient}`,
+      recipes: item.usedInRecipes,
+    }))
+  );
+
+  const UNITLESS = new Set(["count", "pieces", "piece", "each", "pack", ""]);
+  
   const payload: InstacartShoppingListRequest = {
     title: title || "Grocery List from WhatToEatNext",
-    line_items: activeItems.map((item) => {
-      const unit = UNITLESS.has(item.unit) ? undefined : item.unit;
+    line_items: normalizedItems.map((item) => {
+      const unit = UNITLESS.has(item.unit || "each") ? undefined : item.unit;
       return {
-        name: item.ingredient,
+        name: item.name,
         ...(unit !== undefined && {
-          line_item_measurements: [{ quantity: String(item.quantity), unit }],
+          line_item_measurements: [{ quantity: String(item.quantity || 1), unit }],
         }),
       };
     }),
