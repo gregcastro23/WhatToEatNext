@@ -435,37 +435,34 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
         <CosmicAlignmentCard natalChart={natalChart} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <NavCard
           icon="&#x1F52E;"
           label="Birth Chart"
-          description="Detailed planetary analysis"
+          description="Detailed planetary analysis and placements"
           href="/profile/birthchart"
+          gradient="from-purple-500/10 to-indigo-500/10"
         />
         <NavCard
           icon="&#x1F316;"
           label="Day/Night"
-          description="Diurnal sectarian shifts"
+          description="View your active sectarian shifts"
           href="/profile/day-night-effects"
+          gradient="from-amber-500/10 to-blue-500/10"
         />
         <NavCard
           icon="&#x1F37D;&#xFE0F;"
           label="Food Prefs"
-          description="Manage dietary settings"
+          description="Manage dietary constraints and tastes"
           href="/profile/preferences"
-        />
-        <NavCard
-          icon="&#x1F465;"
-          label="Companions"
-          description="Dining group harmony"
-          href="#"
-          badge={pendingRequests}
+          gradient="from-emerald-500/10 to-teal-500/10"
         />
         <NavCard
           icon="&#x1F4B0;"
           label="Budget"
-          description="Weekly grocery limit"
-          href="#"
+          description="Manage total food grocery limits"
+          onClick={() => {}}
+          gradient="from-slate-500/10 to-gray-500/10"
         />
       </div>
 
@@ -487,6 +484,7 @@ function NavCard({
   href,
   onClick,
   badge,
+  gradient = 'from-purple-500/10 to-indigo-500/10',
 }: {
   icon: string;
   label: string;
@@ -494,21 +492,31 @@ function NavCard({
   href?: string;
   onClick?: () => void;
   badge?: number;
+  gradient?: string;
 }) {
   const content = (
-    <>
+    <div className={`relative h-full bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-between overflow-hidden group hover:shadow-lg hover:border-purple-200 transition-all duration-300 z-10`}>
+      <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10`} />
+      
       {badge !== undefined && badge > 0 && (
-        <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold bg-red-500 text-white rounded-full">
+        <span className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center text-[11px] font-bold bg-red-500 text-white rounded-full shadow-sm animate-pulse-slow">
           {badge}
         </span>
       )}
-      <span className="text-2xl block mb-2" dangerouslySetInnerHTML={{ __html: icon }} />
-      <div className="text-sm font-bold text-gray-800 group-hover:text-purple-700 transition-colors">{label}</div>
-      <div className="text-xs text-gray-500 mt-0.5">{description}</div>
-    </>
+      
+      <div>
+        <span className="text-3xl block mb-3 group-hover:scale-110 group-hover:-rotate-3 origin-bottom-left transition-transform duration-300" dangerouslySetInnerHTML={{ __html: icon }} />
+        <div className="text-base font-bold text-gray-800 group-hover:text-purple-700 transition-colors">{label}</div>
+      </div>
+      <div className="text-xs text-gray-500 mt-2 leading-relaxed">{description}</div>
+      
+      <div className="absolute right-4 bottom-4 translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 text-purple-600">
+        &rarr;
+      </div>
+    </div>
   );
 
-  const className = "relative bg-white rounded-2xl shadow-sm p-4 border border-gray-100 text-left hover:border-purple-200 hover:shadow-md transition-all group block w-full";
+  const className = "block w-full h-full text-left outline-none focus:ring-2 focus:ring-purple-500 rounded-2xl focus:ring-offset-2 transition-all active:scale-[0.98]";
 
   if (href) {
     return (

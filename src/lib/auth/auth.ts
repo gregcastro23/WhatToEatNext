@@ -63,10 +63,10 @@ async function getCachedUser(email: string) {
   const lookupPromise = (async () => {
     try {
       const { userDatabase } = await import("@/services/userDatabaseService");
-      // Set strict 4.5s timeout for DB lookup to avoid Vercel 10s limits (signIn + jwt combined)
+      // Set strict 8.5s timeout for DB lookup to avoid Vercel standard limits
       const dbUser = await Promise.race([
         userDatabase.getUserByEmail(email),
-        new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 4500))
+        new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8500))
       ]);
       
       // Cache both valid users and null (not found)
@@ -119,7 +119,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 ? [UserRole.ADMIN, UserRole.USER]
                 : [UserRole.USER],
             }),
-            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 4500))
+            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 8500))
           ]);
           
           if (dbUser) {
@@ -132,6 +132,61 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           try {
             if (!dbUser) return;
             console.log(`[auth] Starting background tasks for ${user.email}`);
+            
+            // 0. Calculate and synchronize natal chart if birth data is present but not computed
+            const profile = (dbUser as any)?.profile || {};
+            if (profile.birthData && (!profile.natalChart || !profile.onboardingComplete)) {
+              try {
+                console.log(`[auth] Calculating missing natal chart for ${user.email}`);
+                const { calculateNatalChart } = await import("@/services/natalChartService");
+                const { userDatabase } = await import("@/services/userDatabaseService");
+                const { commensalDatabase } = await import("@/services/commensalDatabaseService");
+                
+                const newChart = await calculateNatalChart(profile.birthData);
+                await userDatabase.updateUserProfile(dbUser.id, { 
+                  natalChart: newChart,
+                  onboardingComplete: true
+                } as any);
+                
+                // Store in saved charts (Cosmic Identity registry)
+                try {
+                  const existingCharts = await commensalDatabase.getSavedChartsForUser(dbUser.id);
+                  const hasCosmicIdentity = existingCharts.some(c => c.chartType === "cosmic_identity");
+                  if (!hasCosmicIdentity) {
+                    await commensalDatabase.createSavedChart({
+                      ownerId: dbUser.id,
+                      label: "My Cosmos",
+                      chartType: "cosmic_identity",
+                      birthData: newChart.birthData,
+                      natalChart: newChart
+                    });
+                  }
+                } catch (e) {
+                   console.error("[auth] Failed to sync cosmic identity to commensal db:", e);
+                }
+                
+                console.log(`[auth] Successfully generated missing natal chart for ${user.email}`);
+              } catch (chartErr) {
+                console.error(`[auth] Failed to generate chart in background for ${user.email}:`, chartErr);
+              }
+            } else if (profile.natalChart) {
+              // Ensure they have it registered in their saved charts even if profile already had it
+              try {
+                const { commensalDatabase } = await import("@/services/commensalDatabaseService");
+                const existingCharts = await commensalDatabase.getSavedChartsForUser(dbUser.id);
+                if (!existingCharts.some(c => c.chartType === "cosmic_identity")) {
+                  await commensalDatabase.createSavedChart({
+                    ownerId: dbUser.id,
+                    label: "My Cosmos",
+                    chartType: "cosmic_identity",
+                    birthData: profile.natalChart.birthData || profile.birthData,
+                    natalChart: profile.natalChart
+                  });
+                }
+              } catch (e) {
+                // silent failure for sync
+              }
+            }
             
             // 1. Auto-provision premium
             if (isAdminEmail(user.email!) || isPremiumEmail(user.email!)) {
