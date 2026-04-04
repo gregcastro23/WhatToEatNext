@@ -4,6 +4,7 @@ import type { ElementalProperties } from "@/types/celestial";
 import {
     getPlanetarySectElement, isSectDiurnal
 } from "@/utils/planetaryAlchemyMapping";
+import { PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
 
 /**
  * Real Alchemize Service
@@ -200,6 +201,7 @@ export function alchemize(
     Uranus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
     Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
     Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Ascendant: { Spirit: 1, Essence: 1, Matter: 1, Substance: 1 },
   };
   // Determine sect (diurnal / nocturnal) for the moment being calculated.
   // This shifts at every sunrise (~06:00 UTC) and sunset (~18:00 UTC).
@@ -216,16 +218,17 @@ export function alchemize(
     // Get planetary alchemical properties
     const alchemy = planetaryAlchemy[planet];
     if (alchemy) {
-      // Apply dignity modifier
-      // Dignity ranges from -3 (fall) to +3 (exaltation)
-      // Base multiplier is 1.0, modified by ±0.15 per dignity level
-      // Minimum 0.5 to prevent negative or zero contributions
+      // Apply dignity modifier (existing ±0.15/level scale kept for RealAlchemize compat)
       const dignity = getPlanetaryDignity(planet, position.sign);
       const dignityMultiplier = Math.max(0.5, 1.0 + dignity * 0.15);
-      totals.Spirit += alchemy.Spirit * dignityMultiplier;
-      totals.Essence += alchemy.Essence * dignityMultiplier;
-      totals.Matter += alchemy.Matter * dignityMultiplier;
-      totals.Substance += alchemy.Substance * dignityMultiplier;
+      // Alchm weighting: orbital period (slower = deeper alchemical tide)
+      // SPECIAL CASE: The Ascendant is the "Physical Vessel" grounding constant (weight = 1.0)
+      const period = PLANET_ALCHM_PERIODS[planet] ?? 1.0;
+      const alchmWeight = planet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);
+      totals.Spirit    += alchemy.Spirit    * dignityMultiplier * alchmWeight;
+      totals.Essence   += alchemy.Essence   * dignityMultiplier * alchmWeight;
+      totals.Matter    += alchemy.Matter    * dignityMultiplier * alchmWeight;
+      totals.Substance += alchemy.Substance * dignityMultiplier * alchmWeight;
     }
     // Elemental contribution — blend of zodiac sign element and sectarian element.
     // Sign element: the element of the sign the planet currently occupies.
@@ -260,7 +263,14 @@ export function alchemize(
     Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
   const entropy = entropyNum / (entropyDen || 1);
-  // Reactivity
+  // Reactivity (Dignity Table formula: (Σ / #Matter) + Earth²)
+  //
+  // Earth² is an ABSOLUTE INERTIA FLOOR added OUTSIDE the fraction.
+  // No matter how volatile Spirit/Substance/Essence become, a high Earth count
+  // always provides a minimum Reactivity baseline — the "Grounding Constant."
+  //
+  // Matter is the SOLE denominator (not Matter+Earth). The Ascendant contributes
+  // Matter=1 ensuring this is always non-zero in any chart with an Ascendant.
   const reactivityNum =
     Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
@@ -268,19 +278,19 @@ export function alchemize(
     Math.pow(Fire, 2) +
     Math.pow(Air, 2) +
     Math.pow(Water, 2);
-  const reactivityDen = Math.pow(Matter + Earth, 2);
-  const reactivity = reactivityNum / (reactivityDen || 1);
+  const reactivity = (reactivityNum / (Matter || 1)) + Math.pow(Earth, 2);
   // Greg's Energy;
   const gregsEnergy = heat - entropy * reactivity;
   // Kalchm (K_alchm)
   const kalchm =
     (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
-  // Monica constant
+  // Monica constant: −GregsEnergy / (Reactivity × ln(Kalchm))
+  // Guards: kalchm must be > 0; lnK must be non-zero; reactivity must be non-zero
   let monica = 1.0; // Default value
-  if (kalchm > 0) {
+  if (kalchm > 0 && isFinite(kalchm)) {
     const lnK = Math.log(kalchm);
-    if (lnK !== 0) {
+    if (lnK !== 0 && reactivity !== 0) {
       monica = -gregsEnergy / (reactivity * lnK);
     }
   }

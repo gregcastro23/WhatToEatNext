@@ -10,7 +10,11 @@ import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { 
+  calculateEnhancedAlchemicalFromPlanets,
+  aggregateEnhancedZodiacElementals,
+  isSectDiurnal
+} from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -47,20 +51,6 @@ function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modali
   return Object.entries(counts).sort(([, a], [, b]) => b - a)[0][0] as Modality;
 }
 
-function calcElementalBalance(positions: Record<Planet, ZodiacSignType>) {
-  const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  Object.values(positions).forEach((sign) => {
-    const el = SIGN_TO_ELEMENT[sign];
-    if (el) counts[el]++;
-  });
-  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
-  return {
-    Fire: counts.Fire / total,
-    Water: counts.Water / total,
-    Earth: counts.Earth / total,
-    Air: counts.Air / total,
-  };
-}
 
 /** GET /api/user/charts */
 export async function GET(request: NextRequest) {
@@ -136,6 +126,8 @@ export async function POST(request: NextRequest) {
     position: rawPositions[pname]?.exactLongitude ?? 0,
   }));
 
+  const diurnal = isSectDiurnal(birthDate);
+
   const natalChart: NatalChart = {
     birthData: { dateTime: birthData.dateTime, latitude: birthData.latitude, longitude: birthData.longitude, timezone: birthData.timezone },
     planets,
@@ -143,8 +135,8 @@ export async function POST(request: NextRequest) {
     planetaryPositions: positions,
     dominantElement: calcDominantElement(positions),
     dominantModality: calcDominantModality(positions),
-    elementalBalance: calcElementalBalance(positions),
-    alchemicalProperties: calculateAlchemicalFromPlanets(positions),
+    elementalBalance: aggregateEnhancedZodiacElementals(positions, diurnal),
+    alchemicalProperties: calculateEnhancedAlchemicalFromPlanets(positions, diurnal),
     calculatedAt: new Date().toISOString(),
   };
 

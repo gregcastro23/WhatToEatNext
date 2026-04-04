@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { alchemize } from "@/constants/alchemicalPillars";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
 import { logger } from "@/utils/logger";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import type { Planet, ZodiacSignType } from "@/types/celestial";
 import type { NextRequest } from "next/server";
 
 /**
@@ -32,8 +33,17 @@ export async function GET(request: NextRequest) {
     if (includeAlchemical) {
       try {
         // Calculate alchemical properties from planetary positions
-        const alchemicalProperties = calculateAlchemicalFromPlanets(
-          planetaryPositions as any,
+        const requestDate = date ? new Date(date) : new Date();
+        const diurnal = isSectDiurnal(requestDate);
+        
+        const signMap: Record<string, string> = {};
+        for (const [planet, data] of Object.entries(planetaryPositions as any)) {
+          signMap[planet] = typeof data === 'object' && data !== null ? (data as any).sign : String(data);
+        }
+        
+        const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
+          signMap as Record<Planet, ZodiacSignType>,
+          diurnal
         );
 
         // Calculate thermodynamic metrics using the alchemizer engine
@@ -146,8 +156,18 @@ export async function POST(request: NextRequest) {
     // Add alchemical calculations
     if (includeAlchemical) {
       try {
-        const alchemicalProperties =
-          calculateAlchemicalFromPlanets(planetaryPositions);
+        const requestDate = date ? new Date(date) : new Date();
+        const diurnal = isSectDiurnal(requestDate);
+        
+        const signMap: Record<string, string> = {};
+        for (const [planet, data] of Object.entries(planetaryPositions as any)) {
+          signMap[planet] = typeof data === 'object' && data !== null ? (data as any).sign : String(data);
+        }
+        
+        const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
+          signMap as Record<Planet, ZodiacSignType>,
+          diurnal
+        );
         const thermodynamicMetrics = alchemize(planetaryPositions);
 
         // Derive elemental properties from thermodynamics

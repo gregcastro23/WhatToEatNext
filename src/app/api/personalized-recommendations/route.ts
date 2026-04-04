@@ -10,7 +10,8 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import type { Planet, ZodiacSignType } from "@/types/celestial";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -106,11 +107,14 @@ export async function POST(request: NextRequest) {
     // Chart comparison (only if natal chart available and requested)
     let chartComparison = null;
     if (includeChartAnalysis && Object.keys(natalPositions).length > 0) {
-      const natalAlch = calculateAlchemicalFromPlanets(natalPositions as any);
-      const currentAlch = calculateAlchemicalFromPlanets(currentPositions as any);
+      const natalDiurnal = natalChart?.birthData?.dateTime ? isSectDiurnal(new Date(natalChart.birthData.dateTime)) : true;
+      const currentDiurnal = isSectDiurnal(new Date());
 
-      const natalTotal = Object.values(natalAlch).reduce((a, b) => a + b, 0) || 1;
-      const currentTotal = Object.values(currentAlch).reduce((a, b) => a + b, 0) || 1;
+      const natalAlch = calculateEnhancedAlchemicalFromPlanets(natalPositions as Record<Planet, ZodiacSignType>, natalDiurnal);
+      const currentAlch = calculateEnhancedAlchemicalFromPlanets(currentPositions as Record<Planet, ZodiacSignType>, currentDiurnal);
+
+      const natalTotal = Object.values(natalAlch).reduce((a, b) => a + Number(b), 0) || 1;
+      const currentTotal = Object.values(currentAlch).reduce((a, b) => a + Number(b), 0) || 1;
 
       // Cosine-like similarity for alchemical alignment
       const keys = ["Spirit", "Essence", "Matter", "Substance"] as const;

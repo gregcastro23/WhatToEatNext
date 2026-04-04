@@ -15,9 +15,10 @@ import type {
 } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import {
-  calculateAlchemicalFromPlanets,
-  aggregateZodiacElementals,
+  calculateEnhancedAlchemicalFromPlanets,
+  aggregateEnhancedZodiacElementals,
   getDominantElement,
+  isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
 import { getModalityForZodiac } from "@/utils/zodiacUtils";
 import {
@@ -274,6 +275,8 @@ export async function calculateNatalChart(
 
     // Validate birth chart positions against astronomical estimates
     const birthDate = new Date(birthData.dateTime);
+    const diurnal = isSectDiurnal(birthDate);
+
     if (detectStaticFallback(planetaryPositions)) {
       _logger.error(
         "Birth chart returned STATIC FALLBACK positions — these do not reflect the actual birth date. The API circuit breaker may be open.",
@@ -293,12 +296,12 @@ export async function calculateNatalChart(
       positionsForAlchemy[planet] = sign;
     });
 
-    // Calculate alchemical properties from planetary positions
+    // Calculate alchemical properties from planetary positions WITH sect logic
     const alchemicalProperties =
-      calculateAlchemicalFromPlanets(positionsForAlchemy);
+      calculateEnhancedAlchemicalFromPlanets(positionsForAlchemy, diurnal);
 
-    // Calculate elemental balance from zodiac signs
-    const elementalBalance = aggregateZodiacElementals(positionsForAlchemy);
+    // Calculate elemental balance from zodiac signs WITH sect logic
+    const elementalBalance = aggregateEnhancedZodiacElementals(positionsForAlchemy, diurnal);
 
     // Determine dominant element and modality
     const dominantElement = getDominantElement(elementalBalance) as Element;

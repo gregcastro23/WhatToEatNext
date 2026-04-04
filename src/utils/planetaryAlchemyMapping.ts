@@ -15,7 +15,7 @@
  * night. These sectarian elements drive the dynamic elemental profile of the sky.
  */
 
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
+import { PLANET_WEIGHTS, normalizePlanetWeight, PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { calculateAspectESMSModifications, type AspectWithStrength } from "./aspectESMSEffects";
@@ -109,6 +109,22 @@ export const PLANETARY_SECTARIAN_ESMS = {
   Pluto: {
     diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 },
     nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 }, // Night: Matter
+  },
+  /**
+   * Ascendant — Physical Vessel / Grounding Constant
+   *
+   * The Ascendant (column AJ in Dignity Tables) contributes (+++) to ALL
+   * principles. It represents the "Physical Vessel" — the embodied reality
+   * that grounds Spirit/Essence into the material world.
+   *
+   * Critically, this provides the baseline Matter and Substance values that
+   * prevent the Reactivity formula from division-by-zero in pure Day charts.
+   * The Ascendant's sect-invariance (same day and night) reflects that the
+   * physical body exists in both states equally.
+   */
+  Ascendant: {
+    diurnal:   { Spirit: 1, Essence: 1, Matter: 1, Substance: 1 }, // (+++) to all
+    nocturnal: { Spirit: 1, Essence: 1, Matter: 1, Substance: 1 }, // sect-invariant
   },
 } as const;
 
@@ -378,20 +394,25 @@ export function calculateEnhancedAlchemicalFromPlanets(
     // LAYER 1: Get base ESMS based on sect (day vs night)
     const baseESMS = diurnal ? sectEntry.diurnal : sectEntry.nocturnal;
 
-    // Weight by planetary mass (existing system)
-    const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
-    const massWeight = normalizePlanetWeight(relMass);
+    // Alchm weight: orbital-period based (slower = higher alchemical volume)
+    // Pluto (P=248y) → weight ≈ 1.0; Moon (P=27d) → weight ≈ 0.17
+    //
+    // SPECIAL CASE: The Ascendant is the "Physical Vessel" grounding constant.
+    // It provides a fixed (+1) to all principles to anchor the system,
+    // as it represents the immediate physical body.
+    const period = PLANET_ALCHM_PERIODS[planet] ?? 1.0;
+    const alchmWeight = planet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);
 
     // LAYER 2: Apply dignity modifications
     const dignityScore = getDignityScore(planet, sign);
     const dignityMultiplier = 1 + dignityScore.esmsScale / 100;
     // Examples: +10 → 1.10 (10% boost), -10 → 0.90 (10% reduction)
 
-    // Apply weighted ESMS with both mass and dignity modifiers
-    totals.Spirit += baseESMS.Spirit * massWeight * dignityMultiplier;
-    totals.Essence += baseESMS.Essence * massWeight * dignityMultiplier;
-    totals.Matter += baseESMS.Matter * massWeight * dignityMultiplier;
-    totals.Substance += baseESMS.Substance * massWeight * dignityMultiplier;
+    // Apply weighted ESMS with both alchm-period and dignity modifiers
+    totals.Spirit    += baseESMS.Spirit    * alchmWeight * dignityMultiplier;
+    totals.Essence   += baseESMS.Essence   * alchmWeight * dignityMultiplier;
+    totals.Matter    += baseESMS.Matter    * alchmWeight * dignityMultiplier;
+    totals.Substance += baseESMS.Substance * alchmWeight * dignityMultiplier;
   }
 
   // LAYER 3: Apply aspect modifications
@@ -453,6 +474,61 @@ export function aggregateZodiacElementals(planetaryPositions: {
   // Normalize to sum = 1.0
   if (count === 0) {
     // Default to balanced if no valid positions
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  }
+
+  return {
+    Fire: totals.Fire / count,
+    Water: totals.Water / count,
+    Earth: totals.Earth / count,
+    Air: totals.Air / count,
+  };
+}
+
+/**
+ * Enhanced Aggregate Elemental Properties from Zodiac Sign Positions
+ * Includes sectarian shifts in the calculation:
+ * Elemental mix = 60% sign element + 40% sect element
+ */
+export function aggregateEnhancedZodiacElementals(
+  planetaryPositions: Record<string, string>,
+  isDiurnal: boolean = true
+): ElementalProperties {
+  const totals = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
+  };
+
+  let count = 0;
+
+  for (const planet in planetaryPositions) {
+    const sign = planetaryPositions[planet] as ZodiacSignType;
+    const signElement = ZODIAC_ELEMENTS[sign];
+    
+    const sectInfo = PLANETARY_SECTARIAN_ELEMENTS[planet as PlanetName];
+    let sectElement = signElement;
+    if (sectInfo) {
+      sectElement = isDiurnal ? sectInfo.diurnal : sectInfo.nocturnal;
+    }
+
+    if (!signElement || !sectElement) {
+      continue;
+    }
+
+    // Weight elemental contribution by planet's normalized physical mass.
+    const relMass = PLANET_WEIGHTS[planet as PlanetName] ?? 1.0;
+    const w = normalizePlanetWeight(relMass);
+
+    // Blended elemental property
+    totals[signElement] += w * 0.6;
+    totals[sectElement] += w * 0.4;
+    count += w;
+  }
+
+  // Normalize to sum = 1.0
+  if (count === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 

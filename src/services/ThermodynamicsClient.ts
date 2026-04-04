@@ -69,8 +69,8 @@ function computeFromElemental(
     Math.pow(Fire, 2) +
     Math.pow(Air, 2) +
     Math.pow(Water, 2);
-  const reactivityDen = Math.pow(Matter + Earth, 2);
-  const reactivity = reactivityNum / (reactivityDen || 1);
+  // Sheet formula: (Σ / #Matter) + Earth²
+  const reactivity = (reactivityNum / (Matter || 1)) + Math.pow(Earth, 2);
 
   const gregsEnergy = heat - entropy * reactivity;
 

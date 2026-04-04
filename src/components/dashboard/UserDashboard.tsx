@@ -1,6 +1,6 @@
-'use client';
-
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import { PremiumGate } from '@/components/PremiumGate';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
@@ -406,173 +406,74 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   onEditBirthData,
   onEditPreferences,
 }) => {
-  const [viewMode, setViewMode] = useState<ViewMode>('dashboard');
   const pendingRequests = usePendingRequestCount();
 
   const email = session?.user?.email || '';
   const userName = session?.user?.name || 'User';
 
-  // Default to free tier (real tier would come from subscription service)
   const tier: UserTier = (profileData?.subscription?.tier as UserTier) || 'free';
-
-  // Back button component
-  const BackButton = () => (
-    <button
-      onClick={() => setViewMode('dashboard')}
-      className="inline-flex items-center gap-1.5 text-sm text-purple-600 font-medium hover:text-purple-800 transition-colors mb-1"
-    >
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-      </svg>
-      Dashboard
-    </button>
-  );
-
-  if (viewMode === 'chart-detail') {
-    return (
-      <div className="space-y-4">
-        <BackButton />
-        <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-800 mb-2">Natal &amp; Transit Chart</h3>
-          <p className="text-xs text-gray-500 mb-4">Your natal placements (purple) overlaid with current transits (orange)</p>
-          <NatalTransitChart natalChart={natalChart} />
-        </div>
-        <BirthChartSection natalChart={natalChart} />
-      </div>
-    );
-  }
-
-  if (viewMode === 'recommendations') {
-    return (
-      <div className="space-y-4">
-        <BackButton />
-        <RecommendationsPanel email={email} natalChart={natalChart} preferences={preferences} />
-      </div>
-    );
-  }
-
-  if (viewMode === 'companions') {
-    return (
-      <div className="space-y-4">
-        <BackButton />
-        <PremiumGate feature="diningCompanions" showPreview>
-          <CommensalManager />
-        </PremiumGate>
-      </div>
-    );
-  }
-
-  if (viewMode === 'labbook') {
-    return (
-      <div className="space-y-4">
-        <BackButton />
-        <FoodLabBook />
-      </div>
-    );
-  }
-
-  if (viewMode === 'settings') {
-    return (
-      <div className="space-y-4">
-        <BackButton />
-        <SettingsPanel
-          userName={userName}
-          email={email}
-          natalChart={natalChart}
-          preferences={preferences}
-          onEditBirthData={onEditBirthData}
-          onEditPreferences={onEditPreferences}
-        />
-      </div>
-    );
-  }
-
-  if (viewMode === 'budget') {
-    return (
-      <div className="space-y-4">
-        <BackButton />
-        <BudgetSettingsPanel />
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-5">
-      {/* Live Transit Status Bar */}
       <LiveTransitBar natalChart={natalChart} />
 
-      {/* Notifications — post-it board */}
       <CollapsibleSection title="Notifications" icon="&#x1F9EA;" defaultOpen>
         <NotificationPanel />
       </CollapsibleSection>
 
-      {/* Hero Identity Card */}
       <ProfileHeroCard
         userName={userName}
         email={email}
         natalChart={natalChart}
         tier={tier}
         onEditProfile={onEditBirthData}
-        onOpenSettings={() => setViewMode('settings')}
+        onOpenSettings={onEditPreferences}
       />
 
-      {/* Alchemical Self + Cosmic Alignment */}
       <div className="grid md:grid-cols-2 gap-5">
         <AlchemicalConstitutionPanel natalChart={natalChart} />
         <CosmicAlignmentCard natalChart={natalChart} />
       </div>
 
-      {/* Elemental Wheel + Birth Chart Summary */}
-      <div className="grid md:grid-cols-2 gap-5">
-        <ElementalWheel natalChart={natalChart} />
-        <BirthChartSection natalChart={natalChart} />
-      </div>
-
-      {/* Quick Navigation Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <NavCard
           icon="&#x1F52E;"
-          label="Full Chart"
-          description="Natal & transit overlay"
-          onClick={() => setViewMode('chart-detail')}
+          label="Birth Chart"
+          description="Detailed planetary analysis"
+          href="/profile/birthchart"
+        />
+        <NavCard
+          icon="&#x1F316;"
+          label="Day/Night"
+          description="Diurnal sectarian shifts"
+          href="/profile/day-night-effects"
         />
         <NavCard
           icon="&#x1F37D;&#xFE0F;"
-          label="Recommendations"
-          description="Cuisines & methods"
-          onClick={() => setViewMode('recommendations')}
+          label="Food Prefs"
+          description="Manage dietary settings"
+          href="/profile/preferences"
         />
         <NavCard
           icon="&#x1F465;"
           label="Companions"
           description="Dining group harmony"
-          onClick={() => setViewMode('companions')}
+          href="#"
           badge={pendingRequests}
-        />
-        <NavCard
-          icon="&#x1F9EA;"
-          label="Lab Book"
-          description="Experiments & notes"
-          onClick={() => setViewMode('labbook')}
         />
         <NavCard
           icon="&#x1F4B0;"
           label="Budget"
           description="Weekly grocery limit"
-          onClick={() => setViewMode('budget')}
+          href="#"
         />
       </div>
 
-      {/* Cosmic Harmony Overview (from existing DashboardOverview) */}
       <DashboardOverview profileData={profileData} natalChart={natalChart} email={email} />
 
-      {/* Transits (collapsible - default open for live feel) */}
       <CollapsibleSection title="Current Transits" icon="&#x1F30C;" defaultOpen>
         <CurrentTransitAnalysis natalChart={natalChart} />
       </CollapsibleSection>
-
-      {/* Premium Upsell (only for free tier) */}
-      {tier === 'free' && <TierUpgradePrompt />}
     </div>
   );
 };
@@ -583,20 +484,19 @@ function NavCard({
   icon,
   label,
   description,
+  href,
   onClick,
   badge,
 }: {
   icon: string;
   label: string;
   description: string;
-  onClick: () => void;
+  href?: string;
+  onClick?: () => void;
   badge?: number;
 }) {
-  return (
-    <button
-      onClick={onClick}
-      className="relative bg-white rounded-2xl shadow-sm p-4 border border-gray-100 text-left hover:border-purple-200 hover:shadow-md transition-all group"
-    >
+  const content = (
+    <>
       {badge !== undefined && badge > 0 && (
         <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold bg-red-500 text-white rounded-full">
           {badge}
@@ -605,6 +505,22 @@ function NavCard({
       <span className="text-2xl block mb-2" dangerouslySetInnerHTML={{ __html: icon }} />
       <div className="text-sm font-bold text-gray-800 group-hover:text-purple-700 transition-colors">{label}</div>
       <div className="text-xs text-gray-500 mt-0.5">{description}</div>
+    </>
+  );
+
+  const className = "relative bg-white rounded-2xl shadow-sm p-4 border border-gray-100 text-left hover:border-purple-200 hover:shadow-md transition-all group block w-full";
+
+  if (href) {
+    return (
+      <Link href={href} className={className}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button onClick={onClick} className={className}>
+      {content}
     </button>
   );
 }

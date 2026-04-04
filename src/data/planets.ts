@@ -6,6 +6,12 @@
  * Source: NASA planetary fact sheets.
  * These are the **actual** physical mass ratios — not pre-computed scoring
  * coefficients.  Scoring code normalizes them internally (log₁₀ scale).
+ *
+ * NOTE: PLANET_WEIGHTS is used by the WhatToEatNext FOOD-recommendation layer
+ * (ingredient scoring, recipe matching). It correctly privileges massive bodies
+ * (Sun, Jupiter) because physical presence matters for culinary archetypes.
+ *
+ * For the ALCHM thermodynamic engine, use PLANET_ALCHM_PERIODS instead.
  */
 export const PLANET_WEIGHTS: Record<string, number> = {
   Sun:     333054.2532,  // 1.989 × 10³⁰ kg
@@ -24,12 +30,53 @@ export const PLANET_WEIGHTS: Record<string, number> = {
 /**
  * Normalizes a relative-mass value to [0, 1] via log₁₀.
  * Pluto → 0.0, Sun → 1.0.
- * Used by scoring utilities; not needed for display.
+ * Used by food-recommendation scoring; not for Alchm thermodynamics.
  */
 const _MASS_LOG_MIN = Math.log10(0.0022);      // Pluto
 const _MASS_LOG_MAX = Math.log10(333054.2532); // Sun
 export function normalizePlanetWeight(relMass: number): number {
   return (Math.log10(Math.max(relMass, 1e-9)) - _MASS_LOG_MIN) / (_MASS_LOG_MAX - _MASS_LOG_MIN);
+}
+
+/**
+ * Orbital periods in Earth years.
+ *
+ * Used by the ALCHM thermodynamic engine (RealAlchemizeService, planetaryAlchemyMapping).
+ * Slower planets carry higher "alchemical volume":
+ *   - Pluto (P=248y) creates generational tides — highest weight
+ *   - Moon  (P≈0.075y) creates personal ripples — lowest weight
+ *
+ * Includes Ascendant as the "Physical Vessel" grounding constant (P=1 day ≈ 0.003y),
+ * which anchors the reactivity denominator even in pure diurnal charts.
+ *
+ * Source: NASA/IAU mean sidereal periods.
+ */
+export const PLANET_ALCHM_PERIODS: Record<string, number> = {
+  Pluto:      247.94,   // P=248y  — generational, deepest tide
+  Neptune:    164.79,   // P=165y
+  Uranus:      84.01,   // P=84y
+  Saturn:      29.46,   // P=29.5y
+  Jupiter:     11.86,   // P=12y
+  Mars:         1.88,   // P=1.9y
+  Sun:          1.00,   // P=1y   (solar year — ecliptic reference)
+  Venus:        0.615,  // P=225d
+  Mercury:      0.241,  // P=88d
+  Moon:         0.075,  // P=27.3d
+  Ascendant:    0.003,  // P=1d — Physical Vessel grounding constant
+};
+
+/**
+ * Normalises an orbital-period value to [0, 1] via log₁₀.
+ *
+ * Moon (P=0.075y) → ≈ 0.0   (lowest alchemical volume)
+ * Pluto (P=248y)  → ≈ 1.0   (highest alchemical volume)
+ *
+ * Used exclusively by the Alchm thermodynamic engine.
+ */
+const _PERIOD_LOG_MIN = Math.log10(0.003);    // Ascendant (1 day)
+const _PERIOD_LOG_MAX = Math.log10(247.94);   // Pluto
+export function normalizeAlchmWeight(periodYears: number): number {
+  return (Math.log10(Math.max(periodYears, 1e-9)) - _PERIOD_LOG_MIN) / (_PERIOD_LOG_MAX - _PERIOD_LOG_MIN);
 }
 
 

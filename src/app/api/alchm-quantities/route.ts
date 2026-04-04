@@ -5,35 +5,39 @@
  */
 import { NextResponse } from "next/server";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { 
+  calculateEnhancedAlchemicalFromPlanets, 
+  PLANETARY_SECTARIAN_ELEMENTS,
+  isSectDiurnal 
+} from "@/utils/planetaryAlchemyMapping";
+import type { Planet, ZodiacSignType } from "@/types/celestial";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-const SIGN_TO_ELEMENT: Record<string, string> = {
-  aries: "Fire", leo: "Fire", sagittarius: "Fire",
-  taurus: "Earth", virgo: "Earth", capricorn: "Earth",
-  gemini: "Air", libra: "Air", aquarius: "Air",
-  cancer: "Water", scorpio: "Water", pisces: "Water",
-};
 
 export async function GET() {
   try {
     const now = new Date();
     const raw = getAccuratePlanetaryPositions(now);
+    const diurnal = isSectDiurnal(now);
 
     // Build sign map for alchemical calculation
-    const signMap: Record<string, string> = {};
+    const signMap: Record<Planet, ZodiacSignType> = {} as Record<Planet, ZodiacSignType>;
     const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    
     Object.entries(raw).forEach(([planet, pos]) => {
       const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
-      signMap[planet] = sign;
-      const el = SIGN_TO_ELEMENT[sign];
-      if (el) elementCounts[el]++;
+      signMap[planet as Planet] = sign as ZodiacSignType;
+      
+      const elements = PLANETARY_SECTARIAN_ELEMENTS[planet as Planet];
+      if (elements) {
+        const el = diurnal ? elements.diurnal : elements.nocturnal;
+        if (el) elementCounts[el]++;
+      }
     });
 
-    const alch = calculateAlchemicalFromPlanets(signMap as any);
-    const total = Object.values(alch).reduce((a, b) => a + b, 0) || 1;
+    const alch = calculateEnhancedAlchemicalFromPlanets(signMap, diurnal);
+    const total = Object.values(alch).reduce((a, b) => a + Number(b), 0) || 1;
 
     // ESMS percentages
     const spirit = alch.Spirit / total;
