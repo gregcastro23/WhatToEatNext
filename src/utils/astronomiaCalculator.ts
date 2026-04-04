@@ -1,5 +1,9 @@
 /**
- * Simplified planetary position calculator 
+ * @deprecated Use `src/utils/astrology/positions.ts` instead.
+ * This file contains stale April 2024 reference data and is no longer maintained.
+ * The replacement uses April 2026 reference data with astronomy-engine for real-time calculation.
+ *
+ * Simplified planetary position calculator
  * Uses hardcoded current positions with time-based adjustments
  */
 
