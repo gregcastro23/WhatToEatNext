@@ -15,7 +15,7 @@ import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -160,7 +160,7 @@ export async function POST(request: NextRequest) {
       dominantElement: calcDominantElement(positions),
       dominantModality: calcDominantModality(positions),
       elementalBalance: calcElementalBalance(positions),
-      alchemicalProperties: calculateAlchemicalFromPlanets(positions),
+      alchemicalProperties: calculateAlchemicalFromPlanets(positions, isSectDiurnal(birthDate)),
       calculatedAt: new Date().toISOString(),
     };
 

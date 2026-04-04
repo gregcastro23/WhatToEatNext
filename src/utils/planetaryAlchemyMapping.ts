@@ -18,6 +18,8 @@
 import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
+import { calculateAspectESMSModifications, type AspectWithStrength } from "./aspectESMSEffects";
+import { getDignityScore } from "./dignityScales";
 
 export type { AlchemicalProperties };
 
@@ -47,6 +49,67 @@ export const PLANETARY_ALCHEMY = {
   Uranus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
   Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+} as const;
+
+/**
+ * Planetary Sectarian ESMS - Day vs Night Alchemy
+ *
+ * Based on traditional astrological sect (day/night planetary dignity),
+ * planets express different ESMS qualities depending on whether the chart
+ * is diurnal (day) or nocturnal (night).
+ *
+ * Key principle: Day sect emphasizes Spirit (consciousness, vitality);
+ * Night sect emphasizes Matter/Substance (material, emotional, transformative).
+ *
+ * User's Dignity Table Data:
+ * - Day (Diurnal): Sun, Mercury, Jupiter, Saturn → Spirit
+ * - Night (Nocturnal):
+ *   - Moon, Venus, Mars, Saturn, Uranus, Pluto → Matter
+ *   - Mercury, Neptune → Substance
+ *   - Jupiter → Essence
+ *   - Sun → always Spirit
+ */
+export const PLANETARY_SECTARIAN_ESMS = {
+  Sun: {
+    diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
+    nocturnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, // Sun always contributes Spirit
+  },
+  Moon: {
+    diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 },
+    nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 }, // Night: Matter
+  },
+  Mercury: {
+    diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, // Day: Spirit
+    nocturnal: { Spirit: 0, Essence: 0, Matter: 0, Substance: 1 }, // Night: Substance
+  },
+  Venus: {
+    diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 },
+    nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 }, // Night: Matter
+  },
+  Mars: {
+    diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 },
+    nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 }, // Night: Matter
+  },
+  Jupiter: {
+    diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, // Day: Spirit
+    nocturnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }, // Night: Essence
+  },
+  Saturn: {
+    diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, // Day: Spirit
+    nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 }, // Night: Matter
+  },
+  Uranus: {
+    diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 },
+    nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 }, // Night: Matter
+  },
+  Neptune: {
+    diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 },
+    nocturnal: { Spirit: 0, Essence: 0, Matter: 0, Substance: 1 }, // Night: Substance
+  },
+  Pluto: {
+    diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 },
+    nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 }, // Night: Matter
+  },
 } as const;
 
 /**
@@ -103,13 +166,26 @@ export const PLANETARY_SECTARIAN_ELEMENTS = {
   Sun:     { diurnal: "Fire"  as AlchemicalElement, nocturnal: "Fire"  as AlchemicalElement },
   Moon:    { diurnal: "Water" as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
   Mercury: { diurnal: "Air"   as AlchemicalElement, nocturnal: "Earth" as AlchemicalElement },
-  Venus:   { diurnal: "Earth" as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
+  Venus:   { diurnal: "Water" as AlchemicalElement, nocturnal: "Earth" as AlchemicalElement },
   Mars:    { diurnal: "Fire"  as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
-  Jupiter: { diurnal: "Fire"  as AlchemicalElement, nocturnal: "Air"   as AlchemicalElement },
+  Jupiter: { diurnal: "Air"   as AlchemicalElement, nocturnal: "Fire"  as AlchemicalElement },
   Saturn:  { diurnal: "Air"   as AlchemicalElement, nocturnal: "Earth" as AlchemicalElement },
-  Uranus:  { diurnal: "Air"   as AlchemicalElement, nocturnal: "Air"   as AlchemicalElement },
+  Uranus:  { diurnal: "Water" as AlchemicalElement, nocturnal: "Air"   as AlchemicalElement },
   Neptune: { diurnal: "Water" as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
-  Pluto:   { diurnal: "Water" as AlchemicalElement, nocturnal: "Earth" as AlchemicalElement },
+  Pluto:   { diurnal: "Earth" as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
+} as const;
+
+export const PLANETARY_SECTARIAN_ALCHEMICAL = {
+  Sun:     { diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 } },
+  Moon:    { diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 } },
+  Mercury: { diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 0, Matter: 0, Substance: 1 } },
+  Venus:   { diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 } },
+  Mars:    { diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 } },
+  Jupiter: { diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 } },
+  Saturn:  { diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 } },
+  Uranus:  { diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 } },
+  Neptune: { diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 0, Matter: 0, Substance: 1 } },
+  Pluto:   { diurnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 } },
 } as const;
 
 /**
@@ -203,9 +279,10 @@ export function getZodiacQuality(sign: string): ZodiacQuality {
  * const alchemical = calculateAlchemicalFromPlanets(positions);
  * // Result: { Spirit: 4, Essence: 6, Matter: 6, Substance: 2 }
  */
-export function calculateAlchemicalFromPlanets(planetaryPositions: {
-  [planet: string]: string;
-}): AlchemicalProperties {
+export function calculateAlchemicalFromPlanets(
+  planetaryPositions: { [planet: string]: string },
+  diurnal: boolean = true
+): AlchemicalProperties {
   const totals: AlchemicalProperties = {
     Spirit: 0,
     Essence: 0,
@@ -214,7 +291,12 @@ export function calculateAlchemicalFromPlanets(planetaryPositions: {
   };
 
   for (const planet in planetaryPositions) {
-    const planetData = PLANETARY_ALCHEMY[planet as PlanetName];
+    const entry = PLANETARY_SECTARIAN_ALCHEMICAL[planet as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL];
+    
+    // Fallback to legacy PLANETARY_ALCHEMY if missing, though it shouldn't be
+    const legacyPlanetData = PLANETARY_ALCHEMY[planet as PlanetName];
+    const planetData = entry ? (diurnal ? entry.diurnal : entry.nocturnal) : legacyPlanetData;
+    
     if (!planetData) {
       console.warn(`Unknown planet in alchemical calculation: ${planet}`);
       continue;
@@ -230,6 +312,96 @@ export function calculateAlchemicalFromPlanets(planetaryPositions: {
     totals.Essence   += planetData.Essence   * w;
     totals.Matter    += planetData.Matter    * w;
     totals.Substance += planetData.Substance * w;
+  }
+
+  return totals;
+}
+
+/**
+ * Enhanced ESMS Calculation with Sect, Dignity, and Aspects
+ *
+ * This is the NEW authoritative method for calculating ESMS properties
+ * with full three-layer modification system:
+ *
+ * LAYER 1: Base ESMS from sect-aware planetary alchemy (PLANETARY_SECTARIAN_ESMS)
+ * LAYER 2: Dignity modifications using +10/+7 scale (getDignityScore from dignityScales)
+ * LAYER 3: Aspect modifications based on planet-pair interactions (aspectESMSEffects)
+ *
+ * The three-layer calculation flow:
+ * 1. Get base ESMS from PLANETARY_SECTARIAN_ESMS based on sect (day/night)
+ * 2. Apply dignity weighting: multiplier = 1 + (dignityScore / 100)
+ *    - Domicile (+10): 1.10 multiplier (10% boost)
+ *    - Fall (-10): 0.90 multiplier (10% reduction)
+ * 3. Apply aspect modifications scaled by aspect strength (orb tightness)
+ *
+ * @param planetaryPositions - Map of planet names to zodiac sign positions
+ * @param diurnal - true if day chart, false if night chart (defaults to true)
+ * @param aspects - Optional array of aspects with strength values
+ * @returns Enhanced alchemical properties with all modifications applied
+ *
+ * @example
+ * const positions = {
+ *   Sun: 'Aries',     // Sun in Aries (exaltation +7)
+ *   Moon: 'Taurus',   // Moon in Taurus (exaltation +7)
+ *   Mercury: 'Gemini' // Mercury in Gemini (domicile +10)
+ * };
+ * const aspects = [
+ *   { planet1: 'Sun', planet2: 'Moon', type: 'opposition', strength: 0.95 }
+ * ];
+ * const alch = calculateEnhancedAlchemicalFromPlanets(positions, true, aspects);
+ * // Result includes all three layers of modification
+ */
+export function calculateEnhancedAlchemicalFromPlanets(
+  planetaryPositions: { [planet: string]: string },
+  diurnal: boolean = true,
+  aspects?: AspectWithStrength[],
+): AlchemicalProperties {
+  const totals: AlchemicalProperties = {
+    Spirit: 0,
+    Essence: 0,
+    Matter: 0,
+    Substance: 0,
+  };
+
+  // LAYER 1 & 2: Base ESMS with sect and dignity modifications
+  for (const planet in planetaryPositions) {
+    const sign = planetaryPositions[planet];
+
+    // Get sect-based ESMS from new PLANETARY_SECTARIAN_ESMS constant
+    const sectEntry = PLANETARY_SECTARIAN_ESMS[planet as keyof typeof PLANETARY_SECTARIAN_ESMS];
+
+    if (!sectEntry) {
+      console.warn(`Unknown planet in enhanced alchemical calculation: ${planet}`);
+      continue;
+    }
+
+    // LAYER 1: Get base ESMS based on sect (day vs night)
+    const baseESMS = diurnal ? sectEntry.diurnal : sectEntry.nocturnal;
+
+    // Weight by planetary mass (existing system)
+    const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
+    const massWeight = normalizePlanetWeight(relMass);
+
+    // LAYER 2: Apply dignity modifications
+    const dignityScore = getDignityScore(planet, sign);
+    const dignityMultiplier = 1 + dignityScore.esmsScale / 100;
+    // Examples: +10 → 1.10 (10% boost), -10 → 0.90 (10% reduction)
+
+    // Apply weighted ESMS with both mass and dignity modifiers
+    totals.Spirit += baseESMS.Spirit * massWeight * dignityMultiplier;
+    totals.Essence += baseESMS.Essence * massWeight * dignityMultiplier;
+    totals.Matter += baseESMS.Matter * massWeight * dignityMultiplier;
+    totals.Substance += baseESMS.Substance * massWeight * dignityMultiplier;
+  }
+
+  // LAYER 3: Apply aspect modifications
+  if (aspects && aspects.length > 0) {
+    const aspectMods = calculateAspectESMSModifications(aspects);
+
+    totals.Spirit += aspectMods.Spirit;
+    totals.Essence += aspectMods.Essence;
+    totals.Matter += aspectMods.Matter;
+    totals.Substance += aspectMods.Substance;
   }
 
   return totals;
@@ -347,9 +519,12 @@ export function getCurrentPlanetaryContribution(
   sectElement: AlchemicalElement;
   signElement: AlchemicalElement | null;
 } {
-  const alchemy = PLANETARY_ALCHEMY[planet as PlanetName];
-  const esms: AlchemicalProperties = alchemy
-    ? { Spirit: alchemy.Spirit, Essence: alchemy.Essence, Matter: alchemy.Matter, Substance: alchemy.Substance }
+  const entry = PLANETARY_SECTARIAN_ALCHEMICAL[planet as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL];
+  const legacyAlchemy = PLANETARY_ALCHEMY[planet as PlanetName];
+  const resolvedAlchemy = entry ? (diurnal ? entry.diurnal : entry.nocturnal) : legacyAlchemy;
+  
+  const esms: AlchemicalProperties = resolvedAlchemy
+    ? { Spirit: resolvedAlchemy.Spirit, Essence: resolvedAlchemy.Essence, Matter: resolvedAlchemy.Matter, Substance: resolvedAlchemy.Substance }
     : { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
 
   const sectElement = getPlanetarySectElement(planet, diurnal);

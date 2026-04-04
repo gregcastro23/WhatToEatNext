@@ -1,11 +1,22 @@
 /**
  * GET/POST /api/alchemize
- * Returns full alchemical analysis of current planetary positions.
- * Provides ESMS scores, elemental balance, and thermodynamic properties.
+ * Returns enhanced alchemical analysis of current planetary positions.
+ * Provides ESMS scores with sect, dignity, and aspect modifications.
+ *
+ * Three-layer calculation:
+ * 1. Base ESMS from sect-aware planetary alchemy (day vs night)
+ * 2. Dignity weighting (+10/+7 scale for domicile/exaltation)
+ * 3. Aspect modifications based on planet-pair interactions
+ *
+ * Query parameters:
+ * - date: ISO date string for specific moment (defaults to now)
+ * - enhanced: true to use full enhanced calculation, false for legacy (defaults to true)
  */
 import { NextResponse } from "next/server";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
+import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -28,23 +39,52 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     // Allow custom date via query param
     const dateParam = url.searchParams.get("date");
+    const useEnhanced = url.searchParams.get("enhanced") !== "false"; // Default to enhanced
     const date = dateParam ? new Date(dateParam) : new Date();
 
     const raw = getAccuratePlanetaryPositions(date);
     const signMap: Record<string, string> = {};
+    const positionData: Record<string, any> = {};
     const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     const modalityCounts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
 
     Object.entries(raw).forEach(([planet, pos]) => {
       const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
       signMap[planet] = sign;
+
+      // Build position data for aspects calculation
+      positionData[planet] = {
+        sign,
+        degree: pos.degree,
+        exactLongitude: pos.exactLongitude,
+        isRetrograde: pos.isRetrograde,
+      };
+
       const el = SIGN_TO_ELEMENT[sign];
       if (el) elementCounts[el]++;
       const mod = SIGN_TO_MODALITY[sign];
       if (mod) modalityCounts[mod]++;
     });
 
-    const alch = calculateAlchemicalFromPlanets(signMap as any);
+    // Determine sect (day vs night)
+    const diurnal = isSectDiurnal(date);
+
+    // Calculate comprehensive aspects
+    const aspectsRaw = calculateComprehensiveAspects(positionData);
+
+    // Convert aspect data to format expected by enhanced function
+    const aspects: AspectWithStrength[] = aspectsRaw.map((a) => ({
+      planet1: a.planet1,
+      planet2: a.planet2,
+      type: a.type,
+      strength: a.strength,
+    }));
+
+    // Calculate ESMS with enhanced method (sect + dignity + aspects)
+    const alch = useEnhanced
+      ? calculateEnhancedAlchemicalFromPlanets(signMap, diurnal, aspects)
+      : calculateEnhancedAlchemicalFromPlanets(signMap, diurnal); // Still enhanced but no aspects
+
     const total = Object.values(alch).reduce((a, b) => a + b, 0) || 1;
     const elTotal = Object.values(elementCounts).reduce((a, b) => a + b, 0) || 1;
 
@@ -60,6 +100,8 @@ export async function GET(request: Request) {
     return NextResponse.json({
       success: true,
       timestamp: date.toISOString(),
+      sect: diurnal ? "diurnal" : "nocturnal",
+      calculationMethod: useEnhanced ? "enhanced-with-aspects" : "enhanced",
       positions: Object.fromEntries(
         Object.entries(raw).map(([p, pos]) => [p, {
           sign: typeof pos.sign === "string" ? pos.sign : String(pos.sign),
@@ -69,11 +111,12 @@ export async function GET(request: Request) {
         }])
       ),
       alchemical: {
-        Spirit: alch.Spirit,
-        Essence: alch.Essence,
-        Matter: alch.Matter,
-        Substance: alch.Substance,
+        Spirit: Math.round(alch.Spirit * 100) / 100,
+        Essence: Math.round(alch.Essence * 100) / 100,
+        Matter: Math.round(alch.Matter * 100) / 100,
+        Substance: Math.round(alch.Substance * 100) / 100,
       },
+      aspects: aspects.slice(0, 10), // Top 10 strongest aspects
       elementalBalance: {
         Fire: elementCounts.Fire / elTotal,
         Water: elementCounts.Water / elTotal,

@@ -92,11 +92,11 @@ function getCurrentDateTimeLocation(customLocation?: {
 }) {
   const now = new Date();
   return {
-    year: now.getFullYear(),
-    month: now.getMonth() + 1, // Convert to 1-indexed for local API
-    date: now.getDate(),
-    hour: now.getHours(),
-    minute: now.getMinutes(),
+    year: now.getUTCFullYear(),
+    month: now.getUTCMonth() + 1, // Convert to 1-indexed for local API
+    date: now.getUTCDate(),
+    hour: now.getUTCHours(),
+    minute: now.getUTCMinutes(),
     latitude: customLocation?.latitude ?? DEFAULT_LOCATION.latitude,
     longitude: customLocation?.longitude ?? DEFAULT_LOCATION.longitude,
     zodiacSystem: "tropical" as const, // Default to tropical zodiac
@@ -395,11 +395,11 @@ export async function getPlanetaryPositionsForDateTime(
   zodiacSystem: "tropical" | "sidereal" = "tropical",
 ): Promise<Record<string, PlanetPosition>> {
   return await fetchPlanetaryPositions({
-    year: date.getFullYear(),
-    month: date.getMonth() + 1, // Convert to 1-indexed for local API,
-    date: date.getDate(),
-    hour: date.getHours(),
-    minute: date.getMinutes(),
+    year: date.getUTCFullYear(),
+    month: date.getUTCMonth() + 1, // Convert to 1-indexed for local API,
+    date: date.getUTCDate(),
+    hour: date.getUTCHours(),
+    minute: date.getUTCMinutes(),
     zodiacSystem,
     ...location,
   });

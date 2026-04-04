@@ -226,11 +226,11 @@ function calculateLocally(params: PlanetaryRequest) {
 function parseParams(searchParams: URLSearchParams): PlanetaryRequest {
   const now = new Date();
   return {
-    year: parseInt(searchParams.get("year") || "", 10) || now.getFullYear(),
-    month: parseInt(searchParams.get("month") || "", 10) || (now.getMonth() + 1),
-    date: parseInt(searchParams.get("date") || searchParams.get("day") || "", 10) || now.getDate(),
-    hour: parseInt(searchParams.get("hour") || "", 10) || now.getHours(),
-    minute: parseInt(searchParams.get("minute") || "", 10) || now.getMinutes(),
+    year: parseInt(searchParams.get("year") || "", 10) || now.getUTCFullYear(),
+    month: parseInt(searchParams.get("month") || "", 10) || (now.getUTCMonth() + 1),
+    date: parseInt(searchParams.get("date") || searchParams.get("day") || "", 10) || now.getUTCDate(),
+    hour: parseInt(searchParams.get("hour") || "", 10) || now.getUTCHours(),
+    minute: parseInt(searchParams.get("minute") || "", 10) || now.getUTCMinutes(),
     latitude: parseFloat(searchParams.get("latitude") || "") || undefined,
     longitude: parseFloat(searchParams.get("longitude") || "") || undefined,
     zodiacSystem: (searchParams.get("zodiacSystem") as "tropical" | "sidereal") || "tropical",
@@ -268,11 +268,11 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     if (!params.year || !params.month || !params.date) {
       const now = new Date();
-      params.year = params.year || now.getFullYear();
-      params.month = params.month || (now.getMonth() + 1);
-      params.date = params.date || now.getDate();
-      params.hour = params.hour ?? now.getHours();
-      params.minute = params.minute ?? now.getMinutes();
+      params.year = params.year || now.getUTCFullYear();
+      params.month = params.month || (now.getUTCMonth() + 1);
+      params.date = params.date || now.getUTCDate();
+      params.hour = params.hour ?? now.getUTCHours();
+      params.minute = params.minute ?? now.getUTCMinutes();
     }
 
     // Try Railway backend first
