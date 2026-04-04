@@ -32,7 +32,7 @@ const SIGN_ELEMENTS: Record<string, string> = {
 };
 
 const ELEMENT_COLORS: Record<string, string> = {
-  Fire: '#ef4444', Water: '#3b82f6', Earth: '#22c55e', Air: '#eab308',
+  Fire: '#ef4444', Water: '#60a5fa', Earth: '#34d399', Air: '#a78bfa',
 };
 
 const PLANETS: Planet[] = [
@@ -46,12 +46,6 @@ interface TransitData {
   isRetrograde?: boolean;
 }
 
-/**
- * NatalTransitChart - Renders an SVG wheel showing natal placements with
- * current transit overlay. The outer ring shows the 12 zodiac signs,
- * the middle ring has natal planet positions, and the inner ring
- * shows current transit positions.
- */
 export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart }) => {
   const { planetaryPositions: currentPositionsRaw } = useAlchemical();
   const [transitData, setTransitData] = useState<Record<string, TransitData>>({});
@@ -82,16 +76,14 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
   const transitR = 95;
   const innerR = 60;
 
-  // Convert sign + degree to absolute angle (0-360 measured from Aries=0)
   const toAbsoluteAngle = (sign: string, degree: number): number => {
     const signIndex = ZODIAC_SIGNS.indexOf(sign.toLowerCase() as ZodiacSignType);
     if (signIndex < 0) return 0;
     return signIndex * 30 + (degree % 30);
   };
 
-  // Convert absolute angle to SVG angle (0=top, clockwise)
   const toSvgAngle = (absAngle: number): number => {
-    return absAngle - 90; // rotate so Aries starts at top
+    return absAngle - 90;
   };
 
   const polarToXY = (angle: number, radius: number) => {
@@ -105,10 +97,9 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
     for (const planet of PLANETS) {
       const sign = natalChart.planetaryPositions[planet];
       if (!sign) continue;
-      // Find degree from planets array if available
       const planetInfo = natalChart.planets?.find(p => p.name === planet);
       const rawPos = planetInfo?.position ?? 0;
-      const deg = rawPos > 0 ? rawPos % 30 : 15; // 0 = legacy data, default to mid-sign
+      const deg = rawPos > 0 ? rawPos % 30 : 15;
       natalPositions.push({
         planet,
         sign: typeof sign === 'string' ? sign : '',
@@ -156,12 +147,22 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
     <div className="space-y-4">
       <div className="flex justify-center">
         <svg width="400" height="400" viewBox="0 0 400 400" className="max-w-full h-auto">
-          {/* Background */}
-          <circle cx={cx} cy={cy} r={outerR} fill="none" stroke="#e5e7eb" strokeWidth="1" />
-          <circle cx={cx} cy={cy} r={signR} fill="none" stroke="#d1d5db" strokeWidth="0.5" />
-          <circle cx={cx} cy={cy} r={natalR} fill="none" stroke="#d1d5db" strokeWidth="0.5" />
-          <circle cx={cx} cy={cy} r={transitR} fill="none" stroke="#d1d5db" strokeWidth="0.5" />
-          <circle cx={cx} cy={cy} r={innerR} fill="#faf5ff" stroke="#e9d5ff" strokeWidth="1" />
+          <defs>
+            <radialGradient id="chart-center-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="rgba(139,92,246,0.15)" />
+              <stop offset="100%" stopColor="rgba(0,0,0,0)" />
+            </radialGradient>
+          </defs>
+
+          {/* Dark background circle */}
+          <circle cx={cx} cy={cy} r={outerR + 5} fill="rgba(3,7,18,0.6)" />
+
+          {/* Ring structures */}
+          <circle cx={cx} cy={cy} r={outerR} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+          <circle cx={cx} cy={cy} r={signR} fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
+          <circle cx={cx} cy={cy} r={natalR} fill="none" stroke="rgba(139,92,246,0.15)" strokeWidth="0.5" />
+          <circle cx={cx} cy={cy} r={transitR} fill="none" stroke="rgba(249,115,22,0.15)" strokeWidth="0.5" />
+          <circle cx={cx} cy={cy} r={innerR} fill="url(#chart-center-glow)" stroke="rgba(139,92,246,0.2)" strokeWidth="0.5" />
 
           {/* Zodiac sign sectors */}
           {ZODIAC_SIGNS.map((sign, i) => {
@@ -175,7 +176,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
 
             return (
               <g key={sign}>
-                <line x1={lineStart.x} y1={lineStart.y} x2={lineEnd.x} y2={lineEnd.y} stroke="#e5e7eb" strokeWidth="0.5" />
+                <line x1={lineStart.x} y1={lineStart.y} x2={lineEnd.x} y2={lineEnd.y} stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
                 <text
                   x={labelPos.x}
                   y={labelPos.y}
@@ -184,6 +185,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
                   fill={color}
                   fontSize="14"
                   fontWeight="600"
+                  opacity="0.7"
                 >
                   {SIGN_SYMBOLS[sign]}
                 </text>
@@ -197,13 +199,14 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
             const pt = polarToXY(angle, natalR);
             return (
               <g key={`natal-${pos.planet}`}>
-                <circle cx={pt.x} cy={pt.y} r="12" fill="#7c3aed" fillOpacity="0.15" stroke="#7c3aed" strokeWidth="1.5" />
+                <circle cx={pt.x} cy={pt.y} r="14" fill="rgba(139,92,246,0.08)" />
+                <circle cx={pt.x} cy={pt.y} r="12" fill="rgba(139,92,246,0.15)" stroke="rgba(139,92,246,0.5)" strokeWidth="1" />
                 <text
                   x={pt.x}
                   y={pt.y}
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fill="#7c3aed"
+                  fill="#a78bfa"
                   fontSize="10"
                   fontWeight="700"
                 >
@@ -219,13 +222,14 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
             const pt = polarToXY(angle, transitR);
             return (
               <g key={`transit-${pos.planet}`}>
-                <circle cx={pt.x} cy={pt.y} r="11" fill="#ea580c" fillOpacity="0.15" stroke="#ea580c" strokeWidth="1.5" />
+                <circle cx={pt.x} cy={pt.y} r="13" fill="rgba(249,115,22,0.08)" />
+                <circle cx={pt.x} cy={pt.y} r="11" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.5)" strokeWidth="1" />
                 <text
                   x={pt.x}
                   y={pt.y}
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fill="#ea580c"
+                  fill="#fb923c"
                   fontSize="9"
                   fontWeight="700"
                 >
@@ -235,7 +239,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
                   <text
                     x={pt.x + 10}
                     y={pt.y - 8}
-                    fill="#ea580c"
+                    fill="#f87171"
                     fontSize="7"
                     fontWeight="700"
                   >
@@ -247,13 +251,13 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
           })}
 
           {/* Center label */}
-          <text x={cx} y={cy - 8} textAnchor="middle" fill="#6b21a8" fontSize="10" fontWeight="700">
+          <text x={cx} y={cy - 10} textAnchor="middle" fill="rgba(167,139,250,0.8)" fontSize="9" fontWeight="700" letterSpacing="0.15em">
             NATAL
           </text>
-          <text x={cx} y={cy + 4} textAnchor="middle" fill="#6b21a8" fontSize="8">
-            x
+          <text x={cx} y={cy + 3} textAnchor="middle" fill="rgba(255,255,255,0.15)" fontSize="8">
+            &times;
           </text>
-          <text x={cx} y={cy + 16} textAnchor="middle" fill="#c2410c" fontSize="10" fontWeight="700">
+          <text x={cx} y={cy + 16} textAnchor="middle" fill="rgba(251,146,60,0.8)" fontSize="9" fontWeight="700" letterSpacing="0.15em">
             TRANSIT
           </text>
         </svg>
@@ -262,18 +266,18 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
       {/* Legend */}
       <div className="flex justify-center gap-6 text-xs">
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-purple-600 inline-block" />
-          <span className="text-gray-600">Natal</span>
+          <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: '#a78bfa', boxShadow: '0 0 6px rgba(167,139,250,0.4)' }} />
+          <span className="text-white/40">Natal</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-orange-600 inline-block" />
-          <span className="text-gray-600">Current Transit</span>
+          <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: '#fb923c', boxShadow: '0 0 6px rgba(251,146,60,0.4)' }} />
+          <span className="text-white/40">Transit</span>
         </div>
       </div>
 
       {/* Natal Placements Table */}
-      <div className="mt-4">
-        <h4 className="text-sm font-semibold text-gray-700 mb-2">Natal Placements</h4>
+      <div className="mt-2">
+        <h4 className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3">Natal Placements</h4>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
           {PLANETS.map((planet) => {
             const sign = natalChart.planetaryPositions?.[planet];
@@ -286,16 +290,20 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
             const transit = transitData[planet];
 
             return (
-              <div key={planet} className="p-2 bg-gray-50 rounded-lg border border-gray-100 text-center">
-                <div className="text-lg" title={planet}>{PLANET_SYMBOLS[planet]}</div>
-                <div className="text-[10px] text-gray-500 font-medium uppercase">{planet}</div>
-                <div className="text-xs font-semibold text-purple-700 capitalize mt-0.5">
-                  {SIGN_SYMBOLS[signStr]} {signStr}
-                  {degree !== null && <span className="text-gray-500 ml-0.5">{degree}&deg;{minute !== null && minute > 0 ? `${minute}'` : ''}</span>}
+              <div key={planet} className="bg-white/[0.03] rounded-xl p-2.5 border border-white/5 text-center">
+                <div className="text-base text-purple-400" title={planet}>{PLANET_SYMBOLS[planet]}</div>
+                <div className="text-[9px] text-white/30 font-medium uppercase tracking-wider mt-0.5">{planet}</div>
+                <div className="text-xs font-semibold text-white/70 capitalize mt-1">
+                  <span className="text-purple-400 mr-0.5">{SIGN_SYMBOLS[signStr]}</span> {signStr}
+                  {degree !== null && (
+                    <span className="text-white/30 font-mono text-[10px] ml-0.5">
+                      {degree}&deg;{minute !== null && minute > 0 ? `${minute}\u2032` : ''}
+                    </span>
+                  )}
                 </div>
                 {transit && (
-                  <div className="text-[10px] text-orange-600 mt-0.5">
-                    T: {SIGN_SYMBOLS[transit.sign]} {transit.sign} {Math.floor(transit.degree)}&deg;
+                  <div className="text-[10px] text-orange-400/60 mt-1 font-mono">
+                    T: {SIGN_SYMBOLS[transit.sign]} {Math.floor(transit.degree)}&deg;
                     {transit.isRetrograde ? ' R' : ''}
                   </div>
                 )}
