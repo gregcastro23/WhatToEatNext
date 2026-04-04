@@ -78,6 +78,17 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
   const sunSign = natalChart.planetaryPositions?.Sun || '';
   const moonSign = natalChart.planetaryPositions?.Moon || '';
 
+  // Look up exact degree positions for sub-arcminute display
+  const sunPlanet = natalChart.planets?.find(p => p.name === 'Sun');
+  const moonPlanet = natalChart.planets?.find(p => p.name === 'Moon');
+  const formatDeg = (position: number | undefined): string => {
+    if (!position || position <= 0) return '';
+    const degInSign = position % 30;
+    return `${Math.floor(degInSign)}\u00B0`;
+  };
+  const sunDeg = formatDeg(sunPlanet?.position);
+  const moonDeg = formatDeg(moonPlanet?.position);
+
   return (
     <div className="relative overflow-hidden rounded-2xl shadow-lg">
       <div className={`bg-gradient-to-r ${gradient} p-6 md:p-8`}>
@@ -99,8 +110,8 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
             </div>
             <p className="text-white/80 text-sm mt-1.5">
               {ELEMENT_SIGIL[dominantElement]} {dominantElement} dominant
-              {sunSign && <span className="capitalize"> &middot; {sunSign} Sun</span>}
-              {moonSign && <span className="capitalize"> &middot; {moonSign} Moon</span>}
+              {sunSign && <span className="capitalize"> &middot; {sunDeg && <span className="font-mono">{sunDeg} </span>}{sunSign} Sun</span>}
+              {moonSign && <span className="capitalize"> &middot; {moonDeg && <span className="font-mono">{moonDeg} </span>}{moonSign} Moon</span>}
               {natalChart.dominantModality && <span> &middot; {natalChart.dominantModality}</span>}
             </p>
             {natalChart.ascendant && (

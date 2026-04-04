@@ -12,6 +12,7 @@ import {
   getDatabaseUserFromRequest,
 } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -35,6 +36,37 @@ export async function GET(request: NextRequest) {
         },
         { status: 404 },
       );
+    }
+
+    // Lazy migration: if natal chart has position:0 for planets, recalculate with sub-arcminute precision
+    const profile = user.profile as any;
+    const natalChart = profile?.natalChart;
+    if (natalChart?.planets?.length > 0 && natalChart?.birthData?.dateTime) {
+      const needsMigration = natalChart.planets.some(
+        (p: any) => p.name !== 'Ascendant' && (!p.position || p.position === 0),
+      );
+      if (needsMigration) {
+        _logger.info("[GET /api/user/profile] Migrating natal chart with sub-arcminute positions");
+        try {
+          const birthDate = new Date(natalChart.birthData.dateTime);
+          const rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
+            latitude: natalChart.birthData.latitude,
+            longitude: natalChart.birthData.longitude,
+          });
+          // Update planet positions with exact longitudes
+          const updatedPlanets = natalChart.planets.map((p: any) => {
+            const pos = rawPositions[p.name];
+            return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
+          });
+          natalChart.planets = updatedPlanets;
+          // Persist the migrated chart asynchronously (don't block response)
+          void userDatabase.updateUserProfile(user.id, { natalChart } as any).catch((err: any) =>
+            _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
+          );
+        } catch (err) {
+          _logger.error("[GET /api/user/profile] Lazy migration failed", err as any);
+        }
+      }
     }
 
     return NextResponse.json({

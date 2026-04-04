@@ -8,6 +8,7 @@ import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
 import { TierUpgradePrompt } from '@/components/profile/TierUpgradePrompt';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
@@ -18,6 +19,18 @@ import { FoodLabBook } from './FoodLabBook';
 import { NatalTransitChart } from './NatalTransitChart';
 import { RecommendationsPanel } from './RecommendationsPanel';
 import { NotificationPanel } from './NotificationPanel';
+
+/**
+ * Format a planet's ecliptic longitude to degree+minute within its sign.
+ * Returns empty string if position is unknown (0 or missing).
+ */
+function formatDegreeMinute(position: number | undefined): string {
+  if (!position || position <= 0) return '';
+  const degInSign = position % 30;
+  const deg = Math.floor(degInSign);
+  const min = Math.round((degInSign - deg) * 60);
+  return `${deg}\u00B0${min}'`;
+}
 
 export interface UserPreferences {
   dietaryRestrictions: string[];
@@ -40,6 +53,7 @@ interface UserDashboardProps {
 /* ─── Live Transit Status Bar ──────────────────────────────── */
 
 function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
+  const { planetaryPositions: currentPositionsRaw } = useAlchemical();
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -47,11 +61,14 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
     return () => clearInterval(interval);
   }, []);
 
-  const sunSign = natalChart.planetaryPositions?.Sun;
-  const moonSign = natalChart.planetaryPositions?.Moon;
-  const ascendant = natalChart.ascendant;
+  // Use current transit data (from AlchemicalContext), fallback to natal positions
+  const sunData = currentPositionsRaw?.sun as any;
+  const moonData = currentPositionsRaw?.moon as any;
+  const transitSunSign = sunData?.sign || natalChart.planetaryPositions?.Sun;
+  const transitMoonSign = moonData?.sign || natalChart.planetaryPositions?.Moon;
+  const ascendant = natalChart.ascendant; // Ascendant is natal (location-dependent)
 
-  // Determine season emoji from Sun sign
+  // Determine current astrological season from transit Sun sign
   const seasonInfo: Record<string, string> = {
     aries: 'Aries Season', taurus: 'Taurus Season', gemini: 'Gemini Season',
     cancer: 'Cancer Season', leo: 'Leo Season', virgo: 'Virgo Season',
@@ -59,7 +76,8 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
     capricorn: 'Capricorn Season', aquarius: 'Aquarius Season', pisces: 'Pisces Season',
   };
 
-  const currentSeason = sunSign ? seasonInfo[sunSign] || '' : '';
+  const sunSignStr = typeof transitSunSign === 'string' ? transitSunSign.toLowerCase() : '';
+  const currentSeason = sunSignStr ? seasonInfo[sunSignStr] || '' : '';
 
   return (
     <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 rounded-xl px-4 py-3 text-white">
@@ -72,16 +90,16 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
           </span>
         </div>
         <div className="flex items-center gap-4 text-xs">
-          {sunSign && (
+          {transitSunSign && (
             <span className="flex items-center gap-1">
               <span className="text-amber-300">&#x2609;</span>
-              <span className="capitalize">{sunSign}</span>
+              <span className="capitalize">{transitSunSign}</span>
             </span>
           )}
-          {moonSign && (
+          {transitMoonSign && (
             <span className="flex items-center gap-1">
               <span className="text-blue-300">&#x263D;</span>
-              <span className="capitalize">{moonSign}</span>
+              <span className="capitalize">{transitMoonSign}</span>
             </span>
           )}
           {ascendant && (
@@ -263,23 +281,29 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
   const moonSign = natalChart.planetaryPositions?.Moon;
   const rising = natalChart.ascendant;
 
+  // Look up exact positions from planets array
+  const findPlanet = (name: string) => natalChart.planets?.find(p => p.name === name);
+  const sunPos = formatDegreeMinute(findPlanet('Sun')?.position);
+  const moonPos = formatDegreeMinute(findPlanet('Moon')?.position);
+  const ascPos = formatDegreeMinute(findPlanet('Ascendant')?.position);
+
   return (
     <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
       <h3 className="text-base font-bold text-gray-800 mb-3">Birth Chart</h3>
       <div className="flex flex-wrap gap-3 mb-4">
         {sunSign && (
           <span className="text-sm px-3 py-1.5 bg-amber-50 text-amber-800 rounded-lg border border-amber-200 capitalize">
-            &#x2609; Sun in {sunSign}
+            &#x2609; Sun {sunPos && <span className="font-mono text-amber-600">{sunPos}</span>} in {sunSign}
           </span>
         )}
         {moonSign && (
           <span className="text-sm px-3 py-1.5 bg-blue-50 text-blue-800 rounded-lg border border-blue-200 capitalize">
-            &#x263D; Moon in {moonSign}
+            &#x263D; Moon {moonPos && <span className="font-mono text-blue-600">{moonPos}</span>} in {moonSign}
           </span>
         )}
         {rising && (
           <span className="text-sm px-3 py-1.5 bg-purple-50 text-purple-800 rounded-lg border border-purple-200 capitalize">
-            AC {rising} Rising
+            AC {ascPos && <span className="font-mono text-purple-600">{ascPos}</span>} {rising} Rising
           </span>
         )}
       </div>
@@ -288,10 +312,12 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
           const sign = natalChart.planetaryPositions?.[planet];
           if (!sign) return null;
           const signStr = typeof sign === 'string' ? sign : '';
+          const pos = formatDegreeMinute(findPlanet(planet)?.position);
           return (
             <div key={planet} className="text-center p-2 bg-gray-50 rounded-lg">
               <div className="text-[10px] text-gray-500 uppercase">{planet}</div>
               <div className="text-xs font-semibold text-gray-700 capitalize">{signStr}</div>
+              {pos && <div className="text-[10px] font-mono text-gray-500">{pos}</div>}
             </div>
           );
         })}

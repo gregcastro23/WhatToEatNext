@@ -107,7 +107,8 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
       if (!sign) continue;
       // Find degree from planets array if available
       const planetInfo = natalChart.planets?.find(p => p.name === planet);
-      const deg = planetInfo?.position ? planetInfo.position % 30 : 15; // default mid-sign
+      const rawPos = planetInfo?.position ?? 0;
+      const deg = rawPos > 0 ? rawPos % 30 : 15; // 0 = legacy data, default to mid-sign
       natalPositions.push({
         planet,
         sign: typeof sign === 'string' ? sign : '',
@@ -279,7 +280,9 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
             if (!sign) return null;
             const signStr = typeof sign === 'string' ? sign : '';
             const planetInfo = natalChart.planets?.find(p => p.name === planet);
-            const degree = planetInfo?.position ? Math.floor(planetInfo.position % 30) : null;
+            const rawPos = planetInfo?.position ?? 0;
+            const degree = rawPos > 0 ? Math.floor(rawPos % 30) : null;
+            const minute = rawPos > 0 ? Math.round(((rawPos % 30) - Math.floor(rawPos % 30)) * 60) : null;
             const transit = transitData[planet];
 
             return (
@@ -288,7 +291,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
                 <div className="text-[10px] text-gray-500 font-medium uppercase">{planet}</div>
                 <div className="text-xs font-semibold text-purple-700 capitalize mt-0.5">
                   {SIGN_SYMBOLS[signStr]} {signStr}
-                  {degree !== null && <span className="text-gray-500 ml-0.5">{degree}&deg;</span>}
+                  {degree !== null && <span className="text-gray-500 ml-0.5">{degree}&deg;{minute !== null && minute > 0 ? `${minute}'` : ''}</span>}
                 </div>
                 {transit && (
                   <div className="text-[10px] text-orange-600 mt-0.5">
