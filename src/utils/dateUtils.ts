@@ -1,5 +1,3 @@
-import type { Dish } from "@/constants/recipe";
-import { cuisines } from "@/data/cuisines";
 import { _logger } from "@/lib/logger";
 import type { LunarPhaseWithSpaces, Season } from "@/types/alchemy";
 
@@ -103,80 +101,4 @@ export function getMoonPhase(): LunarPhaseWithSpaces {
   return "new moon";
 }
 
-// Helper function to get all dishes for a cuisine
-const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
-  const cuisine = cuisines[cuisineId];
-  if (!cuisine || !cuisine.dishes) return [];
-  let allDishes: Dish[] = [];
 
-  // Safely iterate through all meal times with type checking
-  Object.keys(cuisine.dishes || {}).forEach((mealTime) => {
-    const mealTimeDishes = cuisine.dishes?.[mealTime];
-    if (!mealTimeDishes) return;
-
-    // If it's an object with season keys
-    if (typeof mealTimeDishes === "object" && !Array.isArray(mealTimeDishes)) {
-      // Get dishes from all seasons including 'all' season
-      Object.keys(mealTimeDishes).forEach((season) => {
-        const seasonDishes = mealTimeDishes[season];
-        if (Array.isArray(seasonDishes)) {
-          allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])];
-        }
-      });
-    }
-  });
-
-  return allDishes;
-};
-
-/**
- * Get food recommendations based on meal time, season, and cuisine
- * @param mealTime Meal time ('breakfast', 'lunch', 'dinner')
- * @param season Season
- * @param cuisineId Cuisine ID
- * @returns Array of dishes
- */
-export const _getRecommendations = (
-  mealTime: string,
-  season: Season,
-  cuisineId: string,
-): Dish[] => {
-  try {
-    void debugLog(
-      `Getting recommendations for ${cuisineId}, ${mealTime}, ${season}`,
-    );
-
-    const cuisine = cuisines[cuisineId];
-    if (!cuisine || !cuisine.dishes) {
-      debugLog(`Cuisine ${cuisineId} not found or has no dishes`);
-      return [];
-    }
-
-    const mealTimeDishes = cuisine.dishes[mealTime];
-    if (!mealTimeDishes) {
-      debugLog(`No ${mealTime} dishes found for ${cuisineId}`);
-      return [];
-    }
-
-    // If mealTimeDishes is an array, return it directly
-    if (Array.isArray(mealTimeDishes)) {
-      return mealTimeDishes;
-    }
-
-    // Get dishes from both 'all' season and current season
-    const allSeasonDishes = Array.isArray(mealTimeDishes["all"])
-      ? mealTimeDishes["all"]
-      : [];
-    const seasonalDishes = Array.isArray(mealTimeDishes[season])
-      ? mealTimeDishes[season]
-      : [];
-
-    const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
-    debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);
-
-    return combinedDishes as unknown as Dish[];
-  } catch (error) {
-    _logger.error(`Error getting recommendations for ${cuisineId}:`, error);
-    return [];
-  }
-};

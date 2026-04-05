@@ -4,7 +4,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { Flame, Droplets, Mountain, Wind, GalleryVertical, Sparkles, ArrowLeft, Moon, SunIcon, ChevronDown, ChevronUp, Info } from 'lucide-react';
-import { cuisines } from '@/data/cuisines';
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { AlchemicalProperty } from '@/constants/planetaryElements';
 import styles from './CuisineRecommender.module.css';
@@ -13,10 +12,10 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
 import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces, ElementalProperties } from '@/types/alchemy';
 import { cuisineFlavorProfiles, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
-import { allRecipes } from '@/data/recipes';
 import { LocalRecipeService } from '@/services/LocalRecipeService';
-import { sauceRecommendations as sauceRecsData, SauceRecommendation, allSauces, Sauce } from '@/data/sauces';
+import type { Sauce } from '@/data/sauces';
 import type { Recipe } from '@/types/recipe';
+import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {
@@ -58,6 +57,8 @@ const getSafeScore = (score: unknown): number => {
 };
 
 export default function CuisineRecommender() {
+  const { cuisines, sauces: allSauces, recipes: allRecipes, loading: dataLoading, error: dataError } = useAlchemicalData();
+  
   // Provide fallback values in case AlchemicalContext is not available
   const alchemicalContext = useAlchemical();
   const isDaytime = alchemicalContext?.isDaytime ?? true;
@@ -345,16 +346,17 @@ export default function CuisineRecommender() {
   };
 
   useEffect(() => {
-    // Define the async function outside the useEffect body
-    loadCuisines();
-  }, [currentMomentElementalProfile, currentZodiac, lunarPhase]);
+    if (cuisines && !dataLoading && !dataError) {
+      loadCuisines();
+    }
+  }, [currentMomentElementalProfile, currentZodiac, lunarPhase, cuisines, dataLoading, dataError]);
 
-  // Move the async function outside the useEffect
-  async function loadCuisines() {
+  // Load cuisines synchronously now that we have data from context
+  function loadCuisines() {
     try {
       setLoading(true);
-      // Load all cuisines from a local data file
-      const allCuisines = cuisines;
+      // Load all cuisines from context
+      const allCuisines = cuisines || {};
       
       // Convert cuisines object to array with proper ElementalItem structure
       const cuisinesArray = Object.entries(allCuisines).map(([id, cuisine]) => ({
@@ -570,12 +572,12 @@ export default function CuisineRecommender() {
     );
   };
 
-  if (loading) {
+  if (loading || dataLoading) {
     return <div className="p-4 text-center">Loading cuisine recommendations...</div>;
   }
 
-  if (error) {
-    return <div className="p-4 bg-red-50 text-red-500 rounded">{error}</div>;
+  if (error || dataError) {
+    return <div className="p-4 bg-red-50 text-red-500 rounded">{error || dataError}</div>;
   }
 
   // Get the currently selected cuisine data

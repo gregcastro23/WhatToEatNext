@@ -7,7 +7,6 @@ import {
   type Sauce as RecommenderSauce,
 } from "@/utils/cuisine/intelligentSauceRecommender";
 import { sauceRecommender } from "@/services/sauceRecommender";
-import type { CuisineType } from "@/data/cuisines";
 import type { EnhancedRecipe, ElementalProperties } from "@/types/recipe";
 
 // ========== INPUT / OUTPUT TYPES ==========
@@ -152,15 +151,14 @@ function runSimpleWithScoring(
   protein: string | undefined,
   cookingMethod: string | undefined,
   role: "complement" | "contrast" | "enhance" | "balance",
-): SauceRecommendationResult[] {
-  const names = sauceRecommender.recommendSauce(cuisine as CuisineType, {
+): Promise<SauceRecommendationResult[]> {
+  return sauceRecommender.recommendSauce(cuisine, {
     protein,
     cookingMethod,
-  });
-
-  if (names.length === 0) {
-    return [];
-  }
+  }).then(names => {
+    if (names.length === 0) {
+      return [];
+    }
 
   // Resolve names to sauce data entries
   const nameSet = new Set(names.map((n) => n.toLowerCase()));
@@ -203,14 +201,15 @@ function runSimpleWithScoring(
   avgElemental.Earth /= count;
   avgElemental.Air /= count;
 
-  return recommendSauces(
-    {
-      targetElementalProperties: avgElemental,
-      sauceRole: role,
-      maxRecommendations: matchedPool.length,
-    },
-    matchedPool,
-  );
+    return recommendSauces(
+      {
+        targetElementalProperties: avgElemental,
+        sauceRole: role,
+        maxRecommendations: matchedPool.length,
+      },
+      matchedPool,
+    );
+  });
 }
 
 // ========== PUBLIC API ==========
@@ -224,7 +223,7 @@ function runSimpleWithScoring(
  * @param input - Recommendation criteria
  * @returns Sorted array of sauce results, limited to maxResults
  */
-export function getRecommendedSauces(input: UnifiedSauceInput): UnifiedSauceResult[] {
+export async function getRecommendedSauces(input: UnifiedSauceInput): Promise<UnifiedSauceResult[]> {
   const {
     recipe,
     cuisine,
@@ -246,7 +245,7 @@ export function getRecommendedSauces(input: UnifiedSauceInput): UnifiedSauceResu
   }
 
   if (hasSimpleCriteria) {
-    simpleResults = runSimpleWithScoring(cuisine, protein, cookingMethod, role);
+    simpleResults = await runSimpleWithScoring(cuisine, protein, cookingMethod, role);
   }
 
   // If neither path was triggered, return empty

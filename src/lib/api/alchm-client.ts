@@ -172,6 +172,59 @@ export class AlchmAPIClient {
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  // --- External Data Service Methods with Caching ---
+
+  private _cache: {
+    cuisines?: Promise<Record<string, any>>;
+    sauces?: Promise<Record<string, any>>;
+    ingredients?: Promise<Record<string, any>>;
+    cuisineDetails: Record<string, Promise<any>>;
+  } = { cuisineDetails: {} };
+
+  async getCuisines(): Promise<Record<string, any>> {
+    if (!this._cache.cuisines) {
+      const url = `${this.endpoints.alchemical}/api/v1/cuisines`;
+      this._cache.cuisines = this.request<Record<string, any>>(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    return this._cache.cuisines;
+  }
+
+  async getCuisine(id: string): Promise<any> {
+    if (!this._cache.cuisineDetails[id]) {
+      const url = `${this.endpoints.alchemical}/api/v1/cuisines/${id}`;
+      this._cache.cuisineDetails[id] = this.request<any>(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    return this._cache.cuisineDetails[id];
+  }
+
+  async getSauces(): Promise<Record<string, any>> {
+    if (!this._cache.sauces) {
+      const url = `${this.endpoints.alchemical}/api/v1/sauces`;
+      this._cache.sauces = this.request<Record<string, any>>(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    return this._cache.sauces;
+  }
+
+  async getIngredients(): Promise<Record<string, any>> {
+    if (!this._cache.ingredients) {
+      const url = `${this.endpoints.alchemical}/api/v1/ingredients`;
+      this._cache.ingredients = this.request<Record<string, any>>(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    return this._cache.ingredients;
+  }
 }
 
 export const alchmAPI = new AlchmAPIClient();

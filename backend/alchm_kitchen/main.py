@@ -181,6 +181,69 @@ app.add_middleware(
 )
 
 # ==========================================
+# EXTERNAL DATA SERVICE (Migrated Data)
+# ==========================================
+
+import json
+
+DATA_JSON_PATH = os.path.join(os.path.dirname(__file__), "data", "json")
+
+def load_json_file(filename: str):
+    full_path = os.path.join(DATA_JSON_PATH, filename)
+    try:
+        if os.path.exists(full_path):
+            with open(full_path, "r") as f:
+                return json.load(f)
+        return None
+    except Exception as e:
+        print(f"Error loading JSON data from {filename}: {e}")
+        return None
+
+@app.get("/api/v1/cuisines")
+async def get_all_cuisines():
+    """Return all cuisines available in the system."""
+    data = load_json_file("cuisines.json")
+    if not data:
+        raise HTTPException(status_code=404, detail="Cuisine data not found")
+    
+    # Filter to only return the primary capitalized cuisines to avoid 14MB payload
+    primary_cuisines = {k: v for k, v in data.items() if k[0].isupper()}
+    return primary_cuisines
+
+@app.get("/api/v1/cuisines/{cuisine_id}")
+async def get_cuisine_by_id(cuisine_id: str):
+    """Return full details for a specific cuisine."""
+    # Try individual file first (more memory efficient)
+    individual_file = f"cuisines/{cuisine_id.capitalize()}.json"
+    data = load_json_file(individual_file)
+    
+    if not data:
+        # Fallback to the main map
+        full_map = load_json_file("cuisines.json")
+        data = full_map.get(cuisine_id) or full_map.get(cuisine_id.capitalize())
+        
+    if not data:
+        raise HTTPException(status_code=404, detail=f"Cuisine {cuisine_id} not found")
+    return data
+
+@app.get("/api/v1/sauces")
+async def get_all_sauces():
+    """Return all sauces available in the system."""
+    data = load_json_file("sauces.json")
+    if not data:
+        raise HTTPException(status_code=404, detail="Sauce data not found")
+    return data
+
+@app.get("/api/v1/ingredients")
+async def get_all_ingredients():
+    """Return all ingredients available in the system."""
+    data = load_json_file("ingredients.json")
+    if not data:
+        raise HTTPException(status_code=404, detail="Ingredient data not found")
+    return data
+
+
+# ==========================================
 # HEALTH CHECK
 # ==========================================
 

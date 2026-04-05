@@ -9,7 +9,7 @@
  */
 
 import type { AlchemicalProfile } from "@/contexts/UserContext";
-import { allRecipes } from "@/data/recipes/index";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
 import {
     type MonicaOptimizedRecipe,
 } from "@/data/unified/recipeBuilding";
@@ -681,6 +681,7 @@ async function searchRecipesForDay(
       recommendedCuisines: dayChar.recommendedCuisines,
     });
 
+    const allRecipes = await LocalRecipeService.getAllRecipes();
     const recipes = allRecipes as unknown as Recipe[];
     const currentSeason = getCurrentSeason();
     const existingMeals = options.existingMeals || [];

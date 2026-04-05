@@ -1,4 +1,4 @@
-import { cuisines } from "@/data/cuisines";
+
 import type {
   DietaryRestriction,
   ElementalProperties,
@@ -419,49 +419,12 @@ export class RecipeFilter {
     if (!cuisineTypes.length) return recipes;
     return recipes.filter((recipe) => {
       try {
-        return cuisineTypes.some((cuisineType) => {
-          const cuisine: Cuisine = cuisines[cuisineType] as unknown as Cuisine;
-          if (!cuisine || !cuisine.dishes) return false;
-
-          // Helper function to check if a dish matches the recipe
-          const checkMatch = (
-            dishName: string | { name: string } | null,
-          ): boolean => {
-            if (!dishName) return false;
-            if (typeof dishName === "string") return dishName === recipe.name;
-            if (
-              typeof dishName === "object" &&
-              dishName !== null &&
-              "name" in dishName
-            ) {
-              return dishName.name === recipe.name;
-            }
-            return false;
-          };
-
-          // Handle different structures of cuisine.dishes
-          if (Array.isArray(cuisine.dishes)) {
-            return cuisine.dishes.some((dish) => checkMatch(dish));
-          }
-
-          // Handle structured dishes by meal time and season
-          return Object.values(cuisine.dishes).some((mealTimeDishes) => {
-            if (!mealTimeDishes) return false;
-            if (Array.isArray(mealTimeDishes)) {
-              return mealTimeDishes.some((dish) => checkMatch(dish));
-            }
-
-            // If it's an object with season keys
-            return Object.values(mealTimeDishes).some(
-              (seasonDishes) =>
-                Array.isArray(seasonDishes) &&
-                seasonDishes.some((dish) => checkMatch(dish)),
-            );
-          });
-        });
+        return cuisineTypes.some((cuisineType) =>
+          recipe.cuisine?.toLowerCase().includes(cuisineType.toLowerCase())
+        );
       } catch (error) {
         logger.error("Error filtering by cuisine: ", error);
-        return true; // Include recipe if error occurs
+        return true;
       }
     });
   }
@@ -579,48 +542,10 @@ export class RecipeFilter {
   ): number {
     if (!cuisineTypes?.length) return 1;
     try {
-      const matchingCuisines = cuisineTypes.filter((cuisineType) => {
-        const cuisine = cuisines[cuisineType];
-        if (!cuisine || !cuisine.dishes) return false;
-
-        // Helper function to check if a dish matches the recipe
-        const checkMatch = (
-          dishName: string | { name: string } | null,
-        ): boolean => {
-          if (!dishName) return false;
-          if (typeof dishName === "string") return dishName === recipe.name;
-          if (
-            typeof dishName === "object" &&
-            dishName !== null &&
-            "name" in dishName
-          ) {
-            return dishName.name === recipe.name;
-          }
-          return false;
-        };
-
-        // Handle different structures of cuisine.dishes
-        if (Array.isArray(cuisine.dishes)) {
-          return cuisine.dishes.some((dish) => checkMatch(dish));
-        }
-
-        // Handle structured dishes by meal time and season
-        return Object.values(cuisine.dishes).some((mealTimeDishes) => {
-          if (!mealTimeDishes) return false;
-          if (Array.isArray(mealTimeDishes)) {
-            return mealTimeDishes.some((dish) => checkMatch(dish));
-          }
-
-          // If it's an object with season keys
-          return Object.values(mealTimeDishes).some(
-            (seasonDishes) =>
-              Array.isArray(seasonDishes) &&
-              seasonDishes.some((dish) => checkMatch(dish)),
-          );
-        });
-      });
-
-      return matchingCuisines.length > 0 ? 1.5 : 0.5;
+      const matches = cuisineTypes.some((cuisineType) =>
+        recipe.cuisine?.toLowerCase().includes(cuisineType.toLowerCase())
+      );
+      return matches ? 1.5 : 0.5;
     } catch (error) {
       logger.error("Error calculating cuisine score: ", error);
       return 1;

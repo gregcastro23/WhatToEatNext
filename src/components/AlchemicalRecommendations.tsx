@@ -8,9 +8,8 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
 
 // Import the correct data sources
-import allIngredients from '@/data/ingredients';
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { cuisines } from '@/data/cuisines';
+import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 
 // Add import for modality type and utils
 import type { Modality } from '@/data/ingredients/types';
@@ -38,6 +37,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
 }) => {
   // Use AlchemicalContext to get current astronomical state if not provided
   const alchemicalContext = useAlchemical();
+  const { cuisines, ingredients: allIngredients, loading: dataLoading } = useAlchemicalData();
   
   // Use context values as fallbacks if props aren't provided
   const resolvedPlanetaryPositions = useMemo(() => {
@@ -104,6 +104,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   
   // Convert ingredients object to an array of ElementalItem objects
   const ingredientsArray = useMemo(() => {
+    if (!allIngredients) return [];
     return Object.entries(allIngredients).map(([key, ingredient]) => {
       // Get ingredient elemental properties or calculate them
       let elementalProps;
@@ -188,7 +189,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         modality: (ingredient as any).modality
       } as ElementalItem;
     });
-  }, []);
+  }, [allIngredients]);
   
   // Convert cooking methods to ElementalItem array
   const cookingMethodsArray = useMemo(() => {
@@ -254,6 +255,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   
   // Convert cuisines to ElementalItem array
   const cuisinesArray = useMemo(() => {
+    if (!cuisines) return [];
     return Object.entries(cuisines).map(([key, cuisine]) => {
       // Get cuisine elemental state or calculate it
       let elementalState;
@@ -319,7 +321,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProperties: elementalState
       } as ElementalItem;
     });
-  }, []);
+  }, [cuisines]);
   
   // Filter ingredients array by modality
   const filteredIngredientsArray = useMemo(() => {
@@ -360,7 +362,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     aspects
   });
   
-  if (loading) return <div>Loading alchemical recommendations...</div>;
+  if (loading || dataLoading) return <div>Loading alchemical recommendations...</div>;
   if (error) return <div>Error: {error.message}</div>;
   
   return (

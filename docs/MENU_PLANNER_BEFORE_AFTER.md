@@ -1,0 +1,240 @@
+# Menu Planner: Before vs. After
+
+## 🔴 BEFORE: Overwhelming First Experience
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Weekly Menu Planner                                             │
+│ Plan your meals aligned with the cosmos                         │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ⚡ Circuit Metrics                                          ▲    │
+├─────────────────────────────────────────────────────────────────┤
+│ Total Power: < 0.01 W    Efficiency: 0.0%                       │
+│ Total Charge: 0.0 C      Losses: < 0.01 W                       │
+│                                                                  │
+│ ⚠️ Bottlenecks Detected (28)                                     │
+│ ┌──────────────────────────────────────────────────────────────┐│
+│ │ ⚠️ Slot: sunday-breakfast    Impact: 50%                     ││
+│ │    Empty slot creates power flow discontinuity              ││
+│ └──────────────────────────────────────────────────────────────┘│
+│ ┌──────────────────────────────────────────────────────────────┐│
+│ │ ⚠️ Slot: sunday-lunch        Impact: 50%                     ││
+│ │    Empty slot creates power flow discontinuity              ││
+│ └──────────────────────────────────────────────────────────────┘│
+│ ┌──────────────────────────────────────────────────────────────┐│
+│ │ ⚠️ Slot: sunday-dinner       Impact: 50%                     ││
+│ │    Empty slot creates power flow discontinuity              ││
+│ └──────────────────────────────────────────────────────────────┘│
+│ ... (25 more warnings) ...                                       │
+└─────────────────────────────────────────────────────────────────┘
+
+[Empty 7-day calendar grid below]
+```
+
+### Problems:
+
+- ❌ **28 bottleneck warnings** on empty calendar
+- ❌ **Technical jargon** without explanation
+- ❌ **Zeros everywhere** (0.0%, < 0.01 W)
+- ❌ **No guidance** on how to get started
+- ❌ **Intimidating metrics** before adding any recipes
+
+---
+
+## 🟢 AFTER: Progressive Enhancement
+
+### Stage 1: Empty Calendar (0 meals)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Weekly Menu Planner                                             │
+│ Plan your meals aligned with the cosmos                         │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                           🍽️                                     │
+│              Your Weekly Menu Awaits                            │
+│                                                                  │
+│         Plan your week with alchemical precision                │
+│                                                                  │
+│  ✨ Click "Generate" for planetary-aligned suggestions          │
+│  🔍 Search recipes and drag to calendar                         │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ⚡ Circuit Metrics                                          ▼    │
+│ Add 6 meals to unlock                                           │
+└─────────────────────────────────────────────────────────────────┘
+
+[Clean 7-day calendar with ✨ Generate buttons]
+```
+
+### Benefits:
+
+- ✅ **Zero warnings** on empty calendar
+- ✅ **Clear CTAs**: "Generate" and "Search"
+- ✅ **Encouraging message**: "Your Weekly Menu Awaits"
+- ✅ **Circuit metrics hidden** until useful
+- ✅ **Focus on getting started**
+
+---
+
+### Stage 2: Early Planning (1-5 meals)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Weekly Menu Planner                                             │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 📅 Great start! 3 meals planned                                 │
+│    Add 3 more to unlock circuit optimization insights           │
+│                                                                  │
+│    Progress: ███░░░  3/6                                        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ⚡ Circuit Metrics                                          ▼    │
+│ Add 3 more meals to unlock                                      │
+└─────────────────────────────────────────────────────────────────┘
+
+[Calendar with 3 filled slots, 25 empty]
+```
+
+### Benefits:
+
+- ✅ **Positive reinforcement**: "Great start!"
+- ✅ **Visual progress**: Bar shows 3/6
+- ✅ **Clear goal**: "Add 3 more"
+- ✅ **No warnings** about empty slots
+
+---
+
+### Stage 3: Unlocking Insights (6+ meals)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ ⚡ Circuit Metrics                                          ▲    │
+│ Weekly power flow & optimization analysis                       │
+├─────────────────────────────────────────────────────────────────┤
+│ Total Power ⓘ: 245.3 W    Efficiency ⓘ: 68.5%                 │
+│ Total Charge ⓘ: 82.1 C    Losses ⓘ: 76.2 W                    │
+│                                                                  │
+│ [Elemental balance visualization]                               │
+│ 🔥 Fire  💧 Water  🌍 Earth  💨 Air                            │
+│                                                                  │
+│ Day-by-Day Breakdown                                            │
+│ ✅ Sunday    245.3 W    Efficiency: 72.1%                       │
+│ ✅ Monday    189.7 W    Efficiency: 65.3%                       │
+│ ⚠️ Tuesday   124.5 W    Efficiency: 54.2%                       │
+│                                                                  │
+│ ✓ No bottlenecks detected! (< 10 meals)                        │
+└─────────────────────────────────────────────────────────────────┘
+
+[Calendar with 8 filled slots]
+```
+
+### Benefits:
+
+- ✅ **Meaningful data** (real power values)
+- ✅ **Tooltips (ⓘ)** explain metrics
+- ✅ **Color coding** (green/yellow/red)
+- ✅ **Still no bottleneck warnings** (< 10 meals)
+- ✅ **Day-by-day insights** visible
+
+---
+
+### Stage 4: Active Optimization (10+ meals)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ ⚡ Circuit Metrics                                          ▲    │
+├─────────────────────────────────────────────────────────────────┤
+│ Total Power: 567.8 W    Efficiency: 71.3%                       │
+│ Total Charge: 203.4 C   Losses: 162.8 W                         │
+│                                                                  │
+│ ⚠️ Bottlenecks Detected (3) - SMART DETECTION                   │
+│ ┌──────────────────────────────────────────────────────────────┐│
+│ │ ⚠️ Empty wednesday-dinner slot disrupts Wednesday's flow     ││
+│ │    Impact: 40%                                               ││
+│ └──────────────────────────────────────────────────────────────┘│
+│ ┌──────────────────────────────────────────────────────────────┐│
+│ │ ⚠️ High resistance (8.45Ω) in Tuesday breakfast              ││
+│ │    Impact: 35%                                               ││
+│ └──────────────────────────────────────────────────────────────┘│
+│                                                                  │
+│ 💡 Improvement Suggestions (3)                                  │
+│ ┌──────────────────────────────────────────────────────────────┐│
+│ │ Fill wednesday-dinner to complete power circuit              ││
+│ │ +15% efficiency                                              ││
+│ └──────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────┘
+
+[Calendar with 12 filled slots]
+```
+
+### Benefits:
+
+- ✅ **Smart bottleneck detection**:
+  - Only 3 warnings (not 16 for empty slots)
+  - Only flags disruptive empty slots
+  - Identifies actual high-resistance meals
+- ✅ **Actionable suggestions**
+- ✅ **Expected improvement percentages**
+- ✅ **Full circuit optimization**
+
+---
+
+## 📊 Comparison Summary
+
+| Metric                          | Before                 | After                      |
+| ------------------------------- | ---------------------- | -------------------------- |
+| **Warnings on empty calendar**  | 28                     | 0                          |
+| **Meaningful metrics at start** | 0                      | Progressive (6+ meals)     |
+| **User confusion**              | High                   | Low                        |
+| **Onboarding guidance**         | None                   | Clear CTAs                 |
+| **Tooltips explaining P=IV**    | None                   | Yes (ⓘ)                    |
+| **Progress indicators**         | None                   | Visual (0/6 → 6/6)         |
+| **Smart bottleneck detection**  | No (flags all empties) | Yes (10+ meals, adjacency) |
+| **User retention**              | ❌ Overwhelming        | ✅ Encouraging             |
+
+---
+
+## 🎯 Key Design Principles Applied
+
+1. **Progressive Disclosure**
+   - Show simple → complex as user engages
+   - Hide advanced features until they're useful
+   - Reward progress with new capabilities
+
+2. **Positive Reinforcement**
+   - Celebrate small wins ("Great start!")
+   - Visual progress indicators
+   - Clear goals ("Add 3 more to unlock")
+
+3. **Contextual Help**
+   - Tooltips explain technical terms
+   - Action-oriented guidance
+   - Examples of good/bad values
+
+4. **Smart Defaults**
+   - Don't flag every empty slot as an error
+   - Only show bottlenecks when relevant
+   - Threshold-based feature unlocking
+
+5. **Visual Hierarchy**
+   - Important info (CTAs) at top
+   - Metrics unlock when useful
+   - Color coding guides attention
+
+---
+
+## 🚀 Impact
+
+**Before**: New users see 28 warnings and 0.0% metrics → Confusion → Abandon
+
+**After**: New users see encouragement and clear path → Engagement → Success
+
+The circuit optimization model is now **discovered progressively**, not **imposed immediately**! 🎉

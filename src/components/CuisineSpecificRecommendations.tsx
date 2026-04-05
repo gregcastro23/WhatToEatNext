@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 // @ts-expect-error - Auto-fixed by script
 import { enhancedCuisineRecommender } from '@/calculations/enhancedCuisineRecommender';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { cuisinesMap } from '@/data/cuisines';
 import { getTimeFactors } from '@/types/time';
 import PlanetaryTimeDisplay from './PlanetaryTimeDisplay';
 

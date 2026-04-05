@@ -6,7 +6,6 @@ import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import type { CuisineType } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 
 // ===== Constants =====
@@ -688,8 +687,8 @@ export default function RecipePage(props: any) {
               .map((i) => i.name);
             const cookingMethods = getCookingMethods(fetchedRecipe);
 
-            const sauces = sauceRecommender.recommendSauce(
-              fetchedRecipe.cuisine as CuisineType,
+            const sauces = await sauceRecommender.recommendSauce(
+              fetchedRecipe.cuisine ?? '',
               {
                 protein: proteins[0],
                 vegetable: vegetables[0],

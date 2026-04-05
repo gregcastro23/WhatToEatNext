@@ -34,7 +34,7 @@ export function useIngredientMapping() {
    * Find recipes matching the given criteria
    */
   const findMatchingRecipes = useCallback(
-    (
+    async (
       options: {
         elementalTarget?: ElementalProperties;
         requiredIngredients?: string[];
@@ -49,7 +49,7 @@ export function useIngredientMapping() {
       try {
         setIsLoading(true);
         setError(null);
-        const result = ingredientMappingService.findMatchingRecipes(options);
+        const result = await ingredientMappingService.findMatchingRecipes(options);
         return result;
       } catch (err) {
         const errorMessage =

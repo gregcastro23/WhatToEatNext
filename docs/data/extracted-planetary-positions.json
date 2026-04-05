@@ -1,0 +1,74 @@
+{
+  "Sun": {
+    "sign": "Cancer",
+    "degree": 99,
+    "minute": 30,
+    "isRetrograde": false
+  },
+  "Moon": {
+    "sign": "Virgo",
+    "degree": 169,
+    "minute": 58,
+    "isRetrograde": false
+  },
+  "Mercury": {
+    "sign": "Leo",
+    "degree": 125,
+    "minute": 10,
+    "isRetrograde": false
+  },
+  "Venus": {
+    "sign": "Taurus",
+    "degree": 56,
+    "minute": 4,
+    "isRetrograde": false
+  },
+  "Mars": {
+    "sign": "Virgo",
+    "degree": 157,
+    "minute": 48,
+    "isRetrograde": false
+  },
+  "Jupiter": {
+    "sign": "Cancer",
+    "degree": 94,
+    "minute": 49,
+    "isRetrograde": false
+  },
+  "Saturn": {
+    "sign": "Aries",
+    "degree": 1,
+    "minute": 48,
+    "isRetrograde": false
+  },
+  "Uranus": {
+    "sign": "Taurus",
+    "degree": 59,
+    "minute": 42,
+    "isRetrograde": false
+  },
+  "Neptune": {
+    "sign": "Aries",
+    "degree": 2,
+    "minute": 10,
+    "isRetrograde": false
+  },
+  "Pluto": {
+    "sign": "Aquarius",
+    "degree": 303,
+    "minute": 8,
+    "isRetrograde": false
+  },
+  "Chiron": {
+    "sign": "Aries",
+    "degree": 26,
+    "minute": 53,
+    "isRetrograde": false
+  },
+  "Sirius": {
+    "sign": "Aries",
+    "degree": 1,
+    "minute": 46,
+    "isRetrograde": false
+  }
+}

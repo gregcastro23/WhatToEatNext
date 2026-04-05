@@ -1,5 +1,5 @@
-import { cuisinesMap } from "@/data/cuisines";
-import { allRecipes } from "@/data/recipes/index";
+import { alchmAPI } from "@/lib/api/alchm-client";
+import { flattenCuisineRecipes } from "@/data/recipes/index";
 import type {
   ZodiacSignType as _ZodiacSignType,
   LunarPhase,
@@ -121,10 +121,11 @@ export class LocalRecipeService {
     }
 
     try {
-      // Use the unified deduplicated pipeline from src/data/recipes/index.ts
-      const recipes = allRecipes;
+      // Fetch dynamic cuisines from API and then flatten them to get recipes
+      const cuisinesMap = await alchmAPI.getCuisines();
+      const recipes = flattenCuisineRecipes(cuisinesMap) || [];
 
-      logger.debug(`Loaded ${recipes.length} total recipes from unified pipeline`);
+      logger.debug(`Loaded ${recipes.length} total recipes from API pipeline`);
 
       // Cache the recipes for future use
       this._allRecipes = recipes;
@@ -177,7 +178,8 @@ export class LocalRecipeService {
             error,
           );
 
-          // If direct import fails, try the cuisinesMap object (various cases)
+          // If direct import fails, try the cuisinesMap object
+          const cuisinesMap = await alchmAPI.getCuisines();
           directCuisine = (cuisinesMap[normalizedName] ||
             cuisinesMap[
               normalizedName.charAt(0).toUpperCase() + normalizedName.slice(1)
@@ -266,12 +268,12 @@ export class LocalRecipeService {
           return await this.getRecipesFromCuisine(directCuisine);
         } else {
           logger.warn(
-            `Could not find ${normalizedName} in cuisinesMap keys: `,
-            Object.keys(cuisinesMap),
+            `Could not find ${normalizedName} in cuisinesMap`,
           );
         }
       }
 
+      const cuisinesMap = await alchmAPI.getCuisines();
       // Find the cuisine object in the regular way
       const cuisine = Object.values(cuisinesMap).find(
         (c) => c.name.toLowerCase() === normalizedName,

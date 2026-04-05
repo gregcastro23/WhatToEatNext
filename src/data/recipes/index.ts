@@ -361,15 +361,14 @@ function standardizeRecipe(
  *     the non-enhanced (original) version is preferred unless
  *     the enhanced version has strictly more data.
  */
-const flattenCuisineRecipes = (): Recipe[] => {
+export const flattenCuisineRecipes = (cuisinesData: Record<string, any>): Recipe[] => {
   // Map from normalized name → Recipe (single source of truth)
   const recipeMap = new Map<string, Recipe>();
   // Track whether the stored recipe was a "Monica Enhanced" variant
   const enhancedFlags = new Map<string, boolean>();
-  const cuisines = cuisinesMap as Record<string, any>;
 
   PRIMARY_CUISINE_KEYS.forEach((cuisineName) => {
-    const cuisine = cuisines[cuisineName];
+    const cuisine = cuisinesData[cuisineName] || cuisinesData[cuisineName.toLowerCase()] || cuisinesData[cuisineName.toUpperCase()];
 
     if (cuisine && cuisine.dishes) {
       // Iterate through meal types (breakfast, lunch, dinner, dessert, snacks)
@@ -447,7 +446,7 @@ const flattenCuisineRecipes = (): Recipe[] => {
 };
 
 // Export flattened recipes from all 14 primary cuisines
-export const allRecipes = flattenCuisineRecipes();
+export const allRecipes = flattenCuisineRecipes(cuisinesMap) || [];
 
 // Export recipe count for debugging
 export const recipeCount = allRecipes.length;

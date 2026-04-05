@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { useIngredientMapping } from '@/hooks/useIngredientMapping';
-import { cuisinesMap } from '@/data/cuisines';
+import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 
 /**
  * Component that demonstrates the universal ingredient mapping functionality
@@ -17,6 +17,8 @@ export default function IngredientMapper() {
     suggestAlternatives,
     calculateCompatibility
   } = useIngredientMapping();
+
+  const { cuisines, loading: cuisinesLoading } = useAlchemicalData();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('');
@@ -91,7 +93,7 @@ export default function IngredientMapper() {
               className="w-full p-2 border rounded"
             >
               <option value="">All Cuisines</option>
-              {Object.keys(cuisinesMap).map(cuisine => (
+              {cuisines && Object.keys(cuisines).map(cuisine => (
                 <option key={cuisine} value={cuisine}>{cuisine}</option>
               ))}
             </select>

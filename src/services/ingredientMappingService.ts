@@ -5,10 +5,10 @@
  * to their corresponding ingredient database entries.
  */
 
-import { cuisinesMap } from "@/data/cuisines";
 import { ingredientsMap } from "@/data/ingredients";
 import type { ElementalProperties, IngredientMapping } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { filterRecipesByIngredientMappings } from "@/utils/recipeFilters";
 import { connectIngredientsToMappings } from "@/utils/recipeMatching";
 
@@ -33,7 +33,7 @@ class IngredientMappingService {
   /**
    * Find recipes that match specific elemental and ingredient requirements
    */
-  findMatchingRecipes(
+  async findMatchingRecipes(
     options: {
       elementalTarget?: ElementalProperties;
       requiredIngredients?: string[];
@@ -45,53 +45,19 @@ class IngredientMappingService {
       season?: string;
     } = {},
   ) {
-    // Collect recipes based on filters
-    const allRecipes: Recipe[] = [];
+    const allRecipes = await LocalRecipeService.getAllRecipes();
 
-    // Filter by cuisine if specified
-    // Use PRIMARY_CUISINE_KEYS to avoid duplicate processing via lowercase aliases
-    const cuisines = options.cuisineType
-      ? [cuisinesMap[options.cuisineType as keyof typeof cuisinesMap]].filter(
-          Boolean,
-        )
-      : PRIMARY_CUISINE_KEYS.map(
-          (key) => cuisinesMap[key as keyof typeof cuisinesMap],
-        ).filter(Boolean);
-
-    // Collect recipes from specified cuisines
-    cuisines.forEach((cuisine) => {
-      if (!cuisine.dishes) return;
-
-      // Define which meal types to include
-      const mealTypes = options.mealType
-        ? [options.mealType as keyof typeof cuisine.dishes].filter(
-            (mealType) => cuisine.dishes[mealType],
-          )
-        : ["breakfast", "lunch", "dinner", "dessert"];
-
-      // Define which seasons to include
-      const seasons = options.season
-        ? [options.season as "spring" | "summer" | "autumn" | "winter"]
-        : ["spring", "summer", "autumn", "winter"];
-
-      // Collect recipes matching criteria
-      mealTypes.forEach((mealType) => {
-        const mealDishes =
-          cuisine.dishes[mealType as keyof typeof cuisine.dishes];
-        if (!mealDishes) return;
-
-        seasons.forEach((season) => {
-          const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
-          if (Array.isArray(seasonalDishes)) {
-            allRecipes.push(...(seasonalDishes as unknown as Recipe[]));
-          }
-        });
-      });
+    let filteredRecipes = allRecipes.filter(r => {
+       if (options.cuisineType && r.cuisine?.toLowerCase() !== options.cuisineType.toLowerCase()) return false;
+       if (!options.cuisineType && r.cuisine && !PRIMARY_CUISINE_KEYS.map(k => k.toLowerCase()).includes(r.cuisine.toLowerCase())) return false;
+       if (options.mealType && !r.mealType?.includes(options.mealType)) return false;
+       if (options.season && !r.season?.includes(options.season)) return false;
+       return true;
     });
 
     // Use the filter function with collected recipes
     return filterRecipesByIngredientMappings(
-      allRecipes as unknown as Recipe[],
+      filteredRecipes as unknown as Recipe[],
       options.elementalTarget,
       {
         required: options.requiredIngredients || [],

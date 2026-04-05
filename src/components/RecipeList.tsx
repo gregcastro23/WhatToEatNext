@@ -4,7 +4,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { Flame, Droplets, Mountain, Wind, Clock, Users, Utensils, Calendar, Tag, CircleDashed, Activity, Sun, MoonStar } from 'lucide-react';
-import { cuisines } from '@/data/cuisines'; // Import the actual cuisines data
 // @ts-expect-error - Auto-fixed by script
 import { enrichRecipeData } from '@/utils/recipeEnrichment';
 import RecipeCard from './RecipeCard';
@@ -17,11 +16,14 @@ import { logger } from '@/utils/logger';
 import { recipeFilter } from '@/utils/recipeFilters';
 import { zodiacSeasons } from '@/data/zodiacSeasons';
 
+import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
+
 interface RecipeListProps {
   cuisineFilter?: string;
 }
 
 export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
+  const { cuisines, loading: dataLoading } = useAlchemicalData();
   const { currentPlanetaryAlignment, currentZodiac, activePlanets, isDaytime } = useAstrologicalState();
   const [planetaryHour, setPlanetaryHour] = useState<Planet | null>(null);
   const [expandedRecipeId, setExpandedRecipeId] = useState<string | null>(null);
@@ -36,10 +38,13 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   }, []);
 
   useEffect(() => {
+    // Wait until cuisines are loaded
+    if (!cuisines || dataLoading) return;
+
     // Extract recipes from the cuisines data structure
     const extractedRecipes: Recipe[] = [];
     
-    Object.entries(cuisines).forEach(([cuisineId, cuisine]) => {
+    Object.entries(cuisines).forEach(([cuisineId, cuisine]: [string, any]) => {
       // Skip if there's a cuisine filter and this isn't the right cuisine
       if (cuisineFilter && cuisineId.toLowerCase() !== cuisineFilter.toLowerCase()) {
         return;
@@ -140,7 +145,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
     );
     
     setRecipes(sortedRecipes);
-  }, [cuisineFilter, currentPlanetaryAlignment, currentZodiac, activePlanets, isDaytime]);
+  }, [cuisineFilter, cuisines, dataLoading, currentPlanetaryAlignment, currentZodiac, activePlanets, isDaytime]);
 
   // Enhanced astrological compatibility calculation with day/night effects and planetary hours
   const calculateAstrologicalCompatibility = (recipeList: Recipe[]): Recipe[] => {
@@ -518,6 +523,13 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   if (recipes.length === 0) {
+    if (dataLoading) {
+      return (
+        <div className="text-center py-8">
+          <p className="text-gray-500">Loading recipes...</p>
+        </div>
+      );
+    }
     return (
       <div className="text-center py-8">
         <p className="text-gray-500">No recipes found for this cuisine.</p>

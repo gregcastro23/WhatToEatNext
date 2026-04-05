@@ -3,7 +3,7 @@
  * Provides a unified interface for recipe operations
  */
 
-import { allRecipes } from "@/data/recipes/index";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
 import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
@@ -38,8 +38,8 @@ export class UnifiedRecipeService {
         return this.recipesCache;
       }
 
-      // Load recipes from data layer
-      const recipes = allRecipes as unknown as Recipe[];
+      // Load recipes from data layer via LocalRecipeService
+      const recipes = (await LocalRecipeService.getAllRecipes()) as unknown as Recipe[];
 
       // Cache for future requests
       this.recipesCache = recipes;

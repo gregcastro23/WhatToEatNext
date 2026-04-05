@@ -1,4 +1,4 @@
-import { cuisinesMap } from "@/data/cuisines";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type {
     ElementalProperties,
     LunarPhase
@@ -67,18 +67,8 @@ export class RecipeService {
       return RecipeService._allRecipes;
     }
     try {
-      const recipes: Recipe[] = [];
-      // Get recipes from all available cuisines
-      for (const cuisine of Object.values(cuisinesMap)) {
-        if (cuisine) {
-          const cuisineRecipes = await this.getRecipesFromCuisine(
-            cuisine as ExtendedCuisine,
-          );
-          recipes.push(...cuisineRecipes);
-        }
-      }
+      const recipes = await LocalRecipeService.getAllRecipes();
       logger.debug(`Loaded ${recipes.length} total recipes`);
-      // Cache the recipes for future use
       RecipeService._allRecipes = recipes;
       return recipes;
     } catch (error) {
@@ -174,23 +164,11 @@ export class RecipeService {
     }
     try {
       logger.debug(`Getting recipes for cuisine: ${cuisineName}`);
-      // Normalize cuisine name for comparison
+      const allRecipes = await this.getAllRecipes();
       const normalizedName = cuisineName.toLowerCase().trim();
-      // Handle special cases
-      if (normalizedName === "african" || normalizedName === "american") {
-        return [];
-      }
-      // Find matching cuisine
-      const cuisine = Object.values(cuisinesMap).find(
-        (c: any) =>
-          c?.name?.toLowerCase().includes(normalizedName) ||
-          c?.key?.toLowerCase().includes(normalizedName),
-      ) as ExtendedCuisine;
-      if (!cuisine) {
-        logger.debug(`No cuisine found for ${cuisineName}`);
-        return [];
-      }
-      return await this.getRecipesFromCuisine(cuisine);
+      return allRecipes.filter((r) =>
+        r.cuisine?.toLowerCase().includes(normalizedName),
+      );
     } catch (error) {
       logger.error(`Error getting recipes for cuisine ${cuisineName}:`, error);
       return [];

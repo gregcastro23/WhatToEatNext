@@ -1,6 +1,5 @@
 // src/services/sauceRecommender.ts
-import { cuisinesMap } from "@/data/cuisines";
-import type { CuisineType as CuisineName } from "@/data/cuisines";
+import { alchmAPI } from "@/lib/api/alchm-client";
 
 export class SauceRecommender {
   private static instance: SauceRecommender;
@@ -14,14 +13,15 @@ export class SauceRecommender {
     return SauceRecommender.instance;
   }
 
-  public recommendSauce(
-    cuisineName: CuisineName,
+  public async recommendSauce(
+    cuisineName: string,
     criteria: {
       protein?: string;
       vegetable?: string;
       cookingMethod?: string;
     },
-  ): string[] {
+  ): Promise<string[]> {
+    const cuisinesMap = await alchmAPI.getCuisines();
     const cuisine = cuisinesMap[cuisineName];
     if (!cuisine || !cuisine.sauceRecommender) {
       return [];

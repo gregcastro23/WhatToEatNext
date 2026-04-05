@@ -7,8 +7,8 @@ import { determineModalityFromElements } from '@/utils/cuisineUtils';
 // @ts-expect-error - Auto-fixed by script
 import { transformCuisines } from '@/utils/alchemicalTransformationUtils';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
-import cuisines from '@/data/cuisines';
 import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
+import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 
 interface CuisineSelectorProps {
   onRecipesChange: (recipes: Recipe[]) => void;
@@ -29,43 +29,27 @@ function CuisineSelector({
   currentZodiac = null,
   currentLunarPhase = null
 }: CuisineSelectorProps) {
+  const { cuisines, loading: dataLoading } = useAlchemicalData();
   const [modalityFilter, setModalityFilter] = useState<string>('all');
   const [zodiacFilter, setZodiacFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('default');
   
   // Get all cuisines
   const cuisineList = useMemo(() => {
-    // Ensure each cuisine has the required properties for ElementalItem
-    const baseCuisines: ElementalItem[] = [
-      { 
-        id: 'italian', 
-        ...cuisines.italian,
-        elementalProperties: cuisines.italian.elementalState || { 
+    if (!cuisines || dataLoading) return [];
+
+    // Map dynamic cuisines into the selector array format
+    const baseCuisines: ElementalItem[] = ['italian', 'french', 'thai', 'middleEastern'].map(key => {
+      const dbKey = key === 'middleEastern' ? 'Middle Eastern' : key.charAt(0).toUpperCase() + key.slice(1);
+      const c = cuisines[dbKey] || cuisines[key] || {};
+      return {
+        id: key,
+        ...c,
+        elementalProperties: c.elementalState || c.elementalProperties || { 
           Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 
         },
-      },
-      { 
-        id: 'french', 
-        ...cuisines.french,
-        elementalProperties: cuisines.french.elementalState || { 
-          Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 
-        },
-      },
-      { 
-        id: 'thai', 
-        ...cuisines.thai,
-        elementalProperties: cuisines.thai.elementalState || { 
-          Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 
-        },
-      },
-      { 
-        id: 'middleEastern', 
-        ...cuisines.middleEastern,
-        elementalProperties: cuisines.middleEastern.elementalState || { 
-          Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 
-        },
-      }
-    ];
+      };
+    });
     
     // Apply alchemical transformations if we have planetary positions
     if (Object.keys(planetaryPositions).length > 0) {
@@ -79,7 +63,7 @@ function CuisineSelector({
     }
     
     return baseCuisines;
-  }, [planetaryPositions, isDaytime, currentZodiac, currentLunarPhase]);
+  }, [planetaryPositions, isDaytime, currentZodiac, currentLunarPhase, cuisines, dataLoading]);
   
   // Sort cuisines when sort preference changes
   const sortedCuisines = useMemo(() => {

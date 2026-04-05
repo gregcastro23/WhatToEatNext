@@ -7,7 +7,7 @@
  * personalized recommendations.
  */
 
-import { allRecipes } from '@/data/recipes/index';
+import { LocalRecipeService } from '@/services/LocalRecipeService';
 import type { ElementalProperties } from '@/types/alchemy';
 import type { BirthChartData } from '@/types/astrology';
 import type { Recipe } from '@/types/recipe';
@@ -200,7 +200,8 @@ export class PlanetaryRecipeScorer {
     totalRecipesInDatabase: number;
   }> {
     try {
-      // 1. Load all recipes from the flattened cuisine database
+      // 1. Load all recipes from the flattened cuisine database via LocalRecipeService
+      const allRecipes = await LocalRecipeService.getAllRecipes();
       let recipes: Recipe[] = [...allRecipes];
       const totalInDb = recipes.length;
       logger.info(`Loaded ${totalInDb} recipes from 14-cuisine database`);
@@ -238,7 +239,7 @@ export class PlanetaryRecipeScorer {
       return {
         recipes: [],
         celestialContext: this.getCelestialContext(),
-        totalRecipesInDatabase: allRecipes.length,
+        totalRecipesInDatabase: 0,
       };
     }
   }
