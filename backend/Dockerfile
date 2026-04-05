@@ -1,48 +1,67 @@
 # =============================================================================
-# WhatToEatNext Backend - Railway Deployment
-# Single-stage build for Railway compatibility
+# Stage 1: Builder - Build-time dependencies and package compilation
 # =============================================================================
+FROM python:3.11-slim-bookworm AS builder
 
-FROM python:3.11-slim
-
-# Set environment variables
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
+# Set build environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PYTHONPATH=/app
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Install system dependencies
+WORKDIR /build
+
+# Install build-time dependencies (compilers needed for pyswisseph, etc.)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev \
     gcc \
     g++ \
     gfortran \
-    libopenblas-dev \
-    liblapack-dev \
-    curl \
+    libpq-dev \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Copy and install requirements
+COPY backend/requirements.txt .
+RUN pip install --user --no-warn-script-location -r requirements.txt
+
+# =============================================================================
+# Stage 2: Runner - Lightweight production runtime
+# =============================================================================
+FROM python:3.11-slim-bookworm AS runner
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
 
 WORKDIR /app
 
-# Copy and install requirements first (better layer caching)
-COPY backend/requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Install runtime-only dependencies (dynamic libraries for postgres)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create backend directory structure
-RUN mkdir -p /app/backend
+# Create non-root user for security
+RUN groupadd -r alchm && \
+    useradd -r -g alchm -u 1000 alchm
 
-# Copy backend code - using single COPY command to reduce layers
+# Copy installed packages from builder
+COPY --from=builder /root/.local /home/alchm/.local
+ENV PATH=/home/alchm/.local/bin:$PATH
+
+# Copy backend application code
 COPY backend/ ./backend/
 
-# Create non-root user
-RUN groupadd -r alchm && \
-    useradd -r -g alchm -u 1000 alchm && \
-    chown -R alchm:alchm /app
+# Ensure correct ownership
+RUN chown -R alchm:alchm /app /home/alchm
 
 USER alchm
 
 EXPOSE 8000
 
-# Railway sets $PORT dynamically
-CMD ["sh", "-c", "uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Health check helps Railway monitor container status
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Railway dynamically sets PORT, fallback to 8000
+CMD ["sh", "-c", "uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port ${PORT:-8000} --log-level info"]

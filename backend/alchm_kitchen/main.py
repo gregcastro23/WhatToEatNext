@@ -248,8 +248,22 @@ async def get_all_ingredients():
 # ==========================================
 
 @app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
+async def health_check(db: Session = Depends(get_db)):
+    """Comprehensive health check including database connectivity."""
+    db_status = "offline"
+    try:
+        # Perform low-overhead heartbeat query
+        db.execute(text("SELECT 1"))
+        db_status = "online"
+    except Exception as e:
+        print(f"Database health check failed: {e}")
+    
+    return {
+        "status": "healthy" if db_status == "online" else "degraded",
+        "database": db_status,
+        "timestamp": datetime.now().isoformat(),
+        "service": "alchm-backend"
+    }
 
 # ==========================================
 # PROTECTED USER ROUTE
