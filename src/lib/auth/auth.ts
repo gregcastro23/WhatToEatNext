@@ -253,15 +253,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             // Admins always get premium regardless of subscription state
             if (isAdmin) {
               token.tier = "premium";
+            } else if (isPremiumEmail(token.email)) {
+              token.tier = "premium";
             } else {
               try {
                 const { subscriptionService } = await import(
                   "@/services/subscriptionService"
                 );
-                const sub = await subscriptionService.getUserSubscription(dbUser.id);
+                const sub = await Promise.race([
+                  subscriptionService.getUserSubscription(dbUser.id),
+                  new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Subscription Timeout")), 3000))
+                ]);
                 token.tier = sub?.tier || "free";
               } catch {
-                // Preserve existing tier if DB unavailable
+                // Preserve existing tier if DB unavailable or timeout
                 if (!token.tier) token.tier = "free";
               }
             }
