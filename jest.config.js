@@ -33,7 +33,7 @@ const config = {
     "tests/cross-backend-rectification",
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  modulePathIgnorePatterns: ["<rootDir>/Alchm Kitchen/", "<rootDir>/docs/Alchm Kitchen/"],
+  modulePathIgnorePatterns: ["<rootDir>/Alchm Kitchen/", "<rootDir>/docs/Alchm Kitchen/", "<rootDir>/.next/", "<rootDir>/.open-next/"],
   setupFilesAfterEnv: ["<rootDir>/tests/setup/jest.setup.ts"],
 
   // Memory Management Configuration
