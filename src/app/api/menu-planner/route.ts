@@ -15,7 +15,7 @@ const SIGN_TO_ELEMENT: Record<string, string> = {
   cancer: "Water", scorpio: "Water", pisces: "Water",
 };
 
-const ELEMENT_MEALS: Record<string, { breakfast: string; lunch: string; dinner: string }[]> = {
+const ELEMENT_MEALS: Record<string, Array<{ breakfast: string; lunch: string; dinner: string }>> = {
   Fire: [
     { breakfast: "Spiced turmeric scrambled eggs with harissa toast", lunch: "Lamb shawarma bowl with spicy tahini", dinner: "Sichuan dry-fried green beans with cumin lamb" },
     { breakfast: "Chili-lime avocado toast with cotija", lunch: "Tikka masala with basmati rice", dinner: "Grilled jerk chicken with mango salsa" },

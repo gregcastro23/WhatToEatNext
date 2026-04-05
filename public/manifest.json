@@ -1,16 +1,17 @@
 {
-  "name": "Alchm Kitchen",
+  "name": "Alchm.kitchen",
   "short_name": "Alchm",
+  "description": "Culinary astrology and elemental recipe recommendations",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
   "icons": [
     {
       "src": "/icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#8b5cf6",
-  "description": "Personalized alchemical food recommendations based on your birth chart and current planetary positions."
+  ]
 }

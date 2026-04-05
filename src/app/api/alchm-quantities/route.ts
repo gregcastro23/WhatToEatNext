@@ -4,13 +4,13 @@
  * Sub-routes (/aspects, /planetary, /trends) have their own real implementations.
  */
 import { NextResponse } from "next/server";
+import type { Planet, ZodiacSignType } from "@/types/celestial";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { 
   calculateEnhancedAlchemicalFromPlanets, 
   PLANETARY_SECTARIAN_ELEMENTS,
   isSectDiurnal 
 } from "@/utils/planetaryAlchemyMapping";
-import type { Planet, ZodiacSignType } from "@/types/celestial";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

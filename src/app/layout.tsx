@@ -1,12 +1,12 @@
 import { Analytics } from "@vercel/analytics/next";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import SignInModal from "@/components/auth/SignInModal";
 import NavAuthLink from "@/components/nav/NavAuthLink";
 import NotificationBell from "@/components/nav/NotificationBell";
-import PayPalButton from "@/components/PayPalButton";
 import PremiumLink from "@/components/nav/PremiumLink";
-import SignInModal from "@/components/auth/SignInModal";
+import PayPalButton from "@/components/PayPalButton";
 import ClientProviders from "./ClientProviders";
 import type { Metadata } from "next";
 import "./globals.css";

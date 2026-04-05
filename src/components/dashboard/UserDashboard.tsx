@@ -2,6 +2,7 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
+import { motion, Variants } from 'framer-motion';
 import { PremiumGate } from '@/components/PremiumGate';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
@@ -59,7 +60,7 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
     capricorn: 'Capricorn Season', aquarius: 'Aquarius Season', pisces: 'Pisces Season',
   };
 
-  const currentSeason = sunSign ? seasonInfo[sunSign] || '' : '';
+  const currentSeason = sunSign ? seasonInfo[sunSign] : '';
 
   return (
     <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 rounded-xl px-4 py-3 text-white">
@@ -345,29 +346,53 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 
   const tier: UserTier = (profileData?.subscription?.tier as UserTier) || 'free';
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { y: 20, opacity: 0 },
+    show: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+  };
+
   return (
-    <div className="space-y-5">
-      <LiveTransitBar natalChart={natalChart} />
+    <motion.div 
+      className="space-y-5"
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
+      <motion.div variants={itemVariants}>
+        <LiveTransitBar natalChart={natalChart} />
+      </motion.div>
 
-      <CollapsibleSection title="Notifications" icon="&#x1F9EA;" defaultOpen>
-        <NotificationPanel />
-      </CollapsibleSection>
+      <motion.div variants={itemVariants}>
+        <CollapsibleSection title="Notifications" icon="&#x1F9EA;" defaultOpen>
+          <NotificationPanel />
+        </CollapsibleSection>
+      </motion.div>
 
-      <ProfileHeroCard
-        userName={userName}
-        email={email}
-        natalChart={natalChart}
-        tier={tier}
-        onEditProfile={onEditBirthData}
-        onOpenSettings={onEditPreferences}
-      />
+      <motion.div variants={itemVariants}>
+        <ProfileHeroCard
+          userName={userName}
+          email={email}
+          natalChart={natalChart}
+          tier={tier}
+          onEditProfile={onEditBirthData}
+          onOpenSettings={onEditPreferences}
+        />
+      </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-5">
+      <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-5">
         <AlchemicalConstitutionPanel natalChart={natalChart} />
         <CosmicAlignmentCard natalChart={natalChart} />
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <NavCard
           icon="&#x1F52E;"
           label="Birth Chart"
@@ -396,14 +421,18 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           href="/profile/budget"
           gradient="from-slate-500/10 to-gray-500/10"
         />
-      </div>
+      </motion.div>
 
-      <DashboardOverview profileData={profileData} natalChart={natalChart} email={email} />
+      <motion.div variants={itemVariants}>
+        <DashboardOverview profileData={profileData} natalChart={natalChart} email={email} />
+      </motion.div>
 
-      <CollapsibleSection title="Current Transits" icon="&#x1F30C;" defaultOpen>
-        <CurrentTransitAnalysis natalChart={natalChart} />
-      </CollapsibleSection>
-    </div>
+      <motion.div variants={itemVariants}>
+        <CollapsibleSection title="Current Transits" icon="&#x1F30C;" defaultOpen>
+          <CurrentTransitAnalysis natalChart={natalChart} />
+        </CollapsibleSection>
+      </motion.div>
+    </motion.div>
   );
 };
 

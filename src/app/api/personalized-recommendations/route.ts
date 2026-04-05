@@ -9,9 +9,9 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import type { Planet, ZodiacSignType } from "@/types/celestial";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
-import type { Planet, ZodiacSignType } from "@/types/celestial";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";

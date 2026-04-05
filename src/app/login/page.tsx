@@ -59,7 +59,7 @@ function LoginContent() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-[#0a0a0d]">
         <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full blur-xl opacity-50 animate-pulse border-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full blur-xl opacity-50 animate-pulse border-none" />
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-r-2 border-white/80 relative z-10" />
         </div>
       </div>
@@ -72,9 +72,9 @@ function LoginContent() {
     <div className="min-h-screen relative flex flex-col items-center justify-center font-sans overflow-hidden bg-[#0A0A0F]">
       {/* Dynamic Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/30 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }}></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-orange-600/20 blur-[150px] animate-pulse" style={{ animationDuration: '10s', animationDelay: '1s' }}></div>
-        <div className="absolute top-[20%] right-[10%] w-[20%] h-[20%] rounded-full bg-blue-600/20 blur-[100px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }}></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/30 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-orange-600/20 blur-[150px] animate-pulse" style={{ animationDuration: '10s', animationDelay: '1s' }} />
+        <div className="absolute top-[20%] right-[10%] w-[20%] h-[20%] rounded-full bg-blue-600/20 blur-[100px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
       </div>
 
       <div className="relative z-10 w-full max-w-md px-4 sm:px-6 py-12 flex flex-col items-center">
@@ -134,9 +134,9 @@ function LoginContent() {
           {/* Features Section */}
           <div className="mt-12">
             <div className="relative flex items-center mb-6">
-              <div className="flex-grow border-t border-white/10"></div>
+              <div className="flex-grow border-t border-white/10" />
               <span className="flex-shrink-0 mx-4 text-xs font-semibold text-gray-500 uppercase tracking-widest">Premium Access</span>
-              <div className="flex-grow border-t border-white/10"></div>
+              <div className="flex-grow border-t border-white/10" />
             </div>
             
             <ul className="space-y-4">

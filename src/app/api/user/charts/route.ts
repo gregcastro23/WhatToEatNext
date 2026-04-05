@@ -6,8 +6,8 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import { 

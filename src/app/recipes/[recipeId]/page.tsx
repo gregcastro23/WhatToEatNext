@@ -1202,7 +1202,7 @@ export default function RecipePage(props: any) {
                 <div className="space-y-3">
                   {Object.entries(pairings).map(([category, items]) => (
                     <div key={category}>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 capitalize">{category}</h3>
+                      <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">{category}</h3>
                       <div className="flex flex-wrap gap-1.5">
                         {items.map((item, i) => (
                           <span key={i} className="px-2.5 py-1 bg-rose-500/10 border border-rose-500/20 rounded-lg text-sm text-rose-300">

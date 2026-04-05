@@ -6,8 +6,8 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import type { InstacartRetailersResponse } from "@/types/instacart";
+import type { NextRequest } from "next/server";
 
 const INSTACART_IDP_BASE_URL = "https://connect.instacart.com";
 const INSTACART_IDP_BASE_URL_DEV = "https://connect.dev.instacart.tools";

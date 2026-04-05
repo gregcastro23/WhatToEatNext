@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { useProfile } from '@/hooks/useProfile';
+import React from 'react';
 import { FoodPreferences } from '@/components/profile/FoodPreferences';
+import { useProfile } from '@/hooks/useProfile';
 
 export default function PreferencesPage() {
   const { preferences, isLoading } = useProfile();

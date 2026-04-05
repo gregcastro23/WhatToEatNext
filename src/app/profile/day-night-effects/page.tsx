@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
 import Link from 'next/link';
-import { useProfile } from '@/hooks/useProfile';
+import React, { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useProfile } from '@/hooks/useProfile';
 import { PLANETARY_SECTARIAN_ELEMENTS, PLANETARY_SECTARIAN_ESMS, isSectDiurnal, calculateEnhancedAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
 
 export default function DayNightEffectsPage() {
@@ -139,7 +139,7 @@ export default function DayNightEffectsPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {(['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Ascendant'] as const).map((planet) => {
             const sectEl = PLANETARY_SECTARIAN_ELEMENTS[planet as Extract<keyof typeof PLANETARY_SECTARIAN_ELEMENTS, string>];
-            const sectEsms = PLANETARY_SECTARIAN_ESMS[planet as Extract<keyof typeof PLANETARY_SECTARIAN_ESMS, string>];
+            const sectEsms = PLANETARY_SECTARIAN_ESMS[planet];
             if (!sectEsms) return null;
 
             const currentEl = sectEl ? (viewDiurnal ? sectEl.diurnal : sectEl.nocturnal) : 'Earth';

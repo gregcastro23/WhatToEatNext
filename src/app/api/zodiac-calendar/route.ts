@@ -12,7 +12,7 @@ export const runtime = "nodejs";
 const ZODIAC_SIGNS = ["aries","taurus","gemini","cancer","leo","virgo","libra","scorpio","sagittarius","capricorn","aquarius","pisces"] as const;
 
 // Approximate Sun ingress dates for 2026 (UTC)
-const SUN_INGRESS_2026: { sign: string; date: string }[] = [
+const SUN_INGRESS_2026: Array<{ sign: string; date: string }> = [
   { sign: "aries",       date: "2026-03-20" },
   { sign: "taurus",      date: "2026-04-19" },
   { sign: "gemini",      date: "2026-05-20" },

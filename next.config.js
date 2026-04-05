@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import withPWAInit from "@ducanh2912/next-pwa";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -201,7 +202,18 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withPWA = withPWAInit({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  register: true,
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  workboxOptions: {
+    disableDevLogs: true,
+  },
+});
+
+export default withPWA(nextConfig);
 
 if (process.env.NODE_ENV === 'development') {
   import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());

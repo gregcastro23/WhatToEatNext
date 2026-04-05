@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { useProfile } from '@/hooks/useProfile';
+import React from 'react';
 import { NatalTransitChart } from '@/components/dashboard/NatalTransitChart';
+import { useProfile } from '@/hooks/useProfile';
 
 export default function BirthChartPage() {
   const { profileData, isLoading } = useProfile();
