@@ -22,7 +22,6 @@ const ADMIN_EMAILS = [
   process.env.AUTH_ADMIN_EMAIL || "xalchm@gmail.com",
   "gregcastro23@gmail.com",
   "cookingwithcastrollc@gmail.com",
-  "xalchm@gmail.com",
 ];
 
 /** Emails that automatically get full premium access (but NOT admin role) */
@@ -105,9 +104,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const isNewUser = !dbUser;
         console.log(`[auth] User lookup complete. isNewUser: ${isNewUser}`);
 
+        const isAdmin = isAdminEmail(user.email);
+
         if (!dbUser) {
           const { userDatabase } = await import("@/services/userDatabaseService");
-          const isAdmin = isAdminEmail(user.email);
           console.log(`[auth] Creating new user. isAdmin: ${isAdmin}`);
 
           // Add a timeout to createUser to prevent total hang
@@ -125,6 +125,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (dbUser) {
             userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
           }
+        } else if (isAdmin && !dbUser.roles.includes(UserRole.ADMIN)) {
+          // Promote existing user to admin if they are in the admin list but don't have the role yet
+          console.log(`[auth] Promoting existing user ${user.email} to ADMIN`);
+          const { userDatabase } = await import("@/services/userDatabaseService");
+          await userDatabase.updateUserRole(dbUser.id, UserRole.ADMIN);
+          // Refresh cache
+          dbUser.roles = [UserRole.ADMIN, UserRole.USER];
+          userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
         }
 
         // Fire-and-forget non-critical tasks

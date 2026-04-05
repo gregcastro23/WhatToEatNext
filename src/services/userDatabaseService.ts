@@ -365,6 +365,39 @@ class UserDatabaseService {
   }
 
   /**
+   * Update user role
+   */
+  async updateUserRole(userId: string, role: UserRole): Promise<boolean> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    const user = await this.getUserById(userId);
+    if (!user) {
+      return false;
+    }
+
+    // Try PostgreSQL first
+    if (db) {
+      try {
+        const primaryRole = (role as string).toUpperCase();
+        await db.executeQuery(
+          `UPDATE users SET role = $2::user_role, updated_at = CURRENT_TIMESTAMP WHERE id::text = $1`,
+          [userId, primaryRole],
+        );
+        _logger.info("User role updated in PostgreSQL:", { userId, role });
+      } catch (error) {
+        _logger.error("PostgreSQL role update failed:", error as any);
+        return false;
+      }
+    }
+
+    // Update in-memory cache
+    user.roles = [role, UserRole.USER];
+    this.users.set(userId, user);
+    return true;
+  }
+
+  /**
    * Check if user has completed onboarding
    */
   async hasCompletedOnboarding(userId: string): Promise<boolean> {
