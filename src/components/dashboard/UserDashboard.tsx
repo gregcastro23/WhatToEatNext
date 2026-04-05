@@ -329,74 +329,6 @@ function usePendingRequestCount(): number {
 type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'labbook' | 'settings' | 'budget';
 
 
-/* ─── Budget Settings Panel ────────────────────────────────── */
-
-function BudgetSettingsPanel() {
-  const [budgetVal, setBudgetVal] = useState<string>('');
-  const [saved, setSaved] = useState(false);
-
-  useEffect(() => {
-    const val = localStorage.getItem('weeklyBudget');
-    if (val) setBudgetVal(val);
-  }, []);
-
-  const handleSave = () => {
-    const parsed = parseFloat(budgetVal);
-    if (!isNaN(parsed) && parsed > 0) {
-      localStorage.setItem('weeklyBudget', parsed.toString());
-    } else {
-      localStorage.removeItem('weeklyBudget');
-      setBudgetVal('');
-    }
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
-
-  const currentBudget = parseFloat(budgetVal);
-  const perMeal = !isNaN(currentBudget) && currentBudget > 0 ? (currentBudget / 21).toFixed(2) : null;
-
-  return (
-    <div className="bg-white rounded-2xl shadow-sm p-6 border border-emerald-100 flex flex-col items-center">
-      <div className="w-16 h-16 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mb-4">
-        &#x1F4B0;
-      </div>
-      <h3 className="text-xl font-bold text-gray-800 mb-2">Weekly Grocery Budget</h3>
-      <p className="text-sm text-gray-500 mb-8 text-center max-w-sm">
-        Set your weekly grocery limits to receive cost-effective recipe recommendations tailored to your astrological alignment.
-      </p>
-
-      <div className="w-full max-w-xs space-y-5">
-        <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
-          <input
-            type="number"
-            min="0"
-            max="2000"
-            value={budgetVal}
-            onChange={(e) => setBudgetVal(e.target.value)}
-            className="w-full pl-8 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-500 transition-all font-semibold text-gray-800 outline-none"
-            placeholder="e.g. 150 (Leave blank for none)"
-          />
-        </div>
-
-        {perMeal && (
-          <div className="text-center bg-emerald-50/50 p-4 rounded-xl border border-emerald-100/50">
-            <span className="text-xs text-emerald-700/70 font-semibold block uppercase tracking-wide mb-1">Estimated Base Meal Cost</span>
-            <span className="text-2xl font-black text-emerald-600">${perMeal}</span>
-            <span className="text-[10px] text-gray-400 block mt-1">Based on 21 meals per week</span>
-          </div>
-        )}
-
-        <button
-          onClick={handleSave}
-          className="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-bold hover:from-emerald-600 hover:to-teal-600 transition-all shadow-sm active:scale-[0.98]"
-        >
-          {saved ? '&#x2713; Saved!' : 'Save Budget Preference'}
-        </button>
-      </div>
-    </div>
-  );
-}
 
 export const UserDashboard: React.FC<UserDashboardProps> = ({
   session,
@@ -461,7 +393,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           icon="&#x1F4B0;"
           label="Budget"
           description="Manage total food grocery limits"
-          onClick={() => {}}
+          href="/profile/budget"
           gradient="from-slate-500/10 to-gray-500/10"
         />
       </div>

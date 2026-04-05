@@ -253,10 +253,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-[70vh] bg-gradient-to-br from-purple-50 via-orange-50 to-blue-50 p-4 md:p-6">
-      <div className="max-w-5xl mx-auto space-y-6">
-
-        {/* Error display */}
+    <div className="min-h-[70vh] bg-slate-50 relative overflow-hidden p-4 md:p-8">
+      {/* Ambient background glows */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-400/10 rounded-full mix-blend-multiply filter blur-[120px] -z-10 pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-400/10 rounded-full mix-blend-multiply filter blur-[120px] -z-10 pointer-events-none" />
+      
+      <div className="relative max-w-5xl mx-auto space-y-8 z-10">
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl shadow-sm">
             <p className="font-medium text-sm">{error}</p>

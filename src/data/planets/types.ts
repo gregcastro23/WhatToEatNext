@@ -24,6 +24,7 @@ export interface PlanetData {
     PhaseCycle?: string;
     SunlightTravelTime?: string;
     ZodiacalRestriction?: string;
+    MaxSignsFromSun?: number;
     PhysicalCharacteristics?: {
       Surface?: string;
       MagneticField?: string;

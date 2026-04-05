@@ -34,6 +34,7 @@ const venusData: PlanetData = {
     PhaseCycle: "584 days",
     SunlightTravelTime: "6 minutes",
     ZodiacalRestriction: "Never more than 2 signs away from the Sun or Mercury",
+    MaxSignsFromSun: 2,
     PhysicalCharacteristics: {
       Surface: "Volcanoes, mountains, pancake domes, tick domes, tesserae",
       MagneticField: "Induced magnetic field (no internal field)",

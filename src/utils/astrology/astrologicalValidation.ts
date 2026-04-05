@@ -140,6 +140,42 @@ export function validatePlanetaryPositions(
       }
     }
 
+    // Relational Sanity Checks (Proximity to Sun)
+    if ("sun" in positions && typeof positions.sun === "object" && positions.sun !== null) {
+      const sun = positions.sun as PlanetaryPosition;
+      
+      const getSignDistance = (s1: string, s2: string) => {
+        const signs = ["aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"];
+        const idx1 = signs.indexOf(String(s1).toLowerCase());
+        const idx2 = signs.indexOf(String(s2).toLowerCase());
+        if (idx1 === -1 || idx2 === -1) return 0;
+        const dist = Math.abs(idx1 - idx2);
+        return Math.min(dist, 12 - dist);
+      };
+
+      if ("mercury" in positions && typeof positions.mercury === "object" && positions.mercury !== null) {
+        const mercury = positions.mercury as PlanetaryPosition;
+        if (sun.sign && mercury.sign) {
+          const dist = getSignDistance(sun.sign, mercury.sign);
+          if (dist > 1) { // Mercury MaxSignsFromSun restriction
+            const msg = `Astronomical Sanity Fail: Mercury (${mercury.sign}) is ${dist} signs from Sun (${sun.sign}). Max allowed is 1.`;
+            if (strictMode) errors.push(msg); else warnings.push(msg);
+          }
+        }
+      }
+
+      if ("venus" in positions && typeof positions.venus === "object" && positions.venus !== null) {
+        const venus = positions.venus as PlanetaryPosition;
+        if (sun.sign && venus.sign) {
+          const dist = getSignDistance(sun.sign, venus.sign);
+          if (dist > 2) { // Venus MaxSignsFromSun restriction
+            const msg = `Astronomical Sanity Fail: Venus (${venus.sign}) is ${dist} signs from Sun (${sun.sign}). Max allowed is 2.`;
+            if (strictMode) errors.push(msg); else warnings.push(msg);
+          }
+        }
+      }
+    }
+
     // Check for unknown planets
     const unknownPlanets = Object.keys(positions).filter(
       (planet) => !allPlanets.includes(planet),

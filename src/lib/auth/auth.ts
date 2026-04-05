@@ -63,10 +63,10 @@ async function getCachedUser(email: string) {
   const lookupPromise = (async () => {
     try {
       const { userDatabase } = await import("@/services/userDatabaseService");
-      // Set strict 8.5s timeout for DB lookup to avoid Vercel standard limits
+      // Set strict 3.5s timeout for DB lookup to avoid Vercel standard 10s limits
       const dbUser = await Promise.race([
         userDatabase.getUserByEmail(email),
-        new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8500))
+        new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 3500))
       ]);
       
       // Cache both valid users and null (not found)
@@ -119,7 +119,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 ? [UserRole.ADMIN, UserRole.USER]
                 : [UserRole.USER],
             }),
-            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 8500))
+            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 3500))
           ]);
           
           if (dbUser) {

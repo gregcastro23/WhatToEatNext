@@ -34,6 +34,7 @@ const mercuryData: PlanetData = {
     PhaseCycle: "116 days",
     SunlightTravelTime: "3.2 minutes",
     ZodiacalRestriction: "Never more than 1 sign away from the Sun",
+    MaxSignsFromSun: 1,
     PhysicalCharacteristics: {
       Surface: "Heavily cratered, resembling Earth's moon",
       MagneticField: "Weak global magnetic field",

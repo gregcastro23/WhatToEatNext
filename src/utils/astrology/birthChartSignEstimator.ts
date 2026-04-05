@@ -10,6 +10,7 @@
  */
 
 import { getZodiacSignType } from "@/utils/zodiacUtils";
+import * as Astronomy from "astronomy-engine";
 
 // ─── Types ──────────────────────────────────────────────────
 
@@ -410,13 +411,47 @@ export function estimateBirthChartSigns(
     source: "zodiac-seasons",
   };
 
-  // Moon — skip (moves too fast for date-only estimation)
-  estimates.Moon = {
-    expectedSign: null,
-    allowedSigns: ZODIAC_ORDER,
-    confidence: "skip",
-    source: "too-fast",
-  };
+  try {
+    const astroTime = new Astronomy.AstroTime(date);
+    
+    // Moon calculation (moves ~13° per day)
+    const moonLong = Astronomy.EclipticLongitude(Astronomy.Body.Moon, astroTime);
+    const moonSignIndex = Math.floor((((moonLong % 360) + 360) % 360) / 30);
+    const moonSign = ZODIAC_ORDER[moonSignIndex];
+    
+    estimates.Moon = {
+      expectedSign: moonSign,
+      allowedSigns: getSignsInRange(moonSign, 1), // allow ±1 sign for cusp variance throughout the day
+      confidence: "high",
+      source: "astronomy-engine",
+    };
+
+    // Mars calculation
+    const marsLong = Astronomy.EclipticLongitude(Astronomy.Body.Mars, astroTime);
+    const marsSignIndex = Math.floor((((marsLong % 360) + 360) % 360) / 30);
+    const marsSign = ZODIAC_ORDER[marsSignIndex];
+    
+    estimates.Mars = {
+      expectedSign: marsSign,
+      allowedSigns: getSignsInRange(marsSign, 1), // allow ±1 sign for cusp variance
+      confidence: "high",
+      source: "astronomy-engine",
+    };
+  } catch (error) {
+    // Graceful fallback if astronomy-engine throws an exception
+    estimates.Moon = {
+      expectedSign: null,
+      allowedSigns: ZODIAC_ORDER,
+      confidence: "skip",
+      source: "too-fast-fallback",
+    };
+    estimates.Mars = {
+      expectedSign: null,
+      allowedSigns: ZODIAC_ORDER,
+      confidence: "skip",
+      source: "too-variable-fallback",
+    };
+  }
 
   // Mercury — always within ±1 sign of Sun
   estimates.Mercury = {
@@ -432,14 +467,6 @@ export function estimateBirthChartSigns(
     allowedSigns: getSignsInRange(sunSign, 2),
     confidence: "medium",
     source: "sun-proximity",
-  };
-
-  // Mars — skip validation (too variable without ephemeris)
-  estimates.Mars = {
-    expectedSign: null,
-    allowedSigns: ZODIAC_ORDER,
-    confidence: "skip",
-    source: "too-variable",
   };
 
   // Jupiter — lookup table with 30-day cusp tolerance
