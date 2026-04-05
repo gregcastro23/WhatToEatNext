@@ -13,8 +13,8 @@ export async function GET(request: Request) {
     const element = url.searchParams.get("element");
     const cuisine = url.searchParams.get("cuisine");
     const search = url.searchParams.get("q") || url.searchParams.get("search");
-    const limit = Math.min(parseInt(url.searchParams.get("limit") || "20"), 50);
-    const offset = parseInt(url.searchParams.get("offset") || "0");
+    const limit = Math.min(parseInt(url.searchParams.get("limit") || "20", 10), 50);
+    const offset = parseInt(url.searchParams.get("offset") || "0", 10);
 
     // Use the database service to fetch recipes if available
     try {
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
 
     const syntheticReq = new Request(`${new URL(request.url).origin}/api/recipes?${params}`);
     return GET(syntheticReq);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ success: false, error: "Invalid request" }, { status: 400 });
   }
 }

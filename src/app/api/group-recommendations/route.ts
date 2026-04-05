@@ -4,9 +4,8 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { AlchemicalProperties } from "@/types/alchemy";
-import type { Element } from "@/types/celestial";
+import type { Element, Planet, ZodiacSignType } from "@/types/celestial";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
-import type { Planet, ZodiacSignType } from "@/types/celestial";
 import type { NextRequest } from "next/server";
 
 /**

@@ -88,8 +88,8 @@ export async function GET(request: Request) {
     }
 
     if (action === "monthly-calendar") {
-      const year = parseInt(url.searchParams.get("year") || String(now.getFullYear()));
-      const month = parseInt(url.searchParams.get("month") || String(now.getMonth()));
+      const year = parseInt(url.searchParams.get("year") || String(now.getFullYear()), 10);
+      const month = parseInt(url.searchParams.get("month") || String(now.getMonth()), 10);
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const days = Array.from({ length: daysInMonth }, (_, i) => {
         const d = new Date(year, month, i + 1, 12, 0, 0);

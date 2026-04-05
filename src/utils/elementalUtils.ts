@@ -34,9 +34,9 @@ export const validateElementalProperties = (
   const required: Element[] = ["Fire", "Water", "Earth", "Air"];
   for (const key of required) {
     const value = properties[key];
-    if (typeof value !== "number") {
+    if (typeof value !== "number" || isNaN(value)) {
       _logger.warn(
-        `validateElementalProperties: properties.${key} is not a number`,
+        `validateElementalProperties: properties.${key} is not a valid number`,
       );
       return false;
     }
@@ -58,6 +58,7 @@ export const validateElementalProperties = (
       sum,
       properties,
     });
+    return false;
   }
   return true;
 };

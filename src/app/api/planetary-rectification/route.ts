@@ -4,8 +4,7 @@
  * based on life events (simplified solar arc rectification approach).
  */
 import { NextResponse } from "next/server";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
-import { getSignFromLongitude } from "@/utils/astrology/positions";
+import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

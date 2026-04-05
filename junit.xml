@@ -1,55 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="226" failures="0" errors="0" time="2.246">
-  <testsuite name="calculateMatchScore" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:31" time="0.471" tests="10">
-    <testcase classname="calculateMatchScore" name="returns a number between 0 and 1 for valid inputs" time="0.005">
+<testsuites name="jest tests" tests="286" failures="0" errors="0" time="2.839">
+  <testsuite name="Food Recommendation Engine" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:33" time="0.574" tests="6">
+    <testcase classname="Food Recommendation Engine" name="should calculate compatibility correctly for identical elemental profiles" time="0.01">
     </testcase>
-    <testcase classname="calculateMatchScore" name="returns a high score for identical elemental profiles" time="0.001">
+    <testcase classname="Food Recommendation Engine" name="should calculate high compatibility for different elements" time="0.002">
     </testcase>
-    <testcase classname="calculateMatchScore" name="returns a lower score for opposing profiles" time="0.002">
+    <testcase classname="Food Recommendation Engine" name="should generate appropriate recommendations based on compatibility" time="0.001">
     </testcase>
-    <testcase classname="calculateMatchScore" name="handles null/undefined elementalProperties by defaulting to balanced" time="0.001">
+    <testcase classname="Food Recommendation Engine" name="should handle edge case with extremely imbalanced elements" time="0.002">
     </testcase>
-    <testcase classname="calculateMatchScore" name="handles undefined elementalState by defaulting to balanced" time="0.001">
+    <testcase classname="Food Recommendation Engine" name="should calculate balance score correctly" time="0">
     </testcase>
-    <testcase classname="calculateMatchScore" name="handles NaN values in properties by replacing with 0.25" time="0">
-    </testcase>
-    <testcase classname="calculateMatchScore" name="handles empty elementalState object by defaulting" time="0.001">
-    </testcase>
-    <testcase classname="calculateMatchScore › with options" name="applies seasonal weight adjustments" time="0.001">
-    </testcase>
-    <testcase classname="calculateMatchScore › with options" name="applies meal type adjustments" time="0.001">
-    </testcase>
-    <testcase classname="calculateMatchScore › with options" name="contrast mode inverts scoring for differing profiles" time="0.001">
+    <testcase classname="Food Recommendation Engine" name="should handle missing or zero elemental properties gracefully" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="PLANETARY_ALCHEMY constant" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:31" time="0.52" tests="32">
-    <testcase classname="PLANETARY_ALCHEMY constant" name="contains all 10 planets" time="0.005">
+  <testsuite name="PLANETARY_ALCHEMY constant" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:33" time="0.635" tests="32">
+    <testcase classname="PLANETARY_ALCHEMY constant" name="contains all 10 planets" time="0.007">
     </testcase>
-    <testcase classname="PLANETARY_ALCHEMY constant" name="matches the authoritative values from CLAUDE.md spec" time="0.002">
+    <testcase classname="PLANETARY_ALCHEMY constant" name="matches the authoritative values from CLAUDE.md spec" time="0.009">
     </testcase>
-    <testcase classname="ZODIAC_ELEMENTS constant" name="maps all 12 zodiac signs to correct elements" time="0.002">
+    <testcase classname="ZODIAC_ELEMENTS constant" name="maps all 12 zodiac signs to correct elements" time="0.003">
     </testcase>
-    <testcase classname="ZODIAC_ELEMENTS constant" name="has exactly 3 Fire, 3 Water, 3 Earth, 3 Air signs" time="0.001">
+    <testcase classname="ZODIAC_ELEMENTS constant" name="has exactly 3 Fire, 3 Water, 3 Earth, 3 Air signs" time="0.008">
     </testcase>
-    <testcase classname="calculateAlchemicalFromPlanets" name="returns non-negative ESMS values for valid positions" time="0.001">
+    <testcase classname="calculateAlchemicalFromPlanets" name="returns non-negative ESMS values for valid positions" time="0.002">
     </testcase>
-    <testcase classname="calculateAlchemicalFromPlanets" name="returns zeroes for an empty positions object" time="0.001">
+    <testcase classname="calculateAlchemicalFromPlanets" name="returns zeroes for an empty positions object" time="0">
     </testcase>
-    <testcase classname="calculateAlchemicalFromPlanets" name="skips unknown planet names without crashing" time="0.004">
+    <testcase classname="calculateAlchemicalFromPlanets" name="skips unknown planet names without crashing" time="0.008">
     </testcase>
-    <testcase classname="calculateAlchemicalFromPlanets" name="produces higher Spirit from Sun-heavy charts" time="0.001">
+    <testcase classname="calculateAlchemicalFromPlanets" name="produces higher Spirit from Sun-heavy charts" time="0.003">
     </testcase>
     <testcase classname="calculateAlchemicalFromPlanets" name="accumulates contributions from multiple planets" time="0">
     </testcase>
     <testcase classname="aggregateZodiacElementals" name="returns normalized values that sum to 1.0" time="0.001">
     </testcase>
-    <testcase classname="aggregateZodiacElementals" name="returns balanced 0.25 each for empty positions" time="0.001">
+    <testcase classname="aggregateZodiacElementals" name="returns balanced 0.25 each for empty positions" time="0">
     </testcase>
     <testcase classname="aggregateZodiacElementals" name="all-Fire positions give Fire &gt; 0.5" time="0.001">
     </testcase>
-    <testcase classname="aggregateZodiacElementals" name="warns and skips unknown zodiac signs" time="0.001">
+    <testcase classname="aggregateZodiacElementals" name="warns and skips unknown zodiac signs" time="0">
     </testcase>
-    <testcase classname="getDominantAlchemicalProperty" name="returns the property with the highest value" time="0">
+    <testcase classname="getDominantAlchemicalProperty" name="returns the property with the highest value" time="0.001">
     </testcase>
     <testcase classname="getDominantElement" name="returns the element with the highest value" time="0">
     </testcase>
@@ -57,19 +49,19 @@
     </testcase>
     <testcase classname="isSectDiurnal" name="returns false for nighttime hours (18-05 UTC)" time="0">
     </testcase>
-    <testcase classname="getPlanetarySectElement" name="returns correct diurnal elements" time="0">
+    <testcase classname="getPlanetarySectElement" name="returns correct diurnal elements" time="0.001">
     </testcase>
-    <testcase classname="getPlanetarySectElement" name="returns correct nocturnal elements" time="0.001">
+    <testcase classname="getPlanetarySectElement" name="returns correct nocturnal elements" time="0">
     </testcase>
-    <testcase classname="getPlanetarySectElement" name="returns Air fallback for unknown planet" time="0">
+    <testcase classname="getPlanetarySectElement" name="returns Air fallback for unknown planet" time="0.001">
     </testcase>
-    <testcase classname="getZodiacQuality" name="returns Cardinal for Cardinal signs" time="0.001">
+    <testcase classname="getZodiacQuality" name="returns Cardinal for Cardinal signs" time="0">
     </testcase>
-    <testcase classname="getZodiacQuality" name="returns Fixed for Fixed signs" time="0.001">
+    <testcase classname="getZodiacQuality" name="returns Fixed for Fixed signs" time="0">
     </testcase>
-    <testcase classname="getZodiacQuality" name="returns Mutable for Mutable signs" time="0">
+    <testcase classname="getZodiacQuality" name="returns Mutable for Mutable signs" time="0.001">
     </testcase>
-    <testcase classname="getZodiacQuality" name="normalizes casing correctly" time="0.001">
+    <testcase classname="getZodiacQuality" name="normalizes casing correctly" time="0">
     </testcase>
     <testcase classname="getZodiacQuality" name="returns Mutable for completely unknown sign" time="0">
     </testcase>
@@ -83,77 +75,55 @@
     </testcase>
     <testcase classname="validatePlanetaryPositions" name="returns false for null/undefined/non-object" time="0.001">
     </testcase>
-    <testcase classname="validatePlanetaryPositions" name="returns false when values are not strings" time="0">
+    <testcase classname="validatePlanetaryPositions" name="returns false when values are not strings" time="0.001">
     </testcase>
-    <testcase classname="validatePlanetaryPositions" name="returns true for empty object" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="AlchemicalProvider" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.254" tests="6">
-    <testcase classname="AlchemicalProvider" name="renders children without crashing" time="0.062">
-    </testcase>
-    <testcase classname="AlchemicalProvider" name="provides default state values to children" time="0.016">
-    </testcase>
-    <testcase classname="ErrorBoundary" name="renders children when no error" time="0.004">
-    </testcase>
-    <testcase classname="ErrorBoundary" name="catches errors and shows fallback UI" time="0.038">
-    </testcase>
-    <testcase classname="ErrorBoundary" name="displays error details when expanded" time="0.013">
-    </testcase>
-    <testcase classname="ErrorBoundary" name="recovers when Try Again is clicked" time="0.015">
+    <testcase classname="validatePlanetaryPositions" name="returns true for empty object" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="CircuitBreaker" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.22" tests="10">
-    <testcase classname="CircuitBreaker › CLOSED state (default)" name="starts in CLOSED state" time="0.001">
+  <testsuite name="useAlchemical hook" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:33" time="0.739" tests="6">
+    <testcase classname="useAlchemical hook" name="returns context value when inside AlchemicalProvider" time="0.085">
     </testcase>
-    <testcase classname="CircuitBreaker › CLOSED state (default)" name="passes through successful calls" time="0">
+    <testcase classname="useAlchemical hook" name="does NOT throw when used outside AlchemicalProvider" time="0.002">
     </testcase>
-    <testcase classname="CircuitBreaker › CLOSED state (default)" name="propagates errors when no fallback" time="0.008">
+    <testcase classname="useAlchemical hook" name="returns default context values when outside provider" time="0.01">
     </testcase>
-    <testcase classname="CircuitBreaker › CLOSED state (default)" name="uses fallback on failure when provided" time="0.001">
+    <testcase classname="useAlchemical hook" name="provides working helper functions from default context" time="0.003">
     </testcase>
-    <testcase classname="CircuitBreaker › CLOSED → OPEN transition" name="opens after reaching failure threshold" time="0.001">
+    <testcase classname="useAlchemicalSafe hook" name="returns context when inside provider" time="0.022">
     </testcase>
-    <testcase classname="CircuitBreaker › CLOSED → OPEN transition" name="stays closed below threshold" time="0.001">
-    </testcase>
-    <testcase classname="CircuitBreaker › OPEN state" name="rejects calls immediately when open (no fallback)" time="0.001">
-    </testcase>
-    <testcase classname="CircuitBreaker › OPEN state" name="uses fallback when open" time="0.004">
-    </testcase>
-    <testcase classname="CircuitBreaker › OPEN → HALF_OPEN transition" name="transitions to HALF_OPEN after resetTimeout" time="0.15">
-    </testcase>
-    <testcase classname="CircuitBreaker › reset()" name="resets state to CLOSED" time="0.001">
+    <testcase classname="useAlchemicalSafe hook" name="returns null-ish safely when outside provider" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="CookingMethodPreview — hooks compliance" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.101" tests="3">
-    <testcase classname="CookingMethodPreview — hooks compliance" name="renders without crashing inside AlchemicalProvider" time="0.036">
+  <testsuite name="AlchemicalProvider" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:33" time="0.851" tests="6">
+    <testcase classname="AlchemicalProvider" name="renders children without crashing" time="0.112">
     </testcase>
-    <testcase classname="CookingMethodPreview — hooks compliance" name="does not wrap useAlchemical in try-catch" time="0.001">
+    <testcase classname="AlchemicalProvider" name="provides default state values to children" time="0.027">
     </testcase>
-    <testcase classname="EnhancedCookingMethodRecommender — hooks compliance" name="does not wrap useAlchemical in try-catch" time="0.001">
+    <testcase classname="ErrorBoundary" name="renders children when no error" time="0.01">
     </testcase>
-  </testsuite>
-  <testsuite name="useAlchemical hook" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.187" tests="6">
-    <testcase classname="useAlchemical hook" name="returns context value when inside AlchemicalProvider" time="0.055">
+    <testcase classname="ErrorBoundary" name="catches errors and shows fallback UI" time="0.048">
     </testcase>
-    <testcase classname="useAlchemical hook" name="does NOT throw when used outside AlchemicalProvider" time="0.003">
+    <testcase classname="ErrorBoundary" name="displays error details when expanded" time="0.02">
     </testcase>
-    <testcase classname="useAlchemical hook" name="returns default context values when outside provider" time="0.003">
-    </testcase>
-    <testcase classname="useAlchemical hook" name="provides working helper functions from default context" time="0.002">
-    </testcase>
-    <testcase classname="useAlchemicalSafe hook" name="returns context when inside provider" time="0.011">
-    </testcase>
-    <testcase classname="useAlchemicalSafe hook" name="returns null-ish safely when outside provider" time="0.001">
+    <testcase classname="ErrorBoundary" name="recovers when Try Again is clicked" time="0.019">
     </testcase>
   </testsuite>
-  <testsuite name="Recipe Computation Pipeline" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.113" tests="15">
-    <testcase classname="Recipe Computation Pipeline › Core Computation Functions" name="computeRecipeProperties returns complete computed properties" time="0.006">
+  <testsuite name="CookingMethodPreview — hooks compliance" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:33" time="0.315" tests="3">
+    <testcase classname="CookingMethodPreview — hooks compliance" name="renders without crashing inside AlchemicalProvider" time="0.117">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Core Computation Functions" name="computeRecipePropertiesSimple provides default options" time="0.002">
+    <testcase classname="CookingMethodPreview — hooks compliance" name="does not wrap useAlchemical in try-catch" time="0.004">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Core Computation Functions" name="throws error when planetary positions are missing" time="0.016">
+    <testcase classname="EnhancedCookingMethodRecommender — hooks compliance" name="does not wrap useAlchemical in try-catch" time="0.003">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Kinetic Properties Calculation" name="calculateRecipeKinetics generates P=IV circuit properties" time="0.004">
+  </testsuite>
+  <testsuite name="Recipe Computation Pipeline" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:33" time="0.276" tests="15">
+    <testcase classname="Recipe Computation Pipeline › Core Computation Functions" name="computeRecipeProperties returns complete computed properties" time="0.037">
+    </testcase>
+    <testcase classname="Recipe Computation Pipeline › Core Computation Functions" name="computeRecipePropertiesSimple provides default options" time="0.004">
+    </testcase>
+    <testcase classname="Recipe Computation Pipeline › Core Computation Functions" name="throws error when planetary positions are missing" time="0.024">
+    </testcase>
+    <testcase classname="Recipe Computation Pipeline › Kinetic Properties Calculation" name="calculateRecipeKinetics generates P=IV circuit properties" time="0.001">
     </testcase>
     <testcase classname="Recipe Computation Pipeline › Kinetic Properties Calculation" name="kinetic properties reflect recipe composition" time="0.001">
     </testcase>
@@ -161,260 +131,230 @@
     </testcase>
     <testcase classname="Recipe Computation Pipeline › Ingredient Processing" name="scaleIngredientByQuantity applies logarithmic scaling" time="0">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Ingredient Processing" name="handles empty ingredient list gracefully" time="0">
+    <testcase classname="Recipe Computation Pipeline › Ingredient Processing" name="handles empty ingredient list gracefully" time="0.001">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Cooking Method Transformations" name="applyCookingMethodTransforms modifies elemental properties" time="0.001">
+    <testcase classname="Recipe Computation Pipeline › Cooking Method Transformations" name="applyCookingMethodTransforms modifies elemental properties" time="0">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Cooking Method Transformations" name="handles unknown cooking methods gracefully" time="0.002">
+    <testcase classname="Recipe Computation Pipeline › Cooking Method Transformations" name="handles unknown cooking methods gracefully" time="0.016">
     </testcase>
     <testcase classname="Recipe Computation Pipeline › Cooking Method Transformations" name="applies multiple cooking methods sequentially" time="0.001">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Integration Tests" name="complete pipeline produces consistent results" time="0.004">
+    <testcase classname="Recipe Computation Pipeline › Integration Tests" name="complete pipeline produces consistent results" time="0.019">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Integration Tests" name="different planetary positions produce different results" time="0.004">
+    <testcase classname="Recipe Computation Pipeline › Integration Tests" name="different planetary positions produce different results" time="0.012">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Integration Tests" name="cooking methods affect final elemental balance" time="0.002">
+    <testcase classname="Recipe Computation Pipeline › Integration Tests" name="cooking methods affect final elemental balance" time="0.005">
     </testcase>
-    <testcase classname="Recipe Computation Pipeline › Performance Tests" name="computation completes within performance targets" time="0.015">
+    <testcase classname="Recipe Computation Pipeline › Performance Tests" name="computation completes within performance targets" time="0.048">
     </testcase>
   </testsuite>
-  <testsuite name="AlertingSystem" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.093" tests="14">
-    <testcase classname="AlertingSystem › Alert Rule Management" name="should add new alert rule" time="0.002">
+  <testsuite name="CulinaryAstrologer" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.138" tests="1">
+    <testcase classname="CulinaryAstrologer" name="should return recipe recommendations based on astrological state" time="0.001">
     </testcase>
-    <testcase classname="AlertingSystem › Alert Rule Management" name="should update existing alert rule" time="0.003">
+  </testsuite>
+  <testsuite name="CulinaryAstrologer" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.129" tests="1">
+    <testcase classname="CulinaryAstrologer" name="should return recipe recommendations based on astrological state" time="0.003">
     </testcase>
-    <testcase classname="AlertingSystem › Alert Rule Management" name="should delete alert rule" time="0.003">
+  </testsuite>
+  <testsuite name="CircuitBreaker" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:33" time="0.284" tests="10">
+    <testcase classname="CircuitBreaker › CLOSED state (default)" name="starts in CLOSED state" time="0.001">
+    </testcase>
+    <testcase classname="CircuitBreaker › CLOSED state (default)" name="passes through successful calls" time="0.001">
+    </testcase>
+    <testcase classname="CircuitBreaker › CLOSED state (default)" name="propagates errors when no fallback" time="0.004">
+    </testcase>
+    <testcase classname="CircuitBreaker › CLOSED state (default)" name="uses fallback on failure when provided" time="0.001">
+    </testcase>
+    <testcase classname="CircuitBreaker › CLOSED → OPEN transition" name="opens after reaching failure threshold" time="0">
+    </testcase>
+    <testcase classname="CircuitBreaker › CLOSED → OPEN transition" name="stays closed below threshold" time="0.001">
+    </testcase>
+    <testcase classname="CircuitBreaker › OPEN state" name="rejects calls immediately when open (no fallback)" time="0.001">
+    </testcase>
+    <testcase classname="CircuitBreaker › OPEN state" name="uses fallback when open" time="0">
+    </testcase>
+    <testcase classname="CircuitBreaker › OPEN → HALF_OPEN transition" name="transitions to HALF_OPEN after resetTimeout" time="0.155">
+    </testcase>
+    <testcase classname="CircuitBreaker › reset()" name="resets state to CLOSED" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="AlertingSystem" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.164" tests="14">
+    <testcase classname="AlertingSystem › Alert Rule Management" name="should add new alert rule" time="0.004">
+    </testcase>
+    <testcase classname="AlertingSystem › Alert Rule Management" name="should update existing alert rule" time="0.002">
+    </testcase>
+    <testcase classname="AlertingSystem › Alert Rule Management" name="should delete alert rule" time="0.002">
     </testcase>
     <testcase classname="AlertingSystem › Alert Generation" name="should create alert when threshold is exceeded" time="0.002">
     </testcase>
     <testcase classname="AlertingSystem › Alert Generation" name="should not create alert when threshold is not exceeded" time="0.002">
     </testcase>
-    <testcase classname="AlertingSystem › Alert Generation" name="should respect cooldown period" time="0.001">
+    <testcase classname="AlertingSystem › Alert Generation" name="should respect cooldown period" time="0.002">
     </testcase>
-    <testcase classname="AlertingSystem › Alert Management" name="should acknowledge alert" time="0.002">
+    <testcase classname="AlertingSystem › Alert Management" name="should acknowledge alert" time="0.012">
     </testcase>
-    <testcase classname="AlertingSystem › Alert Management" name="should resolve alert" time="0.001">
+    <testcase classname="AlertingSystem › Alert Management" name="should resolve alert" time="0.002">
     </testcase>
-    <testcase classname="AlertingSystem › Alert Filtering" name="should filter alerts by type" time="0.002">
+    <testcase classname="AlertingSystem › Alert Filtering" name="should filter alerts by type" time="0.022">
     </testcase>
     <testcase classname="AlertingSystem › Alert Filtering" name="should filter alerts by severity" time="0.002">
     </testcase>
-    <testcase classname="AlertingSystem › Alert Filtering" name="should limit number of alerts returned" time="0.001">
+    <testcase classname="AlertingSystem › Alert Filtering" name="should limit number of alerts returned" time="0">
     </testcase>
-    <testcase classname="AlertingSystem › Alert Summary" name="should provide accurate alert summary" time="0.003">
+    <testcase classname="AlertingSystem › Alert Summary" name="should provide accurate alert summary" time="0.006">
     </testcase>
-    <testcase classname="AlertingSystem › Test Alert Functionality" name="should create test alert" time="0.001">
+    <testcase classname="AlertingSystem › Test Alert Functionality" name="should create test alert" time="0.009">
     </testcase>
-    <testcase classname="AlertingSystem › Test Alert Functionality" name="should return false for non-existent rule" time="0">
+    <testcase classname="AlertingSystem › Test Alert Functionality" name="should return false for non-existent rule" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Recipe Auto-Fixer" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.071" tests="23">
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="generates ID if missing" time="0.001">
+  <testsuite name="Recipe Auto-Fixer" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.135" tests="23">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="generates ID if missing" time="0.003">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="does not modify existing ID" time="0">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="does not modify existing ID" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes time format" time="0.001">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes time format" time="0.002">
     </testcase>
     <testcase classname="Recipe Auto-Fixer › fixRecipe" name="adds default elemental properties" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes existing elemental properties" time="0">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes existing elemental properties" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="adds default serving size" time="0.001">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="adds default serving size" time="0">
     </testcase>
     <testcase classname="Recipe Auto-Fixer › fixRecipe" name="uses numberOfServings for serving size" time="0.001">
     </testcase>
     <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes season values" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="adds default season if missing" time="0">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="adds default season if missing" time="0.002">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes meal type values" time="0">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes meal type values" time="0.001">
     </testcase>
     <testcase classname="Recipe Auto-Fixer › fixRecipe" name="adds default meal type if missing" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes spice level" time="0.001">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes spice level" time="0">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="clamps numeric spice level" time="0">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="clamps numeric spice level" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes ingredient amounts" time="0.001">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="normalizes ingredient amounts" time="0.002">
     </testcase>
     <testcase classname="Recipe Auto-Fixer › fixRecipe" name="copies instructions from preparationSteps" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="converts string arrays" time="0.001">
+    <testcase classname="Recipe Auto-Fixer › fixRecipe" name="converts string arrays" time="0">
     </testcase>
     <testcase classname="Recipe Auto-Fixer › fixRecipe" name="tracks all fixes applied" time="0">
     </testcase>
     <testcase classname="Recipe Auto-Fixer › fixRecipe" name="returns remaining issues" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixAllRecipes" name="fixes multiple recipes" time="0.001">
+    <testcase classname="Recipe Auto-Fixer › fixAllRecipes" name="fixes multiple recipes" time="0">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixAllRecipes" name="tracks total fixes by type" time="0.001">
+    <testcase classname="Recipe Auto-Fixer › fixAllRecipes" name="tracks total fixes by type" time="0">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › fixAllRecipes" name="reports unfixed recipes" time="0">
+    <testcase classname="Recipe Auto-Fixer › fixAllRecipes" name="reports unfixed recipes" time="0.001">
     </testcase>
     <testcase classname="Recipe Auto-Fixer › extractFixedRecipes" name="extracts fixed recipe objects" time="0.001">
     </testcase>
-    <testcase classname="Recipe Auto-Fixer › Fix Options" name="respects disabled options" time="0.001">
+    <testcase classname="Recipe Auto-Fixer › Fix Options" name="respects disabled options" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Recipe Schema Validator" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.102" tests="34">
-    <testcase classname="Recipe Schema Validator › generateRecipeId" name="generates ID from name only" time="0.001">
+  <testsuite name="Astrological Validation Utilities" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.177" tests="29">
+    <testcase classname="Astrological Validation Utilities › Planetary Position Validation" name="should validate complete planetary positions object" time="0.007">
     </testcase>
-    <testcase classname="Recipe Schema Validator › generateRecipeId" name="generates ID with cuisine prefix" time="0">
+    <testcase classname="Astrological Validation Utilities › Planetary Position Validation" name="should detect missing required planets" time="0">
     </testcase>
-    <testcase classname="Recipe Schema Validator › generateRecipeId" name="handles special characters" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Planetary Position Validation" name="should detect invalid planetary position structure" time="0.002">
     </testcase>
-    <testcase classname="Recipe Schema Validator › generateRecipeId" name="handles multiple spaces" time="0">
+    <testcase classname="Astrological Validation Utilities › Planetary Position Validation" name="should validate degree ranges" time="0.001">
     </testcase>
-    <testcase classname="Recipe Schema Validator › isValidTimeFormat" name="accepts number values" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Planetary Position Validation" name="should auto-correct invalid values when requested" time="0.016">
     </testcase>
-    <testcase classname="Recipe Schema Validator › isValidTimeFormat" name="accepts minutes format" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Elemental Properties Validation" name="should validate complete elemental properties" time="0">
     </testcase>
-    <testcase classname="Recipe Schema Validator › isValidTimeFormat" name="accepts hours format" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Elemental Properties Validation" name="should reject missing elements" time="0.003">
     </testcase>
-    <testcase classname="Recipe Schema Validator › isValidTimeFormat" name="rejects invalid formats" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Elemental Properties Validation" name="should reject invalid element values" time="0.003">
     </testcase>
-    <testcase classname="Recipe Schema Validator › normalizeTimeToMinutes" name="converts minutes strings" time="0.006">
+    <testcase classname="Astrological Validation Utilities › Elemental Properties Validation" name="should normalize elemental properties" time="0.001">
     </testcase>
-    <testcase classname="Recipe Schema Validator › normalizeTimeToMinutes" name="converts hours strings" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Elemental Properties Validation" name="should calculate elemental harmony correctly" time="0">
     </testcase>
-    <testcase classname="Recipe Schema Validator › normalizeTimeToMinutes" name="passes through numbers" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Elemental Properties Validation" name="should identify dominant element" time="0">
     </testcase>
-    <testcase classname="Recipe Schema Validator › normalizeTimeToMinutes" name="returns null for invalid input" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Elemental Properties Validation" name="should enhance dominant element" time="0.001">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateElementalProperties" name="validates correct properties" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Elemental Properties Validation" name="should validate self-reinforcement patterns" time="0.001">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateElementalProperties" name="detects missing properties" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Transit Date Validation" name="should validate transit dates correctly" time="0.005">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateElementalProperties" name="detects sum not equal to 1" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Transit Date Validation" name="should get current transit sign" time="0.003">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateElementalProperties" name="normalizes properties" time="0">
+    <testcase classname="Astrological Validation Utilities › Transit Date Validation" name="should validate retrograde phases" time="0">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateIngredient" name="validates correct ingredient" time="0">
+    <testcase classname="Astrological Validation Utilities › Transit Date Validation" name="should validate all transit dates for consistency" time="0.001">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateIngredient" name="detects missing name" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Mathematical Constants Validation" name="should validate expected constants" time="0">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateIngredient" name="detects missing amount" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Mathematical Constants Validation" name="should warn about unexpected constant values" time="0.002">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateIngredient" name="detects missing unit" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Mathematical Constants Validation" name="should error on invalid constant values" time="0">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateRecipe" name="validates a complete recipe" time="0.002">
+    <testcase classname="Astrological Validation Utilities › Comprehensive Astrological Calculation Validation" name="should validate complete astrological calculation input" time="0.005">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateRecipe" name="detects missing name" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Comprehensive Astrological Calculation Validation" name="should collect all validation errors and warnings" time="0.006">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateRecipe" name="detects missing ingredients" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Quick Validation Functions" name="should provide quick validation for different data types" time="0.002">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateRecipe" name="detects missing instructions" time="0">
+    <testcase classname="Astrological Validation Utilities › Validation Constants" name="should export all necessary validation constants" time="0">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateRecipe" name="warns about missing ID" time="0">
+    <testcase classname="Astrological Validation Utilities › Validation Constants" name="should have consistent constants across modules" time="0.001">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateRecipe" name="calculates quality score" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Error Handling and Edge Cases" name="should handle null and undefined inputs gracefully" time="0.005">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateRecipe" name="calculates field coverage" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Error Handling and Edge Cases" name="should handle malformed data structures" time="0.003">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateAllRecipes" name="validates multiple recipes" time="0.001">
+    <testcase classname="Astrological Validation Utilities › Error Handling and Edge Cases" name="should handle circular references safely" time="0.004">
     </testcase>
-    <testcase classname="Recipe Schema Validator › validateAllRecipes" name="calculates aggregate statistics" time="0">
-    </testcase>
-    <testcase classname="Recipe Schema Validator › validateAllRecipes" name="counts issues by severity" time="0.001">
-    </testcase>
-    <testcase classname="Recipe Schema Validator › detectDuplicates" name="detects recipes with similar names" time="0.001">
-    </testcase>
-    <testcase classname="Recipe Schema Validator › detectDuplicates" name="does not flag different recipes" time="0.001">
-    </testcase>
-    <testcase classname="Recipe Schema Validator › detectDuplicates" name="considers ingredient overlap" time="0.001">
-    </testcase>
-    <testcase classname="Recipe Schema Validator › detectDuplicates" name="suggests which recipe to keep" time="0">
+    <testcase classname="Astrological Validation Utilities › Error Handling and Edge Cases" name="should validate performance with large datasets" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="Astrological ESLint Rules Integration" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.091" tests="13">
-    <testcase classname="Astrological ESLint Rules Integration › Elemental Properties Validation" name="validates correct elemental properties structure" time="0.001">
+  <testsuite name="Alchemical Pillars" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.146" tests="8">
+    <testcase classname="Alchemical Pillars" name="All 14 pillars are defined" time="0">
     </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Elemental Properties Validation" name="rejects invalid elemental properties" time="0.005">
+    <testcase classname="Alchemical Pillars" name="Each pillar has effects on Spirit, Essence, Matter, and Substance" time="0.021">
     </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Elemental Properties Validation" name="normalizes partial elemental properties" time="0.001">
+    <testcase classname="Alchemical Pillars" name="Cooking methods are mapped to pillars" time="0">
     </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Planetary Position Validation" name="validates correct planetary positions structure" time="0.001">
+    <testcase classname="Alchemical Pillars" name="getCookingMethodPillar returns correct pillar for a cooking method" time="0.001">
     </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Planetary Position Validation" name="detects missing required properties" time="0.001">
+    <testcase classname="Alchemical Pillars" name="calculateCookingMethodCompatibility returns a score between 0 and 1" time="0.002">
     </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Planetary Position Validation" name="validates degree ranges" time="0.005">
+    <testcase classname="Alchemical Pillars" name="Compatible cooking methods have higher scores" time="0">
     </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Quick Validation Functions" name="quick validate planetary positions" time="0.001">
+    <testcase classname="Alchemical Pillars" name="applyPillarTransformation transforms an item based on cooking method" time="0">
     </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Quick Validation Functions" name="quick validate elemental properties" time="0.001">
-    </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Quick Validation Functions" name="quick validate mathematical constants" time="0">
-    </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Mathematical Constants Preservation" name="mathematical constants maintain correct values" time="0.002">
-    </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Mathematical Constants Preservation" name="fallback positions structure is preserved" time="0">
-    </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Domain-Specific Variable Patterns" name="preserves astrological variable naming patterns" time="0.001">
-    </testcase>
-    <testcase classname="Astrological ESLint Rules Integration › Domain-Specific Variable Patterns" name="preserves fallback and reliability patterns" time="0.001">
+    <testcase classname="Alchemical Pillars" name="getRecommendedCookingMethods returns cooking methods sorted by compatibility" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="CulturalAnalyticsService" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.074" tests="7">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.122" tests="1">
+    <testcase classname="" name="seasonal calculations work correctly" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CulturalAnalyticsService" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.148" tests="7">
     <testcase classname="CulturalAnalyticsService › calculateCulturalSynergy" name="should calculate cultural synergy for a single cuisine" time="0.001">
     </testcase>
-    <testcase classname="CulturalAnalyticsService › calculateCulturalSynergy" name="should provide proximity bonus for same cultural group cuisines" time="0">
+    <testcase classname="CulturalAnalyticsService › calculateCulturalSynergy" name="should provide proximity bonus for same cultural group cuisines" time="0.001">
     </testcase>
-    <testcase classname="CulturalAnalyticsService › calculateCulturalSynergy" name="should provide diversity bonus for different cultural groups" time="0">
+    <testcase classname="CulturalAnalyticsService › calculateCulturalSynergy" name="should provide diversity bonus for different cultural groups" time="0.003">
     </testcase>
     <testcase classname="CulturalAnalyticsService › generateCulturalAnalytics" name="should generate comprehensive cultural analytics" time="0.001">
     </testcase>
-    <testcase classname="CulturalAnalyticsService › generateCulturalAnalytics" name="should handle unknown cuisines gracefully" time="0.017">
+    <testcase classname="CulturalAnalyticsService › generateCulturalAnalytics" name="should handle unknown cuisines gracefully" time="0.022">
     </testcase>
-    <testcase classname="CulturalAnalyticsService › generateFusionRecommendations" name="should generate fusion recommendations" time="0.001">
+    <testcase classname="CulturalAnalyticsService › generateFusionRecommendations" name="should generate fusion recommendations" time="0.004">
     </testcase>
-    <testcase classname="CulturalAnalyticsService › generateFusionRecommendations" name="should return empty array for poor fusion potential" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="PLANET_WEIGHTS" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:32" time="0.068" tests="14">
-    <testcase classname="PLANET_WEIGHTS" name="contains all 11 celestial bodies" time="0.005">
-    </testcase>
-    <testcase classname="PLANET_WEIGHTS" name="all weights are positive numbers" time="0.003">
-    </testcase>
-    <testcase classname="PLANET_WEIGHTS" name="Sun is the heaviest body" time="0">
-    </testcase>
-    <testcase classname="PLANET_WEIGHTS" name="Pluto is the lightest body" time="0.001">
-    </testcase>
-    <testcase classname="PLANET_WEIGHTS" name="Earth is exactly 1.0 (reference mass)" time="0">
-    </testcase>
-    <testcase classname="PLANET_WEIGHTS" name="maintains correct mass ordering" time="0.003">
-    </testcase>
-    <testcase classname="normalizePlanetWeight" name="normalizes Sun to approximately 1.0" time="0.001">
-    </testcase>
-    <testcase classname="normalizePlanetWeight" name="normalizes Pluto to approximately 0.0" time="0.001">
-    </testcase>
-    <testcase classname="normalizePlanetWeight" name="returns values in [0, 1] for all planets" time="0.001">
-    </testcase>
-    <testcase classname="normalizePlanetWeight" name="is monotonically increasing (heavier → higher normalized)" time="0.001">
-    </testcase>
-    <testcase classname="normalizePlanetWeight" name="handles very small values gracefully" time="0.001">
-    </testcase>
-    <testcase classname="planetaryData" name="contains data for major planets" time="0">
-    </testcase>
-    <testcase classname="planetaryData" name="each planet has element, foodCorrespondences, cookingMethods, and governs" time="0.005">
-    </testcase>
-    <testcase classname="planetaryData" name="physicalWeight matches PLANET_WEIGHTS" time="0.001">
+    <testcase classname="CulturalAnalyticsService › generateFusionRecommendations" name="should return empty array for poor fusion potential" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="getCookingMethodPillar" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:33" time="0.057" tests="6">
-    <testcase classname="getCookingMethodPillar" name="returns a pillar object for known cooking methods" time="0.001">
-    </testcase>
-    <testcase classname="getCookingMethodPillar" name="returns undefined/null for unknown cooking methods" time="0.001">
-    </testcase>
-    <testcase classname="calculateCookingMethodCompatibility" name="returns a number between 0 and 1" time="0.001">
-    </testcase>
-    <testcase classname="calculateCookingMethodCompatibility" name="returns 0.5 for unknown cooking methods" time="0">
-    </testcase>
-    <testcase classname="calculateCookingMethodCompatibility" name="returns 0.5 when one method is unknown" time="0.002">
-    </testcase>
-    <testcase classname="calculateCookingMethodCompatibility" name="returns consistent results for the same pair" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Elemental Normalization Utilities" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:33" time="0.089" tests="29">
+  <testsuite name="Elemental Normalization Utilities" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.132" tests="29">
     <testcase classname="Elemental Normalization Utilities › normalizeForDisplay" name="normalizes raw values to percentages summing to 1.0" time="0.001">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › normalizeForDisplay" name="preserves relative proportions" time="0.001">
@@ -423,65 +363,265 @@
     </testcase>
     <testcase classname="Elemental Normalization Utilities › normalizeForDisplay" name="works with already normalized values" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › normalizeForDisplay" name="handles high-intensity raw values" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › normalizeForDisplay" name="handles high-intensity raw values" time="0.014">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › getTotalIntensity" name="sums all element values" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › getTotalIntensity" name="sums all element values" time="0">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › getTotalIntensity" name="returns 1.0 for normalized properties" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › getTotalIntensity" name="returns 0 for zero properties" time="0">
+    <testcase classname="Elemental Normalization Utilities › getTotalIntensity" name="returns 0 for zero properties" time="0.001">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › getDominantElementByIntensity" name="returns element with highest value" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › getDominantElementByIntensity" name="returns element with highest value" time="0">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › getDominantElementByIntensity" name="works with high-intensity values" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › getDominantElementByIntensity" name="returns first element for equal values" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › getDominantElementByIntensity" name="returns first element for equal values" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › isNormalized" name="returns true for normalized properties (sum = 1.0)" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › isNormalized" name="returns true for normalized properties (sum = 1.0)" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › isNormalized" name="returns false for raw properties (sum &gt; 1.0)" time="0">
+    <testcase classname="Elemental Normalization Utilities › isNormalized" name="returns false for raw properties (sum &gt; 1.0)" time="0.001">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › isNormalized" name="handles edge cases near 1.0" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › isNormalized" name="returns true for sum of 1.05 (within tolerance)" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › isNormalized" name="returns true for sum of 1.05 (within tolerance)" time="0">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › convertNormalizedToRaw" name="scales normalized values to reference intensity" time="0.001">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › convertNormalizedToRaw" name="uses default reference intensity of 4.0" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › convertNormalizedToRaw" name="returns raw values unchanged when already raw" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › convertNormalizedToRaw" name="returns raw values unchanged when already raw" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › getRelativeStrengths" name="calculates element strength relative to average" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › getRelativeStrengths" name="calculates element strength relative to average" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › getRelativeStrengths" name="returns all 1.0 for zero properties" time="0">
+    <testcase classname="Elemental Normalization Utilities › getRelativeStrengths" name="returns all 1.0 for zero properties" time="0.001">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › getRelativeStrengths" name="balanced properties have strength of 1.0" time="0">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › formatAsPercentages" name="formats raw values as percentage strings" time="0.001">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › formatAsPercentages" name="respects decimal places parameter" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › formatAsPercentages" name="respects decimal places parameter" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › formatAsPercentages" name="works with already normalized values" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › formatAsPercentages" name="works with already normalized values" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › compareIntensities" name="calculates differences between two property sets" time="0">
+    <testcase classname="Elemental Normalization Utilities › compareIntensities" name="calculates differences between two property sets" time="0.001">
     </testcase>
     <testcase classname="Elemental Normalization Utilities › compareIntensities" name="returns zeros for identical properties" time="0.001">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › Integration Tests" name="round-trip: normalize -&gt; convert back preserves proportions" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › Integration Tests" name="round-trip: normalize -&gt; convert back preserves proportions" time="0">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › Integration Tests" name="dominant element is consistent across normalization" time="0">
+    <testcase classname="Elemental Normalization Utilities › Integration Tests" name="dominant element is consistent across normalization" time="0.001">
     </testcase>
-    <testcase classname="Elemental Normalization Utilities › Integration Tests" name="relative strengths remain consistent after normalization" time="0.001">
+    <testcase classname="Elemental Normalization Utilities › Integration Tests" name="relative strengths remain consistent after normalization" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="clientLogger" errors="0" failures="0" skipped="0" timestamp="2026-03-28T07:33:33" time="0.044" tests="4">
-    <testcase classname="clientLogger" name="does not throw on any log level" time="0.001">
+  <testsuite name="PLANET_WEIGHTS" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.134" tests="14">
+    <testcase classname="PLANET_WEIGHTS" name="contains all 11 celestial bodies" time="0.004">
     </testcase>
-    <testcase classname="clientLogger" name="logs warnings to console.warn" time="0">
+    <testcase classname="PLANET_WEIGHTS" name="all weights are positive numbers" time="0.002">
+    </testcase>
+    <testcase classname="PLANET_WEIGHTS" name="Sun is the heaviest body" time="0">
+    </testcase>
+    <testcase classname="PLANET_WEIGHTS" name="Pluto is the lightest body" time="0.001">
+    </testcase>
+    <testcase classname="PLANET_WEIGHTS" name="Earth is exactly 1.0 (reference mass)" time="0.001">
+    </testcase>
+    <testcase classname="PLANET_WEIGHTS" name="maintains correct mass ordering" time="0.005">
+    </testcase>
+    <testcase classname="normalizePlanetWeight" name="normalizes Sun to approximately 1.0" time="0.002">
+    </testcase>
+    <testcase classname="normalizePlanetWeight" name="normalizes Pluto to approximately 0.0" time="0.007">
+    </testcase>
+    <testcase classname="normalizePlanetWeight" name="returns values in [0, 1] for all planets" time="0.013">
+    </testcase>
+    <testcase classname="normalizePlanetWeight" name="is monotonically increasing (heavier → higher normalized)" time="0">
+    </testcase>
+    <testcase classname="normalizePlanetWeight" name="handles very small values gracefully" time="0.006">
+    </testcase>
+    <testcase classname="planetaryData" name="contains data for major planets" time="0.001">
+    </testcase>
+    <testcase classname="planetaryData" name="each planet has element, foodCorrespondences, cookingMethods, and governs" time="0.007">
+    </testcase>
+    <testcase classname="planetaryData" name="physicalWeight matches PLANET_WEIGHTS" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Astrological ESLint Rules Integration" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.084" tests="13">
+    <testcase classname="Astrological ESLint Rules Integration › Elemental Properties Validation" name="validates correct elemental properties structure" time="0">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Elemental Properties Validation" name="rejects invalid elemental properties" time="0.003">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Elemental Properties Validation" name="normalizes partial elemental properties" time="0.001">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Planetary Position Validation" name="validates correct planetary positions structure" time="0.001">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Planetary Position Validation" name="detects missing required properties" time="0.009">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Planetary Position Validation" name="validates degree ranges" time="0.006">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Quick Validation Functions" name="quick validate planetary positions" time="0.002">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Quick Validation Functions" name="quick validate elemental properties" time="0">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Quick Validation Functions" name="quick validate mathematical constants" time="0">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Mathematical Constants Preservation" name="mathematical constants maintain correct values" time="0.001">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Mathematical Constants Preservation" name="fallback positions structure is preserved" time="0">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Domain-Specific Variable Patterns" name="preserves astrological variable naming patterns" time="0">
+    </testcase>
+    <testcase classname="Astrological ESLint Rules Integration › Domain-Specific Variable Patterns" name="preserves fallback and reliability patterns" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Alchemical Pillars" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.114" tests="8">
+    <testcase classname="Alchemical Pillars" name="All 14 pillars are defined" time="0.001">
+    </testcase>
+    <testcase classname="Alchemical Pillars" name="Each pillar has effects on Spirit, Essence, Matter, and Substance" time="0.02">
+    </testcase>
+    <testcase classname="Alchemical Pillars" name="Cooking methods are mapped to pillars" time="0.012">
+    </testcase>
+    <testcase classname="Alchemical Pillars" name="getCookingMethodPillar returns correct pillar for a cooking method" time="0.002">
+    </testcase>
+    <testcase classname="Alchemical Pillars" name="calculateCookingMethodCompatibility returns a score between 0 and 1" time="0.001">
+    </testcase>
+    <testcase classname="Alchemical Pillars" name="Compatible cooking methods have higher scores" time="0">
+    </testcase>
+    <testcase classname="Alchemical Pillars" name="applyPillarTransformation transforms an item based on cooking method" time="0.004">
+    </testcase>
+    <testcase classname="Alchemical Pillars" name="getRecommendedCookingMethods returns cooking methods sorted by compatibility" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="elementalUtils" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.126" tests="4">
+    <testcase classname="elementalUtils › validateProperties" name="should validate correct elemental properties" time="0.017">
+    </testcase>
+    <testcase classname="elementalUtils › validateProperties" name="should reject invalid elemental properties" time="0.006">
+    </testcase>
+    <testcase classname="elementalUtils › normalizeProperties" name="should normalize properties to sum to 1" time="0.001">
+    </testcase>
+    <testcase classname="elementalUtils › normalizeProperties" name="should handle empty or zero properties" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="getCookingMethodPillar" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.093" tests="6">
+    <testcase classname="getCookingMethodPillar" name="returns a pillar object for known cooking methods" time="0.003">
+    </testcase>
+    <testcase classname="getCookingMethodPillar" name="returns undefined/null for unknown cooking methods" time="0.002">
+    </testcase>
+    <testcase classname="calculateCookingMethodCompatibility" name="returns a number between 0 and 1" time="0.002">
+    </testcase>
+    <testcase classname="calculateCookingMethodCompatibility" name="returns 0.5 for unknown cooking methods" time="0.001">
+    </testcase>
+    <testcase classname="calculateCookingMethodCompatibility" name="returns 0.5 when one method is unknown" time="0">
+    </testcase>
+    <testcase classname="calculateCookingMethodCompatibility" name="returns consistent results for the same pair" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Recipe Schema Validator" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.141" tests="34">
+    <testcase classname="Recipe Schema Validator › generateRecipeId" name="generates ID from name only" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › generateRecipeId" name="generates ID with cuisine prefix" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › generateRecipeId" name="handles special characters" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › generateRecipeId" name="handles multiple spaces" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › isValidTimeFormat" name="accepts number values" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › isValidTimeFormat" name="accepts minutes format" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › isValidTimeFormat" name="accepts hours format" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › isValidTimeFormat" name="rejects invalid formats" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › normalizeTimeToMinutes" name="converts minutes strings" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › normalizeTimeToMinutes" name="converts hours strings" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › normalizeTimeToMinutes" name="passes through numbers" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › normalizeTimeToMinutes" name="returns null for invalid input" time="0.002">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateElementalProperties" name="validates correct properties" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateElementalProperties" name="detects missing properties" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateElementalProperties" name="detects sum not equal to 1" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateElementalProperties" name="normalizes properties" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateIngredient" name="validates correct ingredient" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateIngredient" name="detects missing name" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateIngredient" name="detects missing amount" time="0.003">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateIngredient" name="detects missing unit" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateRecipe" name="validates a complete recipe" time="0.035">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateRecipe" name="detects missing name" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateRecipe" name="detects missing ingredients" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateRecipe" name="detects missing instructions" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateRecipe" name="warns about missing ID" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateRecipe" name="calculates quality score" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateRecipe" name="calculates field coverage" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateAllRecipes" name="validates multiple recipes" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateAllRecipes" name="calculates aggregate statistics" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › validateAllRecipes" name="counts issues by severity" time="0.019">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › detectDuplicates" name="detects recipes with similar names" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › detectDuplicates" name="does not flag different recipes" time="0.001">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › detectDuplicates" name="considers ingredient overlap" time="0">
+    </testcase>
+    <testcase classname="Recipe Schema Validator › detectDuplicates" name="suggests which recipe to keep" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="getRecommendedIngredients" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.085" tests="1">
+    <testcase classname="getRecommendedIngredients" name="should return ingredients matching the current elemental state" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="clientLogger" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.102" tests="4">
+    <testcase classname="clientLogger" name="does not throw on any log level" time="0.003">
+    </testcase>
+    <testcase classname="clientLogger" name="logs warnings to console.warn" time="0.001">
     </testcase>
     <testcase classname="clientLogger" name="logs errors to console.error" time="0">
     </testcase>
-    <testcase classname="clientLogger" name="accepts optional data argument without crashing" time="0.001">
+    <testcase classname="clientLogger" name="accepts optional data argument without crashing" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.06" tests="1">
+    <testcase classname="" name="setup is working correctly" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="calculateMatchScore" errors="0" failures="0" skipped="0" timestamp="2026-04-05T01:23:34" time="0.066" tests="10">
+    <testcase classname="calculateMatchScore" name="returns a number between 0 and 1 for valid inputs" time="0.001">
+    </testcase>
+    <testcase classname="calculateMatchScore" name="returns a high score for identical elemental profiles" time="0.001">
+    </testcase>
+    <testcase classname="calculateMatchScore" name="returns a lower score for opposing profiles" time="0">
+    </testcase>
+    <testcase classname="calculateMatchScore" name="handles null/undefined elementalProperties by defaulting to balanced" time="0">
+    </testcase>
+    <testcase classname="calculateMatchScore" name="handles undefined elementalState by defaulting to balanced" time="0">
+    </testcase>
+    <testcase classname="calculateMatchScore" name="handles NaN values in properties by replacing with 0.25" time="0.001">
+    </testcase>
+    <testcase classname="calculateMatchScore" name="handles empty elementalState object by defaulting" time="0">
+    </testcase>
+    <testcase classname="calculateMatchScore › with options" name="applies seasonal weight adjustments" time="0.001">
+    </testcase>
+    <testcase classname="calculateMatchScore › with options" name="applies meal type adjustments" time="0">
+    </testcase>
+    <testcase classname="calculateMatchScore › with options" name="contrast mode inverts scoring for differing profiles" time="0">
     </testcase>
   </testsuite>
 </testsuites>

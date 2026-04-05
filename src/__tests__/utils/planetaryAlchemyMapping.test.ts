@@ -115,9 +115,13 @@ describe("calculateAlchemicalFromPlanets", () => {
   it("accumulates contributions from multiple planets", () => {
     const onePlanet = calculateAlchemicalFromPlanets({ Sun: "Leo" });
     const twoPlanets = calculateAlchemicalFromPlanets({ Sun: "Leo", Jupiter: "Sagittarius" });
-    // Jupiter adds Spirit+Essence, so both should be higher
+    // Jupiter diurnal adds Spirit, so Spirit should be higher
     expect(twoPlanets.Spirit).toBeGreaterThan(onePlanet.Spirit);
-    expect(twoPlanets.Essence).toBeGreaterThan(onePlanet.Essence);
+    
+    // Test nocturnal where Jupiter adds Essence
+    const onePlanetNight = calculateAlchemicalFromPlanets({ Sun: "Leo" }, false);
+    const twoPlanetsNight = calculateAlchemicalFromPlanets({ Sun: "Leo", Jupiter: "Sagittarius" }, false);
+    expect(twoPlanetsNight.Essence).toBeGreaterThan(onePlanetNight.Essence);
   });
 });
 
@@ -222,15 +226,15 @@ describe("getPlanetarySectElement", () => {
     expect(getPlanetarySectElement("Moon", true)).toBe("Water");
     expect(getPlanetarySectElement("Mercury", true)).toBe("Air");
     expect(getPlanetarySectElement("Saturn", true)).toBe("Air");
-    expect(getPlanetarySectElement("Jupiter", true)).toBe("Fire");
+    expect(getPlanetarySectElement("Jupiter", true)).toBe("Air");
   });
 
   it("returns correct nocturnal elements", () => {
     expect(getPlanetarySectElement("Mercury", false)).toBe("Earth");
-    expect(getPlanetarySectElement("Venus", false)).toBe("Water");
+    expect(getPlanetarySectElement("Venus", false)).toBe("Earth");
     expect(getPlanetarySectElement("Mars", false)).toBe("Water");
     expect(getPlanetarySectElement("Saturn", false)).toBe("Earth");
-    expect(getPlanetarySectElement("Jupiter", false)).toBe("Air");
+    expect(getPlanetarySectElement("Jupiter", false)).toBe("Fire");
   });
 
   it("returns Air fallback for unknown planet", () => {

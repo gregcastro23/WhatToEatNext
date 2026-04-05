@@ -104,7 +104,7 @@ function LoginContent() {
           {/* Google Sign-In Button */}
           <button
             disabled={isSigningIn}
-            onClick={handleGoogleSignIn}
+            onClick={() => { void handleGoogleSignIn(); }}
             className="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-semibold rounded-2xl text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-[#0A0A0F] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:-translate-y-0.5 active:translate-y-0"
           >
             {isSigningIn ? (

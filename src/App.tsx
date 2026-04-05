@@ -49,7 +49,7 @@ interface NutritionInfo {
 }
 
 // Example recipe, intentionally unused but kept as reference
-const defaultRecipe: Recipe = {
+const _defaultRecipe: Recipe = {
   id: 'default',
   name: "Select a Recipe",
   description: "No description available", // Add required property
