@@ -1,7 +1,7 @@
-import { Pool, types } from "pg";
+import { Pool, types, neonConfig } from "@neondatabase/serverless";
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
-import type { PoolClient, QueryResult } from "pg";
+import type { PoolClient, QueryResult } from "@neondatabase/serverless";
 
 /**
  * Database Connection Layer - Phase 1 Infrastructure Migration
@@ -79,6 +79,10 @@ export function initializeDatabase(): Pool {
   if (pool) {
     return pool;
   }
+  
+  // Enable Neon WebSocket connections for Cloudflare Edge compatibility
+  neonConfig.fetchConnectionCache = true;
+
   const config = getDatabaseConfig();
   pool = new Pool(config);
   // Connection event handlers

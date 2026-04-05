@@ -3868,6 +3868,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@neondatabase/serverless@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@neondatabase/serverless@npm:1.0.2"
+  dependencies:
+    "@types/node": ^22.15.30
+    "@types/pg": ^8.8.0
+  checksum: 04430053eeb4306eadf644d5217636a23b01661d7c0e04f696325f40978f896e523a4f375fe54aa3128a0a2792ef6ae4f5e60dcede51f22d5e9f40300e0483a9
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:15.5.14":
   version: 15.5.14
   resolution: "@next/env@npm:15.5.14"
@@ -5300,6 +5310,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^22.15.30":
+  version: 22.19.17
+  resolution: "@types/node@npm:22.19.17"
+  dependencies:
+    undici-types: ~6.21.0
+  checksum: c817456948b0453b15a15d7865faea0b0de9bc93e9725788a62978f05994702b673029300ce9667d52ce439acfb43ecd8122acb8eba9145c26b1c4d22e67a234
+  languageName: node
+  linkType: hard
+
 "@types/nodemailer@npm:^6.4.16":
   version: 6.4.23
   resolution: "@types/nodemailer@npm:6.4.23"
@@ -5316,7 +5335,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:^8":
+"@types/pg@npm:^8, @types/pg@npm:^8.8.0":
   version: 8.20.0
   resolution: "@types/pg@npm:8.20.0"
   dependencies:
@@ -15881,6 +15900,7 @@ next-auth@beta:
     "@eslint/js": ^9.28.0
     "@hookform/resolvers": ^5.2.2
     "@mui/material": ^7.3.9
+    "@neondatabase/serverless": ^1.0.2
     "@opennextjs/cloudflare": latest
     "@stripe/stripe-js": ^8.9.0
     "@testing-library/dom": ^10.4.1
