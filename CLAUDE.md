@@ -571,8 +571,8 @@ AUTH_GOOGLE_SECRET=<google-oauth-client-secret>
 AUTH_ADMIN_EMAIL=xalchm@gmail.com
 
 # Database
-DATABASE_URL=postgresql://user:password@localhost:5432/whattoeat
-POSTGRES_HOST=localhost
+DATABASE_URL=postgresql://neondb_owner:npg_kHLuO2D3wZEg@ep-patient-bread-amcjoqiw-pooler.c-5.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require
+POSTGRES_HOST=ep-patient-bread-amcjoqiw-pooler.c-5.us-east-1.aws.neon.tech
 POSTGRES_PORT=5432
 POSTGRES_DB=whattoeat
 POSTGRES_USER=user

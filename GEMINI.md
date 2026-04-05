@@ -189,7 +189,7 @@ CORS_ALLOWED_ORIGINS=https://alchm.kitchen,http://localhost:3000
 INTERNAL_API_SECRET=882133EA-3D06-4DF2-A63C-F4114AB4EFBC
 
 # Database
-DATABASE_URL=postgresql://user:password@localhost:5432/whattoeat
+DATABASE_URL=postgresql://neondb_owner:npg_kHLuO2D3wZEg@ep-patient-bread-amcjoqiw-pooler.c-5.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require
 
 # Auth (NextAuth.js v5) — ALL REQUIRED for auth to work
 AUTH_SECRET=<random-secret-min-32-chars>
