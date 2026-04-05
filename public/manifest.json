@@ -1,9 +1,16 @@
 {
-  "name": "Astrology App",
-  "short_name": "Astrology",
-  "start_url": ".",
+  "name": "Alchm Kitchen",
+  "short_name": "Alchm",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "description": "Your personal astrology guide",
-  "permissions": ["geolocation"]
+  "background_color": "#000000",
+  "theme_color": "#8b5cf6",
+  "description": "Personalized alchemical food recommendations based on your birth chart and current planetary positions."
 }
