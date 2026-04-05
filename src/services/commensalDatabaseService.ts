@@ -12,6 +12,7 @@ import type {
   SavedChart,
   BirthData,
   NatalChart,
+  GroupMember,
 } from "@/types/natalChart";
 
 const isServerWithDB = (): boolean => {
@@ -120,7 +121,7 @@ class CommensalDatabaseService {
           const row = existing.rows[0];
           if (row.status === "blocked") return null;
           // Already exists — return existing
-          return this.getCommensalshipById(row.id);
+          return await this.getCommensalshipById(row.id);
         }
 
         await db.executeQuery(
@@ -130,7 +131,7 @@ class CommensalDatabaseService {
         );
 
         // Fetch with names
-        return this.getCommensalshipById(id);
+        return await this.getCommensalshipById(id);
       } catch (error) {
         _logger.error("createCommensalRequest failed:", error as any);
         return null;
@@ -178,7 +179,7 @@ class CommensalDatabaseService {
           [commensalshipId, newStatus],
         );
 
-        return this.getCommensalshipById(commensalshipId);
+        return await this.getCommensalshipById(commensalshipId);
       } catch (error) {
         _logger.error("updateCommensalshipStatus failed:", error as any);
         return null;
@@ -288,12 +289,15 @@ class CommensalDatabaseService {
         })
         .map((r: any) => {
           const profile = typeof r.profile === "string" ? JSON.parse(r.profile) : r.profile;
+          const birthData = profile.birthData || profile.birth_data;
+          const natalChart = profile.natalChart || profile.natal_chart;
+          
           return {
             userId: r.commensal_id.toString(),
             name: r.commensal_name,
             email: r.commensal_email,
-            natalChart: profile.natalChart as NatalChart,
-            birthData: profile.birthData as BirthData,
+            natalChart: natalChart as NatalChart,
+            birthData: birthData as BirthData,
             commensalshipId: r.commensalship_id,
             syncedAt: r.synced_at?.toISOString?.() ?? new Date().toISOString(),
           } as LinkedCommensal;
@@ -427,6 +431,84 @@ class CommensalDatabaseService {
       createdAt: row.created_at?.toISOString?.() ?? row.created_at,
       updatedAt: row.updated_at?.toISOString?.() ?? row.updated_at,
     };
+  }
+
+  // ─── Manual Companion Charts (Brand Term: Commensals) ───────
+
+  async getManualCompanionsForUser(userId: string): Promise<GroupMember[]> {
+    const db = await getDbModule();
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `SELECT * FROM manual_companion_charts WHERE owner_id::text = $1 ORDER BY created_at DESC`,
+          [userId],
+        );
+        return result.rows.map((r: any) => ({
+          id: r.id,
+          name: r.name,
+          relationship: r.relationship,
+          birthData: typeof r.birth_data === "string" ? JSON.parse(r.birth_data) : r.birth_data,
+          natalChart: typeof r.natal_chart === "string" ? JSON.parse(r.natal_chart) : r.natal_chart,
+          createdAt: r.created_at?.toISOString?.() ?? r.created_at,
+        }));
+      } catch (error) {
+        _logger.error("getManualCompanionsForUser failed:", error as any);
+        return [];
+      }
+    }
+    return [];
+  }
+
+  async createManualCompanion(data: {
+    ownerId: string;
+    name: string;
+    relationship?: string;
+    birthData: BirthData;
+    natalChart: NatalChart;
+  }): Promise<GroupMember | null> {
+    const db = await getDbModule();
+    const id = `commensal_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const now = new Date().toISOString();
+
+    if (db) {
+      try {
+        await db.executeQuery(
+          `INSERT INTO manual_companion_charts (id, owner_id, name, relationship, birth_data, natal_chart)
+           VALUES ($1, $2::uuid, $3, $4, $5, $6)`,
+          [id, data.ownerId, data.name, data.relationship || "friend",
+           JSON.stringify(data.birthData), JSON.stringify(data.natalChart)],
+        );
+        return {
+          id,
+          name: data.name,
+          relationship: data.relationship as any,
+          birthData: data.birthData,
+          natalChart: data.natalChart,
+          createdAt: now,
+        };
+      } catch (error) {
+        _logger.error("createManualCompanion failed:", error as any);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  async deleteManualCompanion(id: string, ownerId: string): Promise<boolean> {
+    const db = await getDbModule();
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `DELETE FROM manual_companion_charts WHERE id = $1 AND owner_id::text = $2`,
+          [id, ownerId],
+        );
+        return (result.rowCount ?? 0) > 0;
+      } catch (error) {
+        _logger.error("deleteManualCompanion failed:", error as any);
+        return false;
+      }
+    }
+    return false;
   }
 
   // ─── Internal helpers ────────────────────────────────────────

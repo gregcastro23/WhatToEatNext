@@ -47,20 +47,6 @@ export default function OnboardingPage() {
     const user = session.user as Record<string, unknown>;
     if (user.onboardingComplete === true) {
       router.replace("/profile");
-      return;
-    }
-
-    // Also check localStorage - if natal chart exists, user already onboarded
-    try {
-      const stored = localStorage.getItem("userProfile");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed?.natalChart?.planetaryPositions) {
-          router.replace("/profile");
-        }
-      }
-    } catch {
-      // Ignore parse errors
     }
   }, [status, session, router]);
 
@@ -173,7 +159,12 @@ export default function OnboardingPage() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form
+            onSubmit={(event) => {
+              void handleSubmit(event);
+            }}
+            className="space-y-6"
+          >
             {/* Birth Date & Time */}
             <div>
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}

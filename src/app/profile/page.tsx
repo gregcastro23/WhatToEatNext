@@ -73,6 +73,7 @@ export default function ProfilePage() {
       }
 
       let profile: any = null;
+      let serverProfileLoaded = false;
 
       // 1. Try server API first
       try {
@@ -81,14 +82,19 @@ export default function ProfilePage() {
           const data = await res.json();
           if (data.success && data.profile) {
             profile = data.profile;
+            serverProfileLoaded = true;
           }
         }
       } catch (err) {
         console.error('Failed to fetch profile from API:', err);
       }
 
-      // 2. Fall back to localStorage (populated during onboarding)
-      if (!profile?.natalChart) {
+      if (serverProfileLoaded && !profile?.natalChart && typeof window !== 'undefined') {
+        localStorage.removeItem('userProfile');
+      }
+
+      // 2. Fall back to localStorage only when server profile could not be loaded
+      if (!serverProfileLoaded && !profile?.natalChart) {
         try {
           const stored = getStorageItem('userProfile');
           if (stored) {
@@ -313,7 +319,9 @@ export default function ProfilePage() {
               setBirthDateTime={setBirthDateTime}
               birthLocation={birthLocation}
               setBirthLocation={setBirthLocation}
-              onSubmit={handleBirthDataSubmit}
+              onSubmit={(event) => {
+                void handleBirthDataSubmit(event);
+              }}
               isLoading={isLoading}
               hasExistingChart={!!profileData?.natalChart}
               onSkip={profileData?.natalChart ? () => setCurrentStep('dashboard') : undefined}
@@ -384,7 +392,12 @@ function BirthDataStep({
         </p>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-5">
+      <form
+        onSubmit={(event) => {
+          onSubmit(event);
+        }}
+        className="space-y-5"
+      >
         <div>
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className="block text-sm font-medium text-gray-700 mb-2">

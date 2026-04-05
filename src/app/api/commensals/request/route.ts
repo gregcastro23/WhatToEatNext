@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
     const commensalship = await commensalDatabase.createCommensalRequest(userId, targetUserId);
 
     if (!commensalship) {
+      console.warn(`[commensals/request] Request failed for ${userId} -> ${targetUserId} (possibly duplicate or blocked)`);
       return NextResponse.json(
         { success: false, message: "Could not create commensal request. It may already exist or be blocked." },
         { status: 409 },

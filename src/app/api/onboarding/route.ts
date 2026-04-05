@@ -16,6 +16,7 @@ import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { validatePlanetaryPositions, formatValidationResult } from "@/utils/astrology/planetaryValidation";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -113,12 +114,60 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // 🐛 DIAGNOSTIC: Log birth date parsing
+    const now = new Date();
+    _logger.info("[POST /api/onboarding] 🔮 Birth Data Received:", {
+      birthDataDateTime: birthData.dateTime,
+      parsedBirthDate: birthDate.toISOString(),
+      currentDate: now.toISOString(),
+      isToday: birthDate.toDateString() === now.toDateString(),
+      yearDifference: now.getFullYear() - birthDate.getFullYear(),
+    });
+
     let rawPositions;
     try {
       rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
         latitude: birthData.latitude,
         longitude: birthData.longitude,
       });
+
+      // 🐛 DIAGNOSTIC: Log calculated positions
+      _logger.info("[POST /api/onboarding] 🌟 Calculated Natal Positions:", {
+        Sun: rawPositions.Sun?.sign,
+        Moon: rawPositions.Moon?.sign,
+        Mercury: rawPositions.Mercury?.sign,
+        Ascendant: rawPositions.Ascendant?.sign,
+      });
+
+      // 🛡️ VALIDATE: Ensure planetary positions are astronomically valid
+      const validation = validatePlanetaryPositions(rawPositions, birthDate);
+      const validationLog = formatValidationResult(validation);
+
+      _logger.info("[POST /api/onboarding] 🛡️ Position Validation Results:\n" + validationLog);
+
+      if (!validation.valid) {
+        // Critical errors detected - reject the calculation
+        _logger.error("[POST /api/onboarding] ❌ Position validation FAILED:", {
+          errors: validation.errors,
+          birthDate: birthDate.toISOString(),
+          currentDate: now.toISOString(),
+        });
+
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Planetary positions failed validation. " + validation.errors[0],
+            validationErrors: validation.errors,
+            details: validation.details,
+          },
+          { status: 422 } // Unprocessable Entity
+        );
+      }
+
+      // Log warnings but proceed
+      if (validation.warnings.length > 0) {
+        _logger.warn("[POST /api/onboarding] ⚠️ Position validation warnings:", validation.warnings);
+      }
     } catch (error) {
       _logger.error("[POST /api/onboarding] Planetary calculation failed", error as any);
       return NextResponse.json(

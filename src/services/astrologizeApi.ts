@@ -3,7 +3,6 @@ import { log } from "@/services/LoggingService";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
-import { getEdgeWorkerBaseUrl } from "@/utils/urlUtils";
 
 // Use relative API endpoints so they hit the Next.js routes
 // The Next.js /api/... routes will securely proxy to the appropriate backend
@@ -215,11 +214,13 @@ export async function fetchPlanetaryPositions(
     log.info("Using date-aware fallback via astronomy-engine (API circuit breaker active)");
     // Build a date from the request data so fallback positions match the actual request
     const fallbackDate = new Date(
-      requestData.year ?? new Date().getFullYear(),
-      ((requestData.month ?? 1) - 1),
-      requestData.date ?? 1,
-      requestData.hour ?? 12,
-      requestData.minute ?? 0,
+      Date.UTC(
+        requestData.year ?? new Date().getUTCFullYear(),
+        ((requestData.month ?? 1) - 1),
+        requestData.date ?? 1,
+        requestData.hour ?? 12,
+        requestData.minute ?? 0,
+      ),
     );
     const accurate = getAccuratePlanetaryPositions(fallbackDate);
     const positions: Record<string, PlanetPosition> = {};

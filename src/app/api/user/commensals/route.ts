@@ -12,6 +12,7 @@ import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo, GroupMember } from "@/types/natalChart";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -71,9 +72,25 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
   }
 
+  const legacyManual = user.profile.groupMembers || [];
+  const [newManual, linked] = await Promise.all([
+    commensalDatabase.getManualCompanionsForUser(user.id),
+    commensalDatabase.getLinkedCommensalsForUser(user.id),
+  ]);
+
+  // Combine manual companions (filtering out any that might have been migrated to the table but still exist in JSONB)
+  const combinedManual = [...newManual];
+  legacyManual.forEach(leg => {
+    if (!combinedManual.some(m => m.id === leg.id)) {
+      combinedManual.push(leg);
+    }
+  });
+
   return NextResponse.json({
     success: true,
-    commensals: user.profile.groupMembers || [],
+    commensals: combinedManual,
+    linkedCommensals: linked,
+    totalCount: combinedManual.length + linked.length,
   });
 }
 
@@ -156,23 +173,22 @@ export async function POST(request: NextRequest) {
     calculatedAt: new Date().toISOString(),
   };
 
-  const newCommensal: GroupMember = {
-    id: `commensal_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-    name,
-    relationship: relationship || "friend",
-    birthData: natalChart.birthData,
-    natalChart,
-    createdAt: new Date().toISOString(),
-  };
-
-  const existingMembers = user.profile.groupMembers || [];
-  const updatedMembers = [...existingMembers, newCommensal];
-
   try {
-    await userDatabase.updateUserProfile(user.id, { groupMembers: updatedMembers });
-    return NextResponse.json({ success: true, commensal: newCommensal }, { status: 201 });
+    const created = await commensalDatabase.createManualCompanion({
+      ownerId: user.id,
+      name,
+      relationship: relationship || "friend",
+      birthData: natalChart.birthData,
+      natalChart,
+    });
+
+    if (!created) {
+      throw new Error("Database insertion failed");
+    }
+
+    return NextResponse.json({ success: true, commensal: created }, { status: 201 });
   } catch (error) {
-    _logger.error("[POST /api/user/commensals] Failed to update user profile", error as any);
+    _logger.error("[POST /api/user/commensals] Failed to create companion", error as any);
     return NextResponse.json({ success: false, message: "Failed to save companion chart" }, { status: 500 });
   }
 }

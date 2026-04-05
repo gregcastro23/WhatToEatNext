@@ -2,7 +2,6 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import type { NatalChart } from '@/types/natalChart';
 
 export interface UserPreferences {
   dietaryRestrictions: string[];
@@ -40,6 +39,7 @@ export function useProfile() {
       }
 
       let profile: any = null;
+      let serverProfileLoaded = false;
 
       try {
         const res = await fetch('/api/user/profile', { credentials: 'include' });
@@ -47,13 +47,18 @@ export function useProfile() {
           const data = await res.json();
           if (data.success && data.profile) {
             profile = data.profile;
+            serverProfileLoaded = true;
           }
         }
       } catch (err) {
         console.error('Failed to fetch profile from API:', err);
       }
 
-      if (!profile?.natalChart) {
+      if (serverProfileLoaded && !profile?.natalChart && typeof window !== 'undefined') {
+        localStorage.removeItem('userProfile');
+      }
+
+      if (!serverProfileLoaded && !profile?.natalChart) {
         try {
           const stored = getStorageItem('userProfile');
           if (stored) {
@@ -82,7 +87,7 @@ export function useProfile() {
 
       setIsLoading(false);
     }
-    fetchProfile();
+    void fetchProfile();
   }, [status, session]);
 
   return { profileData, preferences, isLoading, session, status };

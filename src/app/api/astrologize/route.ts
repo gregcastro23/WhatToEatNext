@@ -151,7 +151,9 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
  * Fall back to local astronomy-engine calculations.
  */
 function calculateLocally(params: PlanetaryRequest) {
-  const date = new Date(params.year, params.month - 1, params.date, params.hour, params.minute);
+  const date = new Date(
+    Date.UTC(params.year, params.month - 1, params.date, params.hour, params.minute),
+  );
   const positions = getAccuratePlanetaryPositions(date);
 
   const planetKeys = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
@@ -225,14 +227,25 @@ function calculateLocally(params: PlanetaryRequest) {
 
 function parseParams(searchParams: URLSearchParams): PlanetaryRequest {
   const now = new Date();
+  const parseOptionalInt = (value: string | null): number | undefined => {
+    if (value === null || value.trim() === "") return undefined;
+    const parsed = parseInt(value, 10);
+    return Number.isNaN(parsed) ? undefined : parsed;
+  };
+  const parseOptionalFloat = (value: string | null): number | undefined => {
+    if (value === null || value.trim() === "") return undefined;
+    const parsed = parseFloat(value);
+    return Number.isNaN(parsed) ? undefined : parsed;
+  };
+
   return {
-    year: parseInt(searchParams.get("year") || "", 10) || now.getUTCFullYear(),
-    month: parseInt(searchParams.get("month") || "", 10) || (now.getUTCMonth() + 1),
-    date: parseInt(searchParams.get("date") || searchParams.get("day") || "", 10) || now.getUTCDate(),
-    hour: parseInt(searchParams.get("hour") || "", 10) || now.getUTCHours(),
-    minute: parseInt(searchParams.get("minute") || "", 10) || now.getUTCMinutes(),
-    latitude: parseFloat(searchParams.get("latitude") || "") || undefined,
-    longitude: parseFloat(searchParams.get("longitude") || "") || undefined,
+    year: parseOptionalInt(searchParams.get("year")) ?? now.getUTCFullYear(),
+    month: parseOptionalInt(searchParams.get("month")) ?? (now.getUTCMonth() + 1),
+    date: parseOptionalInt(searchParams.get("date") ?? searchParams.get("day")) ?? now.getUTCDate(),
+    hour: parseOptionalInt(searchParams.get("hour")) ?? now.getUTCHours(),
+    minute: parseOptionalInt(searchParams.get("minute")) ?? now.getUTCMinutes(),
+    latitude: parseOptionalFloat(searchParams.get("latitude")),
+    longitude: parseOptionalFloat(searchParams.get("longitude")),
     zodiacSystem: (searchParams.get("zodiacSystem") as "tropical" | "sidereal") || "tropical",
   };
 }
@@ -257,22 +270,26 @@ export async function POST(request: NextRequest) {
     const params: PlanetaryRequest = {
       year: body.year,
       month: body.month,
-      date: body.date || body.day,
-      hour: body.hour,
-      minute: body.minute,
+      date: body.date ?? body.day,
+      hour: body.hour ?? 0,
+      minute: body.minute ?? 0,
       latitude: body.latitude,
       longitude: body.longitude,
       zodiacSystem: body.zodiacSystem || "tropical",
     };
 
-    // Validate required fields
-    if (!params.year || !params.month || !params.date) {
-      const now = new Date();
-      params.year = params.year || now.getUTCFullYear();
-      params.month = params.month || (now.getUTCMonth() + 1);
-      params.date = params.date || now.getUTCDate();
-      params.hour = params.hour ?? now.getUTCHours();
-      params.minute = params.minute ?? now.getUTCMinutes();
+    if (
+      !Number.isInteger(params.year) ||
+      !Number.isInteger(params.month) ||
+      !Number.isInteger(params.date)
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "year, month, and date are required for POST calculations",
+        },
+        { status: 400 },
+      );
     }
 
     // Try Railway backend first

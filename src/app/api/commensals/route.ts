@@ -36,12 +36,16 @@ export async function GET(request: NextRequest) {
     // Get linked commensals with their natal chart data
     const linkedCommensals = await commensalDatabase.getLinkedCommensalsForUser(userId);
 
+    // Get manual companions
+    const manualCompanions = await commensalDatabase.getManualCompanionsForUser(userId);
+
     return NextResponse.json({
       success: true,
       pendingReceived,
       pendingSent,
       accepted,
       linkedCommensals,
+      manualCompanions,
     });
   } catch (error) {
     console.error("Get commensalships error:", error);

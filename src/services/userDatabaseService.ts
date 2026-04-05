@@ -168,7 +168,7 @@ class UserDatabaseService {
                   up.dietary_preferences, up.group_members, up.dining_groups, up.onboarding_completed
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
-           WHERE u.id = $1`,
+           WHERE u.id::text = $1`,
           [userId],
         );
 
@@ -263,7 +263,7 @@ class UserDatabaseService {
         // Update users table profile JSONB
         await db.executeQuery(
           `UPDATE users SET profile = $2, preferences = $3, updated_at = CURRENT_TIMESTAMP
-           WHERE id = $1`,
+           WHERE id::text = $1`,
           [
             userId,
             JSON.stringify(updatedProfile),

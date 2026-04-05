@@ -8,6 +8,7 @@ SQLAlchemy engine, session management, and database operations.
 from contextlib import contextmanager
 from typing import Generator
 import logging
+import os
 
 from sqlalchemy import create_engine, MetaData, text
 from sqlalchemy.engine import Engine
@@ -30,29 +31,49 @@ def get_db_engine() -> Engine:
     global _engine
 
     if _engine is None:
-        logger.info("Creating SQLAlchemy engine...")
+        # Mask credentials for logging
+        raw_url = config.get_sqlalchemy_url()
+        masked_url = raw_url
+        if "@" in raw_url:
+            try:
+                protocol, rest = raw_url.split("://", 1)
+                creds, host_part = rest.split("@", 1)
+                masked_url = f"{protocol}://***@{host_part}"
+            except:
+                masked_url = "masked_url"
+
+        logger.info(f"Creating SQLAlchemy engine for {masked_url}...")
 
         # Create engine with connection pooling
         _engine = create_engine(
-            config.get_sqlalchemy_url(),
+            raw_url,
             poolclass=QueuePool,
             pool_size=config.db_pool_size,
             max_overflow=config.db_max_overflow,
             pool_timeout=config.db_pool_timeout,
             pool_recycle=config.db_pool_recycle,
-            echo=config.log_queries,  # Log SQL queries in debug mode
-            future=True,  # Use SQLAlchemy 2.0 style
+            echo=config.log_queries,
+            future=True,
         )
 
         # Test connection
         try:
             with _engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
-            logger.info("Database connection established successfully")
+            logger.info("✅ Database connection established successfully")
         except Exception as e:
-            logger.error(f"Failed to connect to database: {e}")
-            raise
-
+            error_msg = str(e)
+            if "ssl" in error_msg.lower():
+                logger.error("❌ SSL Connection Error: Ensure ?sslmode=require is in your DATABASE_URL")
+            elif "not found" in error_msg.lower() or "timeout" in error_msg.lower():
+                logger.error("❌ Network/Timeout Error: Check your database host and availability")
+            else:
+                logger.error(f"❌ Failed to connect to database: {error_msg}")
+            
+            # Re-raise to prevent app from starting with bad DB in production
+            if os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("PORT"):
+                raise
+            
     return _engine
 
 # Session factory - created lazily

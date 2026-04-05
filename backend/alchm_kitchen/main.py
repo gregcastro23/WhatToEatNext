@@ -475,15 +475,15 @@ async def calculate_planetary_positions(request: PlanetaryPositionsRequest):
     This endpoint is called by the Next.js frontend for astrological calculations.
     """
     try:
-        # Use current time if not specified
+        # Preserve explicit zero values like 00:00; only fall back when a field is absent.
         now = datetime.now()
-        year = request.year or now.year
-        month = request.month or now.month
-        day = request.day or now.day
-        hour = request.hour or now.hour
-        minute = request.minute or now.minute
-        latitude = request.latitude or 0.0
-        longitude = request.longitude or 0.0
+        year = request.year if request.year is not None else now.year
+        month = request.month if request.month is not None else now.month
+        day = request.day if request.day is not None else now.day
+        hour = request.hour if request.hour is not None else 0
+        minute = request.minute if request.minute is not None else 0
+        latitude = request.latitude if request.latitude is not None else 0.0
+        longitude = request.longitude if request.longitude is not None else 0.0
         zodiac_system = request.zodiacSystem or "tropical"
 
         # Calculate positions

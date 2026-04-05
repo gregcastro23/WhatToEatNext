@@ -34,6 +34,7 @@ export interface DatabaseConfig {
 function getDatabaseConfig(): DatabaseConfig {
   const {
     databaseUrl,
+    hyperdriveUrl, // Cloudflare Hyperdrive binding
     host,
     port,
     database,
@@ -44,16 +45,20 @@ function getDatabaseConfig(): DatabaseConfig {
     idleTimeout,
     connectionTimeout,
   } = databaseConfig;
-  if (databaseUrl) {
-    // Parse DATABASE_URL for cloud deployments (e.g., Railway, Heroku)
-    const url = new URL(databaseUrl);
+
+  // Use Hyperdrive if available (preferred for Cloudflare Workers)
+  const finalUrl = hyperdriveUrl || databaseUrl;
+
+  if (finalUrl) {
+    // Parse connection URL for cloud deployments
+    const url = new URL(finalUrl);
     return {
       host: url.hostname,
       port: parseInt(url.port, 10) || 5432,
-      database: url.pathname.slice(1), // Remove leading slash
+      database: url.pathname.slice(1),
       user: url.username,
       password: url.password,
-      ssl: databaseConfig.environment === "production",
+      ssl: databaseConfig.environment === "production" && !hyperdriveUrl, // Hyperdrive often handles SSL internally
       max: maxConnections,
       idleTimeoutMillis: idleTimeout,
       connectionTimeoutMillis: connectionTimeout,
@@ -80,16 +85,28 @@ export function initializeDatabase(): Pool {
     return pool;
   }
   
-  // Enable Neon WebSocket connections for Cloudflare Edge compatibility
-  neonConfig.fetchConnectionCache = true;
-
   const config = getDatabaseConfig();
+
+  // Tune Neon Settings for Cloudflare / Hyperdrive
+  const isHyperdrive = !!databaseConfig.hyperdriveUrl;
+  
+  if (isHyperdrive) {
+    // Hyperdrive works natively with TCP/HTTP.
+    // We disable the serverless fetch cache and use the binding directly.
+    neonConfig.fetchConnectionCache = false;
+    void logger.info("🔌 Initializing database via Cloudflare Hyperdrive...");
+  } else {
+    // Standard Neon Serverless behavior
+    neonConfig.fetchConnectionCache = true;
+  }
+
   pool = new Pool(config);
   // Connection event handlers
   pool.on("connect", (_client: PoolClient) => {
     void logger.info("New database connection established", {
       database: config.database,
       host: config.host,
+      isHyperdrive,
     });
   });
   pool.on("error", (err: Error, _client: PoolClient) => {

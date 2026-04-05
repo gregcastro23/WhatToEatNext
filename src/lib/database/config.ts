@@ -11,8 +11,13 @@
 export const databaseConfig = {
   // Database connection
   databaseUrl:
+    process.env.HYPERDRIVE_URL || // Manual override for Hyperdrive
     process.env.DATABASE_URL ||
     "postgresql://user:pass@localhost:5432/alchm_kitchen",
+  
+  // Cloudflare Hyperdrive detection (Binding)
+  // Note: OpenNext usually makes bindings available on process.env
+  hyperdriveUrl: process.env.HYPERDRIVE_URL || null,
   // Individual connection parameters (fallback if DATABASE_URL not provided)
   host: process.env.DB_HOST || "localhost",
   port: parseInt(process.env.DB_PORT || "5432", 10),

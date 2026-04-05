@@ -14,10 +14,8 @@
   // Enable built-in observability for tail workers / logpush
   "observability": {
     "enabled": true
-  }
-  // To use Cloudflare Hyperdrive for efficient PostgreSQL connection pooling,
-  // create a Hyperdrive config in the dashboard and uncomment:
-  // "hyperdrive": [
-  //   { "binding": "HYPERDRIVE", "id": "<your-hyperdrive-config-id>" }
-  // ]
+  },
+  "hyperdrive": [
+    { "binding": "HYPERDRIVE", "id": "<your-hyperdrive-config-id>" }
+  ]
 }
