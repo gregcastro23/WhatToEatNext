@@ -167,7 +167,29 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
     try {
       const service = PlanetaryScoringService.getInstance();
       const recipeService = UnifiedRecipeService.getInstance();
-      const positions = await service.getCurrentPlanetaryPositions();
+
+      // Phase 1: Load recipe counts per cuisine (fast, local data)
+      // This ensures cuisines always render even if planetary API fails
+      const recipeCounts = new Map<string, { count: number; topNames: string[] }>();
+      for (const cuisine of CUISINE_DEFINITIONS) {
+        try {
+          const cuisineRecipes = await recipeService.getRecipesForCuisine(
+            cuisine.name.toLowerCase(),
+          );
+          const topNames = cuisineRecipes.slice(0, 5).map(r => r.name || "Unknown");
+          recipeCounts.set(cuisine.name, { count: cuisineRecipes.length, topNames });
+        } catch {
+          recipeCounts.set(cuisine.name, { count: 0, topNames: [] });
+        }
+      }
+
+      // Phase 2: Fetch planetary positions and score (can fail gracefully)
+      let positions: any[] = [];
+      try {
+        positions = await service.getCurrentPlanetaryPositions();
+      } catch (posError) {
+        console.warn("Planetary positions unavailable, using default scores:", posError);
+      }
 
       // Calculate current planetary hour
       const now = new Date();
@@ -197,18 +219,26 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
       const planetaryHour = chaldeanOrder[hourIdx];
 
       const currentHour = now.getHours();
+      const hasPlanetaryData = positions.length > 0;
 
       const scored: DynamicCuisineRecommendation[] = [];
       for (const cuisine of CUISINE_DEFINITIONS) {
-        const planetPos = positions.find(
-          (p: any) => p.planet === cuisine.planet,
-        );
-        const sign = planetPos
-          ? typeof planetPos.sign === "string"
-            ? planetPos.sign
-            : "aries"
-          : "aries";
-        const isRetrograde = planetPos?.isRetrograde === true;
+        const recipeData = recipeCounts.get(cuisine.name) || { count: 0, topNames: [] };
+
+        let sign = "aries";
+        let isRetrograde = false;
+
+        if (hasPlanetaryData) {
+          const planetPos = positions.find(
+            (p: any) => p.planet === cuisine.planet,
+          );
+          sign = planetPos
+            ? typeof planetPos.sign === "string"
+              ? planetPos.sign
+              : "aries"
+            : "aries";
+          isRetrograde = planetPos?.isRetrograde === true;
+        }
 
         const dignityScore = calculateDignity(cuisine.planet, sign);
         const isCurrentHourPlanet = planetaryHour === cuisine.planet;
@@ -227,41 +257,45 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
           ),
         );
 
-        const reasoning = generateReasoning(
-          cuisine.name,
-          cuisine.planet,
-          sign,
-          dignityScore,
-          isCurrentHourPlanet,
-          isRetrograde,
-        );
+        const reasoning = hasPlanetaryData
+          ? generateReasoning(
+              cuisine.name,
+              cuisine.planet,
+              sign,
+              dignityScore,
+              isCurrentHourPlanet,
+              isRetrograde,
+            )
+          : CUISINE_QUALITIES[cuisine.name] || "offers excellent variety";
 
-        // Get real recipe count and score top recipes for this cuisine
-        let recipeCount = 0;
+        // Score top recipes if planetary data is available
         let topRecipes: Array<{ name: string; matchScore: number }> = [];
-        try {
-          const cuisineRecipes = await recipeService.getRecipesForCuisine(
-            cuisine.name.toLowerCase(),
-          );
-          recipeCount = cuisineRecipes.length;
-
-          // Score a sample of recipes and pick the top 5
-          const sampleSize = Math.min(cuisineRecipes.length, 15);
-          const sample = cuisineRecipes.slice(0, sampleSize);
-          const scoredSample = await Promise.all(
-            sample.map(async (r) => {
-              try {
-                const result = await service.scoreRecipe(r as any);
-                return { name: r.name || "Unknown", matchScore: result.overallScore };
-              } catch {
-                return { name: r.name || "Unknown", matchScore: totalScore };
-              }
-            }),
-          );
-          scoredSample.sort((a, b) => b.matchScore - a.matchScore);
-          topRecipes = scoredSample.slice(0, 5);
-        } catch {
-          recipeCount = 0;
+        if (hasPlanetaryData && recipeData.count > 0) {
+          try {
+            const cuisineRecipes = await recipeService.getRecipesForCuisine(
+              cuisine.name.toLowerCase(),
+            );
+            const sampleSize = Math.min(cuisineRecipes.length, 15);
+            const sample = cuisineRecipes.slice(0, sampleSize);
+            const scoredSample = await Promise.all(
+              sample.map(async (r) => {
+                try {
+                  const result = await service.scoreRecipe(r as any);
+                  return { name: r.name || "Unknown", matchScore: result.overallScore };
+                } catch {
+                  return { name: r.name || "Unknown", matchScore: totalScore };
+                }
+              }),
+            );
+            scoredSample.sort((a, b) => b.matchScore - a.matchScore);
+            topRecipes = scoredSample.slice(0, 5);
+          } catch {
+            // Fall back to recipe names without scores
+            topRecipes = recipeData.topNames.map(name => ({ name, matchScore: totalScore }));
+          }
+        } else {
+          // No planetary data — show recipe names with default scores
+          topRecipes = recipeData.topNames.map(name => ({ name, matchScore: totalScore }));
         }
 
         scored.push({
@@ -269,31 +303,51 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
           score: Math.max(totalScore, 1),
           planet: cuisine.planet,
           reasoning,
-          recipeCount,
+          recipeCount: recipeData.count,
           optimalTiming: OPTIMAL_TIMINGS[cuisine.planet] || "Anytime today",
           topRecipes,
           isRetrograde,
         });
       }
 
-      const filteredAndScored = scored.filter(cuisine => cuisine.recipeCount > 0);
-      filteredAndScored.sort((a, b) => b.score - a.score);
-      setRecommendations(filteredAndScored);
+      // Sort by score; show all cuisines that have recipes
+      scored.sort((a, b) => b.score - a.score);
+      setRecommendations(scored);
       setLastUpdated(new Date());
     } catch (error) {
       console.error("Failed to load dynamic cuisine recommendations:", error);
-      setRecommendations(
-        CUISINE_DEFINITIONS.map((c, i) => ({
+      // Final fallback: show all cuisines with default scores
+      // Load recipe counts even in fallback to avoid empty UI
+      const recipeService = UnifiedRecipeService.getInstance();
+      const fallback: DynamicCuisineRecommendation[] = [];
+      for (let i = 0; i < CUISINE_DEFINITIONS.length; i++) {
+        const c = CUISINE_DEFINITIONS[i];
+        let recipeCount = 0;
+        let topRecipes: Array<{ name: string; matchScore: number }> = [];
+        try {
+          const cuisineRecipes = await recipeService.getRecipesForCuisine(
+            c.name.toLowerCase(),
+          );
+          recipeCount = cuisineRecipes.length;
+          topRecipes = cuisineRecipes.slice(0, 5).map(r => ({
+            name: r.name || "Unknown",
+            matchScore: 80 - i * 3,
+          }));
+        } catch {
+          // Keep defaults
+        }
+        fallback.push({
           cuisine: c.name,
           score: 80 - i * 3,
           planet: c.planet,
           reasoning: CUISINE_QUALITIES[c.name] || "Great variety",
-          recipeCount: 0,
+          recipeCount,
           optimalTiming: OPTIMAL_TIMINGS[c.planet] || "Anytime",
-          topRecipes: [],
+          topRecipes,
           isRetrograde: false,
-        })),
-      );
+        });
+      }
+      setRecommendations(fallback);
       setLastUpdated(new Date());
     } finally {
       setIsLoading(false);
