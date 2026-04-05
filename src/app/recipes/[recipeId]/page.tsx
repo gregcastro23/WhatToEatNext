@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { motion, Variants } from "framer-motion";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
@@ -784,7 +785,12 @@ export default function RecipePage(props: any) {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
       {/* ===== Hero Header ===== */}
-      <div className="relative overflow-hidden">
+      <motion.div
+        className="relative overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="absolute inset-0 bg-gradient-to-b from-amber-900/20 via-slate-950/80 to-slate-950" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(251,191,36,0.08),transparent_60%)]" />
         <div className="relative max-w-5xl mx-auto px-4 pt-8 pb-12 md:pt-12 md:pb-16">
@@ -900,10 +906,18 @@ export default function RecipePage(props: any) {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* ===== Main Content ===== */}
-      <div className="max-w-5xl mx-auto px-4 pb-16 space-y-8">
+      <motion.div
+        className="max-w-5xl mx-auto px-4 pb-16 space-y-8"
+        initial="hidden"
+        animate="show"
+        variants={{
+          hidden: { opacity: 0 },
+          show: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.3 } }
+        } as Variants}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* ===== Left Column: Ingredients + Instructions ===== */}
           <div className="lg:col-span-2 space-y-8">
@@ -1347,7 +1361,7 @@ export default function RecipePage(props: any) {
             </div>
           </div>
         )}
-      </div>
+      </motion.div>
     </main>
   );
 }

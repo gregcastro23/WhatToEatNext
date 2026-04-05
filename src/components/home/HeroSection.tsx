@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import type { Planet } from "@/types/celestial";
 
 type TimeOfDay = "morning" | "afternoon" | "evening";
@@ -79,17 +80,31 @@ export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
   const gradient = PLANET_GRADIENT[planet] || PLANET_GRADIENT.Sun;
 
   return (
-    <div className="text-center mb-12 animate-fade-in">
+    <motion.div
+      className="text-center mb-12"
+      initial="hidden"
+      animate="show"
+      variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.15 } } }}
+    >
       {/* Brand Header */}
-      <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-orange-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+      <motion.h1
+        className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-orange-600 via-purple-600 to-blue-600 bg-clip-text text-transparent"
+        variants={{ hidden: { y: -30, opacity: 0 }, show: { y: 0, opacity: 1, transition: { type: "spring", damping: 20 } } }}
+      >
         Alchm.kitchen
-      </h1>
-      <p className="text-xl md:text-2xl text-gray-600 mb-2 italic">
+      </motion.h1>
+      <motion.p
+        className="text-xl md:text-2xl text-gray-600 mb-2 italic"
+        variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
+      >
         Eat the stars
-      </p>
+      </motion.p>
 
       {/* Planetary hour highlight */}
-      <div className="flex items-center justify-center gap-3 my-6">
+      <motion.div
+        className="flex items-center justify-center gap-3 my-6"
+        variants={{ hidden: { scale: 0.8, opacity: 0 }, show: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 200, damping: 15 } } }}
+      >
         <div
           className={`w-14 h-14 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}
         >
@@ -101,25 +116,37 @@ export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
           </p>
           <p className="text-lg font-bold text-gray-800">{planet} Hour</p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Dynamic tagline based on planetary hour */}
-      <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-4">
+      <motion.p
+        className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-4"
+        variants={{ hidden: { y: 20, opacity: 0 }, show: { y: 0, opacity: 1, transition: { type: "spring", damping: 20 } } }}
+      >
         {tagline}
-      </p>
+      </motion.p>
 
       {/* Seasonal context */}
-      <p className="text-sm text-gray-500 mb-8">{seasonMsg}</p>
+      <motion.p
+        className="text-sm text-gray-500 mb-8"
+        variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
+      >
+        {seasonMsg}
+      </motion.p>
 
       {/* Time-based CTA */}
-      <a
+      <motion.a
         href="/menu-planner"
         className="inline-block px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
+        variants={{ hidden: { y: 20, opacity: 0 }, show: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 20 } } }}
+        whileHover={{ scale: 1.07 }}
+        whileTap={{ scale: 0.97 }}
       >
         {cta} &rarr;
-      </a>
-    </div>
+      </motion.a>
+    </motion.div>
   );
 }
 
 export default HeroSection;
+
