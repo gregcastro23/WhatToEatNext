@@ -87,7 +87,7 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
     const { sign, degree: degreeInSign } = getSignFromLongitude(longitude);
     const degrees = Math.floor(degreeInSign);
     const minutes = Math.floor((degreeInSign - degrees) * 60);
-    const seconds = Math.floor(((degreeInSign - degrees) * 60 - minutes) * 60);
+    const seconds = Math.round(((degreeInSign - degrees) * 60 - minutes) * 60);
 
     const body = {
       key,
@@ -167,7 +167,7 @@ function calculateLocally(params: PlanetaryRequest) {
     const apiKey = key.toLowerCase();
     const degrees = Math.floor(pos.degree);
     const minutes = Math.floor((pos.degree - degrees) * 60);
-    const seconds = Math.floor(((pos.degree - degrees) * 60 - minutes) * 60);
+    const seconds = Math.round(((pos.degree - degrees) * 60 - minutes) * 60);
 
     const body = {
       key: apiKey,

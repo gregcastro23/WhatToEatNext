@@ -39,6 +39,7 @@ export interface BirthData {
 export interface PlanetInfo {
   name: Planet;
   sign: ZodiacSignType;
+  /** Ecliptic longitude in decimal degrees (0-360). Sub-arcminute precision. 0 means unknown/legacy. */
   position: number;
 }
 

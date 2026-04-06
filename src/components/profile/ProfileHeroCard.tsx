@@ -13,54 +13,59 @@ interface ProfileHeroCardProps {
   onOpenSettings: () => void;
 }
 
-const ELEMENT_GRADIENTS: Record<string, string> = {
-  Fire: 'from-red-600 via-orange-500 to-amber-500',
-  Water: 'from-blue-700 via-blue-500 to-cyan-400',
-  Earth: 'from-green-700 via-emerald-500 to-lime-400',
-  Air: 'from-yellow-500 via-amber-400 to-orange-300',
+const SIGN_SYMBOLS: Record<string, string> = {
+  aries: '\u2648', taurus: '\u2649', gemini: '\u264A', cancer: '\u264B',
+  leo: '\u264C', virgo: '\u264D', libra: '\u264E', scorpio: '\u264F',
+  sagittarius: '\u2650', capricorn: '\u2651', aquarius: '\u2652', pisces: '\u2653',
 };
 
-const ELEMENT_SIGIL: Record<string, string> = {
-  Fire: '\u{1F525}',
-  Water: '\u{1F30A}',
-  Earth: '\u{1F33F}',
-  Air: '\u{1F32C}\uFE0F',
-};
+function formatDeg(position: number | undefined): string {
+  if (!position || position <= 0) return '';
+  const degInSign = position % 30;
+  const deg = Math.floor(degInSign);
+  const min = Math.round((degInSign - deg) * 60);
+  return `${deg}\u00B0${min}\u2032`;
+}
 
 function CosmicSigil({ natalChart }: { natalChart: NatalChart }) {
   const el = natalChart.elementalBalance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   const elements = [
-    { name: 'Fire', value: el.Fire ?? 0, color: '#ef4444', angle: 0 },
-    { name: 'Air', value: el.Air ?? 0, color: '#eab308', angle: 90 },
-    { name: 'Water', value: el.Water ?? 0, color: '#3b82f6', angle: 180 },
-    { name: 'Earth', value: el.Earth ?? 0, color: '#22c55e', angle: 270 },
+    { name: 'Fire', value: el.Fire ?? 0, color: '#ef4444', angle: -90 },
+    { name: 'Air', value: el.Air ?? 0, color: '#a78bfa', angle: 0 },
+    { name: 'Water', value: el.Water ?? 0, color: '#60a5fa', angle: 90 },
+    { name: 'Earth', value: el.Earth ?? 0, color: '#34d399', angle: 180 },
   ];
-  const r = 28;
-  const cx = 36;
-  const cy = 36;
+  const r = 32;
+  const cx = 44;
+  const cy = 44;
 
   return (
-    <svg width="72" height="72" viewBox="0 0 72 72" className="drop-shadow-lg">
-      <circle cx={cx} cy={cy} r="34" fill="rgba(139,92,246,0.15)" />
-      <circle cx={cx} cy={cy} r="30" fill="rgba(10,10,15,0.6)" stroke="rgba(139,92,246,0.3)" strokeWidth="1" />
+    <svg width="88" height="88" viewBox="0 0 88 88" className="flex-shrink-0">
+      <defs>
+        <radialGradient id="sigil-bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(139,92,246,0.2)" />
+          <stop offset="100%" stopColor="rgba(0,0,0,0)" />
+        </radialGradient>
+      </defs>
+      <circle cx={cx} cy={cy} r="42" fill="url(#sigil-bg)" />
+      <circle cx={cx} cy={cy} r="36" fill="rgba(15,15,20,0.7)" stroke="rgba(139,92,246,0.2)" strokeWidth="1" />
+      {/* Orbital ring */}
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(139,92,246,0.12)" strokeWidth="0.5" />
       {elements.map((elem) => {
         const rad = (elem.angle * Math.PI) / 180;
-        const dist = r * Math.min(elem.value * 2.5, 1);
+        const dist = r * Math.min(elem.value * 2.2, 0.95);
         const x = cx + dist * Math.cos(rad);
         const y = cy + dist * Math.sin(rad);
+        const size = 3 + elem.value * 10;
         return (
-          <circle
-            key={elem.name}
-            cx={x}
-            cy={y}
-            r={4 + elem.value * 8}
-            fill={elem.color}
-            opacity={0.8 + elem.value * 0.2}
-            className="transition-all duration-700 hover:scale-110 cursor-pointer origin-center shadow-lg"
-          />
+          <g key={elem.name}>
+            <circle cx={x} cy={y} r={size + 2} fill={elem.color} opacity={0.1} />
+            <circle cx={x} cy={y} r={size} fill={elem.color} opacity={0.8} className="transition-all duration-700" />
+          </g>
         );
       })}
-      <circle cx={cx} cy={cy} r="3" fill="#ffffff" className="drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+      <circle cx={cx} cy={cy} r="3" fill="#a78bfa" />
+      <circle cx={cx} cy={cy} r="1.5" fill="white" opacity="0.9" />
     </svg>
   );
 }
@@ -73,77 +78,107 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
   onEditProfile,
   onOpenSettings,
 }) => {
-  const dominantElement = natalChart.dominantElement || 'Fire';
-  const gradient = ELEMENT_GRADIENTS[dominantElement] || ELEMENT_GRADIENTS.Fire;
-  const sunSign = natalChart.planetaryPositions?.Sun || '';
-  const moonSign = natalChart.planetaryPositions?.Moon || '';
+  const sunSign = (natalChart.planetaryPositions?.Sun || '') as string;
+  const moonSign = (natalChart.planetaryPositions?.Moon || '') as string;
+  const ascendant = (natalChart.ascendant || '') as string;
+
+  const sunPlanet = natalChart.planets?.find(p => p.name === 'Sun');
+  const moonPlanet = natalChart.planets?.find(p => p.name === 'Moon');
+  const ascPlanet = natalChart.planets?.find(p => p.name === 'Ascendant');
 
   return (
-    <div className="group relative overflow-hidden rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20 transition-all duration-500 hover:shadow-[0_8px_40px_rgb(0,0,0,0.16)]">
-      <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-90`} />
-      {/* Dynamic Background Elements */}
-      <div className="absolute inset-0 overflow-hidden mix-blend-overlay">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-[100px] opacity-40 group-hover:opacity-60 transition-opacity duration-700 animate-pulse-slow" />
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-black rounded-full mix-blend-overlay filter blur-[100px] opacity-30" />
-      </div>
+    <div className="relative overflow-hidden rounded-3xl">
+      {/* Dark gradient background — Co-Star inspired */}
+      <div className="bg-gradient-to-br from-gray-950 via-gray-900 to-purple-950 p-6 md:p-8">
+        {/* Subtle radial overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(139,92,246,0.15),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(99,102,241,0.1),_transparent_60%)]" />
 
-      <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 p-8 md:p-10 backdrop-blur-[2px]">
-        <div className="shrink-0 relative">
-          <div className="absolute inset-0 bg-white/20 rounded-full blur-xl scale-110" />
-          <CosmicSigil natalChart={natalChart} />
-        </div>
-        
-        <div className="flex-1 min-w-0 text-center md:text-left">
-          <div className="flex flex-col sm:flex-row items-center gap-3 mb-2">
-            <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight drop-shadow-sm">
-              {userName}
-            </h1>
-            <span className={`text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-sm ${
-              tier === 'premium'
-                ? 'bg-gradient-to-r from-amber-200 to-yellow-400 text-amber-950 border border-amber-300'
-                : 'bg-white/10 text-white/90 backdrop-blur-md border border-white/20'
-            }`}>
-              {tier === 'premium' ? 'Premium Tier' : 'Free Tier'}
-            </span>
+        <div className="relative z-10">
+          {/* Top row: name + actions */}
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                  {userName}
+                </h1>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest ${
+                  tier === 'premium'
+                    ? 'bg-amber-400/90 text-amber-950'
+                    : 'bg-white/10 text-white/60 border border-white/10'
+                }`}>
+                  {tier === 'premium' ? 'Premium' : 'Free'}
+                </span>
+              </div>
+              <p className="text-white/40 text-xs tracking-wide uppercase">Your Cosmic Profile</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={onEditProfile}
+                className="px-3.5 py-1.5 bg-white/10 text-white/80 rounded-full hover:bg-white/15 transition-colors text-xs font-medium border border-white/10"
+              >
+                Edit Profile
+              </button>
+              <button
+                onClick={onOpenSettings}
+                className="p-1.5 bg-white/5 text-white/50 rounded-full hover:bg-white/10 transition-colors border border-white/10"
+                title="Settings"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+            </div>
           </div>
-          
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-2 mt-3 text-white/90 text-sm font-medium">
-            <span className="flex items-center gap-1.5 bg-black/20 px-3 py-1 rounded-lg backdrop-blur-sm">
-              <span className="text-lg leading-none">{ELEMENT_SIGIL[dominantElement]}</span> 
-              {dominantElement} dominant
-            </span>
-            {sunSign && (
-              <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-lg backdrop-blur-sm shadow-sm capitalize">
-                &#x2609; {sunSign} Sun
+
+          {/* Big Three + Sigil */}
+          <div className="flex items-center gap-6">
+            <CosmicSigil natalChart={natalChart} />
+            <div className="flex-1 grid grid-cols-3 gap-4">
+              {/* Sun */}
+              <div>
+                <div className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Sun</div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-xl text-amber-400">{SIGN_SYMBOLS[sunSign] || ''}</span>
+                  <span className="text-white font-bold capitalize text-lg">{sunSign}</span>
+                </div>
+                <div className="text-white/30 text-xs font-mono mt-0.5">{formatDeg(sunPlanet?.position)}</div>
+              </div>
+              {/* Moon */}
+              <div>
+                <div className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Moon</div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-xl text-blue-400">{SIGN_SYMBOLS[moonSign] || ''}</span>
+                  <span className="text-white font-bold capitalize text-lg">{moonSign}</span>
+                </div>
+                <div className="text-white/30 text-xs font-mono mt-0.5">{formatDeg(moonPlanet?.position)}</div>
+              </div>
+              {/* Rising */}
+              <div>
+                <div className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Rising</div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-xl text-purple-400">{SIGN_SYMBOLS[ascendant] || ''}</span>
+                  <span className="text-white font-bold capitalize text-lg">{ascendant}</span>
+                </div>
+                <div className="text-white/30 text-xs font-mono mt-0.5">{formatDeg(ascPlanet?.position)}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom tags */}
+          <div className="flex flex-wrap gap-2 mt-5 pt-4 border-t border-white/5">
+            {natalChart.dominantElement && (
+              <span className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 text-white/50 border border-white/10 uppercase tracking-wider">
+                {natalChart.dominantElement} dominant
               </span>
             )}
-            {moonSign && (
-              <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-lg backdrop-blur-sm shadow-sm capitalize">
-                &#x263D; {moonSign} Moon
-              </span>
-            )}
-            {natalChart.ascendant && (
-              <span className="flex items-center gap-1.5 bg-purple-900/40 px-3 py-1 rounded-lg backdrop-blur-sm border border-purple-500/20 capitalize">
-                AC {natalChart.ascendant} Rising
+            {natalChart.dominantModality && (
+              <span className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 text-white/50 border border-white/10 uppercase tracking-wider">
+                {natalChart.dominantModality}
               </span>
             )}
           </div>
-        </div>
-        
-        <div className="flex flex-row md:flex-col gap-3 shrink-0 w-full md:w-auto mt-4 md:mt-0">
-          <button
-            onClick={onEditProfile}
-            className="flex-1 md:flex-none px-6 py-3 bg-white/10 hover:bg-white/20 active:bg-white/30 backdrop-blur-md text-white rounded-xl transition-all duration-200 text-sm font-bold border border-white/20 shadow-lg text-center"
-          >
-            Edit Profile
-          </button>
-          <button
-            onClick={onOpenSettings}
-            className="flex-none p-3 bg-black/20 hover:bg-black/30 active:bg-black/40 backdrop-blur-md text-white rounded-xl transition-all duration-200 border border-white/10 shadow-lg items-center justify-center hidden md:flex text-sm font-medium"
-            title="Settings"
-          >
-            Settings
-          </button>
         </div>
       </div>
     </div>

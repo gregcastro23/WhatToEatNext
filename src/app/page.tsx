@@ -54,7 +54,9 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
         >
           <Suspense fallback={<SectionLoader />}>
-            <DynamicCuisineRecommender />
+            <div className="min-h-[400px]">
+              <DynamicCuisineRecommender />
+            </div>
           </Suspense>
           <div className="mt-8">
             <Suspense fallback={<SectionLoader />}>

@@ -159,11 +159,20 @@ function calculateApproximateAscendant(birthData: BirthData): ZodiacSignType {
 }
 
 /**
- * Call astrologize API with birth data
+ * Position data with sign and exact ecliptic longitude
+ */
+interface PositionWithLongitude {
+  sign: ZodiacSignType;
+  exactLongitude: number;
+}
+
+/**
+ * Call astrologize API with birth data.
+ * Returns both zodiac sign and exact ecliptic longitude for sub-arcminute accuracy.
  */
 async function fetchPlanetaryPositions(
   birthData: BirthData,
-): Promise<Record<Planet, ZodiacSignType>> {
+): Promise<Record<Planet, PositionWithLongitude>> {
   try {
     const date = new Date(birthData.dateTime);
 
@@ -192,8 +201,10 @@ async function fetchPlanetaryPositions(
 
     // Determine Ascendant from server response or calculate locally
     let ascendantSign: ZodiacSignType = "aries" as ZodiacSignType;
+    let ascendantLongitude = 0;
     if (data.ascendant?.sign) {
       ascendantSign = normalizeSignName(data.ascendant.sign);
+      ascendantLongitude = data.ascendant.exactLongitude ?? 0;
       _logger.info(`Ascendant from API: ${data.ascendant.sign} (${data.ascendant.exactLongitude?.toFixed(2)}°)`);
     } else {
       // Calculate approximate Ascendant from birth data using Local Sidereal Time
@@ -201,19 +212,23 @@ async function fetchPlanetaryPositions(
       _logger.info(`Ascendant calculated locally: ${ascendantSign}`);
     }
 
-    // Extract planetary positions
-    const positions: Record<Planet, ZodiacSignType> = {
-      Sun: normalizeSignName(data._celestialBodies.sun.Sign.label),
-      Moon: normalizeSignName(data._celestialBodies.moon.Sign.label),
-      Mercury: normalizeSignName(data._celestialBodies.mercury.Sign.label),
-      Venus: normalizeSignName(data._celestialBodies.venus.Sign.label),
-      Mars: normalizeSignName(data._celestialBodies.mars.Sign.label),
-      Jupiter: normalizeSignName(data._celestialBodies.jupiter.Sign.label),
-      Saturn: normalizeSignName(data._celestialBodies.saturn.Sign.label),
-      Uranus: normalizeSignName(data._celestialBodies.uranus.Sign.label),
-      Neptune: normalizeSignName(data._celestialBodies.neptune.Sign.label),
-      Pluto: normalizeSignName(data._celestialBodies.pluto.Sign.label),
-      Ascendant: ascendantSign,
+    // Helper to extract longitude from a celestial body entry
+    const getLongitude = (body: AstrologizePlanetData): number =>
+      body?.ChartPosition?.Ecliptic?.DecimalDegrees ?? 0;
+
+    // Extract planetary positions with exact longitudes
+    const positions: Record<Planet, PositionWithLongitude> = {
+      Sun: { sign: normalizeSignName(data._celestialBodies.sun.Sign.label), exactLongitude: getLongitude(data._celestialBodies.sun) },
+      Moon: { sign: normalizeSignName(data._celestialBodies.moon.Sign.label), exactLongitude: getLongitude(data._celestialBodies.moon) },
+      Mercury: { sign: normalizeSignName(data._celestialBodies.mercury.Sign.label), exactLongitude: getLongitude(data._celestialBodies.mercury) },
+      Venus: { sign: normalizeSignName(data._celestialBodies.venus.Sign.label), exactLongitude: getLongitude(data._celestialBodies.venus) },
+      Mars: { sign: normalizeSignName(data._celestialBodies.mars.Sign.label), exactLongitude: getLongitude(data._celestialBodies.mars) },
+      Jupiter: { sign: normalizeSignName(data._celestialBodies.jupiter.Sign.label), exactLongitude: getLongitude(data._celestialBodies.jupiter) },
+      Saturn: { sign: normalizeSignName(data._celestialBodies.saturn.Sign.label), exactLongitude: getLongitude(data._celestialBodies.saturn) },
+      Uranus: { sign: normalizeSignName(data._celestialBodies.uranus.Sign.label), exactLongitude: getLongitude(data._celestialBodies.uranus) },
+      Neptune: { sign: normalizeSignName(data._celestialBodies.neptune.Sign.label), exactLongitude: getLongitude(data._celestialBodies.neptune) },
+      Pluto: { sign: normalizeSignName(data._celestialBodies.pluto.Sign.label), exactLongitude: getLongitude(data._celestialBodies.pluto) },
+      Ascendant: { sign: ascendantSign, exactLongitude: ascendantLongitude },
     };
 
     return positions;
@@ -273,16 +288,22 @@ export async function calculateNatalChart(
     // Fetch planetary positions from astrologize API
     const planetaryPositions = await fetchPlanetaryPositions(birthData);
 
+    // Extract sign-only record for validation and alchemy calculations
+    const signPositions: Record<Planet, ZodiacSignType> = {} as Record<Planet, ZodiacSignType>;
+    Object.entries(planetaryPositions).forEach(([planet, data]) => {
+      signPositions[planet as Planet] = data.sign;
+    });
+
     // Validate birth chart positions against astronomical estimates
     const birthDate = new Date(birthData.dateTime);
     const diurnal = isSectDiurnal(birthDate);
 
-    if (detectStaticFallback(planetaryPositions)) {
+    if (detectStaticFallback(signPositions)) {
       _logger.error(
         "Birth chart returned STATIC FALLBACK positions — these do not reflect the actual birth date. The API circuit breaker may be open.",
       );
     }
-    const validation = validateBirthChartAgainstEstimates(birthDate, planetaryPositions);
+    const validation = validateBirthChartAgainstEstimates(birthDate, signPositions);
     if (validation.hasWarnings) {
       _logger.warn(
         `Birth chart validation: ${validation.passedPlanets}/${validation.validatedPlanets} planets passed.`,
@@ -292,7 +313,7 @@ export async function calculateNatalChart(
 
     // Convert to format expected by planetary alchemy mapping
     const positionsForAlchemy: Record<string, string> = {};
-    Object.entries(planetaryPositions).forEach(([planet, sign]) => {
+    Object.entries(signPositions).forEach(([planet, sign]) => {
       positionsForAlchemy[planet] = sign;
     });
 
@@ -305,13 +326,13 @@ export async function calculateNatalChart(
 
     // Determine dominant element and modality
     const dominantElement = getDominantElement(elementalBalance) as Element;
-    const dominantModality = calculateDominantModality(planetaryPositions);
+    const dominantModality = calculateDominantModality(signPositions);
 
     const planets: PlanetInfo[] = Object.entries(planetaryPositions).map(
-      ([name, sign]) => ({
+      ([name, data]) => ({
         name: name as Planet,
-        sign,
-        position: 0, // Simplified for now
+        sign: data.sign,
+        position: data.exactLongitude,
       }),
     );
 
@@ -319,8 +340,8 @@ export async function calculateNatalChart(
     const natalChart: NatalChart = {
       birthData,
       planets,
-      ascendant: planetaryPositions.Ascendant,
-      planetaryPositions,
+      ascendant: signPositions.Ascendant,
+      planetaryPositions: signPositions,
       dominantElement,
       dominantModality,
       elementalBalance,

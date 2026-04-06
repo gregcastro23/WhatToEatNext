@@ -8,10 +8,10 @@ interface AlchemicalConstitutionPanelProps {
 }
 
 const ESMS_CONFIG = [
-  { key: 'Spirit' as const, color: '#ef4444', bgColor: 'bg-red-50', textColor: 'text-red-700', barColor: 'bg-red-500', description: 'Governs intuitive cooking and creative impulse' },
-  { key: 'Essence' as const, color: '#3b82f6', bgColor: 'bg-blue-50', textColor: 'text-blue-700', barColor: 'bg-blue-500', description: 'The flow of feeling and flavor connection' },
-  { key: 'Matter' as const, color: '#22c55e', bgColor: 'bg-green-50', textColor: 'text-green-700', barColor: 'bg-green-600', description: 'Physical nourishment and grounding sustenance' },
-  { key: 'Substance' as const, color: '#f97316', bgColor: 'bg-orange-50', textColor: 'text-orange-700', barColor: 'bg-orange-500', description: 'The building blocks and metabolic fuel' },
+  { key: 'Spirit' as const, color: '#ef4444', label: 'SPI', description: 'Governs intuitive cooking and creative impulse' },
+  { key: 'Essence' as const, color: '#60a5fa', label: 'ESS', description: 'The flow of feeling and flavor connection' },
+  { key: 'Matter' as const, color: '#34d399', label: 'MAT', description: 'Physical nourishment and grounding sustenance' },
+  { key: 'Substance' as const, color: '#f97316', label: 'SUB', description: 'The building blocks and metabolic fuel' },
 ];
 
 export const AlchemicalConstitutionPanel: React.FC<AlchemicalConstitutionPanelProps> = ({ natalChart }) => {
@@ -19,37 +19,53 @@ export const AlchemicalConstitutionPanel: React.FC<AlchemicalConstitutionPanelPr
   const total = alch.Spirit + alch.Essence + alch.Matter + alch.Substance;
   const norm = total > 0 ? total : 1;
 
+  // Find dominant
+  const dominant = ESMS_CONFIG.reduce((max, item) => {
+    const val = alch[item.key] ?? 0;
+    return val > (alch[max.key] ?? 0) ? item : max;
+  }, ESMS_CONFIG[0]);
+
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base font-bold text-gray-800">Alchemical Constitution</h3>
-        <span className="text-xs text-gray-400 font-mono">
-          A# = {total.toFixed(1)}
-        </span>
+    <div className="bg-gray-950 rounded-3xl p-6 border border-white/5">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h3 className="text-sm font-bold text-white uppercase tracking-widest">Alchemical Constitution</h3>
+          <p className="text-white/30 text-xs mt-0.5">Your natal ESMS signature</p>
+        </div>
+        <span className="text-xs text-white/20 font-mono">A# {total.toFixed(1)}</span>
       </div>
 
       <div className="space-y-4">
-        {ESMS_CONFIG.map((item, idx) => {
+        {ESMS_CONFIG.map((item) => {
           const val = alch[item.key] ?? 0;
           const pct = (val / norm) * 100;
+          const isDominant = item.key === dominant.key;
           return (
             <div key={item.key} className="group" title={item.description}>
-              <div className="flex justify-between text-sm mb-1.5">
-                <span className="font-semibold text-gray-700">{item.key}</span>
-                <span className="text-gray-500 font-mono text-xs">{val.toFixed(1)} ({pct.toFixed(0)}%)</span>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: item.color, boxShadow: isDominant ? `0 0 8px ${item.color}` : 'none' }}
+                  />
+                  <span className={`text-sm font-semibold ${isDominant ? 'text-white' : 'text-white/60'}`}>
+                    {item.key}
+                  </span>
+                </div>
+                <span className="text-white/40 text-xs font-mono tabular-nums">
+                  {val.toFixed(1)} <span className="text-white/20">({pct.toFixed(0)}%)</span>
+                </span>
               </div>
-              <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+              <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
                 <div
-                  className={`h-full rounded-full ${item.barColor} transition-all duration-700 ease-out`}
+                  className="h-full rounded-full transition-all duration-700 ease-out"
                   style={{
                     width: `${pct}%`,
-                    animationDelay: `${idx * 100}ms`,
+                    backgroundColor: item.color,
+                    opacity: isDominant ? 1 : 0.6,
                   }}
                 />
               </div>
-              <p className="text-[11px] text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                {item.description}
-              </p>
             </div>
           );
         })}

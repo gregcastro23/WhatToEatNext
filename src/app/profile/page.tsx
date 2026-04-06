@@ -168,7 +168,13 @@ export default function ProfilePage() {
         }),
       });
 
-      if (!response.ok) throw new Error(`Server error (${response.status})`);
+      if (!response.ok) {
+        if (response.status === 401) {
+          setError('Your session has expired. Please log out and sign in again.');
+          return;
+        }
+        throw new Error(`Server error (${response.status})`);
+      }
       const result = await response.json();
 
       if (!result.success) {
@@ -187,31 +193,15 @@ export default function ProfilePage() {
       // Update session so middleware knows onboarding is complete
       await updateSession();
 
-      // Refresh profile from server
-      let serverProfile: any = null;
-      try {
-        const profileRes = await fetch('/api/user/profile', { credentials: 'include' });
-        if (profileRes.ok) {
-          const profileResult = await profileRes.json();
-          if (profileResult.success && profileResult.profile) {
-            serverProfile = profileResult.profile;
-          }
-        }
-      } catch {
-        // Server fetch failed — we'll use the localStorage data below
-      }
+      // Set cookie so middleware can read it immediately, preventing redirect loops
+      // when the JWT cookie hasn't propagated yet (matches onboarding page pattern)
+      document.cookie = "onboarding_completed=1; path=/; max-age=2592000; SameSite=Lax";
 
-      // Use server profile if available, otherwise fall back to localStorage data
-      setProfileData(serverProfile || {
-        userId: session.user.id,
-        email: session.user.email,
-        name: session.user.name,
-        birthData,
-        natalChart: result.natalChart,
-      });
-
-      // Go directly to dashboard after birth data is saved
-      setCurrentStep('dashboard');
+      // Use full page navigation to ensure the updated JWT cookie is sent
+      // with the request. Client-side state transitions can race with cookie
+      // propagation, causing the middleware to still see onboardingComplete=false.
+      window.location.href = "/profile";
+      return;
     } catch (err: any) {
       console.error('Onboarding error:', err);
       setError(err.message || 'An error occurred while calculating your chart');
