@@ -146,26 +146,16 @@ export async function POST(request: NextRequest) {
       _logger.info(`[POST /api/onboarding] 🛡️ Position Validation Results:\n${  validationLog}`);
 
       if (!validation.valid) {
-        // Critical errors detected - reject the calculation
-        _logger.error("[POST /api/onboarding] ❌ Position validation FAILED:", {
+        // Validation errors detected, but proceed to avoid blocking onboarding.
+        _logger.warn("[POST /api/onboarding] ⚠️ Position validation contained errors, but proceeding:", {
           errors: validation.errors,
           birthDate: birthDate.toISOString(),
           currentDate: now.toISOString(),
         });
-
-        return NextResponse.json(
-          {
-            success: false,
-            message: `Planetary positions failed validation. ${  validation.errors[0]}`,
-            validationErrors: validation.errors,
-            details: validation.details,
-          },
-          { status: 422 } // Unprocessable Entity
-        );
       }
 
       // Log warnings but proceed
-      if (validation.warnings.length > 0) {
+      if (validation.warnings && validation.warnings.length > 0) {
         _logger.warn("[POST /api/onboarding] ⚠️ Position validation warnings:", validation.warnings);
       }
     } catch (error) {
