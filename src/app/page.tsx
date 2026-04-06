@@ -23,7 +23,9 @@ export default function Home() {
 
         <section id="cuisines">
           <Suspense fallback={<SectionLoader />}>
-            <DynamicCuisineRecommender />
+            <div className="min-h-[400px]">
+              <DynamicCuisineRecommender />
+            </div>
           </Suspense>
           <div className="mt-8">
             <Suspense fallback={<SectionLoader />}>

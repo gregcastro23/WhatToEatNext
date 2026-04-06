@@ -164,191 +164,153 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
 
   const loadRecommendations = useCallback(async () => {
     setIsLoading(true);
+    console.log("DynamicCuisineRecommender: Starting to load recommendations from unified API...");
     try {
-      const service = PlanetaryScoringService.getInstance();
-      const recipeService = UnifiedRecipeService.getInstance();
+      // Phase 1: Call the unified API endpoint (which handles backend + local fallback)
+      const response = await fetch("/api/cuisines/recommend", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(10000),
+      });
 
-      // Phase 1: Load recipe counts per cuisine (fast, local data)
-      // This ensures cuisines always render even if planetary API fails
-      const recipeCounts = new Map<string, { count: number; topNames: string[] }>();
-      for (const cuisine of CUISINE_DEFINITIONS) {
-        try {
-          const cuisineRecipes = await recipeService.getRecipesForCuisine(
-            cuisine.name.toLowerCase(),
-          );
-          const topNames = cuisineRecipes.slice(0, 5).map(r => r.name || "Unknown");
-          recipeCounts.set(cuisine.name, { count: cuisineRecipes.length, topNames });
-        } catch {
-          recipeCounts.set(cuisine.name, { count: 0, topNames: [] });
-        }
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
 
-      // Phase 2: Fetch planetary positions and score (can fail gracefully)
-      let positions: any[] = [];
-      try {
-        positions = await service.getCurrentPlanetaryPositions();
-      } catch (posError) {
-        console.warn("Planetary positions unavailable, using default scores:", posError);
-      }
+      const data = await response.json();
+      console.log("DynamicCuisineRecommender: API response received:", data.source);
 
-      // Calculate current planetary hour
-      const now = new Date();
-      const hour = now.getHours();
-      const dayOfWeek = now.getDay();
-      const dayRulers = [
-        "Sun",
-        "Moon",
-        "Mars",
-        "Mercury",
-        "Jupiter",
-        "Venus",
-        "Saturn",
-      ];
-      const chaldeanOrder = [
-        "Saturn",
-        "Jupiter",
-        "Mars",
-        "Sun",
-        "Venus",
-        "Mercury",
-        "Moon",
-      ];
-      const dayRuler = dayRulers[dayOfWeek];
-      const rulerIdx = chaldeanOrder.indexOf(dayRuler);
-      const hourIdx = (rulerIdx + hour) % 7;
-      const planetaryHour = chaldeanOrder[hourIdx];
-
-      const currentHour = now.getHours();
-      const hasPlanetaryData = positions.length > 0;
-
-      const scored: DynamicCuisineRecommendation[] = [];
-      for (const cuisine of CUISINE_DEFINITIONS) {
-        const recipeData = recipeCounts.get(cuisine.name) || { count: 0, topNames: [] };
-
-        let sign = "aries";
-        let isRetrograde = false;
-
-        if (hasPlanetaryData) {
-          const planetPos = positions.find(
-            (p: any) => p.planet === cuisine.planet,
-          );
-          sign = planetPos
-            ? typeof planetPos.sign === "string"
-              ? planetPos.sign
-              : "aries"
-            : "aries";
-          isRetrograde = planetPos?.isRetrograde === true;
-        }
-
-        const dignityScore = calculateDignity(cuisine.planet, sign);
-        const isCurrentHourPlanet = planetaryHour === cuisine.planet;
-        const hourBonus = isCurrentHourPlanet ? 0.2 : 0;
-        const timingScore = getTimingScore(cuisine.name, currentHour);
-        const retrogradeModifier = isRetrograde ? -0.05 : 0;
-
-        const totalScore = Math.round(
-          Math.min(
-            (dignityScore * 0.6 +
-              timingScore * 0.2 +
-              hourBonus * 0.2 +
-              retrogradeModifier) *
-              100,
-            99,
-          ),
-        );
-
-        const reasoning = hasPlanetaryData
-          ? generateReasoning(
-              cuisine.name,
-              cuisine.planet,
-              sign,
-              dignityScore,
-              isCurrentHourPlanet,
-              isRetrograde,
-            )
-          : CUISINE_QUALITIES[cuisine.name] || "offers excellent variety";
-
-        // Score top recipes if planetary data is available
-        let topRecipes: Array<{ name: string; matchScore: number }> = [];
-        if (hasPlanetaryData && recipeData.count > 0) {
-          try {
-            const cuisineRecipes = await recipeService.getRecipesForCuisine(
-              cuisine.name.toLowerCase(),
-            );
-            const sampleSize = Math.min(cuisineRecipes.length, 15);
-            const sample = cuisineRecipes.slice(0, sampleSize);
-            const scoredSample = await Promise.all(
-              sample.map(async (r) => {
-                try {
-                  const result = await service.scoreRecipe(r as any);
-                  return { name: r.name || "Unknown", matchScore: result.overallScore };
-                } catch {
-                  return { name: r.name || "Unknown", matchScore: totalScore };
-                }
-              }),
-            );
-            scoredSample.sort((a, b) => b.matchScore - a.matchScore);
-            topRecipes = scoredSample.slice(0, 5);
-          } catch {
-            // Fall back to recipe names without scores
-            topRecipes = recipeData.topNames.map(name => ({ name, matchScore: totalScore }));
+      if (data.success && data.recommendations) {
+        // Map API response to our component's format
+        const apiCuisines = data.recommendations.cuisines || [];
+        const recipeCounts = data.recipeCounts || {};
+        
+        const mapped: DynamicCuisineRecommendation[] = [];
+        
+        for (const def of CUISINE_DEFINITIONS) {
+          const nameLower = def.name.toLowerCase();
+          const count = recipeCounts[nameLower] || 0;
+          
+          const isRecommended = apiCuisines.includes(def.name);
+          const recommendationIndex = apiCuisines.indexOf(def.name);
+          
+          let score = 70; // Default
+          if (isRecommended) {
+            score = 95 - (recommendationIndex * 5);
+          } else {
+            score = 60;
           }
-        } else {
-          // No planetary data — show recipe names with default scores
-          topRecipes = recipeData.topNames.map(name => ({ name, matchScore: totalScore }));
+
+          mapped.push({
+            cuisine: def.name,
+            score: Math.max(score, 1),
+            planet: def.planet,
+            reasoning: CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`,
+            recipeCount: count,
+            optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
+            topRecipes: [], // We'll populate this later if needed
+            isRetrograde: false
+          });
         }
 
-        scored.push({
-          cuisine: cuisine.name,
-          score: Math.max(totalScore, 1),
-          planet: cuisine.planet,
-          reasoning,
-          recipeCount: recipeData.count,
-          optimalTiming: OPTIMAL_TIMINGS[cuisine.planet] || "Anytime today",
-          topRecipes,
-          isRetrograde,
-        });
+        mapped.sort((a, b) => b.score - a.score);
+        setRecommendations(mapped);
+        setLastUpdated(new Date());
+        console.log(`DynamicCuisineRecommender: Successfully mapped ${mapped.length} cuisines from API`);
+        setIsLoading(false);
+        return;
       }
+      
+      throw new Error("Invalid API response format");
 
-      // Sort by score; show all cuisines that have recipes
-      scored.sort((a, b) => b.score - a.score);
-      setRecommendations(scored);
-      setLastUpdated(new Date());
     } catch (error) {
-      console.error("Failed to load dynamic cuisine recommendations:", error);
-      // Final fallback: show all cuisines with default scores
-      // Load recipe counts even in fallback to avoid empty UI
-      const recipeService = UnifiedRecipeService.getInstance();
-      const fallback: DynamicCuisineRecommendation[] = [];
-      for (let i = 0; i < CUISINE_DEFINITIONS.length; i++) {
-        const c = CUISINE_DEFINITIONS[i];
-        let recipeCount = 0;
-        let topRecipes: Array<{ name: string; matchScore: number }> = [];
-        try {
-          const cuisineRecipes = await recipeService.getRecipesForCuisine(
-            c.name.toLowerCase(),
-          );
-          recipeCount = cuisineRecipes.length;
-          topRecipes = cuisineRecipes.slice(0, 5).map(r => ({
-            name: r.name || "Unknown",
-            matchScore: 80 - i * 3,
-          }));
-        } catch {
-          // Keep defaults
+      console.error("DynamicCuisineRecommender: API call failed, falling back to legacy logic:", error);
+      
+      try {
+        const service = PlanetaryScoringService.getInstance();
+        const recipeService = UnifiedRecipeService.getInstance();
+
+        // Fallback Phase 1: Load recipe counts
+        const recipeCountsMap = new Map<string, number>();
+        for (const cuisine of CUISINE_DEFINITIONS) {
+          try {
+            const cuisineRecipes = await recipeService.getRecipesForCuisine(cuisine.name.toLowerCase());
+            recipeCountsMap.set(cuisine.name, (cuisineRecipes || []).length);
+          } catch {
+            recipeCountsMap.set(cuisine.name, 0);
+          }
         }
-        fallback.push({
+
+        // Fallback Phase 2: Fetch positions
+        let positions: any[] = [];
+        try {
+          positions = await service.getCurrentPlanetaryPositions();
+        } catch (posError) {
+          console.warn("DynamicCuisineRecommender: Fallback positions unavailable", posError);
+        }
+
+        // Calculate fallback scores
+        const now = new Date();
+        const hour = now.getHours();
+        const dayOfWeek = now.getDay();
+        const dayRulers = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
+        const chaldeanOrder = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"];
+        const dayRuler = dayRulers[dayOfWeek];
+        const rulerIdx = chaldeanOrder.indexOf(dayRuler);
+        const planetaryHour = chaldeanOrder[(rulerIdx + hour) % 7];
+
+        const scored: DynamicCuisineRecommendation[] = [];
+        for (const cuisine of CUISINE_DEFINITIONS) {
+          const count = recipeCountsMap.get(cuisine.name) || 0;
+          let sign = "aries";
+          let isRetrograde = false;
+
+          const planetPos = positions.find((p: any) => p.planet === cuisine.planet);
+          if (planetPos) {
+            sign = typeof planetPos.sign === "string" ? planetPos.sign : "aries";
+            isRetrograde = planetPos.isRetrograde === true;
+          }
+
+          const dignityScore = calculateDignity(cuisine.planet, sign);
+          const isCurrentHourPlanet = planetaryHour === cuisine.planet;
+          const timingScore = getTimingScore(cuisine.name, hour);
+          
+          const totalScore = Math.round(
+            Math.min((dignityScore * 0.6 + timingScore * 0.2 + (isCurrentHourPlanet ? 0.2 : 0)) * 100, 99)
+          );
+
+          scored.push({
+            cuisine: cuisine.name,
+            score: Math.max(totalScore, 1),
+            planet: cuisine.planet,
+            reasoning: generateReasoning(cuisine.name, cuisine.planet, sign, dignityScore, isCurrentHourPlanet, isRetrograde),
+            recipeCount: count,
+            optimalTiming: OPTIMAL_TIMINGS[cuisine.planet] || "Anytime today",
+            topRecipes: [],
+            isRetrograde,
+          });
+        }
+
+        scored.sort((a, b) => b.score - a.score);
+        setRecommendations(scored);
+        setLastUpdated(new Date());
+      } catch (innerError) {
+        console.error("DynamicCuisineRecommender: CRITICAL ERROR in fallback logic:", innerError);
+        
+        // Final emergency fallback
+        const fallback: DynamicCuisineRecommendation[] = CUISINE_DEFINITIONS.map((c, i) => ({
           cuisine: c.name,
-          score: 80 - i * 3,
+          score: 80 - i,
           planet: c.planet,
           reasoning: CUISINE_QUALITIES[c.name] || "Great variety",
-          recipeCount,
+          recipeCount: 0,
           optimalTiming: OPTIMAL_TIMINGS[c.planet] || "Anytime",
-          topRecipes,
+          topRecipes: [],
           isRetrograde: false,
-        });
+        }));
+        setRecommendations(fallback);
+        setLastUpdated(new Date());
       }
-      setRecommendations(fallback);
-      setLastUpdated(new Date());
     } finally {
       setIsLoading(false);
     }
