@@ -6504,6 +6504,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vercel/otel@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@vercel/otel@npm:2.1.1"
+  peerDependencies:
+    "@opentelemetry/api": ">=1.9.0 <2.0.0"
+    "@opentelemetry/api-logs": ">=0.200.0 <0.300.0"
+    "@opentelemetry/instrumentation": ">=0.200.0 <0.300.0"
+    "@opentelemetry/resources": ">=2.0.0 <3.0.0"
+    "@opentelemetry/sdk-logs": ">=0.200.0 <0.300.0"
+    "@opentelemetry/sdk-metrics": ">=2.0.0 <3.0.0"
+    "@opentelemetry/sdk-trace-base": ">=2.0.0 <3.0.0"
+  checksum: c42d94fd33c9d6631acb0c2c1e47e1a7693ed6af827bfa638cc87a896d06daed25440a4d90ae10960df4a6f983902e72a745f89cc7b9da23bd9f89a3248937c8
+  languageName: node
+  linkType: hard
+
 "@vue/compiler-core@npm:3.5.31":
   version: 3.5.31
   resolution: "@vue/compiler-core@npm:3.5.31"
@@ -17095,6 +17110,7 @@ next-auth@beta:
     "@typescript-eslint/parser": 8.47.0
     "@typescript-eslint/utils": 8.47.0
     "@vercel/analytics": ^2.0.1
+    "@vercel/otel": ^2.1.1
     ai: ^6.0.116
     astronomy-engine: ^2.1.17
     autoprefixer: 10.4.27
