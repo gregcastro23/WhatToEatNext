@@ -1,4 +1,4 @@
-import type { ElementalState, ElementalProperties } from '@/types/elemental';
+import type { ElementalState } from '@/types/elemental';
 import type { Recipe } from '@/types/recipe';
 
 export function calculateElementalScore(

@@ -21,7 +21,7 @@ export default function ElementalDisplay() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-red-500 mr-2" />
               <span className="text-sm">Fire</span>
             </div>
             <span className="text-sm font-medium">{formatValue(elementalState.Fire)}</span>
@@ -29,7 +29,7 @@ export default function ElementalDisplay() {
           
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-blue-500 mr-2" />
               <span className="text-sm">Water</span>
             </div>
             <span className="text-sm font-medium">{formatValue(elementalState.Water)}</span>
@@ -37,7 +37,7 @@ export default function ElementalDisplay() {
           
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500 mr-2" />
               <span className="text-sm">Earth</span>
             </div>
             <span className="text-sm font-medium">{formatValue(elementalState.Earth)}</span>
@@ -45,7 +45,7 @@ export default function ElementalDisplay() {
           
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-yellow-300 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-300 mr-2" />
               <span className="text-sm">Air</span>
             </div>
             <span className="text-sm font-medium">{formatValue(elementalState.Air)}</span>

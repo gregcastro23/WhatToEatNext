@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AstrologicalService } from '@/services/AstrologicalService';
 
 // Define type for GeolocationCoordinates if needed
-type GeolocationCoordinates = {
+interface GeolocationCoordinates {
   latitude: number;
   longitude: number;
   altitude: number | null;
@@ -10,7 +10,7 @@ type GeolocationCoordinates = {
   altitudeAccuracy: number | null;
   heading: number | null;
   speed: number | null;
-};
+}
 
 interface LocationButtonProps {
   onLocationUpdate?: (location: GeolocationCoordinates | null) => void;
@@ -31,7 +31,7 @@ export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
         onLocationUpdate(location);
       }
       setTimeout(() => setLocationStatus(''), 2000); // Clear message after 2 seconds
-    } catch (error) {
+    } catch (_error) {
       setLocationStatus('Failed to get location. Using New York.');
       setTimeout(() => setLocationStatus(''), 2000);
     }

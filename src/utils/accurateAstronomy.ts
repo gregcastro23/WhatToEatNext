@@ -1,4 +1,5 @@
 import * as AstronomyModule from "astronomy-engine";
+
 const Astronomy = (AstronomyModule as any).default || AstronomyModule;
 import { _logger } from "@/lib/logger";
 // Removed: import { getDegreeForDate } from '@/services/degreeCalendarMapping'; - service was removed during external API cleanup campaign
@@ -8,7 +9,7 @@ import { _logger } from "@/lib/logger";
  * A utility function for logging debug information
  * This is a safe replacement for _logger.info that can be disabled in production
  */
-const debugLog = (_message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings;
   // log.info(message, ...args)
 };

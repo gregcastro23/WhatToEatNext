@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useIngredientMapping } from '@/hooks/useIngredientMapping';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
+import { useIngredientMapping } from '@/hooks/useIngredientMapping';
 
 /**
  * Component that demonstrates the universal ingredient mapping functionality
@@ -226,7 +226,7 @@ export default function IngredientMapper() {
                   <div 
                     className="absolute top-0 left-0 h-full bg-blue-500"
                     style={{ width: `${compatibilityResult.compatibility * 100}%` }}
-                  ></div>
+                   />
                 </div>
                 <div className="text-right text-sm mt-1">
                   {(compatibilityResult.compatibility * 100).toFixed(0)}%

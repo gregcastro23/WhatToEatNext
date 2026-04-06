@@ -1,5 +1,5 @@
 import { _logger } from "@/lib/logger";
-import { _SUIT_TO_ELEMENT } from "@/utils/tarotMappings";
+import { SUIT_TO_ELEMENT } from "@/utils/tarotMappings";
 
 // Local interface for a tarot card used in recipes
 interface RecipeTarotCard {
@@ -89,7 +89,7 @@ export async function getRecipesForTarotCard(
     // Get the element associated with the minor card
     const _element =
       cards.minorCard.element ||
-      _SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof _SUIT_TO_ELEMENT] ||
+      SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof SUIT_TO_ELEMENT] ||
       "Fire";
 
     // Get the recipes that match the element

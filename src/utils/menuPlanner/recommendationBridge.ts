@@ -9,11 +9,11 @@
  */
 
 import type { AlchemicalProfile } from "@/contexts/UserContext";
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import {
     type MonicaOptimizedRecipe,
 } from "@/data/unified/recipeBuilding";
 import type { ChartComparison } from "@/services/ChartComparisonService";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { LunarPhase } from "@/types/celestial";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { NatalChart } from "@/types/natalChart";

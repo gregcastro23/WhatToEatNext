@@ -1,8 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { alchmAPI } from '@/lib/api/alchm-client';
 import { flattenCuisineRecipes } from '@/data/recipes/index';
+import { alchmAPI } from '@/lib/api/alchm-client';
 import type { Recipe } from '@/types/recipe';
 
 interface AlchemicalDataContextType {

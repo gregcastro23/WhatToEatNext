@@ -3,10 +3,10 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { allSauces } from "@/data/sauces";
 import type { Sauce as SauceData } from "@/data/sauces";
+import type { ElementalProperties } from "@/types/recipe";
 import type { Sauce } from "@/utils/cuisine/intelligentSauceRecommender";
 import { recommendSauces } from "@/utils/cuisine/intelligentSauceRecommender";
 import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
-import type { ElementalProperties } from "@/types/recipe";
 
 type InputMode = "manual" | "cuisine";
 type CuisineFilter = "all" | "Italian" | "Mexican" | "Thai" | "French" | "Japanese";
@@ -340,7 +340,7 @@ export default function EnhancedSauceRecommender() {
                       min="0"
                       max="100"
                       value={Math.round(manualElementals[element] * 100)}
-                      onChange={(e) => updateManualElemental(element, parseInt(e.target.value) / 100)}
+                      onChange={(e) => updateManualElemental(element, parseInt(e.target.value, 10) / 100)}
                       className={`flex-1 h-1.5 ${colors[element]}`}
                     />
                     <span className="text-[10px] text-slate-400 w-8 text-right">

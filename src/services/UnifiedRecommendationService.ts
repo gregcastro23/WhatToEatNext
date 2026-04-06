@@ -147,7 +147,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (timeStr) {
         const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
         if (timeMatch) {
-          const val = parseInt(timeMatch[1]);
+          const val = parseInt(timeMatch[1], 10);
           const totalMins = timeMatch[2].toLowerCase().startsWith("h") ? val * 60 : val;
           if (totalMins <= 30) score += 0.3;
           else if (totalMins <= 45) score += 0.2;
@@ -715,7 +715,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (timeStr) {
         const timeMatch = timeStr.match(/(\d+)\s*(min|hour|hr)/i);
         if (timeMatch) {
-          const val = parseInt(timeMatch[1]);
+          const val = parseInt(timeMatch[1], 10);
           const totalMins = timeMatch[2].toLowerCase().startsWith("h") ? val * 60 : val;
           if (totalMins <= 30) score += 0.3;
           else if (totalMins <= 45) score += 0.2;

@@ -7,13 +7,13 @@
  */
 
 import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type {
   Planet,
   ZodiacSignType,
   PlanetaryPosition,
 } from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
 // Planets used for scoring (exclude Ascendant which isn't a planet)
 const SCORING_PLANETS: Planet[] = [

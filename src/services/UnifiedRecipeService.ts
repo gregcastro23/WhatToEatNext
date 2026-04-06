@@ -3,9 +3,9 @@
  * Provides a unified interface for recipe operations
  */
 
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 import type { Recipe } from "@/types/recipe";
 // Add missing imports for TS2304 fixes

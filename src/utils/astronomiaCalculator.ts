@@ -7,7 +7,7 @@
  * Uses hardcoded current positions with time-based adjustments
  */
 
-import { PlanetaryPositionData } from './aspectCalculator';
+import type { PlanetaryPositionData } from './aspectCalculator';
 
 // Define the zodiac signs in order
 const ZODIAC_SIGNS = [
@@ -50,7 +50,7 @@ const DAILY_MOVEMENT = {
 /**
  * Conversion helpers
  */
-function signToLongitude(sign: string): number {
+function _signToLongitude(sign: string): number {
   const signIndex = ZODIAC_SIGNS.indexOf(sign.toLowerCase());
   return signIndex >= 0 ? signIndex * 30 : 0;
 }

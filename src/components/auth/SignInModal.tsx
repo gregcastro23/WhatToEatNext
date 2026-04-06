@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { signIn, useSession } from 'next-auth/react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function SignInModal() {
   const { status } = useSession();

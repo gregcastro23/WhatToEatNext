@@ -10,9 +10,9 @@
 
 import React, { useState, useMemo } from "react";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
+import { instacartService } from "@/services/InstacartService";
 import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
-import { instacartService } from "@/services/InstacartService";
 
 // Define constant keys for vitamins and minerals based on NutritionalSummary
 const VITAMIN_KEYS: Array<keyof NutritionalSummary> = [

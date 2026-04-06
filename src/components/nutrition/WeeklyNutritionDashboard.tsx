@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import type {
   WeeklyNutritionResult} from "@/types/nutrition";
 import {
-  ComplianceSeverity,
+  ComplianceSeverity as _ComplianceSeverity,
   getComplianceSeverity,
 } from "@/types/nutrition";
 import { formatNutrientName, getNutrientUnit } from "../../utils/nutrition";
 import { ComplianceScore } from "./ComplianceScore";
 import { MacroSummary } from "./MacroSummary";
 import { MicronutrientHighlights } from "./MicronutrientHighlights";
-import { NutritionRing } from "./NutritionRing";
+import { NutritionRing as _NutritionRing } from "./NutritionRing";
 import styles from "./WeeklyNutritionDashboard.module.css";
 
 interface WeeklyNutritionDashboardProps {

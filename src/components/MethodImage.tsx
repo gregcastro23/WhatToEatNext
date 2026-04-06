@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import NextImage from "next/image";
 import { Box, Icon } from "@chakra-ui/react";
+import NextImage from "next/image";
+import { useEffect, useState } from "react";
 import { FaFlask } from "react-icons/fa";
 
 interface MethodImageProps {

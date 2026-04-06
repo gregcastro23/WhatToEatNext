@@ -13,7 +13,7 @@
  * 6. Birth date sanity checks
  */
 
-import type { Planet, ZodiacSignType } from "@/types/celestial";
+import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 // Zodiac sign ordering for distance calculations

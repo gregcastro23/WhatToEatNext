@@ -8,7 +8,6 @@ import type {
   ElementalProperties,
   EnergyStateProperties,
   ChakraEnergies,
-  ZodiacSignType,
   AspectType,
   PlanetaryAspect,
   CelestialBody,
@@ -234,7 +233,7 @@ class CelestialCalculator {
         throw new Error(
           "Astronomy calculator removed - using fallback positions",
         );
-      } catch (error) {
+      } catch (_error) {
         // Fallback to default positions if we can't calculate them
         planetaryPositions = {
           sun: { sign: zodiacSign.toLowerCase(), degree: 15 },
@@ -354,7 +353,7 @@ class CelestialCalculator {
 
       // Return the current moon sign
       return signs[currentIndex];
-    } catch (error) {
+    } catch (_error) {
       // If all else fails, default to Cancer (traditionally ruled by the Moon)
       return "cancer";
     }
@@ -409,17 +408,8 @@ class CelestialCalculator {
     if (name.toLowerCase().includes("sword")) suit = "swords";
     if (name.toLowerCase().includes("pentacle")) suit = "pentacles";
 
-    // Determine elemental association based on suit
-    let elementalAssociation: "Fire" | "Water" | "Earth" | "Air" | undefined =
-      undefined;
-
     if (suit !== "major") {
-      const element = TAROT_ELEMENTAL_MAPPING[suit].Element as
-        | "Fire"
-        | "Water"
-        | "Earth"
-        | "Air";
-      elementalAssociation = element;
+      // Elemental association logic removed as it was unused
     }
 
     return {
@@ -625,13 +615,11 @@ class CelestialCalculator {
       };
 
     // Calculate base influences based on dignities
-    let jupiterDignityName = "";
     if (jupiterPos.sign) {
       const jupiterSign = jupiterPos.sign.toLowerCase();
       const dignity = jupiterDignities[jupiterSign];
       if (dignity) {
         jupiterInfluence = 0.5 + dignity.strength;
-        jupiterDignityName = dignity.type;
 
         // Determine effect based on dignity
         if (dignity.type === "Domicile" || dignity.type === "Exaltation") {
@@ -1598,13 +1586,7 @@ class CelestialCalculator {
           nine: 9,
           ten: 10,
         };
-        const value = valueMap[cardName.split("_")[0]] || 0;
-
-        // Get elemental association
-        const affinityData = MINOR_ARCANA_ELEMENTAL_AFFINITIES[
-          suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES
-        ] as Record<string, unknown>;
-        const { element } = affinityData as { element: string };
+        const _value = valueMap[cardName.split("_")[0]] || 0;
 
         // Determine the zodiac sign based on the date
         const zodiacSign = this.determineZodiacSignType(month, day);

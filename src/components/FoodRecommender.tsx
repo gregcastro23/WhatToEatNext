@@ -1,25 +1,25 @@
 // @ts-nocheck
 'use client';
 
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import React, { useState, useEffect, useMemo } from 'react';
 // @ts-expect-error - Auto-fixed by script
-import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
-import styles from './FoodRecommender.module.css';
-import { 
-  _ChakraEnergies
-} from '@/types/alchemy';
 import { 
   CHAKRA_SYMBOLS, 
   CHAKRA_SANSKRIT_NAMES,
   normalizeChakraKey
 } from '@/constants/chakraSymbols';
-import { isChakraKey } from '@/utils/typeGuards';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
+import { useAstrologicalState } from '@/context/AstrologicalContext';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
+import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
+import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
+import { 
+  _ChakraEnergies
+} from '@/types/alchemy';
+import { isChakraKey } from '@/utils/typeGuards';
+import styles from './FoodRecommender.module.css';
 // @ts-expect-error - Auto-fixed by script
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import { Ingredient } from '../types/ingredient';
+import type { Ingredient } from '../types/ingredient';
 
 // Type guard functions
 function isNumber(value: unknown): value is number {
@@ -580,7 +580,7 @@ export default function FoodRecommender() {
   if (astroLoading || recommendationsLoading) {
     return (
       <div className={styles.loadingContainer}>
-        <div className={styles.spinner}></div>
+        <div className={styles.spinner} />
         <p>Calculating celestial influences on ingredients...</p>
       </div>
     );

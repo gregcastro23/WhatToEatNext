@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
 import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock } from 'lucide-react'; // Added Zap, Sparkles, and Minus icons
+import React, { useState, useEffect, useMemo } from 'react';
 import { useIngredientMapping } from '@/hooks'; // Import our new hook
-import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
+import styles from './CookingMethods.module.css';
 
 // Define proper types for the methods
 interface CookingMethod {
@@ -52,8 +52,8 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   const [showIngredientSearch, setShowIngredientSearch] = useState(false);
   const [searchIngredient, setSearchIngredient] = useState('');
   const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, _setError] = useState<string | null>(null);
+  const [isLoading, _setIsLoading] = useState(false);
   const [showAllMethods, setShowAllMethods] = useState(false);
   
   // Get top method based on score
@@ -78,7 +78,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   }, [methods, showAllMethods]);
   
   // Use our new ingredient mapping hook
-  const { suggestAlternatives, calculateCompatibility, isLoading: ingredientMappingLoading, error: ingredientMappingError } = useIngredientMapping();
+  const { calculateCompatibility } = useIngredientMapping();
   
   // Auto-expand the section if we have methods and a pre-selected method
   useEffect(() => {
@@ -377,7 +377,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                     <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
                       <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
                       <div className={styles['score-bar']}>
-                        <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
+                        <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}} />
                       </div>
                     </div>
                   )}
@@ -388,7 +388,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                       <span>{getCompatibilityLabel(ingredientCompatibility[method.id]).label}</span>
                       <span className={styles['compatibility-value']}>{Math.round(ingredientCompatibility[method.id] * 100)}%</span>
                       <div className={styles['compatibility-bar']}>
-                        <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`}}></div>
+                        <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`}} />
                       </div>
                     </div>
                   )}
@@ -538,7 +538,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                                   {Math.round(ingredientCompatibility[variation.id] * 100)}%
                                 </span>
                                 <div className={styles['compatibility-bar']}>
-                                  <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[variation.id] * 100)}%`}}></div>
+                                  <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[variation.id] * 100)}%`}} />
                                 </div>
                               </div>
                             )}
@@ -547,7 +547,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                               <div className={`${styles['variation-score']} ${getScoreClass(variation.score)}`}>
                                 <span>{Math.round(variation.score * 100)}%</span>
                                 <div className={styles['score-bar']}>
-                                  <div className={styles['score-bar-fill']} style={{width: `${Math.round(variation.score * 100)}%`}}></div>
+                                  <div className={styles['score-bar-fill']} style={{width: `${Math.round(variation.score * 100)}%`}} />
                                 </div>
                               </div>
                             )}

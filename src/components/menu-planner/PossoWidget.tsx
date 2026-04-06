@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useToast } from "@/components/common/Toast";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 import { calculateRecipeEstimatedCost } from "@/utils/instacart/priceEstimator";
-import { useToast } from "@/components/common/Toast";
 
 interface ScoredRecipe extends Recipe {
   matchCount: number;
@@ -186,7 +186,7 @@ export default function PossoWidget({
 
           {loading ? (
             <div className="flex justify-center items-center h-32">
-              <div className="animate-spin w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full"></div>
+              <div className="animate-spin w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full" />
             </div>
           ) : inventory.length === 0 ? (
             <div className="text-center py-10">

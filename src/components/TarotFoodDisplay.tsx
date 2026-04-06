@@ -1,13 +1,13 @@
 // @ts-nocheck
 "use client";
 
+import { Flame, Droplets, Mountain, Wind, Sparkles, Clock, Calendar } from 'lucide-react';
 import { useEffect, useState, useCallback, useRef } from 'react';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 // @ts-expect-error - Auto-fixed by script
-import { SUIT_TO_ELEMENT, SUIT_TO_TOKEN } from '@/utils/tarotMappings';
-import { Flame, Droplets, Mountain, Wind, Sparkles, Clock, Calendar } from 'lucide-react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import type { PlanetaryPosition } from '@/types/alchemy';
+import { SUIT_TO_ELEMENT, SUIT_TO_TOKEN } from '@/utils/tarotMappings';
 
 export interface AlchemicalValues {
   Spirit: number;
@@ -258,7 +258,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
                       className="h-1 bg-purple-500" 
                       // @ts-expect-error - Auto-fixed by script
                       style={{ width: `${(card.energy || 0.5) * 100}%` }}
-                    ></div>
+                     />
                   </div>
                   // @ts-expect-error - Auto-fixed by script
                   <span className="ml-1 text-xs text-gray-500">{Math.round((card.energy || 0.5) * 100)}%</span>

@@ -8,11 +8,11 @@ import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
-import { userDatabase } from "@/services/userDatabaseService";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
+
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo, GroupMember } from "@/types/natalChart";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
-import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";

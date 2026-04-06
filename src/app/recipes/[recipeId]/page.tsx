@@ -1,13 +1,14 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { motion, Variants } from "framer-motion";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
+import type { Variants } from "framer-motion";
 
 // ===== Constants =====
 

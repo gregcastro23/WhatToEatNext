@@ -1,22 +1,21 @@
 // @ts-nocheck
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import { Flame, Droplets, Mountain, Wind, Clock, Users, Utensils, Calendar, _Tag, _CircleDashed, Activity, Sun, MoonStar } from 'lucide-react';
+import React, { useState, useEffect, _useMemo } from 'react';
+import { _useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
+import { zodiacSeasons } from '@/data/zodiacSeasons';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { Flame, Droplets, Mountain, Wind, Clock, Users, Utensils, Calendar, Tag, CircleDashed, Activity, Sun, MoonStar } from 'lucide-react';
 // @ts-expect-error - Auto-fixed by script
-import { enrichRecipeData } from '@/utils/recipeEnrichment';
-import RecipeCard from './RecipeCard';
-import type { Recipe } from '@/types/recipe'; // Import the Recipe type
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import type { Planet } from '@/types/alchemy';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { logger } from '@/utils/logger';
+import type { Recipe } from '@/types/recipe'; // Import the Recipe type
+import { _logger } from '@/utils/logger';
+import { enrichRecipeData } from '@/utils/recipeEnrichment';
 // @ts-expect-error - Auto-fixed by script
-import { recipeFilter } from '@/utils/recipeFilters';
-import { zodiacSeasons } from '@/data/zodiacSeasons';
-
-import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
+import { _recipeFilter } from '@/utils/recipeFilters';
+import _RecipeCard from './RecipeCard';
 
 interface RecipeListProps {
   cuisineFilter?: string;
@@ -311,7 +310,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
         // 6. Astrological influences
         if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.length > 0) {
           // Check if recipe has influences related to active planets
-          const activePlanetsArray = Array.isArray(activePlanets) ? activePlanets as string[] : [];
+          const activePlanetsArray = Array.isArray(activePlanets) ? activePlanets : [];
           const matchingInfluences = activePlanetsArray.filter(planet => 
             recipe.astrologicalInfluences?.some(influence => 
               typeof influence === 'string' &&

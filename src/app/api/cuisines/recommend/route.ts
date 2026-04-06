@@ -8,8 +8,8 @@
  * recipe counts per cuisine from the local data layer.
  */
 import { NextResponse } from "next/server";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { allRecipes } from "@/data/recipes/index";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

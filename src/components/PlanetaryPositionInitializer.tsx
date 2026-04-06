@@ -1,14 +1,14 @@
 'use client';
 
+import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import type { CelestialPosition} from '@/types/celestial';
+
 import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
-// @ts-expect-error - Auto-fixed by script
-import { getLongitudeToZodiacPosition } from '@/utils/accurateAstronomy';
+
 import { createLogger } from '@/utils/logger';
-// @ts-expect-error - Auto-fixed by script
-import { CelestialPosition, ZodiacSign } from '@/types/celestial';
+
 
 // Create a component-specific logger
 const logger = createLogger('PlanetaryPositions');
@@ -268,7 +268,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
   if (lastUpdateTime) {
     return (
       <div className="text-xs text-green-700 mb-2 flex items-center">
-        <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+        <div className="w-2 h-2 bg-green-500 rounded-full mr-2" />
         Using live astronomical data • Updated {lastUpdateTime.toLocaleTimeString()}
       </div>
     )

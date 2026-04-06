@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
+import type { Chakra } from '@/constants/chakraMappings';
+import type { SignEnergyState } from '@/constants/signEnergyStates';
 import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { SignEnergyState } from '@/constants/signEnergyStates';
-import { Chakra } from '@/constants/chakraMappings';
 import type { Recipe } from '@/types/recipe'; // Import the Recipe type
+import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 // Define a type for chakra access points to the energy states
 interface ChakraEnergyAccess {
@@ -44,7 +44,7 @@ export default function RecipeBuilder() {
     let dominantModality: Modality = 'Mutable';
     let highestCount = 0;
     
-    (Object.entries(modalityCounts) as [Modality, number][]).forEach(([modality, count]) => {
+    (Object.entries(modalityCounts) as Array<[Modality, number]>).forEach(([modality, count]) => {
       if (count > highestCount) {
         highestCount = count;
         dominantModality = modality;
@@ -148,7 +148,7 @@ export default function RecipeBuilder() {
     energyAspects.sort((a, b) => a.value - b.value);
     
     // Basic foods for the chakra
-    let recommendedFoods = [...chakraFoodMap[chakra]];
+    const recommendedFoods = [...chakraFoodMap[chakra]];
     
     // Add specific foods based on which energy aspect needs most support
     if (energyAspects[0].type === 'spirit') {

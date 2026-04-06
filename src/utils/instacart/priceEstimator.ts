@@ -39,7 +39,7 @@ export interface RecipeCostEstimate {
   /** Cost per single serving */
   costPerServing: number;
   /** Individual ingredient cost breakdown */
-  breakdown: { ingredient: string; estimatedCost: number }[];
+  breakdown: Array<{ ingredient: string; estimatedCost: number }>;
   /** Confidence level: how many ingredients had a direct price match */
   confidence: "high" | "medium" | "low";
 }
@@ -304,7 +304,7 @@ export function calculateRecipeEstimatedCost(
   userInventory: string[] = [],
 ): RecipeCostEstimate {
   let directMatches = 0;
-  const breakdown: { ingredient: string; estimatedCost: number }[] = [];
+  const breakdown: Array<{ ingredient: string; estimatedCost: number }> = [];
 
   const inventoryLower = userInventory.map(item => item.toLowerCase().trim());
 
@@ -422,7 +422,7 @@ export function estimateWeeklyGroceryCost(
 
   for (const recipe of recipes) {
     let directMatches = 0;
-    const breakdown: { ingredient: string; estimatedCost: number }[] = [];
+    const breakdown: Array<{ ingredient: string; estimatedCost: number }> = [];
     const ingredients = recipe.ingredients || [];
     
     for (const ing of ingredients) {

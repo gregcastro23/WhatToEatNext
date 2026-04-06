@@ -1,47 +1,38 @@
 // @ts-nocheck
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { 
-  Flame, Droplets, Mountain, Wind, Sparkles, Globe, Clock, 
-  Thermometer, Timer, AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Info
+  ChevronDown, ChevronUp
 } from 'lucide-react';
-import styles from './CookingMethods.module.css';
-import { RecommendationAdapter } from '@/services/RecommendationAdapter';
-import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
-import { planetaryFoodAssociations, Planet } from '@/constants/planetaryFoodAssociations';
-import type { LunarPhase } from '@/constants/lunarPhases';
-import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
-// @ts-expect-error - Auto-fixed by script
-import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-import { getCachedCalculation } from '@/utils/calculationCache';
-import { useCurrentChart } from '@/hooks/useCurrentChart';
-import { testCookingMethodRecommendations } from '../utils/testRecommendations';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
+
 
 // Import cooking methods from both traditional and cultural sources
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
 import { allCookingMethods } from '@/data/cooking';
 import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 
-// Add this import at the top with the other imports
-import { getCurrentSeason } from '@/data/integrations/seasonal';
-// @ts-expect-error - Auto-fixed by script
-import { getLunarMultiplier } from '@/utils/lunarMultiplier';
+
 
 // Add these imports or declarations at the top of the component
 import { useTarotContext } from '@/contexts/TarotContext'; // If this exists in your app
+import { cookingMethods } from '@/data/cooking/cookingMethods';
 
 // Add import for modality type and utils
 import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { useCurrentChart } from '@/hooks/useCurrentChart';
+
+import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
+import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 
 // Utility functions for alchemical calculations
 // Simple placeholder implementations if actual implementations aren't accessible
 // @ts-expect-error - Auto-fixed by script
 import { staticAlchemize } from '@/utils/alchemyInitializer';
+import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
+import { testCookingMethodRecommendations } from '../utils/testRecommendations';
+import styles from './CookingMethods.module.css';
 
 // Implement the alchemize function using staticAlchemize
 const alchemize = async (
@@ -180,7 +171,7 @@ interface ExtendedAlchemicalItem extends AlchemicalItem {
 }
 
 // Define cooking time recommendations by ingredient class
-interface CookingTimeRecommendation {
+interface _CookingTimeRecommendation {
   ingredientClass: string;
   timeRange: string;
   tips: string;
@@ -199,7 +190,7 @@ interface MolecularGastronomyDetails {
 // Define the types if needed
 
 // Add these methods if they're missing from your COOKING_METHOD_THERMODYNAMICS constant
-const ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
+const _ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
   .reduce((acc, [methodName, methodData]) => {
     if (methodData && methodData.thermodynamicProperties) {
       // @ts-expect-error - Auto-fixed by script
@@ -211,7 +202,7 @@ const ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
 // Merge with your existing COOKING_METHOD_THERMODYNAMICS constant
 
 // Add this utility function to provide fallback information for any method
-const generateMethodInfo = (methodName: string): {
+const _generateMethodInfo = (methodName: string): {
   description: string;
   technicalTips: string[];
   idealIngredients: string[];
@@ -351,7 +342,7 @@ const LUNAR_PHASE_DISPLAY: Record<LunarPhase, string> = {
 };
 
 // Function to safely convert any lunar phase string to the correct type
-const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | undefined => {
+const _normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | undefined => {
   if (!phase) return undefined;
   
   // If it's already a valid LunarPhase, return it
@@ -391,7 +382,7 @@ const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | und
 };
 
 // Helper for adapting between LunarPhase types
-const adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
+const _adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
   if (!phase) return undefined;
   // Convert from our uppercase format to the format expected by the API
   // This part needs to be adjusted based on what the external functions expect
@@ -426,19 +417,17 @@ export default function CookingMethods() {
   
   // Get astrological state
   const {
-    isReady,
     currentZodiac,
     currentPlanetaryAlignment,
     lunarPhase,
     activePlanets,
-    domElements,
     isDaytime
   } = useAstrologicalState();
   
-  const { chart } = useCurrentChart();
+  // chart is unused
   
   // Define the list of 14 common cooking methods to prioritize
-  const commonCookingMethods = useMemo(() => [
+  const _commonCookingMethods = useMemo(() => [
     'baking', 'roasting', 'grilling', 'broiling', 'sauteing', 
     'frying', 'stir_frying', 'boiling', 'simmering', 'steaming', 
     'poaching', 'sous_vide', 'stewing', 'blanching', 'microwaving'
@@ -499,20 +488,20 @@ export default function CookingMethods() {
 
   const [loading, setLoading] = useState(true);
   const [recommendedMethods, setRecommendedMethods] = useState<ExtendedAlchemicalItem[]>([]);
-  const [planetaryCookingMethods, setPlanetaryCookingMethods] = useState<Record<string, string[]>>({});
+  const [_planetaryCookingMethods, setPlanetaryCookingMethods] = useState<Record<string, string[]>>({});
   const [selectedCulture, setSelectedCulture] = useState<string>(''); // For culture filtering
   const [showAllMethods, setShowAllMethods] = useState(false);
-  const [expandedMolecular, setExpandedMolecular] = useState<Record<string, boolean>>({});
+  const [_expandedMolecular, setExpandedMolecular] = useState<Record<string, boolean>>({});
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
   // Add a new state to store the initial scores
   const [methodScores, setMethodScores] = useState<Record<string, number>>({});
 
   // Add this simple fallback 
-  const [tarotData] = useState(DEFAULT_TAROT_DATA);
-  const { tarotCard, tarotElementalInfluences } = useTarotContext();
+  const [_tarotData] = useState(DEFAULT_TAROT_DATA);
+  const { tarotCard: _tarotCard, tarotElementalInfluences: _tarotElementalInfluences } = useTarotContext();
 
   // Add state for modality filtering
-  const [modalityFilter, setModalityFilter] = useState<string>('all');
+  const [_modalityFilter, _setModalityFilter] = useState<string>('all');
 
   // Add these near the top with other state variables
   const [searchIngredient, setSearchIngredient] = useState<string>('');
@@ -549,7 +538,7 @@ export default function CookingMethods() {
   };
 
   // Toggle molecular details expansion
-  const toggleMolecular = useCallback((methodId: string) => {
+  const _toggleMolecular = useCallback((methodId: string) => {
     setExpandedMolecular(prev => ({
       ...prev,
       [methodId]: !prev[methodId]
@@ -569,7 +558,7 @@ export default function CookingMethods() {
   }, []);
 
   // Toggle show all methods
-  const toggleShowAllMethods = useCallback(() => {
+  const _toggleShowAllMethods = useCallback(() => {
     setShowAllMethods(prev => !prev);
   }, []);
 
@@ -595,13 +584,13 @@ export default function CookingMethods() {
   }, []);
 
   // Get global astrological adjustment info
-  const globalAstrologicalAdjustment = useMemo(() => {
+  const _globalAstrologicalAdjustment = useMemo(() => {
     const zodiacSign = currentZodiac;
     return { zodiacSign };
   }, [currentZodiac]);
 
   // Update getThermodynamicEffect to indicate transformation
-  const getThermodynamicEffect = (value: number): {
+  const _getThermodynamicEffect = (value: number): {
     effect: 'increases' | 'slightly increases' | 'neutral' | 'slightly decreases' | 'decreases';
     intensity: number;
     description: string;
@@ -653,7 +642,7 @@ export default function CookingMethods() {
   };
 
   // Improve access to thermodynamic properties
-  const getThermodynamicValue = (method: ExtendedAlchemicalItem, property: string): number => {
+  const _getThermodynamicValue = (method: ExtendedAlchemicalItem, property: string): number => {
     // First try to get from thermodynamicProperties
     if (method.thermodynamicProperties && 
         property in method.thermodynamicProperties) {
@@ -718,7 +707,7 @@ export default function CookingMethods() {
     return 0.5; // Default medium value
   };
 
-  const getMolecularDetails = (method: ExtendedAlchemicalItem): MolecularGastronomyDetails | null => {
+  const _getMolecularDetails = (method: ExtendedAlchemicalItem): MolecularGastronomyDetails | null => {
     const methodName = method.name.toLowerCase();
     
     // Only return molecular details for molecular gastronomy methods
@@ -760,7 +749,7 @@ export default function CookingMethods() {
   };
 
   // Add this function to extract additional properties from source data
-  const getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
+  const _getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
     // @ts-expect-error - Auto-fixed by script
     if (method.id && cookingMethods[method.id as CookingMethod]) {
       // @ts-expect-error - Auto-fixed by script
@@ -806,7 +795,7 @@ export default function CookingMethods() {
   }
 
   // First, add this new helper function to get detailed examples for each cooking method
-  const getMethodDetails = (method: ExtendedAlchemicalItem): { examples: string[], fullDefinition: string } => {
+  const _getMethodDetails = (method: ExtendedAlchemicalItem): { examples: string[], fullDefinition: string } => {
     const methodName = method.name.toLowerCase();
     
     // Default values
@@ -1180,7 +1169,7 @@ export default function CookingMethods() {
   };
 
   // Replace getNutritionalImpact function with getIngredientCompatibility
-  const getIngredientCompatibility = (method: ExtendedAlchemicalItem): { 
+  const _getIngredientCompatibility = (method: ExtendedAlchemicalItem): { 
     compatibility: string, 
     idealCharacteristics: string[],
     avoidCharacteristics: string[]
@@ -1419,7 +1408,7 @@ export default function CookingMethods() {
   };
 
   // Add this function to generate method-specific elemental properties
-  const getMethodElementalProperties = (method: ExtendedAlchemicalItem) => {
+  const _getMethodElementalProperties = (method: ExtendedAlchemicalItem) => {
     const methodName = method.name.toLowerCase();
     
     // If the method already has valid elemental properties, use those
@@ -1462,10 +1451,10 @@ export default function CookingMethods() {
   };
 
   // Add import for our utility function at the top of the component
-  const { getTechnicalTips: getMethodTips } = require('../utils/cookingMethodTips');
+  const { getTechnicalTips: _getMethodTips } = require('../utils/cookingMethodTips');
 
   // Add a function to determine which modality a cooking method best complements
-  const getMethodModalityAffinity = (method: ExtendedAlchemicalItem): Modality => {
+  const _getMethodModalityAffinity = (method: ExtendedAlchemicalItem): Modality => {
     // If the method has higher Fire/Air values, it's likely Cardinal
     // If it has higher Earth/Water values, it's likely Fixed
     // If it has balanced elements, it's likely Mutable
@@ -1485,13 +1474,7 @@ export default function CookingMethods() {
     }
   };
 
-  // State for component expansion
-  const [isExpanded, setIsExpanded] = useState(false);
-  
-  // Function to toggle expansion
-  const toggleExpanded = useCallback(() => {
-    setIsExpanded(prev => !prev);
-  }, []);
+
 
   // Add a state for the debug panel
   const [showDebug, setShowDebug] = useState(false);
@@ -1658,7 +1641,7 @@ export default function CookingMethods() {
   renderCount.current += 1;
 
   // Add this at the end of the component, just before the final return
-  const renderDebugPanel = () => {
+  const _renderDebugPanel = () => {
     if (process.env.NODE_ENV !== 'development') return null;
     
     return (
@@ -1723,7 +1706,7 @@ export default function CookingMethods() {
 
       {loading ? (
         <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
+          <div className={styles.spinner} />
           <p>Analyzing cosmic cooking alignments...</p>
         </div>
       ) : (

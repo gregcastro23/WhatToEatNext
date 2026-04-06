@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
+import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
 
 /* ─── Types ────────────────────────────────────────────── */
 
@@ -146,7 +146,7 @@ function AddByEmailForm({
     setMessage(null);
     try {
       // Try the commensal-specific request endpoint first, fall back to friends
-      let res = await fetch('/api/commensals/request', {
+      const res = await fetch('/api/commensals/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

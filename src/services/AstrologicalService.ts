@@ -26,7 +26,7 @@ import type {
   Planet,
   LunarPhase,
 } from "@/types/celestial";
-import { AstrologicalState as CentralizedAstrologicalState } from "@/types/celestial";
+import { AstrologicalState as _CentralizedAstrologicalState } from "@/types/celestial";
 import { createLogger } from "../utils/logger";
 
 // Create a component-specific logger
@@ -101,7 +101,7 @@ export class AstrologicalService {
    * Updated test calculations with standardized response
    */
   static async testCalculations(
-    testData?: AstrologicalTestData,
+    _testData?: AstrologicalTestData,
   ): Promise<AstrologicalCalculationResponse> {
     try {
       logger.info("Testing astrological calculations...");

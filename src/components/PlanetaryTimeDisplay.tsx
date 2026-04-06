@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { getTimeFactors, TimeFactors } from '@/types/time';
+import { getTimeFactors } from '@/types/time';
 
 interface PlanetaryTimeDisplayProps {
   compact?: boolean;

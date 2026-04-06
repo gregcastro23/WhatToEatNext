@@ -1,14 +1,15 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { getRecipesForCuisine } from '@/utils/recipeFilters';
-import type { Recipe } from '@/types/recipe';
-import type { Modality } from '@/data/ingredients/types';
-import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
-import { determineModalityFromElements } from '@/utils/cuisineUtils';
-// @ts-expect-error - Auto-fixed by script
-import { transformCuisines } from '@/utils/alchemicalTransformationUtils';
-import { ElementalItem } from '@/calculations/alchemicalTransformation';
-import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
+import React, { useState, useMemo } from 'react';
+
+import type { ElementalItem } from '@/calculations/alchemicalTransformation';
+import type { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
+import type { Modality } from '@/data/ingredients/types';
+import { LunarPhase as _LunarPhase } from '@/types/alchemy';
+import type { ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
+import type { Recipe } from '@/types/recipe';
+import { _transformCuisines } from '@/utils/alchemicalTransformationUtils';
+import { determineModalityFromElements } from '@/utils/cuisineUtils';
+import { getRecipesForCuisine as _getRecipesForCuisine } from '@/utils/recipeFilters';
 
 interface CuisineSelectorProps {
   onRecipesChange: (recipes: Recipe[]) => void;
@@ -53,7 +54,7 @@ function CuisineSelector({
     
     // Apply alchemical transformations if we have planetary positions
     if (Object.keys(planetaryPositions).length > 0) {
-      return transformCuisines(
+      return _transformCuisines(
         baseCuisines,
         planetaryPositions,
         isDaytime,
@@ -100,7 +101,8 @@ function CuisineSelector({
   
   // Filter cuisines by modality and zodiac influence
   const filteredCuisines = useMemo(() => {
-    return sortedCuisines.filter(cuisine => {
+    return sortedCuisines.filter(c => {
+      const cuisine = c as any;
       // Apply modality filter
       if (modalityFilter !== 'all' && getCuisineModality(cuisine) !== modalityFilter) {
         return false;
@@ -131,11 +133,11 @@ function CuisineSelector({
     });
   }, [sortedCuisines, modalityFilter, zodiacFilter]);
 
-  const handleCuisineSelect = (cuisine: string) => {
+  const handleCuisineSelect = (cuisineName: string) => {
     // Just notify the parent component about the cuisine change
     // and let it handle getting the recipes
     onRecipesChange([]);  // Pass empty array initially
-    onCuisineChange(cuisine);  // Let parent component fetch recipes based on cuisine
+    onCuisineChange(cuisineName);  // Let parent component fetch recipes based on cuisine
   };
 
   // Get the zodiac signs for filtering
@@ -207,7 +209,8 @@ function CuisineSelector({
       )}
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {filteredCuisines.map((cuisine) => {
+        {filteredCuisines.map((c) => {
+          const cuisine = c as any;
           // Determine if current zodiac is favorable for this cuisine
           const isZodiacFavorable = currentZodiac && 
             (cuisine.zodiacInfluences?.includes(currentZodiac) ||

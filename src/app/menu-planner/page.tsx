@@ -16,12 +16,12 @@ import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsS
 import WeekProgress from "@/components/menu-builder/WeekProgress";
 import GroceryListModal from "@/components/menu-planner/GroceryListModal";
 import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard";
+import PossoWidget from "@/components/menu-planner/PossoWidget";
 import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
 import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import TodaysMealsWidget from "@/components/menu-planner/TodaysMealsWidget";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
-import PossoWidget from "@/components/menu-planner/PossoWidget";
 import { WeeklyNutritionDashboard } from "@/components/nutrition";
 import {
     MenuPlannerProvider,

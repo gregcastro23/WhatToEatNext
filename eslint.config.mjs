@@ -526,6 +526,8 @@ export default [
       // Test-related type definitions (parser errors)
       "src/jest-dom.d.ts",
       "src/setupTests.ts",
+      "src/types/testing-library__jest-dom.d.ts",
+      "src/types/jest-dom.d.ts",
       "src/types/testing-library__jest-dom/**",
 
       // Files excluded from tsconfig (type-aware linting fails on these)
@@ -538,6 +540,9 @@ export default [
       // Test files outside tsconfig.json project scope (causes parsing errors)
       "src/utils/astrology/__tests__/**",
       "src/utils/astrology/*.test.ts",
+      "src/tests/**",
+      "src/**/*.test.ts",
+      "src/components/GlobalPopup.js",
 
       // Untracked development files
       "dev-output.txt",

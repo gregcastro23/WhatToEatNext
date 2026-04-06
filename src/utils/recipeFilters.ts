@@ -4,7 +4,7 @@ import type {
   ElementalProperties,
   IngredientMapping,
 } from "@/types/alchemy";
-import type { Cuisine, CuisineType } from "@/types/cuisine";
+import type { CuisineType } from "@/types/cuisine";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import { logger } from "./logger";
 import { connectIngredientsToMappings } from "./recipeMatching";

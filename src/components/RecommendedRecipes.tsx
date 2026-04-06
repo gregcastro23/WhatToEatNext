@@ -1,5 +1,4 @@
 // @ts-nocheck
-import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -11,14 +10,15 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { FaClock, FaSun, FaUtensils } from "react-icons/fa";
-import { Recipe } from "../types/recipe";
-import { AstrologicalState } from "../types/alchemy";
 import { getTimeFactors } from "../types/time";
 import {
   explainRecommendation,
   getRecommendedRecipes,
 } from "../utils/recommendationEngine";
+import type { AstrologicalState } from "../types/alchemy";
+import type { Recipe } from "../types/recipe";
 
 interface RecommendedRecipesProps {
   recipes: Recipe[];

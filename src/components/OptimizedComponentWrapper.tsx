@@ -1,4 +1,5 @@
-import React, { useState, useEffect, ReactNode, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
+import type { ReactNode} from 'react';
 
 interface WrapperProps {
   children: ReactNode;

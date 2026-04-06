@@ -4,7 +4,7 @@
  * Generated on: 2025-04-11T04:52:56.321Z
  */
 
-import { NutritionalProfile } from '@/types/alchemy';
+import type { NutritionalProfile } from '@/types/alchemy';
 
 export const usdaNutritionalData: Record<string, NutritionalProfile> = {
   "spinach": {

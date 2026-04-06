@@ -3,7 +3,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getPlanetInfo, getDignityDescription, getAspectDescription, PlanetInfo } from '@/utils/planetInfoUtils';
+import type { PlanetInfo } from '@/utils/planetInfoUtils';
+import { getPlanetInfo, getDignityDescription, getAspectDescription } from '@/utils/planetInfoUtils';
 
 interface PlanetInfoModalProps {
   planetName: string;
@@ -138,7 +139,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       marginLeft: planetInfo.dignity.strength === 0 ? '50%' : planetInfo.dignity.strength > 0 ? '50%' : '',
                       marginRight: planetInfo.dignity.strength < 0 ? '50%' : ''
                     }}
-                  ></div>
+                   />
                 </div>
                 <div className="flex justify-between text-xs mt-1">
                   <span>Debilitated</span>
@@ -155,7 +156,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                     {planetInfo.aspects.map((aspect, idx) => (
                       <li key={idx} className="flex items-start">
                         // @ts-expect-error - Auto-fixed by script
-                        <span className={`inline-block w-2 h-2 mt-1.5 mr-2 rounded-full ${getAspectColor(aspect.type)}`}></span>
+                        <span className={`inline-block w-2 h-2 mt-1.5 mr-2 rounded-full ${getAspectColor(aspect.type)}`} />
                         <div>
                           <p className="font-medium capitalize">
                             {aspect.type} to {aspect.planet.charAt(0).toUpperCase() + aspect.planet.slice(1)}
@@ -181,7 +182,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       <div 
                         className={`h-full ${planetInfo.elementalInfluence.fire >= 0 ? 'bg-red-500' : 'bg-blue-500'}`}
                         style={{ width: `${Math.abs(planetInfo.elementalInfluence.fire) * 100}%` }}
-                      ></div>
+                       />
                     </div>
                     <p className="text-xs mt-1">Fire</p>
                   </div>
@@ -190,7 +191,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       <div 
                         className={`h-full ${planetInfo.elementalInfluence.water >= 0 ? 'bg-blue-500' : 'bg-red-500'}`}
                         style={{ width: `${Math.abs(planetInfo.elementalInfluence.water) * 100}%` }}
-                      ></div>
+                       />
                     </div>
                     <p className="text-xs mt-1">Water</p>
                   </div>
@@ -199,7 +200,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       <div 
                         className={`h-full ${planetInfo.elementalInfluence.air >= 0 ? 'bg-yellow-500' : 'bg-red-500'}`}
                         style={{ width: `${Math.abs(planetInfo.elementalInfluence.air) * 100}%` }}
-                      ></div>
+                       />
                     </div>
                     <p className="text-xs mt-1">Air</p>
                   </div>
@@ -208,7 +209,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       <div 
                         className={`h-full ${planetInfo.elementalInfluence.earth >= 0 ? 'bg-green-500' : 'bg-red-500'}`}
                         style={{ width: `${Math.abs(planetInfo.elementalInfluence.earth) * 100}%` }}
-                      ></div>
+                       />
                     </div>
                     <p className="text-xs mt-1">Earth</p>
                   </div>
@@ -224,7 +225,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       <div 
                         className="h-full bg-purple-500"
                         style={{ width: `${Math.abs(planetInfo.tokenInfluence.spirit) * 100}%` }}
-                      ></div>
+                       />
                     </div>
                     <p className="text-xs mt-1">Spirit</p>
                   </div>
@@ -233,7 +234,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       <div 
                         className="h-full bg-pink-500"
                         style={{ width: `${Math.abs(planetInfo.tokenInfluence.essence) * 100}%` }}
-                      ></div>
+                       />
                     </div>
                     <p className="text-xs mt-1">Essence</p>
                   </div>
@@ -242,7 +243,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       <div 
                         className="h-full bg-amber-500"
                         style={{ width: `${Math.abs(planetInfo.tokenInfluence.matter) * 100}%` }}
-                      ></div>
+                       />
                     </div>
                     <p className="text-xs mt-1">Matter</p>
                   </div>
@@ -251,7 +252,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
                       <div 
                         className="h-full bg-teal-500"
                         style={{ width: `${Math.abs(planetInfo.tokenInfluence.substance) * 100}%` }}
-                      ></div>
+                       />
                     </div>
                     <p className="text-xs mt-1">Substance</p>
                   </div>

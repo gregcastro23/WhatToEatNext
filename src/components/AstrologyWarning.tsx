@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
 import { AlertTriangle } from 'lucide-react';
+import React from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 const AstrologyWarning: React.FC = () => {

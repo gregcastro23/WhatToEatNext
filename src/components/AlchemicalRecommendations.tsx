@@ -1,18 +1,19 @@
 // @ts-nocheck
 import React, { useState, useMemo } from 'react';
-import { RulingPlanet } from '@/constants/planets';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
-import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
-import { ElementalItem } from '@/calculations/alchemicalTransformation';
+import type { ElementalItem } from '@/calculations/alchemicalTransformation';
+import type { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import type { RulingPlanet } from '@/constants/planets';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
 
 // Import the correct data sources
-import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
+import { cookingMethods } from '@/data/cooking/cookingMethods';
 
 // Add import for modality type and utils
 import type { Modality } from '@/data/ingredients/types';
+import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
+import { _LunarPhase } from '@/types/alchemy';
+import type { LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
 import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 interface AlchemicalRecommendationsProps {
@@ -108,12 +109,12 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     return Object.entries(allIngredients).map(([key, ingredient]) => {
       // Get ingredient elemental properties or calculate them
       let elementalProps;
-      if ((ingredient as any).elementalProperties) {
-        elementalProps = (ingredient as any).elementalProperties;
+      if ((ingredient).elementalProperties) {
+        elementalProps = (ingredient).elementalProperties;
       } else {
         // Calculate based on ingredient category and attributes
-        const category = (ingredient as any).category || '';
-        const rulingPlanets = (ingredient as any).astrologicalProfile?.rulingPlanets || [];
+        const category = (ingredient).category || '';
+        const rulingPlanets = (ingredient).astrologicalProfile?.rulingPlanets || [];
         
         // Start with empty properties
         elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -185,8 +186,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // @ts-expect-error - Auto-fixed by script
         name: ingredient.name || key,
         elementalProperties: elementalProps,
-        qualities: (ingredient as any).qualities || [],
-        modality: (ingredient as any).modality
+        qualities: (ingredient).qualities || [],
+        modality: (ingredient).modality
       } as ElementalItem;
     });
   }, [allIngredients]);
@@ -259,14 +260,14 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     return Object.entries(cuisines).map(([key, cuisine]) => {
       // Get cuisine elemental state or calculate it
       let elementalState;
-      if ((cuisine as any).elementalState) {
-        elementalState = (cuisine as any).elementalState;
+      if ((cuisine).elementalState) {
+        elementalState = (cuisine).elementalState;
       } else {
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const cuisineName = ((cuisine as any).name || key).toLowerCase();
-        const region = ((cuisine as any).region || '').toLowerCase();
+        const cuisineName = ((cuisine).name || key).toLowerCase();
+        const region = ((cuisine).region || '').toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
@@ -317,7 +318,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (cuisine as any).name || key,
+        name: (cuisine).name || key,
         elementalProperties: elementalState
       } as ElementalItem;
     });
@@ -616,6 +617,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         </div>
       </div>
       
+      {/* eslint-disable react/no-unknown-property */}
       <style jsx>{`
         .alchemical-recommendations {
           padding: 1rem;

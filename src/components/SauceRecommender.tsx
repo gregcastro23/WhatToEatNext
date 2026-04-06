@@ -1,7 +1,7 @@
+import { ChevronDown, ChevronUp, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
-import { Sauce } from '@/data/sauces';
-import { ElementalProperties } from '@/types/alchemy';
-import { ChevronDown, ChevronUp, Info, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
+import type { Sauce } from '@/data/sauces';
+import type { ElementalProperties } from '@/types/alchemy';
 
 interface SauceRecommenderProps {
   currentElementalProfile?: ElementalProperties;
@@ -24,9 +24,9 @@ export default function SauceRecommender({
   protein,
   vegetable,
   cookingMethod,
-  showByRegion = true,
-  showByAstrological = true,
-  showByDietary = false,
+  showByRegion: _showByRegion = true,
+  showByAstrological: _showByAstrological = true,
+  showByDietary: _showByDietary = false,
   maxResults = 16,
   sauces,
   cuisines,
@@ -142,7 +142,7 @@ export default function SauceRecommender({
     const results: unknown[] = [];
     
     // Get all available sauces from props or try to import if not provided
-    const allAvailableSauces: Record<string, Sauce> = sauces || {};
+    const _allAvailableSauces: Record<string, Sauce> = sauces || {};
     
     // Get all available cuisines
     const allCuisines = cuisines || {};
@@ -169,13 +169,13 @@ export default function SauceRecommender({
                 description: sauceData.description || "",
                 category: 'forProtein',
                 forItem: protein,
-                cuisine: cuisine,
+                cuisine,
                 ingredients: sauceData.keyIngredients || [],
                 culinaryUses: sauceData.culinaryUses || [],
                 preparationNotes: sauceData.preparationNotes || "",
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore: matchScore
+                matchScore
               });
             }
           });
@@ -199,13 +199,13 @@ export default function SauceRecommender({
                 description: sauceData.description || "",
                 category: 'forVegetable',
                 forItem: vegetable,
-                cuisine: cuisine,
+                cuisine,
                 ingredients: sauceData.keyIngredients || [],
                 culinaryUses: sauceData.culinaryUses || [],
                 preparationNotes: sauceData.preparationNotes || "",
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore: matchScore
+                matchScore
               });
             }
           });
@@ -229,13 +229,13 @@ export default function SauceRecommender({
                 description: sauceData.description || "",
                 category: 'forCookingMethod',
                 forItem: cookingMethod,
-                cuisine: cuisine,
+                cuisine,
                 ingredients: sauceData.keyIngredients || [],
                 culinaryUses: sauceData.culinaryUses || [],
                 preparationNotes: sauceData.preparationNotes || "",
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore: matchScore
+                matchScore
               });
             }
           });
@@ -256,13 +256,13 @@ export default function SauceRecommender({
             description: sauceData.description || "",
             category: 'byCuisine',
             forItem: cuisine,
-            cuisine: cuisine,
+            cuisine,
             ingredients: sauceData.keyIngredients || [],
             culinaryUses: sauceData.culinaryUses || [],
             preparationNotes: sauceData.preparationNotes || "",
             technicalTips: sauceData.technicalTips || "",
             elementalProperties: sauceData.elementalProperties,
-            matchScore: matchScore
+            matchScore
           });
         });
       }
@@ -305,7 +305,7 @@ export default function SauceRecommender({
                 preparationNotes: sauceData.preparationNotes || "",
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore: matchScore,
+                matchScore,
                 isFusion: true
               });
             }
@@ -358,7 +358,7 @@ export default function SauceRecommender({
   };
 
   // Helper function to render the sauce element icons
-  const renderElementIcons = (elementalProps: ElementalProperties) => {
+  const _renderElementIcons = (elementalProps: ElementalProperties) => {
     const dominant = Object.entries(elementalProps)
       .sort(([, a], [, b]) => b - a)[0][0];
     
@@ -420,9 +420,9 @@ export default function SauceRecommender({
       <div className={`bg-white rounded-lg shadow-md p-4 ${className}`}>
         <h3 className="text-lg font-medium mb-2">Sauce Recommendations</h3>
         <div className="animate-pulse space-y-3">
-          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-          <div className="h-24 bg-gray-200 rounded"></div>
-          <div className="h-24 bg-gray-200 rounded"></div>
+          <div className="h-4 bg-gray-200 rounded w-3/4" />
+          <div className="h-24 bg-gray-200 rounded" />
+          <div className="h-24 bg-gray-200 rounded" />
         </div>
       </div>
     );
@@ -581,7 +581,7 @@ export default function SauceRecommender({
                         <ul className="pl-2">
                           {sauce.ingredients && sauce.ingredients.map((ing, idx) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
-                              <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2"></span>
+                              <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2" />
                               <span>
                                 {typeof ing === 'string' ? ing : String(ing)}
                                 {` - ${getIngredientAmountRange(typeof ing === 'string' ? ing : String(ing))}`}
@@ -597,7 +597,7 @@ export default function SauceRecommender({
                         <ul className="pl-2">
                           {sauce.culinaryUses && sauce.culinaryUses.map((use, idx) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
-                              <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2"></span>
+                              <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2" />
                               <span>{use}</span>
                             </li>
                           ))}

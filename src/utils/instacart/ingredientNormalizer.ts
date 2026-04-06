@@ -89,7 +89,7 @@ function detectCategory(name: string): IngredientCategory {
 
 function parseQuantityUnitName(raw: string): { quantity: number, unit: string, name: string } {
   // e.g. "1.5 lbs chicken breast", "2 apples", "1/2 cup sugar"
-  const match = raw.trim().match(/^([\d.\/]+)\s+([A-Za-z]+)\s+(.+)$/);
+  const match = raw.trim().match(/^([\d./]+)\s+([A-Za-z]+)\s+(.+)$/);
   
   if (match) {
     const [, qtyRaw, rawUnit, name] = match;
@@ -120,7 +120,7 @@ function parseQuantityUnitName(raw: string): { quantity: number, unit: string, n
   }
 
   // Fallback: Check if it starts with just a number
-  const numMatch = raw.trim().match(/^([\d.\/]+)\s+(.+)$/);
+  const numMatch = raw.trim().match(/^([\d./]+)\s+(.+)$/);
   if (numMatch) {
     const [, qtyRaw, name] = numMatch;
     let quantity = parseFloat(qtyRaw);
@@ -339,7 +339,7 @@ export function deduplicateIngredients(
 }
 
 export function normalizeIngredientList(
-  rawItems: { text: string; recipes?: string[] }[]
+  rawItems: Array<{ text: string; recipes?: string[] }>
 ): NormalizedIngredient[] {
   const normalized = rawItems.map(item => {
     const norm = normalizeIngredient(item.text);

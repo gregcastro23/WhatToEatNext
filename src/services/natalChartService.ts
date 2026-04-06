@@ -15,16 +15,16 @@ import type {
 } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
 import {
+  validateBirthChartAgainstEstimates,
+  detectStaticFallback,
+} from "@/utils/astrology/birthChartSignEstimator";
+import {
   calculateEnhancedAlchemicalFromPlanets,
   aggregateEnhancedZodiacElementals,
   getDominantElement,
   isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
 import { getModalityForZodiac } from "@/utils/zodiacUtils";
-import {
-  validateBirthChartAgainstEstimates,
-  detectStaticFallback,
-} from "@/utils/astrology/birthChartSignEstimator";
 
 /**
  * Interface for the astrologize API response (simplified)

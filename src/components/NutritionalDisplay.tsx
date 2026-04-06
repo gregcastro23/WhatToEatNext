@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import type { NutritionalProfile } from '@/types/alchemy';
 import { getNutritionalData, getAvailableNutritionalIngredients } from '@/utils/nutritionalUtils';
-import { NutritionalProfile } from '@/types/alchemy';
 
 interface NutritionalDisplayProps {
   ingredientName?: string;

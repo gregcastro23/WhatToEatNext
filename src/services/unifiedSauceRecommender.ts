@@ -1,13 +1,13 @@
 "use strict";
 
 import { allSauces, type Sauce as DataSauce } from "@/data/sauces";
+import { sauceRecommender } from "@/services/sauceRecommender";
+import type { EnhancedRecipe, ElementalProperties } from "@/types/recipe";
 import {
   recommendSauces,
   type SauceRecommendationResult,
   type Sauce as RecommenderSauce,
 } from "@/utils/cuisine/intelligentSauceRecommender";
-import { sauceRecommender } from "@/services/sauceRecommender";
-import type { EnhancedRecipe, ElementalProperties } from "@/types/recipe";
 
 // ========== INPUT / OUTPUT TYPES ==========
 

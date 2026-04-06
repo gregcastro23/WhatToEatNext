@@ -1,14 +1,14 @@
 // @ts-nocheck
 'use client';
 
+import { Sun, Clock, ArrowDown, Sunrise, Sunset } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 // @ts-expect-error - Auto-fixed by script
-import { calculateSunTimes, formatSunTime } from '@/utils/sunTimes';
-import { getSunPosition } from '@/utils/solarPositions';
-import { Sun, Clock, ArrowDown, Sunrise, Sunset } from 'lucide-react';
 import { AstrologicalService } from '@/services/AstrologicalService';
-import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport';
+import { safeImportAndExecute, _safeImportFunction } from '@/utils/dynamicImport';
+import { _getSunPosition } from '@/utils/solarPositions';
+import { _calculateSunTimes, formatSunTime } from '@/utils/sunTimes';
 
 const SunDisplay: React.FC = () => {
   const { planetaryPositions } = useAlchemical();
@@ -177,7 +177,7 @@ const SunDisplay: React.FC = () => {
               top: 0,
               borderRadius: '0 0 9999px 9999px'
             }}
-          ></div>
+           />
         </div>
       </div>
       
@@ -194,7 +194,7 @@ const SunDisplay: React.FC = () => {
               <div
                 className="bg-yellow-300 h-2.5 rounded-full"
                 style={{ width: `${daylightPercentage}%` }}
-              ></div>
+               />
             </div>
           </div>
           

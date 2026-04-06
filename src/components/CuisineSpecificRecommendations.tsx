@@ -73,7 +73,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   };
 
   // Function to determine if a planet is favorable/unfavorable for a recipe
-  const getPlanetaryAlignment = (recipe: unknown, planetName: string) => {
+  const getPlanetaryAlignment = (recipe: unknown, _planetName: string) => {
     // @ts-expect-error - Auto-fixed by script
     if (recipe.planetaryDayScore >= 0.7) return 'favorable';
     // @ts-expect-error - Auto-fixed by script

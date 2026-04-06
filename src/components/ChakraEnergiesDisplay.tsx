@@ -1,19 +1,17 @@
 'use client';
 
 import React from 'react';
-// @ts-expect-error - Auto-fixed by script
-import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { 
+import {
   CHAKRA_SYMBOLS, 
   CHAKRA_BG_COLORS, 
-  // @ts-expect-error - Auto-fixed by script
-  CHAKRA_TEXT_COLORS, 
+  _CHAKRA_TEXT_COLORS as CHAKRA_TEXT_COLORS, 
   CHAKRA_SANSKRIT_NAMES,
   normalizeChakraKey,
   getChakraDisplayName
 } from '@/constants/chakraSymbols';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { isChakraKey } from '@/utils/typeGuards';
 
 interface ChakraEnergiesDisplayProps {
@@ -21,15 +19,23 @@ interface ChakraEnergiesDisplayProps {
 }
 
 const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact = false }) => {
-  const { chakraEnergies: contextChakraEnergies, isLoading: contextLoading, error: contextError } = useAstrologicalState();
-  // @ts-expect-error - Auto-fixed by script
-  const { chakraEnergies: foodChakraEnergies, loading: foodLoading, error: foodError, chakraRecommendations } = useChakraInfluencedFood({ limit: 50 });
+  const { loading: contextLoading, isReady } = useAstrologicalState();
+  const { getChakraBalance, loading: foodLoading, getRecommendationsForChakra } = useChakraInfluencedFood();
   const { isDaytime } = useAlchemical();
 
   // Merge chakra data - prioritize the data from useChakraInfluencedFood
-  const chakraEnergies = foodChakraEnergies || contextChakraEnergies;
-  const isLoading = foodLoading || contextLoading;
-  const error = foodError || contextError;
+  const chakraEnergies = getChakraBalance();
+  const isLoading = foodLoading || contextLoading || !isReady;
+  const error = null;
+  const chakraRecommendations: Record<string, any[]> = {
+    root: getRecommendationsForChakra("root"),
+    sacral: getRecommendationsForChakra("sacral"),
+    solarPlexus: getRecommendationsForChakra("solar_plexus"),
+    heart: getRecommendationsForChakra("heart"),
+    throat: getRecommendationsForChakra("throat"),
+    brow: getRecommendationsForChakra("third_eye"),
+    crown: getRecommendationsForChakra("crown"),
+  };
 
   // Enhanced chakra symbols with more recognizable unicode characters
   const ENHANCED_CHAKRA_SYMBOLS: Record<string, string> = {
@@ -101,7 +107,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Get chakra color classes
-  const getChakraColor = (chakra: string, energy: number): string => {
+  const getChakraColor = (chakra: string, _energy: number): string => {
     const normalizedKey = normalizeChakraKey(chakra);
     if (!normalizedKey) return 'bg-gray-200'; // Fallback color
     
@@ -181,8 +187,8 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
 
   if (isLoading) {
     return <div className="text-center p-6">
-      <div className="animate-pulse h-4 bg-gray-200 rounded w-3/4 mx-auto mb-4"></div>
-      <div className="animate-pulse h-32 bg-gray-100 rounded w-full mx-auto"></div>
+      <div className="animate-pulse h-4 bg-gray-200 rounded w-3/4 mx-auto mb-4" />
+      <div className="animate-pulse h-32 bg-gray-100 rounded w-full mx-auto" />
     </div>;
   }
 
@@ -204,14 +210,12 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   const validatedChakraEnergies = ensureChakraEnergies(chakraEnergies);
 
   // Prepare chakra data in the correct order
-  const orderedChakras = CHAKRA_ORDER
-    // @ts-expect-error - Auto-fixed by script
-    .filter(chakraKey => chakraKey in validatedChakraEnergies)
-    .map(chakraKey => ({
-      key: chakraKey,
-      // @ts-expect-error - Auto-fixed by script
-      energy: validatedChakraEnergies[chakraKey as keyof typeof validatedChakraEnergies] || 0
-    }));
+    const orderedChakras = CHAKRA_ORDER
+      .filter(chakraKey => chakraKey in (validatedChakraEnergies as any))
+      .map(chakraKey => ({
+        key: chakraKey,
+        energy: (validatedChakraEnergies as any)[chakraKey] || 0
+      }));
 
   return (
     <div className="space-y-6">

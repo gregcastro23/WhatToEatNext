@@ -1,12 +1,13 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Suspense } from "react";
-import { motion, Variants } from "framer-motion";
 import DynamicCuisineRecommender from "@/components/home/DynamicCuisineRecommender";
 import { HeroSection } from "@/components/home/HeroSection";
 import EnhancedCookingMethodRecommender from "@/components/recommendations/EnhancedCookingMethodRecommender";
 import EnhancedIngredientRecommender from "@/components/recommendations/EnhancedIngredientRecommender";
 import EnhancedSauceRecommender from "@/components/recommendations/EnhancedSauceRecommender";
+import type { Variants } from "framer-motion";
 
 function SectionLoader() {
   return (

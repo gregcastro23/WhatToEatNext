@@ -16,6 +16,7 @@
  */
 
 import * as AstronomyModule from "astronomy-engine";
+
 const Astronomy = (AstronomyModule as any).default || AstronomyModule;
 import type { ZodiacSignType } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";

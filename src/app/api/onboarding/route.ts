@@ -15,8 +15,8 @@ import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
-import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import { validatePlanetaryPositions, formatValidationResult } from "@/utils/astrology/planetaryValidation";
+import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
       const validation = validatePlanetaryPositions(rawPositions, birthDate);
       const validationLog = formatValidationResult(validation);
 
-      _logger.info("[POST /api/onboarding] 🛡️ Position Validation Results:\n" + validationLog);
+      _logger.info(`[POST /api/onboarding] 🛡️ Position Validation Results:\n${  validationLog}`);
 
       if (!validation.valid) {
         // Critical errors detected - reject the calculation
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            message: "Planetary positions failed validation. " + validation.errors[0],
+            message: `Planetary positions failed validation. ${  validation.errors[0]}`,
             validationErrors: validation.errors,
             details: validation.details,
           },

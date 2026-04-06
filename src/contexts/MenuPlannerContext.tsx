@@ -60,8 +60,8 @@ import {
 import { generateGroceryList } from "@/utils/groceryListGenerator";
 import {
   estimateWeeklyGroceryCost,
-  calculateRecipeEstimatedCost,
-  type RecipeCostEstimate,
+  calculateRecipeEstimatedCost as _calculateRecipeEstimatedCost,
+  type RecipeCostEstimate as _RecipeCostEstimate,
 } from "@/utils/instacart/priceEstimator";
 import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";

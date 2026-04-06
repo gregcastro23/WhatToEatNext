@@ -7,7 +7,7 @@
 
 "use client";
 
-import React, { createContext } from "react";
+import _React, { createContext } from "react";
 import type { AlchemicalState, AlchemicalContextType } from "./types";
 
 // Define default state

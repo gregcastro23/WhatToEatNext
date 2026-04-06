@@ -12,13 +12,13 @@
  * to the client. This service calls our own API routes which proxy to IDP.
  */
 
-import type { GroceryItem } from "@/types/menuPlanner";
 import type {
   InstacartShoppingListResponse,
   InstacartRecipeResponse,
   InstacartRetailer,
   InstacartRetailersResponse,
 } from "@/types/instacart";
+import type { GroceryItem } from "@/types/menuPlanner";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("InstacartService");

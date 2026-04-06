@@ -142,7 +142,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             console.log(`[auth] Starting background tasks for ${user.email}`);
             
             // 0. Calculate and synchronize natal chart if birth data is present but not computed
-            const profile = (dbUser as any)?.profile || {};
+            const profile = (dbUser)?.profile || {};
             if (profile.birthData && (!profile.natalChart || !profile.onboardingComplete)) {
               try {
                 console.log(`[auth] Calculating missing natal chart for ${user.email}`);
@@ -191,7 +191,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     natalChart: profile.natalChart
                   });
                 }
-              } catch (e) {
+              } catch (_e) {
                 // silent failure for sync
               }
             }
@@ -258,10 +258,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               const isPremium =
                 isAdminEmail(user.email!) ||
                 isPremiumEmail(user.email!) ||
-                (dbUser as any)?.tier === "premium";
+                (dbUser)?.tier === "premium";
               const natalChart =
-                (dbUser as any)?.profile?.natalChart ||
-                (dbUser as any)?.profile?.natal_chart;
+                (dbUser)?.profile?.natalChart ||
+                (dbUser)?.profile?.natal_chart;
 
               if (isPremium && natalChart?.planetaryPositions) {
                 import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {

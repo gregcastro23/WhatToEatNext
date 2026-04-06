@@ -1,27 +1,34 @@
 // @ts-nocheck
 'use client';
 
-import { useState, useEffect } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
-import styles from './IngredientRecommendations.module.css';
-import type { ElementalProperties, ZodiacSign, Season, ElementalState } from '@/types/alchemy';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
-// @ts-expect-error - Auto-fixed by script
-import { toZodiacSign } from '@/utils/zodiacUtils';
-import type { Ingredient } from '@/types/alchemy';
-// @ts-expect-error - Auto-fixed by script
-import { calculateAlchemicalProperties, calculateThermodynamicProperties, determineIngredientModality } from '@/utils/ingredientUtils';
+import { useState, useEffect } from 'react';
 import type { Modality } from '@/data/ingredients/types';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { _ElementalCalculator } from '@/services/ElementalCalculator';
+import type { ElementalProperties, ZodiacSign, Season, _ElementalState , Ingredient } from '@/types/alchemy';
+import type { IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
+import { getIngredientRecommendations } from '@/utils/ingredientRecommender';
+// @ts-expect-error - Auto-fixed by script
+import { _calculateAlchemicalProperties, _calculateThermodynamicProperties, _determineIngredientModality } from '@/utils/ingredientUtils';
+import { toZodiacSign } from '@/utils/zodiacUtils';
+// @ts-expect-error - Auto-fixed by script
+import styles from './IngredientRecommendations.module.css';
 
 // Helper function to adapt the elemental properties for the recommender system
+interface AstroStateData {
+  currentZodiac?: ZodiacSign | null;
+  planetaryPositions?: any;
+  moonPhase?: any;
+  aspects?: any;
+}
+
 function getRecommendations(
   elementalProps: ElementalProperties | undefined,
-  options: RecommendationOptions
+  options: RecommendationOptions,
+  astroStateData: AstroStateData
 ): GroupedIngredientRecommendations {
-  // @ts-expect-error - Auto-fixed by script
-  const { currentZodiac, planetaryPositions, moonPhase, aspects } = useAstrologicalState();
+  const { currentZodiac, planetaryPositions, moonPhase, aspects } = astroStateData;
   
   // Create an object with real astrological state data
   const astroState = {
@@ -60,7 +67,7 @@ interface IngredientRecommendationsProps {
 export default function IngredientRecommendations({ 
   targetElements 
 }: IngredientRecommendationsProps) {
-  const { currentZodiac } = useAstrologicalState();
+  const { currentZodiac, planetaryPositions, moonPhase, aspects } = useAstrologicalState();
   
   // Use the helper function to ensure valid ZodiacSign
   const zodiacSign = toZodiacSign(currentZodiac);
@@ -71,7 +78,7 @@ export default function IngredientRecommendations({
   const [dietaryFilter, setDietaryFilter] = useState<string>('all');
   const [modalityFilter, setModalityFilter] = useState<string>('all');
   const [showSensoryProfiles, setShowSensoryProfiles] = useState(false);
-  const [showCookingMethods, setShowCookingMethods] = useState(false);
+  const [_showCookingMethods, _setShowCookingMethods] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [showAlchemicalProperties, setShowAlchemicalProperties] = useState(false);
   
@@ -88,7 +95,12 @@ export default function IngredientRecommendations({
     };
     
     // Use our adapter function with modality filtering
-    const recommendedIngredients = getRecommendations(targetElements, options);
+    const recommendedIngredients = getRecommendations(targetElements, options, {
+      currentZodiac,
+      planetaryPositions,
+      moonPhase,
+      aspects
+    });
     
     setRecommendations(recommendedIngredients);
     setLoading(false);
@@ -104,7 +116,7 @@ export default function IngredientRecommendations({
     }
   };
   
-  const getSensoryProfileBar = (value: number, type: string) => {
+  const _getSensoryProfileBar = (value: number, type: string) => {
     return (
       <div className={styles.sensoryBar}>
         <span className={styles.sensoryLabel}>{type}</span>
@@ -112,14 +124,14 @@ export default function IngredientRecommendations({
           <div 
             className={`${styles.sensoryBarFill} ${styles[type.toLowerCase()]}`}
             style={{ width: `${Math.round(value * 100)}%` }}
-          ></div>
+           />
         </div>
         <span className={styles.sensoryBarValue}>{Math.round(value * 100)}%</span>
       </div>
     );
   };
   
-  const renderIngredientDetails = (ingredient: Ingredient) => {
+  const _renderIngredientDetails = (ingredient: Ingredient) => {
     // Get the elemental properties
     const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
@@ -166,7 +178,7 @@ export default function IngredientRecommendations({
                 <div 
                   className={`${styles.bar} ${styles.fireBar}`}
                   style={{ width: `${elementalProps.Fire * 100}%` }}
-                ></div>
+                 />
               </div>
               <span className={styles.elementValue}>{Math.round(elementalProps.Fire * 100)}%</span>
             </div>
@@ -176,7 +188,7 @@ export default function IngredientRecommendations({
                 <div 
                   className={`${styles.bar} ${styles.waterBar}`}
                   style={{ width: `${elementalProps.Water * 100}%` }}
-                ></div>
+                 />
               </div>
               <span className={styles.elementValue}>{Math.round(elementalProps.Water * 100)}%</span>
             </div>
@@ -186,7 +198,7 @@ export default function IngredientRecommendations({
                 <div 
                   className={`${styles.bar} ${styles.earthBar}`}
                   style={{ width: `${elementalProps.Earth * 100}%` }}
-                ></div>
+                 />
               </div>
               <span className={styles.elementValue}>{Math.round(elementalProps.Earth * 100)}%</span>
             </div>
@@ -196,7 +208,7 @@ export default function IngredientRecommendations({
                 <div 
                   className={`${styles.bar} ${styles.airBar}`}
                   style={{ width: `${elementalProps.Air * 100}%` }}
-                ></div>
+                 />
               </div>
               <span className={styles.elementValue}>{Math.round(elementalProps.Air * 100)}%</span>
             </div>
@@ -311,7 +323,7 @@ export default function IngredientRecommendations({
               <div 
                 className={`${styles.bar} ${styles.fireBar}`}
                 style={{ width: `${elementalProps.Fire * 100}%` }}
-              ></div>
+               />
             </div>
           </div>
           <div className={styles.elementBar}>
@@ -320,7 +332,7 @@ export default function IngredientRecommendations({
               <div 
                 className={`${styles.bar} ${styles.waterBar}`}
                 style={{ width: `${elementalProps.Water * 100}%` }}
-              ></div>
+               />
             </div>
           </div>
           <div className={styles.elementBar}>
@@ -329,7 +341,7 @@ export default function IngredientRecommendations({
               <div 
                 className={`${styles.bar} ${styles.earthBar}`}
                 style={{ width: `${elementalProps.Earth * 100}%` }}
-              ></div>
+               />
             </div>
           </div>
           <div className={styles.elementBar}>
@@ -338,7 +350,7 @@ export default function IngredientRecommendations({
               <div 
                 className={`${styles.bar} ${styles.airBar}`}
                 style={{ width: `${elementalProps.Air * 100}%` }}
-              ></div>
+               />
             </div>
           </div>
         </div>
@@ -459,7 +471,7 @@ export default function IngredientRecommendations({
           {categoryFilter === 'all' ? (
             // Render all categories
             Object.entries(recommendations)
-              .filter(([category, items]) => items && items.length > 0)
+              .filter(([_category, items]) => items && items.length > 0)
               .map(([category, items]) => (
                 <div key={category} className={styles.categorySection} data-category={category}>
                   <h3 className={styles.categoryTitle}>{category}</h3>

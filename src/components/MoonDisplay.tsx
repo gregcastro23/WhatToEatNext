@@ -1,18 +1,18 @@
 // @ts-nocheck
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
 import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getSignFromLongitude } from '@/utils/astrologyUtils';
 import { AstrologicalService } from '@/services/AstrologicalService';
+import { _getSignFromLongitude } from '@/utils/astrologyUtils';
 import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport';
 
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -21,7 +21,7 @@ const debugLog = (message: string, ...args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message: string, ...args: unknown[]): void => {
+const errorLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };
@@ -396,7 +396,7 @@ const MoonDisplay: React.FC = () => {
               <div
                 className="bg-cyan-300 h-2.5 rounded-full"
                 style={{ width: `${Math.round(moonPhase.phaseValue * 100)}%` }}
-              ></div>
+               />
             </div>
           </div>
           

@@ -3,13 +3,13 @@
 
 import React, { useState } from 'react';
 import { fetchNutritionalData, nutritionalToElemental, zodiacNutritionalNeeds } from '@/data/nutritional';
-import { NutritionalProfile, Element, ZodiacSign } from '@/types/alchemy';
+import type { NutritionalProfile, Element, ZodiacSign } from '@/types/alchemy';
 
 // Loading spinner component
 function LoadingSpinner() {
   return (
     <div className="flex justify-center my-8">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
     </div>
   );
 }
@@ -270,7 +270,7 @@ export default function NutritionalDataFetcher() {
                     <div 
                       className="bg-red-500 rounded-full h-4" 
                       style={{ width: `${elementalData.Fire * 100}%` }}
-                    ></div>
+                     />
                   </div>
                   <span className="ml-2">{(elementalData.Fire * 100).toFixed(1)}%</span>
                 </div>
@@ -281,7 +281,7 @@ export default function NutritionalDataFetcher() {
                     <div 
                       className="bg-blue-500 rounded-full h-4" 
                       style={{ width: `${elementalData.Water * 100}%` }}
-                    ></div>
+                     />
                   </div>
                   <span className="ml-2">{(elementalData.Water * 100).toFixed(1)}%</span>
                 </div>
@@ -292,7 +292,7 @@ export default function NutritionalDataFetcher() {
                     <div 
                       className="bg-green-500 rounded-full h-4" 
                       style={{ width: `${elementalData.Earth * 100}%` }}
-                    ></div>
+                     />
                   </div>
                   <span className="ml-2">{(elementalData.Earth * 100).toFixed(1)}%</span>
                 </div>
@@ -303,7 +303,7 @@ export default function NutritionalDataFetcher() {
                     <div 
                       className="bg-yellow-400 rounded-full h-4" 
                       style={{ width: `${elementalData.Air * 100}%` }}
-                    ></div>
+                     />
                   </div>
                   <span className="ml-2">{(elementalData.Air * 100).toFixed(1)}%</span>
                 </div>

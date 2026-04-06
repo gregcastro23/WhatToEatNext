@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
+import React from "react";
 import type { Planet } from "@/types/celestial";
 
 type TimeOfDay = "morning" | "afternoon" | "evening";

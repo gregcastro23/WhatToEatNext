@@ -26,7 +26,7 @@ export default function AlchemicalPropertiesDisplay({ showDebug = false }) {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-indigo-500 mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-indigo-500 mr-2" />
             <span className="text-sm">Spirit</span>
           </div>
           <span className="text-sm font-medium">{formatValue(alchemicalValues.Spirit)}</span>
@@ -34,7 +34,7 @@ export default function AlchemicalPropertiesDisplay({ showDebug = false }) {
         
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-red-400 mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-red-400 mr-2" />
             <span className="text-sm">Essence</span>
           </div>
           <span className="text-sm font-medium">{formatValue(alchemicalValues.Essence)}</span>
@@ -42,7 +42,7 @@ export default function AlchemicalPropertiesDisplay({ showDebug = false }) {
         
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-amber-600 mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-amber-600 mr-2" />
             <span className="text-sm">Matter</span>
           </div>
           <span className="text-sm font-medium">{formatValue(alchemicalValues.Matter)}</span>
@@ -50,7 +50,7 @@ export default function AlchemicalPropertiesDisplay({ showDebug = false }) {
         
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-emerald-500 mr-2"></div>
+            <div className="w-3 h-3 rounded-full bg-emerald-500 mr-2" />
             <span className="text-sm">Substance</span>
           </div>
           <span className="text-sm font-medium">{formatValue(alchemicalValues.Substance)}</span>

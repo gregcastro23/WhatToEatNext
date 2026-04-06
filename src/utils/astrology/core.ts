@@ -16,8 +16,8 @@ import { getPlanetaryPositions } from "@/utils/astrologyDataProvider";
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from "@/utils/safeAstrology";
 import { PlanetaryHourCalculator } from "../../lib/PlanetaryHourCalculator";
 import { getCurrentSeason, getTimeOfDay } from "../dateUtils";
-import type { ElementalCharacter } from "../../constants/planetaryElements";
 import { getAccuratePlanetaryPositions } from "./positions";
+import type { ElementalCharacter } from "../../constants/planetaryElements";
 
 // Robust debug, logger: logs in development, silent in production
 const debugLog = (_message: string, ..._args: unknown[]): void => {

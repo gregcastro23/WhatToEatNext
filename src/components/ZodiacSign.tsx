@@ -1,6 +1,6 @@
-import React from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { ZodiacSign as ZodiacSignType } from "@/types/alchemy";
+import React from "react";
+import type { ZodiacSign as ZodiacSignType } from "@/types/alchemy";
 
 interface ZodiacSignProps {
   sign: ZodiacSignType | string;

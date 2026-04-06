@@ -10,9 +10,9 @@
 import React, { useState, useMemo } from "react";
 import { allSauces } from "@/data/sauces";
 import type { Sauce } from "@/data/sauces";
+import type { ElementalProperties } from "@/types/recipe";
 import { recommendSauces } from "@/utils/cuisine/intelligentSauceRecommender";
 import type { Sauce as RecommenderSauce } from "@/utils/cuisine/intelligentSauceRecommender";
-import type { ElementalProperties } from "@/types/recipe";
 import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
 
 interface SauceSelectorProps {

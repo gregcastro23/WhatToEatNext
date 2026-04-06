@@ -1,14 +1,15 @@
 // @ts-nocheck
 // @ts-expect-error - Auto-fixed by script
-import { useAstrologicalState } from '@/context/AstrologicalContext';
+import { Flame, Droplets, Mountain, Wind, _Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { ElementalProperties } from '@/types/alchemy';
-import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { _normalizeChakraKey } from '@/constants/chakraSymbols';
+import { useAstrologicalState } from '@/context/AstrologicalContext';
+import { herbsCollection, oilsCollection, vinegarsCollection, _grainsCollection } from '@/data/ingredients';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
-import { normalizeChakraKey } from '@/constants/chakraSymbols';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
+import type { ElementalProperties } from '@/types/alchemy';
+import type { GroupedIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
+import { getChakraBasedRecommendations, getIngredientRecommendations } from '@/utils/ingredientRecommender';
 
 // Define a styles object for animations and custom styles
 const customStyles = {
@@ -347,7 +348,7 @@ export default function IngredientRecommender() {
     }
     
     // Now add the astrological recommendations
-    Object.entries(astroRecommendations).forEach(([category, items]) => {
+    Object.entries(astroRecommendations).forEach(([_category, items]) => {
       // @ts-expect-error - Auto-fixed by script
       items.forEach(item => {
         const normalizedCategory = getNormalizedCategory(item);
@@ -455,7 +456,7 @@ export default function IngredientRecommender() {
     return (
       <div className="flex items-center justify-center p-8 h-64">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500 mb-4" />
           <p className="text-indigo-800 dark:text-indigo-300">Loading celestial influences...</p>
         </div>
       </div>
@@ -714,7 +715,7 @@ export default function IngredientRecommender() {
                                           element === 'Earth' ? '#6bff8e' :
                                           '#d9b3ff' // Air
                                       }}
-                                    ></div>
+                                     />
                                   </div>
                                   // @ts-expect-error - Auto-fixed by script
                                   <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round(value * 100)}%</span>
@@ -741,7 +742,7 @@ export default function IngredientRecommender() {
                                           element === 'Earth' ? '#6bff8e' :
                                           '#d9b3ff' // Air
                                       }}
-                                    ></div>
+                                     />
                                   </div>
                                   // @ts-expect-error - Auto-fixed by script
                                   <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round(value * 100)}%</span>

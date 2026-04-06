@@ -163,7 +163,7 @@ class CommensalDatabaseService {
         );
         if (check.rows.length === 0) return null;
 
-                // eslint-disable-next-line @typescript-eslint/naming-convention
+                 
                               // eslint-disable-next-line @typescript-eslint/naming-convention
         const { requester_id, addressee_id, status } = check.rows[0];
         const isParty = actingUserId === requester_id.toString() || actingUserId === addressee_id.toString();

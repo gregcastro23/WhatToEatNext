@@ -6,9 +6,9 @@
  */
 
 import { ingredientsMap } from "@/data/ingredients";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { ElementalProperties, IngredientMapping } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { filterRecipesByIngredientMappings } from "@/utils/recipeFilters";
 import { connectIngredientsToMappings } from "@/utils/recipeMatching";
 
@@ -47,7 +47,7 @@ class IngredientMappingService {
   ) {
     const allRecipes = await LocalRecipeService.getAllRecipes();
 
-    let filteredRecipes = allRecipes.filter(r => {
+    const filteredRecipes = allRecipes.filter(r => {
        if (options.cuisineType && r.cuisine?.toLowerCase() !== options.cuisineType.toLowerCase()) return false;
        if (!options.cuisineType && r.cuisine && !PRIMARY_CUISINE_KEYS.map(k => k.toLowerCase()).includes(r.cuisine.toLowerCase())) return false;
        if (options.mealType && !r.mealType?.includes(options.mealType)) return false;

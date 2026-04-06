@@ -1,13 +1,13 @@
 'use client';
 
+import { Loader2, Info } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
-import { Clock, Sun, Moon, Star, Loader2, Info } from 'lucide-react';
-import type { ZodiacSign, PlanetaryAlignment } from '@/types/alchemy';
-import { calculatePlanetaryPositions, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
+import type { ZodiacSign } from '@/types/alchemy';
+import { getPlanetaryDignity } from '@/utils/astrologyUtils';
 import PlanetaryPositionValidation from './PlanetaryPositionValidation';
-import { PlanetInfoModal } from './PlanetInfoModal';
+import { PlanetInfoModal as _PlanetInfoModal } from './PlanetInfoModal';
 
 // Define planet and zodiac symbols for the legend
 const PLANET_SYMBOLS: Record<string, string> = {
@@ -43,7 +43,7 @@ const ZODIAC_SYMBOLS: Record<string, string> = {
 };
 
 // Use the imported PlanetaryPosition type directly
-function isValidPosition(pos: unknown): boolean {
+function _isValidPosition(pos: unknown): boolean {
   // @ts-expect-error - Auto-fixed by script
   return pos && 
          // @ts-expect-error - Auto-fixed by script
@@ -55,7 +55,7 @@ function isValidPosition(pos: unknown): boolean {
 }
 
 // Rename this interface to avoid the conflict
-interface ClockPlanetaryPosition {
+interface _ClockPlanetaryPosition {
   sign: ZodiacSign;
   degree: number;
   dignity?: string;
@@ -148,7 +148,7 @@ const AstrologicalClock: React.FC = () => {
         </div>
       )}
       
-      <div className="flex justify-center" ref={svgContainerRef}></div>
+      <div className="flex justify-center" ref={svgContainerRef} />
       
       <div className="mt-3 text-sm">
         <p>Ascendant: {ZODIAC_SYMBOLS[chartData.ascendant || 'Libra']} {chartData.ascendant || 'Not available'}</p>

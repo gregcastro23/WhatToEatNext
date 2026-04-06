@@ -9,8 +9,8 @@
  * January birthday, something is clearly wrong.
  */
 
-import { getZodiacSignType } from "@/utils/zodiacUtils";
 import * as Astronomy from "astronomy-engine";
+import { getZodiacSignType } from "@/utils/zodiacUtils";
 
 // ─── Types ──────────────────────────────────────────────────
 
@@ -300,7 +300,7 @@ function signIndex(sign: string): number {
  * Check if a sign is within N positions of a center sign on the zodiac wheel.
  * Accounts for circular wraparound (Pisces is adjacent to Aries).
  */
-function isSignWithinRange(sign: string, centerSign: string, range: number): boolean {
+function _isSignWithinRange(sign: string, centerSign: string, range: number): boolean {
   const a = signIndex(sign);
   const b = signIndex(centerSign);
   const distance = Math.min(
@@ -326,7 +326,7 @@ function getSignsInRange(centerSign: string, range: number): string[] {
  * Parse an ISO date string "YYYY-MM-DD" to a Date at midnight UTC.
  */
 function parseDate(dateStr: string): Date {
-  return new Date(dateStr + "T00:00:00Z");
+  return new Date(`${dateStr  }T00:00:00Z`);
 }
 
 /**
@@ -437,7 +437,7 @@ export function estimateBirthChartSigns(
       confidence: "high",
       source: "astronomy-engine",
     };
-  } catch (error) {
+  } catch (_error) {
     // Graceful fallback if astronomy-engine throws an exception
     estimates.Moon = {
       expectedSign: null,

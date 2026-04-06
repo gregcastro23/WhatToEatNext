@@ -1,21 +1,23 @@
 // @ts-nocheck
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { Flame, Droplets, Mountain, Wind, GalleryVertical, Sparkles, ArrowLeft, Moon, SunIcon, ChevronDown, ChevronUp, Info } from 'lucide-react';
-import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { AlchemicalProperty } from '@/constants/planetaryElements';
-import styles from './CuisineRecommender.module.css';
+import { Flame, Droplets, Mountain, Wind, _GalleryVertical, _Sparkles, _ArrowLeft, _Moon, _SunIcon, _ChevronDown, _ChevronUp, _Info } from 'lucide-react';
+import { useState, useEffect, _useMemo } from 'react';
+import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import { _ElementalItem } from '@/calculations/alchemicalTransformation';
+import { _AlchemicalProperty } from '@/constants/planetaryElements';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 // @ts-expect-error - Auto-fixed by script
-import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
-import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces, ElementalProperties } from '@/types/alchemy';
-import { cuisineFlavorProfiles, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
-import { LocalRecipeService } from '@/services/LocalRecipeService';
-import type { Sauce } from '@/data/sauces';
-import type { Recipe } from '@/types/recipe';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
+import { _cuisineFlavorProfiles, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
+import type { _Sauce } from '@/data/sauces';
+import { _useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { _LocalRecipeService } from '@/services/LocalRecipeService';
+import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
+import { _LunarPhaseWithSpaces } from '@/types/alchemy';
+import type { _Recipe } from '@/types/recipe';
+import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
+import styles from './CuisineRecommender.module.css';
 
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {
@@ -77,13 +79,13 @@ export default function CuisineRecommender() {
   const [error, setError] = useState<string | null>(null);
   const [cuisinesList, setCuisines] = useState<Cuisine[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [filter, setFilter] = useState<string>('all');
+  const [_filter, _setFilter] = useState<string>('all');
   const [cuisineRecipes, setCuisineRecipes] = useState<any[]>([]);
   const [sauceRecommendations, setSauceRecommendations] = useState<any[]>([]);
   const [showAllRecipes, setShowAllRecipes] = useState<boolean>(false);
   const [showAllSauces, setShowAllSauces] = useState<boolean>(false);
   const [expandedRecipes, setExpandedRecipes] = useState<{[key: number]: boolean}>({});
-  const [expandedSauces, setExpandedSauces] = useState<{[key: number]: boolean}>({});
+  const [_expandedSauces, setExpandedSauces] = useState<{[key: number]: boolean}>({});
   const [topRecommendedSauces, setTopRecommendedSauces] = useState<any[]>([]);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
@@ -100,7 +102,7 @@ export default function CuisineRecommender() {
       Air: 0.25
     }
   );
-  const [matchingRecipes, setMatchingRecipes] = useState<any[]>([]);
+  const [matchingRecipes, _setMatchingRecipes] = useState<any[]>([]);
 
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
@@ -219,7 +221,7 @@ export default function CuisineRecommender() {
     };
     
     // Calculate contributions based on planet positions
-    for (const [planet, position] of Object.entries(positions)) {
+    for (const [planet, _position] of Object.entries(positions)) {
       const element = planetElementMap[planet];
       if (element) {
         // Weight by planet importance (Sun and Moon have higher influence)
@@ -231,7 +233,7 @@ export default function CuisineRecommender() {
     return contributions;
   };
 
-  const cssStyles = styles as unknown as CuisineStyles;
+  const _cssStyles = styles as unknown as CuisineStyles;
 
   /**
    * Calculate elemental match score between two elemental property sets
@@ -308,7 +310,7 @@ export default function CuisineRecommender() {
         className={`text-sm ${getMatchScoreClass(score)} px-2 py-1 rounded flex items-center gap-1 transition-all duration-300 hover:scale-105`}
         title={tooltipText}
       >
-        {hasDualMatch && <span className="h-2 w-2 bg-yellow-400 rounded-full"></span>}
+        {hasDualMatch && <span className="h-2 w-2 bg-yellow-400 rounded-full" />}
         <span>{formattedScore}% match</span>
       </span>
     );
@@ -378,7 +380,7 @@ export default function CuisineRecommender() {
       // Transform cuisines into their alchemical representation for compatibility calculation
       const transformed = transformCuisines(
         cuisinesArray,
-        planetaryPositions as Record<string, unknown>,
+        planetaryPositions,
         isDaytime,
         currentZodiac as ZodiacSign || 'aries',
         lunarPhase as LunarPhase || 'new moon'
@@ -455,7 +457,7 @@ export default function CuisineRecommender() {
     }));
   };
 
-  const toggleSauceExpansion = (index: number) => {
+  const _toggleSauceExpansion = (index: number) => {
     setExpandedSauces(prev => ({
       ...prev,
       [index]: !prev[index]
@@ -521,7 +523,7 @@ export default function CuisineRecommender() {
     );
     
     // Combine traditional sauces with top matching sauces from other cuisines
-    let combinedSauces = [...traditionalSauces];
+    const combinedSauces = [...traditionalSauces];
     
     // Define incompatible sauce-cuisine pairs
     const incompatiblePairs: Record<string, string[]> = {
@@ -584,7 +586,7 @@ export default function CuisineRecommender() {
   const selectedCuisineData = cuisinesList.find(c => c.id === selectedCuisine);
   
   // Get the compatibility score for the selected cuisine
-  const selectedCuisineScore = transformedCuisines.find(
+  const _selectedCuisineScore = transformedCuisines.find(
     tc => tc.id === selectedCuisine
   )?.compatibilityScore || 0;
 

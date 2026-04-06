@@ -2,7 +2,6 @@
 'use client';
 
 import React from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { 
   // @ts-expect-error - Auto-fixed by script
   calculateHeat, 
@@ -12,6 +11,7 @@ import {
   calculateReactivity, 
   calculateGregsEnergy 
 } from '@/calculations/gregsEnergy';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 export default function ElementalAlchemicalDisplay() {
   const { state } = useAlchemical();
@@ -72,7 +72,7 @@ export default function ElementalAlchemicalDisplay() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-indigo-500 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-indigo-500 mr-2" />
               <span className="text-sm">Spirit</span>
             </div>
             <span className="text-sm font-medium">{formatValue(alchemicalValues.Spirit)}</span>
@@ -80,7 +80,7 @@ export default function ElementalAlchemicalDisplay() {
           
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-red-400 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-red-400 mr-2" />
               <span className="text-sm">Essence</span>
             </div>
             <span className="text-sm font-medium">{formatValue(alchemicalValues.Essence)}</span>
@@ -88,7 +88,7 @@ export default function ElementalAlchemicalDisplay() {
           
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-amber-600 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-amber-600 mr-2" />
               <span className="text-sm">Matter</span>
             </div>
             <span className="text-sm font-medium">{formatValue(alchemicalValues.Matter)}</span>
@@ -96,7 +96,7 @@ export default function ElementalAlchemicalDisplay() {
           
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-emerald-500 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-emerald-500 mr-2" />
               <span className="text-sm">Substance</span>
             </div>
             <span className="text-sm font-medium">{formatValue(alchemicalValues.Substance)}</span>
@@ -106,7 +106,7 @@ export default function ElementalAlchemicalDisplay() {
           <div className="mt-4 pt-2 border-t border-gray-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-red-600 mr-2"></div>
+                <div className="w-3 h-3 rounded-full bg-red-600 mr-2" />
                 <span className="text-sm">Heat</span>
               </div>
               <span className="text-sm font-medium">{formatValue(heat)}</span>
@@ -114,7 +114,7 @@ export default function ElementalAlchemicalDisplay() {
             
             <div className="flex items-center justify-between mt-2">
               <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-purple-600 mr-2"></div>
+                <div className="w-3 h-3 rounded-full bg-purple-600 mr-2" />
                 <span className="text-sm">Entropy</span>
               </div>
               <span className="text-sm font-medium">{formatValue(entropy)}</span>
@@ -122,7 +122,7 @@ export default function ElementalAlchemicalDisplay() {
             
             <div className="flex items-center justify-between mt-2">
               <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                <div className="w-3 h-3 rounded-full bg-blue-500 mr-2" />
                 <span className="text-sm">Reactivity</span>
               </div>
               <span className="text-sm font-medium">{formatValue(reactivity)}</span>
@@ -130,7 +130,7 @@ export default function ElementalAlchemicalDisplay() {
             
             <div className="flex items-center justify-between mt-2">
               <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2" />
                 <span className="text-sm">Celestial Energy</span>
               </div>
               // @ts-expect-error - Auto-fixed by script

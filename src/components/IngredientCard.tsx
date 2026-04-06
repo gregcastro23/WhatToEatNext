@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React from 'react';
-import { Ingredient, RecipeIngredient, ElementalProperties } from '@/types';
+import type { Ingredient, RecipeIngredient} from '@/types';
+import { _ElementalProperties } from '@/types';
 import { isRecipeIngredient, getDominantElement } from '@/utils/ingredientUtils';
 
 interface IngredientCardProps {

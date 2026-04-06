@@ -1,7 +1,7 @@
 // @ts-nocheck
+import Image from 'next/image';
 import React from 'react';
 import type { Recipe } from '@/types/recipe';
-import Image from 'next/image';
 
 interface RecipeCardProps {
   recipe: Recipe;

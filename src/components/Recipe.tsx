@@ -1,5 +1,5 @@
-import { FC } from 'react';
 import type { Recipe } from '@/types/recipe';
+import type { FC } from 'react';
 
 interface RecipeProps {
   recipe: Recipe;

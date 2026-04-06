@@ -1,10 +1,10 @@
-import React from 'react';
-import { usePopup } from '@/contexts/PopupContext/hooks';
-// @ts-expect-error - Auto-fixed by script
-import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '@/constants/elementalConstants';
-import type { ZodiacSign, Element } from '@/types/alchemy';
+import { _ZODIAC_ELEMENTS as ZODIAC_ELEMENTS, _ELEMENT_AFFINITIES as ELEMENT_AFFINITIES } from '@/constants/elementalConstants';
 
-type PopupOptions = {
+import { usePopup } from '@/contexts/PopupContext/hooks';
+import type { ZodiacSign, Element } from '@/types/alchemy';
+import React from 'react';
+
+interface PopupOptions {
   type?: string;
   duration?: number;
   position?: string;
@@ -13,7 +13,7 @@ type PopupOptions = {
   moonSign?: string;
   season?: string;
   animation?: string;
-};
+}
 
 const GlobalPopup: React.FC = () => {
   const { showPopup } = usePopup();
@@ -36,7 +36,7 @@ const GlobalPopup: React.FC = () => {
   };
 
   // Enhanced show methods with elemental and zodiac influences
-  const showSuccess = (message: string, options: PopupOptions = {}): void => {
+  const _showSuccess = (message: string, options: PopupOptions = {}): void => {
     showPopup(message, {
       ...options,
       type: 'success',
@@ -45,7 +45,7 @@ const GlobalPopup: React.FC = () => {
     });
   };
 
-  const showError = (message: string, options: PopupOptions = {}): void => {
+  const _showError = (message: string, options: PopupOptions = {}): void => {
     showPopup(message, {
       ...options,
       type: 'error',
@@ -54,7 +54,7 @@ const GlobalPopup: React.FC = () => {
     });
   };
 
-  const showWarning = (message: string, options: PopupOptions = {}): void => {
+  const _showWarning = (message: string, options: PopupOptions = {}): void => {
     showPopup(message, {
       ...options,
       type: 'warning',
@@ -63,7 +63,7 @@ const GlobalPopup: React.FC = () => {
     });
   };
 
-  const showInfo = (message: string, options: PopupOptions = {}): void => {
+  const _showInfo = (message: string, options: PopupOptions = {}): void => {
     showPopup(message, {
       ...options,
       type: 'info',
@@ -73,7 +73,7 @@ const GlobalPopup: React.FC = () => {
   };
 
   // Show elemental popup
-  const showElemental = (message: string, options: PopupOptions = {}): void => {
+  const _showElemental = (message: string, options: PopupOptions = {}): void => {
     const elementalClass = getElementalClasses(options.sunSign, options.moonSign);
     showPopup(message, {
       ...options,

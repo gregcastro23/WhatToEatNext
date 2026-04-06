@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { CookingMethodsSection } from '@/components/CookingMethodsSection';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { 
   dryCookingMethods, 
   wetCookingMethods, 
@@ -11,6 +10,7 @@ import {
   rawCookingMethods,
   transformationMethods
 } from '@/data/cooking/methods';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 
 export default function HomeMethodsComponent() {
@@ -135,7 +135,7 @@ export default function HomeMethodsComponent() {
           methods={methods} 
           onSelectMethod={handleSelectMethod}
           selectedMethodId={selectedMethod?.id || null}
-          initiallyExpanded={true}
+          initiallyExpanded
         />
       ) : (
         <div className="text-center p-4">No cooking methods found</div>

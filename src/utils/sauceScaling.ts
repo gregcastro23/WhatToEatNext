@@ -58,7 +58,7 @@ function formatQuantity(value: number): string {
   if (value === 0) return "0";
 
   // Common fraction representations
-  const fractions: [number, string][] = [
+  const fractions: Array<[number, string]> = [
     [0.125, "1/8"],
     [0.25, "1/4"],
     [0.333, "1/3"],

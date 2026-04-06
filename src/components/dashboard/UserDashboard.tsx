@@ -17,8 +17,8 @@ import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
 import { DashboardOverview } from './DashboardOverview';
 import { FoodLabBook } from './FoodLabBook';
 import { NatalTransitChart } from './NatalTransitChart';
-import { RecommendationsPanel } from './RecommendationsPanel';
 import { NotificationPanel } from './NotificationPanel';
+import { RecommendationsPanel } from './RecommendationsPanel';
 
 const SIGN_SYMBOLS: Record<string, string> = {
   aries: '\u2648', taurus: '\u2649', gemini: '\u264A', cancer: '\u264B',

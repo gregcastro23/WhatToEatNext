@@ -10,13 +10,13 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { instacartService } from "@/services/InstacartService";
 import type { InstacartRetailer, InstacartShoppingListRequest } from "@/types/instacart";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
+import { normalizeIngredientList } from "@/utils/instacart/ingredientNormalizer";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
-import { normalizeIngredientList } from "@/utils/instacart/ingredientNormalizer";
-import { instacartService } from "@/services/InstacartService";
 
 const logger = createLogger("GroceryListModal");
 
@@ -113,7 +113,7 @@ async function exportGroceryList(
  * Send grocery list to Instacart to create a shoppable shopping list page.
  * Returns the Instacart URL on success.
  */
-async function createInstacartShoppingList(
+async function _createInstacartShoppingList(
   items: GroceryItem[],
   title?: string,
 ): Promise<string> {

@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { getTarotCardsForDate } from '@/lib/tarotCalculations';
-import { getRecipesForTarotCard } from '@/lib/recipeCalculations';
-import styles from './AlchmKitchen.module.css';
-import type { TarotCardResult } from '@/lib/recipeCalculations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getRecipesForTarotCard } from '@/lib/recipeCalculations';
+import type { TarotCardResult as _TarotCardResult } from '@/lib/recipeCalculations';
+import { getTarotCardsForDate } from '@/lib/tarotCalculations';
+import { _staticAlchemize } from '@/utils/alchemyInitializer';
 import { createLogger } from '@/utils/logger';
-// @ts-expect-error - Auto-fixed by script
-import { staticAlchemize } from '@/utils/alchemyInitializer';
+import styles from './AlchmKitchen.module.css';
 
 const logger = createLogger('AlchmKitchen');
 

@@ -5,6 +5,7 @@ import {
   _PLANET_TO_MAJOR_ARCANA,
   _TAROT_CARDS,
 } from "@/constants/tarotCards";
+import { getDecanAlchemy, type DecanAlchemyEntry } from "@/data/tarot/decanAlchemyMap";
 import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 
@@ -405,7 +406,7 @@ interface MajorArcanaCard {
 export const getTarotCardsForDate = (
   date: Date,
   sunPosition?: { sign: string; degree: number },
-): { minorCard: TarotCard; majorCard: MajorArcanaCard } => {
+): { minorCard: TarotCard; majorCard: MajorArcanaCard; decanAlchemy?: DecanAlchemyEntry } => {
   // Get the current decan based on the day of the year or sun position if provided
   const decan = getCurrentDecan(date, sunPosition);
 
@@ -448,7 +449,13 @@ export const getTarotCardsForDate = (
     number = parseInt(numberStr, 10);
   }
 
-  // Create the minor card object with element
+  // Look up the decan alchemy entry for ESMS quantities
+  // Parse the decan degree range from the decan key (e.g. "0-10" → degree 0)
+  const decanParts = decan.split("-");
+  const decanDegree = parseInt(decanParts[0], 10);
+  const decanAlchemy = getDecanAlchemy(decanDegree);
+
+  // Create the minor card object with element and ESMS
   const minorCard: TarotCard = {
     name: tarotCard.name,
     suit,
@@ -458,6 +465,8 @@ export const getTarotCardsForDate = (
     element: tarotCard.element || "",
     associatedRecipes:
       "associatedRecipes" in tarotCard ? tarotCard.associatedRecipes : [],
+    // Enrich with ESMS from decan alchemy map
+    ...(decanAlchemy ? { esms: decanAlchemy.esms } : {}),
   };
 
   // For major arcana, get the planet ruling the current decan
@@ -476,7 +485,7 @@ export const getTarotCardsForDate = (
     element: _MAJOR_ARCANA[majorArcanaName].element || "", // Extract element from _MAJOR_ARCANA
   };
 
-  return { minorCard, majorCard };
+  return { minorCard, majorCard, decanAlchemy };
 };
 
 export function getQuantumValueForCard(card: unknown): number {

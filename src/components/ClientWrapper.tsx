@@ -1,22 +1,19 @@
 'use client';
 
 import React from 'react';
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
-import { ChartProvider } from '@/contexts/ChartContext/provider';
 import AstrologyWarning from '@/components/AstrologyWarning';
 import CalculationErrors from '@/components/CalculationErrors';
-import Clock from '@/components/Clock';
-// @ts-expect-error - Auto-fixed by script
-import ClientProviders from '@/components/providers/ClientProviders';
-// @ts-expect-error - Auto-fixed by script
-import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
-// @ts-expect-error - Auto-fixed by script
-import { ErrorFallback } from '@/components/errors/ErrorFallback';
+import _Clock from '@/components/Clock';
+
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import ClientProviders from '@/app/ClientProviders';
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
+import { ChartProvider } from '@/contexts/ChartContext/provider';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary>
       <ThemeProvider>
         <AlchemicalProvider>
           <CalculationErrors />
