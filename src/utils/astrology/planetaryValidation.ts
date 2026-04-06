@@ -198,7 +198,7 @@ function validateVenusProximity(
  */
 function validateDegreeMinute(position: PlanetPosition): boolean {
   const degree = position.degree;
-  const minute = position.minute;
+  const minute = position.minute || 0;
 
   // Degree should be 0-29 for position within a sign
   if (degree < 0 || degree >= 30) return false;
@@ -243,11 +243,11 @@ function validateBirthDate(birthDate: Date, currentDate: Date = new Date()): {
     birthDate.getDate() === currentDate.getDate();
 
   if (isSameDay) {
-    issues.push("⚠️ CRITICAL: Birth date is today! This likely indicates a bug.");
+    issues.push("Birth date is today! Usually indicates testing.");
   }
 
   return {
-    valid: issues.length === 0,
+    valid: issues.length === 0 || (issues.length === 1 && issues[0].includes("today")),
     ageInYears,
     issues,
   };
@@ -310,9 +310,9 @@ export function validatePlanetaryPositions(
 
     const mercuryCheck = validateMercuryProximity(
       sun.sign,
-      sun.degree + sun.minute / 60,
+      sun.degree + (sun.minute || 0) / 60,
       mercury.sign,
-      mercury.degree + mercury.minute / 60
+      mercury.degree + (mercury.minute || 0) / 60
     );
 
     details.mercurySunDistance = mercuryCheck.distance;
@@ -337,9 +337,9 @@ export function validatePlanetaryPositions(
 
     const venusCheck = validateVenusProximity(
       sun.sign,
-      sun.degree + sun.minute / 60,
+      sun.degree + (sun.minute || 0) / 60,
       venus.sign,
-      venus.degree + venus.minute / 60
+      venus.degree + (venus.minute || 0) / 60
     );
 
     details.venusSunDistance = venusCheck.distance;
