@@ -8,6 +8,12 @@ import type { PlanetPosition } from "@/utils/astrologyUtils";
 // The Next.js /api/... routes will securely proxy to the appropriate backend
 
 const getAstrologizeApiUrl = () => {
+  if (typeof window === "undefined") {
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}/api/astrologize`;
+    }
+    return `http://localhost:${process.env.PORT || 3000}/api/astrologize`;
+  }
   return `/api/astrologize`;
 };
 

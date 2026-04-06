@@ -260,7 +260,7 @@ export function getAccuratePlanetaryPositions(date: Date): {
     // Check cache first
     if (
       positionsCache &&
-      date.getTime() - positionsCache.date.getTime() < 60000 && // 1 minute cache for same date
+      Math.abs(date.getTime() - positionsCache.date.getTime()) < 60000 && // 1 minute cache for same date
       Date.now() - positionsCache.timestamp < CACHE_EXPIRATION
     ) {
       debugLog("Using cached planetary positions");
