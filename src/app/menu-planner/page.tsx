@@ -21,6 +21,7 @@ import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import TodaysMealsWidget from "@/components/menu-planner/TodaysMealsWidget";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
+import PossoWidget from "@/components/menu-planner/PossoWidget";
 import { WeeklyNutritionDashboard } from "@/components/nutrition";
 import {
     MenuPlannerProvider,
@@ -73,6 +74,7 @@ function MenuPlannerContent() {
   const [showSaveTemplate, setShowSaveTemplate] = useState(false);
   const [showRecipeQueue, setShowRecipeQueue] = useState(true);
   const [showRecipeBrowser, setShowRecipeBrowser] = useState(false);
+  const [showPosso, setShowPosso] = useState(false);
   const [detailRecipe, setDetailRecipe] = useState<Recipe | null>(null);
   const [_showDetailedNutrition, _setShowDetailedNutrition] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -201,6 +203,17 @@ function MenuPlannerContent() {
               </button>
 
               <button
+                onClick={() => setShowPosso(!showPosso)}
+                className={`px-4 py-2 rounded-lg transition-all font-medium ${
+                  showPosso
+                    ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:shadow-lg"
+                    : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
+                }`}
+              >
+                🛒 Pantry Meals (Posso)
+              </button>
+
+              <button
                 onClick={() => {
                   regenerateGroceryList();
                   setShowGroceryList(true);
@@ -264,6 +277,14 @@ function MenuPlannerContent() {
             }
           />
         )}
+        
+        {/* Posso Widget Panel (collapsible) */}
+        {showPosso && (
+          <div className="mb-6 h-[500px]">
+            <PossoWidget onClose={() => setShowPosso(false)} />
+          </div>
+        )}
+
         {/* Week Progress + Today's Meals Widget */}
         <div className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-1">

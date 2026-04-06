@@ -198,6 +198,10 @@ interface MenuPlannerContextType {
   setWeeklyBudget: (budget: number | null) => void;
   estimatedWeeklyCost: number;
   budgetPerMeal: number | null;
+
+  // Inventory / Posso
+  inventory: string[];
+  setInventory: (inv: string[]) => void;
 }
 
 /**
@@ -345,6 +349,24 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       } else {
         localStorage.removeItem("weeklyBudget");
       }
+    } catch { /* ignore storage errors */ }
+  }, []);
+
+  // Inventory state
+  const [inventory, setInventoryRaw] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const saved = localStorage.getItem("userInventory");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const setInventory = useCallback((inv: string[]) => {
+    setInventoryRaw(inv);
+    try {
+      localStorage.setItem("userInventory", JSON.stringify(inv));
     } catch { /* ignore storage errors */ }
   }, []);
 
@@ -1733,10 +1755,12 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             servings: m.servings || 1,
           }));
         if (recipesWithIngredients.length === 0) return 0;
-        const { totalCost } = estimateWeeklyGroceryCost(recipesWithIngredients);
+        const { totalCost } = estimateWeeklyGroceryCost(recipesWithIngredients, inventory);
         return totalCost;
       })(),
       budgetPerMeal: weeklyBudget ? Math.round((weeklyBudget / 21) * 100) / 100 : null,
+      inventory,
+      setInventory,
     }),
     [
       currentMenu,
@@ -1781,6 +1805,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       loadMenu,
       weeklyBudget,
       setWeeklyBudget,
+      inventory,
+      setInventory,
     ],
   );
 

@@ -273,20 +273,30 @@ function lookupIngredientCost(ingredient: RecipeIngredient): number {
  *
  * @param ingredients - The recipe's ingredient list
  * @param servings - Number of servings the recipe makes (default 4)
+ * @param userInventory - List of ingredients the user already has (cost will be 0)
  * @returns Cost estimate with breakdown and per-serving cost
  */
 export function calculateRecipeEstimatedCost(
   ingredients: RecipeIngredient[],
   servings: number = 4,
+  userInventory: string[] = [],
 ): RecipeCostEstimate {
   let directMatches = 0;
   const breakdown: { ingredient: string; estimatedCost: number }[] = [];
 
+  const inventoryLower = userInventory.map(item => item.toLowerCase().trim());
+
   for (const ing of ingredients) {
     if (ing.optional) continue; // skip optional ingredients
 
-    const cost = lookupIngredientCost(ing);
     const name = ing.name.toLowerCase().trim();
+    
+    // Check if user already has this ingredient in their pantry/inventory
+    const inInventory = inventoryLower.some(invItem => 
+      name.includes(invItem) || invItem.includes(name)
+    );
+
+    const cost = inInventory ? 0 : lookupIngredientCost(ing);
 
     // Track confidence
     if (INGREDIENT_PRICES[name]) {
@@ -336,6 +346,10 @@ export function calculateBangForBuck(
 ): BangForBuckScore {
   // Guard: if no nutrition or no cost, return a neutral score
   if (!nutrition || !nutrition.calories || costPerServing <= 0) {
+    // If cost per serving is 0 (due to inventory!), bang for buck is infinity essentially
+    if (costPerServing === 0 && nutrition?.calories) {
+       return { score: 100, label: "Excellent", caloriesPerDollar: 9999, proteinPerDollar: 999 };
+    }
     return { score: 50, label: "Fair", caloriesPerDollar: 0, proteinPerDollar: 0 };
   }
 
@@ -374,12 +388,13 @@ export function calculateBangForBuck(
  */
 export function estimateWeeklyGroceryCost(
   recipes: Array<{ ingredients: RecipeIngredient[]; servings?: number }>,
+  userInventory: string[] = [],
 ): { totalCost: number; perMealAverage: number; recipeBreakdown: RecipeCostEstimate[] } {
   const recipeBreakdown: RecipeCostEstimate[] = [];
   let rawTotal = 0;
 
   for (const recipe of recipes) {
-    const estimate = calculateRecipeEstimatedCost(recipe.ingredients, recipe.servings ?? 4);
+    const estimate = calculateRecipeEstimatedCost(recipe.ingredients, recipe.servings ?? 4, userInventory);
     recipeBreakdown.push(estimate);
     rawTotal += estimate.totalCost;
   }
