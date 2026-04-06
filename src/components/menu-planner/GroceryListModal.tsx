@@ -8,15 +8,15 @@
  * @created 2026-01-11 (Phase 3)
  */
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import type { InstacartShoppingListRequest } from "@/types/instacart";
+import type { InstacartRetailer, InstacartShoppingListRequest } from "@/types/instacart";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
 import { normalizeIngredientList } from "@/utils/instacart/ingredientNormalizer";
-import { instacartService, InstacartRetailer } from "@/services/InstacartService";
+import { instacartService } from "@/services/InstacartService";
 
 const logger = createLogger("GroceryListModal");
 
@@ -140,7 +140,7 @@ async function createInstacartShoppingList(
       return {
         name: item.name,
         ...(unit !== undefined && {
-          line_item_measurements: [{ quantity: String(item.quantity || 1), unit }],
+          line_item_measurements: [{ quantity: Number(item.quantity) || 1, unit }],
         }),
       };
     }),
@@ -271,13 +271,26 @@ export default function GroceryListModal({
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
   const [instacartLoading, setInstacartLoading] = useState(false);
   const [instacartError, setInstacartError] = useState<string | null>(null);
-  const [selectedRetailerId, setSelectedRetailerId] = useState<string>("aldi_rego_park");
+  const [retailers, setRetailers] = useState<InstacartRetailer[]>([]);
+  const [retailersLoading, setRetailersLoading] = useState(false);
 
-  const retailers = useMemo(() => instacartService.getLocalRetailers("11375"), []);
-  const selectedRetailer = useMemo(() => 
-    retailers.find(r => r.id === selectedRetailerId) || retailers[0],
-    [selectedRetailerId, retailers]
-  );
+  // Fetch nearby retailers dynamically from the IDP API
+  useEffect(() => {
+    let cancelled = false;
+    async function loadRetailers() {
+      setRetailersLoading(true);
+      try {
+        const result = await instacartService.fetchNearbyRetailers("11375");
+        if (!cancelled) setRetailers(result);
+      } catch (err) {
+        logger.warn("Failed to load retailers", err);
+      } finally {
+        if (!cancelled) setRetailersLoading(false);
+      }
+    }
+    void loadRetailers();
+    return () => { cancelled = true; };
+  }, []);
   const [expandedCategories, setExpandedCategories] = useState<
     Record<GroceryCategory, boolean>
   >({
@@ -340,24 +353,19 @@ export default function GroceryListModal({
     }
   };
 
-  // Handle Instacart order
+  // Handle Instacart order — calls real IDP API via our server-side route
   const handleOrderOnInstacart = async () => {
     setInstacartLoading(true);
     setInstacartError(null);
     try {
-      if (!selectedRetailerId) {
-        throw new Error("Please select a retailer first.");
-      }
-      
-      const activeItems = groceryList.filter(item => !item.purchased && !item.inPantry);
-      if (activeItems.length === 0) {
-        throw new Error("No items to order.");
-      }
+      const menuTitle = currentMenu?.templateName
+        ? `${currentMenu.templateName} — Alchm Kitchen`
+        : "Grocery List from Alchm Kitchen";
 
-      const url = instacartService.generateShoppableUrl(activeItems, selectedRetailerId);
+      const url = await instacartService.createShoppingList(groceryList, menuTitle);
       window.open(url, "_blank", "noopener,noreferrer");
-      
-      logger.info(`Instacart handoff successful for ${selectedRetailerId}`);
+
+      logger.info("Instacart shopping list handoff successful");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Failed to connect to Instacart";
       setInstacartError(message);
@@ -448,36 +456,41 @@ export default function GroceryListModal({
           >
             🔄 Regenerate
           </button>
-          <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-2 py-1">
-            <span className="text-xs font-semibold text-gray-500 uppercase">Store:</span>
-            <select
-              value={selectedRetailerId}
-              onChange={(e) => setSelectedRetailerId(e.target.value)}
-              className="bg-transparent text-sm focus:outline-none font-medium text-gray-700"
-            >
-              {retailers.map(r => (
-                <option key={r.id} value={r.id}>
-                  [{r.elementalTag}] {r.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Dynamic retailer list from IDP */}
+          {retailers.length > 0 && (
+            <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-2 py-1">
+              <span className="text-xs font-semibold text-gray-500 uppercase">Nearby:</span>
+              <div className="flex gap-1 overflow-x-auto">
+                {retailers.slice(0, 5).map(r => (
+                  <span key={r.retailer_key} className="inline-flex items-center gap-1 text-xs bg-gray-100 rounded px-2 py-0.5 whitespace-nowrap">
+                    {r.retailer_logo_url && (
+                      <img src={r.retailer_logo_url} alt="" className="w-4 h-4 rounded" />
+                    )}
+                    {r.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {retailersLoading && (
+            <span className="text-xs text-gray-400 animate-pulse">Loading stores...</span>
+          )}
 
           <button
             onClick={() => { void handleOrderOnInstacart(); }}
             disabled={instacartLoading || stats.remaining === 0}
             className="px-4 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            title={stats.remaining === 0 ? "No items to order" : `Order from ${selectedRetailer?.name} on Instacart`}
+            title={stats.remaining === 0 ? "No items to order" : "Create shopping list on Instacart"}
           >
             {instacartLoading ? (
               <>
                 <span className="animate-spin inline-block">⟳</span>
-                Manifesting...
+                Creating list...
               </>
             ) : (
               <>
                 <span>🛒</span>
-                Handoff to {selectedRetailer?.name}
+                Order on Instacart
               </>
             )}
           </button>

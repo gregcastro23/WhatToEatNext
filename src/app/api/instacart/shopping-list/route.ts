@@ -68,18 +68,18 @@ function parseIngredientString(ingredient: string): InstacartLineItem {
     const lowerUnit = rawUnit.toLowerCase();
     const mappedUnit = UNIT_MAP[lowerUnit] || lowerUnit;
 
-    let quantity = qtyRaw;
+    let quantity: number = parseFloat(qtyRaw);
     if (qtyRaw.includes("/")) {
       const [num, den] = qtyRaw.split("/");
       if (num && den && !isNaN(Number(num)) && !isNaN(Number(den))) {
-        quantity = (Number(num) / Number(den)).toFixed(2);
+        quantity = Number(num) / Number(den);
       }
     }
 
     if (IDP_UNITS.has(mappedUnit)) {
       return {
         name: name.trim(),
-        line_item_measurements: [{ quantity: String(quantity), unit: mappedUnit }],
+        line_item_measurements: [{ quantity, unit: mappedUnit }],
       };
     } else {
       // Unit not supported by IDP (like cups, tbsp), just send the full string as name

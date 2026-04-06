@@ -138,6 +138,10 @@ export default function RecipeDetailModal({
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [noteText, setNoteText] = useState("");
 
+  // Instacart recipe page state
+  const [instacartLoading, setInstacartLoading] = useState(false);
+  const [instacartError, setInstacartError] = useState<string | null>(null);
+
   const {
     isFavorite,
     toggleFavorite,
@@ -154,11 +158,42 @@ export default function RecipeDetailModal({
       markViewed(recipe.id);
       setNoteText(getRecipeNote(recipe.id));
       setServingMultiplier(1);
-      
-      // Initialize Instacart Widget
-      instacartService.initProductionWidget("instacart-recipe-widget", recipe.id);
+      setInstacartError(null);
     }
   }, [isOpen, recipe.id, markViewed, getRecipeNote]);
+
+  // Handle "Shop This Recipe" on Instacart
+  const handleShopOnInstacart = async () => {
+    setInstacartLoading(true);
+    setInstacartError(null);
+    try {
+      // Parse timeToMake string (e.g. "30 min", "1h 15m") to minutes number
+      const parseCookingTime = (t?: string): number | undefined => {
+        if (!t) return undefined;
+        const mins = parseInt(t, 10);
+        return isNaN(mins) ? undefined : mins;
+      };
+
+      const url = await instacartService.createRecipePage({
+        id: recipe.id,
+        name: recipe.name,
+        ingredients: recipe.ingredients.map((ing) => ({
+          name: ing.name,
+          amount: ing.amount,
+          unit: ing.unit,
+        })),
+        instructions: recipe.instructions,
+        servings: recipe.servingSize || recipe.numberOfServings || 4,
+        cookingTime: parseCookingTime(recipe.timeToMake),
+      });
+      window.open(url, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to create recipe page";
+      setInstacartError(message);
+    } finally {
+      setInstacartLoading(false);
+    }
+  };
 
   const baseServings = recipe.servingSize || recipe.numberOfServings || 4;
   const scaledServings = Math.round(baseServings * servingMultiplier);
@@ -368,8 +403,29 @@ export default function RecipeDetailModal({
                   )}
                 </h3>
 
-                {/* Instacart Shop the Recipe Widget */}
-                <div id="instacart-recipe-widget" className="mb-4 min-h-[40px] flex items-center justify-start" />
+                {/* Shop This Recipe on Instacart */}
+                <div className="mb-4">
+                  <button
+                    onClick={() => { void handleShopOnInstacart(); }}
+                    disabled={instacartLoading}
+                    className="px-4 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {instacartLoading ? (
+                      <>
+                        <span className="animate-spin inline-block">⟳</span>
+                        Creating recipe page...
+                      </>
+                    ) : (
+                      <>
+                        <span>🛒</span>
+                        Shop This Recipe on Instacart
+                      </>
+                    )}
+                  </button>
+                  {instacartError && (
+                    <p className="text-xs text-red-500 mt-1">{instacartError}</p>
+                  )}
+                </div>
 
                 <ul className="space-y-2">
                   {scaledIngredients.map((ing, idx) => (
