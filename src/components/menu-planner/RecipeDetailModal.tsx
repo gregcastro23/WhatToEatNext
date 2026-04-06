@@ -12,6 +12,7 @@ import React, { useState, useMemo } from "react";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
+import { instacartService } from "@/services/InstacartService";
 
 // Define constant keys for vitamins and minerals based on NutritionalSummary
 const VITAMIN_KEYS: Array<keyof NutritionalSummary> = [
@@ -153,6 +154,9 @@ export default function RecipeDetailModal({
       markViewed(recipe.id);
       setNoteText(getRecipeNote(recipe.id));
       setServingMultiplier(1);
+      
+      // Initialize Instacart Widget
+      instacartService.initProductionWidget("instacart-recipe-widget", recipe.id);
     }
   }, [isOpen, recipe.id, markViewed, getRecipeNote]);
 
@@ -363,6 +367,10 @@ export default function RecipeDetailModal({
                     </span>
                   )}
                 </h3>
+
+                {/* Instacart Shop the Recipe Widget */}
+                <div id="instacart-recipe-widget" className="mb-4 min-h-[40px] flex items-center justify-start" />
+
                 <ul className="space-y-2">
                   {scaledIngredients.map((ing, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-sm">

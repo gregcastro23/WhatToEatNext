@@ -16,6 +16,7 @@ import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
 import { normalizeIngredientList } from "@/utils/instacart/ingredientNormalizer";
+import { instacartService, InstacartRetailer } from "@/services/InstacartService";
 
 const logger = createLogger("GroceryListModal");
 
@@ -270,6 +271,13 @@ export default function GroceryListModal({
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
   const [instacartLoading, setInstacartLoading] = useState(false);
   const [instacartError, setInstacartError] = useState<string | null>(null);
+  const [selectedRetailerId, setSelectedRetailerId] = useState<string>("aldi_rego_park");
+
+  const retailers = useMemo(() => instacartService.getLocalRetailers("11375"), []);
+  const selectedRetailer = useMemo(() => 
+    retailers.find(r => r.id === selectedRetailerId) || retailers[0],
+    [selectedRetailerId, retailers]
+  );
   const [expandedCategories, setExpandedCategories] = useState<
     Record<GroceryCategory, boolean>
   >({
@@ -337,8 +345,19 @@ export default function GroceryListModal({
     setInstacartLoading(true);
     setInstacartError(null);
     try {
-      const url = await createInstacartShoppingList(groceryList);
+      if (!selectedRetailerId) {
+        throw new Error("Please select a retailer first.");
+      }
+      
+      const activeItems = groceryList.filter(item => !item.purchased && !item.inPantry);
+      if (activeItems.length === 0) {
+        throw new Error("No items to order.");
+      }
+
+      const url = instacartService.generateShoppableUrl(activeItems, selectedRetailerId);
       window.open(url, "_blank", "noopener,noreferrer");
+      
+      logger.info(`Instacart handoff successful for ${selectedRetailerId}`);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Failed to connect to Instacart";
       setInstacartError(message);
@@ -429,21 +448,40 @@ export default function GroceryListModal({
           >
             🔄 Regenerate
           </button>
+          <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-2 py-1">
+            <span className="text-xs font-semibold text-gray-500 uppercase">Store:</span>
+            <select
+              value={selectedRetailerId}
+              onChange={(e) => setSelectedRetailerId(e.target.value)}
+              className="bg-transparent text-sm focus:outline-none font-medium text-gray-700"
+            >
+              {retailers.map(r => (
+                <option key={r.id} value={r.id}>
+                  [{r.elementalTag}] {r.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <button
             onClick={() => { void handleOrderOnInstacart(); }}
             disabled={instacartLoading || stats.remaining === 0}
-            className="px-3 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
-            title={stats.remaining === 0 ? "No items to order" : "Order groceries via Instacart"}
+            className="px-4 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            title={stats.remaining === 0 ? "No items to order" : `Order from ${selectedRetailer?.name} on Instacart`}
           >
             {instacartLoading ? (
               <>
                 <span className="animate-spin inline-block">⟳</span>
-                Connecting...
+                Manifesting...
               </>
             ) : (
-              "🛒 Order on Instacart"
+              <>
+                <span>🛒</span>
+                Handoff to {selectedRetailer?.name}
+              </>
             )}
           </button>
+
           <select
             value={groupBy}
             onChange={(e) =>
@@ -456,7 +494,7 @@ export default function GroceryListModal({
           </select>
           <button
             onClick={() => setShowPantryModal(true)}
-            className="px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 text-sm ml-auto"
+            className="px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 text-sm"
           >
             🏺 View Pantry
           </button>
