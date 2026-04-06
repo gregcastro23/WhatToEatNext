@@ -59,6 +59,7 @@ const PLANETS = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn',
 interface TransitPosition {
   sign: string;
   degree: number;
+  minute: number;
   isRetrograde?: boolean;
 }
 
@@ -136,7 +137,8 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
         const key = planet.charAt(0).toUpperCase() + planet.slice(1);
         parsed[key] = {
           sign: typeof pd.sign === 'string' ? pd.sign.toLowerCase() : '',
-          degree: pd.degree ?? pd.exactLongitude ?? 0,
+          degree: pd.degree ?? Math.floor(pd.exactLongitude ?? 0),
+          minute: pd.minute ?? Math.floor(((pd.exactLongitude ?? 0) - Math.floor(pd.exactLongitude ?? 0)) * 60),
           isRetrograde: pd.isRetrograde ?? false,
         };
       }
@@ -318,8 +320,9 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
                 >
                   <div className="text-sm" style={{ color }} title={planet}>{PLANET_SYMBOLS[planet]}</div>
                   <div className="text-[9px] text-white/30 font-medium uppercase mt-0.5">{planet.slice(0, 3)}</div>
-                  <div className="text-[10px] text-white/60 font-semibold capitalize mt-0.5">
-                    {SIGN_SYMBOLS[pos.sign]}
+                  <div className="text-[10px] text-white/60 font-semibold capitalize mt-0.5 whitespace-nowrap">
+                    <span className="mr-0.5" style={{ color }}>{SIGN_SYMBOLS[pos.sign]}</span> 
+                    {pos.degree}&deg;{pos.minute ? `${pos.minute}'` : ''}
                   </div>
                   {pos.isRetrograde && <div className="text-[8px] text-red-400 font-bold mt-0.5">Rx</div>}
                 </div>
