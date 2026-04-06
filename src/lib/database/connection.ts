@@ -85,16 +85,29 @@ export function initializeDatabase(): Pool {
     return pool;
   }
   
+  // Detect Cloudflare Hyperdrive (Binding or Environment Variable)
+  // Note: OpenNext/Cloudflare usually provides bindings on process.env or globalThis
+  const isCloudflare = typeof process.env.HYPERDRIVE !== 'undefined' || typeof (globalThis as any).HYPERDRIVE !== 'undefined';
+  const hyperdriveBinding = (globalThis as any).HYPERDRIVE;
+  
   const config = getDatabaseConfig();
 
-  // Tune Neon Settings for Cloudflare / Hyperdrive
-  const isHyperdrive = !!databaseConfig.hyperdriveUrl;
-  
-  if (isHyperdrive) {
-    // Hyperdrive works natively with TCP/HTTP.
-    // We disable the serverless fetch cache and use the binding directly.
-    neonConfig.fetchConnectionCache = false;
-    void logger.info("🔌 Initializing database via Cloudflare Hyperdrive...");
+  if (isCloudflare) {
+    // Prioritize Hyperdrive URL (Environment Variable) or Binding Connection String
+    const hyperdriveUrl = process.env.HYPERDRIVE_URL || (hyperdriveBinding ? hyperdriveBinding.connectionString : null);
+    
+    if (hyperdriveUrl) {
+      void logger.info("🔌 Initializing database via Cloudflare Hyperdrive proxy...");
+      const url = new URL(hyperdriveUrl);
+      config.host = url.hostname;
+      config.port = parseInt(url.port, 10) || 5432;
+      config.database = url.pathname.slice(1);
+      config.user = url.username;
+      config.password = url.password;
+      config.ssl = false; // Hyperdrive handles the secure connection to Neon internally
+      
+      neonConfig.fetchConnectionCache = false; // Disable serverless cache when using Hyperdrive TCP
+    }
   } else {
     // Standard Neon Serverless behavior
     neonConfig.fetchConnectionCache = true;
@@ -106,7 +119,7 @@ export function initializeDatabase(): Pool {
     void logger.info("New database connection established", {
       database: config.database,
       host: config.host,
-      isHyperdrive,
+      isHyperdrive: !!(isCloudflare && (process.env.HYPERDRIVE_URL || hyperdriveBinding)),
     });
   });
   pool.on("error", (err: Error, _client: PoolClient) => {

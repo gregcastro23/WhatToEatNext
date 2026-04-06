@@ -54,6 +54,20 @@ const getDbModule = async () => {
   return dbModule;
 };
 
+const QUICK_FOOD_CATEGORY_MAP: Record<QuickFoodCategory, string[]> = {
+  fruits: ["fruit", "fruits"],
+  vegetables: ["vegetable", "vegetables"],
+  proteins: ["protein", "proteins", "meat", "seafood", "poultry", "legumes"],
+  dairy: ["dairy"],
+  grains: ["grain", "grains"],
+  snacks: ["snacks", "snack"],
+  beverages: ["beverage", "beverages"],
+  sweets: ["sweets", "sweet", "dessert", "desserts"],
+  nuts_seeds: ["nuts", "seeds", "nuts_seeds"],
+  condiments: ["condiment", "condiments", "seasonings", "oils", "vinegars"],
+  prepared_foods: ["prepared_foods", "prepared foods", "prepared"],
+};
+
 /**
  * Quick food presets for common snacks and simple foods
  * Sodium values sourced from USDA FoodData Central (per 100g)
@@ -2488,7 +2502,9 @@ class FoodDiaryService {
     let nutritionConfidence: "high" | "medium" | "low" = "medium";
 
     if (input.foodSource === "quick" && input.sourceId) {
-      const preset = this.getQuickFoodPreset(input.sourceId);
+      const preset =
+        (await this.getDatabaseQuickFoodPreset(input.sourceId)) ||
+        this.getQuickFoodPreset(input.sourceId);
       if (preset) {
         nutrition = this.calculateNutritionFromPreset(
           preset,
@@ -2701,7 +2717,9 @@ class FoodDiaryService {
       const newQuantity = input.quantity ?? entry.quantity;
 
       if (entry.foodSource === "quick" && entry.sourceId) {
-        const preset = this.getQuickFoodPreset(entry.sourceId);
+        const preset =
+          (await this.getDatabaseQuickFoodPreset(entry.sourceId)) ||
+          this.getQuickFoodPreset(entry.sourceId);
         if (preset) {
           entry.nutrition = this.calculateNutritionFromPreset(
             preset,
@@ -2915,6 +2933,102 @@ class FoodDiaryService {
     return this.calculateStats(entries);
   }
 
+  private normalizeQuickFoodCategory(category?: string | null): QuickFoodCategory {
+    const normalized = (category || "").toLowerCase().trim();
+    for (const [quickFoodCategory, aliases] of Object.entries(
+      QUICK_FOOD_CATEGORY_MAP,
+    ) as Array<[QuickFoodCategory, string[]]>) {
+      if (aliases.includes(normalized)) {
+        return quickFoodCategory;
+      }
+    }
+    return "prepared_foods";
+  }
+
+  private mapIngredientRowToQuickFoodPreset(row: any): QuickFoodPreset {
+    return {
+      id: row.id,
+      name: row.common_name || row.name,
+      category: this.normalizeQuickFoodCategory(row.category),
+      defaultServing: {
+        amount: 100,
+        unit: "g",
+        grams: 100,
+        description: "100 g serving",
+      },
+      nutritionPer100g: {
+        calories: row.calories ? Number(row.calories) : undefined,
+        protein: row.protein ? Number(row.protein) : undefined,
+        carbs: row.carbohydrates ? Number(row.carbohydrates) : undefined,
+        fat: row.fat ? Number(row.fat) : undefined,
+        fiber: row.fiber ? Number(row.fiber) : undefined,
+        sugar: row.sugar ? Number(row.sugar) : undefined,
+      },
+    };
+  }
+
+  private async getDatabaseQuickFoodPresets(
+    category?: QuickFoodCategory,
+  ): Promise<QuickFoodPreset[]> {
+    const db = await getDbModule();
+    if (!db) {
+      return [];
+    }
+
+    try {
+      const categoryAliases = category ? QUICK_FOOD_CATEGORY_MAP[category] || [] : [];
+      const values: unknown[] = [];
+      let where = "WHERE is_active = true";
+
+      if (categoryAliases.length > 0) {
+        where += ` AND LOWER(category) = ANY($1)`;
+        values.push(categoryAliases);
+      }
+
+      const result = await db.executeQuery(
+        `SELECT id, name, common_name, category, calories, protein, carbohydrates, fat, fiber, sugar
+         FROM ingredients
+         ${where}
+         ORDER BY name
+         LIMIT 200`,
+        values,
+      );
+
+      return result.rows.map((row: any) => this.mapIngredientRowToQuickFoodPreset(row));
+    } catch (error) {
+      _logger.warn("Database quick food lookup failed, using fallback presets", error as any);
+      return [];
+    }
+  }
+
+  private async getDatabaseQuickFoodPreset(
+    id: string,
+  ): Promise<QuickFoodPreset | undefined> {
+    const db = await getDbModule();
+    if (!db) {
+      return undefined;
+    }
+
+    try {
+      const result = await db.executeQuery(
+        `SELECT id, name, common_name, category, calories, protein, carbohydrates, fat, fiber, sugar
+         FROM ingredients
+         WHERE is_active = true AND id = $1
+         LIMIT 1`,
+        [id],
+      );
+
+      if (result.rows.length === 0) {
+        return undefined;
+      }
+
+      return this.mapIngredientRowToQuickFoodPreset(result.rows[0]);
+    } catch (error) {
+      _logger.warn("Database quick food preset lookup failed", error as any);
+      return undefined;
+    }
+  }
+
   // ============================================================
   // Quick Foods & Favorites
   // ============================================================
@@ -2936,19 +3050,32 @@ class FoodDiaryService {
     return QUICK_FOOD_PRESETS.find((p) => p.id === id);
   }
 
+  async getServerQuickFoodPresets(
+    category?: QuickFoodCategory,
+  ): Promise<QuickFoodPreset[]> {
+    const presets = await this.getDatabaseQuickFoodPresets(category);
+    if (presets.length > 0) {
+      return presets;
+    }
+    return this.getQuickFoodPresets(category);
+  }
+
   /**
    * Search foods (quick presets + user favorites)
    */
   async searchFoods(
     userId: string,
     query: string,
-    limit = 20,
+  limit = 20,
   ): Promise<FoodSearchResult[]> {
     const results: FoodSearchResult[] = [];
     const queryLower = query.toLowerCase();
 
     // Search quick presets
-    for (const preset of QUICK_FOOD_PRESETS) {
+    const quickPresets = await this.getDatabaseQuickFoodPresets();
+    const presetSource = quickPresets.length > 0 ? quickPresets : QUICK_FOOD_PRESETS;
+
+    for (const preset of presetSource) {
       if (preset.name.toLowerCase().includes(queryLower)) {
         results.push({
           id: preset.id,

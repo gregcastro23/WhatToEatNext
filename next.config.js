@@ -79,7 +79,7 @@ const nextConfig = {
         hostname: "**",
       },
     ],
-    unoptimized: true, // Cloudflare handles image optimization via its own service
+    unoptimized: false, // Vercel handles high-performance image optimization natively
   },
   compiler: {
     removeConsole:
@@ -106,8 +106,6 @@ const nextConfig = {
 
   experimental: {
     optimizePackageImports: [
-      "@mui/material",
-      "@mui/icons-material",
       "@chakra-ui/react",
       "react-icons",
       "framer-motion",
@@ -160,46 +158,7 @@ const nextConfig = {
     ];
   },
 
-  // Proxy heavy API routes to Vercel deployment (for Cloudflare bundle size reduction)
-  // Note: These rewrites take priority over local route handlers in the Cloudflare build.
-  async rewrites() {
-    const vercelApiUrl = process.env.VERCEL_API_URL || "https://v0-alchm-kitchen.vercel.app";
-
-    // Only enable rewrites when VERCEL_API_URL is set (Cloudflare deployment)
-    if (!process.env.VERCEL_API_URL) {
-      return [];
-    }
-
-    return [
-      // Heavy data routes - proxy to Vercel
-      {
-        source: "/api/cuisines/:path*",
-        destination: `${vercelApiUrl}/api/cuisines/:path*`,
-      },
-      {
-        source: "/api/recipes/:path*",
-        destination: `${vercelApiUrl}/api/recipes/:path*`,
-      },
-      {
-        source: "/api/menu-planner/:path*",
-        destination: `${vercelApiUrl}/api/menu-planner/:path*`,
-      },
-      {
-        source: "/api/alchm-quantities/:path*",
-        destination: `${vercelApiUrl}/api/alchm-quantities/:path*`,
-      },
-      {
-        source: "/api/astrologize/:path*",
-        destination: `${vercelApiUrl}/api/astrologize/:path*`,
-      },
-      {
-        source: "/api/alchemize/:path*",
-        destination: `${vercelApiUrl}/api/alchemize/:path*`,
-      },
-      // Note: /api/auth/* stays local for session cookies to work
-      // Note: /api/user/* stays local for auth context
-    ];
-  },
+  // Proxy rewrites removed - back to standard monolith on Vercel
 };
 
 const withPWA = withPWAInit({
@@ -215,6 +174,3 @@ const withPWA = withPWAInit({
 
 export default withPWA(nextConfig);
 
-if (process.env.NODE_ENV === 'development') {
-  import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());
-}

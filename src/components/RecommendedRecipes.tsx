@@ -1,12 +1,24 @@
 // @ts-nocheck
-import React, { useEffect, useState } from 'react';
-import { Recipe } from '../types/recipe';
-import { AstrologicalState } from '../types/alchemy';
-import { getTimeFactors } from '../types/time';
-import { getRecommendedRecipes, explainRecommendation } from '../utils/recommendationEngine';
-import { Box, Card, CardContent, CardMedia, Typography, Grid, Chip, Divider } from '@mui/material';
-// @ts-expect-error - Auto-fixed by script
-import { AccessTime, Restaurant, WbSunny } from '@mui/icons-material';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Flex,
+  Heading,
+  HStack,
+  Image,
+  Separator,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { FaClock, FaSun, FaUtensils } from "react-icons/fa";
+import { Recipe } from "../types/recipe";
+import { AstrologicalState } from "../types/alchemy";
+import { getTimeFactors } from "../types/time";
+import {
+  explainRecommendation,
+  getRecommendedRecipes,
+} from "../utils/recommendationEngine";
 
 interface RecommendedRecipesProps {
   recipes: Recipe[];
@@ -14,10 +26,20 @@ interface RecommendedRecipesProps {
   count?: number;
 }
 
-const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({ 
-  recipes, 
-  astrologicalState, 
-  count = 3 
+const chipStyles = {
+  px: "2.5",
+  py: "1",
+  borderRadius: "full",
+  bg: "orange.100",
+  color: "orange.800",
+  fontSize: "xs",
+  fontWeight: "semibold",
+};
+
+const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
+  recipes,
+  astrologicalState,
+  count = 3,
 }) => {
   const [recommendations, setRecommendations] = useState<Recipe[]>([]);
   const [explanations, setExplanations] = useState<Record<string, string>>({});
@@ -25,102 +47,114 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
 
   useEffect(() => {
     if (recipes.length > 0 && astrologicalState) {
-      const recommendedRecipes = getRecommendedRecipes(recipes, astrologicalState, count, timeFactors);
+      const recommendedRecipes = getRecommendedRecipes(
+        recipes,
+        astrologicalState,
+        count,
+        timeFactors,
+      );
       setRecommendations(recommendedRecipes);
-      
-      // Generate explanations for each recommendation
+
       const newExplanations: Record<string, string> = {};
-      recommendedRecipes.forEach(recipe => {
-        newExplanations[recipe.id] = explainRecommendation(recipe, astrologicalState, timeFactors);
+      recommendedRecipes.forEach((recipe) => {
+        newExplanations[recipe.id] = explainRecommendation(
+          recipe,
+          astrologicalState,
+          timeFactors,
+        );
       });
       setExplanations(newExplanations);
     }
-  }, [recipes, astrologicalState, count]);
+  }, [recipes, astrologicalState, count, timeFactors]);
 
   if (recommendations.length === 0) {
     return (
-      <Box sx={{ mt: 3, mb: 3 }}>
-        <Typography variant="h5" gutterBottom>
+      <Box my="6">
+        <Heading size="lg" mb="3">
           Cosmic Recommendations
-        </Typography>
-        <Typography variant="body1">
-          Loading personalized recommendations for {timeFactors.timeOfDay.toLowerCase()}...
-        </Typography>
+        </Heading>
+        <Text color="gray.600">
+          Loading personalized recommendations for{" "}
+          {timeFactors.timeOfDay.toLowerCase()}...
+        </Text>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ mt: 3, mb: 3 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-        <WbSunny sx={{ mr: 1 }} />
-        <Typography variant="h5">
+    <Box my="6">
+      <HStack gap="3" mb="3">
+        <FaSun />
+        <Heading size="lg">
           Cosmic Recommendations for {timeFactors.timeOfDay}
-        </Typography>
-      </Box>
-      
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="body1">
-          Based on {timeFactors.planetaryDay.day}'s {timeFactors.planetaryDay.planet} influence and the {timeFactors.season} season
-        </Typography>
-      </Box>
-      
-      <Grid container spacing={3}>
-        {recommendations.map((recipe) => (
-          // @ts-expect-error - Auto-fixed by script
-          <Grid item xs={12} md={4} key={recipe.id}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-              // @ts-expect-error - Auto-fixed by script
-              {recipe.image && (
-                <CardMedia
-                  component="img"
-                  height="140"
-                  // @ts-expect-error - Auto-fixed by script
-                  image={recipe.image}
+        </Heading>
+      </HStack>
+
+      <Text mb="5" color="gray.600">
+        Based on {timeFactors.planetaryDay.day}&apos;s{" "}
+        {timeFactors.planetaryDay.planet} influence and the{" "}
+        {timeFactors.season} season
+      </Text>
+
+      <SimpleGrid columns={{ base: 1, md: 3 }} gap="6">
+        {recommendations.map((recipe) => {
+          const prepTime = Number(recipe.prepTime || 0);
+          const cookTime = Number(recipe.cookTime || 0);
+
+          return (
+            <Box
+              key={recipe.id}
+              borderWidth="1px"
+              borderColor="gray.200"
+              borderRadius="2xl"
+              overflow="hidden"
+              bg="white"
+              boxShadow="sm"
+            >
+              {recipe.image ? (
+                <Image
+                  src={recipe.image}
                   alt={recipe.name}
+                  objectFit="cover"
+                  width="100%"
+                  height="140px"
                 />
-              )}
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography variant="h6" gutterBottom>
-                  {recipe.name}
-                </Typography>
-                
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <AccessTime fontSize="small" sx={{ mr: 0.5 }} />
-                  <Typography variant="body2" color="text.secondary">
-                    // @ts-expect-error - Auto-fixed by script
-                    {recipe.prepTime + recipe.cookTime} mins
-                  </Typography>
-                  <Restaurant fontSize="small" sx={{ ml: 1.5, mr: 0.5 }} />
-                  <Typography variant="body2" color="text.secondary">
-                    {recipe.mealType}
-                  </Typography>
-                </Box>
-                
-                <Box sx={{ mb: 1.5 }}>
-                  // @ts-expect-error - Auto-fixed by script
-                  {recipe.tags.slice(0, 3).map((tag) => (
-                    <Chip
-                      key={tag}
-                      label={tag}
-                      size="small"
-                      sx={{ mr: 0.5, mb: 0.5 }}
-                    />
+              ) : null}
+
+              <Stack p="5" gap="4" height="100%">
+                <Heading size="md">{recipe.name}</Heading>
+
+                <Flex wrap="wrap" gap="4" color="gray.600" fontSize="sm">
+                  <HStack gap="1.5">
+                    <FaClock />
+                    <Text>{prepTime + cookTime} mins</Text>
+                  </HStack>
+                  <HStack gap="1.5">
+                    <FaUtensils />
+                    <Text>{recipe.mealType}</Text>
+                  </HStack>
+                </Flex>
+
+                <Flex wrap="wrap" gap="2">
+                  {(recipe.tags || []).slice(0, 3).map((tag) => (
+                    <Box key={tag} {...chipStyles}>
+                      {tag}
+                    </Box>
                   ))}
-                </Box>
-                
-                <Divider sx={{ mb: 1.5 }} />
-                
-                <Typography variant="body2" color="text.secondary">
+                </Flex>
+
+                <Separator />
+
+                <Text fontSize="sm" color="gray.600">
                   {explanations[recipe.id]}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                </Text>
+              </Stack>
+            </Box>
+          );
+        })}
+      </SimpleGrid>
     </Box>
   );
 };
 
-export default RecommendedRecipes; 
+export default RecommendedRecipes;

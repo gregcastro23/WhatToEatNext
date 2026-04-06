@@ -4,7 +4,30 @@ import type { ElementalProperties } from "@/types/celestial";
 import {
     getPlanetarySectElement, isSectDiurnal
 } from "@/utils/planetaryAlchemyMapping";
-import { PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
+
+const PLANET_ALCHM_PERIODS: Record<string, number> = {
+  Pluto: 247.94,
+  Neptune: 164.79,
+  Uranus: 84.01,
+  Saturn: 29.46,
+  Jupiter: 11.86,
+  Mars: 1.88,
+  Sun: 1.0,
+  Venus: 0.615,
+  Mercury: 0.241,
+  Moon: 0.075,
+  Ascendant: 0.003,
+};
+
+const PERIOD_LOG_MIN = Math.log10(0.003);
+const PERIOD_LOG_MAX = Math.log10(247.94);
+
+function normalizeAlchmWeight(periodYears: number): number {
+  return (
+    (Math.log10(Math.max(periodYears, 1e-9)) - PERIOD_LOG_MIN) /
+    (PERIOD_LOG_MAX - PERIOD_LOG_MIN)
+  );
+}
 
 /**
  * Real Alchemize Service

@@ -65,10 +65,17 @@ export default function QuickActionsToolbar() {
   const [isDiversifying, setIsDiversifying] = useState(false);
   const [currentGeneratingDay, setCurrentGeneratingDay] =
     useState<DayOfWeek | null>(null);
-  const [budgetInputVisible, setBudgetInputVisible] = useState(false);
+  const [budgetInputVisible, setBudgetInputVisible] = useState(!!weeklyBudget);
   const [budgetInputValue, setBudgetInputValue] = useState(
     weeklyBudget?.toString() ?? "",
   );
+
+  React.useEffect(() => {
+    if (weeklyBudget !== null && weeklyBudget !== undefined) {
+      setBudgetInputValue(weeklyBudget.toString());
+      setBudgetInputVisible(true);
+    }
+  }, [weeklyBudget]);
 
   /**
    * Get the next day that needs meals generated

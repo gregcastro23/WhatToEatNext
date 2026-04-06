@@ -392,7 +392,7 @@ class UserDatabaseService {
     }
 
     // Update in-memory cache
-    user.roles = [role, UserRole.USER];
+    user.roles = [role, "user" as UserRole];
     this.users.set(userId, user);
     return true;
   }
