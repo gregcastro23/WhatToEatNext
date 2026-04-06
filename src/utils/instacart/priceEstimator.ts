@@ -239,6 +239,28 @@ function detectCategoryFromName(name: string): string {
 }
 
 /**
+ * Find best match in the dictionary for the ingredient
+ */
+export function findIngredientDictMatch(ingredientName: string) {
+  const name = ingredientName.toLowerCase().trim();
+
+  // 1. Exact match
+  if (INGREDIENT_PRICES[name]) {
+    return { key: name, info: INGREDIENT_PRICES[name] };
+  }
+
+  // 2. Partial match — find the longest key that appears in the ingredient name
+  let bestMatch: { key: string; info: typeof INGREDIENT_PRICES[string] } | null = null;
+  for (const [key, info] of Object.entries(INGREDIENT_PRICES)) {
+    if (name.includes(key) && (!bestMatch || key.length > bestMatch.key.length)) {
+      bestMatch = { key, info };
+    }
+  }
+
+  return bestMatch;
+}
+
+/**
  * Look up the estimated cost of a single ingredient.
  * Tries exact match first, then partial matches, then category fallback.
  */
@@ -383,8 +405,8 @@ export function calculateBangForBuck(
 
 /**
  * Estimate total weekly grocery cost from a set of recipes.
- * Accounts for ingredient deduplication (e.g. buying one bottle of olive oil
- * even if 5 recipes use it).
+ * Accounts for ingredient bundle sizes (e.g. buying a dozen eggs) and
+ * uses leftovers from purchased bundles to cover ingredients in subsequent meals.
  */
 export function estimateWeeklyGroceryCost(
   recipes: Array<{ ingredients: RecipeIngredient[]; servings?: number }>,
@@ -392,15 +414,93 @@ export function estimateWeeklyGroceryCost(
 ): { totalCost: number; perMealAverage: number; recipeBreakdown: RecipeCostEstimate[] } {
   const recipeBreakdown: RecipeCostEstimate[] = [];
   let rawTotal = 0;
+  
+  // Track leftovers from purchasing bundles across the week
+  // Key is the internal dictionary key (e.g. "eggs", "chicken breast")
+  const weeklyCartLeftovers: Record<string, number> = {};
+  const inventoryLower = userInventory.map(item => item.toLowerCase().trim());
 
   for (const recipe of recipes) {
-    const estimate = calculateRecipeEstimatedCost(recipe.ingredients, recipe.servings ?? 4, userInventory);
-    recipeBreakdown.push(estimate);
-    rawTotal += estimate.totalCost;
+    let directMatches = 0;
+    const breakdown: { ingredient: string; estimatedCost: number }[] = [];
+    const ingredients = recipe.ingredients || [];
+    
+    for (const ing of ingredients) {
+      if (ing.optional) continue;
+      
+      const name = ing.name.toLowerCase().trim();
+      const inInventory = inventoryLower.some(invItem => 
+        name.includes(invItem) || invItem.includes(name)
+      );
+
+      if (inInventory) {
+        breakdown.push({ ingredient: ing.name, estimatedCost: 0 });
+        continue;
+      }
+      
+      // Amount needed for this specific recipe
+      // Use the stated ingredient amount, default to 1 if missing.
+      const neededAmount = ing.amount || 1;
+
+      const match = findIngredientDictMatch(ing.name);
+      if (match) {
+        directMatches++;
+        const dictKey = match.key;
+        const bundleSize = match.info.amount; // e.g. 12 for "dozen", 5 for "5lb flour"
+        const bundlePrice = match.info.price;
+
+        // Check if we have enough left over from previous bundles
+        const currentLeftover = weeklyCartLeftovers[dictKey] || 0;
+        
+        if (currentLeftover >= neededAmount) {
+          // We can use leftovers, no additional cost for this recipe
+          weeklyCartLeftovers[dictKey] = currentLeftover - neededAmount;
+          breakdown.push({ ingredient: ing.name, estimatedCost: 0 });
+        } else {
+          // We need more than what's left over
+          const deficit = neededAmount - currentLeftover;
+          // Calculate how many bundles we must buy to cover the deficit
+          const bundlesNeeded = Math.ceil(deficit / bundleSize);
+          const cost = bundlesNeeded * bundlePrice;
+          
+          // Update leftovers: Add new bundles capacity, subtract the needed deficit
+          weeklyCartLeftovers[dictKey] = (currentLeftover + (bundlesNeeded * bundleSize)) - neededAmount;
+          
+          breakdown.push({ ingredient: ing.name, estimatedCost: cost });
+          rawTotal += cost;
+        }
+      } else {
+        // Fallback pricing if no bundle size available
+        const hasPartial = Object.keys(INGREDIENT_PRICES).some((k) => name.includes(k));
+        if (hasPartial) directMatches += 0.5;
+
+        const category = ing.category || detectCategoryFromName(name);
+        const fallbackCost = CATEGORY_FALLBACK_COST[category] ?? CATEGORY_FALLBACK_COST.other;
+        
+        // Assume fallback cost scales directly with required amount
+        const cost = fallbackCost * neededAmount;
+        breakdown.push({ ingredient: ing.name, estimatedCost: cost });
+        rawTotal += cost;
+      }
+    }
+    
+    const recipeTotalCost = breakdown.reduce((sum, b) => sum + b.estimatedCost, 0);
+    const servings = recipe.servings ?? 4;
+    const costPerServing = servings > 0 ? recipeTotalCost / servings : recipeTotalCost;
+    const matchRatio = ingredients.length > 0 ? directMatches / ingredients.length : 0;
+    const confidence: RecipeCostEstimate["confidence"] =
+      matchRatio >= 0.7 ? "high" : matchRatio >= 0.4 ? "medium" : "low";
+      
+    recipeBreakdown.push({
+      totalCost: Math.round(recipeTotalCost * 100) / 100,
+      costPerServing: Math.round(costPerServing * 100) / 100,
+      breakdown,
+      confidence
+    });
   }
 
-  // Apply a 15% deduplication discount (shared pantry staples, spices, oils)
-  const deduplicationFactor = 0.85;
+  // We can still apply a small deduplication discount for extremely common un-modeled pantry items
+  const deduplicationFactor = 0.95; 
   const totalCost = Math.round(rawTotal * deduplicationFactor * 100) / 100;
   const perMealAverage = recipes.length > 0 ? Math.round((totalCost / recipes.length) * 100) / 100 : 0;
 
