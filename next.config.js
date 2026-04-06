@@ -105,7 +105,6 @@ const nextConfig = {
   serverExternalPackages: ["pg", "astronomy-engine"],
 
   experimental: {
-    instrumentationHook: true,
     optimizePackageImports: [
       "@chakra-ui/react",
       "react-icons",
