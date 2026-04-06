@@ -277,6 +277,8 @@ function SettingsPanel({
 
 /* ─── Birth Chart Section ────────────────────────────────── */
 
+import Link from 'next/link';
+
 function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
   const sunSign = (natalChart.planetaryPositions?.Sun || '') as string;
   const moonSign = (natalChart.planetaryPositions?.Moon || '') as string;
@@ -285,10 +287,17 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
   const findPlanet = (name: string) => natalChart.planets?.find(p => p.name === name);
 
   return (
-    <div className="bg-gray-950 rounded-3xl p-6 border border-white/5">
-      <div className="mb-5">
-        <h3 className="text-sm font-bold text-white uppercase tracking-widest">Birth Chart</h3>
-        <p className="text-white/30 text-xs mt-0.5">Natal planetary placements</p>
+    <Link href="/birth-chart" className="block bg-gray-950 rounded-3xl p-6 border border-white/5 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-900/20 transition-all cursor-pointer group">
+      <div className="flex justify-between items-start mb-5">
+        <div>
+          <h3 className="text-sm font-bold text-white uppercase tracking-widest">Birth Chart</h3>
+          <p className="text-white/30 text-xs mt-0.5">Natal planetary placements</p>
+        </div>
+        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+          <svg className="w-4 h-4 text-white/40 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
       </div>
 
       {/* Big Three */}
@@ -326,7 +335,7 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
           );
         })}
       </div>
-    </div>
+    </Link>
   );
 }
 

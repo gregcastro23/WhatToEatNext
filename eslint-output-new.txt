@@ -1,0 +1,568 @@
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/admin/users/page.tsx
+   33:6   warning  React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  189:21  warning  Promise-returning function provided to attribute where a void return was expected                              @typescript-eslint/no-misused-promises
+  317:39  warning  Promise-returning function provided to attribute where a void return was expected                              @typescript-eslint/no-misused-promises
+  330:39  warning  Promise-returning function provided to attribute where a void return was expected                              @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/generate-cosmic-recipe/route.ts
+  31:25  warning  Variable name `ingredients_main` must match one of the following formats: camelCase, PascalCase, UPPER_CASE        @typescript-eslint/naming-convention
+  31:43  warning  Variable name `disallowed_ingredients` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/user/commensals/route.ts
+  11:1  warning  There should be no empty line between import groups  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/auth/error/page.tsx
+  42:11  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/food-tracking/page.tsx
+  160:33  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  199:33  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/generated-recipe/[id]/page.tsx
+  322:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/global-error.tsx
+  18:5  warning  <html> elements must have the lang prop  jsx-a11y/html-has-lang
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/login/page.tsx
+  160:47   warning  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  160:145  warning  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/menu-planner/page.tsx
+  589:27  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/premium/page.tsx
+  138:27  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  266:29  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/profile/day-night-effects/page.tsx
+  11:11  warning  'theme' is assigned a value but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  45:9   warning  'isNatalDiurnal' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/recipe-builder/page.tsx
+  290:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/recipes/[recipeId]/page.tsx
+  385:1   warning  Function 'computeMonicaComponents' has too many parameters (8). Maximum allowed is 7  max-params
+  889:23  warning  Promise-returning function provided to attribute where a void return was expected     @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/restaurant-creator/page.tsx
+  162:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/calculations/core/kalchmEngine.ts
+   53:8  warning  Function 'calculateHeat' has too many parameters (8). Maximum allowed is 7        max-params
+   77:8  warning  Function 'calculateEntropy' has too many parameters (8). Maximum allowed is 7     max-params
+  105:8  warning  Function 'calculateReactivity' has too many parameters (8). Maximum allowed is 7  max-params
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AlchemicalRecommendations.tsx
+    6:1   warning  There should be no empty line between import groups                                                import/order
+   10:1   warning  There should be no empty line between import groups                                                import/order
+  270:15  warning  'region' is assigned a value but never used. Allowed unused vars must match /^_/u                  @typescript-eslint/no-unused-vars
+  344:5   warning  'transformedIngredients' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  345:5   warning  'transformedMethods' is assigned a value but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  346:5   warning  'transformedCuisines' is assigned a value but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  418:41  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                    react/no-unescaped-entities
+  466:13  warning  A form label must be associated with a control                                                     jsx-a11y/label-has-associated-control
+  480:13  warning  A form label must be associated with a control                                                     jsx-a11y/label-has-associated-control
+  530:51  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                    react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AlchmKitchen.tsx
+  25:12  warning  'recipes' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                                       @typescript-eslint/no-unused-vars
+  39:9   warning  'isDaytime' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                @typescript-eslint/no-unused-vars
+  95:9   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AstrologicalClock.tsx
+   9:8   warning  'PlanetaryPositionValidation' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  58:11  warning  Interface name `_ClockPlanetaryPosition` must match one of the following formats: PascalCase   @typescript-eslint/naming-convention
+  69:11  warning  'planetaryPositions' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/BackendStatus.tsx
+  106:6  warning  React Hook useEffect has a missing dependency: 'checkHealth'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CelestialEventNotifications.tsx
+  210:13  warning  onMouseOver must be accompanied by onFocus for accessibility  jsx-a11y/mouse-events-have-key-events
+  213:13  warning  onMouseOut must be accompanied by onBlur for accessibility    jsx-a11y/mouse-events-have-key-events
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ChakraEnergiesDisplay.tsx
+   13:1   warning  `@/contexts/AlchemicalContext/hooks` import should occur before import of `@/hooks/useAstrologicalState`  import/order
+  231:66  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                           react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ClientPage.tsx
+   4:1  warning  There should be no empty line between import groups                                                             import/order
+  14:1  warning  `@/components/common/LoadingSpinner` import should occur before import of `@/components/CookingMethods`         import/order
+  37:6  warning  React Hook useEffect has a missing dependency: 'renderCount'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ClientWrapper.tsx
+  6:1  warning  There should be no empty line between import groups                                           import/order
+  9:1  warning  `@/app/ClientProviders` import should occur before import of `@/components/AstrologyWarning`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CookingMethods.tsx
+     8:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    13:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    18:1   warning  `@/contexts/TarotContext` import should occur before import of `@/data/cooking`                                                                                     import/order
+    19:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    19:1   warning  `@/data/cooking/cookingMethods` import should occur before import of `@/data/cooking/molecularMethods`                                                              import/order
+    24:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    24:10  warning  'useCurrentChart' is defined but never used. Allowed unused vars must match /^_/u                                                                                   @typescript-eslint/no-unused-vars
+    27:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    27:10  warning  COOKING_METHOD_THERMODYNAMICS not found in '@/types/alchemy'                                                                                                        import/named
+    32:10  warning  staticAlchemize not found in '@/utils/alchemyInitializer'                                                                                                           import/named
+   174:11  warning  Interface name `_CookingTimeRecommendation` must match one of the following formats: PascalCase                                                                     @typescript-eslint/naming-convention
+   410:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   416:6   warning  React Hook useEffect has a missing dependency: 'fetchMethods'. Either include it or remove the dependency array                                                     react-hooks/exhaustive-deps
+  1485:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  1681:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CosmicRecipeWidget.tsx
+  25:6  warning  React Hook useEffect has a missing dependency: 'sampleBirthData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineRecommender.tsx
+    4:43   warning  _GalleryVertical not found in 'lucide-react'                                                                                            import/named
+    4:61   warning  _Sparkles not found in 'lucide-react'                                                                                                   import/named
+    4:72   warning  _ArrowLeft not found in 'lucide-react'                                                                                                  import/named
+    4:84   warning  _Moon not found in 'lucide-react'                                                                                                       import/named
+    4:91   warning  _SunIcon not found in 'lucide-react'                                                                                                    import/named
+    4:101  warning  _ChevronDown not found in 'lucide-react'                                                                                                import/named
+    4:115  warning  _ChevronUp not found in 'lucide-react'                                                                                                  import/named
+    4:127  warning  _Info not found in 'lucide-react'                                                                                                       import/named
+    5:31   warning  _useMemo not found in 'react'                                                                                                           import/named
+    7:10   warning  _ElementalItem not found in '@/calculations/alchemicalTransformation'                                                                   import/named
+    8:10   warning  _AlchemicalProperty not found in '@/constants/planetaryElements'                                                                        import/named
+   12:10   warning  _cuisineFlavorProfiles not found in '@/data/cuisineFlavorProfiles'                                                                      import/named
+   14:10   warning  _useAstrologicalState not found in '@/hooks/useAstrologicalState'                                                                       import/named
+   15:10   warning  _LocalRecipeService not found in '@/services/LocalRecipeService'                                                                        import/named
+   17:10   warning  _LunarPhaseWithSpaces not found in '@/types/alchemy'                                                                                    import/named
+   19:10   warning  transformCuisines not found in '@/utils/alchemicalTransformationUtils'                                                                  import/named
+   19:29   warning  sortByAlchemicalCompatibility not found in '@/utils/alchemicalTransformationUtils'                                                      import/named
+  119:6    warning  React Hook useEffect has a missing dependency: 'calculateElementalProfileFromZodiac'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  126:6    warning  React Hook useEffect has a missing dependency: 'generateTopSauceRecommendations'. Either include it or remove the dependency array      react-hooks/exhaustive-deps
+  354:6    warning  React Hook useEffect has a missing dependency: 'loadCuisines'. Either include it or remove the dependency array                         react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSelector.tsx
+  1:1  warning  There should be no empty line between import groups  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSpecificRecommendations.tsx
+   4:10  warning  enhancedCuisineRecommender not found in '@/calculations/enhancedCuisineRecommender'                            import/named
+  60:6   warning  React Hook useEffect has a missing dependency: 'astroError'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  76:9   warning  'getPlanetaryAlignment' is assigned a value but never used. Allowed unused vars must match /^_/u               @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/DebugInfo.tsx
+  4:10  warning  _useState not found in 'react'                import/named
+  7:19  warning  Component definition is missing display name  react/display-name
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalAlchemicalDisplay.tsx
+   7:3  warning  calculateHeat not found in '@/calculations/gregsEnergy'        import/named
+   9:3  warning  calculateEntropy not found in '@/calculations/gregsEnergy'     import/named
+  11:3  warning  calculateReactivity not found in '@/calculations/gregsEnergy'  import/named
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalBalance.tsx
+  3:11  warning  Interface name `elementalStateProps` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalEnergyDisplay.tsx
+    5:1   warning  `react` type import should occur after import of `./ElementalEnergyDisplay.module.css`                                                   import/order
+    6:1   warning  There should be no empty line between import groups                                                                                      import/order
+   15:1   warning  There should be no empty line between import groups                                                                                      import/order
+  123:6   warning  React Hook useEffect has a missing dependency: 'renderCount'. Either include it or remove the dependency array                           react-hooks/exhaustive-deps
+  258:6   warning  React Hook useEffect has missing dependencies: 'isDaytime' and 'planetaryPositions'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  529:21  warning  Component definition is missing display name                                                                                             react/display-name
+  838:17  warning  Promise-returning function provided to attribute where a void return was expected                                                        @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalExplorer.tsx
+  1:1  warning  There should be no empty line between import groups  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/FoodRecommendations.tsx
+   4:7   warning  'FoodRecommendations' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                      @typescript-eslint/no-unused-vars
+   4:45  warning  'options' is assigned a value but never used. Allowed unused args must match /^_/u                                                                                  @typescript-eslint/no-unused-vars
+  10:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/FoodRecommender.tsx
+  4:48  warning  Unable to resolve path to module '@heroicons/react/24/outline'  import/no-unresolved
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/GlobalPopup.tsx
+   1:1   warning  There should be no empty line between import groups                                import/order
+   5:1   warning  All imports in the declaration are only used as types. Use `import type`           @typescript-eslint/consistent-type-imports
+   5:1   warning  `react` import should occur before import of `@/constants/elementalConstants`      import/order
+  30:26  warning  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  30:59  warning  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientDisplay.tsx
+  13:9  warning  'safeGet' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientMapper.tsx
+   15:5   warning  'mapRecipeIngredients' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   21:30  warning  'cuisinesLoading' is assigned a value but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+   79:13  warning  A form label must be associated with a control                                                   jsx-a11y/label-has-associated-control
+   89:13  warning  A form label must be associated with a control                                                   jsx-a11y/label-has-associated-control
+  146:11  warning  A form label must be associated with a control                                                   jsx-a11y/label-has-associated-control
+  189:13  warning  A form label must be associated with a control                                                   jsx-a11y/label-has-associated-control
+  199:13  warning  A form label must be associated with a control                                                   jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientRecommendations.tsx
+    8:10  warning  _ElementalCalculator not found in '@/services/ElementalCalculator'                                                                                   import/named
+   13:10  warning  _calculateAlchemicalProperties not found in '@/utils/ingredientUtils'                                                                                import/named
+   13:42  warning  _calculateThermodynamicProperties not found in '@/utils/ingredientUtils'                                                                             import/named
+   13:77  warning  _determineIngredientModality not found in '@/utils/ingredientUtils'                                                                                  import/named
+   14:10  warning  toZodiacSign not found in '@/utils/zodiacUtils'                                                                                                      import/named
+  107:6   warning  React Hook useEffect has missing dependencies: 'aspects', 'moonPhase', and 'planetaryPositions'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientRecommender.tsx
+    3:43  warning  _Info not found in 'lucide-react'                                                                                         import/named
+    5:10  warning  _normalizeChakraKey not found in '@/constants/chakraSymbols'                                                              import/named
+    7:63  warning  _grainsCollection not found in '@/data/ingredients'                                                                       import/named
+   15:7   warning  'customStyles' is assigned a value but never used. Allowed unused vars must match /^_/u                                   @typescript-eslint/no-unused-vars
+   63:5   warning  'chakraEnergies' is assigned a value but never used. Allowed unused vars must match /^_/u                                 @typescript-eslint/no-unused-vars
+   68:5   warning  'refreshRecommendations' is assigned a value but never used. Allowed unused vars must match /^_/u                         @typescript-eslint/no-unused-vars
+  393:6   warning  React Hook useMemo has missing dependencies: 'isOil' and 'isVinegar'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/LazyAlchemicalEngine.tsx
+  15:16  warning  Component definition is missing display name  react/display-name
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/LivePlanetaryTracker.tsx
+  157:6  warning  React Hook useEffect has a missing dependency: 'updatePlanetaryDisplay'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  168:6  warning  React Hook useEffect has a missing dependency: 'updatePlanetaryDisplay'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/LocationButton.tsx
+  49:17  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  59:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/LoginButton.tsx
+  17:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  24:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/MethodsRecommender.tsx
+  142:9  warning  'topMethod' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/MoonDisplay.tsx
+    8:10  warning  _getSignFromLongitude not found in '@/utils/astrologyUtils'                                                                                                         import/named
+   86:31  warning  'state' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                    @typescript-eslint/no-unused-vars
+  170:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  215:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  218:34  warning  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
+  269:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  272:34  warning  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
+  351:6   warning  React Hook useEffect has a missing dependency: 'planetaryPositions'. Either include it or remove the dependency array                                               react-hooks/exhaustive-deps
+  446:70  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                     react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/NutritionalDataFetcher.tsx
+   40:38  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:44  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:47  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:62  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:68  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:75  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   64:18  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                    react/no-unescaped-entities
+  136:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  139:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PayPalButton.tsx
+  32:9  warning  onMouseOver must be accompanied by onFocus for accessibility  jsx-a11y/mouse-events-have-key-events
+  37:9  warning  onMouseOut must be accompanied by onBlur for accessibility    jsx-a11y/mouse-events-have-key-events
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetInfoModal.tsx
+  30:14  warning  Expected non-Promise value in a boolean conditional  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryAspectsDisplay.tsx
+  171:28  warning  Promise returned in function argument where a void return was expected             @typescript-eslint/no-misused-promises
+  226:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryContributionsChart.tsx
+  78:34  warning  Promise returned in function argument where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryHours.tsx
+  3:35  warning  Unable to resolve path to module './PlanetaryHours/PlanetaryHoursDisplay'  import/no-unresolved
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryPositionInitializer.tsx
+    6:1   warning  There should be no empty line between import groups                                                                                                                                                                                                              import/order
+    8:1   warning  There should be no empty line between import groups                                                                                                                                                                                                              import/order
+  130:11  warning  'now' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  184:7   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                               @typescript-eslint/no-floating-promises
+  194:9   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                               @typescript-eslint/no-floating-promises
+  209:13  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                               @typescript-eslint/no-floating-promises
+  216:13  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                               @typescript-eslint/no-floating-promises
+  226:6   warning  React Hook useEffect has missing dependencies: 'applyFallbackPositions', 'attemptPositionUpdate', 'retryStatus.count', 'retryStatus.isRetrying', 'retryStatus.lastAttempt', and 'retryStatus.usingFallback'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  233:6   warning  React Hook useEffect has a missing dependency: 'applyFallbackPositions'. Either include it or remove the dependency array                                                                                                                                        react-hooks/exhaustive-deps
+  251:19  warning  Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PremiumGate.tsx
+  79:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/RecipeBuilder.tsx
+   22:31  warning  'setSelectedIngredients' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+   26:28  warning  'setSignEnergyStates' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u     @typescript-eslint/no-unused-vars
+   63:6   warning  React Hook useEffect has a missing dependency: 'mapChakrasToEnergyStates'. Either include it or remove the dependency array   react-hooks/exhaustive-deps
+  181:9   warning  'enhanceRecipe' is assigned a value but never used. Allowed unused vars must match /^_/u                                      @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/RecipeList.tsx
+    4:77  warning  _Tag not found in 'lucide-react'                                                                                                       import/named
+    4:83  warning  _CircleDashed not found in 'lucide-react'                                                                                              import/named
+    5:38  warning  _useMemo not found in 'react'                                                                                                          import/named
+    6:10  warning  _useAlchemical not found in '@/contexts/AlchemicalContext/hooks'                                                                       import/named
+   14:10  warning  _logger not found in '@/utils/logger'                                                                                                  import/named
+   27:10  warning  'planetaryHour' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                    @typescript-eslint/no-unused-vars
+  147:6   warning  React Hook useEffect has a missing dependency: 'calculateAstrologicalCompatibility'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/SauceRecommender.tsx
+   55:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   56:6   warning  React Hook useEffect has a missing dependency: 'generateSauceRecommendations'. Either include it or remove the dependency array                                     react-hooks/exhaustive-deps
+  613:63  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                     react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/SomeComponent.tsx
+  2:10  warning  useClientEffect not found in '@/hooks/useClientEffect'                                    import/named
+  4:7   warning  'SomeComponent' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/SunDisplay.tsx
+    9:32  warning  _safeImportFunction not found in '@/utils/dynamicImport'                                                                                                            import/named
+   10:10  warning  _getSunPosition not found in '@/utils/solarPositions'                                                                                                               import/named
+   52:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  111:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  114:34  warning  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/TarotFoodDisplay.tsx
+   35:47   warning  'astroLoading' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                             @typescript-eslint/no-unused-vars
+  116:7    warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  240:115  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                     react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/YourParentComponent.tsx
+  4:7  warning  'YourComponent' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/alchm-kinetics.tsx
+  135:34  warning  Promise returned in function argument where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/alchm-quantities-display.tsx
+   61:34  warning  Promise returned in function argument where a void return was expected             @typescript-eslint/no-misused-promises
+  130:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/alchm-quantities-trends.tsx
+  54:34  warning  Promise returned in function argument where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/astrological/AstrologicalRecommendations.tsx
+  145:6  warning  React Hook useEffect has missing dependencies: 'season' and 'zodiacSign'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/auth/OnboardingWizard.tsx
+  196:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  272:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  402:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/auth/SignInModal.tsx
+  151:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/CommensalManager.tsx
+  220:27  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  317:20  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  764:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  805:27  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  942:29  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/CurrentTransitAnalysis.tsx
+  219:6  warning  React Hook useMemo has a missing dependency: 'natalChart'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/FoodLabBook.tsx
+  150:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  482:23  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  629:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  672:26  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/NotificationPanel.tsx
+  33:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  73:21  warning  Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  90:47  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/RecommendationsPanel.tsx
+  537:26  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  538:28  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  539:28  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  549:26  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/UserDashboard.tsx
+  268:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/filters.tsx
+  19:9  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+  42:9  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+  65:9  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/food-diary/FoodDiaryView.tsx
+  499:23  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  525:23  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/food-diary/FoodRating.tsx
+  140:17  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  246:23  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/food-diary/QuickFoodInput.tsx
+  165:20  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  252:27  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  433:25  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/home/CookingMethodPreview.tsx
+  251:6  warning  React Hook useEffect has a missing dependency: 'alchemicalContext'. Either include it or remove the dependency array      react-hooks/exhaustive-deps
+  357:6  warning  React Hook useMemo has an unnecessary dependency: 'planetaryPositions'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/home/DynamicCuisineRecommender.tsx
+  321:34  warning  Promise returned in function argument where a void return was expected             @typescript-eslint/no-misused-promises
+  412:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-builder/QuickActionsToolbar.tsx
+  497:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  517:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  531:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  578:17  warning  A form label must be associated with a control                                     jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/FocusedDayView.tsx
+  491:23  warning  Promise-returning function provided to attribute where a void return was expected                                     @typescript-eslint/no-misused-promises
+  539:25  warning  Promise-returning function provided to attribute where a void return was expected                                     @typescript-eslint/no-misused-promises
+  553:24  warning  Promise-returning function provided to attribute where a void return was expected                                     @typescript-eslint/no-misused-promises
+  625:5   warning  React Hook useCallback has a missing dependency: 'generateReasons'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/MealSlot.tsx
+  270:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/PossoWidget.tsx
+   29:24  warning  'showInfo' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                 @typescript-eslint/no-unused-vars
+  105:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  194:70  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                     react/no-unescaped-entities
+  194:76  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                     react/no-unescaped-entities
+  242:27  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/RecipeSelector.tsx
+  407:13  warning  The autoFocus prop should not be used, as it can reduce usability and accessibility for users  jsx-a11y/no-autofocus
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/SauceSelector.tsx
+  48:9  warning  'baseServings' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/WeeklyCalendar.tsx
+  150:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  157:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  172:25  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  175:28  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  176:30  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  179:24  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  182:25  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  186:28  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/nav/NotificationBell.tsx
+   39:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   40:34  warning  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
+   75:53  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  104:25  warning  Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  128:53  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/onboarding/LocationSearch.tsx
+  169:9  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recipe-builder/GenerateRecipeButton.tsx
+  136:17  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recipe-builder/IngredientSearchBar.tsx
+  132:5   warning  Elements with the 'option' interactive role must be focusable                                                   jsx-a11y/interactive-supports-focus
+  326:11  warning  Elements with the ARIA role "combobox" must have the following attributes defined: aria-controls,aria-expanded  jsx-a11y/role-has-required-aria-props
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recommendations/EnhancedCookingMethodRecommender.tsx
+  382:6  warning  React Hook useEffect has a missing dependency: 'alchemicalContext'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recommendations/EnhancedSauceRecommender.tsx
+  282:11  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/AlchemicalDataContext.tsx
+  71:5  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/ChartContext/provider.tsx
+  243:6  warning  React Hook useEffect has a missing dependency: 'refreshChart'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/MenuPlannerContext.tsx
+   975:5  warning  React Hook useCallback has a missing dependency: 'regenerateGroceryList'. Either include it or remove the dependency array                                                                                    react-hooks/exhaustive-deps
+  1006:5  warning  React Hook useCallback has a missing dependency: 'regenerateGroceryList'. Either include it or remove the dependency array                                                                                    react-hooks/exhaustive-deps
+  1040:5  warning  React Hook useCallback has a missing dependency: 'regenerateGroceryList'. Either include it or remove the dependency array                                                                                    react-hooks/exhaustive-deps
+  1307:5  warning  React Hook useCallback has a missing dependency: 'syncWithLunarCycle'. Either include it or remove the dependency array                                                                                       react-hooks/exhaustive-deps
+  1765:5  warning  React Hook useMemo has missing dependencies: 'addParticipant', 'participants', 'removeParticipant', 'syncWithLunarCycle', and 'toggleSyncWithLunarCycle'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrologicalState.ts
+  224:5  warning  React Hook useMemo has a missing dependency: 'planetaryPositions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrologize.ts
+  170:6  warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrology.ts
+  230:5  warning  React Hook useCallback has a missing dependency: 'applyFallbackData'. Either include it or remove the dependency array              react-hooks/exhaustive-deps
+  315:5  warning  React Hook useCallback has a missing dependency: 'applyFallbackElementalBalance'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  544:6  warning  React Hook useCallback has a missing dependency: 'state.data'. Either include it or remove the dependency array                     react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useChartData.ts
+  114:6   warning  React Hook useCallback has an unnecessary dependency: 'dateTime'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+  124:14  warning  Promise-returning function provided to property where a void return was expected                                    @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useDraggable.ts
+   60:5  warning  React Hook useCallback has missing dependencies: 'handleMouseMove' and 'handleMouseUp'. Either include them or remove the dependency array   react-hooks/exhaustive-deps
+  158:5  warning  React Hook useCallback has missing dependencies: 'handleTouchEnd' and 'handleTouchMove'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useFoodDiary.ts
+  121:6  warning  React Hook useEffect has a missing dependency: 'loadData'. Either include it or remove the dependency array           react-hooks/exhaustive-deps
+  126:6  warning  React Hook useEffect has a missing dependency: 'loadWeeklySummary'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/usePlanetaryWebSocket.ts
+  76:6  warning  React Hook useEffect has a missing dependency: 'location'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useRecommendationAnalytics.ts
+  116:6  warning  React Hook useEffect has a missing dependency: 'updateMetrics'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useSafeFlavorEngine.ts
+  149:5  warning  React Hook useMemo has a missing dependency: 'flavorEngine.categories'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useStatePreservation.ts
+  404:5  warning  React Hook useCallback has an unnecessary dependency: 'intelligence'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useTarotAstrologyData.ts
+  241:6  warning  React Hook useMemo has unnecessary dependencies: 'currentPlanetaryAlignment' and 'signEnergyStates'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useUnifiedPlanetaryHour.ts
+  78:6  warning  React Hook useEffect has a missing dependency: 'location'. Either include it or remove the dependency array                               react-hooks/exhaustive-deps
+  94:6  warning  React Hook useEffect has a missing dependency: 'wsHour'. Either include it or remove the dependency array                                 react-hooks/exhaustive-deps
+  98:5  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+  99:5  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/lib/api/alchm-client.ts
+  197:10  warning  Expected non-Promise value in a boolean conditional  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/lib/auth/auth.ts
+   64:38  warning  Dependency cycle detected                                                                                                                                           import/no-cycle
+  139:9   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/lib/database/connection.ts
+  81:1  warning  Exporting mutable 'let' binding, use 'const' instead  import/no-mutable-exports
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/ConsolidatedRecommendationService.ts
+  371:37  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/userDatabaseService.ts
+  238:32  warning  Dependency cycle detected  import/no-cycle
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/core.ts
+  245:26  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+  351:26  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+  375:26  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts
+  173:23  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+  329:23  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+  348:25  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+  382:27  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/instacart/ingredientNormalizer.ts
+  192:7  warning  Variable name `display_text` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+  319:9  warning  Variable name `display_text` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/liveEphemeris.ts
+  18:1  warning  There should be no empty line between import groups  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/monicaKalchmCalculations.ts
+  37:8  warning  Function 'calculateHeat' has too many parameters (8). Maximum allowed is 7        max-params
+  58:8  warning  Function 'calculateEntropy' has too many parameters (8). Maximum allowed is 7     max-params
+  80:8  warning  Function 'calculateReactivity' has too many parameters (8). Maximum allowed is 7  max-params
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/serverPlanetaryCalculations.ts
+  7:1  warning  There should be no empty line between import groups  import/order
+
+✖ 328 problems (0 errors, 328 warnings)
+  0 errors and 21 warnings potentially fixable with the `--fix` option.
+

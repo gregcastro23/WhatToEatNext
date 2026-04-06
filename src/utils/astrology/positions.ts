@@ -297,8 +297,10 @@ export function getAccuratePlanetaryPositions(date: Date): {
             isRetrograde,
           };
         } else {
-          // For other planets, use ecliptic longitude and motion direction
-          const longitude = Astronomy.EclipticLongitude(body, astroTime);
+          // For other planets, use geocentric ecliptic longitude and motion direction
+          const geoVector = Astronomy.GeoVector(body, astroTime, true);
+          const ecliptic = Astronomy.Ecliptic(geoVector);
+          const longitude = ecliptic.elon;
           const isRetrograde = isPlanetRetrograde(body, date);
 
           // Get sign and degree

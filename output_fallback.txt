@@ -1,0 +1,86 @@
+{
+  "Sun": {
+    "sign": "cancer",
+    "degree": 3.74,
+    "exactLongitude": 93.74069333333318,
+    "isRetrograde": false
+  },
+  "Moon": {
+    "sign": "sagittarius",
+    "degree": 24.13,
+    "exactLongitude": 264.13226666668197,
+    "isRetrograde": false
+  },
+  "Mercury": {
+    "sign": "gemini",
+    "degree": 9.52,
+    "exactLongitude": 69.52230000000054,
+    "isRetrograde": false
+  },
+  "Venus": {
+    "sign": "leo",
+    "degree": 5.45,
+    "exactLongitude": 125.4466666666649,
+    "isRetrograde": true
+  },
+  "Mars": {
+    "sign": "capricorn",
+    "degree": 26.5,
+    "exactLongitude": 296.5043999999998,
+    "isRetrograde": false
+  },
+  "Jupiter": {
+    "sign": "leo",
+    "degree": 16.61,
+    "exactLongitude": 136.60896666666656,
+    "isRetrograde": false
+  },
+  "Saturn": {
+    "sign": "capricorn",
+    "degree": 13.17,
+    "exactLongitude": 283.16873333333336,
+    "isRetrograde": false
+  },
+  "Uranus": {
+    "sign": "capricorn",
+    "degree": 0.91,
+    "exactLongitude": 270.9105333333333,
+    "isRetrograde": false
+  },
+  "Neptune": {
+    "sign": "capricorn",
+    "degree": 15.92,
+    "exactLongitude": 285.92193333333336,
+    "isRetrograde": false
+  },
+  "Pluto": {
+    "sign": "sagittarius",
+    "degree": 15.03,
+    "exactLongitude": 255.02573333333328,
+    "isRetrograde": false
+  },
+  "NorthNode": {
+    "sign": "aquarius",
+    "degree": 9.77,
+    "exactLongitude": 309.7673666666667,
+    "isRetrograde": true
+  },
+  "Chiron": {
+    "sign": "virgo",
+    "degree": 3.07,
+    "exactLongitude": 153.06580000000002,
+    "isRetrograde": false
+  },
+  "Ascendant": {
+    "sign": "sagittarius",
+    "degree": 18.1,
+    "exactLongitude": 258.10000000000036,
+    "isRetrograde": false
+  },
+  "MC": {
+    "sign": "virgo",
+    "degree": 18.1,
+    "exactLongitude": 168.10000000000036,
+    "isRetrograde": false
+  }
+}

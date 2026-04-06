@@ -159,29 +159,32 @@ function calculateApproximateAscendant(
   const longitude = requestData.longitude ?? DEFAULT_LOCATION.longitude;
   const latitude = requestData.latitude ?? DEFAULT_LOCATION.latitude;
 
-  // Calculate Julian Day Number (simplified)
-  const a = Math.floor((14 - month) / 12);
-  const y = year + 4800 - a;
-  const m = month + 12 * a - 3;
-  const jdn = day + Math.floor((153 * m + 2) / 5) + 365 * y
-    + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+  // Using accurate math via astronomy-engine
+  let lstRad = 0;
+  let oblRad = 0;
+  try {
+    const Astronomy = require("astronomy-engine");
+    const astroTime = new Astronomy.AstroTime(new Date(Date.UTC(year, month - 1, day, hour, minute)));
+    const gmst = Astronomy.SiderealTime(astroTime);
+    // Convert LST to hours, then to radians
+    let lstHours = ((gmst + longitude / 15) % 24 + 24) % 24;
+    lstRad = (lstHours * 15) * Math.PI / 180;
+    // Approximating obliquity of ecliptic ~23.439 degrees
+    oblRad = 23.4392911 * Math.PI / 180;
+  } catch (e) {
+    // Fallback if astronomy-engine fails to load somehow
+    const jdn = day + Math.floor((153 * (month + 12 * Math.floor((14 - month) / 12) - 3) + 2) / 5) + 365 * (year + 4800 - Math.floor((14 - month) / 12)) + Math.floor((year + 4800 - Math.floor((14 - month) / 12)) / 4) - 32045;
+    const T = (jdn - 2451545.0) / 36525.0;
+    const gst0 = 280.46061837 + 360.98564736629 * (jdn - 2451545.0) + 0.000387933 * T * T;
+    const utcHours = hour + minute / 60.0;
+    const gst = ((gst0 + utcHours * 1.00273790935 * 15) % 360 + 360) % 360;
+    const lst = ((gst + longitude) % 360 + 360) % 360;
+    lstRad = lst * Math.PI / 180;
+    oblRad = (23.4393 - 0.0130 * T) * Math.PI / 180;
+  }
 
-  // Calculate Greenwich Sidereal Time (GST) in hours
-  const T = (jdn - 2451545.0) / 36525.0;
-  const gst0 = 280.46061837 + 360.98564736629 * (jdn - 2451545.0)
-    + 0.000387933 * T * T;
-  const utcHours = hour + minute / 60.0;
-  const gst = ((gst0 + utcHours * 1.00273790935 * 15) % 360 + 360) % 360;
-
-  // Convert to Local Sidereal Time using longitude
-  const lst = ((gst + longitude) % 360 + 360) % 360;
-
-  // Apply latitude correction using obliquity of the ecliptic
-  const obliquity = 23.4393 - 0.0130 * T; // degrees
-  const oblRad = obliquity * Math.PI / 180;
   const latRad = latitude * Math.PI / 180;
-  const lstRad = lst * Math.PI / 180;
-
+  
   // RAMC to Ascendant conversion
   const ascRad = Math.atan2(
     Math.cos(lstRad),

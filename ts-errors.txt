@@ -1,0 +1,21 @@
+src/components/AlchmKitchen.tsx(8,10): error TS2724: '"@/utils/alchemyInitializer"' has no exported member named 'staticAlchemize'. Did you mean '_staticAlchemize'?
+src/components/AlchmKitchen.tsx(11,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/CalculationErrors.tsx(1,41): error TS2307: Cannot find module '@heroicons/react/24/solid' or its corresponding type declarations.
+src/components/CalculationErrors.tsx(4,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/ChakraEnergiesDisplay.tsx(4,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/ChakraEnergiesDisplay.tsx(14,38): error TS2307: Cannot find module '@/context/AstrologicalContext' or its corresponding type declarations.
+src/components/ClientPage.tsx(5,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/ClientPage.tsx(14,21): error TS2307: Cannot find module '@/components/ui/Loading' or its corresponding type declarations.
+src/components/ClientWrapper.tsx(7,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/ClientWrapper.tsx(12,29): error TS2307: Cannot find module '@/components/providers/ClientProviders' or its corresponding type declarations.
+src/components/CuisineSelector.tsx(2,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/CuisineSelector.tsx(10,10): error TS2724: '"@/utils/alchemicalTransformationUtils"' has no exported member named 'transformCuisines'. Did you mean '_transformCuisines'?
+src/components/ElementalEnergyDisplay.tsx(12,10): error TS2724: '"@/contexts/AlchemicalContext/context"' has no exported member named 'AlchemicalContextType'. Did you mean 'AlchemicalContext'?
+src/components/ElementalEnergyDisplay.tsx(31,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/GlobalPopup.tsx(1,10): error TS2724: '"@/constants/elementalConstants"' has no exported member named 'ZODIAC_ELEMENTS'. Did you mean '_ZODIAC_ELEMENTS'?
+src/components/GlobalPopup.tsx(1,27): error TS2724: '"@/constants/elementalConstants"' has no exported member named 'ELEMENT_AFFINITIES'. Did you mean '_ELEMENT_AFFINITIES'?
+src/components/GlobalPopup.tsx(3,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/PlanetaryPositionInitializer.tsx(7,10): error TS2305: Module '"@/types/celestial"' has no exported member 'ZodiacSign'.
+src/components/PlanetaryPositionInitializer.tsx(8,10): error TS2305: Module '"@/utils/accurateAstronomy"' has no exported member 'getLongitudeToZodiacPosition'.
+src/components/PlanetaryPositionInitializer.tsx(10,1): error TS2578: Unused '@ts-expect-error' directive.
+src/components/PlanetaryPositionInitializer.tsx(12,1): error TS2578: Unused '@ts-expect-error' directive.

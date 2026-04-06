@@ -1,0 +1,1230 @@
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/admin/users/page.tsx
+   33:6   warning  React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  189:21  warning  Promise-returning function provided to attribute where a void return was expected                              @typescript-eslint/no-misused-promises
+  317:39  warning  Promise-returning function provided to attribute where a void return was expected                              @typescript-eslint/no-misused-promises
+  330:39  warning  Promise-returning function provided to attribute where a void return was expected                              @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/cuisines/recommend/route.ts
+  12:1  warning  `@/data/recipes/index` import should occur before import of `@/utils/astrology/positions`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/generate-cosmic-recipe/route.ts
+  31:25  warning  Variable name `ingredients_main` must match one of the following formats: camelCase, PascalCase, UPPER_CASE        @typescript-eslint/naming-convention
+  31:43  warning  Variable name `disallowed_ingredients` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/group-recommendations/route.ts
+  7:24  warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+  7:32  warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/instacart/shopping-list/route.ts
+  191:14  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/onboarding/route.ts
+   19:1   warning  `@/utils/astrology/planetaryValidation` import should occur before import of `@/utils/planetaryAlchemyMapping`  import/order
+  146:20  warning  Unexpected string concatenation                                                                                 prefer-template
+  159:22  warning  Unexpected string concatenation                                                                                 prefer-template
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/user/commensals/[commensalId]/route.ts
+  11:1  warning  `@/services/commensalDatabaseService` import should occur before import of `@/services/userDatabaseService`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/user/commensals/route.ts
+  11:10  warning  'userDatabase' is defined but never used. Allowed unused vars must match /^_/u                               @typescript-eslint/no-unused-vars
+  15:1   warning  `@/services/commensalDatabaseService` import should occur before import of `@/services/userDatabaseService`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/auth/error/page.tsx
+  42:11  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/food-tracking/page.tsx
+  160:33  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  199:33  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/generated-recipe/[id]/page.tsx
+  322:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/global-error.tsx
+  18:5  warning  <html> elements must have the lang prop  jsx-a11y/html-has-lang
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/login/page.tsx
+  160:47   warning  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  160:145  warning  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/menu-planner/page.tsx
+   24:1   warning  `@/components/menu-planner/PossoWidget` import should occur before import of `@/components/menu-planner/RecipeBrowserPanel`  import/order
+  589:27  warning  Promise-returning function provided to attribute where a void return was expected                                            @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/page.tsx
+  4:1  warning  Imports "Variants" are only used as type                      @typescript-eslint/consistent-type-imports
+  4:1  warning  `framer-motion` import should occur before import of `react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/premium/page.tsx
+  138:27  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  266:29  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/profile/day-night-effects/page.tsx
+  11:11  warning  'theme' is assigned a value but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  45:9   warning  'isNatalDiurnal' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/recipe-builder/page.tsx
+  290:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/recipes/[recipeId]/page.tsx
+    5:1   warning  Imports "Variants" are only used as type                                              @typescript-eslint/consistent-type-imports
+    5:1   warning  `framer-motion` import should occur before import of `next/link`                      import/order
+  384:1   warning  Function 'computeMonicaComponents' has too many parameters (8). Maximum allowed is 7  max-params
+  888:23  warning  Promise-returning function provided to attribute where a void return was expected     @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/restaurant-creator/page.tsx
+  162:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/calculations/core/kalchmEngine.ts
+   53:8  warning  Function 'calculateHeat' has too many parameters (8). Maximum allowed is 7        max-params
+   77:8  warning  Function 'calculateEntropy' has too many parameters (8). Maximum allowed is 7     max-params
+  105:8  warning  Function 'calculateReactivity' has too many parameters (8). Maximum allowed is 7  max-params
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AlchemicalPropertiesDisplay.tsx
+  29:13  warning  Empty components are self-closing  react/self-closing-comp
+  37:13  warning  Empty components are self-closing  react/self-closing-comp
+  45:13  warning  Empty components are self-closing  react/self-closing-comp
+  53:13  warning  Empty components are self-closing  react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AlchemicalRecommendations.tsx
+    3:1   warning  All imports in the declaration are only used as types. Use `import type`                                       @typescript-eslint/consistent-type-imports
+    3:1   warning  `@/constants/planets` import should occur after import of `@/calculations/alchemicalTransformation`            import/order
+    4:1   warning  All imports in the declaration are only used as types. Use `import type`                                       @typescript-eslint/consistent-type-imports
+    4:1   warning  `@/constants/planetaryElements` import should occur after import of `@/calculations/alchemicalTransformation`  import/order
+    5:1   warning  `@/hooks/useAlchemicalRecommendations` import should occur after type import of `@/data/ingredients/types`     import/order
+    6:1   warning  All imports in the declaration are only used as types. Use `import type`                                       @typescript-eslint/consistent-type-imports
+    8:1   warning  Imports "LunarPhaseWithSpaces", "ZodiacSign" and "PlanetaryAspect" are only used as type                       @typescript-eslint/consistent-type-imports
+    8:1   warning  There should be no empty line between import groups                                                            import/order
+    8:1   warning  `@/types/alchemy` import should occur after type import of `@/data/ingredients/types`                          import/order
+    8:10  warning  'LunarPhase' is defined but never used. Allowed unused vars must match /^_/u                                   @typescript-eslint/no-unused-vars
+   11:1   warning  `@/data/cooking/cookingMethods` import should occur after import of `@/contexts/AlchemicalDataContext`         import/order
+   12:1   warning  There should be no empty line between import groups                                                            import/order
+  111:12  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  112:27  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  115:27  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  116:32  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  188:21  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  189:20  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  262:12  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  263:27  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  268:31  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  269:15  warning  'region' is assigned a value but never used. Allowed unused vars must match /^_/u                              @typescript-eslint/no-unused-vars
+  269:26  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  320:16  warning  This assertion is unnecessary since it does not change the type of the expression                              @typescript-eslint/no-unnecessary-type-assertion
+  343:5   warning  'transformedIngredients' is assigned a value but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+  344:5   warning  'transformedMethods' is assigned a value but never used. Allowed unused vars must match /^_/u                  @typescript-eslint/no-unused-vars
+  345:5   warning  'transformedCuisines' is assigned a value but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+  417:41  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                react/no-unescaped-entities
+  465:13  warning  A form label must be associated with a control                                                                 jsx-a11y/label-has-associated-control
+  479:13  warning  A form label must be associated with a control                                                                 jsx-a11y/label-has-associated-control
+  529:51  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                react/no-unescaped-entities
+  619:14  error    Unknown property 'jsx' found                                                                                   react/no-unknown-property
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AlchmKitchen.tsx
+   5:1   warning  `@/lib/recipeCalculations` import should occur before import of `@/lib/tarotCalculations`                                                                           import/order
+   7:1   warning  `@/lib/recipeCalculations` type import should occur before import of `@/lib/tarotCalculations`                                                                      import/order
+   7:15  warning  'TarotCardResult' is defined but never used. Allowed unused vars must match /^_/u                                                                                   @typescript-eslint/no-unused-vars
+   8:1   warning  `@/contexts/AlchemicalContext/hooks` import should occur before import of `@/lib/tarotCalculations`                                                                 import/order
+   9:1   warning  `@/utils/logger` import should occur before import of `./AlchmKitchen.module.css`                                                                                   import/order
+  11:1   warning  `@/utils/alchemyInitializer` import should occur before import of `./AlchmKitchen.module.css`                                                                       import/order
+  11:10  warning  staticAlchemize not found in '@/utils/alchemyInitializer'                                                                                                           import/named
+  11:10  warning  'staticAlchemize' is defined but never used. Allowed unused vars must match /^_/u                                                                                   @typescript-eslint/no-unused-vars
+  26:12  warning  'recipes' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                                       @typescript-eslint/no-unused-vars
+  40:9   warning  'isDaytime' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                @typescript-eslint/no-unused-vars
+  96:9   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AstroErrorBoundary.tsx
+  3:1  warning  Imports "ErrorInfo" and "ReactNode" are only used as type    @typescript-eslint/consistent-type-imports
+  4:1  warning  `lucide-react` import should occur before import of `react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AstrologicalClock.tsx
+    6:1   warning  `lucide-react` import should occur before import of `react`                                    import/order
+    6:10  warning  'Clock' is defined but never used. Allowed unused vars must match /^_/u                        @typescript-eslint/no-unused-vars
+    6:17  warning  'Sun' is defined but never used. Allowed unused vars must match /^_/u                          @typescript-eslint/no-unused-vars
+    6:22  warning  'Moon' is defined but never used. Allowed unused vars must match /^_/u                         @typescript-eslint/no-unused-vars
+    6:28  warning  'Star' is defined but never used. Allowed unused vars must match /^_/u                         @typescript-eslint/no-unused-vars
+    7:27  warning  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+    8:10  warning  'calculatePlanetaryPositions' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+    8:39  warning  'longitudeToZodiacPosition' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+    9:8   warning  'PlanetaryPositionValidation' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   10:10  warning  'PlanetInfoModal' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+   46:10  warning  'isValidPosition' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+   58:11  warning  'ClockPlanetaryPosition' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+   69:11  warning  'planetaryPositions' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  151:7   warning  Empty components are self-closing                                                              react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/AstrologyWarning.tsx
+  4:1  warning  `lucide-react` import should occur before import of `react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/BackendStatus.tsx
+  106:6  warning  React Hook useEffect has a missing dependency: 'checkHealth'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CalculationErrors.tsx
+  4:1   warning  `@heroicons/react/24/solid` import should occur before import of `react`  import/order
+  4:41  warning  Unable to resolve path to module '@heroicons/react/24/solid'              import/no-unresolved
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CelestialEventNotifications.tsx
+  210:13  warning  onMouseOver must be accompanied by onFocus for accessibility  jsx-a11y/mouse-events-have-key-events
+  213:13  warning  onMouseOut must be accompanied by onBlur for accessibility    jsx-a11y/mouse-events-have-key-events
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ChakraDisplay.tsx
+  2:1  warning  Expected 1 empty line after import statement not followed by another import  import/newline-after-import
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ChakraEnergiesDisplay.tsx
+    7:1   warning  `@/contexts/AlchemicalContext/hooks` import should occur before import of `@/hooks/useChakraInfluencedFood`  import/order
+    8:1   warning  `@/constants/chakraSymbols` import should occur before import of `@/context/AstrologicalContext`             import/order
+   12:3   warning  CHAKRA_TEXT_COLORS not found in '@/constants/chakraSymbols'                                                  import/named
+  104:43  warning  'energy' is defined but never used. Allowed unused args must match /^_/u                                     @typescript-eslint/no-unused-vars
+  184:7   warning  Empty components are self-closing                                                                            react/self-closing-comp
+  185:7   warning  Empty components are self-closing                                                                            react/self-closing-comp
+  227:66  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                              react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ClientPage.tsx
+   3:38  warning  'useMemo' is defined but never used. Allowed unused vars must match /^_/u                                       @typescript-eslint/no-unused-vars
+   6:10  warning  'useAstrologicalState' is defined but never used. Allowed unused vars must match /^_/u                          @typescript-eslint/no-unused-vars
+   7:1   warning  `@/components/CookingMethods` import should occur before import of `@/components/ui/Loading`                    import/order
+   8:1   warning  `@/components/CuisineRecommender` import should occur before import of `@/components/ui/Loading`                import/order
+   9:1   warning  `@/components/ElementalEnergyDisplay` import should occur before import of `@/components/ui/Loading`            import/order
+  10:1   warning  `@/components/PlanetaryPositionInitializer` import should occur before import of `@/components/ui/Loading`      import/order
+  11:1   warning  `@/components/MoonDisplay` import should occur before import of `@/components/ui/Loading`                       import/order
+  12:1   warning  `@/components/AstrologicalClock` import should occur before import of `@/components/ui/Loading`                 import/order
+  13:1   warning  `next/dynamic` import should occur before import of `react`                                                     import/order
+  14:1   warning  `@/components/SunDisplay` import should occur before import of `@/components/ui/Loading`                        import/order
+  15:1   warning  `@/components/OptimizedComponentWrapper` import should occur before import of `@/components/ui/Loading`         import/order
+  37:6   warning  React Hook useEffect has a missing dependency: 'renderCount'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ClientWrapper.tsx
+   4:1  warning  `@/contexts/ThemeContext` import should occur after import of `@/components/errors/ErrorFallback`                 import/order
+   5:1  warning  `@/contexts/AlchemicalContext/provider` import should occur after import of `@/components/errors/ErrorFallback`   import/order
+   6:1  warning  `@/contexts/ChartContext/provider` import should occur after import of `@/components/errors/ErrorFallback`        import/order
+   9:8  warning  'Clock' is defined but never used. Allowed unused vars must match /^_/u                                           @typescript-eslint/no-unused-vars
+  11:1  warning  `@/components/providers/ClientProviders` import should occur after import of `@/components/errors/ErrorFallback`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CookingMethods.tsx
+     4:1   warning  `react` import should occur after import of `lucide-react`                                                                                                          import/order
+     5:1   warning  `@/hooks/useAstrologicalState` import should occur after type import of `@/data/ingredients/types`                                                                  import/order
+     7:3   warning  'Flame' is defined but never used. Allowed unused vars must match /^_/u                                                                                             @typescript-eslint/no-unused-vars
+     7:10  warning  'Droplets' is defined but never used. Allowed unused vars must match /^_/u                                                                                          @typescript-eslint/no-unused-vars
+     7:20  warning  'Mountain' is defined but never used. Allowed unused vars must match /^_/u                                                                                          @typescript-eslint/no-unused-vars
+     7:30  warning  'Wind' is defined but never used. Allowed unused vars must match /^_/u                                                                                              @typescript-eslint/no-unused-vars
+     7:36  warning  'Sparkles' is defined but never used. Allowed unused vars must match /^_/u                                                                                          @typescript-eslint/no-unused-vars
+     7:46  warning  'Globe' is defined but never used. Allowed unused vars must match /^_/u                                                                                             @typescript-eslint/no-unused-vars
+     7:53  warning  'Clock' is defined but never used. Allowed unused vars must match /^_/u                                                                                             @typescript-eslint/no-unused-vars
+     8:3   warning  'Thermometer' is defined but never used. Allowed unused vars must match /^_/u                                                                                       @typescript-eslint/no-unused-vars
+     8:16  warning  'Timer' is defined but never used. Allowed unused vars must match /^_/u                                                                                             @typescript-eslint/no-unused-vars
+     8:23  warning  'AlertCircle' is defined but never used. Allowed unused vars must match /^_/u                                                                                       @typescript-eslint/no-unused-vars
+     8:36  warning  'CheckCircle2' is defined but never used. Allowed unused vars must match /^_/u                                                                                      @typescript-eslint/no-unused-vars
+     8:74  warning  'Info' is defined but never used. Allowed unused vars must match /^_/u                                                                                              @typescript-eslint/no-unused-vars
+    10:1   warning  `./CookingMethods.module.css` import should occur after import of `@/utils/alchemyInitializer`                                                                      import/order
+    11:1   warning  `@/services/RecommendationAdapter` import should occur after type import of `@/data/ingredients/types`                                                              import/order
+    11:10  warning  'RecommendationAdapter' is defined but never used. Allowed unused vars must match /^_/u                                                                             @typescript-eslint/no-unused-vars
+    12:1   warning  Imports "AlchemicalItem" are only used as type                                                                                                                      @typescript-eslint/consistent-type-imports
+    12:10  warning  'ElementalItem' is defined but never used. Allowed unused vars must match /^_/u                                                                                     @typescript-eslint/no-unused-vars
+    13:1   warning  `@/constants/planetaryElements` import should occur after type import of `@/constants/lunarPhases`                                                                  import/order
+    13:10  warning  'AlchemicalProperty' is defined but never used. Allowed unused vars must match /^_/u                                                                                @typescript-eslint/no-unused-vars
+    13:30  warning  'ElementalCharacter' is defined but never used. Allowed unused vars must match /^_/u                                                                                @typescript-eslint/no-unused-vars
+    14:1   warning  `@/constants/planetaryFoodAssociations` import should occur after type import of `@/constants/lunarPhases`                                                          import/order
+    14:10  warning  'planetaryFoodAssociations' is defined but never used. Allowed unused vars must match /^_/u                                                                         @typescript-eslint/no-unused-vars
+    14:37  warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u                                                                                            @typescript-eslint/no-unused-vars
+    16:1   warning  `@/types/alchemy` type import should occur after type import of `@/data/ingredients/types`                                                                          import/order
+    18:1   warning  `@/types/alchemy` import should occur after type import of `@/data/ingredients/types`                                                                               import/order
+    18:10  warning  COOKING_METHOD_THERMODYNAMICS not found in '@/types/alchemy'                                                                                                        import/named
+    19:1   warning  `@/utils/calculationCache` import should occur after import of `@/utils/alchemyInitializer`                                                                         import/order
+    19:10  warning  'getCachedCalculation' is defined but never used. Allowed unused vars must match /^_/u                                                                              @typescript-eslint/no-unused-vars
+    20:1   warning  `@/hooks/useCurrentChart` import should occur after type import of `@/data/ingredients/types`                                                                       import/order
+    21:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    21:1   warning  `../utils/testRecommendations` import should occur after import of `@/utils/alchemyInitializer`                                                                     import/order
+    24:1   warning  `@/data/cooking/cookingMethods` import should occur after import of `@/contexts/TarotContext`                                                                       import/order
+    25:1   warning  `@/utils/culturalMethodsAggregator` import should occur after import of `@/utils/alchemyInitializer`                                                                import/order
+    25:34  warning  'getCulturalVariations' is defined but never used. Allowed unused vars must match /^_/u                                                                             @typescript-eslint/no-unused-vars
+    26:1   warning  `@/data/cooking` import should occur after import of `@/contexts/TarotContext`                                                                                      import/order
+    27:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    27:1   warning  `@/data/cooking/molecularMethods` import should occur after import of `@/contexts/TarotContext`                                                                     import/order
+    30:1   warning  `@/data/integrations/seasonal` import should occur after type import of `@/data/ingredients/types`                                                                  import/order
+    30:10  warning  'getCurrentSeason' is defined but never used. Allowed unused vars must match /^_/u                                                                                  @typescript-eslint/no-unused-vars
+    32:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    32:1   warning  `@/utils/lunarMultiplier` import should occur after import of `@/utils/alchemyInitializer`                                                                          import/order
+    32:10  warning  getLunarMultiplier not found in '@/utils/lunarMultiplier'                                                                                                           import/named
+    35:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    39:1   warning  There should be no empty line between import groups                                                                                                                 import/order
+    39:1   warning  `@/utils/ingredientUtils` import should occur after import of `@/utils/alchemyInitializer`                                                                          import/order
+    39:10  warning  'determineIngredientModality' is defined but never used. Allowed unused vars must match /^_/u                                                                       @typescript-eslint/no-unused-vars
+    44:10  warning  staticAlchemize not found in '@/utils/alchemyInitializer'                                                                                                           import/named
+   183:11  warning  'CookingTimeRecommendation' is defined but never used. Allowed unused vars must match /^_/u                                                                         @typescript-eslint/no-unused-vars
+   202:7   warning  'ADDITIONAL_THERMODYNAMICS' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                @typescript-eslint/no-unused-vars
+   214:7   warning  'generateMethodInfo' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                       @typescript-eslint/no-unused-vars
+   354:7   warning  'normalizeLunarPhase' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                      @typescript-eslint/no-unused-vars
+   394:7   warning  'adaptLunarPhase' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                          @typescript-eslint/no-unused-vars
+   419:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   425:6   warning  React Hook useEffect has a missing dependency: 'fetchMethods'. Either include it or remove the dependency array                                                     react-hooks/exhaustive-deps
+   429:5   warning  'isReady' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                  @typescript-eslint/no-unused-vars
+   434:5   warning  'domElements' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                              @typescript-eslint/no-unused-vars
+   438:11  warning  'chart' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                    @typescript-eslint/no-unused-vars
+   441:9   warning  'commonCookingMethods' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                     @typescript-eslint/no-unused-vars
+   502:10  warning  'planetaryCookingMethods' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                       @typescript-eslint/no-unused-vars
+   505:10  warning  'expandedMolecular' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                             @typescript-eslint/no-unused-vars
+   511:10  warning  'tarotData' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                                     @typescript-eslint/no-unused-vars
+   512:11  warning  'tarotCard' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                @typescript-eslint/no-unused-vars
+   512:22  warning  'tarotElementalInfluences' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                 @typescript-eslint/no-unused-vars
+   515:10  warning  'modalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                                @typescript-eslint/no-unused-vars
+   515:26  warning  'setModalityFilter' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                             @typescript-eslint/no-unused-vars
+   552:9   warning  'toggleMolecular' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                          @typescript-eslint/no-unused-vars
+   572:9   warning  'toggleShowAllMethods' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                     @typescript-eslint/no-unused-vars
+   598:9   warning  'globalAstrologicalAdjustment' is assigned a value but never used. Allowed unused vars must match /^_/u                                                             @typescript-eslint/no-unused-vars
+   604:9   warning  'getThermodynamicEffect' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                   @typescript-eslint/no-unused-vars
+   656:9   warning  'getThermodynamicValue' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                    @typescript-eslint/no-unused-vars
+   721:9   warning  'getMolecularDetails' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                      @typescript-eslint/no-unused-vars
+   763:9   warning  'getMethodSpecificData' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                    @typescript-eslint/no-unused-vars
+   809:9   warning  'getMethodDetails' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                         @typescript-eslint/no-unused-vars
+  1183:9   warning  'getIngredientCompatibility' is assigned a value but never used. Allowed unused vars must match /^_/u                                                               @typescript-eslint/no-unused-vars
+  1422:9   warning  'getMethodElementalProperties' is assigned a value but never used. Allowed unused vars must match /^_/u                                                             @typescript-eslint/no-unused-vars
+  1465:29  warning  'getMethodTips' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                            @typescript-eslint/no-unused-vars
+  1468:9   warning  'getMethodModalityAffinity' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                @typescript-eslint/no-unused-vars
+  1489:10  warning  'isExpanded' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                                    @typescript-eslint/no-unused-vars
+  1492:9   warning  'toggleExpanded' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                           @typescript-eslint/no-unused-vars
+  1502:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  1661:9   warning  'renderDebugPanel' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                         @typescript-eslint/no-unused-vars
+  1698:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  1726:11  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CookingMethodsSection.tsx
+    2:1    warning  `lucide-react` import should occur before import of `react`                                                         import/order
+    5:1    warning  `@/utils/cookingMethodTips` import should occur before import of `./CookingMethods.module.css`                      import/order
+   55:17   warning  'setError' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u      @typescript-eslint/no-unused-vars
+   56:21   warning  'setIsLoading' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+   81:11   warning  'suggestAlternatives' is assigned a value but never used. Allowed unused vars must match /^_/u                      @typescript-eslint/no-unused-vars
+   81:67   warning  'ingredientMappingLoading' is assigned a value but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+   81:100  warning  'ingredientMappingError' is assigned a value but never used. Allowed unused vars must match /^_/u                   @typescript-eslint/no-unused-vars
+  380:25   warning  Empty components are self-closing                                                                                   react/self-closing-comp
+  391:25   warning  Empty components are self-closing                                                                                   react/self-closing-comp
+  541:35   warning  Empty components are self-closing                                                                                   react/self-closing-comp
+  550:35   warning  Empty components are self-closing                                                                                   react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CosmicRecipeWidget.tsx
+  25:6  warning  React Hook useEffect has a missing dependency: 'sampleBirthData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineRecommender.tsx
+    4:1    warning  `react` import should occur after import of `lucide-react`                                                                              import/order
+    4:31   warning  'useMemo' is defined but never used. Allowed unused vars must match /^_/u                                                               @typescript-eslint/no-unused-vars
+    5:1    warning  `@/hooks/useAstrologicalState` import should occur after import of `@/contexts/AlchemicalDataContext`                                   import/order
+    5:10   warning  'useAstrologicalState' is defined but never used. Allowed unused vars must match /^_/u                                                  @typescript-eslint/no-unused-vars
+    6:43   warning  'GalleryVertical' is defined but never used. Allowed unused vars must match /^_/u                                                       @typescript-eslint/no-unused-vars
+    6:60   warning  'Sparkles' is defined but never used. Allowed unused vars must match /^_/u                                                              @typescript-eslint/no-unused-vars
+    6:70   warning  'ArrowLeft' is defined but never used. Allowed unused vars must match /^_/u                                                             @typescript-eslint/no-unused-vars
+    6:81   warning  'Moon' is defined but never used. Allowed unused vars must match /^_/u                                                                  @typescript-eslint/no-unused-vars
+    6:87   warning  'SunIcon' is defined but never used. Allowed unused vars must match /^_/u                                                               @typescript-eslint/no-unused-vars
+    6:96   warning  'ChevronDown' is defined but never used. Allowed unused vars must match /^_/u                                                           @typescript-eslint/no-unused-vars
+    6:109  warning  'ChevronUp' is defined but never used. Allowed unused vars must match /^_/u                                                             @typescript-eslint/no-unused-vars
+    6:120  warning  'Info' is defined but never used. Allowed unused vars must match /^_/u                                                                  @typescript-eslint/no-unused-vars
+    7:1    warning  Imports "AlchemicalItem" are only used as type                                                                                          @typescript-eslint/consistent-type-imports
+    7:10   warning  'ElementalItem' is defined but never used. Allowed unused vars must match /^_/u                                                         @typescript-eslint/no-unused-vars
+    8:10   warning  'AlchemicalProperty' is defined but never used. Allowed unused vars must match /^_/u                                                    @typescript-eslint/no-unused-vars
+    9:1    warning  `./CuisineRecommender.module.css` import should occur after import of `@/contexts/AlchemicalDataContext`                                import/order
+   12:1    warning  `@/utils/alchemicalTransformationUtils` import should occur after import of `@/contexts/AlchemicalDataContext`                          import/order
+   12:10   warning  transformCuisines not found in '@/utils/alchemicalTransformationUtils'                                                                  import/named
+   12:29   warning  sortByAlchemicalCompatibility not found in '@/utils/alchemicalTransformationUtils'                                                      import/named
+   13:1    warning  Imports "ZodiacSign", "LunarPhase" and "ElementalProperties" are only used as type                                                      @typescript-eslint/consistent-type-imports
+   13:1    warning  `@/types/alchemy` import should occur after import of `@/contexts/AlchemicalDataContext`                                                import/order
+   13:34   warning  'LunarPhaseWithSpaces' is defined but never used. Allowed unused vars must match /^_/u                                                  @typescript-eslint/no-unused-vars
+   14:1    warning  `@/data/cuisineFlavorProfiles` import should occur after import of `@/contexts/AlchemicalDataContext`                                   import/order
+   14:10   warning  'cuisineFlavorProfiles' is defined but never used. Allowed unused vars must match /^_/u                                                 @typescript-eslint/no-unused-vars
+   15:1    warning  `@/services/LocalRecipeService` import should occur after import of `@/contexts/AlchemicalDataContext`                                  import/order
+   15:10   warning  'LocalRecipeService' is defined but never used. Allowed unused vars must match /^_/u                                                    @typescript-eslint/no-unused-vars
+   16:1    warning  `@/data/sauces` type import should occur after import of `@/contexts/AlchemicalDataContext`                                             import/order
+   16:15   warning  'Sauce' is defined but never used. Allowed unused vars must match /^_/u                                                                 @typescript-eslint/no-unused-vars
+   17:1    warning  `@/types/recipe` type import should occur after import of `@/contexts/AlchemicalDataContext`                                            import/order
+   17:15   warning  'Recipe' is defined but never used. Allowed unused vars must match /^_/u                                                                @typescript-eslint/no-unused-vars
+   80:10   warning  'filter' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                            @typescript-eslint/no-unused-vars
+   80:18   warning  'setFilter' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                         @typescript-eslint/no-unused-vars
+   86:10   warning  'expandedSauces' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                    @typescript-eslint/no-unused-vars
+  103:27   warning  'setMatchingRecipes' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                @typescript-eslint/no-unused-vars
+  117:6    warning  React Hook useEffect has a missing dependency: 'calculateElementalProfileFromZodiac'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  124:6    warning  React Hook useEffect has a missing dependency: 'generateTopSauceRecommendations'. Either include it or remove the dependency array      react-hooks/exhaustive-deps
+  222:25   warning  'position' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                          @typescript-eslint/no-unused-vars
+  234:9    warning  'cssStyles' is assigned a value but never used. Allowed unused vars must match /^_/u                                                    @typescript-eslint/no-unused-vars
+  311:26   warning  Empty components are self-closing                                                                                                       react/self-closing-comp
+  352:6    warning  React Hook useEffect has a missing dependency: 'loadCuisines'. Either include it or remove the dependency array                         react-hooks/exhaustive-deps
+  381:9    warning  This assertion is unnecessary since it does not change the type of the expression                                                       @typescript-eslint/no-unnecessary-type-assertion
+  458:9    warning  'toggleSauceExpansion' is assigned a value but never used. Allowed unused vars must match /^_/u                                         @typescript-eslint/no-unused-vars
+  524:9    error    'combinedSauces' is never reassigned. Use 'const' instead                                                                               prefer-const
+  587:9    warning  'selectedCuisineScore' is assigned a value but never used. Allowed unused vars must match /^_/u                                         @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSelector.tsx
+   1:36  warning  'useEffect' is defined but never used. Allowed unused vars must match /^_/u                                     @typescript-eslint/no-unused-vars
+   2:1   warning  `@/utils/recipeFilters` import should occur after import of `@/contexts/AlchemicalDataContext`                  import/order
+   2:10  warning  'getRecipesForCuisine' is defined but never used. Allowed unused vars must match /^_/u                          @typescript-eslint/no-unused-vars
+   3:1   warning  `@/types/recipe` type import should occur after import of `@/contexts/AlchemicalDataContext`                    import/order
+   4:1   warning  `@/data/ingredients/types` type import should occur after import of `@/contexts/AlchemicalDataContext`          import/order
+   5:1   warning  Imports "ZodiacSign" and "LunarPhaseWithSpaces" are only used as type                                           @typescript-eslint/consistent-type-imports
+   5:1   warning  `@/types/alchemy` import should occur after import of `@/contexts/AlchemicalDataContext`                        import/order
+   5:22  warning  'LunarPhase' is defined but never used. Allowed unused vars must match /^_/u                                    @typescript-eslint/no-unused-vars
+   6:1   warning  `@/utils/cuisineUtils` import should occur after import of `@/contexts/AlchemicalDataContext`                   import/order
+   8:1   warning  `@/utils/alchemicalTransformationUtils` import should occur after import of `@/contexts/AlchemicalDataContext`  import/order
+   8:10  warning  transformCuisines not found in '@/utils/alchemicalTransformationUtils'                                          import/named
+   9:1   warning  All imports in the declaration are only used as types. Use `import type`                                        @typescript-eslint/consistent-type-imports
+  10:1   warning  All imports in the declaration are only used as types. Use `import type`                                        @typescript-eslint/consistent-type-imports
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineSpecificRecommendations.tsx
+   4:10  warning  enhancedCuisineRecommender not found in '@/calculations/enhancedCuisineRecommender'                            import/named
+  60:6   warning  React Hook useEffect has a missing dependency: 'astroError'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  76:9   warning  'getPlanetaryAlignment' is assigned a value but never used. Allowed unused vars must match /^_/u               @typescript-eslint/no-unused-vars
+  76:51  warning  'planetName' is defined but never used. Allowed unused args must match /^_/u                                   @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/DebugInfo.tsx
+  4:10  warning  'useState' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  7:24  warning  Unexpected function expression                                              prefer-arrow-callback
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalAlchemicalDisplay.tsx
+    6:1   warning  `@/calculations/gregsEnergy` import should occur before import of `@/contexts/AlchemicalContext/hooks`  import/order
+    8:3   warning  calculateHeat not found in '@/calculations/gregsEnergy'                                                 import/named
+   10:3   warning  calculateEntropy not found in '@/calculations/gregsEnergy'                                              import/named
+   12:3   warning  calculateReactivity not found in '@/calculations/gregsEnergy'                                           import/named
+   75:15  warning  Empty components are self-closing                                                                       react/self-closing-comp
+   83:15  warning  Empty components are self-closing                                                                       react/self-closing-comp
+   91:15  warning  Empty components are self-closing                                                                       react/self-closing-comp
+   99:15  warning  Empty components are self-closing                                                                       react/self-closing-comp
+  109:17  warning  Empty components are self-closing                                                                       react/self-closing-comp
+  117:17  warning  Empty components are self-closing                                                                       react/self-closing-comp
+  125:17  warning  Empty components are self-closing                                                                       react/self-closing-comp
+  133:17  warning  Empty components are self-closing                                                                       react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalBalance.tsx
+  1:1   warning  All imports in the declaration are only used as types. Use `import type`                  @typescript-eslint/consistent-type-imports
+  3:11  warning  Interface name `elementalStateProps` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalDisplay.tsx
+  24:15  warning  Empty components are self-closing  react/self-closing-comp
+  32:15  warning  Empty components are self-closing  react/self-closing-comp
+  40:15  warning  Empty components are self-closing  react/self-closing-comp
+  48:15  warning  Empty components are self-closing  react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalEnergyDisplay.tsx
+    3:1   warning  Imports "FC" and "ReactNode" are only used as type                                                                                          @typescript-eslint/consistent-type-imports
+    3:47  warning  'useCallback' is defined but never used. Allowed unused vars must match /^_/u                                                               @typescript-eslint/no-unused-vars
+    5:1   warning  `@/constants/planets` import should occur before import of `@/contexts/AlchemicalContext/hooks`                                             import/order
+    5:10  warning  'RulingPlanet' is defined but never used. Allowed unused vars must match /^_/u                                                              @typescript-eslint/no-unused-vars
+    5:24  warning  'RULING_PLANETS' is defined but never used. Allowed unused vars must match /^_/u                                                            @typescript-eslint/no-unused-vars
+    6:1   warning  `@/constants/planetaryElements` import should occur before import of `@/contexts/AlchemicalContext/hooks`                                   import/order
+    6:10  warning  'ElementalCharacter' is defined but never used. Allowed unused vars must match /^_/u                                                        @typescript-eslint/no-unused-vars
+    9:1   warning  `lucide-react` import should occur before import of `react`                                                                                 import/order
+    9:75  warning  'Sparkles' is defined but never used. Allowed unused vars must match /^_/u                                                                  @typescript-eslint/no-unused-vars
+    9:85  warning  'Anchor' is defined but never used. Allowed unused vars must match /^_/u                                                                    @typescript-eslint/no-unused-vars
+   10:1   warning  `@/services/ElementalCalculator` import should occur before import of `./ElementalEnergyDisplay.module.css`                                 import/order
+   11:1   warning  `@/utils/dynamicImport` import should occur before import of `./ElementalEnergyDisplay.module.css`                                          import/order
+   11:10  warning  'safeImportAndExecute' is defined but never used. Allowed unused vars must match /^_/u                                                      @typescript-eslint/no-unused-vars
+   12:1   warning  `@/utils/calculationCache` import should occur before import of `./ElementalEnergyDisplay.module.css`                                       import/order
+   12:10  warning  'getCachedCalculation' is defined but never used. Allowed unused vars must match /^_/u                                                      @typescript-eslint/no-unused-vars
+   13:1   warning  `@/constants/alchemicalEnergyMapping` import should occur before import of `@/contexts/AlchemicalContext/hooks`                             import/order
+   19:1   warning  `@/contexts/AlchemicalContext/context` import should occur before import of `@/contexts/AlchemicalContext/hooks`                            import/order
+   19:10  warning  AlchemicalContextType not found in '@/contexts/AlchemicalContext/context'                                                                   import/named
+   19:10  warning  'AlchemicalContextType' is defined but never used. Allowed unused vars must match /^_/u                                                     @typescript-eslint/no-unused-vars
+   20:1   warning  `@/utils/logger` import should occur before import of `./ElementalEnergyDisplay.module.css`                                                 import/order
+   21:1   warning  Imports "CelestialPosition", "Modality", "AlchemicalProperties", "ElementalProperties" and "ThermodynamicProperties" are only used as type  @typescript-eslint/consistent-type-imports
+   21:1   warning  `@/types/celestial` import should occur before import of `./ElementalEnergyDisplay.module.css`                                              import/order
+   23:3   warning  'PlanetaryAlignment' is defined but never used. Allowed unused vars must match /^_/u                                                        @typescript-eslint/no-unused-vars
+   25:3   warning  'Element' is defined but never used. Allowed unused vars must match /^_/u                                                                   @typescript-eslint/no-unused-vars
+   98:7   warning  'getEnergyLevelDescription' is assigned a value but never used. Allowed unused vars must match /^_/u                                        @typescript-eslint/no-unused-vars
+  109:38  warning  'currentZodiac' is assigned a value but never used. Allowed unused vars must match /^_/u                                                    @typescript-eslint/no-unused-vars
+  122:6   warning  React Hook useEffect has a missing dependency: 'renderCount'. Either include it or remove the dependency array                              react-hooks/exhaustive-deps
+  176:14  warning  Unexpected string concatenation                                                                                                             prefer-template
+  257:6   warning  React Hook useEffect has missing dependencies: 'isDaytime' and 'planetaryPositions'. Either include them or remove the dependency array     react-hooks/exhaustive-deps
+  299:9   warning  'totalElementals' is assigned a value but never used. Allowed unused vars must match /^_/u                                                  @typescript-eslint/no-unused-vars
+  308:9   warning  'totalAlchemicals' is assigned a value but never used. Allowed unused vars must match /^_/u                                                 @typescript-eslint/no-unused-vars
+  317:9   warning  'energyDescriptions' is assigned a value but never used. Allowed unused vars must match /^_/u                                               @typescript-eslint/no-unused-vars
+  351:21  warning  'k' is defined but never used. Allowed unused elements of array destructuring must match /^_/u                                              @typescript-eslint/no-unused-vars
+  352:37  warning  This assertion is unnecessary since it does not change the type of the expression                                                           @typescript-eslint/no-unnecessary-type-assertion
+  352:56  warning  This assertion is unnecessary since it does not change the type of the expression                                                           @typescript-eslint/no-unnecessary-type-assertion
+  436:65  warning  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead                                                            @typescript-eslint/array-type
+  481:9   warning  'getEnergyColor' is assigned a value but never used. Allowed unused vars must match /^_/u                                                   @typescript-eslint/no-unused-vars
+  489:9   warning  'getElementIcon' is assigned a value but never used. Allowed unused vars must match /^_/u                                                   @typescript-eslint/no-unused-vars
+  499:9   warning  'getElementColor' is assigned a value but never used. Allowed unused vars must match /^_/u                                                  @typescript-eslint/no-unused-vars
+  509:9   warning  'getAlchemicalPropertyIcon' is assigned a value but never used. Allowed unused vars must match /^_/u                                        @typescript-eslint/no-unused-vars
+  519:9   warning  'getAlchemicalPropertyColor' is assigned a value but never used. Allowed unused vars must match /^_/u                                       @typescript-eslint/no-unused-vars
+  530:21  warning  Component definition is missing display name                                                                                                react/display-name
+  550:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  564:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  578:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  592:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  638:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  652:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  666:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  706:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  721:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  736:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  751:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  775:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  792:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  809:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  826:15  warning  Empty components are self-closing                                                                                                           react/self-closing-comp
+  839:17  warning  Promise-returning function provided to attribute where a void return was expected                                                           @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ElementalExplorer.tsx
+  2:15  warning  'Modality' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/FoodRecommendations.tsx
+   4:7   warning  'FoodRecommendations' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                      @typescript-eslint/no-unused-vars
+   4:32  warning  'ingredient' is defined but never used. Allowed unused args must match /^_/u                                                                                        @typescript-eslint/no-unused-vars
+   4:44  warning  'options' is assigned a value but never used. Allowed unused args must match /^_/u                                                                                  @typescript-eslint/no-unused-vars
+  10:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/FoodRecommender.tsx
+    9:1   warning  `@/types/alchemy` import should occur before import of `./FoodRecommender.module.css`                import/order
+   12:1   warning  `@/constants/chakraSymbols` import should occur before import of `@/context/AstrologicalContext`     import/order
+   17:1   warning  `@/utils/typeGuards` import should occur before import of `./FoodRecommender.module.css`             import/order
+   18:1   warning  `@/lib/PlanetaryHourCalculator` import should occur before import of `./FoodRecommender.module.css`  import/order
+   19:1   warning  `@/data/ingredients` import should occur before import of `@/hooks/useChakraInfluencedFood`          import/order
+   21:1   warning  `@heroicons/react/24/outline` import should occur before import of `react`                           import/order
+   21:48  warning  Unable to resolve path to module '@heroicons/react/24/outline'                                       import/no-unresolved
+   22:1   warning  All imports in the declaration are only used as types. Use `import type`                             @typescript-eslint/consistent-type-imports
+   22:1   warning  `../types/ingredient` import should occur before import of `./FoodRecommender.module.css`            import/order
+  583:9   warning  Empty components are self-closing                                                                    react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/GlobalPopup.js
+  0:0  error  Parsing error: "parserOptions.project" has been provided for @typescript-eslint/parser.
+The file was not found in any of the provided project(s): src/components/GlobalPopup.js
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/GlobalPopup.tsx
+   1:1   warning  All imports in the declaration are only used as types. Use `import type`                               @typescript-eslint/consistent-type-imports
+   4:1   warning  `@/constants/elementalConstants` import should occur before import of `@/contexts/PopupContext/hooks`  import/order
+   4:10  warning  ZODIAC_ELEMENTS not found in '@/constants/elementalConstants'                                          import/named
+   4:27  warning  ELEMENT_AFFINITIES not found in '@/constants/elementalConstants'                                       import/named
+   7:6   warning  Use an `interface` instead of a `type`                                                                 @typescript-eslint/consistent-type-definitions
+  39:9   warning  'showSuccess' is assigned a value but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+  48:9   warning  'showError' is assigned a value but never used. Allowed unused vars must match /^_/u                   @typescript-eslint/no-unused-vars
+  57:9   warning  'showWarning' is assigned a value but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+  66:9   warning  'showInfo' is assigned a value but never used. Allowed unused vars must match /^_/u                    @typescript-eslint/no-unused-vars
+  76:9   warning  'showElemental' is assigned a value but never used. Allowed unused vars must match /^_/u               @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/Header.tsx
+   1:1   warning  There should be no empty line between import groups                                                     import/order
+   1:19  error    '/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@types/react/index.d.ts' imported multiple times  import/no-duplicates
+   3:26  error    '/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@types/react/index.d.ts' imported multiple times  import/no-duplicates
+  13:31  error    Missing radix parameter                                                                                 radix
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/HomeMethodsComponent.tsx
+    6:1   warning  `@/data/cooking/methods` import should occur before import of `@/hooks/useAstrologicalState`  import/order
+  138:11  warning  Value must be omitted for boolean attribute `initiallyExpanded`                               react/jsx-boolean-value
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientCard.tsx
+  3:1   warning  Imports "Ingredient" and "RecipeIngredient" are only used as type                      @typescript-eslint/consistent-type-imports
+  3:40  warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientDisplay.tsx
+    3:1   warning  `lucide-react` import should occur before import of `react`                         import/order
+    4:1   warning  All imports in the declaration are only used as types. Use `import type`            @typescript-eslint/consistent-type-imports
+   13:9   warning  'safeGet' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   97:21  warning  Empty components are self-closing                                                   react/self-closing-comp
+  104:57  warning  This assertion is unnecessary since it does not change the type of the expression   @typescript-eslint/no-unnecessary-type-assertion
+  175:27  warning  Empty components are self-closing                                                   react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientMapper.tsx
+    6:1   warning  `@/contexts/AlchemicalDataContext` import should occur before import of `@/hooks/useIngredientMapping`  import/order
+   15:5   warning  'mapRecipeIngredients' is assigned a value but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+   21:30  warning  'cuisinesLoading' is assigned a value but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+   79:13  warning  A form label must be associated with a control                                                          jsx-a11y/label-has-associated-control
+   89:13  warning  A form label must be associated with a control                                                          jsx-a11y/label-has-associated-control
+  146:11  warning  A form label must be associated with a control                                                          jsx-a11y/label-has-associated-control
+  189:13  warning  A form label must be associated with a control                                                          jsx-a11y/label-has-associated-control
+  199:13  warning  A form label must be associated with a control                                                          jsx-a11y/label-has-associated-control
+  226:19  warning  Empty components are self-closing                                                                       react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientRecommendations.tsx
+    5:10  warning  'ElementalCalculator' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+    6:1   warning  Imports "IngredientRecommendation", "RecommendationOptions" and "GroupedIngredientRecommendations" are only used as type                                                                                                                                              @typescript-eslint/consistent-type-imports
+    8:1   warning  `@/types/alchemy` type import should occur before import of `@/utils/ingredientRecommender`                                                                                                                                                                           import/order
+    8:36  warning  'ZodiacSign' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+    8:56  warning  'ElementalState' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+    8:78  error    '/Users/GregCastro/Desktop/WhatToEatNext/src/types/alchemy.ts' imported multiple times                                                                                                                                                                                import/no-duplicates
+    9:1   warning  `@/hooks/useAstrologicalState` import should occur before import of `@/services/ElementalCalculator`                                                                                                                                                                  import/order
+   10:1   warning  `lucide-react` import should occur before import of `react`                                                                                                                                                                                                           import/order
+   12:1   warning  `@/utils/zodiacUtils` import should occur before import of `./IngredientRecommendations.module.css`                                                                                                                                                                   import/order
+   12:10  warning  toZodiacSign not found in '@/utils/zodiacUtils'                                                                                                                                                                                                                       import/named
+   13:1   warning  `@/types/alchemy` type import should occur before import of `@/utils/ingredientRecommender`                                                                                                                                                                           import/order
+   13:33  error    '/Users/GregCastro/Desktop/WhatToEatNext/src/types/alchemy.ts' imported multiple times                                                                                                                                                                                import/no-duplicates
+   15:1   warning  `@/utils/ingredientUtils` import should occur before import of `./IngredientRecommendations.module.css`                                                                                                                                                               import/order
+   15:10  warning  calculateAlchemicalProperties not found in '@/utils/ingredientUtils'                                                                                                                                                                                                  import/named
+   15:10  warning  'calculateAlchemicalProperties' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   15:41  warning  calculateThermodynamicProperties not found in '@/utils/ingredientUtils'                                                                                                                                                                                               import/named
+   15:41  warning  'calculateThermodynamicProperties' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   15:75  warning  'determineIngredientModality' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   16:1   warning  `@/data/ingredients/types` type import should occur before import of `@/services/ElementalCalculator`                                                                                                                                                                 import/order
+   24:69  error    React Hook "useAstrologicalState" is called in function "getRecommendations" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"  react-hooks/rules-of-hooks
+   74:10  warning  'showCookingMethods' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                                                                                                                              @typescript-eslint/no-unused-vars
+   74:30  warning  'setShowCookingMethods' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                                                                                                                                           @typescript-eslint/no-unused-vars
+  107:9   warning  'getSensoryProfileBar' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  112:11  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  122:9   warning  'renderIngredientDetails' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  166:17  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  176:17  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  186:17  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  196:17  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  311:15  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  320:15  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  329:15  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  338:15  warning  Empty components are self-closing                                                                                                                                                                                                                                     react/self-closing-comp
+  462:25  warning  'category' is defined but never used. Allowed unused elements of array destructuring must match /^_/u                                                                                                                                                                 @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/IngredientRecommender.tsx
+    4:1   warning  `react` import should occur before import of `@/context/AstrologicalContext`                                              import/order
+    6:1   warning  All imports in the declaration are only used as types. Use `import type`                                                  @typescript-eslint/consistent-type-imports
+    7:1   warning  Imports "GroupedIngredientRecommendations" and "IngredientRecommendation" are only used as type                           @typescript-eslint/consistent-type-imports
+    8:1   warning  `lucide-react` import should occur before import of `@/context/AstrologicalContext`                                       import/order
+    8:43  warning  'Info' is defined but never used. Allowed unused vars must match /^_/u                                                    @typescript-eslint/no-unused-vars
+    9:1   warning  `@/hooks/useChakraInfluencedFood` import should occur before import of `@/services/ElementalCalculator`                   import/order
+   10:1   warning  `@/constants/chakraSymbols` import should occur before import of `@/context/AstrologicalContext`                          import/order
+   10:10  warning  'normalizeChakraKey' is defined but never used. Allowed unused vars must match /^_/u                                      @typescript-eslint/no-unused-vars
+   11:1   warning  `@/data/ingredients` import should occur before import of `@/services/ElementalCalculator`                                import/order
+   11:63  warning  'grainsCollection' is defined but never used. Allowed unused vars must match /^_/u                                        @typescript-eslint/no-unused-vars
+   14:7   warning  'customStyles' is assigned a value but never used. Allowed unused vars must match /^_/u                                   @typescript-eslint/no-unused-vars
+   62:5   warning  'chakraEnergies' is assigned a value but never used. Allowed unused vars must match /^_/u                                 @typescript-eslint/no-unused-vars
+   67:5   warning  'refreshRecommendations' is assigned a value but never used. Allowed unused vars must match /^_/u                         @typescript-eslint/no-unused-vars
+  350:52  warning  'category' is defined but never used. Allowed unused elements of array destructuring must match /^_/u                     @typescript-eslint/no-unused-vars
+  392:6   warning  React Hook useMemo has missing dependencies: 'isOil' and 'isVinegar'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  458:11  warning  Empty components are self-closing                                                                                         react/self-closing-comp
+  706:37  warning  Empty components are self-closing                                                                                         react/self-closing-comp
+  733:37  warning  Empty components are self-closing                                                                                         react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/LazyAlchemicalEngine.tsx
+  15:16  warning  Component definition is missing display name  react/display-name
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/LivePlanetaryTracker.tsx
+  157:6  warning  React Hook useEffect has a missing dependency: 'updatePlanetaryDisplay'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  168:6  warning  React Hook useEffect has a missing dependency: 'updatePlanetaryDisplay'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/LocationButton.tsx
+   5:6   warning  Use an `interface` instead of a `type`                                             @typescript-eslint/consistent-type-definitions
+  34:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u   @typescript-eslint/no-unused-vars
+  49:17  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  59:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/LoginButton.tsx
+  17:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  24:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/MethodImage.tsx
+  4:1  warning  `next/image` import should occur before import of `react`        import/order
+  5:1  warning  `@chakra-ui/react` import should occur before import of `react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/MethodsRecommender.tsx
+    3:1  warning  `@/data/cooking` import should occur before import of `@/hooks/useAstrologicalState`            import/order
+    5:1  warning  `lucide-react` import should occur before import of `react`                                     import/order
+    7:1  warning  `@/utils/cookingMethodTips` import should occur before import of `./CookingMethods.module.css`  import/order
+  142:9  warning  'topMethod' is assigned a value but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/MoonDisplay.tsx
+    5:1   warning  `lucide-react` import should occur before import of `react`                                                                                                         import/order
+    7:10  warning  'getSignFromLongitude' is defined but never used. Allowed unused vars must match /^_/u                                                                              @typescript-eslint/no-unused-vars
+    8:1   warning  `@/services/AstrologicalService` import should occur before import of `@/utils/astrologyUtils`                                                                      import/order
+   15:19  warning  'message' is defined but never used. Allowed unused args must match /^_/u                                                                                           @typescript-eslint/no-unused-vars
+   15:39  warning  'args' is defined but never used. Allowed unused args must match /^_/u                                                                                              @typescript-eslint/no-unused-vars
+   24:19  warning  'message' is defined but never used. Allowed unused args must match /^_/u                                                                                           @typescript-eslint/no-unused-vars
+   24:39  warning  'args' is defined but never used. Allowed unused args must match /^_/u                                                                                              @typescript-eslint/no-unused-vars
+   86:31  warning  'state' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                    @typescript-eslint/no-unused-vars
+  170:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  215:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  218:34  warning  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
+  269:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  272:34  warning  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
+  351:6   warning  React Hook useEffect has a missing dependency: 'planetaryPositions'. Either include it or remove the dependency array                                               react-hooks/exhaustive-deps
+  396:15  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+  446:70  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                     react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/Navigation.tsx
+  2:1  warning  `next/link` import should occur before import of `react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/NutritionalDataFetcher.tsx
+    6:1   warning  All imports in the declaration are only used as types. Use `import type`           @typescript-eslint/consistent-type-imports
+   12:7   warning  Empty components are self-closing                                                  react/self-closing-comp
+   40:38  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:44  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:47  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:62  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:68  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   40:75  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   64:18  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                    react/no-unescaped-entities
+  136:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  139:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  270:21  warning  Empty components are self-closing                                                  react/self-closing-comp
+  281:21  warning  Empty components are self-closing                                                  react/self-closing-comp
+  292:21  warning  Empty components are self-closing                                                  react/self-closing-comp
+  303:21  warning  Empty components are self-closing                                                  react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/NutritionalDisplay.tsx
+  6:1  warning  All imports in the declaration are only used as types. Use `import type`           @typescript-eslint/consistent-type-imports
+  6:1  warning  `@/types/alchemy` import should occur before import of `@/utils/nutritionalUtils`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/OptimizedComponentWrapper.tsx
+  1:1  warning  Imports "ReactNode" are only used as type  @typescript-eslint/consistent-type-imports
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PayPalButton.tsx
+  32:9  warning  onMouseOver must be accompanied by onFocus for accessibility  jsx-a11y/mouse-events-have-key-events
+  37:9  warning  onMouseOut must be accompanied by onBlur for accessibility    jsx-a11y/mouse-events-have-key-events
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetInfoModal.tsx
+    6:1   warning  Imports "PlanetInfo" are only used as type           @typescript-eslint/consistent-type-imports
+   29:14  warning  Expected non-Promise value in a boolean conditional  @typescript-eslint/no-misused-promises
+  134:19  warning  Empty components are self-closing                    react/self-closing-comp
+  158:25  warning  Empty components are self-closing                    react/self-closing-comp
+  181:23  warning  Empty components are self-closing                    react/self-closing-comp
+  190:23  warning  Empty components are self-closing                    react/self-closing-comp
+  199:23  warning  Empty components are self-closing                    react/self-closing-comp
+  208:23  warning  Empty components are self-closing                    react/self-closing-comp
+  224:23  warning  Empty components are self-closing                    react/self-closing-comp
+  233:23  warning  Empty components are self-closing                    react/self-closing-comp
+  242:23  warning  Empty components are self-closing                    react/self-closing-comp
+  251:23  warning  Empty components are self-closing                    react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryAspectsDisplay.tsx
+  171:28  warning  Promise returned in function argument where a void return was expected             @typescript-eslint/no-misused-promises
+  226:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryContributionsChart.tsx
+  78:34  warning  Promise returned in function argument where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryHours.tsx
+  3:1   warning  Expected 1 empty line after import statement not followed by another import  import/newline-after-import
+  3:35  warning  Unable to resolve path to module './PlanetaryHours/PlanetaryHoursDisplay'    import/no-unresolved
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryPositionInitializer.tsx
+    6:1   warning  `lucide-react` import should occur before import of `react`                                                                                                                                                                                                      import/order
+    8:1   warning  `@/utils/accurateAstronomy` import should occur before import of `@/utils/alchemyInitializer`                                                                                                                                                                    import/order
+    8:10  warning  getLongitudeToZodiacPosition not found in '@/utils/accurateAstronomy'                                                                                                                                                                                            import/named
+    8:10  warning  'getLongitudeToZodiacPosition' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   11:1   warning  Imports "CelestialPosition" are only used as type                                                                                                                                                                                                                @typescript-eslint/consistent-type-imports
+   11:1   warning  `@/types/celestial` import should occur before import of `@/utils/alchemyInitializer`                                                                                                                                                                            import/order
+   11:29  warning  ZodiacSign not found in '@/types/celestial'                                                                                                                                                                                                                      import/named
+   11:29  warning  'ZodiacSign' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  130:11  warning  'now' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  184:7   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                               @typescript-eslint/no-floating-promises
+  194:9   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                               @typescript-eslint/no-floating-promises
+  209:13  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                               @typescript-eslint/no-floating-promises
+  216:13  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                               @typescript-eslint/no-floating-promises
+  226:6   warning  React Hook useEffect has missing dependencies: 'applyFallbackPositions', 'attemptPositionUpdate', 'retryStatus.count', 'retryStatus.isRetrying', 'retryStatus.lastAttempt', and 'retryStatus.usingFallback'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  233:6   warning  React Hook useEffect has a missing dependency: 'applyFallbackPositions'. Either include it or remove the dependency array                                                                                                                                        react-hooks/exhaustive-deps
+  251:19  warning  Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                @typescript-eslint/no-misused-promises
+  271:9   warning  Empty components are self-closing                                                                                                                                                                                                                                react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryPositionValidation.tsx
+  3:20  warning  'useEffect' is defined but never used. Allowed unused vars must match /^_/u                   @typescript-eslint/no-unused-vars
+  4:10  warning  'validatePlanetaryPositions' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PlanetaryTimeDisplay.tsx
+  2:26  warning  'TimeFactors' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/PremiumGate.tsx
+  79:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/Recipe.tsx
+  1:1  warning  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/RecipeBuilder.tsx
+    5:1   warning  All imports in the declaration are only used as types. Use `import type`                                                      @typescript-eslint/consistent-type-imports
+    5:1   warning  `@/constants/signEnergyStates` import should occur before type import of `@/data/ingredients/types`                           import/order
+    6:1   warning  All imports in the declaration are only used as types. Use `import type`                                                      @typescript-eslint/consistent-type-imports
+    6:1   warning  `@/constants/chakraMappings` import should occur before type import of `@/data/ingredients/types`                             import/order
+    7:1   warning  `@/types/recipe` type import should occur before import of `@/utils/ingredientUtils`                                          import/order
+   22:31  warning  'setSelectedIngredients' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+   26:28  warning  'setSignEnergyStates' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u     @typescript-eslint/no-unused-vars
+   47:40  warning  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead                                              @typescript-eslint/array-type
+   63:6   warning  React Hook useEffect has a missing dependency: 'mapChakrasToEnergyStates'. Either include it or remove the dependency array   react-hooks/exhaustive-deps
+  151:9   error    'recommendedFoods' is never reassigned. Use 'const' instead                                                                   prefer-const
+  181:9   warning  'enhanceRecipe' is assigned a value but never used. Allowed unused vars must match /^_/u                                      @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/RecipeCard.tsx
+  4:1  warning  `next/image` import should occur before import of `react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/RecipeList.tsx
+    4:38  warning  'useMemo' is defined but never used. Allowed unused vars must match /^_/u                                                              @typescript-eslint/no-unused-vars
+    6:1   warning  `lucide-react` import should occur before import of `react`                                                                            import/order
+    6:77  warning  'Tag' is defined but never used. Allowed unused vars must match /^_/u                                                                  @typescript-eslint/no-unused-vars
+    6:82  warning  'CircleDashed' is defined but never used. Allowed unused vars must match /^_/u                                                         @typescript-eslint/no-unused-vars
+    9:8   warning  'RecipeCard' is defined but never used. Allowed unused vars must match /^_/u                                                           @typescript-eslint/no-unused-vars
+   10:1   warning  `@/types/recipe` type import should occur before import of `@/utils/recipeEnrichment`                                                  import/order
+   11:1   warning  `@/lib/PlanetaryHourCalculator` import should occur before import of `@/utils/recipeEnrichment`                                        import/order
+   12:1   warning  `@/types/alchemy` type import should occur before import of `@/utils/recipeEnrichment`                                                 import/order
+   13:1   warning  `@/contexts/AlchemicalContext/hooks` import should occur before import of `@/hooks/useAstrologicalState`                               import/order
+   13:10  warning  'useAlchemical' is defined but never used. Allowed unused vars must match /^_/u                                                        @typescript-eslint/no-unused-vars
+   14:1   warning  `@/utils/logger` import should occur before import of `@/utils/recipeEnrichment`                                                       import/order
+   14:10  warning  'logger' is defined but never used. Allowed unused vars must match /^_/u                                                               @typescript-eslint/no-unused-vars
+   16:1   warning  `@/utils/recipeFilters` import should occur before import of `./RecipeCard`                                                            import/order
+   16:10  warning  recipeFilter not found in '@/utils/recipeFilters'                                                                                      import/named
+   16:10  warning  'recipeFilter' is defined but never used. Allowed unused vars must match /^_/u                                                         @typescript-eslint/no-unused-vars
+   17:1   warning  There should be no empty line between import groups                                                                                    import/order
+   17:1   warning  `@/data/zodiacSeasons` import should occur before import of `@/hooks/useAstrologicalState`                                             import/order
+   19:1   warning  `@/contexts/AlchemicalDataContext` import should occur before import of `@/hooks/useAstrologicalState`                                 import/order
+   28:10  warning  'planetaryHour' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u                    @typescript-eslint/no-unused-vars
+  148:6   warning  React Hook useEffect has a missing dependency: 'calculateAstrologicalCompatibility'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  314:69  warning  This assertion is unnecessary since it does not change the type of the expression                                                      @typescript-eslint/no-unnecessary-type-assertion
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/RecommendedRecipes.tsx
+   3:1  warning  `@chakra-ui/react` import should occur before import of `react`            import/order
+  15:1  warning  All imports in the declaration are only used as types. Use `import type`   @typescript-eslint/consistent-type-imports
+  16:1  warning  All imports in the declaration are only used as types. Use `import type`   @typescript-eslint/consistent-type-imports
+  16:1  warning  `../types/alchemy` import should occur before import of `../types/recipe`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/SauceRecommender.tsx
+    2:1   warning  All imports in the declaration are only used as types. Use `import type`                                                                                            @typescript-eslint/consistent-type-imports
+    3:1   warning  All imports in the declaration are only used as types. Use `import type`                                                                                            @typescript-eslint/consistent-type-imports
+    4:1   warning  `lucide-react` import should occur before import of `react`                                                                                                         import/order
+    4:34  warning  'Info' is defined but never used. Allowed unused vars must match /^_/u                                                                                              @typescript-eslint/no-unused-vars
+   27:3   warning  'showByRegion' is assigned a value but never used. Allowed unused args must match /^_/u                                                                             @typescript-eslint/no-unused-vars
+   28:3   warning  'showByAstrological' is assigned a value but never used. Allowed unused args must match /^_/u                                                                       @typescript-eslint/no-unused-vars
+   29:3   warning  'showByDietary' is assigned a value but never used. Allowed unused args must match /^_/u                                                                            @typescript-eslint/no-unused-vars
+   55:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   56:6   warning  React Hook useEffect has a missing dependency: 'generateSauceRecommendations'. Either include it or remove the dependency array                                     react-hooks/exhaustive-deps
+  145:11  warning  'allAvailableSauces' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                       @typescript-eslint/no-unused-vars
+  172:17  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  178:17  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  202:17  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  208:17  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  232:17  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  238:17  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  259:13  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  265:13  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  308:17  warning  Expected property shorthand                                                                                                                                         object-shorthand
+  361:9   warning  'renderElementIcons' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                       @typescript-eslint/no-unused-vars
+  423:11  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+  424:11  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+  425:11  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+  584:31  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+  600:31  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+  613:63  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                     react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/SomeComponent.tsx
+  2:10  warning  useClientEffect not found in '@/hooks/useClientEffect'                                    import/named
+  4:7   warning  'SomeComponent' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/SunDisplay.tsx
+    7:10  warning  'calculateSunTimes' is defined but never used. Allowed unused vars must match /^_/u                                                                                 @typescript-eslint/no-unused-vars
+    8:1   warning  `@/utils/solarPositions` import should occur before import of `@/utils/sunTimes`                                                                                    import/order
+    8:10  warning  'getSunPosition' is defined but never used. Allowed unused vars must match /^_/u                                                                                    @typescript-eslint/no-unused-vars
+    9:1   warning  `lucide-react` import should occur before import of `react`                                                                                                         import/order
+   10:1   warning  `@/services/AstrologicalService` import should occur before import of `@/utils/sunTimes`                                                                            import/order
+   11:1   warning  `@/utils/dynamicImport` import should occur before import of `@/utils/sunTimes`                                                                                     import/order
+   11:32  warning  'safeImportFunction' is defined but never used. Allowed unused vars must match /^_/u                                                                                @typescript-eslint/no-unused-vars
+   52:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  111:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  114:34  warning  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
+  173:11  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+  194:15  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/TarotFoodDisplay.tsx
+    7:10   warning  SUIT_TO_ELEMENT not found in '@/utils/tarotMappings'                                                                                                                import/named
+    7:27   warning  SUIT_TO_TOKEN not found in '@/utils/tarotMappings'                                                                                                                  import/named
+    8:1    warning  `lucide-react` import should occur before import of `react`                                                                                                         import/order
+    9:1    warning  `@/hooks/useAstrologicalState` import should occur before import of `@/lib/tarotCalculations`                                                                       import/order
+   10:1    warning  `@/types/alchemy` type import should occur before import of `@/utils/tarotMappings`                                                                                 import/order
+   35:47   warning  'astroLoading' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                             @typescript-eslint/no-unused-vars
+  116:7    warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  240:115  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                     react/no-unescaped-entities
+  257:21   warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/YourParentComponent.tsx
+  4:7  warning  'YourComponent' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/ZodiacSign.tsx
+  2:1  warning  `@chakra-ui/react` import should occur before import of `react`           import/order
+  3:1  warning  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/alchm-kinetics.tsx
+  135:34  warning  Promise returned in function argument where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/alchm-quantities-display.tsx
+   61:34  warning  Promise returned in function argument where a void return was expected             @typescript-eslint/no-misused-promises
+  130:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/alchm-quantities-trends.tsx
+  54:34  warning  Promise returned in function argument where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/astrological/AstrologicalRecommendations.tsx
+  145:6  warning  React Hook useEffect has missing dependencies: 'season' and 'zodiacSign'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/auth/OnboardingWizard.tsx
+  196:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  272:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  402:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/auth/SignInModal.tsx
+    4:1   warning  `next-auth/react` import should occur before import of `react`                     import/order
+    5:1   warning  `next/navigation` import should occur before import of `react`                     import/order
+  151:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/CommensalManager.tsx
+    5:1   warning  `@/components/onboarding/LocationSearch` import should occur before type import of `@/types/natalChart`  import/order
+  149:11  error    'res' is never reassigned. Use 'const' instead                                                           prefer-const
+  220:27  warning  Promise-returning function provided to attribute where a void return was expected                        @typescript-eslint/no-misused-promises
+  317:20  warning  Promise-returning function provided to attribute where a void return was expected                        @typescript-eslint/no-misused-promises
+  764:21  warning  Promise-returning function provided to attribute where a void return was expected                        @typescript-eslint/no-misused-promises
+  805:27  warning  Promise-returning function provided to attribute where a void return was expected                        @typescript-eslint/no-misused-promises
+  942:29  warning  Promise-returning function provided to attribute where a void return was expected                        @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/CurrentTransitAnalysis.tsx
+  219:6  warning  React Hook useMemo has a missing dependency: 'natalChart'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/FoodLabBook.tsx
+  150:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  482:23  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  629:22  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  672:26  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/NotificationPanel.tsx
+  33:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  73:21  warning  Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  90:47  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/RecommendationsPanel.tsx
+  537:26  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  538:28  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  539:28  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  549:26  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/UserDashboard.tsx
+   21:1   warning  `./NotificationPanel` import should occur before import of `./RecommendationsPanel`  import/order
+  268:19  warning  Promise-returning function provided to attribute where a void return was expected    @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/filters.tsx
+  19:9  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+  42:9  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+  65:9  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/food-diary/FoodDiaryView.tsx
+  499:23  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  525:23  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/food-diary/FoodRating.tsx
+  140:17  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  246:23  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/food-diary/QuickFoodInput.tsx
+  165:20  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  252:27  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  433:25  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/home/CookingMethodPreview.tsx
+  251:6  warning  React Hook useEffect has a missing dependency: 'alchemicalContext'. Either include it or remove the dependency array      react-hooks/exhaustive-deps
+  357:6  warning  React Hook useMemo has an unnecessary dependency: 'planetaryPositions'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/home/DynamicCuisineRecommender.tsx
+  321:34  warning  Promise returned in function argument where a void return was expected             @typescript-eslint/no-misused-promises
+  412:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/home/HeroSection.tsx
+  4:1  warning  `framer-motion` import should occur before import of `react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-builder/QuickActionsToolbar.tsx
+  497:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  517:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  531:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  578:17  warning  A form label must be associated with a control                                     jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/FocusedDayView.tsx
+  491:23  warning  Promise-returning function provided to attribute where a void return was expected                                     @typescript-eslint/no-misused-promises
+  539:25  warning  Promise-returning function provided to attribute where a void return was expected                                     @typescript-eslint/no-misused-promises
+  553:24  warning  Promise-returning function provided to attribute where a void return was expected                                     @typescript-eslint/no-misused-promises
+  625:5   warning  React Hook useCallback has a missing dependency: 'generateReasons'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/GroceryListModal.tsx
+   18:1   warning  `@/utils/instacart/ingredientNormalizer` import should occur before import of `@/utils/logger`  import/order
+   19:1   warning  `@/services/InstacartService` import should occur before type import of `@/types/instacart`     import/order
+  116:16  warning  'createInstacartShoppingList' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/MealSlot.tsx
+  270:19  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/PossoWidget.tsx
+    6:1   warning  `@/data/unified/recipeBuilding` type import should occur before import of `@/services/UnifiedRecipeService`                                                         import/order
+    9:1   warning  `@/components/common/Toast` import should occur before import of `@/contexts/MenuPlannerContext`                                                                    import/order
+   29:24  warning  'showInfo' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                 @typescript-eslint/no-unused-vars
+  105:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  189:15  warning  Empty components are self-closing                                                                                                                                   react/self-closing-comp
+  194:70  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                     react/no-unescaped-entities
+  194:76  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                     react/no-unescaped-entities
+  242:27  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/RecipeDetailModal.tsx
+  15:1  warning  `@/services/InstacartService` import should occur before type import of `@/types/nutrition`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/RecipeSelector.tsx
+  407:13  warning  The autoFocus prop should not be used, as it can reduce usability and accessibility for users  jsx-a11y/no-autofocus
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/SauceSelector.tsx
+  15:1  warning  `@/types/recipe` type import should occur before import of `@/utils/cuisine/intelligentSauceRecommender`  import/order
+  48:9  warning  'baseServings' is assigned a value but never used. Allowed unused vars must match /^_/u                   @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/menu-planner/WeeklyCalendar.tsx
+  150:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  157:21  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  172:25  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  175:28  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  176:30  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  179:24  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  182:25  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  186:28  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/nav/NotificationBell.tsx
+   39:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   40:34  warning  Promise returned in function argument where a void return was expected                                                                                              @typescript-eslint/no-misused-promises
+   75:53  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  104:25  warning  Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  128:53  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/nutrition/WeeklyNutritionDashboard.tsx
+   1:17  warning  'useState' is defined but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+   5:3   warning  'ComplianceSeverity' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:10  warning  'NutritionRing' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/onboarding/LocationSearch.tsx
+    5:10  warning  'getEdgeApiUrl' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  169:9   warning  A form label must be associated with a control                                   jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recipe-builder/GenerateRecipeButton.tsx
+  136:17  warning  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recipe-builder/IngredientSearchBar.tsx
+  132:5   warning  Elements with the 'option' interactive role must be focusable                                                   jsx-a11y/interactive-supports-focus
+  326:11  warning  Elements with the ARIA role "combobox" must have the following attributes defined: aria-controls,aria-expanded  jsx-a11y/role-has-required-aria-props
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recommendations/EnhancedCookingMethodRecommender.tsx
+  382:6  warning  React Hook useEffect has a missing dependency: 'alchemicalContext'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recommendations/EnhancedSauceRecommender.tsx
+    9:1   warning  `@/types/recipe` type import should occur before type import of `@/utils/cuisine/intelligentSauceRecommender`  import/order
+  282:11  warning  A form label must be associated with a control                                                                 jsx-a11y/label-has-associated-control
+  343:71  error    Missing radix parameter                                                                                        radix
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/AlchemicalContext/context.tsx
+  10:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/AlchemicalDataContext.tsx
+   5:1  warning  `@/data/recipes/index` import should occur before import of `@/lib/api/alchm-client`                                                                                import/order
+  71:5  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/ChartContext/context.tsx
+  3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/ChartContext/provider.tsx
+  243:6  warning  React Hook useEffect has a missing dependency: 'refreshChart'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/MenuPlannerContext.tsx
+    63:3  warning  'calculateRecipeEstimatedCost' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                @typescript-eslint/no-unused-vars
+    64:8  warning  'RecipeCostEstimate' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                          @typescript-eslint/no-unused-vars
+   975:5  warning  React Hook useCallback has a missing dependency: 'regenerateGroceryList'. Either include it or remove the dependency array                                                                                    react-hooks/exhaustive-deps
+  1006:5  warning  React Hook useCallback has a missing dependency: 'regenerateGroceryList'. Either include it or remove the dependency array                                                                                    react-hooks/exhaustive-deps
+  1040:5  warning  React Hook useCallback has a missing dependency: 'regenerateGroceryList'. Either include it or remove the dependency array                                                                                    react-hooks/exhaustive-deps
+  1307:5  warning  React Hook useCallback has a missing dependency: 'syncWithLunarCycle'. Either include it or remove the dependency array                                                                                       react-hooks/exhaustive-deps
+  1765:5  warning  React Hook useMemo has missing dependencies: 'addParticipant', 'participants', 'removeParticipant', 'syncWithLunarCycle', and 'toggleSyncWithLunarCycle'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/PopupContext/context.tsx
+  3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/TarotContext/context.tsx
+  3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/ThemeContext/context.tsx
+  3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/data/usdaNutritionalData.ts
+  7:1  warning  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrologicalState.ts
+  224:5  warning  React Hook useMemo has a missing dependency: 'planetaryPositions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrologize.ts
+  170:6  warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrology.ts
+  230:5  warning  React Hook useCallback has a missing dependency: 'applyFallbackData'. Either include it or remove the dependency array              react-hooks/exhaustive-deps
+  315:5  warning  React Hook useCallback has a missing dependency: 'applyFallbackElementalBalance'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  544:6  warning  React Hook useCallback has a missing dependency: 'state.data'. Either include it or remove the dependency array                     react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useChartData.ts
+  114:6   warning  React Hook useCallback has an unnecessary dependency: 'dateTime'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+  124:14  warning  Promise-returning function provided to property where a void return was expected                                    @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useDraggable.ts
+   60:5  warning  React Hook useCallback has missing dependencies: 'handleMouseMove' and 'handleMouseUp'. Either include them or remove the dependency array   react-hooks/exhaustive-deps
+  158:5  warning  React Hook useCallback has missing dependencies: 'handleTouchEnd' and 'handleTouchMove'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useFoodDiary.ts
+  121:6  warning  React Hook useEffect has a missing dependency: 'loadData'. Either include it or remove the dependency array           react-hooks/exhaustive-deps
+  126:6  warning  React Hook useEffect has a missing dependency: 'loadWeeklySummary'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/usePlanetaryWebSocket.ts
+  76:6  warning  React Hook useEffect has a missing dependency: 'location'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useRecommendationAnalytics.ts
+  116:6  warning  React Hook useEffect has a missing dependency: 'updateMetrics'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useSafeFlavorEngine.ts
+  149:5  warning  React Hook useMemo has a missing dependency: 'flavorEngine.categories'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useStatePreservation.ts
+  404:5  warning  React Hook useCallback has an unnecessary dependency: 'intelligence'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useTarotAstrologyData.ts
+  241:6  warning  React Hook useMemo has unnecessary dependencies: 'currentPlanetaryAlignment' and 'signEnergyStates'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useUnifiedPlanetaryHour.ts
+  78:6  warning  React Hook useEffect has a missing dependency: 'location'. Either include it or remove the dependency array                               react-hooks/exhaustive-deps
+  94:6  warning  React Hook useEffect has a missing dependency: 'wsHour'. Either include it or remove the dependency array                                 react-hooks/exhaustive-deps
+  98:5  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+  99:5  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/lib/api/alchm-client.ts
+  197:10  warning  Expected non-Promise value in a boolean conditional  @typescript-eslint/no-misused-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/lib/auth/auth.ts
+   64:38  warning  Dependency cycle detected                                                                                                                                           import/no-cycle
+  139:9   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  145:30  warning  This assertion is unnecessary since it does not change the type of the expression                                                                                   @typescript-eslint/no-unnecessary-type-assertion
+  194:24  warning  'e' is defined but never used. Allowed unused caught errors must match /^_/u                                                                                        @typescript-eslint/no-unused-vars
+  261:18  warning  This assertion is unnecessary since it does not change the type of the expression                                                                                   @typescript-eslint/no-unnecessary-type-assertion
+  263:18  warning  This assertion is unnecessary since it does not change the type of the expression                                                                                   @typescript-eslint/no-unnecessary-type-assertion
+  264:18  warning  This assertion is unnecessary since it does not change the type of the expression                                                                                   @typescript-eslint/no-unnecessary-type-assertion
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/lib/database/connection.ts
+  81:1  warning  Exporting mutable 'let' binding, use 'const' instead  import/no-mutable-exports
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/paths.ts
+  4:13  warning  'elementalConstants' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  5:13  warning  'ingredientTypes' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  6:13  warning  'alchemyTypes' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/AstrologicalService.ts
+   29:31  warning  'CentralizedAstrologicalState' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  104:5   warning  'testData' is defined but never used. Allowed unused args must match /^_/u                      @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/ConsolidatedRecommendationService.ts
+  371:37  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/InstacartService.ts
+  16:1  warning  `@/types/instacart` type import should occur before type import of `@/types/menuPlanner`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/UnifiedRecipeService.ts
+  6:1  warning  `@/services/LocalRecipeService` import should occur after type import of `@/services/interfaces/RecipeServiceInterface`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/UnifiedRecommendationService.ts
+  150:23  error  Missing radix parameter  radix
+  718:23  error  Missing radix parameter  radix
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/celestialCalculations.ts
+    11:3   warning  'ZodiacSignType' is defined but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+   237:16  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                 @typescript-eslint/no-unused-vars
+   357:14  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u                 @typescript-eslint/no-unused-vars
+   422:7   warning  'elementalAssociation' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+   634:9   warning  'jupiterDignityName' is assigned a value but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  1601:15  warning  'value' is assigned a value but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+  1607:17  warning  'element' is assigned a value but never used. Allowed unused vars must match /^_/u               @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/commensalDatabaseService.ts
+  166:17  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/naming-convention')
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/errorHandler.ts
+  374:5  warning  'message' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/ingredientMappingService.ts
+  11:1  warning  `@/services/LocalRecipeService` import should occur before type import of `@/types/alchemy`  import/order
+  50:9  error    'filteredRecipes' is never reassigned. Use 'const' instead                                   prefer-const
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/natalChartService.ts
+  24:1  warning  `@/utils/astrology/birthChartSignEstimator` import should occur before import of `@/utils/planetaryAlchemyMapping`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/planetaryScoring.ts
+  10:1  warning  `@/utils/astrology/positions` import should occur after type import of `@/types/recipe`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/recipeRecommendations.ts
+  489:19  error  Missing radix parameter  radix
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/unifiedSauceRecommender.ts
+  4:1  warning  `@/utils/cuisine/intelligentSauceRecommender` import should occur after type import of `@/types/recipe`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/userDatabaseService.ts
+  238:32  warning  Dependency cycle detected  import/no-cycle
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/tests/integration.test.ts
+  0:0  error  Parsing error: "parserOptions.project" has been provided for @typescript-eslint/parser.
+The file was not found in any of the provided project(s): src/tests/integration.test.ts
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/types/jest-dom.d.ts
+  0:0  error  Parsing error: "parserOptions.project" has been provided for @typescript-eslint/parser.
+The file was not found in any of the provided project(s): src/types/jest-dom.d.ts
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/types/testing-library__jest-dom.d.ts
+  0:0  error  Parsing error: "parserOptions.project" has been provided for @typescript-eslint/parser.
+The file was not found in any of the provided project(s): src/types/testing-library__jest-dom.d.ts
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/accurateAstronomy.ts
+    1:1   warning  Expected 1 empty line after import statement not followed by another import                     import/newline-after-import
+    2:7   warning  'Astronomy' is assigned a value but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+   11:7   warning  'debugLog' is assigned a value but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+   11:40  warning  'args' is defined but never used. Allowed unused args must match /^_/u                          @typescript-eslint/no-unused-vars
+  136:7   warning  'REFERENCE_POSITIONS' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/birthChartSignEstimator.ts
+   13:1   warning  `astronomy-engine` import should occur before import of `@/utils/zodiacUtils`        import/order
+  303:10  warning  'isSignWithinRange' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  329:19  warning  Unexpected string concatenation                                                      prefer-template
+  440:12  warning  'error' is defined but never used. Allowed unused caught errors must match /^_/u     @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/core.ts
+   20:1   warning  `./positions` import should occur before type import of `../../constants/planetaryElements`  import/order
+  245:26  warning  Unexpected `await` of a non-Promise (non-"Thenable") value                                   @typescript-eslint/await-thenable
+  351:26  warning  Unexpected `await` of a non-Promise (non-"Thenable") value                                   @typescript-eslint/await-thenable
+  375:26  warning  Unexpected `await` of a non-Promise (non-"Thenable") value                                   @typescript-eslint/await-thenable
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/planetaryValidation.ts
+  16:15  warning  'Planet' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts
+  173:23  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+  329:23  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+  348:25  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+  382:27  warning  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astronomiaCalculator.ts
+  10:1   warning  All imports in the declaration are only used as types. Use `import type`           @typescript-eslint/consistent-type-imports
+  53:10  warning  'signToLongitude' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/elementalScoring.ts
+  1:31  warning  'ElementalProperties' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/elementalUtils.test.ts
+  0:0  error  Parsing error: "parserOptions.project" has been provided for @typescript-eslint/parser.
+The file was not found in any of the provided project(s): src/utils/elementalUtils.test.ts
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/instacart/ingredientNormalizer.ts
+   92:41  error    Unnecessary escape character: \/                                                                         no-useless-escape
+  123:44  error    Unnecessary escape character: \/                                                                         no-useless-escape
+  192:7   warning  Variable name `display_text` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+  319:9   warning  Variable name `display_text` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+  342:13  warning  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead                         @typescript-eslint/array-type
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/instacart/priceEstimator.ts
+   42:14  warning  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead  @typescript-eslint/array-type
+  307:20  warning  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead  @typescript-eslint/array-type
+  425:22  warning  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead  @typescript-eslint/array-type
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/liveEphemeris.ts
+  18:1  warning  Expected 1 empty line after import statement not followed by another import  import/newline-after-import
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/menuPlanner/recommendationBridge.ts
+  12:1  warning  `@/services/LocalRecipeService` import should occur after type import of `@/services/ChartComparisonService`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/monicaKalchmCalculations.ts
+  37:8  warning  Function 'calculateHeat' has too many parameters (8). Maximum allowed is 7        max-params
+  58:8  warning  Function 'calculateEntropy' has too many parameters (8). Maximum allowed is 7     max-params
+  80:8  warning  Function 'calculateReactivity' has too many parameters (8). Maximum allowed is 7  max-params
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeFilters.ts
+  7:15  warning  'Cuisine' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/sauceScaling.ts
+  61:20  warning  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead  @typescript-eslint/array-type
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/serverPlanetaryCalculations.ts
+  7:1  warning  Expected 1 empty line after import statement not followed by another import  import/newline-after-import
+
+✖ 859 problems (22 errors, 837 warnings)
+  6 errors and 335 warnings potentially fixable with the `--fix` option.
+
