@@ -21,7 +21,7 @@ import { cookingMethods } from '@/data/cooking/cookingMethods';
 // Add import for modality type and utils
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { useCurrentChart } from '@/hooks/useCurrentChart';
+import { useCurrentChart as _useCurrentChart } from '@/hooks/useCurrentChart';
 
 import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
 import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';

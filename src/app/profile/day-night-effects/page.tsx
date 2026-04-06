@@ -8,7 +8,7 @@ import { PLANETARY_SECTARIAN_ELEMENTS, PLANETARY_SECTARIAN_ESMS, isSectDiurnal, 
 
 export default function DayNightEffectsPage() {
   const { profileData, isLoading } = useProfile();
-  const { theme, isDiurnal: appIsDiurnal, setThemeBase } = useTheme();
+  const { isDiurnal: appIsDiurnal, setThemeBase } = useTheme();
   
   // Local state to toggle views independent of the global theme, though we can sync them
   const [viewDiurnal, setViewDiurnal] = useState(appIsDiurnal);
@@ -42,7 +42,7 @@ export default function DayNightEffectsPage() {
   
   // Calculate user's natal sect using the birth time if available
   const birthDate = natalChart.birthData?.dateTime ? new Date(natalChart.birthData.dateTime) : new Date();
-  const isNatalDiurnal = isSectDiurnal(birthDate);
+  const _isNatalDiurnal = isSectDiurnal(birthDate);
 
   // Get alchemical properties for current view
   const currentAlchemical = calculateEnhancedAlchemicalFromPlanets(

@@ -45,7 +45,7 @@ function SauceCard({
     return scaleSauceIngredients(sauce.ingredients, scaleMultiplier);
   }, [sauce.ingredients, scaleMultiplier]);
 
-  const baseServings = sauce.yield ? parseYieldToServings(sauce.yield) : 1;
+  const _baseServings = sauce.yield ? parseYieldToServings(sauce.yield) : 1;
 
   return (
     <div className="bg-white rounded-lg border border-slate-200 p-4 hover:shadow-md transition-shadow">

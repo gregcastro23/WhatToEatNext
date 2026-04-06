@@ -57,7 +57,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
       setError(`Error getting recommendations: ${err instanceof Error ? err.message : String(err)}`);
       setLoading(false);
     }
-  }, [astroState, astroLoading, cuisineName, count, mealType, dietaryRestrictions]);
+  }, [astroState, astroLoading, astroError, cuisineName, count, mealType, dietaryRestrictions]);
   
   // Function to get color based on match percentage
   const getMatchColor = (percentage: number) => {

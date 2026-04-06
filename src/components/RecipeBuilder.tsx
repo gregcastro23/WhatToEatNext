@@ -178,7 +178,7 @@ export default function RecipeBuilder() {
     }
   };
   
-  const enhanceRecipe = (baseRecipe: Recipe): void => {
+  const _enhanceRecipe = (baseRecipe: Recipe): void => {
     if (chakraAccess && chakraAccess.length > 0) {
       // Find the chakras that can best help balance the energy
       const chakrasToFocus = chakraAccess

@@ -11,16 +11,7 @@ import type { ElementalProperties } from '@/types/alchemy';
 import type { GroupedIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 import { getChakraBasedRecommendations, getIngredientRecommendations } from '@/utils/ingredientRecommender';
 
-// Define a styles object for animations and custom styles
-const customStyles = {
-  '@keyframes fadeIn': {
-    '0%': { opacity: 0 },
-    '100%': { opacity: 1 }
-  },
-  animateFadeIn: {
-    animation: 'fadeIn 0.3s ease-in-out'
-  }
-};
+
 
 // Define category display names
 const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
@@ -59,13 +50,9 @@ export default function IngredientRecommender() {
   // Use the custom hook for food recommendations
   const { 
     recommendations: foodRecommendations, 
-    // @ts-expect-error - Auto-fixed by script
-    chakraEnergies,
     loading: foodLoading, 
     // @ts-expect-error - Auto-fixed by script
-    error: foodError,
-    // @ts-expect-error - Auto-fixed by script
-    refreshRecommendations
+    error: foodError
   // @ts-expect-error - Auto-fixed by script
   } = useChakraInfluencedFood({ limit: 300 }); // Increased from 200 to 300 to ensure all categories have plenty of items
   

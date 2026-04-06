@@ -26,7 +26,7 @@ export default function PossoWidget({
   const [newItem, setNewItem] = useState("");
   const [scoredRecipes, setScoredRecipes] = useState<ScoredRecipe[]>([]);
   const [loading, setLoading] = useState(false);
-  const { showSuccess, showInfo } = useToast();
+  const { showSuccess, showInfo: _showInfo } = useToast();
 
   const handleAddItem = (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,7 +102,7 @@ export default function PossoWidget({
       }
     }
 
-    loadAndScoreRecipes();
+    void loadAndScoreRecipes();
   }, [inventory]);
 
   return (
@@ -239,7 +239,7 @@ export default function PossoWidget({
                         // Try placing it on the next empty dinner slot
                         const days = [0, 1, 2, 3, 4, 5, 6] as any[];
                         for(const day of days) {
-                          addMealToSlot(day, "dinner", recipe as MonicaOptimizedRecipe);
+                          void addMealToSlot(day, "dinner", recipe as MonicaOptimizedRecipe);
                           showSuccess(`Added to ${day} Dinner`);
                           break;
                         }

@@ -221,7 +221,7 @@ export async function POST(request: NextRequest) {
       ...(name ? { name } : {}),
     };
 
-    const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates as any);
+    const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates as any, user.email);
 
     // Send admin notification about completed onboarding
     // This provides the admin team with the user's dominant element

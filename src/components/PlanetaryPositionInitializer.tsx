@@ -126,8 +126,8 @@ const PlanetaryPositionInitializer: React.FC = () => {
 
   // Function to apply fallback positions
   const applyFallbackPositions = (): void => {
-    logger.warn('Applying fallback positions...');
     const now = new Date();
+    logger.warn(`Applying fallback positions for ${now.toISOString()}...`);
     
     // Use fixed/current positions from March 2025
     const positions: PlanetaryPositions = {

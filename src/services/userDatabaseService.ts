@@ -226,6 +226,7 @@ class UserDatabaseService {
   async updateUserProfile(
     userId: string,
     profileData: Partial<UserProfile>,
+    fallbackEmail?: string,
   ): Promise<UserWithProfile | null> {
     await this.ensureInitialized();
     const db = await getDbModule();
@@ -234,17 +235,11 @@ class UserDatabaseService {
     const user = await this.getUserById(userId);
     if (!user) {
       // Fallback: try resolving by email (handles Google sub vs DB id mismatch)
-      try {
-        const { auth } = await import("@/lib/auth/auth");
-        const session = await auth();
-        if (session?.user?.email) {
-          const byEmail = await this.getUserByEmail(session.user.email);
-          if (byEmail) {
-            return this.updateUserProfile(byEmail.id, profileData);
-          }
+      if (fallbackEmail) {
+        const byEmail = await this.getUserByEmail(fallbackEmail);
+        if (byEmail) {
+          return this.updateUserProfile(byEmail.id, profileData, fallbackEmail);
         }
-      } catch {
-        // Auth unavailable — true not-found case
       }
       return null;
     }

@@ -376,7 +376,7 @@ export function handlePropertyAccessError(
 
   ErrorHandler.log(error, {
     context,
-    data: { propertyPath },
+    data: { propertyPath, message },
   });
 }
 

@@ -1,13 +1,13 @@
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 // @ts-expect-error - Auto-fixed by script
-const FoodRecommendations = ({ _ingredient, options = {} }: FoodRecommendationsProps) => {
+const _FoodRecommendations = ({ _ingredient, options: _options = {} }: FoodRecommendationsProps) => {
   // @ts-expect-error - Auto-fixed by script
   const [showDebug, setShowDebug] = useState(false);
   
   const runDebugTest = () => {
     console.log("Running cooking method recommendations test...");
-    testCookingMethodRecommendations();
+    void testCookingMethodRecommendations();
   };
   
   return (

@@ -139,7 +139,7 @@ export default function MethodsRecommender() {
   }
   
   // Get the top method from the list
-  const topMethod = methods.length > 0 ? methods[0] : null;
+  const _topMethod = methods.length > 0 ? methods[0] : null;
   
   // Determine if the toggle button should be shown (only for >5 methods)
   const showToggle = methods.length > 5;

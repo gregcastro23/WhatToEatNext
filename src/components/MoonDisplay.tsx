@@ -83,7 +83,7 @@ const MoonDisplay: React.FC = () => {
     state: unknown;
   }
   
-  const { planetaryPositions, state } = useAlchemical() as AlchemicalHookResult;
+  const { planetaryPositions } = useAlchemical() as AlchemicalHookResult;
   const [expanded, setExpanded] = useState(false);
   const [moonPhase, setMoonPhase] = useState<MoonPhase>({
     phase: 'new_moon',

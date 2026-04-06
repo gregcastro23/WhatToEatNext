@@ -6,7 +6,6 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import type { ZodiacSign } from '@/types/alchemy';
 import { getPlanetaryDignity } from '@/utils/astrologyUtils';
-import PlanetaryPositionValidation from './PlanetaryPositionValidation';
 import { PlanetInfoModal as _PlanetInfoModal } from './PlanetInfoModal';
 
 // Define planet and zodiac symbols for the legend
@@ -54,19 +53,9 @@ function _isValidPosition(pos: unknown): boolean {
          pos.degree >= 0 && pos.degree < 30;
 }
 
-// Rename this interface to avoid the conflict
-interface _ClockPlanetaryPosition {
-  sign: ZodiacSign;
-  degree: number;
-  dignity?: string;
-  dignityValue?: number;
-  dignityDescription?: string;
-  exactLongitude?: number; 
-  isRetrograde?: boolean;
-}
+
 
 const AstrologicalClock: React.FC = () => {
-  const { planetaryPositions } = useAlchemical();
   const { chartData, createChartSvg, isLoading, error } = useCurrentChart();
   const svgContainerRef = useRef<HTMLDivElement>(null);
   const [showLegend, setShowLegend] = useState(false);

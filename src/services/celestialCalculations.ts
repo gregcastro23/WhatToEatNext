@@ -15,46 +15,6 @@ import type {
 import type { LunarPhase } from "../types/shared";
 // astronomia calculator removed - using direct calculations
 
-// Tarot elemental correspondences
-const TAROT_ELEMENTAL_MAPPING: Record<
-  string,
-  {
-    Element: string;
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
-  }
-> = {
-  wands: {
-    Element: "Fire",
-    Spirit: 0.9,
-    Essence: 0.3,
-    Matter: 0.2,
-    Substance: 0.4,
-  },
-  cups: {
-    Element: "Water",
-    Essence: 0.8,
-    Spirit: 0.4,
-    Matter: 0.3,
-    Substance: 0.5,
-  },
-  swords: {
-    Element: "Air",
-    Substance: 0.8,
-    Spirit: 0.5,
-    Matter: 0.3,
-    Essence: 0.4,
-  },
-  pentacles: {
-    Element: "Earth",
-    Matter: 0.9,
-    Spirit: 0.2,
-    Substance: 0.4,
-    Essence: 0.3,
-  },
-};
 
 // Tarot zodiac associations
 const TAROT_ZODIAC_MAPPING: Record<string, string[]> = {
@@ -134,13 +94,6 @@ const MINOR_ARCANA_DATE_MAPPING = {
   nine_of_pentacles: { startMonth: 2, startDay: 11, endMonth: 2, endDay: 20 }, // pisces decan 3
 };
 
-// Minor arcana elemental affinities
-const MINOR_ARCANA_ELEMENTAL_AFFINITIES = {
-  wands: { element: "Fire", energyState: "Spirit" },
-  cups: { element: "Water", energyState: "Essence" },
-  swords: { element: "Air", energyState: "Substance" },
-  pentacles: { element: "Earth", energyState: "Matter" },
-};
 
 interface CelestialPosition {
   sign: string;

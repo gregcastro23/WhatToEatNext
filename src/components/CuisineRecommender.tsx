@@ -2,7 +2,7 @@
 'use client';
 
 import { Flame, Droplets, Mountain, Wind, _GalleryVertical, _Sparkles, _ArrowLeft, _Moon, _SunIcon, _ChevronDown, _ChevronUp, _Info } from 'lucide-react';
-import { useState, useEffect, _useMemo } from 'react';
+import { useState, useEffect, useCallback, _useMemo } from 'react';
 import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { _ElementalItem } from '@/calculations/alchemicalTransformation';
 import { _AlchemicalProperty } from '@/constants/planetaryElements';
@@ -116,14 +116,14 @@ export default function CuisineRecommender() {
       const zodiacElements = calculateElementalProfileFromZodiac(currentZodiac as ZodiacSign, lunarPhase as LunarPhase);
       setCurrentMomentElementalProfile(zodiacElements);
     }
-  }, [state.astrologicalState, currentZodiac, lunarPhase]);
+  }, [state.astrologicalState, currentZodiac, lunarPhase, calculateElementalProfileFromZodiac]);
 
   // Load top sauce recommendations when component mounts or when elemental profile changes
   useEffect(() => {
     const topSauces = generateTopSauceRecommendations();
     console.log(`Setting ${topSauces.length} top recommended sauces`);
     setTopRecommendedSauces(topSauces);
-  }, [currentMomentElementalProfile, currentZodiac]); // Re-generate when these dependencies change
+  }, [currentMomentElementalProfile, currentZodiac, generateTopSauceRecommendations]); // Re-generate when these dependencies change
 
   // Update cuisineRecipes whenever matchingRecipes changes
   useEffect(() => {
@@ -131,7 +131,7 @@ export default function CuisineRecommender() {
   }, [matchingRecipes]);
 
   // Calculate elemental profile from zodiac and lunar phase
-  const calculateElementalProfileFromZodiac = (zodiacSign: ZodiacSign, lunarPhase?: LunarPhase): ElementalProperties => {
+  const calculateElementalProfileFromZodiac = useCallback((zodiacSign: ZodiacSign, lunarPhase?: LunarPhase): ElementalProperties => {
     // Get zodiac element
     const zodiacElementMap: Record<string, keyof ElementalProperties> = {
       aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
@@ -195,10 +195,10 @@ export default function CuisineRecommender() {
     }
     
     return elementalProfile;
-  };
+  }, [planetaryPositions, calculateElementalContributionsFromPlanets]);
   
   // Calculate elemental contributions from planetary positions
-  const calculateElementalContributionsFromPlanets = (positions: Record<string, unknown>): ElementalProperties => {
+  const calculateElementalContributionsFromPlanets = useCallback((positions: Record<string, unknown>): ElementalProperties => {
     const contributions: ElementalProperties = {
       Fire: 0,
       Water: 0,
@@ -231,7 +231,7 @@ export default function CuisineRecommender() {
     }
     
     return contributions;
-  };
+  }, []);
 
   const _cssStyles = styles as unknown as CuisineStyles;
 
@@ -317,7 +317,7 @@ export default function CuisineRecommender() {
   };
 
   // Get sauce recommendations for the current elemental profile
-  const generateTopSauceRecommendations = () => {
+  const generateTopSauceRecommendations = useCallback(() => {
     // Convert sauces record to array for mapping
     const saucesArray = allSauces ? Object.values(allSauces) : [];
     console.log(`Total available sauces: ${saucesArray.length}`);
@@ -345,16 +345,16 @@ export default function CuisineRecommender() {
     console.log(`Returning ${result.length} top recommended sauces`);
     // Return top 8 sauces (doubled from 4)
     return result;
-  };
+  }, [allSauces, currentMomentElementalProfile]);
 
   useEffect(() => {
     if (cuisines && !dataLoading && !dataError) {
       loadCuisines();
     }
-  }, [currentMomentElementalProfile, currentZodiac, lunarPhase, cuisines, dataLoading, dataError]);
+  }, [currentMomentElementalProfile, currentZodiac, lunarPhase, cuisines, dataLoading, dataError, loadCuisines]);
 
   // Load cuisines synchronously now that we have data from context
-  function loadCuisines() {
+  const loadCuisines = useCallback(() => {
     try {
       setLoading(true);
       // Load all cuisines from context
@@ -407,7 +407,7 @@ export default function CuisineRecommender() {
       setLoading(false);
       console.error('Error loading cuisines:', err);
     }
-  }
+  }, [cuisines, planetaryPositions, isDaytime, currentZodiac, lunarPhase, currentMomentElementalProfile, generateTopSauceRecommendations]);
 
   const handleCuisineSelect = (cuisineId: string) => {
     if (selectedCuisine === cuisineId) {

@@ -32,7 +32,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   const onTarotLoadedRef = useRef(onTarotLoaded);
   
   // Get astrological state which includes sun position
-  const { currentPlanetaryAlignment, loading: astroLoading } = useAstrologicalState();
+  const { currentPlanetaryAlignment, loading: _astroLoading } = useAstrologicalState();
 
   // Type guard to check if currentPlanetaryAlignment has sun property with the right shape
   const hasSunPosition = (alignment: Record<string, unknown>): alignment is { sun: PlanetaryPosition } => {
@@ -107,7 +107,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       setError('Failed to load tarot cards');
       console.error(err);
     }
-  }, [currentPlanetaryAlignment]);
+  }, [currentPlanetaryAlignment, getAlchemicalValues]);
 
   useEffect(() => {
     let isMounted = true;
@@ -122,7 +122,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   }, [loadTarotCards]);
 
   // Function to compute alchemical values from tarot card
-  const getAlchemicalValues = (card: unknown) => {
+  const getAlchemicalValues = useCallback((card: unknown) => {
     if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     
     // @ts-expect-error - Auto-fixed by script
@@ -140,7 +140,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
     else if (suit === 'Swords') values.Substance = number;
     
     return values;
-  };
+  }, []);
 
   const getElementIcon = (element: string) => {
     switch (element?.toLowerCase()) {

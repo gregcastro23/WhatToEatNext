@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
           });
           natalChart.planets = updatedPlanets;
           // Persist the migrated chart asynchronously (don't block response)
-          void userDatabase.updateUserProfile(user.id, { natalChart } as any).catch((err: any) =>
+          void userDatabase.updateUserProfile(user.id, { natalChart } as any, user.email).catch((err: any) =>
             _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
           );
         } catch (err) {
@@ -113,6 +113,7 @@ export async function PUT(request: NextRequest) {
     const updatedUser = await userDatabase.updateUserProfile(
       userId,
       profileData as Partial<UserProfile>,
+      user.email
     );
 
     if (!updatedUser) {

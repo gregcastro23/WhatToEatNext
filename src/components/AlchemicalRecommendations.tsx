@@ -267,7 +267,6 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
         const cuisineName = ((cuisine).name || key).toLowerCase();
-        const region = ((cuisine).region || '').toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
@@ -341,9 +340,6 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   // Get recommendations using our hook
   const {
     recommendations,
-    transformedIngredients,
-    transformedMethods,
-    transformedCuisines,
     loading,
     error,
     energeticProfile
