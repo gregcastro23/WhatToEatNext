@@ -3,9 +3,6 @@
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
-import { _recipeRecommender } from "@/services/recipeRecommendations";
-import { sauceRecommender } from "@/services/sauceRecommender";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 
 // ===== Constants =====
@@ -53,10 +50,10 @@ const SPICE_LEVEL_DISPLAY: Record<string, { label: string; color: string; dots: 
 // ===== Helpers =====
 
 function getBaseServings(recipe: Recipe): number {
-  return (recipe as any).baseServingSize
+  return (recipe as { baseServingSize?: number }).baseServingSize
     || recipe.servingSize
     || recipe.numberOfServings
-    || (recipe as any).servings
+    || (recipe as { servings?: number }).servings
     || 1;
 }
 
@@ -69,7 +66,7 @@ function formatTime(minutes: number | undefined): string {
 }
 
 function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
-  const details = (recipe as any).details;
+  const details = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } }).details;
   if (details?.prepTimeMinutes != null) {
     return { prep: details.prepTimeMinutes, cook: details.cookTimeMinutes || 0 };
   }
@@ -83,9 +80,9 @@ function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
 }
 
 function getCookingMethods(recipe: Recipe): string[] {
-  const methods = (recipe as any).cookingMethods || recipe.cookingMethod || [];
+  const methods = (recipe as { cookingMethods?: string[] }).cookingMethods || recipe.cookingMethod || [];
   const arr = Array.isArray(methods) ? methods : [methods];
-  return arr.map((m: any) => (typeof m === "string" ? m : m?.name || "")).filter(Boolean);
+  return arr.map((m) => (typeof m === "string" ? m : (m as { name?: string })?.name || "")).filter(Boolean);
 }
 
 function getMealTypes(recipe: Recipe): string[] {
@@ -99,7 +96,7 @@ function getSeasons(recipe: Recipe): string[] {
 }
 
 function getSpiceLevel(recipe: Recipe): string {
-  const level = recipe.spiceLevel ?? (recipe as any).details?.spiceLevel;
+  const level = recipe.spiceLevel ?? (recipe as { details?: { spiceLevel?: string | number } }).details?.spiceLevel;
   if (typeof level === "number") {
     if (level === 0) return "None";
     if (level <= 2) return "Mild";
@@ -123,17 +120,29 @@ function getPlanetaryInfluences(recipe: Recipe): string[] {
 
 function getZodiacInfluences(recipe: Recipe): string[] {
   const zi = recipe.zodiacInfluences;
-  if (Array.isArray(zi)) return zi.map((z: any) => typeof z === "string" ? z : z?.name || "").filter(Boolean);
+  if (Array.isArray(zi)) return zi.map((z) => typeof z === "string" ? z : (z as { name?: string })?.name || "").filter(Boolean);
   return [];
 }
 
 function getLunarPhases(recipe: Recipe): string[] {
   const lp = recipe.lunarPhaseInfluences;
-  if (Array.isArray(lp)) return lp;
+  if (Array.isArray(lp)) return lp as string[];
   return [];
 }
 
-function getNutrition(recipe: Recipe): Record<string, any> | null {
+interface NormalizedNutrition {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
+  sodium?: number;
+  sugar?: number;
+  vitamins?: string[];
+  minerals?: string[];
+}
+
+function getNutrition(recipe: Recipe): NormalizedNutrition | null {
   const n = recipe.nutrition;
   if (!n) return null;
   return {
@@ -144,8 +153,8 @@ function getNutrition(recipe: Recipe): Record<string, any> | null {
     fiber: (n as any).fiber ?? (n as any).fiberG,
     sodium: (n as any).sodium ?? (n as any).sodiumMg,
     sugar: (n as any).sugar ?? (n as any).sugarG,
-    vitamins: (n as any).vitamins,
-    minerals: (n as any).minerals,
+    vitamins: (n as { vitamins?: string[] }).vitamins,
+    minerals: (n as { minerals?: string[] }).minerals,
   };
 }
 
@@ -153,9 +162,9 @@ function getSubstitutions(recipe: Recipe): Array<{ original: string; alternative
   const subs = recipe.substitutions;
   if (!subs) return [];
   if (Array.isArray(subs)) {
-    return subs.map((s: any) => ({
-      original: s.original || s.originalIngredient || "",
-      alternatives: s.alternatives || s.substituteOptions || [],
+    return subs.map((s) => ({
+      original: s.original || (s as any).originalIngredient || "",
+      alternatives: s.alternatives || (s as any).substituteOptions || [],
     }));
   }
   // Object format fallback
@@ -409,10 +418,10 @@ function computeMonicaComponents(
 }
 
 function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
-  const spirit    = (recipe as any).spirit    ?? 0;
-  const essence   = (recipe as any).essence   ?? 0;
-  const matter    = (recipe as any).matter    ?? 0;
-  const substance = (recipe as any).substance ?? 0;
+  const spirit    = recipe.spirit    ?? 0;
+  const essence   = recipe.essence   ?? 0;
+  const matter    = recipe.matter    ?? 0;
+  const substance = recipe.substance ?? 0;
   const aSharp    = spirit + essence + matter + substance;
 
   const fire  = recipe.elementalProperties?.Fire  ?? 0;
@@ -449,7 +458,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
 
   const monicaScore  = recipe.monicaScore;
   const monicaLabel  = recipe.monicaScoreLabel;
-  const rawMonica    = (recipe as any).monicaOptimization?.optimizedMonica as number | null | undefined;
+  const rawMonica    = recipe.monicaOptimization?.optimizedMonica as number | null | undefined;
 
   // Ingredient-summed alchemical quantities
   const ingAlch = recipe.ingredientAlchemicalSummary;
@@ -641,7 +650,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
   );
 }
 
-function NutritionGrid({ nutrition }: { nutrition: Record<string, any> }) {
+function NutritionGrid({ nutrition }: { nutrition: NormalizedNutrition }) {
   const macros = [
     { label: "Calories", value: nutrition.calories, unit: "", color: "text-amber-400" },
     { label: "Protein", value: nutrition.protein, unit: "g", color: "text-emerald-400" },
@@ -668,8 +677,12 @@ function NutritionGrid({ nutrition }: { nutrition: Record<string, any> }) {
 
 // ===== Main Component =====
 
-export default function RecipePage(props: any) {
-  const params = props.params as { recipeId: string };
+interface RecipePageProps {
+  params: Promise<{ recipeId: string }>;
+}
+
+export default function RecipePage({ params }: RecipePageProps) {
+  const [recipeId, setRecipeId] = useState<string | null>(null);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [recommendedSauces, setRecommendedSauces] = useState<string[]>([]);
   const [recommendedRecipes, setRecommendedRecipes] = useState<Recipe[]>([]);
@@ -677,48 +690,37 @@ export default function RecipePage(props: any) {
   const [servings, setServings] = useState(1);
   const [copied, setCopied] = useState(false);
 
+  useEffect(() => {
+    params.then(p => setRecipeId(p.recipeId)).catch(console.error);
+  }, [params]);
+
   const baseServings = useMemo(() => recipe ? getBaseServings(recipe) : 1, [recipe]);
   const scale = servings / baseServings;
 
   useEffect(() => {
-    if (params.recipeId) {
+    if (recipeId) {
       const fetchRecipe = async () => {
         setIsLoading(true);
         try {
-          const recipeService = UnifiedRecipeService.getInstance();
-          const fetchedRecipe = await recipeService.getRecipeById(params.recipeId);
-          setRecipe(fetchedRecipe);
-
-          if (fetchedRecipe) {
+          const res = await fetch(`/api/recipes/${recipeId}`);
+          if (!res.ok) {
+            setRecipe(null);
+            return;
+          }
+          const data = await res.json();
+          
+          if (data.success && data.recipe) {
+            const fetchedRecipe = data.recipe as Recipe;
+            setRecipe(fetchedRecipe);
             setServings(getBaseServings(fetchedRecipe));
-
-            const proteins = fetchedRecipe.ingredients
-              .filter((i) => i.category === "protein")
-              .map((i) => i.name);
-            const vegetables = fetchedRecipe.ingredients
-              .filter((i) => i.category === "vegetable")
-              .map((i) => i.name);
-            const cookingMethods = getCookingMethods(fetchedRecipe);
-
-            const sauces = await sauceRecommender.recommendSauce(
-              fetchedRecipe.cuisine ?? '',
-              {
-                protein: proteins[0],
-                vegetable: vegetables[0],
-                cookingMethod: cookingMethods[0],
-              },
-            );
-            setRecommendedSauces(sauces);
-
-            const allRecipes = await recipeService.getAllRecipes();
-            const recommended = await _recipeRecommender.recommendSimilarRecipes(
-              fetchedRecipe,
-              allRecipes,
-            );
-            setRecommendedRecipes(recommended);
+            setRecommendedSauces(data.recommendedSauces || []);
+            setRecommendedRecipes(data.recommendedRecipes || []);
+          } else {
+            setRecipe(null);
           }
         } catch (error) {
           console.error("Failed to fetch recipe:", error);
+          setRecipe(null);
         } finally {
           setIsLoading(false);
         }
@@ -726,7 +728,7 @@ export default function RecipePage(props: any) {
 
       void fetchRecipe();
     }
-  }, [params.recipeId]);
+  }, [recipeId]);
 
   const handleCopyRecipe = useCallback(async () => {
     if (!recipe) return;
@@ -743,10 +745,14 @@ export default function RecipePage(props: any) {
       textarea.style.opacity = "0";
       document.body.appendChild(textarea);
       textarea.select();
-      document.execCommand("copy");
+      try {
+        document.execCommand("copy");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error("Fallback copy failed", err);
+      }
       document.body.removeChild(textarea);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     }
   }, [recipe, servings]);
 
@@ -1171,9 +1177,9 @@ export default function RecipePage(props: any) {
             {nutrition && (
               <SectionCard title="Nutrition Per Serving" icon="&#x1F4CA;">
                 <NutritionGrid nutrition={nutrition} />
-                {(nutrition.vitamins?.length > 0 || nutrition.minerals?.length > 0) && (
+                {(nutrition.vitamins?.length && nutrition.vitamins.length > 0) || (nutrition.minerals?.length && nutrition.minerals.length > 0) ? (
                   <div className="mt-4 space-y-3">
-                    {nutrition.vitamins?.length > 0 && (
+                    {nutrition.vitamins?.length && nutrition.vitamins.length > 0 && (
                       <div>
                         <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Vitamins</h3>
                         <div className="flex flex-wrap gap-1.5">
@@ -1183,7 +1189,7 @@ export default function RecipePage(props: any) {
                         </div>
                       </div>
                     )}
-                    {nutrition.minerals?.length > 0 && (
+                    {nutrition.minerals?.length && nutrition.minerals.length > 0 && (
                       <div>
                         <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Minerals</h3>
                         <div className="flex flex-wrap gap-1.5">
@@ -1194,7 +1200,7 @@ export default function RecipePage(props: any) {
                       </div>
                     )}
                   </div>
-                )}
+                ) : null}
               </SectionCard>
             )}
 
@@ -1248,25 +1254,25 @@ export default function RecipePage(props: any) {
             {recipe.sensoryIndicators && (
               <SectionCard title="Sensory Indicators" icon="&#x1F440;">
                 <div className="space-y-3 text-sm">
-                  {recipe.sensoryIndicators.visual?.length > 0 && (
+                  {recipe.sensoryIndicators.visual?.length && recipe.sensoryIndicators.visual.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Visual</h3>
                       <p className="text-slate-400">{recipe.sensoryIndicators.visual.join("; ")}</p>
                     </div>
                   )}
-                  {recipe.sensoryIndicators.aroma?.length > 0 && (
+                  {recipe.sensoryIndicators.aroma?.length && recipe.sensoryIndicators.aroma.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Aroma</h3>
                       <p className="text-slate-400">{recipe.sensoryIndicators.aroma.join("; ")}</p>
                     </div>
                   )}
-                  {recipe.sensoryIndicators.texture?.length > 0 && (
+                  {recipe.sensoryIndicators.texture?.length && recipe.sensoryIndicators.texture.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Texture</h3>
                       <p className="text-slate-400">{recipe.sensoryIndicators.texture.join("; ")}</p>
                     </div>
                   )}
-                  {recipe.sensoryIndicators.sound?.length > 0 && (
+                  {recipe.sensoryIndicators.sound?.length && recipe.sensoryIndicators.sound.length > 0 && (
                     <div>
                       <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Sound</h3>
                       <p className="text-slate-400">{recipe.sensoryIndicators.sound.join("; ")}</p>
@@ -1308,7 +1314,7 @@ export default function RecipePage(props: any) {
                           <div key={taste} className="flex items-center gap-2">
                             <span className="w-14 text-xs text-slate-500 capitalize">{taste}</span>
                             <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
-                              <div className="h-full bg-amber-500/60 rounded-full" style={{ width: `${(value / 10) * 100}%` }} />
+                              <div className="h-full bg-amber-500/60 rounded-full" style={{ width: `${((value) / 10) * 100}%` }} />
                             </div>
                             <span className="w-5 text-xs text-slate-500 text-right">{value}</span>
                           </div>

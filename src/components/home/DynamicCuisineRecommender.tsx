@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { getServerRecipes } from "@/actions/recipes";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import { CuisineCard, CuisineCardSkeleton } from "./CuisineCard";
 import type { DynamicCuisineRecommendation } from "./CuisineCard";
 
@@ -228,14 +228,16 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
       
       try {
         const service = PlanetaryScoringService.getInstance();
-        const recipeService = UnifiedRecipeService.getInstance();
+        const allRecipes = await getServerRecipes();
 
         // Fallback Phase 1: Load recipe counts
         const recipeCountsMap = new Map<string, number>();
         for (const cuisine of CUISINE_DEFINITIONS) {
           try {
-            const cuisineRecipes = await recipeService.getRecipesForCuisine(cuisine.name.toLowerCase());
-            recipeCountsMap.set(cuisine.name, (cuisineRecipes || []).length);
+            const cuisineRecipes = allRecipes.filter((r: any) => 
+              r.cuisine?.toLowerCase().includes(cuisine.name.toLowerCase())
+            );
+            recipeCountsMap.set(cuisine.name, cuisineRecipes.length);
           } catch {
             recipeCountsMap.set(cuisine.name, 0);
           }

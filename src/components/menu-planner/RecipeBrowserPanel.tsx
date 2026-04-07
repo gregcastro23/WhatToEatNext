@@ -15,9 +15,9 @@ import React, {
   useCallback,
   useRef,
 } from "react";
+import { getServerRecipes } from "@/actions/recipes";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
 import {
@@ -125,8 +125,7 @@ export default function RecipeBrowserPanel({
     const load = async () => {
       try {
         setIsLoading(true);
-        const service = UnifiedRecipeService.getInstance();
-        const recipes = await service.getAllRecipes();
+        const recipes = await getServerRecipes();
         setAllRecipes(recipes as unknown as Recipe[]);
         logger.info(`Loaded ${recipes.length} recipes for browser`);
       } catch (error) {

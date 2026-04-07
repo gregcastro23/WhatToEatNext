@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 
 export default function RecipesPage() {
@@ -19,13 +18,23 @@ export default function RecipesPage() {
       const fetchAndScoreRecipes = async () => {
         setIsLoading(true);
         try {
-          const recipeService = UnifiedRecipeService.getInstance();
-          const cuisineRecipes =
-            await recipeService.getRecipesForCuisine(cuisine);
+          const res = await fetch(`/api/recipes?cuisine=${encodeURIComponent(cuisine)}`);
+          if (!res.ok) {
+            setRecipes([]);
+            setIsLoading(false);
+            return;
+          }
+          const data = await res.json();
+          let cuisineRecipes: Recipe[] = [];
+          if (data.success && data.recipes) {
+            cuisineRecipes = data.recipes;
+          }
 
           // Initially display recipes unsorted
-          setRecipes(cuisineRecipes as unknown as Recipe[]);
+          setRecipes(cuisineRecipes);
           setIsLoading(false);
+
+          if (cuisineRecipes.length === 0) return;
 
           // Then score each recipe with planetary alignment
           setIsScoring(true);
@@ -33,7 +42,7 @@ export default function RecipesPage() {
             const scoringService = PlanetaryScoringService.getInstance();
             const scoredRecipes = await Promise.all(
               cuisineRecipes.map(async (recipe) => {
-                const r = recipe as unknown as Recipe;
+                const r = recipe;
                 try {
                   const result = await scoringService.scoreRecipe(r);
                   return {
@@ -67,6 +76,8 @@ export default function RecipesPage() {
       };
 
       void fetchAndScoreRecipes();
+    } else {
+      setIsLoading(false);
     }
   }, [cuisine]);
 

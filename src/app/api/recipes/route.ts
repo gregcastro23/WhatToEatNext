@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     try {
       const { executeQuery } = await import("@/lib/database/connection");
       let query = "SELECT * FROM recipes WHERE 1=1";
-      const params: any[] = [];
+      const params: Array<string | number> = [];
       let paramIdx = 1;
 
       if (element) {
