@@ -15,6 +15,8 @@ import { authConfig } from "@/lib/auth/auth.config";
 
 export default NextAuth(authConfig).auth;
 
+export const runtime = "nodejs";
+
 export const config = {
   matcher: [
     "/profile/:path*",
