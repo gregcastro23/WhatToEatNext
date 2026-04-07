@@ -8,17 +8,13 @@
  * @created 2026-01-10
  */
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
 import WeekProgress from "@/components/menu-builder/WeekProgress";
-import GroceryListModal from "@/components/menu-planner/GroceryListModal";
-import NutritionalDashboard from "@/components/menu-planner/NutritionalDashboard";
-import PossoWidget from "@/components/menu-planner/PossoWidget";
-import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
-import RecipeDetailModal from "@/components/menu-planner/RecipeDetailModal";
 import RecipeQueue from "@/components/menu-planner/RecipeQueue";
 import TodaysMealsWidget from "@/components/menu-planner/TodaysMealsWidget";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
@@ -33,6 +29,20 @@ import {
 } from "@/contexts/RecipeQueueContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import type { Recipe } from "@/types/recipe";
+
+const GroceryListModal = dynamic(
+  () => import("@/components/menu-planner/GroceryListModal"),
+);
+const NutritionalDashboard = dynamic(
+  () => import("@/components/menu-planner/NutritionalDashboard"),
+);
+const PossoWidget = dynamic(() => import("@/components/menu-planner/PossoWidget"));
+const RecipeBrowserPanel = dynamic(
+  () => import("@/components/menu-planner/RecipeBrowserPanel"),
+);
+const RecipeDetailModal = dynamic(
+  () => import("@/components/menu-planner/RecipeDetailModal"),
+);
 
 interface SavedChart {
   id: string;

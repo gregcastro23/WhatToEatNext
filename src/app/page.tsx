@@ -1,12 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Suspense } from "react";
-import DynamicCuisineRecommender from "@/components/home/DynamicCuisineRecommender";
+import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/home/HeroSection";
-import EnhancedCookingMethodRecommender from "@/components/recommendations/EnhancedCookingMethodRecommender";
-import EnhancedIngredientRecommender from "@/components/recommendations/EnhancedIngredientRecommender";
-import EnhancedSauceRecommender from "@/components/recommendations/EnhancedSauceRecommender";
 import type { Variants } from "framer-motion";
 
 function SectionLoader() {
@@ -16,6 +12,26 @@ function SectionLoader() {
     </div>
   );
 }
+
+const DynamicCuisineRecommender = dynamic(
+  () => import("@/components/home/DynamicCuisineRecommender"),
+  { loading: () => <SectionLoader /> },
+);
+
+const EnhancedSauceRecommender = dynamic(
+  () => import("@/components/recommendations/EnhancedSauceRecommender"),
+  { loading: () => <SectionLoader /> },
+);
+
+const EnhancedIngredientRecommender = dynamic(
+  () => import("@/components/recommendations/EnhancedIngredientRecommender"),
+  { loading: () => <SectionLoader /> },
+);
+
+const EnhancedCookingMethodRecommender = dynamic(
+  () => import("@/components/recommendations/EnhancedCookingMethodRecommender"),
+  { loading: () => <SectionLoader /> },
+);
 
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
@@ -42,9 +58,7 @@ export default function Home() {
         variants={staggerContainer}
       >
         <motion.div variants={fadeInItem}>
-          <Suspense fallback={<SectionLoader />}>
-            <HeroSection />
-          </Suspense>
+          <HeroSection />
         </motion.div>
 
         <motion.section 
@@ -54,15 +68,11 @@ export default function Home() {
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
         >
-          <Suspense fallback={<SectionLoader />}>
-            <div className="min-h-[400px]">
-              <DynamicCuisineRecommender />
-            </div>
-          </Suspense>
+          <div className="min-h-[400px]">
+            <DynamicCuisineRecommender />
+          </div>
           <div className="mt-8">
-            <Suspense fallback={<SectionLoader />}>
-              <EnhancedSauceRecommender />
-            </Suspense>
+            <EnhancedSauceRecommender />
           </div>
         </motion.section>
 
@@ -73,9 +83,7 @@ export default function Home() {
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
         >
-          <Suspense fallback={<SectionLoader />}>
-            <EnhancedIngredientRecommender />
-          </Suspense>
+          <EnhancedIngredientRecommender />
         </motion.section>
 
         <motion.div 
@@ -84,9 +92,7 @@ export default function Home() {
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
         >
-          <Suspense fallback={<SectionLoader />}>
-            <EnhancedCookingMethodRecommender />
-          </Suspense>
+          <EnhancedCookingMethodRecommender />
         </motion.div>
       </motion.div>
     </main>

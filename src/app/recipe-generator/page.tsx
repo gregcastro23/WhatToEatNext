@@ -17,6 +17,7 @@
  * @file src/app/recipe-generator/page.tsx
  */
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React, {
   useState,
@@ -26,7 +27,6 @@ import React, {
   useRef,
 } from "react";
 import { PremiumGate } from "@/components/PremiumGate";
-import RecipeBuilderPanel from "@/components/recipe-builder/RecipeBuilderPanel";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { useUser } from "@/contexts/UserContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
@@ -40,6 +40,10 @@ import {
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
 import { getPlanetaryDayCharacteristics } from "@/utils/planetaryDayRecommendations";
+
+const RecipeBuilderPanel = dynamic(
+  () => import("@/components/recipe-builder/RecipeBuilderPanel"),
+);
 
 const logger = createLogger("RecipeGenerator");
 

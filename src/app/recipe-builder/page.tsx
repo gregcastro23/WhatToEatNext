@@ -14,11 +14,10 @@
  * @file src/app/recipe-builder/page.tsx
  */
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import GenerateRecipeButton from "@/components/recipe-builder/GenerateRecipeButton";
-import RecipeBuilderPanel from "@/components/recipe-builder/RecipeBuilderPanel";
-import RecipeSuggestionCarousel from "@/components/recipe-builder/RecipeSuggestionCarousel";
 import { useUser } from "@/contexts/UserContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
@@ -31,6 +30,13 @@ import {
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
 import { getPlanetaryDayCharacteristics } from "@/utils/planetaryDayRecommendations";
+
+const RecipeBuilderPanel = dynamic(
+  () => import("@/components/recipe-builder/RecipeBuilderPanel"),
+);
+const RecipeSuggestionCarousel = dynamic(
+  () => import("@/components/recipe-builder/RecipeSuggestionCarousel"),
+);
 
 const logger = createLogger("RecipeBuilder");
 
