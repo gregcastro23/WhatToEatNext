@@ -16,6 +16,10 @@ import "./globals.css";
 // context providers (Chakra, Theme, User, Alchemical) that require
 // a client-side React environment during rendering.
 export const dynamic = "force-dynamic";
+export const viewport = {
+  themeColor: "#6366f1",
+};
+
 export const metadata: Metadata = {
   title: "What to Eat Next",
   description:
@@ -29,7 +33,6 @@ export const metadata: Metadata = {
     ],
     apple: "/alchm-icon-512.png",
   },
-  themeColor: "#6366f1",
 };
 export default function RootLayout({
   children,
