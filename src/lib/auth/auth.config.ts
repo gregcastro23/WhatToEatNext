@@ -145,7 +145,9 @@ export const authConfig = {
      */
     session({ session, token }) {
       if (session.user) {
-        session.user.id = (token.userId as string) || token.sub || "";
+        // Use DB-backed userId only. token.sub can be OAuth provider subject,
+        // which causes UUID mismatches in DB-backed API routes.
+        session.user.id = (token.userId as string) || "";
         session.user.email = (token.email as string) || "";
         session.user.name = (token.name as string) || "";
         session.user.image = (token.picture as string) || "";

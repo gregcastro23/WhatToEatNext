@@ -11,9 +11,16 @@ import { NextResponse } from "next/server";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
+type AuthResolver = typeof import("@/lib/auth/auth").auth;
+type UserDatabaseResolver =
+  typeof import("@/services/userDatabaseService").userDatabase;
+
+type AuthLoader = () => Promise<AuthResolver | null>;
+type UserDatabaseLoader = () => Promise<UserDatabaseResolver | null>;
+
 // Dynamic import for auth to avoid pulling in Node.js deps at bundle time
 // This allows edge routes to use validateRequest when auth callbacks aren't needed
-const getAuth = async () => {
+const defaultAuthLoader: AuthLoader = async () => {
   try {
     const { auth } = await import("@/lib/auth/auth");
     return auth;
@@ -24,7 +31,7 @@ const getAuth = async () => {
 
 // Dynamic import for userDatabase to support edge runtime
 // Edge routes will gracefully skip DB lookups
-const getUserDatabase = async () => {
+const defaultUserDatabaseLoader: UserDatabaseLoader = async () => {
   try {
     const { userDatabase } = await import("@/services/userDatabaseService");
     return userDatabase;
@@ -32,6 +39,29 @@ const getUserDatabase = async () => {
     return null;
   }
 };
+
+let authLoader: AuthLoader = defaultAuthLoader;
+let userDatabaseLoader: UserDatabaseLoader = defaultUserDatabaseLoader;
+
+export function __setValidateRequestTestLoaders(loaders: {
+  authLoader?: AuthLoader;
+  userDatabaseLoader?: UserDatabaseLoader;
+}): void {
+  if (loaders.authLoader) {
+    authLoader = loaders.authLoader;
+  }
+  if (loaders.userDatabaseLoader) {
+    userDatabaseLoader = loaders.userDatabaseLoader;
+  }
+}
+
+export function __resetValidateRequestTestLoaders(): void {
+  authLoader = defaultAuthLoader;
+  userDatabaseLoader = defaultUserDatabaseLoader;
+}
+
+const getAuth = () => authLoader();
+const getUserDatabase = () => userDatabaseLoader();
 
 // JWT Secret - lazy initialization
 let _jwtSecret: Uint8Array | null = null;
@@ -247,8 +277,32 @@ export async function getUserIdFromRequest(
     const auth = await getAuth();
     if (auth) {
       const session = await auth();
-      if (session?.user?.id) {
-        return session.user.id;
+      if (session?.user) {
+        const sessionUserId = (session.user.id || "").trim();
+        const sessionEmail = (session.user.email || "").trim().toLowerCase();
+
+        // Resolve against DB when available to avoid OAuth-sub-vs-UUID mismatches.
+        try {
+          const userDb = await getUserDatabase();
+          if (userDb) {
+            if (sessionUserId) {
+              const byId = await userDb.getUserById(sessionUserId);
+              if (byId) return byId.id;
+            }
+            if (sessionEmail) {
+              const byEmail = await userDb.getUserByEmail(sessionEmail);
+              if (byEmail) return byEmail.id;
+            }
+          }
+        } catch (dbError) {
+          console.error("[validateRequest] Database resolution failed:", dbError);
+          // Continue to edge/no-DB fallback
+        }
+
+        // Edge/no-DB fallback: still return session user id if present.
+        if (sessionUserId) {
+          return sessionUserId;
+        }
       }
     }
   } catch {

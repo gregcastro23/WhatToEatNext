@@ -1,3 +1,4 @@
+import 'server-only';
 import { executeQuery } from "@/lib/database";
 import type {
   ElementalProperties,

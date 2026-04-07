@@ -12,7 +12,6 @@ import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 import { _cuisineFlavorProfiles, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import type { _Sauce } from '@/data/sauces';
 import { _useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { _LocalRecipeService } from '@/services/LocalRecipeService';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
 import { _LunarPhaseWithSpaces } from '@/types/alchemy';
 import type { _Recipe } from '@/types/recipe';

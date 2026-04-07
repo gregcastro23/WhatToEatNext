@@ -22,17 +22,13 @@ const browserCache = new Map<
   { data: any; timestamp: number; inputHash: string }
 >();
 
-// Lazy-load database service (only on server)
+// CacheService injection for server environments (optional)
+// To prevent Next.js from tracing the import and failing client builds,
+// the server must inject the cache service explicitly if DB caching is desired.
 let CacheService: any = null;
-if (typeof window === "undefined") {
-  // Only import database on server-side
-  import("@/lib/database")
-    .then((mod) => {
-      CacheService = mod.CacheService;
-    })
-    .catch((_err) => {
-      log.warn("Database not available, using memory-only cache");
-    });
+
+export function injectCacheService(service: any) {
+  CacheService = service;
 }
 
 /**

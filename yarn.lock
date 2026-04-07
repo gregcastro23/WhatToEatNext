@@ -12450,6 +12450,13 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
+"server-only@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "server-only@npm:0.0.1"
+  checksum: c432348956641ea3f460af8dc3765f3a1bdbcf7a1e0205b0756d868e6e6fe8934cdee6bff68401a1dd49ba4a831c75916517a877446d54b334f7de36fa273e53
+  languageName: node
+  linkType: hard
+
 "set-function-length@npm:^1.2.2":
   version: 1.2.2
   resolution: "set-function-length@npm:1.2.2"
@@ -14006,6 +14013,7 @@ next-auth@beta:
     react-icons: ^5.5.0
     recharts: ^2.14.1
     semver: ^7.7.1
+    server-only: ^0.0.1
     stripe: ^20.4.1
     suncalc: ^1.9.0
     tailwind-merge: ^3.3.1

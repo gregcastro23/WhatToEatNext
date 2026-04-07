@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="5" failures="0" errors="0" time="1.482">
+  <testsuite name="Instacart Recipe API (/api/instacart/recipe)" errors="0" failures="0" skipped="0" timestamp="2026-04-07T00:15:43" time="0.561" tests="5">
+    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should exclude pantry-covered ingredients before calling Instacart" time="0.01">
+    </testcase>
+    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should return 400 when pantry inventory covers every ingredient" time="0.001">
+    </testcase>
+    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should return cached response when same recipe and inventory are requested" time="0.002">
+    </testcase>
+    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should bypass cache when inventory changes" time="0.001">
+    </testcase>
+    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should handle IDP backend errors gracefully" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

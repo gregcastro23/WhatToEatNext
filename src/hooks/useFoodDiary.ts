@@ -11,7 +11,22 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useUser } from "@/contexts/UserContext";
-import { foodDiaryService } from "@/services/FoodDiaryService";
+import {
+  getServerDayEntries,
+  getServerDailySummary,
+  getServerWeeklySummary,
+  getServerStats,
+  getServerFavorites,
+  createServerEntry,
+  updateServerEntry,
+  deleteServerEntry,
+  rateServerEntry,
+  getServerQuickFoodPreset,
+  getServerQuickFoodPresets,
+  searchServerFoods,
+  addServerToFavorites,
+  generateServerInsights,
+} from "@/actions/foodDiary";
 import type {
   FoodDiaryEntry,
   CreateFoodDiaryEntryInput,
@@ -69,7 +84,7 @@ interface UseFoodDiaryReturn extends UseFoodDiaryState {
     quantity?: number,
     time?: string,
   ) => Promise<FoodDiaryEntry | null>;
-  getQuickFoodPresets: (category?: QuickFoodCategory) => QuickFoodPreset[];
+  getQuickFoodPresets: (category?: QuickFoodCategory) => Promise<QuickFoodPreset[]>;
 
   // Search and favorites
   searchFoods: (query: string) => Promise<FoodSearchResult[]>;
@@ -145,8 +160,8 @@ export function useFoodDiary(): UseFoodDiaryReturn {
           const entries = data.entries ?? [];
           const summary = data.summary ?? null;
           const [stats, favorites] = await Promise.all([
-            foodDiaryService.getStats(userId),
-            foodDiaryService.getFavorites(userId),
+            getServerStats(userId),
+            getServerFavorites(userId),
           ]);
           setState((prev) => ({
             ...prev,
@@ -160,12 +175,12 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         }
       }
 
-      // Fallback: unauthenticated or API unavailable — use in-memory service
+      // Fallback: use Server Actions
       const [entries, dailySummary, stats, favorites] = await Promise.all([
-        foodDiaryService.getDayEntries(userId, selectedDate),
-        foodDiaryService.getDailySummary(userId, selectedDate),
-        foodDiaryService.getStats(userId),
-        foodDiaryService.getFavorites(userId),
+        getServerDayEntries(userId, selectedDate),
+        getServerDailySummary(userId, selectedDate),
+        getServerStats(userId),
+        getServerFavorites(userId),
       ]);
 
       setState((prev) => ({
@@ -196,7 +211,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       weekStart.setDate(weekStart.getDate() - weekStart.getDay());
       weekStart.setHours(0, 0, 0, 0);
 
-      const weeklySummary = await foodDiaryService.getWeeklySummary(
+      const weeklySummary = await getServerWeeklySummary(
         userId,
         weekStart,
       );
@@ -228,7 +243,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
           const data = await res.json();
           entry = data.entry ?? null;
         } else {
-          entry = await foodDiaryService.createEntry(userId, input);
+          entry = await createServerEntry(userId, input);
         }
 
         await loadData();
@@ -252,7 +267,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       input: UpdateFoodDiaryEntryInput,
     ): Promise<FoodDiaryEntry | null> => {
       try {
-        const entry = await foodDiaryService.updateEntry(userId, input);
+        const entry = await updateServerEntry(userId, input);
         await loadData();
         return entry;
       } catch (error) {
@@ -273,7 +288,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   const deleteEntry = useCallback(
     async (entryId: string): Promise<boolean> => {
       try {
-        const success = await foodDiaryService.deleteEntry(userId, entryId);
+        const success = await deleteServerEntry(userId, entryId);
         if (success) {
           await loadData();
         }
@@ -300,7 +315,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       moodTags?: MoodTag[],
     ): Promise<boolean> => {
       try {
-        const entry = await foodDiaryService.rateEntry(
+        const entry = await rateServerEntry(
           userId,
           entryId,
           rating,
@@ -333,7 +348,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       quantity = 1,
       time?: string,
     ): Promise<FoodDiaryEntry | null> => {
-      const preset = foodDiaryService.getQuickFoodPreset(presetId);
+      const preset = await getServerQuickFoodPreset(presetId);
       if (!preset) return null;
 
       const now = new Date();
@@ -359,8 +374,8 @@ export function useFoodDiary(): UseFoodDiaryReturn {
    * Get quick food presets
    */
   const getQuickFoodPresets = useCallback(
-    (category?: QuickFoodCategory): QuickFoodPreset[] => {
-      return foodDiaryService.getQuickFoodPresets(category);
+    async (category?: QuickFoodCategory): Promise<QuickFoodPreset[]> => {
+      return getServerQuickFoodPresets(category);
     },
     [],
   );
@@ -370,7 +385,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
    */
   const searchFoods = useCallback(
     async (query: string): Promise<FoodSearchResult[]> => {
-      return foodDiaryService.searchFoods(userId, query);
+      return searchServerFoods(userId, query);
     },
     [userId],
   );
@@ -381,7 +396,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   const addToFavorites = useCallback(
     async (entryId: string): Promise<boolean> => {
       try {
-        const favorite = await foodDiaryService.addToFavorites(userId, entryId);
+        const favorite = await addServerToFavorites(userId, entryId);
         if (favorite) {
           await loadData();
           return true;
@@ -448,7 +463,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
    */
   const refreshInsights = useCallback(async () => {
     try {
-      const insights = await foodDiaryService.generateInsights(userId);
+      const insights = await generateServerInsights(userId);
       setState((prev) => ({ ...prev, insights }));
     } catch (error) {
       console.error("Failed to load insights:", error);
@@ -502,8 +517,10 @@ export function useQuickFoodEntry() {
     QuickFoodCategory | undefined
   >();
 
-  const presets = useMemo(() => {
-    return getQuickFoodPresets(selectedCategory);
+  const [presets, setPresets] = useState<QuickFoodPreset[]>([]);
+
+  useEffect(() => {
+    getQuickFoodPresets(selectedCategory).then(setPresets);
   }, [getQuickFoodPresets, selectedCategory]);
 
   const handleSearch = useCallback(

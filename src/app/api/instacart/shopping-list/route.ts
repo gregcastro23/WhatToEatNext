@@ -6,6 +6,11 @@
  */
 
 import { NextResponse } from "next/server";
+import {
+  fetchInstacartIdp,
+  InstacartConfigurationError,
+  mapInstacartProxyError,
+} from "@/lib/instacart/idpClient";
 import type {
   InstacartShoppingListRequest,
   InstacartShoppingListResponse,
@@ -13,8 +18,6 @@ import type {
 } from "@/types/instacart";
 import type { NextRequest } from "next/server";
 
-const INSTACART_IDP_BASE_URL = "https://connect.instacart.com";
-const INSTACART_IDP_BASE_URL_DEV = "https://connect.dev.instacart.tools";
 const FETCH_TIMEOUT_MS = 15_000;
 
 // Supported Instacart units
@@ -105,23 +108,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No items provided" }, { status: 400 });
     }
 
-    const apiKey = process.env.INSTACART_API_KEY || process.env.instacart_development_api;
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          error:
-            "Instacart API key not configured. Set INSTACART_API_KEY in your environment.",
-        },
-        { status: 503 },
-      );
-    }
-
-    const isDevEnv =
-      process.env.NODE_ENV !== "production" ||
-      process.env.INSTACART_USE_PROD !== "true";
-      
-    const baseUrl = isDevEnv ? INSTACART_IDP_BASE_URL_DEV : INSTACART_IDP_BASE_URL;
-
     const finalTitle = body.title || "Grocery List from WhatToEatNext";
     const instacartPayload: InstacartShoppingListRequest = {
       title: finalTitle,
@@ -129,48 +115,27 @@ export async function POST(request: NextRequest) {
       line_items: parsedLineItems,
     };
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-
     let instacartResponse: Response;
     try {
-      instacartResponse = await fetch(
-        `${baseUrl}/idp/v1/products/products_link`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify(instacartPayload),
-          signal: controller.signal,
-        },
-      );
-    } finally {
-      clearTimeout(timeoutId);
+      instacartResponse = await fetchInstacartIdp("products/products_link", {
+        method: "POST",
+        body: instacartPayload,
+        timeoutMs: FETCH_TIMEOUT_MS,
+      });
+    } catch (error) {
+      if (error instanceof InstacartConfigurationError) {
+        return NextResponse.json({ error: error.message }, { status: 503 });
+      }
+      throw error;
     }
 
     if (!instacartResponse.ok) {
       const errorText = await instacartResponse.text();
-
-      let statusCode = instacartResponse.status;
-      const statusMessages: Record<number, string> = {
-        400: `Bad Request: ${errorText}`,
-        401: "Unauthorized: Invalid API key",
-        403: "Forbidden: API key does not have required permissions",
-        422: `Unprocessable Entity: Invalid request format: ${errorText}`,
-        429: "Too Many Requests: Rate limit exceeded, please try again shortly",
-      };
-      
-      const details =
-        statusMessages[statusCode] ??
-        (statusCode >= 500
-          ? "Instacart service unavailable"
-          : `Instacart returned status ${statusCode}`);
-
-      // Map upstream 500s to 502 Bad Gateway
-      if (statusCode >= 500) statusCode = 502;
+      const { statusCode, details } = mapInstacartProxyError(
+        instacartResponse,
+        errorText,
+        "Instacart service unavailable",
+      );
 
       return NextResponse.json(
         { error: "Failed to create Instacart shopping list", details },

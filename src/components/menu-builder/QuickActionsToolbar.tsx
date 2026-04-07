@@ -53,6 +53,8 @@ export default function QuickActionsToolbar() {
     weeklyBudget,
     setWeeklyBudget,
     estimatedWeeklyCost,
+    costConfidence,
+    costBreakdown,
     budgetPerMeal,
   } = useMenuPlanner();
 
@@ -620,12 +622,48 @@ export default function QuickActionsToolbar() {
               </div>
 
               {weeklyBudget && totalMeals > 0 && (
-                <div className="flex items-center gap-4 text-sm">
-                  <div className="flex flex-col items-end">
-                    <span className="text-xs text-gray-500">Est. Cost</span>
-                    <span className="font-semibold text-gray-800">
-                      ${estimatedWeeklyCost.toFixed(2)}
-                    </span>
+                <div className="flex items-center gap-4 text-sm divide-x divide-gray-100">
+                  <div 
+                    className="flex flex-col items-end px-3 group relative cursor-help"
+                    title={`Cost Breakdown:\n${costBreakdown.map(b => `${b.ingredient}: $${b.estimatedCost.toFixed(2)} (${b.confidence})`).join('\n')}`}
+                  >
+                    <div className="flex items-center gap-1">
+                      <span className={`w-2 h-2 rounded-full ${
+                        costConfidence === 'high' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 
+                        costConfidence === 'medium' ? 'bg-amber-500' : 'bg-red-400'
+                      }`} />
+                      <span className="text-[10px] uppercase tracking-tighter text-gray-400 font-bold">
+                        {costConfidence === 'high' ? 'Live Match' : 'Estimated'}
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <span className="text-xs text-gray-500">Est. Cost</span>
+                      <span className="font-semibold text-gray-900 drop-shadow-sm">
+                        ${estimatedWeeklyCost.toFixed(2)}
+                      </span>
+                    </div>
+
+                    {/* Tooltip Popup (Hidden by default, shown on group-hover) */}
+                    <div className="absolute top-10 right-0 z-50 w-72 p-3 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
+                      <h4 className="text-xs font-bold text-gray-800 mb-2 border-b pb-1">Grocery Breakdown ({costBreakdown.length} items)</h4>
+                      <div className="max-h-48 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
+                        {costBreakdown.slice(0, 15).map((item, idx) => (
+                          <div key={idx} className="flex justify-between items-center text-[10px]">
+                            <span className="text-gray-600 truncate max-w-[180px]">{item.ingredient}</span>
+                            <span className="font-mono text-gray-800">${item.estimatedCost.toFixed(2)}</span>
+                          </div>
+                        ))}
+                        {costBreakdown.length > 15 && (
+                          <div className="text-[9px] text-gray-400 text-center pt-1 italic">
+                            + {costBreakdown.length - 15} more items...
+                          </div>
+                        )}
+                      </div>
+                      <div className="mt-2 pt-2 border-t flex justify-between items-center">
+                        <span className="text-[10px] text-gray-400">Confidence: {costConfidence.toUpperCase()}</span>
+                        <span className="text-[10px] font-bold text-emerald-600">${estimatedWeeklyCost.toFixed(2)}</span>
+                      </div>
+                    </div>
                   </div>
                   <div className="flex flex-col items-end">
                     <span className="text-xs text-gray-500">Remaining</span>

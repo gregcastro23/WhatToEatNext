@@ -167,11 +167,11 @@ function calculateApproximateAscendant(
     const astroTime = new Astronomy.AstroTime(new Date(Date.UTC(year, month - 1, day, hour, minute)));
     const gmst = Astronomy.SiderealTime(astroTime);
     // Convert LST to hours, then to radians
-    let lstHours = ((gmst + longitude / 15) % 24 + 24) % 24;
+    const lstHours = ((gmst + longitude / 15) % 24 + 24) % 24;
     lstRad = (lstHours * 15) * Math.PI / 180;
     // Approximating obliquity of ecliptic ~23.439 degrees
     oblRad = 23.4392911 * Math.PI / 180;
-  } catch (e) {
+  } catch (_e) {
     // Fallback if astronomy-engine fails to load somehow
     const jdn = day + Math.floor((153 * (month + 12 * Math.floor((14 - month) / 12) - 3) + 2) / 5) + 365 * (year + 4800 - Math.floor((14 - month) / 12)) + Math.floor((year + 4800 - Math.floor((14 - month) / 12)) / 4) - 32045;
     const T = (jdn - 2451545.0) / 36525.0;

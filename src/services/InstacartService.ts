@@ -13,12 +13,14 @@
  */
 
 import type {
+  InstacartLineItem,
   InstacartShoppingListResponse,
   InstacartRecipeResponse,
   InstacartRetailer,
   InstacartRetailersResponse,
 } from "@/types/instacart";
 import type { GroceryItem } from "@/types/menuPlanner";
+import { splitItemsByInventory } from "@/utils/instacart/ingredientIntelligence";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("InstacartService");
@@ -82,7 +84,7 @@ class InstacartService {
       display_text: `${item.quantity} ${item.unit} ${item.ingredient}`,
       line_item_measurements: [
         {
-          quantity: String(item.quantity),
+          quantity: item.quantity,
           unit: this.mapToIdpUnit(item.unit),
         },
       ],
@@ -139,16 +141,18 @@ class InstacartService {
     cookingTime?: number;
     imageUrl?: string;
     dietaryFlags?: string[];
+    inventory?: string[];
   }): Promise<string> {
-    // Check cache first
-    const cached = this.recipeUrlCache.get(recipe.id);
+    // Check cache first (inventory-aware)
+    const initialCacheKey = this.getRecipeCacheKey(recipe.id, recipe.inventory);
+    const cached = this.recipeUrlCache.get(initialCacheKey);
     if (cached && cached.expiresAt > Date.now()) {
-      logger.info("Using cached recipe URL", { recipeId: recipe.id });
+      logger.info("Using cached recipe URL", { recipeId: recipe.id, inventoryMatch: true });
       return cached.url;
     }
 
-    const lineItems = recipe.ingredients.map((ing) => {
-      const item: Record<string, unknown> = {
+    const lineItems: InstacartLineItem[] = recipe.ingredients.map((ing) => {
+      const item: InstacartLineItem = {
         name: ing.name,
         display_text: ing.amount
           ? `${ing.amount} ${ing.unit || "each"} ${ing.name}`
@@ -156,7 +160,7 @@ class InstacartService {
       };
 
       if (ing.amount) {
-        item.measurements = [
+        item.line_item_measurements = [
           {
             quantity: ing.amount,
             unit: this.mapToIdpUnit(ing.unit || "each"),
@@ -175,6 +179,13 @@ class InstacartService {
       return item;
     });
 
+    const { included: filteredLineItems, excluded: pantryExcludedItems } =
+      splitItemsByInventory(lineItems, recipe.inventory || []);
+
+    if (filteredLineItems.length === 0) {
+      throw new Error("All recipe ingredients are already covered by pantry inventory.");
+    }
+
     const response = await fetch("/api/instacart/recipe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -188,7 +199,8 @@ class InstacartService {
         content_creator_credit_info: "Recipe by Alchm Kitchen — alchm.kitchen",
         expires_in: 365,
         instructions: recipe.instructions,
-        ingredients: lineItems,
+        ingredients: filteredLineItems,
+        inventory: recipe.inventory,
         landing_page_configuration: {
           partner_linkback_url: "https://alchm.kitchen/menu-planner",
           enable_pantry_items: true,
@@ -211,8 +223,9 @@ class InstacartService {
     const data = (await response.json()) as InstacartRecipeResponse & { url?: string };
     const url = data.url || data.products_link_url;
 
-    // Cache the URL
-    this.recipeUrlCache.set(recipe.id, {
+    // Cache the URL (inventory-aware)
+    const finalCacheKey = this.getRecipeCacheKey(recipe.id, recipe.inventory);
+    this.recipeUrlCache.set(finalCacheKey, {
       url,
       expiresAt: Date.now() + InstacartService.RECIPE_CACHE_TTL,
     });
@@ -220,11 +233,20 @@ class InstacartService {
     this.trackEvent("instacart_recipe_page_created", {
       recipeId: recipe.id,
       recipeName: recipe.name,
-      ingredientCount: recipe.ingredients.length,
+      ingredientCount: filteredLineItems.length,
+      pantryExcludedCount: pantryExcludedItems.length,
     });
 
     logger.info("Recipe page created successfully", { recipeId: recipe.id, url });
     return url;
+  }
+
+  /**
+   * Generates a stable cache key for a recipe + inventory combination.
+   */
+  private getRecipeCacheKey(recipeId: string, inventory: string[] = []): string {
+    const sortedInventory = [...inventory].sort();
+    return `${recipeId}:${sortedInventory.join(",")}`;
   }
 
   // ─── Retailers ─────────────────────────────────────────────────────────

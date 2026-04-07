@@ -197,6 +197,8 @@ interface MenuPlannerContextType {
   weeklyBudget: number | null;
   setWeeklyBudget: (budget: number | null) => void;
   estimatedWeeklyCost: number;
+  costConfidence: "high" | "medium" | "low";
+  costBreakdown: Array<{ ingredient: string; estimatedCost: number; confidence: string }>;
   budgetPerMeal: number | null;
 
   // Inventory / Posso
@@ -1486,6 +1488,94 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     }
   }, [currentMenu]);
 
+  // Cost Estimation State
+  const [estimatedCostState, setEstimatedCostState] = useState<{
+    total: number;
+    confidence: "high" | "medium" | "low";
+    breakdown: Array<{ ingredient: string; estimatedCost: number; confidence: string }>;
+  }>({
+    total: 0,
+    confidence: "low",
+    breakdown: [],
+  });
+
+  /**
+   * Recalculate estimated cost whenever recipes or inventory change
+   */
+  useEffect(() => {
+    if (!currentMenu) return;
+
+    const recipesWithIngredients = currentMenu.meals
+      .filter((m) => m.recipe)
+      .map((m) => ({
+        ingredients: (m.recipe!.ingredients || []).map((ing: any) => ({
+          name: typeof ing === "string" ? ing : ing.name ?? "",
+          amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
+          unit: typeof ing === "string" ? "each" : ing.unit ?? "each",
+          category: typeof ing === "string" ? undefined : ing.category,
+          optional: typeof ing === "string" ? false : ing.optional,
+        })),
+        servings: m.servings || 1,
+        dietaryFlags: [
+          m.recipe?.isVegetarian ? "vegetarian" : "",
+          m.recipe?.isVegan ? "vegan" : "",
+          m.recipe?.isGlutenFree ? "gluten-free" : "",
+          m.recipe?.isDairyFree ? "dairy-free" : "",
+        ].filter(Boolean),
+      }));
+
+    if (recipesWithIngredients.length === 0) {
+      setEstimatedCostState({ total: 0, confidence: "low", breakdown: [] });
+      return;
+    }
+
+    // 1. Local Estimate (Instant)
+    const { totalCost, recipeBreakdown } = estimateWeeklyGroceryCost(
+      recipesWithIngredients,
+      inventory,
+    );
+
+    const allIngredientsBreakdown = recipeBreakdown.flatMap((rb) => rb.breakdown);
+    const avgMatchRatio = recipeBreakdown.reduce((acc, rb) => acc + (rb.confidence === "high" ? 1 : rb.confidence === "medium" ? 0.5 : 0), 0) / recipeBreakdown.length;
+
+    setEstimatedCostState({
+      total: totalCost,
+      confidence: avgMatchRatio >= 0.7 ? "high" : avgMatchRatio >= 0.4 ? "medium" : "low",
+      breakdown: allIngredientsBreakdown,
+    });
+
+    // 2. Background IDP Probe (Debounced)
+    const probeTimeout = setTimeout(async () => {
+      try {
+        const lineItems = allIngredientsBreakdown.slice(0, 50).map(b => ({
+          name: b.ingredient,
+          display_text: b.ingredient
+        }));
+
+        const response = await fetch("/api/instacart/price-estimate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ line_items: lineItems }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.confidence === "high") {
+             // If IDP confirms matching, we can bump our confidence
+             setEstimatedCostState(prev => ({
+               ...prev,
+               confidence: "high"
+             }));
+          }
+        }
+      } catch (err) {
+        logger.warn("Cost probe failed:", err);
+      }
+    }, 2000);
+
+    return () => clearTimeout(probeTimeout);
+  }, [currentMenu, inventory]);
+
   /**
    * Load menu by ID
    */
@@ -1740,24 +1830,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       toggleSyncWithLunarCycle,
       weeklyBudget,
       setWeeklyBudget,
-      estimatedWeeklyCost: (() => {
-        if (!currentMenu) return 0;
-        const recipesWithIngredients = currentMenu.meals
-          .filter((m) => m.recipe)
-          .map((m) => ({
-            ingredients: (m.recipe!.ingredients || []).map((ing: any) => ({
-              name: typeof ing === "string" ? ing : ing.name ?? "",
-              amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
-              unit: typeof ing === "string" ? "each" : ing.unit ?? "each",
-              category: typeof ing === "string" ? undefined : ing.category,
-              optional: typeof ing === "string" ? false : ing.optional,
-            })),
-            servings: m.servings || 1,
-          }));
-        if (recipesWithIngredients.length === 0) return 0;
-        const { totalCost } = estimateWeeklyGroceryCost(recipesWithIngredients, inventory);
-        return totalCost;
-      })(),
+      estimatedWeeklyCost: estimatedCostState.total,
+      costConfidence: estimatedCostState.confidence,
+      costBreakdown: estimatedCostState.breakdown,
       budgetPerMeal: weeklyBudget ? Math.round((weeklyBudget / 21) * 100) / 100 : null,
       inventory,
       setInventory,
@@ -1807,6 +1882,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       setWeeklyBudget,
       inventory,
       setInventory,
+      estimatedCostState, // Added this
     ],
   );
 

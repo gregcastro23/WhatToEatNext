@@ -39,6 +39,30 @@ export async function GET(request: NextRequest) {
     // Get manual companions
     const manualCompanions = await commensalDatabase.getManualCompanionsForUser(userId);
 
+    // Unified companions list for "Your Companions" view:
+    // manual_companion_charts + accepted registered commensals.
+    const companions = [
+      ...manualCompanions.map((manual) => ({
+        type: "manual" as const,
+        id: manual.id,
+        name: manual.name,
+        relationship: manual.relationship,
+        birthData: manual.birthData,
+        natalChart: manual.natalChart,
+        createdAt: manual.createdAt,
+      })),
+      ...linkedCommensals.map((linked) => ({
+        type: "linked" as const,
+        id: linked.userId,
+        name: linked.name,
+        email: linked.email,
+        birthData: linked.birthData,
+        natalChart: linked.natalChart,
+        commensalshipId: linked.commensalshipId,
+        syncedAt: linked.syncedAt,
+      })),
+    ];
+
     return NextResponse.json({
       success: true,
       pendingReceived,
@@ -46,6 +70,8 @@ export async function GET(request: NextRequest) {
       accepted,
       linkedCommensals,
       manualCompanions,
+      companions,
+      totalCompanions: companions.length,
     });
   } catch (error) {
     console.error("Get commensalships error:", error);

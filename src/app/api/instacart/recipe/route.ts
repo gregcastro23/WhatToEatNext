@@ -8,14 +8,18 @@
  */
 
 import { NextResponse } from "next/server";
+import {
+  fetchInstacartIdp,
+  InstacartConfigurationError,
+  mapInstacartProxyError,
+} from "@/lib/instacart/idpClient";
 import type {
   InstacartRecipeRequest,
   InstacartRecipeResponse,
 } from "@/types/instacart";
+import { splitItemsByInventory } from "@/utils/instacart/ingredientIntelligence";
 import type { NextRequest } from "next/server";
 
-const INSTACART_IDP_BASE_URL = "https://connect.instacart.com";
-const INSTACART_IDP_BASE_URL_DEV = "https://connect.dev.instacart.tools";
 const FETCH_TIMEOUT_MS = 15_000;
 
 // In-memory cache: recipe external_reference_id → products_link_url
@@ -26,9 +30,21 @@ interface CacheEntry {
 const recipeUrlCache = new Map<string, CacheEntry>();
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours (URLs expire in 365 days)
 
+interface InstacartRecipeRouteRequest extends InstacartRecipeRequest {
+  inventory?: string[];
+}
+
+/**
+ * Generates a stable cache key for a recipe + inventory combination.
+ */
+function getRecipeCacheKey(recipeId: string, inventory: string[] = []): string {
+  const sortedInventory = [...inventory].sort();
+  return `${recipeId}:${sortedInventory.join(",")}`;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json()) as InstacartRecipeRequest;
+    const body = (await request.json()) as InstacartRecipeRouteRequest;
 
     // Validate required fields
     if (!body.title || !body.ingredients || body.ingredients.length === 0) {
@@ -38,9 +54,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check cache by external_reference_id
+    const inventory = Array.isArray(body.inventory)
+      ? body.inventory.filter(
+        (item): item is string => typeof item === "string" && item.trim() !== "",
+      )
+      : [];
+
+    // Check cache by external_reference_id and inventory
     if (body.external_reference_id) {
-      const cached = recipeUrlCache.get(body.external_reference_id);
+      const cacheKey = getRecipeCacheKey(body.external_reference_id, inventory);
+      const cached = recipeUrlCache.get(cacheKey);
       if (cached && cached.expiresAt > Date.now()) {
         return NextResponse.json({
           url: cached.url,
@@ -49,26 +72,18 @@ export async function POST(request: NextRequest) {
         });
       }
     }
+    const { included: ingredients, excluded: pantryExcludedItems } =
+      splitItemsByInventory(body.ingredients, inventory);
 
-    const apiKey =
-      process.env.INSTACART_API_KEY || process.env.instacart_development_api;
-    if (!apiKey) {
+    if (ingredients.length === 0) {
       return NextResponse.json(
         {
-          error:
-            "Instacart API key not configured. Set INSTACART_API_KEY in your environment.",
+          error: "All recipe ingredients are already covered by pantry inventory.",
+          excluded_pantry_items: pantryExcludedItems.map((item) => item.name),
         },
-        { status: 503 },
+        { status: 400 },
       );
     }
-
-    const isDevEnv =
-      process.env.NODE_ENV !== "production" ||
-      process.env.INSTACART_USE_PROD !== "true";
-
-    const baseUrl = isDevEnv
-      ? INSTACART_IDP_BASE_URL_DEV
-      : INSTACART_IDP_BASE_URL;
 
     // Build the IDP recipe payload
     const instacartPayload: InstacartRecipeRequest = {
@@ -83,7 +98,7 @@ export async function POST(request: NextRequest) {
         "Recipe by Alchm Kitchen — alchm.kitchen",
       expires_in: body.expires_in || 365,
       instructions: body.instructions,
-      ingredients: body.ingredients,
+      ingredients,
       landing_page_configuration: {
         partner_linkback_url:
           body.landing_page_configuration?.partner_linkback_url ||
@@ -93,47 +108,27 @@ export async function POST(request: NextRequest) {
       },
     };
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-
     let instacartResponse: Response;
     try {
-      instacartResponse = await fetch(
-        `${baseUrl}/idp/v1/products/recipe`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify(instacartPayload),
-          signal: controller.signal,
-        },
-      );
-    } finally {
-      clearTimeout(timeoutId);
+      instacartResponse = await fetchInstacartIdp("products/recipe", {
+        method: "POST",
+        body: instacartPayload,
+        timeoutMs: FETCH_TIMEOUT_MS,
+      });
+    } catch (error) {
+      if (error instanceof InstacartConfigurationError) {
+        return NextResponse.json({ error: error.message }, { status: 503 });
+      }
+      throw error;
     }
 
     if (!instacartResponse.ok) {
       const errorText = await instacartResponse.text();
-
-      let statusCode = instacartResponse.status;
-      const statusMessages: Record<number, string> = {
-        400: `Bad Request: ${errorText}`,
-        401: "Unauthorized: Invalid API key",
-        403: "Forbidden: API key does not have required permissions",
-        422: `Unprocessable Entity: Invalid recipe format: ${errorText}`,
-        429: "Too Many Requests: Rate limit exceeded",
-      };
-
-      const details =
-        statusMessages[statusCode] ??
-        (statusCode >= 500
-          ? "Instacart service unavailable"
-          : `Instacart returned status ${statusCode}`);
-
-      if (statusCode >= 500) statusCode = 502;
+      const { statusCode, details } = mapInstacartProxyError(
+        instacartResponse,
+        errorText,
+        "Instacart service unavailable",
+      );
 
       return NextResponse.json(
         { error: "Failed to create Instacart recipe page", details },
@@ -157,9 +152,10 @@ export async function POST(request: NextRequest) {
       productsLinkUrl += `${separator}utm_source=alchm_kitchen&utm_medium=affiliate&utm_campaign=recipe_page`;
     }
 
-    // Cache the URL
+    // Cache the URL (inventory-aware)
     if (body.external_reference_id) {
-      recipeUrlCache.set(body.external_reference_id, {
+      const cacheKey = getRecipeCacheKey(body.external_reference_id, inventory);
+      recipeUrlCache.set(cacheKey, {
         url: productsLinkUrl,
         expiresAt: Date.now() + CACHE_TTL_MS,
       });
@@ -169,7 +165,8 @@ export async function POST(request: NextRequest) {
       url: productsLinkUrl,
       products_link_url: productsLinkUrl,
       recipe_title: body.title,
-      ingredient_count: body.ingredients.length,
+      ingredient_count: ingredients.length,
+      excluded_pantry_items: pantryExcludedItems.map((item) => item.name),
     });
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {

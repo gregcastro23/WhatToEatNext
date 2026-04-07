@@ -13,7 +13,6 @@ import {
     type MonicaOptimizedRecipe,
 } from "@/data/unified/recipeBuilding";
 import type { ChartComparison } from "@/services/ChartComparisonService";
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { LunarPhase } from "@/types/celestial";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { NatalChart } from "@/types/natalChart";
@@ -650,6 +649,8 @@ function getPrimaryProtein(recipe: Recipe): string | undefined {
   return proteinIng ? (proteinIng as any).name?.toLowerCase() : undefined;
 }
 
+import { getServerRecipes } from "@/actions/recipes";
+
 /**
  * Search for recipes from the curated database appropriate for a specific day and meal type.
  * Filters by meal type, season, dietary restrictions, and weekly context,
@@ -681,7 +682,7 @@ async function searchRecipesForDay(
       recommendedCuisines: dayChar.recommendedCuisines,
     });
 
-    const allRecipes = await LocalRecipeService.getAllRecipes();
+    const allRecipes = await getServerRecipes();
     const recipes = allRecipes as unknown as Recipe[];
     const currentSeason = getCurrentSeason();
     const existingMeals = options.existingMeals || [];

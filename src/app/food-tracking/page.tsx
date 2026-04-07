@@ -9,13 +9,14 @@
  */
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   QuickFoodInput,
   FoodDiaryView,
   NutritionDashboard,
 } from "@/components/food-diary";
 import { useFoodDiary } from "@/hooks/useFoodDiary";
+import type { QuickFoodPreset } from "@/types/foodDiary";
 
 export default function FoodTrackingPage() {
   const {
@@ -44,7 +45,19 @@ export default function FoodTrackingPage() {
     "view",
   );
 
-  const presets = getQuickFoodPresets();
+  const [presets, setPresets] = useState<QuickFoodPreset[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    void getQuickFoodPresets().then((resolvedPresets) => {
+      if (active) {
+        setPresets(resolvedPresets);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, [getQuickFoodPresets]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -157,7 +170,9 @@ export default function FoodTrackingPage() {
               weeklySummary={weeklySummary}
               stats={stats}
               insights={insights}
-              onRefreshInsights={refreshInsights}
+              onRefreshInsights={() => {
+                void refreshInsights();
+              }}
             />
           </div>
         </div>
@@ -196,7 +211,9 @@ export default function FoodTrackingPage() {
               weeklySummary={weeklySummary}
               stats={stats}
               insights={insights}
-              onRefreshInsights={refreshInsights}
+              onRefreshInsights={() => {
+                void refreshInsights();
+              }}
             />
           )}
         </div>

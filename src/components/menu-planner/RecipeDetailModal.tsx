@@ -9,6 +9,7 @@
  */
 
 import React, { useState, useMemo } from "react";
+import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import { instacartService } from "@/services/InstacartService";
 import type { NutritionalSummary } from "@/types/nutrition";
@@ -134,6 +135,7 @@ export default function RecipeDetailModal({
   onClose,
   onAddToMeal,
 }: RecipeDetailModalProps) {
+  const { inventory } = useMenuPlanner();
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [noteText, setNoteText] = useState("");
@@ -185,6 +187,7 @@ export default function RecipeDetailModal({
         instructions: recipe.instructions,
         servings: recipe.servingSize || recipe.numberOfServings || 4,
         cookingTime: parseCookingTime(recipe.timeToMake),
+        inventory,
       });
       window.open(url, "_blank", "noopener,noreferrer");
     } catch (error) {

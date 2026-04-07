@@ -3,9 +3,9 @@
  * Provides a unified interface for recipe operations
  */
 
+import { getServerRecipes } from "@/actions/recipes";
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 import type { Recipe } from "@/types/recipe";
 // Add missing imports for TS2304 fixes
@@ -38,8 +38,8 @@ export class UnifiedRecipeService {
         return this.recipesCache;
       }
 
-      // Load recipes from data layer via LocalRecipeService
-      const recipes = (await LocalRecipeService.getAllRecipes()) as unknown as Recipe[];
+      // Load recipes via Server Action to avoid bundling 'pg' and database credentials in client
+      const recipes = (await getServerRecipes()) as unknown as Recipe[];
 
       // Cache for future requests
       this.recipesCache = recipes;

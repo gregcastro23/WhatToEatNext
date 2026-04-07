@@ -1,7 +1,6 @@
 import { african } from "@/data/cuisines/african";
 import { american } from "@/data/cuisines/american";
 import { _logger } from "@/lib/logger";
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { log } from "@/services/LoggingService";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
@@ -945,31 +944,6 @@ export function getRecipesForCuisineMatch(
     ) {
       log.info(`Using specialized handling for ${cuisineName}`);
       try {
-        // First, try LocalRecipeService (ESM import at top)
-        // Clear cache to ensure fresh data
-        LocalRecipeService.clearCache();
-        const localRecipes = LocalRecipeService.getRecipesByCuisine(
-          cuisineName,
-        ) as any;
-        log.info(
-          `LocalRecipeService returned ${localRecipes.length || 0} recipes for ${cuisineName}`,
-        );
-
-        if (localRecipes.length > 0) {
-          // Apply high match scores to local recipes
-          return localRecipes
-            .map((recipe: any) => {
-              const matchScore = 0.85 + Math.random() * 0.15; // 85-100% match
-              return {
-                ...recipe,
-                matchScore,
-                matchPercentage: compatibilityToMatchPercentage(matchScore),
-              };
-            })
-            .slice(0, limit);
-        }
-
-        // If LocalRecipeService didn't work, try direct import
         const cuisine =
           normalizedCuisineName === "american" ? american : african;
 
@@ -1053,45 +1027,12 @@ export function getRecipesForCuisineMatch(
     // If special handling didn't return anything or cuisine isn't American/African,
     // continue with the standard approach
 
-    // If no recipes are provided or empty array, try to fetch from LocalRecipeService
+    // If no recipes are provided or empty array, we can't search them
     if (!Array.isArray(recipes) || recipes.length === 0) {
-      try {
         log.info(
-          `No recipes array provided, trying LocalRecipeService for ${cuisineName}`,
-        );
-        // Use ESM import at top
-        const localRecipes = LocalRecipeService.getRecipesByCuisine(
-          cuisineName,
-        ) as any;
-        log.info(
-          `Fetched ${localRecipes.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`,
-        );
-
-        if (localRecipes.length > 0) {
-          // Apply high match scores to local recipes
-          return localRecipes
-            .map((recipe: any) => {
-              const matchScore = 0.8 + Math.random() * 0.2; // 80-100% match
-              return {
-                ...recipe,
-                matchScore,
-                matchPercentage: compatibilityToMatchPercentage(matchScore),
-              };
-            })
-            .slice(0, limit);
-        } else {
-          log.info(
-            `LocalRecipeService returned no recipes for ${cuisineName}, using mock data`,
-          );
-          return [];
-        }
-      } catch (error) {
-        _logger.error(
-          `Error fetching recipes from LocalRecipeService for ${cuisineName}:`,
-          error,
+          `No recipes array provided for ${cuisineName}, returning empty array`,
         );
         return [];
-      }
     }
 
     // Get the cuisine profile

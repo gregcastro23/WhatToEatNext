@@ -1,10 +1,11 @@
-// @ts-expect-error - Auto-fixed by script
-import { useClientEffect } from '@/hooks/useClientEffect';
+import { _useClientEffect as useClientEffect } from "@/hooks/useClientEffect";
 
-const _SomeComponent = () => {
+const SomeComponent = () => {
   useClientEffect(() => {
     // Your effect code here
   }, []);
   
   return <div>...</div>;
-}; 
+};
+
+export default SomeComponent;

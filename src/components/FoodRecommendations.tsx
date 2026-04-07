@@ -1,7 +1,7 @@
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 // @ts-expect-error - Auto-fixed by script
-const _FoodRecommendations = ({ _ingredient, options: _options = {} }: FoodRecommendationsProps) => {
+const FoodRecommendations = ({ _ingredient, options: _options = {} }: FoodRecommendationsProps) => {
   // @ts-expect-error - Auto-fixed by script
   const [showDebug, setShowDebug] = useState(false);
   
@@ -44,4 +44,6 @@ const _FoodRecommendations = ({ _ingredient, options: _options = {} }: FoodRecom
       )}
     </div>
   );
-}; 
+};
+
+export default FoodRecommendations;

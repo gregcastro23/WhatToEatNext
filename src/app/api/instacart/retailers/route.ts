@@ -6,11 +6,14 @@
  */
 
 import { NextResponse } from "next/server";
+import {
+  fetchInstacartIdp,
+  InstacartConfigurationError,
+  mapInstacartProxyError,
+} from "@/lib/instacart/idpClient";
 import type { InstacartRetailersResponse } from "@/types/instacart";
 import type { NextRequest } from "next/server";
 
-const INSTACART_IDP_BASE_URL = "https://connect.instacart.com";
-const INSTACART_IDP_BASE_URL_DEV = "https://connect.dev.instacart.tools";
 const FETCH_TIMEOUT_MS = 10_000;
 
 // In-memory cache mapping postal_code to retailers response
@@ -42,63 +45,29 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(cached.data);
     }
 
-    const apiKey = process.env.INSTACART_API_KEY || process.env.instacart_development_api;
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          error:
-            "Instacart API key not configured. Set INSTACART_API_KEY in your environment.",
-        },
-        { status: 503 },
-      );
-    }
-
-    const isDevEnv =
-      process.env.NODE_ENV !== "production" ||
-      process.env.INSTACART_USE_PROD !== "true";
-
-    const baseUrl = isDevEnv ? INSTACART_IDP_BASE_URL_DEV : INSTACART_IDP_BASE_URL;
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-
     let instacartResponse: Response;
     try {
-      instacartResponse = await fetch(
-        `${baseUrl}/idp/v1/retailers?postal_code=${encodeURIComponent(
-          postalCode,
-        )}&country_code=${encodeURIComponent(countryCode)}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-          signal: controller.signal,
+      instacartResponse = await fetchInstacartIdp("retailers", {
+        searchParams: {
+          postal_code: postalCode,
+          country_code: countryCode,
         },
-      );
-    } finally {
-      clearTimeout(timeoutId);
+        timeoutMs: FETCH_TIMEOUT_MS,
+      });
+    } catch (error) {
+      if (error instanceof InstacartConfigurationError) {
+        return NextResponse.json({ error: error.message }, { status: 503 });
+      }
+      throw error;
     }
 
     if (!instacartResponse.ok) {
       const errorText = await instacartResponse.text();
-
-      let statusCode = instacartResponse.status;
-      const statusMessages: Record<number, string> = {
-        400: `Bad Request: ${errorText}`,
-        401: "Unauthorized: Invalid API key",
-        403: "Forbidden: API key does not have required permissions",
-        429: "Too Many Requests: Rate limit exceeded",
-      };
-
-      const details =
-        statusMessages[statusCode] ??
-        (statusCode >= 500
-          ? "Instacart service unavailable"
-          : `Instacart returned status ${statusCode}`);
-
-      if (statusCode >= 500) statusCode = 502;
+      const { statusCode, details } = mapInstacartProxyError(
+        instacartResponse,
+        errorText,
+        "Instacart service unavailable",
+      );
 
       return NextResponse.json(
         { error: "Failed to fetch Instacart retailers", details },

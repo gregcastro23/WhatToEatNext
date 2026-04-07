@@ -240,7 +240,7 @@ function MenuPlannerContent() {
                 💾 Save as Template
               </button>
               <button
-                onClick={toggleSyncWithLunarCycle}
+                onClick={() => { void toggleSyncWithLunarCycle(); }}
                 className={`px-4 py-2 rounded-lg transition-all font-medium flex items-center gap-2 ${
                   syncWithLunarCycle
                     ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg"
@@ -586,7 +586,7 @@ function MenuPlannerContent() {
                   Cancel
                 </button>
                 <button
-                  onClick={handleSaveTemplate}
+                  onClick={() => { void handleSaveTemplate(); }}
                   className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:shadow-lg transition-all"
                 >
                   Save Template

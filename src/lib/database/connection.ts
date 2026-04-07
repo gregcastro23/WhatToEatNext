@@ -1,3 +1,4 @@
+import 'server-only';
 import { Pool, types, neonConfig } from "@neondatabase/serverless";
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
