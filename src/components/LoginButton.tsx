@@ -14,14 +14,14 @@ const LoginButton = () => {
     <div>
       {session ? (
         <button
-          onClick={() => signOut()}
+          onClick={() => { void signOut(); }}
           className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
         >
           Log out
         </button>
       ) : (
         <button
-          onClick={() => signIn('google')}
+          onClick={() => { void signIn('google'); }}
           className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
         >
           Log in

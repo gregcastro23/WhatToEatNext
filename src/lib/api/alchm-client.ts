@@ -194,7 +194,7 @@ export class AlchmAPIClient {
   }
 
   async getCuisine(id: string): Promise<any> {
-    if (!this._cache.cuisineDetails[id]) {
+    if (this._cache.cuisineDetails[id] === undefined) {
       const url = `${this.endpoints.alchemical}/api/v1/cuisines/${id}`;
       this._cache.cuisineDetails[id] = this.request<any>(url, {
         method: "GET",

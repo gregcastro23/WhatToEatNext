@@ -193,7 +193,7 @@ export default function OnboardingWizard() {
       case 0:
         return (
           <form
-            onSubmit={handleSubmitIdentity(handleNext)}
+            onSubmit={(e) => { void handleSubmitIdentity(handleNext)(e); }}
             className="space-y-4"
           >
             <h2 className="text-xl font-semibold">
@@ -269,7 +269,7 @@ export default function OnboardingWizard() {
       case 1:
         return (
           <form
-            onSubmit={handleSubmitBirthData(handleNext)}
+            onSubmit={(e) => { void handleSubmitBirthData(handleNext)(e); }}
             className="space-y-4"
           >
             <h2 className="text-xl font-semibold">
@@ -399,7 +399,7 @@ export default function OnboardingWizard() {
       case 2:
         return (
           <form
-            onSubmit={handleSubmitKitchenPreferences(handleNext)}
+            onSubmit={(e) => { void handleSubmitKitchenPreferences(handleNext)(e); }}
             className="space-y-4"
           >
             <h2 className="text-xl font-semibold">

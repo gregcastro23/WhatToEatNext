@@ -75,7 +75,7 @@ export default function PlanetaryContributionsChart() {
 
   useEffect(() => {
     void fetchData();
-    const interval = setInterval(fetchData, 60000); // Update every minute
+    const interval = setInterval(() => { void fetchData(); }, 60000); // Update every minute
     return () => clearInterval(interval);
   }, []);
 

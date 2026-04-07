@@ -159,7 +159,7 @@ export default function RestaurantCreatorPage() {
             subscribers. Design your dream restaurant aligned with the stars.
           </p>
           <button
-            onClick={() => openCheckout("premium")}
+            onClick={() => { void openCheckout("premium"); }}
             className="px-8 py-3 bg-purple-600 text-white rounded-xl font-bold hover:bg-purple-700 transition-all shadow-md"
           >
             Upgrade to Premium

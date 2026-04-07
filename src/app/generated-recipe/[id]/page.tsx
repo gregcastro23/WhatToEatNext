@@ -319,7 +319,7 @@ export default function GeneratedRecipePage() {
         {/* ── ACTION BAR ── */}
         <div className="flex flex-wrap gap-3 print:hidden">
           <button
-            onClick={handleSaveToProfile}
+            onClick={() => { void handleSaveToProfile(); }}
             disabled={saved}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-60 transition-colors font-medium text-sm"
           >

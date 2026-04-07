@@ -287,7 +287,7 @@ export default function RecipeBuilderPage() {
 
         {/* Quick Generate Bar */}
         <QuickGenerateBar
-          onGenerate={handleQuickGenerate}
+          onGenerate={() => { void handleQuickGenerate(); }}
           isGenerating={isGenerating}
           planetaryInfo={planetaryDayInfo}
           lunarPhase={astroState.lunarPhase || ""}

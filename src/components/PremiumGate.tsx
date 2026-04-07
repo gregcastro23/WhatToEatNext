@@ -76,7 +76,7 @@ export function PremiumGate({
         </p>
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}>
           <button
-            onClick={() => openCheckout("premium")}
+            onClick={() => { void openCheckout("premium"); }}
             style={{
               padding: "0.625rem 1.5rem",
               fontWeight: 600,

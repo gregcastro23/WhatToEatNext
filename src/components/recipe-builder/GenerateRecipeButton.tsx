@@ -133,7 +133,7 @@ export default function GenerateRecipeButton({
   return (
     <div className={className}>
       <button
-        onClick={handleGenerate}
+        onClick={() => { void handleGenerate(); }}
         disabled={!canGenerate || isGenerating}
         className={`
           w-full py-3.5 px-6 rounded-xl font-bold text-sm transition-all

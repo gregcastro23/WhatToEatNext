@@ -58,7 +58,7 @@ export default function AlchmQuantitiesDisplay() {
 
   useEffect(() => {
     void fetchData();
-    const interval = setInterval(fetchData, 30000); // Update every 30 seconds
+    const interval = setInterval(() => { void fetchData(); }, 30000); // Update every 30 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -127,7 +127,7 @@ export default function AlchmQuantitiesDisplay() {
           )}
         </div>
         <button
-          onClick={fetchData}
+          onClick={() => { void fetchData(); }}
           className="px-3 py-2 rounded-lg bg-orange-900/30 hover:bg-orange-800/40 text-orange-300 font-semibold text-sm transition-all duration-200 hover:scale-105 border border-orange-500/30 flex items-center gap-2"
         >
           <FaSyncAlt className="h-4 w-4" />

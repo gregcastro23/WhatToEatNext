@@ -18,14 +18,14 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const processPlanetInfo = useCallback(() => {
+  const processPlanetInfo = useCallback(async () => {
     if (isOpen && planetName && Object.keys(planetaryPositions).length > 0) {
       setLoading(true);
       setError(null);
       
       try {
         console.log(`Processing planet info for ${planetName}:`, planetaryPositions[planetName.toLowerCase()]);
-        const info = getPlanetInfo(planetName, planetaryPositions);
+        const info = await getPlanetInfo(planetName, planetaryPositions);
         
         if (!info) {
           setError(`Could not retrieve information for ${planetName}`);
@@ -46,7 +46,7 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
   }, [isOpen, planetName, planetaryPositions]);
 
   useEffect(() => {
-    processPlanetInfo();
+    void processPlanetInfo();
   }, [processPlanetInfo]);
 
   if (!isOpen) return null;
@@ -294,4 +294,4 @@ function getTarotSymbol(cardName: string): string {
   };
 
   return symbols[cardName] || '?';
-} 
+} '?';

@@ -168,7 +168,7 @@ export default function PlanetaryAspectsDisplay() {
   useEffect(() => {
     void fetchData();
     // Aspects change slowly — refresh every 2 minutes
-    const iv = setInterval(fetchData, 120_000);
+    const iv = setInterval(() => { void fetchData(); }, 120_000);
     return () => clearInterval(iv);
   }, []);
 
@@ -223,7 +223,7 @@ export default function PlanetaryAspectsDisplay() {
           ))}
         </div>
         <button
-          onClick={fetchData}
+          onClick={() => { void fetchData(); }}
           className="p-1.5 rounded-lg bg-gray-800/40 hover:bg-indigo-900/30 border border-gray-700/40 hover:border-indigo-500/30 text-gray-400 hover:text-indigo-300 transition-colors"
           title="Refresh aspects"
         >

@@ -496,7 +496,7 @@ export default function QuickActionsToolbar() {
 
         <div className="flex flex-wrap gap-3">
           <button
-            onClick={handleGenerateDay}
+            onClick={() => { void handleGenerateDay(); }}
             disabled={isGenerating || nextEmptyDay === null}
             className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               hasNatalChart
@@ -516,7 +516,7 @@ export default function QuickActionsToolbar() {
           </button>
 
           <button
-            onClick={handleBalanceNutrition}
+            onClick={() => { void handleBalanceNutrition(); }}
             disabled={isBalancing || totalMeals < 3}
             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             title={
@@ -530,7 +530,7 @@ export default function QuickActionsToolbar() {
           </button>
 
           <button
-            onClick={handleMaximizeVariety}
+            onClick={() => { void handleMaximizeVariety(); }}
             disabled={isDiversifying || totalMeals < 3}
             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             title={

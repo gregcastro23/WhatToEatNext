@@ -46,7 +46,7 @@ export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
   return (
     <div className="location-button">
       <button 
-        onClick={handleLocationClick}
+        onClick={() => { void handleLocationClick(); }}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Use My Location
@@ -56,7 +56,7 @@ export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
           {locationStatus}
         </div>
       )}
-      <form onSubmit={handleManualLocation} className="mt-4">
+      <form onSubmit={(e) => { void handleManualLocation(e); }} className="mt-4">
         <input
           type="text"
           value={manualLocation}

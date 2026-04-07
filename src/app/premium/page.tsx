@@ -135,7 +135,7 @@ export default function PremiumPage() {
 
               {tier === "premium" && (
                 <button
-                  onClick={openPortal}
+                  onClick={() => { void openPortal(); }}
                   className="px-5 py-2.5 rounded-xl border-2 border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-all"
                 >
                   Manage Billing
@@ -263,7 +263,7 @@ export default function PremiumPage() {
                   </button>
                 ) : session?.user ? (
                   <button
-                    onClick={() => openCheckout(t)}
+                    onClick={() => { void openCheckout(t); }}
                     className={`w-full py-3 rounded-xl font-bold transition-all ${
                       t === "premium"
                         ? "bg-purple-600 text-white hover:bg-purple-700 shadow-md"
