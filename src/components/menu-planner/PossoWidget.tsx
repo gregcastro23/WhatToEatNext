@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { getServerRecipes } from "@/actions/recipes";
 import { useToast } from "@/components/common/Toast";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 import { calculateRecipeEstimatedCost } from "@/utils/instacart/priceEstimator";
 
@@ -55,8 +55,7 @@ export default function PossoWidget({
 
       setLoading(true);
       try {
-        const service = UnifiedRecipeService.getInstance();
-        const allRecipes = await service.getAllRecipes();
+        const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
 
         const scored = allRecipes.map((recipe: any) => {
           const ingredients = recipe.ingredients || [];

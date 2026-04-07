@@ -12,11 +12,11 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import { getServerRecipes } from "@/actions/recipes";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useUser } from "@/contexts/UserContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
@@ -153,8 +153,7 @@ export default function QuickActionsToolbar() {
     if (!currentMenu) return;
 
     try {
-      const service = UnifiedRecipeService.getInstance();
-      const allRecipes = (await service.getAllRecipes()) as unknown as Recipe[];
+      const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
 
       if (!allRecipes || allRecipes.length === 0) {
         logger.info("No recipes available from UnifiedRecipeService");
@@ -207,8 +206,7 @@ export default function QuickActionsToolbar() {
     if (!currentMenu) return;
 
     try {
-      const service = UnifiedRecipeService.getInstance();
-      const allRecipes = (await service.getAllRecipes()) as unknown as Recipe[];
+      const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
 
       if (!allRecipes || allRecipes.length === 0) {
         logger.info("No recipes available from UnifiedRecipeService");
@@ -267,8 +265,7 @@ export default function QuickActionsToolbar() {
     setIsBalancing(true);
 
     try {
-      const service = UnifiedRecipeService.getInstance();
-      const allRecipes = (await service.getAllRecipes()) as unknown as Recipe[];
+      const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
 
       if (!allRecipes || allRecipes.length === 0) {
         logger.info("No recipes available for balancing");
@@ -335,8 +332,7 @@ export default function QuickActionsToolbar() {
     setIsDiversifying(true);
 
     try {
-      const service = UnifiedRecipeService.getInstance();
-      const allRecipes = (await service.getAllRecipes()) as unknown as Recipe[];
+      const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
 
       if (!allRecipes || allRecipes.length === 0) {
         setIsDiversifying(false);
