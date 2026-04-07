@@ -1,10 +1,14 @@
 /**
- * Simple Planetary Kinetics Client
+ * Planetary Kinetics Client
  *
- * A minimal client that wraps the kinetics calculation functionality.
- * This replaces the removed complex PlanetaryKineticsClient.
+ * Wraps the kinetics calculation engine with caching and provides
+ * real-time planetary kinetic metrics via the P=IV circuit model.
  */
 
+import { calculateKinetics } from "@/calculations/kinetics";
+import type { KineticMetrics as FullKineticMetrics } from "@/types/kinetics";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { calculateAspects } from "@/utils/astrologyUtils";
 import { logger } from "@/utils/logger";
 
 export interface KineticsOptions {
@@ -46,8 +50,10 @@ export interface KineticsLocation {
 
 export class PlanetaryKineticsClient {
   private static instance: PlanetaryKineticsClient;
-  private readonly cache: Map<string, { data: any; timestamp: number }> =
+  private readonly cache: Map<string, { data: KineticMetrics; timestamp: number }> =
     new Map();
+  private previousPositions: Record<string, string> | null = null;
+  private lastCalculationTime: number = 0;
 
   private constructor() {}
 
@@ -59,7 +65,7 @@ export class PlanetaryKineticsClient {
   }
 
   /**
-   * Get enhanced kinetics for a location
+   * Get enhanced kinetics for a location using real planetary positions
    */
   async getEnhancedKinetics(
     location: KineticsLocation,
@@ -83,24 +89,60 @@ export class PlanetaryKineticsClient {
         }
       }
 
-      // For now, return simplified kinetics data
-      // In a full implementation, this would calculate based on planetary positions
-      const mockData: KineticMetrics = {
-        velocity: { Fire: 0.1, Water: 0.05, Earth: 0.02, Air: 0.08 },
-        momentum: { Fire: 0.8, Water: 0.6, Earth: 0.9, Air: 0.4 },
-        forceMagnitude: 1.2,
-        power: 0.7,
-        efficiency: 0.85,
-        aspectPhase: "waxing",
-        thermalDirection: "stable",
+      // Get real planetary positions
+      const rawPositions = getAccuratePlanetaryPositions(new Date());
+
+      // Convert to Record<string, string> (planet → sign) for calculateKinetics
+      const currentPositions: Record<string, string> = {};
+      const aspectInput: Record<string, { sign: string; degree: number }> = {};
+
+      for (const [planet, data] of Object.entries(rawPositions)) {
+        if (data && typeof data === "object" && "sign" in data) {
+          currentPositions[planet] = String((data as any).sign);
+          aspectInput[planet] = {
+            sign: String((data as any).sign),
+            degree: Number((data as any).degree) || 0,
+          };
+        }
+      }
+
+      // Calculate time interval from last calculation
+      const timeInterval =
+        this.lastCalculationTime > 0
+          ? (now - this.lastCalculationTime) / 1000
+          : 3600; // Default 1 hour on first call
+
+      // Run the P=IV kinetics calculation
+      const fullMetrics: FullKineticMetrics = calculateKinetics({
+        currentPlanetaryPositions: currentPositions,
+        previousPlanetaryPositions: this.previousPositions || undefined,
+        timeInterval,
+      });
+
+      // Calculate efficiency from aspect harmony
+      const efficiency = this.calculateAspectEfficiency(aspectInput);
+
+      // Map full KineticMetrics to simplified client interface
+      const data: KineticMetrics = {
+        velocity: fullMetrics.velocity as Record<string, number>,
+        momentum: fullMetrics.momentum as Record<string, number>,
+        forceMagnitude: fullMetrics.forceMagnitude,
+        power: fullMetrics.power,
+        efficiency,
+        aspectPhase: fullMetrics.aspectPhase?.type || "stable",
+        thermalDirection: fullMetrics.thermalDirection,
       };
 
+      // Save state for next calculation
+      this.previousPositions = currentPositions;
+      this.lastCalculationTime = now;
+
       // Cache the result
-      this.cache.set(cacheKey, { data: mockData, timestamp: now });
+      this.cache.set(cacheKey, { data, timestamp: now });
 
       return {
         success: true,
-        data: mockData,
+        data,
         timestamp: new Date().toISOString(),
         cacheHit: false,
       };
@@ -115,18 +157,36 @@ export class PlanetaryKineticsClient {
   }
 
   /**
+   * Calculate efficiency from aspect harmony.
+   * Ratio of harmonious aspects (trine, sextile, conjunction) to total aspects.
+   */
+  private calculateAspectEfficiency(
+    positions: Record<string, { sign: string; degree: number }>,
+  ): number {
+    try {
+      const { aspects } = calculateAspects(positions);
+      if (!aspects || aspects.length === 0) return 0.5; // neutral default
+
+      const harmoniousTypes = new Set(["trine", "sextile", "conjunction"]);
+      const harmoniousCount = aspects.filter((a) =>
+        harmoniousTypes.has(String((a as any).type || (a as any).aspectType || "")),
+      ).length;
+
+      return aspects.length > 0 ? harmoniousCount / aspects.length : 0.5;
+    } catch {
+      return 0.5;
+    }
+  }
+
+  /**
    * Get group dynamics
    *
-   * TODO: PLACEHOLDER IMPLEMENTATION - Requires real user elemental property data
-   *
-   * To calculate real group dynamics, this function needs:
-   * 1. Birth chart data for each user (planetary positions at birth)
-   * 2. Elemental properties calculated from each user's chart
-   * 3. Use calculateElementalHarmony() to compute pairwise harmony
-   * 4. Calculate collective energy from aggregated elemental properties
-   * 5. Identify dominant element from group elemental distribution
-   *
-   * Current implementation returns mock data and logs a warning.
+   * TODO: PLACEHOLDER — Requires per-user birth chart data from the database.
+   * The current auth system stores birth info in JWT sessions, not queryable by user ID.
+   * To fully implement, we need:
+   * 1. A DB query to fetch birth charts by user ID
+   * 2. Per-user elemental property calculation
+   * 3. Pairwise harmony via calculateElementalHarmony()
    */
   async getGroupDynamics(
     userIds: string[],
@@ -138,12 +198,11 @@ export class PlanetaryKineticsClient {
         `Called for ${userIds.length} users at location ${JSON.stringify(location)}`,
     );
 
-    // PLACEHOLDER: Return mock data until user elemental properties are available
     return {
       groupId: `group_${userIds.join("_")}`,
       members: userIds,
-      collectiveEnergy: 0.7, // PLACEHOLDER: Should be calculated from group elemental properties
-      dominantElement: "Fire", // PLACEHOLDER: Should be calculated from group elemental distribution
+      collectiveEnergy: 0.7,
+      dominantElement: "Fire",
       recommendations: [
         "PLACEHOLDER: Real recommendations require user elemental property data",
         "To enable real group analysis, provide birth chart data for each user",
@@ -163,6 +222,8 @@ export class PlanetaryKineticsClient {
    */
   clearCache(): void {
     this.cache.clear();
+    this.previousPositions = null;
+    this.lastCalculationTime = 0;
     logger.debug("PlanetaryKineticsClient cache cleared");
   }
 }
