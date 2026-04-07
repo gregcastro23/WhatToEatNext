@@ -13,12 +13,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
-import SmartSuggestionsSidebar from "@/components/menu-builder/SmartSuggestionsSidebar";
-import WeekProgress from "@/components/menu-builder/WeekProgress";
-import RecipeQueue from "@/components/menu-planner/RecipeQueue";
-import TodaysMealsWidget from "@/components/menu-planner/TodaysMealsWidget";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
-import { WeeklyNutritionDashboard } from "@/components/nutrition";
 import {
     MenuPlannerProvider,
     useMenuPlanner,
@@ -42,6 +37,21 @@ const RecipeBrowserPanel = dynamic(
 );
 const RecipeDetailModal = dynamic(
   () => import("@/components/menu-planner/RecipeDetailModal"),
+);
+const TodaysMealsWidget = dynamic(
+  () => import("@/components/menu-planner/TodaysMealsWidget"),
+);
+const WeekProgress = dynamic(
+  () => import("@/components/menu-builder/WeekProgress"),
+);
+const RecipeQueue = dynamic(
+  () => import("@/components/menu-planner/RecipeQueue"),
+);
+const WeeklyNutritionDashboard = dynamic(
+  () => import("@/components/nutrition").then((mod) => mod.WeeklyNutritionDashboard),
+);
+const SmartSuggestionsSidebarLazy = dynamic(
+  () => import("@/components/menu-builder/SmartSuggestionsSidebar"),
 );
 
 interface SavedChart {
@@ -353,7 +363,7 @@ function MenuPlannerContent() {
 
           {/* Smart Suggestions - right side */}
           <div className="flex-1 hidden lg:block">
-            <SmartSuggestionsSidebar
+            <SmartSuggestionsSidebarLazy
               weekPlan={currentMenu}
               weeklyNutrition={weeklyNutrition}
               isCollapsed={sidebarCollapsed}
@@ -379,7 +389,7 @@ function MenuPlannerContent() {
           </button>
           {showMobileSuggestions && (
             <div className="max-h-72 overflow-y-auto">
-              <SmartSuggestionsSidebar
+              <SmartSuggestionsSidebarLazy
                 weekPlan={currentMenu}
                 weeklyNutrition={weeklyNutrition}
                 isCollapsed={false}

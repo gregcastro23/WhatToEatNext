@@ -1,7 +1,18 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import React from "react";
-import EnhancedCookingMethodRecommender from "@/components/recommendations/EnhancedCookingMethodRecommender";
+
+const EnhancedCookingMethodRecommender = dynamic(
+  () => import("@/components/recommendations/EnhancedCookingMethodRecommender"),
+  {
+    loading: () => (
+      <div className="flex min-h-[320px] items-center justify-center text-slate-500">
+        Loading cooking methods...
+      </div>
+    ),
+  },
+);
 
 /**
  * Cooking Methods Page
