@@ -162,7 +162,7 @@ export default function QuickFoodInput({
         <input
           type="text"
           value={searchQuery}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => { void handleSearch(e.target.value); }}
           placeholder="Search foods..."
           className="w-full px-4 py-2 pl-10 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
         />
@@ -249,7 +249,7 @@ export default function QuickFoodInput({
           <button
             key={preset.id}
             onClick={() => handleSelectFood(preset)}
-            onDoubleClick={() => handleQuickAdd(preset)}
+            onDoubleClick={() => { void handleQuickAdd(preset); }}
             disabled={isLoading}
             className="p-3 bg-gray-50 hover:bg-amber-50 rounded-lg transition-colors text-left group"
             title="Click to customize, double-click to quick add"
@@ -430,7 +430,7 @@ export default function QuickFoodInput({
                 Cancel
               </button>
               <button
-                onClick={handleAddFood}
+                onClick={() => { void handleAddFood(); }}
                 disabled={isLoading}
                 className="flex-1 py-2 px-4 bg-amber-500 text-white rounded-lg hover:bg-amber-600 disabled:opacity-50"
               >

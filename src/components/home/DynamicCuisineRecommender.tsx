@@ -318,7 +318,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
 
   useEffect(() => {
     void loadRecommendations();
-    const interval = setInterval(loadRecommendations, 15 * 60 * 1000);
+    const interval = setInterval(() => { void loadRecommendations(); }, 15 * 60 * 1000);
     return () => clearInterval(interval);
   }, [loadRecommendations]);
 
@@ -409,7 +409,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
       {/* Refresh Button */}
       <div className="text-center mt-8">
         <button
-          onClick={loadRecommendations}
+          onClick={() => { void loadRecommendations(); }}
           disabled={isLoading}
           className="px-6 py-3 bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors inline-flex items-center gap-2"
         >

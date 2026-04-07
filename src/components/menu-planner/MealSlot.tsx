@@ -267,7 +267,7 @@ function RecipeDisplay({
             recipe.environmentalMatchDetails ||
             "This recipe aligns with current environmental energies!"
           }
-          onClick={handleEnvironmentalMatchClick}
+          onClick={() => { void handleEnvironmentalMatchClick(); }}
         >
           <span>🌍✨</span>
           <span className="font-medium">Environmental Match!</span>

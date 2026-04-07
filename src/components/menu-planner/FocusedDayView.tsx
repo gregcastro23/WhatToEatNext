@@ -488,7 +488,7 @@ function FocusedMealSlot({
               Lock In
             </button>
             <button
-              onClick={onRemoveRecipe}
+              onClick={() => { void onRemoveRecipe(); }}
               className="px-3 py-1 bg-red-100 text-red-700 rounded-lg text-sm font-medium hover:bg-red-200 transition-all"
             >
               Clear
@@ -536,7 +536,7 @@ function FocusedMealSlot({
                 No recipe selected for this meal
               </p>
               <button
-                onClick={onGenerateSuggestions}
+                onClick={() => { void onGenerateSuggestions(); }}
                 className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
               >
                 ✨ Generate Suggestions
@@ -792,15 +792,15 @@ export default function FocusedDayView({
               isLocked={mealSlot.isLocked ?? false}
               onLock={() => handleLock(mealSlot.id)}
               onUnlock={() => handleUnlock(mealSlot.id)}
-              onSelectRecipe={(recipe) =>
-                handleSelectRecipe(mealSlot.mealType, recipe)
-              }
-              onRemoveRecipe={() => removeMealFromSlot(mealSlot.id)}
+              onSelectRecipe={(recipe) => {
+                void handleSelectRecipe(mealSlot.mealType, recipe);
+              }}
+              onRemoveRecipe={() => { void removeMealFromSlot(mealSlot.id); }}
               suggestions={suggestions[mealSlot.mealType]}
               isLoadingSuggestions={loadingMealType === mealSlot.mealType}
-              onGenerateSuggestions={() =>
-                generateSuggestions(mealSlot.mealType)
-              }
+              onGenerateSuggestions={() => {
+                void generateSuggestions(mealSlot.mealType);
+              }}
             />
           ))}
         </div>

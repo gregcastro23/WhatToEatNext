@@ -147,14 +147,14 @@ function DayColumn({
             🔍 Focus
           </button>
           <button
-            onClick={() => generateMealsForDay(dayOfWeek)}
+            onClick={() => { void generateMealsForDay(dayOfWeek); }}
             className="text-xs px-2 py-1 rounded bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors font-medium"
             title={`Generate meals for ${getDayName(dayOfWeek)} using ${characteristics.planet} energy`}
           >
             ✨ Generate
           </button>
           <button
-            onClick={() => clearDay(dayOfWeek)}
+            onClick={() => { void clearDay(dayOfWeek); }}
             className="text-xs px-2 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
             title="Clear all meals for this day"
           >
@@ -183,9 +183,9 @@ function DayColumn({
               swapMeals(sourceSlotId, mealSlot.id)
             }
             onCopyMeal={() => onCopyMealClick?.(mealSlot)}
-            onGenerateMeal={() =>
-              generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] })
-            }
+            onGenerateMeal={() => {
+              void generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] });
+            }}
             onAddSauce={(sauceId: string, servings?: number) =>
               addSauceToMeal(mealSlot.id, sauceId, servings)
             }

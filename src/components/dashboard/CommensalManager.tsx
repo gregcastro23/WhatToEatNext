@@ -217,7 +217,7 @@ function AddByEmailForm({
                   <div className="text-xs text-gray-400 truncate">{u.email}</div>
                 </div>
                 <button
-                  onClick={() => handleSendRequest(u.email)}
+                  onClick={() => { void handleSendRequest(u.email); }}
                   disabled={sending === u.email || alreadySent}
                   className={`ml-2 px-3 py-1.5 text-xs rounded-lg font-medium transition-colors flex-shrink-0 ${
                     alreadySent
@@ -802,7 +802,7 @@ function DiningGroupSection({
                   Recommend
                 </button>
                 <button
-                  onClick={() => handleDelete(group.id)}
+                  onClick={() => { void handleDelete(group.id); }}
                   className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -939,7 +939,7 @@ export const CommensalManager: React.FC = () => {
           ) : (
             <AddByEmailForm
               key="email-form"
-              onRequestSent={refreshLinkedCommensals}
+              onRequestSent={() => { void refreshLinkedCommensals(); }}
               onCancel={() => setShowAddForm(false)}
             />
           )}

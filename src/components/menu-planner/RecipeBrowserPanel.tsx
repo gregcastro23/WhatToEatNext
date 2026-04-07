@@ -531,7 +531,7 @@ function BrowserRecipeCard({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onToggleFavorite();
+            void onToggleFavorite();
           }}
           className={`text-sm flex-shrink-0 ${isFavorite ? "text-amber-400" : "text-gray-300 hover:text-amber-400"}`}
         >
@@ -583,7 +583,7 @@ function BrowserRecipeCard({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onSelect();
+            void onSelect();
           }}
           className="flex-1 px-2 py-1 bg-amber-600 text-white rounded text-xs font-medium hover:bg-amber-700"
         >
@@ -593,7 +593,7 @@ function BrowserRecipeCard({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              onAddToQueue();
+              void onAddToQueue();
             }}
             className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium hover:bg-purple-200"
           >
@@ -609,7 +609,7 @@ function BrowserRecipeCard({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              onViewDetail();
+              void onViewDetail();
             }}
             className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium hover:bg-gray-200"
           >

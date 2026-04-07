@@ -534,9 +534,9 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 </p>
                 <RestaurantBuilder
                   savedRestaurants={savedRestaurants}
-                  onSave={handleSaveRestaurant}
-                  onRemove={handleRemoveRestaurant}
-                  onUpdate={handleUpdateRestaurant}
+                  onSave={(restaurant) => { void handleSaveRestaurant(restaurant); }}
+                  onRemove={(restaurantId) => { void handleRemoveRestaurant(restaurantId); }}
+                  onUpdate={(updatedRestaurant) => { void handleUpdateRestaurant(updatedRestaurant); }}
                 />
               </>
             ) : (
@@ -546,7 +546,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 </p>
                 <RestaurantSearch
                   savedRestaurants={savedRestaurants}
-                  onSave={handleSaveRestaurant}
+                  onSave={(restaurant) => { void handleSaveRestaurant(restaurant); }}
                 />
               </>
             )}

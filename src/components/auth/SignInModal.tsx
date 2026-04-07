@@ -148,7 +148,7 @@ export default function SignInModal() {
         {/* Google Sign-In */}
         <button
           disabled={isSigningIn}
-          onClick={handleGoogleSignIn}
+          onClick={() => { void handleGoogleSignIn(); }}
           className="w-full py-3 px-6 bg-white border-2 border-gray-300 rounded-xl font-semibold text-gray-700 shadow-sm hover:shadow-md hover:border-gray-400 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
         >
           {isSigningIn ? (

@@ -147,7 +147,7 @@ function SharePanel({ entry }: { entry: FoodLabEntry }) {
             Make this entry public to generate a shareable link.
           </p>
           <button
-            onClick={enableSharing}
+            onClick={() => { void enableSharing(); }}
             disabled={enabling}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
           >
@@ -479,7 +479,7 @@ function EntryDetail({
               {showShare ? 'Hide Share' : 'Share'}
             </button>
             <button
-              onClick={handleDelete}
+              onClick={() => { void handleDelete(); }}
               disabled={deleting}
               className="px-4 py-2.5 bg-red-50 text-red-600 border border-red-200 rounded-lg text-sm font-medium hover:bg-red-100 disabled:opacity-60 transition-colors"
             >
@@ -669,7 +669,7 @@ function NewEntryForm({
                 ref={fileRef}
                 type="file"
                 accept="image/*"
-                onChange={handlePhotoUpload}
+                onChange={(e) => { void handlePhotoUpload(e); }}
                 className="hidden"
                 disabled={uploadingPhoto}
               />

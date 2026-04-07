@@ -315,11 +315,11 @@ export default function FoodDiaryView({
                             expandedEntry === entry.id ? null : entry.id,
                           )
                         }
-                        onRate={(rating, moods) =>
-                          onRateEntry(entry.id, rating, moods)
-                        }
-                        onDelete={() => onDeleteEntry(entry.id)}
-                        onToggleFavorite={() => onToggleFavorite(entry.id)}
+                        onRate={(rating, moods) => {
+                          void onRateEntry(entry.id, rating, moods);
+                        }}
+                        onDelete={() => { void onDeleteEntry(entry.id); }}
+                        onToggleFavorite={() => { void onToggleFavorite(entry.id); }}
                       />
                     ))}
                   </div>
@@ -356,11 +356,11 @@ export default function FoodDiaryView({
                           expandedEntry === entry.id ? null : entry.id,
                         )
                       }
-                      onRate={(rating, moods) =>
-                        onRateEntry(entry.id, rating, moods)
-                      }
-                      onDelete={() => onDeleteEntry(entry.id)}
-                      onToggleFavorite={() => onToggleFavorite(entry.id)}
+                      onRate={(rating, moods) => {
+                        void onRateEntry(entry.id, rating, moods);
+                      }}
+                      onDelete={() => { void onDeleteEntry(entry.id); }}
+                      onToggleFavorite={() => { void onToggleFavorite(entry.id); }}
                     />
                   </div>
                 ))}
@@ -496,7 +496,7 @@ function FoodEntryCard({
           {/* Actions */}
           <div className="flex items-center justify-between pt-3 border-t border-gray-200">
             <button
-              onClick={onToggleFavorite}
+              onClick={() => { void onToggleFavorite(); }}
               className={`flex items-center gap-1 px-3 py-1.5 rounded-lg transition-colors ${
                 entry.isFavorite
                   ? "bg-amber-100 text-amber-700"
@@ -522,7 +522,7 @@ function FoodEntryCard({
             </button>
 
             <button
-              onClick={handleDelete}
+              onClick={() => { void handleDelete(); }}
               disabled={isDeleting}
               className="flex items-center gap-1 px-3 py-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
             >

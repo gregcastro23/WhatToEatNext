@@ -137,7 +137,7 @@ export default function FoodRating({
     return (
       <button
         key={index}
-        onClick={() => handleStarClick(index)}
+        onClick={() => { void handleStarClick(index); }}
         onMouseEnter={() => !readOnly && setHoverRating(index)}
         onMouseLeave={() => setHoverRating(null)}
         disabled={readOnly}
@@ -243,7 +243,7 @@ export default function FoodRating({
               Cancel
             </button>
             <button
-              onClick={handleSave}
+              onClick={() => { void handleSave(); }}
               disabled={!selectedRating || isSaving}
               className="px-4 py-2 text-sm bg-amber-500 text-white rounded-lg hover:bg-amber-600 disabled:opacity-50"
             >

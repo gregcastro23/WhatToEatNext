@@ -520,7 +520,7 @@ export function useQuickFoodEntry() {
   const [presets, setPresets] = useState<QuickFoodPreset[]>([]);
 
   useEffect(() => {
-    getQuickFoodPresets(selectedCategory).then(setPresets);
+    void getQuickFoodPresets(selectedCategory).then(setPresets);
   }, [getQuickFoodPresets, selectedCategory]);
 
   const handleSearch = useCallback(
