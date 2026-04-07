@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { 
   FaClock, 
   FaUtensils, 
@@ -43,40 +40,22 @@ const ZodiacSignType = ({
   );
 };
 
-export default function CookingMethodPage() {
-  const params = useParams();
-  const [method, setMethod] = useState<CookingMethodInfo | null>(null);
-  const [methodKey, setMethodKey] = useState<string>("");
-  const [loading, setLoading] = useState(true);
+export default async function CookingMethodPage({
+  params,
+}: {
+  params: Promise<{ method: string }>;
+}) {
+  const resolvedParams = await params;
+  const methodId = resolvedParams?.method ?? "";
+  let method: CookingMethodInfo | null = null;
+  let methodKey = "";
 
-  useEffect(() => {
-    if (params?.method) {
-      const methodId = Array.isArray(params.method)
-        ? params.method[0]
-        : params.method;
-
-      // Find the method in allCookingMethods
-      let foundMethod: CookingMethodInfo | null = null;
-      let foundKey = "";
-      Object.entries(allCookingMethods).forEach(([key, data]) => {
-        if (key.toLowerCase() === methodId.toLowerCase()) {
-          foundMethod = data as CookingMethodInfo;
-          foundKey = key;
-        }
-      });
-
-      setMethod(foundMethod);
-      setMethodKey(foundKey);
-      setLoading(false);
+  for (const [key, data] of Object.entries(allCookingMethods)) {
+    if (key.toLowerCase() === methodId.toLowerCase()) {
+      method = data as CookingMethodInfo;
+      methodKey = key;
+      break;
     }
-  }, [params]);
-
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold text-center">Loading cooking method...</h1>
-      </div>
-    );
   }
 
   if (!method) {
@@ -104,7 +83,7 @@ export default function CookingMethodPage() {
             </h1>
 
             <p className="text-xl text-gray-600 mb-6 leading-relaxed">
-              {method && typeof method === "object" && "description" in method
+              {typeof method === "object" && "description" in method
                 ? String((method as unknown as { description?: string }).description)
                 : "No description available"}
             </p>
@@ -112,7 +91,7 @@ export default function CookingMethodPage() {
             <div className="flex items-center gap-3 text-gray-700 font-medium">
               <FaClock className="text-blue-500 text-xl" />
               <span>
-                {method && typeof method === "object" && "duration" in method
+                {typeof method === "object" && "duration" in method
                   ? String((method as unknown as { duration?: string }).duration)
                   : "Duration not specified"}
               </span>
@@ -130,7 +109,7 @@ export default function CookingMethodPage() {
           <section className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">Benefits</h2>
             <ul className="space-y-3">
-              {method && typeof method === "object" && "benefits" in method ? (
+              {typeof method === "object" && "benefits" in method ? (
                 Array.isArray((method as unknown as { benefits?: string[] }).benefits) ? (
                   (method as unknown as { benefits: string[] }).benefits.map((benefit: string, index: number) => (
                     <li key={index} className="flex items-start gap-3">
@@ -152,8 +131,7 @@ export default function CookingMethodPage() {
 
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Suitable Foods</h2>
             <div className="flex flex-wrap gap-2">
-              {method &&
-                typeof method === "object" &&
+              {typeof method === "object" &&
                 "suitable_for" in method &&
                 Array.isArray((method as unknown as { suitable_for?: string[] }).suitable_for) &&
                 (method as unknown as { suitable_for: string[] }).suitable_for.map((food: string, index: number) => (
@@ -166,8 +144,7 @@ export default function CookingMethodPage() {
                 ))}
             </div>
 
-            {method &&
-              typeof method === "object" &&
+            {typeof method === "object" &&
               "variations" in method &&
               (method as unknown as { variations?: string[] }).variations && (
                 <>

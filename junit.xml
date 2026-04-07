@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="5" failures="0" errors="0" time="1.482">
-  <testsuite name="Instacart Recipe API (/api/instacart/recipe)" errors="0" failures="0" skipped="0" timestamp="2026-04-07T00:15:43" time="0.561" tests="5">
-    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should exclude pantry-covered ingredients before calling Instacart" time="0.01">
+<testsuites name="jest tests" tests="12" failures="0" errors="0" time="2.689">
+  <testsuite name="useFoodDiary hook" errors="0" failures="0" skipped="0" timestamp="2026-04-07T17:44:07" time="1.867" tests="12">
+    <testcase classname="useFoodDiary hook › Initial Loading" name="loads guest data on mount using Server Actions" time="0.098">
     </testcase>
-    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should return 400 when pantry inventory covers every ingredient" time="0.001">
+    <testcase classname="useFoodDiary hook › Initial Loading" name="loads authenticated data on mount using fetch API" time="0.059">
     </testcase>
-    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should return cached response when same recipe and inventory are requested" time="0.002">
+    <testcase classname="useFoodDiary hook › Initial Loading" name="handles errors gracefully" time="0.062">
     </testcase>
-    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should bypass cache when inventory changes" time="0.001">
+    <testcase classname="useFoodDiary hook › CRUD Operations" name="adds an entry and refreshes data" time="0.033">
     </testcase>
-    <testcase classname="Instacart Recipe API (/api/instacart/recipe)" name="should handle IDP backend errors gracefully" time="0.001">
+    <testcase classname="useFoodDiary hook › CRUD Operations" name="updates an entry" time="0.027">
+    </testcase>
+    <testcase classname="useFoodDiary hook › CRUD Operations" name="deletes an entry" time="0.018">
+    </testcase>
+    <testcase classname="useFoodDiary hook › Navigation" name="goes to previous day" time="0.082">
+    </testcase>
+    <testcase classname="useFoodDiary hook › Navigation" name="goes to next day" time="0.336">
+    </testcase>
+    <testcase classname="useFoodDiary hook › Quick Food &amp; Search" name="adds a quick food item" time="0.106">
+    </testcase>
+    <testcase classname="useFoodDiary hook › Quick Food &amp; Search" name="searches foods" time="0.039">
+    </testcase>
+    <testcase classname="Sub-hooks" name="useQuickFoodEntry fetches presets on mount" time="0.089">
+    </testcase>
+    <testcase classname="Sub-hooks" name="useFoodDiaryInsights provides computed insights" time="0.095">
     </testcase>
   </testsuite>
 </testsuites>
