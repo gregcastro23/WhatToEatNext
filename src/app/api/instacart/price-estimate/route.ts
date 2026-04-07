@@ -14,16 +14,16 @@ import type { InstacartShoppingListRequest } from "@/types/instacart";
  */
 export async function POST(req: Request) {
   try {
-    const { line_items } = await req.json();
+    const { line_items: lineItems } = await req.json();
 
-    if (!line_items || !Array.isArray(line_items)) {
+    if (!lineItems || !Array.isArray(lineItems)) {
       return NextResponse.json({ error: "Missing line_items" }, { status: 400 });
     }
 
     const idpRequest: InstacartShoppingListRequest = {
       title: "Price Probe (Internal)",
       link_type: "shopping_list",
-      line_items: line_items.slice(0, 50), // Limit probe size
+      line_items: lineItems.slice(0, 50), // Limit probe size
       landing_page_configuration: {
         partner_linkback_url: "https://alchm.kitchen"
       }
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       confidence: "high",
       message: "Ingredients validated by Instacart IDP",
-      validated_item_count: line_items.length,
+      validated_item_count: lineItems.length,
       status: response.status
     });
 

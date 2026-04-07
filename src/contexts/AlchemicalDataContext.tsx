@@ -68,7 +68,7 @@ export function AlchemicalDataProvider({ children }: { children: React.ReactNode
       }
     };
 
-    fetchData();
+    void fetchData();
     return () => { isMounted = false; };
   }, []);
 
@@ -78,4 +78,3 @@ export function AlchemicalDataProvider({ children }: { children: React.ReactNode
     </AlchemicalDataContext.Provider>
   );
 }
-

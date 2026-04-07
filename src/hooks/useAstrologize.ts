@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { _logger } from "@/lib/logger";
 import { AstrologicalService } from "@/services/AstrologicalService";
 import { log } from "@/services/LoggingService";
@@ -86,7 +86,7 @@ export function useAstrologize(
   }, [useCurrentLocation, latitude, longitude, location]);
 
   // Fetch data from the API
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -160,7 +160,16 @@ export function useAstrologize(
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    date,
+    hour,
+    location,
+    minute,
+    month,
+    useCurrentTime,
+    year,
+    zodiacSystem,
+  ]);
 
   // Fetch data when dependencies change
   useEffect(() => {
@@ -168,6 +177,7 @@ export function useAstrologize(
       void fetchData();
     }
   }, [
+    fetchData,
     useCurrentTime,
     useCurrentLocation,
     year,

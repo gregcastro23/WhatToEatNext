@@ -8,7 +8,8 @@
  * @created 2026-01-11 (Phase 3)
  */
 
-import React, { useState, useMemo, useEffect } from "react";
+import Image from "next/image";
+import { useState, useMemo, useEffect } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { instacartService } from "@/services/InstacartService";
 import type { InstacartRetailer, InstacartShoppingListRequest } from "@/types/instacart";
@@ -464,7 +465,14 @@ export default function GroceryListModal({
                 {retailers.slice(0, 5).map(r => (
                   <span key={r.retailer_key} className="inline-flex items-center gap-1 text-xs bg-gray-100 rounded px-2 py-0.5 whitespace-nowrap">
                     {r.retailer_logo_url && (
-                      <img src={r.retailer_logo_url} alt="" className="w-4 h-4 rounded" />
+                      <Image
+                        src={r.retailer_logo_url}
+                        alt=""
+                        width={16}
+                        height={16}
+                        unoptimized
+                        className="w-4 h-4 rounded"
+                      />
                     )}
                     {r.name}
                   </span>

@@ -240,8 +240,6 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     }
   }, [
     activePlanets,
-    currentPlanetaryAlignment,
-    signEnergyStates,
     calculatePlanetaryEnergy,
   ]);
   // Calculate elemental boosts from tarot cards

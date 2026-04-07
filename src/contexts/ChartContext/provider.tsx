@@ -41,6 +41,7 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
   // Race condition protection: track the latest refresh version
   const refreshVersionRef = React.useRef(0);
   const isMountedRef = React.useRef(true);
+  const refreshChartRef = React.useRef<() => Promise<void>>(async () => {});
 
   React.useEffect(() => {
     return () => { isMountedRef.current = false; };
@@ -196,6 +197,8 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  refreshChartRef.current = refreshChart;
+
   const createChartSvg = () => {
     // Convert chart data to the format expected by components
     const formattedPlanets: Record<string, SafePlanetaryData> = {};
@@ -239,7 +242,7 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    void refreshChart();
+    void refreshChartRef.current();
   }, [alchemicalPositions]);
 
   return (

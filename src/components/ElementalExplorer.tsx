@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 export default function ElementalExplorer() {

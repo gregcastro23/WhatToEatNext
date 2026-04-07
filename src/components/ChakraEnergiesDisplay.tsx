@@ -9,8 +9,8 @@ import {
   normalizeChakraKey,
   getChakraDisplayName
 } from '@/constants/chakraSymbols';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { isChakraKey } from '@/utils/typeGuards';
 
@@ -228,7 +228,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
       
       <div className="text-sm text-gray-600 mb-4">
         Chakra energy levels reflect the current planetary influences and their effects on your energy centers.
-        Higher values indicate stronger activation of that chakra's qualities.
+        Higher values indicate stronger activation of that chakra&apos;s qualities.
       </div>
       
       <div className={`space-y-4 ${compact ? 'text-sm' : ''}`}>

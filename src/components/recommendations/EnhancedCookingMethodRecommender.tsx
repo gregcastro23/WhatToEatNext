@@ -360,15 +360,17 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
   // Get planetary positions from AlchemicalContext
   const alchemicalContext = useAlchemical();
+  const contextPlanetaryPositions = alchemicalContext?.planetaryPositions;
+  const refreshPlanetaryPositions = alchemicalContext?.refreshPlanetaryPositions;
 
   useEffect(() => {
-    if (alchemicalContext?.planetaryPositions) {
-      const normalized = normalizePlanetaryPositions(alchemicalContext.planetaryPositions);
+    if (contextPlanetaryPositions) {
+      const normalized = normalizePlanetaryPositions(contextPlanetaryPositions);
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
     }
-    if (alchemicalContext?.refreshPlanetaryPositions) {
-      alchemicalContext.refreshPlanetaryPositions()
+    if (refreshPlanetaryPositions) {
+      refreshPlanetaryPositions()
         .then((positions) => {
           if (positions && Object.keys(positions).length > 0) {
             setPlanetaryPositions(normalizePlanetaryPositions(positions));
@@ -379,7 +381,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           console.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions");
         });
     }
-  }, [alchemicalContext?.planetaryPositions, alchemicalContext?.refreshPlanetaryPositions]);
+  }, [contextPlanetaryPositions, refreshPlanetaryPositions]);
 
   // ── Compute all methods with full metrics + Harmony Index ──
   const currentMethods = useMemo(() => {

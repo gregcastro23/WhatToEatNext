@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { NatalChart } from '@/types/natalChart';
@@ -97,12 +98,12 @@ export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalC
         </div>
       </div>
 
-      <a
+      <Link
         href="/"
         className="mt-5 block text-center text-xs text-purple-400/80 font-medium hover:text-purple-300 transition-colors uppercase tracking-wider"
       >
         See today&apos;s recommended cuisines &rarr;
-      </a>
+      </Link>
     </div>
   );
 };

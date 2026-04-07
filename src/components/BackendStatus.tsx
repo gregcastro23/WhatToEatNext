@@ -7,7 +7,7 @@
 
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 // Simple logger fallback
 const _logger = {
@@ -35,21 +35,24 @@ export const BackendStatus: React.FC = () => {
   }>({});
 
   // Check backend health
-  const checkHealth = async () => {
+  const checkHealth = useCallback(async () => {
     try {
       // Mock health check - replace with actual API call
-      const healthData: ServiceStatus[] = services.map((s) => ({
-        ...s,
-        status: "offline" as const,
-        responseTime: Math.random() * 100,
-        lastCheck: new Date().toISOString(),
-      }));
-      setServices(healthData);
+      setServices((prev) =>
+        prev.map((s) => ({
+          ...s,
+          status: "offline" as const,
+          responseTime: Math.random() * 100,
+          lastCheck: new Date().toISOString(),
+        })),
+      );
     } catch (_error) {
       _logger.info("Backend services offline - using fallback mode");
-      setServices(services.map((s) => ({ ...s, status: "offline" as const })));
+      setServices((prev) =>
+        prev.map((s) => ({ ...s, status: "offline" as const })),
+      );
     }
-  };
+  }, []);
 
   // Demo backend calculations
   const runDemoCalculations = async () => {
@@ -103,7 +106,7 @@ export const BackendStatus: React.FC = () => {
     // Periodic health checks
     const interval = setInterval(() => void checkHealth(), 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [checkHealth]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

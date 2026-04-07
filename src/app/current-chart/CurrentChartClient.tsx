@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { CurrentTransitAnalysis } from '@/components/dashboard/CurrentTransitAnalysis';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 export function CurrentChartClient({ natalChart }: { natalChart: any }) {
   const { state } = useAlchemical();

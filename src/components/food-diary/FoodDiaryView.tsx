@@ -315,11 +315,11 @@ export default function FoodDiaryView({
                             expandedEntry === entry.id ? null : entry.id,
                           )
                         }
-                        onRate={(rating, moods) => {
-                          void onRateEntry(entry.id, rating, moods);
-                        }}
-                        onDelete={() => { void onDeleteEntry(entry.id); }}
-                        onToggleFavorite={() => { void onToggleFavorite(entry.id); }}
+                        onRate={(rating, moods) =>
+                          onRateEntry(entry.id, rating, moods)
+                        }
+                        onDelete={() => onDeleteEntry(entry.id)}
+                        onToggleFavorite={() => onToggleFavorite(entry.id)}
                       />
                     ))}
                   </div>
@@ -356,11 +356,11 @@ export default function FoodDiaryView({
                           expandedEntry === entry.id ? null : entry.id,
                         )
                       }
-                      onRate={(rating, moods) => {
-                        void onRateEntry(entry.id, rating, moods);
-                      }}
-                      onDelete={() => { void onDeleteEntry(entry.id); }}
-                      onToggleFavorite={() => { void onToggleFavorite(entry.id); }}
+                      onRate={(rating, moods) =>
+                        onRateEntry(entry.id, rating, moods)
+                      }
+                      onDelete={() => onDeleteEntry(entry.id)}
+                      onToggleFavorite={() => onToggleFavorite(entry.id)}
                     />
                   </div>
                 ))}

@@ -36,8 +36,10 @@ export default function NotificationBell() {
   // Fetch on mount and every 60s
   useEffect(() => {
     if (status !== 'authenticated') return;
-    fetchNotifications();
-    const interval = setInterval(fetchNotifications, 60_000);
+    void fetchNotifications();
+    const interval = setInterval(() => {
+      void fetchNotifications();
+    }, 60_000);
     return () => clearInterval(interval);
   }, [status, fetchNotifications]);
 
@@ -72,7 +74,12 @@ export default function NotificationBell() {
     <div ref={dropdownRef} className="relative">
       {/* Test-tube button */}
       <button
-        onClick={() => { setOpen(!open); if (!open) fetchNotifications(); }}
+        onClick={() => {
+          setOpen(!open);
+          if (!open) {
+            void fetchNotifications();
+          }
+        }}
         className="relative px-2 py-1.5 rounded-lg bg-white bg-opacity-70 hover:bg-purple-100 border border-purple-200 transition-all duration-200 hover:scale-105 hover:shadow-md"
         aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
         title="Notifications"
@@ -101,7 +108,9 @@ export default function NotificationBell() {
             <span className="font-semibold text-sm text-gray-800">Notifications</span>
             {unreadCount > 0 && (
               <button
-                onClick={markAllRead}
+                onClick={() => {
+                  void markAllRead();
+                }}
                 className="text-xs text-purple-600 hover:text-purple-800 font-medium"
               >
                 Mark all read
@@ -125,7 +134,11 @@ export default function NotificationBell() {
                 return (
                   <button
                     key={n.id}
-                    onClick={() => { if (!n.isRead) markAsRead(n.id); }}
+                    onClick={() => {
+                      if (!n.isRead) {
+                        void markAsRead(n.id);
+                      }
+                    }}
                     className="w-full text-left p-3 rounded-lg transition-all duration-150 hover:scale-[1.01]"
                     style={{
                       backgroundColor: style.bg,

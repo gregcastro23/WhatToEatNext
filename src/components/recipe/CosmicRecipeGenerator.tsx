@@ -1,6 +1,7 @@
 "use client";
 
 import { experimental_useObject as useObject } from '@ai-sdk/react';
+import Image from 'next/image';
 import { useState } from 'react';
 import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useUser } from '@/contexts/UserContext';
@@ -211,7 +212,14 @@ export default function CosmicRecipeGenerator() {
               <div className="mt-8 transition-opacity duration-1000">
                 {imageUrl ? (
                   <div className="relative group rounded-2xl overflow-hidden shadow-2xl">
-                     <img src={imageUrl} alt={object.title || "Recipe Result"} className="w-full h-96 object-cover transform group-hover:scale-105 transition-transform duration-700" />
+	                     <Image
+	                       src={imageUrl}
+	                       alt={object.title || "Recipe Result"}
+	                       fill
+	                       unoptimized
+	                       sizes="100vw"
+	                       className="w-full h-96 object-cover transform group-hover:scale-105 transition-transform duration-700"
+	                     />
                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
                 ) : isGeneratingImage ? (

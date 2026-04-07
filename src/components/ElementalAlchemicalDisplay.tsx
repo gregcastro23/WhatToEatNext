@@ -3,12 +3,6 @@
 
 import React from 'react';
 import { 
-  // @ts-expect-error - Auto-fixed by script
-  calculateHeat, 
-  // @ts-expect-error - Auto-fixed by script
-  calculateEntropy, 
-  // @ts-expect-error - Auto-fixed by script
-  calculateReactivity, 
   calculateGregsEnergy 
 } from '@/calculations/gregsEnergy';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
@@ -32,30 +26,19 @@ export default function ElementalAlchemicalDisplay() {
     Air: 0.25 
   };
   
-  // Calculate thermodynamic properties using the actual calculation functions
-  const heat = calculateHeat(
-    elementalState.Fire || 0.25,
-    elementalState.Earth || 0.25,
-    elementalState.Air || 0.25,
-    elementalState.Water || 0.25
-  );
-  
-  const entropy = calculateEntropy(
-    elementalState.Fire || 0.25,
-    elementalState.Earth || 0.25,
-    elementalState.Air || 0.25,
-    elementalState.Water || 0.25
-  );
-  
-  const reactivity = calculateReactivity(
-    elementalState.Fire || 0.25,
-    elementalState.Earth || 0.25,
-    elementalState.Air || 0.25,
-    elementalState.Water || 0.25
-  );
-  
-  // @ts-expect-error - Auto-fixed by script
-  const celestialEnergy = calculateGregsEnergy(heat, entropy, reactivity);
+  const elementalAlchemicalCounts = {
+    Spirit: alchemicalValues.Spirit || 0.25,
+    Essence: alchemicalValues.Essence || 0.25,
+    Matter: alchemicalValues.Matter || 0.25,
+    Substance: alchemicalValues.Substance || 0.25,
+    Fire: elementalState.Fire || 0.25,
+    Water: elementalState.Water || 0.25,
+    Earth: elementalState.Earth || 0.25,
+    Air: elementalState.Air || 0.25,
+  };
+
+  const celestialEnergy = calculateGregsEnergy(elementalAlchemicalCounts);
+  const { heat, entropy, reactivity, gregsEnergy } = celestialEnergy;
   
   // Helper function to format values as decimals
   const formatValue = (value: number = 0) => {
@@ -133,8 +116,7 @@ export default function ElementalAlchemicalDisplay() {
                 <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2" />
                 <span className="text-sm">Celestial Energy</span>
               </div>
-              // @ts-expect-error - Auto-fixed by script
-              <span className="text-sm font-medium">{formatValue(celestialEnergy)}</span>
+              <span className="text-sm font-medium">{formatValue(gregsEnergy)}</span>
             </div>
           </div>
         </div>

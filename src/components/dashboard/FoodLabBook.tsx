@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 /* ─── Types ─────────────────────────────────────────────── */
@@ -245,9 +246,12 @@ function EntryCard({
       {/* Photo */}
       <div className="aspect-square bg-gray-100 overflow-hidden">
         {cover ? (
-          <img
+          <Image
             src={cover}
             alt={entry.dishName}
+            fill
+            unoptimized
+            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
@@ -352,10 +356,13 @@ function EntryDetail({
           {/* Photos */}
           {entry.photos.length > 0 && (
             <div>
-              <div className="aspect-video rounded-xl overflow-hidden bg-gray-100">
-                <img
+              <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-100">
+                <Image
                   src={entry.photos[activePhoto].dataUrl}
                   alt={entry.dishName}
+                  fill
+                  unoptimized
+                  sizes="100vw"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -369,7 +376,14 @@ function EntryDetail({
                         i === activePhoto ? 'border-purple-500' : 'border-transparent'
                       }`}
                     >
-                      <img src={p.dataUrl} alt="" className="w-full h-full object-cover" />
+                      <Image
+                        src={p.dataUrl}
+                        alt=""
+                        fill
+                        unoptimized
+                        sizes="56px"
+                        className="w-full h-full object-cover"
+                      />
                     </button>
                   ))}
                 </div>
@@ -626,7 +640,7 @@ function NewEntryForm({
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={(event) => { void handleSubmit(event); }} className="space-y-4">
         {error && (
           <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
             {error}
@@ -640,7 +654,14 @@ function NewEntryForm({
           <div className="flex gap-2 flex-wrap">
             {photos.map((p, i) => (
               <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden">
-                <img src={p.dataUrl} alt="" className="w-full h-full object-cover" />
+                <Image
+                  src={p.dataUrl}
+                  alt=""
+                  fill
+                  unoptimized
+                  sizes="80px"
+                  className="w-full h-full object-cover"
+                />
                 <button
                   type="button"
                   onClick={() => removePhoto(i)}

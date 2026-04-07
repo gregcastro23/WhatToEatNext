@@ -70,6 +70,7 @@ const getSecurityHeaders = () => {
 
 const nextConfig = {
   reactStrictMode: false,
+  outputFileTracingRoot: __dirname,
   // standalone output disabled - causes long builds and Vercel issues
   images: {
     domains: [], 
@@ -88,12 +89,6 @@ const nextConfig = {
             exclude: ["error", "warn"],
           }
         : false,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   poweredByHeader: false,
   compress: true,
@@ -173,4 +168,3 @@ const withPWA = withPWAInit({
 });
 
 export default withPWA(nextConfig);
-

@@ -189,14 +189,14 @@ export function normalizeIngredient(raw: string): NormalizedIngredient {
   const category = detectCategory(name);
 
   // 9. Build display_text
-  let display_text = `${quantity} ${unit} ${name}`;
+  let displayText = `${quantity} ${unit} ${name}`;
   if (unit === 'each' || unit === 'piece' || unit === '') {
-    display_text = `${quantity} ${name}`;
+    displayText = `${quantity} ${name}`;
   }
 
   return {
     name,
-    display_text,
+    display_text: displayText,
     quantity: String(quantity),
     unit,
     category
@@ -316,14 +316,14 @@ export function deduplicateIngredients(
 
     finalQty = Math.ceil(finalQty);
 
-    let display_text = `${finalQty} ${finalUnit} ${finalName}`;
+    let displayText = `${finalQty} ${finalUnit} ${finalName}`;
     if (finalUnit === 'each' || finalUnit === 'piece' || finalUnit === 'pack' || finalUnit === '') {
-      display_text = `${finalQty} ${finalName}`;
+      displayText = `${finalQty} ${finalName}`;
     }
 
     deduplicated.push({
       name: finalName,
-      display_text,
+      display_text: displayText,
       quantity: String(finalQty),
       unit: finalUnit,
       category: group.category,

@@ -1,13 +1,12 @@
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { NatalTransitChart } from '@/components/dashboard/NatalTransitChart';
+import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
+import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
+import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { auth } from '@/lib/auth/auth';
 import { userDatabase } from '@/services/userDatabaseService';
-import Link from 'next/link';
 
-// Import necessary chart views
-import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
-import { ElementalWheel } from '@/components/profile/ElementalWheel';
-import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
-import { NatalTransitChart } from '@/components/dashboard/NatalTransitChart';
 
 export default async function BirthChartPage() {
   const session = await auth();

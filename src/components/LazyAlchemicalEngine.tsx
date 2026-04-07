@@ -8,18 +8,20 @@
 import React, { Suspense, useState } from "react";
 import { createLazyComponent } from "@/utils/lazyLoading";
 
+const LazyEngineFallback = (_props: any) => (
+  <div className="alchemical-calculator">
+    <h3>Alchemical Calculation Engine</h3>
+    <p>Performing complex elemental calculations...</p>
+  </div>
+);
+
+LazyEngineFallback.displayName = "LazyEngineFallback";
+
 // Lazy load the alchemical calculation engine
 const AlchemicalCalculator = createLazyComponent(
   () =>
     import("@/calculations/alchemicalEngine").then((_module) => ({
-      default: React.memo((_props: any) => (
-        // This would wrap the actual calculation logic
-        <div className="alchemical-calculator">
-          <h3>Alchemical Calculation Engine</h3>
-          <p>Performing complex elemental calculations...</p>
-          {/* Calculation results would be rendered here */}
-        </div>
-      )),
+      default: React.memo(LazyEngineFallback),
     })),
   // Custom loading component
   () => (

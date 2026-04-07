@@ -113,7 +113,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
     let isMounted = true;
     
     if (isMounted) {
-      loadTarotCards();
+      void loadTarotCards();
     }
 
     return () => {
@@ -237,7 +237,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
             </div>
             <p className="mt-2 text-sm opacity-90 bg-black bg-opacity-20 p-2 rounded-md text-white">
               // @ts-expect-error - Auto-fixed by script
-              This card heightens the influence of {tarotCards.majorCard?.planet || 'planetary'} energies on today's recommended foods.
+              This card heightens the influence of {tarotCards.majorCard?.planet || 'planetary'} energies on today&apos;s recommended foods.
             </p>
           </div>
         </div>

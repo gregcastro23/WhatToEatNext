@@ -37,7 +37,7 @@ function EmptyState() {
         Enter a food name in the search box above to see nutritional information and elemental properties.
       </p>
       <p className="mt-3 text-xs text-gray-500">
-        Try searching for foods like "apple", "chicken breast", or "quinoa".
+        Try searching for foods like &quot;apple&quot;, &quot;chicken breast&quot;, or &quot;quinoa&quot;.
       </p>
     </div>
   );
@@ -61,7 +61,7 @@ function ZodiacRecommendations({ dominantElement }: { dominantElement: Element }
     <div className="mt-6 p-4 border border-purple-200 bg-purple-50 rounded">
       <h3 className="text-lg font-semibold mb-2 text-purple-800">Astrological Affinity</h3>
       <p className="text-sm text-purple-700 mb-3">
-        This food's dominant {dominantElement} element makes it especially beneficial for:
+        This food&apos;s dominant {dominantElement} element makes it especially beneficial for:
       </p>
       <div className="flex flex-wrap gap-2">
         {compatibleSigns.map(sign => (
@@ -133,10 +133,16 @@ export default function NutritionalDataFetcher() {
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Enter food name (e.g., apple, chicken)"
           className="flex-1 p-2 border border-gray-300 rounded"
-          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              void handleSearch();
+            }
+          }}
         />
         <button
-          onClick={handleSearch}
+          onClick={() => {
+            void handleSearch();
+          }}
           disabled={isLoading}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
         >

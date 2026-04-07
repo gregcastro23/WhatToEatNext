@@ -29,20 +29,24 @@ export interface EnhancedAlchemicalResult {
   compatibilityScore: number;
   confidence: number;
 }
+
+interface ThermodynamicInputs {
+  spirit: number;
+  substance: number;
+  essence: number;
+  matter: number;
+  fire: number;
+  water: number;
+  air: number;
+  earth: number;
+}
 // ========== CORE CALCULATION FUNCTIONS ==========
 /**
  * Calculate Heat: Measures active energy (Spirit & Fire vs all other properties)
  * Formula: Heat = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
  */
 export function calculateHeat(
-  spirit: number,
-  fire: number,
-  substance: number,
-  essence: number,
-  matter: number,
-  water: number,
-  air: number,
-  earth: number,
+  { spirit, fire, substance, essence, matter, water, air, earth }: ThermodynamicInputs,
 ): number {
   const numerator = Math.pow(spirit, 2) + Math.pow(fire, 2);
   const denominator = Math.pow(
@@ -56,14 +60,7 @@ export function calculateHeat(
  * Formula: Entropy = (Spirit² + Substance² + Fire² + Air²) / (Essence + Matter + Earth + Water)²
  */
 export function calculateEntropy(
-  spirit: number,
-  substance: number,
-  fire: number,
-  air: number,
-  essence: number,
-  matter: number,
-  earth: number,
-  water: number,
+  { spirit, substance, fire, air, essence, matter, earth, water }: ThermodynamicInputs,
 ): number {
   const numerator =
     Math.pow(spirit, 2) +
@@ -78,14 +75,7 @@ export function calculateEntropy(
  * Formula: Reactivity = (Spirit² + Substance² + Essence² + Fire² + Air² + Water²) / (Matter + Earth)²
  */
 export function calculateReactivity(
-  spirit: number,
-  substance: number,
-  essence: number,
-  fire: number,
-  air: number,
-  water: number,
-  matter: number,
-  earth: number,
+  { spirit, substance, essence, fire, air, water, matter, earth }: ThermodynamicInputs,
 ): number {
   const numerator =
     Math.pow(spirit, 2) +
@@ -235,36 +225,19 @@ export function calculateThermodynamicMetrics(
     typeof elemental.Earth === "number" && !isNaN(elemental.Earth)
       ? elemental.Earth
       : 0.25;
-  const heat = calculateHeat(
-    Spirit,
-    Fire,
-    Substance,
-    Essence,
-    Matter,
-    Water,
-    Air,
-    Earth,
-  );
-  const entropy = calculateEntropy(
-    Spirit,
-    Substance,
-    Fire,
-    Air,
-    Essence,
-    Matter,
-    Earth,
-    Water,
-  );
-  const reactivity = calculateReactivity(
-    Spirit,
-    Substance,
-    Essence,
-    Fire,
-    Air,
-    Water,
-    Matter,
-    Earth,
-  );
+  const thermodynamicInputs = {
+    spirit: Spirit,
+    substance: Substance,
+    essence: Essence,
+    matter: Matter,
+    fire: Fire,
+    water: Water,
+    air: Air,
+    earth: Earth,
+  };
+  const heat = calculateHeat(thermodynamicInputs);
+  const entropy = calculateEntropy(thermodynamicInputs);
+  const reactivity = calculateReactivity(thermodynamicInputs);
   const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
   const kalchm = calculateKAlchm(Spirit, Essence, Matter, Substance);
   const monica = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);
@@ -757,24 +730,19 @@ export function calculateMonicaOptimizationScore(
         }
       : { ...baseAlchemical };
     // Calculate thermodynamic metrics for this method
-    const heat = calculateHeat(
-      transformedESMS.Spirit, elemental.Fire,
-      transformedESMS.Substance, transformedESMS.Essence,
-      transformedESMS.Matter, elemental.Water,
-      elemental.Air, elemental.Earth,
-    );
-    const entropy = calculateEntropy(
-      transformedESMS.Spirit, transformedESMS.Substance,
-      elemental.Fire, elemental.Air,
-      transformedESMS.Essence, transformedESMS.Matter,
-      elemental.Earth, elemental.Water,
-    );
-    const reactivity = calculateReactivity(
-      transformedESMS.Spirit, transformedESMS.Substance,
-      transformedESMS.Essence, elemental.Fire,
-      elemental.Air, elemental.Water,
-      transformedESMS.Matter, elemental.Earth,
-    );
+    const thermodynamicInputs = {
+      spirit: transformedESMS.Spirit,
+      substance: transformedESMS.Substance,
+      essence: transformedESMS.Essence,
+      matter: transformedESMS.Matter,
+      fire: elemental.Fire,
+      water: elemental.Water,
+      air: elemental.Air,
+      earth: elemental.Earth,
+    };
+    const heat = calculateHeat(thermodynamicInputs);
+    const entropy = calculateEntropy(thermodynamicInputs);
+    const reactivity = calculateReactivity(thermodynamicInputs);
     const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
     const kalchm = calculateKAlchm(
       transformedESMS.Spirit, transformedESMS.Essence,

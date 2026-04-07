@@ -1,8 +1,7 @@
 import { _ZODIAC_ELEMENTS as ZODIAC_ELEMENTS, _ELEMENT_AFFINITIES as ELEMENT_AFFINITIES } from '@/constants/elementalConstants';
-
 import { usePopup } from '@/contexts/PopupContext/hooks';
-import type { ZodiacSign, Element } from '@/types/alchemy';
-import React from 'react';
+import type { ZodiacSign } from '@/types/alchemy';
+import type { FC } from 'react';
 
 interface PopupOptions {
   type?: string;
@@ -15,7 +14,7 @@ interface PopupOptions {
   animation?: string;
 }
 
-const GlobalPopup: React.FC = () => {
+const GlobalPopup: FC = () => {
   const { showPopup } = usePopup();
 
   // Helper function to get element-based classes
@@ -27,7 +26,7 @@ const GlobalPopup: React.FC = () => {
     
     // Check for elemental harmony
     const isHarmonious = sunElement && moonElement ? 
-      ELEMENT_AFFINITIES[sunElement as Element]?.includes(moonElement as Element) : 
+      ELEMENT_AFFINITIES[sunElement]?.includes(moonElement) : 
       false;
     
     return `popup-${sunElement?.toLowerCase()} popup-${moonElement?.toLowerCase()} ${

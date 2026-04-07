@@ -550,7 +550,9 @@ function FocusedMealSlot({
               suggestions={suggestions}
               currentIndex={suggestionIndex}
               onIndexChange={setSuggestionIndex}
-              onSelect={onSelectRecipe}
+              onSelect={(recipe) => {
+                void onSelectRecipe(recipe);
+              }}
               isLoading={isLoadingSuggestions}
             />
           )}
@@ -584,49 +586,8 @@ export default function FocusedDayView({
 
   const characteristics = getPlanetaryDayCharacteristics(dayOfWeek);
 
-  // Generate suggestions for a specific meal type
-  const generateSuggestions = useCallback(
-    async (mealType: MealType) => {
-      setLoadingMealType(mealType);
-
-      try {
-        const service = UnifiedRecipeService.getInstance();
-        const allRecipes =
-          (await service.getAllRecipes()) as unknown as Recipe[];
-
-        // Search for recipes matching this meal type and day
-        const results = searchRecipes(allRecipes, {
-          mealType: [mealType],
-          planetaryDay: dayOfWeek,
-          limit: 10,
-        });
-
-        // Map to suggestions with reasons
-        const mealSuggestions: MealSuggestion[] = results.map((recipe) => ({
-          recipe,
-          score: recipe.searchScore / 100,
-          reasons: generateReasons(recipe, mealType, dayOfWeek),
-        }));
-
-        setSuggestions((prev) => ({
-          ...prev,
-          [mealType]: mealSuggestions,
-        }));
-
-        logger.info(
-          `Generated ${mealSuggestions.length} suggestions for ${mealType}`,
-        );
-      } catch (err) {
-        logger.error(`Failed to generate suggestions for ${mealType}:`, err);
-      } finally {
-        setLoadingMealType(null);
-      }
-    },
-    [dayOfWeek],
-  );
-
   // Generate reasons for why a recipe was suggested
-  const generateReasons = (
+  const generateReasons = useCallback((
     recipe: ScoredRecipe,
     mealType: MealType,
     _day: DayOfWeek,
@@ -682,7 +643,48 @@ export default function FocusedDayView({
     }
 
     return reasons.slice(0, 4);
-  };
+  }, [characteristics.planet]);
+
+  // Generate suggestions for a specific meal type
+  const generateSuggestions = useCallback(
+    async (mealType: MealType) => {
+      setLoadingMealType(mealType);
+
+      try {
+        const service = UnifiedRecipeService.getInstance();
+        const allRecipes =
+          (await service.getAllRecipes()) as unknown as Recipe[];
+
+        // Search for recipes matching this meal type and day
+        const results = searchRecipes(allRecipes, {
+          mealType: [mealType],
+          planetaryDay: dayOfWeek,
+          limit: 10,
+        });
+
+        // Map to suggestions with reasons
+        const mealSuggestions: MealSuggestion[] = results.map((recipe) => ({
+          recipe,
+          score: recipe.searchScore / 100,
+          reasons: generateReasons(recipe, mealType, dayOfWeek),
+        }));
+
+        setSuggestions((prev) => ({
+          ...prev,
+          [mealType]: mealSuggestions,
+        }));
+
+        logger.info(
+          `Generated ${mealSuggestions.length} suggestions for ${mealType}`,
+        );
+      } catch (err) {
+        logger.error(`Failed to generate suggestions for ${mealType}:`, err);
+      } finally {
+        setLoadingMealType(null);
+      }
+    },
+    [dayOfWeek, generateReasons],
+  );
 
   // Handle recipe selection
   const handleSelectRecipe = async (

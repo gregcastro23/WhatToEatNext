@@ -9,7 +9,6 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
-
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo, GroupMember } from "@/types/natalChart";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";

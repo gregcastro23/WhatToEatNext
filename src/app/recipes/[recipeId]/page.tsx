@@ -383,9 +383,21 @@ function DonutLegend({ segments, total }: { segments: DonutSegment[]; total: num
 }
 
 function computeMonicaComponents(
-  spirit: number, essence: number, matter: number, substance: number,
-  fire: number, water: number, earth: number, air: number,
+  alchemical: {
+    spirit: number;
+    essence: number;
+    matter: number;
+    substance: number;
+  },
+  elements: {
+    fire: number;
+    water: number;
+    earth: number;
+    air: number;
+  },
 ) {
+  const { spirit, essence, matter, substance } = alchemical;
+  const { fire, water, earth, air } = elements;
   const denomHeat = Math.max(0.0001, substance + essence + matter + water + air + earth);
   const Heat = (spirit * spirit + fire * fire) / (denomHeat * denomHeat);
 
@@ -411,7 +423,8 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
   const air   = recipe.elementalProperties?.Air   ?? 0;
 
   const { Heat, Entropy, Reactivity } = computeMonicaComponents(
-    spirit, essence, matter, substance, fire, water, earth, air
+    { spirit, essence, matter, substance },
+    { fire, water, earth, air },
   );
   const monicaComponentTotal = Heat + Entropy + Reactivity;
 
@@ -886,7 +899,9 @@ export default function RecipePage(props: any) {
             </div>
 
             <button
-              onClick={handleCopyRecipe}
+              onClick={() => {
+                void handleCopyRecipe();
+              }}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 ${
                 copied
                   ? "bg-emerald-500/20 border border-emerald-500/50 text-emerald-300"

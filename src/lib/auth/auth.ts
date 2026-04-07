@@ -136,7 +136,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         // Fire-and-forget non-critical tasks
-        (async () => {
+        void (async () => {
           try {
             if (!dbUser) return;
             console.log(`[auth] Starting background tasks for ${user.email}`);

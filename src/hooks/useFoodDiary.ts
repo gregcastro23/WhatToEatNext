@@ -10,7 +10,6 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useUser } from "@/contexts/UserContext";
 import {
   getServerDayEntries,
   getServerDailySummary,
@@ -27,6 +26,7 @@ import {
   addServerToFavorites,
   generateServerInsights,
 } from "@/actions/foodDiary";
+import { useUser } from "@/contexts/UserContext";
 import type {
   FoodDiaryEntry,
   CreateFoodDiaryEntryInput,
@@ -130,16 +130,6 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [filters, setFilters] = useState<FoodDiaryFilters>({});
 
-  // Load data on mount and when date changes
-  useEffect(() => {
-    void loadData();
-  }, [userId, selectedDate]);
-
-  // Load weekly summary when week changes
-  useEffect(() => {
-    void loadWeeklySummary();
-  }, [userId, selectedDate]);
-
   /**
    * Load data for the current view.
    * Authenticated users fetch from the API (persisted DB); guests use in-memory service.
@@ -201,6 +191,11 @@ export function useFoodDiary(): UseFoodDiaryReturn {
     }
   }, [userId, selectedDate]);
 
+  // Load data on mount and when date changes
+  useEffect(() => {
+    void loadData();
+  }, [loadData]);
+
   /**
    * Load weekly summary
    */
@@ -220,6 +215,11 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       console.error("Failed to load weekly summary:", error);
     }
   }, [userId, selectedDate]);
+
+  // Load weekly summary when week changes
+  useEffect(() => {
+    void loadWeeklySummary();
+  }, [loadWeeklySummary]);
 
   /**
    * Add a new entry.

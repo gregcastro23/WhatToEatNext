@@ -1,10 +1,11 @@
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
-// @ts-expect-error - Auto-fixed by script
-import { enhancedCuisineRecommender } from '@/calculations/enhancedCuisineRecommender';
+import { EnhancedCuisineRecommender } from '@/calculations/enhancedCuisineRecommender';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { getTimeFactors } from '@/types/time';
 import PlanetaryTimeDisplay from './PlanetaryTimeDisplay';
+
+const enhancedCuisineRecommender = EnhancedCuisineRecommender.getInstance();
 
 interface CuisineSpecificRecommendationsProps {
   cuisineName: string;
@@ -72,15 +73,6 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
     return Math.round(score * 100);
   };
 
-  // Function to determine if a planet is favorable/unfavorable for a recipe
-  const getPlanetaryAlignment = (recipe: unknown, _planetName: string) => {
-    // @ts-expect-error - Auto-fixed by script
-    if (recipe.planetaryDayScore >= 0.7) return 'favorable';
-    // @ts-expect-error - Auto-fixed by script
-    if (recipe.planetaryDayScore <= 0.3) return 'unfavorable';
-    return 'neutral';
-  };
-  
   if (loading || astroLoading) {
     return <div className="p-4 text-center">Loading recommendations...</div>;
   }

@@ -28,7 +28,13 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { prompt, diet, ingredients_main, disallowed_ingredients, birthData } = body;
+  const {
+    prompt,
+    diet,
+    ingredients_main: ingredientsMain,
+    disallowed_ingredients: disallowedIngredients,
+    birthData,
+  } = body;
 
   // Get current sky for context
   const raw = getAccuratePlanetaryPositions(new Date());
@@ -52,8 +58,8 @@ Current planetary positions: ${currentSky}.
 Dominant element today: ${dominantElement}.
 ${birthChartNote}
 Diet preference: ${diet || "omnivore"}.
-${ingredients_main?.length ? `Preferred main ingredients: ${ingredients_main.join(", ")}.` : ""}
-${disallowed_ingredients?.length ? `Never use: ${disallowed_ingredients.join(", ")}.` : ""}
+${ingredientsMain?.length ? `Preferred main ingredients: ${ingredientsMain.join(", ")}.` : ""}
+${disallowedIngredients?.length ? `Never use: ${disallowedIngredients.join(", ")}.` : ""}
 
 Create a detailed, authentic, cosmic recipe that:
 - Aligns with the current planetary positions and dominant ${dominantElement} element

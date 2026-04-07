@@ -314,7 +314,7 @@ function AddCommensalForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-4">
+    <form onSubmit={(event) => { void handleSubmit(event); }} className="space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-4">
       <h4 className="text-sm font-semibold text-gray-800">New Manual Chart</h4>
       <p className="text-xs text-gray-500">
         For friends/family who do NOT have an alchm.kitchen account.
@@ -761,7 +761,7 @@ function DiningGroupSection({
             ))}
           </div>
           <button
-            onClick={handleCreate}
+            onClick={() => { void handleCreate(); }}
             disabled={saving}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
           >

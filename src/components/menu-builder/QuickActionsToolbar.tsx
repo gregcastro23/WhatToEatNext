@@ -577,7 +577,7 @@ export default function QuickActionsToolbar() {
           <div className="mt-3 p-3 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-200">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-3">
-                <label className="text-sm font-semibold text-emerald-800">
+                <label htmlFor="budget-input" className="text-sm font-semibold text-emerald-800">
                   Weekly Budget
                 </label>
                 <div className="flex items-center gap-1">

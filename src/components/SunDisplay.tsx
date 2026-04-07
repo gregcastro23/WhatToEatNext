@@ -6,8 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 // @ts-expect-error - Auto-fixed by script
 import { AstrologicalService } from '@/services/AstrologicalService';
-import { safeImportAndExecute, _safeImportFunction } from '@/utils/dynamicImport';
-import { _getSunPosition } from '@/utils/solarPositions';
+import { safeImportAndExecute } from '@/utils/dynamicImport';
 import { _calculateSunTimes, formatSunTime } from '@/utils/sunTimes';
 
 const SunDisplay: React.FC = () => {
@@ -49,7 +48,7 @@ const SunDisplay: React.FC = () => {
       }
     };
     
-    getLocation();
+    void getLocation();
   }, []);
 
   // Calculate sun times and position based on location
@@ -108,10 +107,12 @@ const SunDisplay: React.FC = () => {
       }
     };
     
-    calculateData();
+    void calculateData();
     
     // Update sun position every minute
-    const interval = setInterval(() => calculateData(), 60 * 1000);
+    const interval = setInterval(() => {
+      void calculateData();
+    }, 60 * 1000);
     return () => clearInterval(interval);
   }, [coordinates.latitude, coordinates.longitude]);
 

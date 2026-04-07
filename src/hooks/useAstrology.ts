@@ -211,7 +211,28 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
             // Use fallback if specified
             if (useFallback) {
-              applyFallbackData();
+              try {
+                const positions = safeAstrology.getReliablePlanetaryPositions();
+                const lunarPhase = safeAstrology.getLunarPhaseName(
+                  safeAstrology.calculateLunarPhase(),
+                ) as LunarPhase;
+                const currentSign = safeAstrology.calculateSunSign();
+
+                setState((prev: any) => ({
+                  ...prev,
+                  loading: false,
+                  error: "Using fallback data due to API error",
+                  data: {
+                    ...prev.data,
+                    planetaryPositions: positions,
+                    currentSign,
+                    lunarPhase,
+                  },
+                  lastUpdated: Date.now(),
+                }));
+              } catch (fallbackError) {
+                logger.error("Error using fallback data: ", fallbackError);
+              }
             }
           }
 
@@ -296,7 +317,83 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
             // Use fallback if fallback mode is on
             if (useFallback) {
-              return applyFallbackElementalBalance();
+              try {
+                const positions = safeAstrology.getReliablePlanetaryPositions();
+                const elementalBalance: Record<string, number> = {
+                  Fire: 0.25,
+                  Water: 0.25,
+                  Earth: 0.25,
+                  Air: 0.25,
+                };
+
+                const signElements: Record<string, string> = {
+                  aries: "Fire",
+                  leo: "Fire",
+                  sagittarius: "Fire",
+                  taurus: "Earth",
+                  virgo: "Earth",
+                  capricorn: "Earth",
+                  gemini: "Air",
+                  libra: "Air",
+                  aquarius: "Air",
+                  cancer: "Water",
+                  scorpio: "Water",
+                  pisces: "Water",
+                };
+
+                const weights: Record<string, number> = {
+                  sun: 3,
+                  moon: 2,
+                  mercury: 1,
+                  venus: 1,
+                  mars: 1,
+                  jupiter: 1,
+                  saturn: 1,
+                };
+
+                let totalWeight = 0;
+
+                Object.entries(positions).forEach(([planet, data]) => {
+                  const planetName = planet.toLowerCase();
+                  const weight = weights[planetName] || 0.5;
+                  const sign = (data.sign || "aries").toLowerCase();
+                  const element = signElements[sign];
+
+                  if (element) {
+                    elementalBalance[element] += weight;
+                    totalWeight += weight;
+                  }
+                });
+
+                if (totalWeight > 0) {
+                  Object.keys(elementalBalance).forEach((element) => {
+                    elementalBalance[element] /= totalWeight;
+                  });
+                }
+
+                if (isMountedRef.current) {
+                  setState((prev) => ({
+                    ...prev,
+                    data: {
+                      ...prev.data,
+                      elementalBalance,
+                    },
+                  }));
+                }
+
+                return elementalBalance;
+              } catch (fallbackError) {
+                logger.error(
+                  "Error using fallback elemental balance: ",
+                  fallbackError,
+                );
+                return {
+                  Fire: 0.25,
+                  Water: 0.25,
+                  Earth: 0.25,
+                  Air: 0.25,
+                };
+              }
             }
 
             return null;
@@ -398,129 +495,6 @@ export function useAstrology(options: AstrologyOptions = {}) {
   );
 
   /**
-   * Apply fallback data from safeAstrology when API fails
-   */
-  const applyFallbackData = useCallback(() => {
-    if (!isMountedRef.current) return null;
-
-    try {
-      const positions = safeAstrology.getReliablePlanetaryPositions();
-      const lunarPhase = safeAstrology.getLunarPhaseName(
-        safeAstrology.calculateLunarPhase(),
-      ) as LunarPhase;
-      const currentSign = safeAstrology.calculateSunSign();
-
-      setState((prev: any) => ({
-        ...prev,
-        loading: false,
-        error: "Using fallback data due to API error",
-        data: {
-          ...prev.data,
-          planetaryPositions: positions,
-          currentSign,
-          lunarPhase,
-        },
-        lastUpdated: Date.now(),
-      }));
-
-      return {
-        positions,
-        currentSign,
-        lunarPhase,
-      };
-    } catch (error) {
-      logger.error("Error using fallback data: ", error);
-      return null;
-    }
-  }, []);
-
-  /**
-   * Apply fallback elemental balance calculation
-   */
-  const applyFallbackElementalBalance = useCallback(() => {
-    if (!isMountedRef.current) return null;
-
-    try {
-      const positions = safeAstrology.getReliablePlanetaryPositions();
-      const elementalBalance: Record<string, number> = {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      };
-
-      // Simple calculation based on sign elements
-      const signElements: Record<string, string> = {
-        aries: "Fire",
-        leo: "Fire",
-        sagittarius: "Fire",
-        taurus: "Earth",
-        virgo: "Earth",
-        capricorn: "Earth",
-        gemini: "Air",
-        libra: "Air",
-        aquarius: "Air",
-        cancer: "Water",
-        scorpio: "Water",
-        pisces: "Water",
-      };
-
-      // Planet weights
-      const weights: Record<string, number> = {
-        sun: 3,
-        moon: 2,
-        mercury: 1,
-        venus: 1,
-        mars: 1,
-        jupiter: 1,
-        saturn: 1,
-      };
-
-      let totalWeight = 0;
-
-      // Calculate weighted elemental balance
-      Object.entries(positions).forEach(([planet, data]) => {
-        const planetName = planet.toLowerCase();
-        const weight = weights[planetName] || 0.5;
-        const sign = (data.sign || "aries").toLowerCase();
-        const element = signElements[sign];
-
-        if (element) {
-          elementalBalance[element] += weight;
-          totalWeight += weight;
-        }
-      });
-
-      // Normalize
-      if (totalWeight > 0) {
-        Object.keys(elementalBalance).forEach((element) => {
-          elementalBalance[element] /= totalWeight;
-        });
-      }
-
-      if (isMountedRef.current) {
-        setState((prev) => ({
-          ...prev,
-          data: {
-            ...prev.data,
-            elementalBalance,
-          },
-        }));
-      }
-
-      return elementalBalance;
-    } catch (error) {
-      logger.error("Error using fallback elemental balance: ", error);
-      return {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      };
-    }
-  }, []);
-
-  /**
    * Get dominant zodiac element based on current positions
    */
   const getDominantElement = useCallback((): string => {
@@ -541,7 +515,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
     });
 
     return dominantElement;
-  }, [state.data.elementalBalance]);
+  }, [state.data]);
 
   // Load data automatically when coordinates are available and autoLoad is true
   // Use stable reference via dateRef to prevent effect from running on every render

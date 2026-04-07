@@ -16,10 +16,14 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
     <div className="space-y-6">
       {/* Serving Size */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="serving-size-filter"
+          className="block text-sm font-medium text-gray-700"
+        >
           Serving Size
         </label>
         <select
+          id="serving-size-filter"
           onChange={(e) => onFilterChange((prev: FilterState) => ({
             ...prev,
             servingSize: e.target.value
@@ -39,10 +43,14 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       {/* Dietary Preferences */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="dietary-preference-filter"
+          className="block text-sm font-medium text-gray-700"
+        >
           Dietary Preferences
         </label>
         <select
+          id="dietary-preference-filter"
           onChange={(e) => onFilterChange((prev: FilterState) => ({
             ...prev,
             dietaryPreference: e.target.value
@@ -62,10 +70,14 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       {/* Cooking Time */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="cooking-time-filter"
+          className="block text-sm font-medium text-gray-700"
+        >
           Cooking Time
         </label>
         <select
+          id="cooking-time-filter"
           onChange={(e) => onFilterChange((prev: FilterState) => ({
             ...prev,
             cookingTime: e.target.value

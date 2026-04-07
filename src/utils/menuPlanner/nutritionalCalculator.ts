@@ -264,38 +264,22 @@ export function calculateAlchemicalMetrics(
   const { Fire, Water, Earth, Air } = elemental;
 
   // Calculate thermodynamic properties using existing functions
-  const heat = calculateHeat(
+  const thermodynamicInputs = {
     Spirit,
-    Fire,
     Substance,
     Essence,
     Matter,
+    Fire,
     Water,
     Air,
     Earth,
-  );
+  };
 
-  const entropy = calculateEntropy(
-    Spirit,
-    Substance,
-    Fire,
-    Air,
-    Essence,
-    Matter,
-    Earth,
-    Water,
-  );
+  const heat = calculateHeat(thermodynamicInputs);
 
-  const reactivity = calculateReactivity(
-    Spirit,
-    Substance,
-    Essence,
-    Fire,
-    Air,
-    Water,
-    Matter,
-    Earth,
-  );
+  const entropy = calculateEntropy(thermodynamicInputs);
+
+  const reactivity = calculateReactivity(thermodynamicInputs);
 
   const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
 

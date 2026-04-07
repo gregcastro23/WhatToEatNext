@@ -1,10 +1,10 @@
 // @ts-nocheck
 'use client';
 
-import { _useState, useEffect, useRef, memo } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
-const DebugInfo = memo(() => {
+const DebugInfoInner = () => {
   const renderCountRef = useRef(1); // Initialize with 1 for the first render
   const hasRenderedRef = useRef(false);
   const { planetaryPositions, state } = useAlchemical();
@@ -56,6 +56,9 @@ const DebugInfo = memo(() => {
       </div>
     </div>
   );
-});
+};
+
+const DebugInfo = memo(DebugInfoInner);
+DebugInfo.displayName = 'DebugInfo';
 
 export default DebugInfo; 

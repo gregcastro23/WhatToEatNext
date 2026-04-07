@@ -92,29 +92,6 @@ export function useRecommendationAnalytics(
   const metricsIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const mountedRef = useRef(true);
 
-  // ========== EFFECTS ==========
-
-  useEffect(() => {
-    if (enablePerformanceTracking) {
-      // Start periodic metrics collection
-      metricsIntervalRef.current = setInterval(() => {
-        if (mountedRef.current) {
-          void updateMetrics();
-        }
-      }, metricsUpdateInterval);
-
-      // Initial metrics update
-      void updateMetrics();
-    }
-
-    return () => {
-      if (metricsIntervalRef.current) {
-        clearInterval(metricsIntervalRef.current);
-      }
-      mountedRef.current = false;
-    };
-  }, [enablePerformanceTracking, metricsUpdateInterval]);
-
   // ========== HELPER FUNCTIONS ==========
 
   const updateMetrics = useCallback(async () => {
@@ -157,6 +134,29 @@ export function useRecommendationAnalytics(
       }
     }
   }, []);
+
+  // ========== EFFECTS ==========
+
+  useEffect(() => {
+    if (enablePerformanceTracking) {
+      // Start periodic metrics collection
+      metricsIntervalRef.current = setInterval(() => {
+        if (mountedRef.current) {
+          void updateMetrics();
+        }
+      }, metricsUpdateInterval);
+
+      // Initial metrics update
+      void updateMetrics();
+    }
+
+    return () => {
+      if (metricsIntervalRef.current) {
+        clearInterval(metricsIntervalRef.current);
+      }
+      mountedRef.current = false;
+    };
+  }, [enablePerformanceTracking, metricsUpdateInterval, updateMetrics]);
 
   // ========== ACTIONS ==========
 

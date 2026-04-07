@@ -78,10 +78,10 @@ export async function validateBarrelExports(
   const invalid: string[] = [];
 
   try {
-    const module = await import(barrelPath);
+    const importedModule = await import(barrelPath);
 
     for (const exportName of exports) {
-      if (exportName in module) {
+      if (exportName in importedModule) {
         valid.push(exportName);
       } else {
         invalid.push(exportName);

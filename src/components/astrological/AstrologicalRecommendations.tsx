@@ -139,9 +139,7 @@ export const AstrologicalRecommendations: React.FC = () => {
   }, [zodiacSign, season]);
 
   useEffect(() => {
-    if (zodiacSign || season) {
-      void fetchCookingPlan();
-    }
+    void fetchCookingPlan();
   }, [fetchCookingPlan]);
 
   const _getElementIcon = (element: string) => {

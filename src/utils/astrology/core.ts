@@ -242,7 +242,7 @@ export async function calculateLunarPhase(
 ): Promise<number> {
   try {
     // Get and normalize positions
-    const rawPositions = await getAccuratePlanetaryPositions(date);
+    const rawPositions = getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
     if (!positions.Sun || !positions.Moon) {
       throw new Error("Sun or Moon position missing");
@@ -348,7 +348,7 @@ export async function calculatemoonSign(
   date: Date = new Date(),
 ): Promise<ZodiacSignType> {
   try {
-    const rawPositions = await getAccuratePlanetaryPositions(date);
+    const rawPositions = getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
     if (positions.Moon && positions.Moon.sign) {
       return positions.Moon.sign;
@@ -372,7 +372,7 @@ export async function calculatePlanetaryPositions(
 ): Promise<Record<string, PlanetaryPosition>> {
   try {
     // Get and normalize planetary positions
-    const rawPositions = await getAccuratePlanetaryPositions(date);
+    const rawPositions = getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
     return positions;
   } catch (error) {

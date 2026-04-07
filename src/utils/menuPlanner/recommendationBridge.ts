@@ -8,6 +8,7 @@
  * @updated 2026-02-03 - Added user chart personalization support
  */
 
+import { getServerRecipes } from "@/actions/recipes";
 import type { AlchemicalProfile } from "@/contexts/UserContext";
 import {
     type MonicaOptimizedRecipe,
@@ -648,8 +649,6 @@ function getPrimaryProtein(recipe: Recipe): string | undefined {
   );
   return proteinIng ? (proteinIng as any).name?.toLowerCase() : undefined;
 }
-
-import { getServerRecipes } from "@/actions/recipes";
 
 /**
  * Search for recipes from the curated database appropriate for a specific day and meal type.

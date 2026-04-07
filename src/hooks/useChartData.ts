@@ -61,7 +61,7 @@ export interface ChartDataOptions {
 // ... (interfaces remain the same)
 export function useChartData(options: ChartDataOptions = {}): ChartData {
   const {
-    dateTime,
+    dateTime: _dateTime,
     location: optionLocation, // Rename to avoid conflict
     zodiacSystem = "tropical",
     autoRefresh: _autoRefresh = false,
@@ -111,7 +111,11 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     } finally {
       setIsLoading(false);
     }
-  }, [dateTime, location, zodiacSystem]);
+  }, [location, zodiacSystem]);
+
+  const refetch = useCallback(() => {
+    void fetchChartData();
+  }, [fetchChartData]);
   // ... (useEffect hooks remain the same)
   return {
     positions,
@@ -121,6 +125,6 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     timestamp,
     isLoading,
     error,
-    refetch: fetchChartData,
+    refetch,
   };
 }

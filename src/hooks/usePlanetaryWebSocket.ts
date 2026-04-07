@@ -12,6 +12,8 @@ export function usePlanetaryWebSocket(location?: {
   latitude: number;
   longitude: number;
 }) {
+  const latitude = location?.latitude;
+  const longitude = location?.longitude;
   const [connected, setConnected] = useState(false);
   const [planetaryHour, setPlanetaryHour] = useState<{
     planet: Planet;
@@ -34,7 +36,10 @@ export function usePlanetaryWebSocket(location?: {
       const payload = {
         type: "subscribe",
         channel: "planetary-hours",
-        data: location ? { location } : {},
+        data:
+          latitude !== undefined && longitude !== undefined
+            ? { location: { latitude, longitude } }
+            : {},
       };
       ws.send(JSON.stringify(payload));
     };
@@ -73,7 +78,7 @@ export function usePlanetaryWebSocket(location?: {
       ws.close();
       wsRef.current = null;
     };
-  }, [location?.latitude, location?.longitude]);
+  }, [latitude, longitude]);
 
   return { connected, planetaryHour };
 }

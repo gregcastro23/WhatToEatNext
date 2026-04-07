@@ -5,13 +5,9 @@ import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { _ElementalCalculator } from '@/services/ElementalCalculator';
 import type { ElementalProperties, ZodiacSign, Season, _ElementalState , Ingredient } from '@/types/alchemy';
 import type { IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
 import { getIngredientRecommendations } from '@/utils/ingredientRecommender';
-// @ts-expect-error - Auto-fixed by script
-import { _calculateAlchemicalProperties, _calculateThermodynamicProperties, _determineIngredientModality } from '@/utils/ingredientUtils';
-import { toZodiacSign } from '@/utils/zodiacUtils';
 // @ts-expect-error - Auto-fixed by script
 import styles from './IngredientRecommendations.module.css';
 
@@ -69,8 +65,8 @@ export default function IngredientRecommendations({
 }: IngredientRecommendationsProps) {
   const { currentZodiac, planetaryPositions, moonPhase, aspects } = useAstrologicalState();
   
-  // Use the helper function to ensure valid ZodiacSign
-  const zodiacSign = toZodiacSign(currentZodiac);
+  // Narrow the current zodiac value to the component's expected type.
+  const zodiacSign = (currentZodiac as ZodiacSign | null) ?? undefined;
   
   const [recommendations, setRecommendations] = useState<GroupedIngredientRecommendations>({});
   const [loading, setLoading] = useState(true);
@@ -104,7 +100,7 @@ export default function IngredientRecommendations({
     
     setRecommendations(recommendedIngredients);
     setLoading(false);
-  }, [targetElements, currentZodiac, selectedSeason, dietaryFilter, modalityFilter, zodiacSign]);
+  }, [targetElements, currentZodiac, selectedSeason, dietaryFilter, modalityFilter, zodiacSign, planetaryPositions, moonPhase, aspects]);
   
   const getElementIcon = (element: string) => {
     switch (element) {

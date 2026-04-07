@@ -6,30 +6,17 @@ import {
 } from 'lucide-react';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
-
-
-// Import cooking methods from both traditional and cultural sources
-import { allCookingMethods } from '@/data/cooking';
-import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
-
-
-
-// Add these imports or declarations at the top of the component
 import { useTarotContext } from '@/contexts/TarotContext'; // If this exists in your app
+import { allCookingMethods } from '@/data/cooking';
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-
-// Add import for modality type and utils
+import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { useCurrentChart as _useCurrentChart } from '@/hooks/useCurrentChart';
-
 import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
-import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-
-// Utility functions for alchemical calculations
-// Simple placeholder implementations if actual implementations aren't accessible
+import { _COOKING_METHOD_THERMODYNAMICS as COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 // @ts-expect-error - Auto-fixed by script
-import { staticAlchemize } from '@/utils/alchemyInitializer';
+import { _staticAlchemize as staticAlchemize } from '@/utils/alchemyInitializer';
 import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 import styles from './CookingMethods.module.css';
@@ -168,13 +155,6 @@ interface ExtendedAlchemicalItem extends AlchemicalItem {
   };
   optimalTemperatures?: Record<string, number>;
   thermodynamicProperties?: ThermodynamicProperties;
-}
-
-// Define cooking time recommendations by ingredient class
-interface _CookingTimeRecommendation {
-  ingredientClass: string;
-  timeRange: string;
-  tips: string;
 }
 
 // Add this new interface for molecular gastronomy details
@@ -401,20 +381,6 @@ export default function CookingMethods() {
     renderCount.current += 1;
   });
   
-  // Set mounted state when component mounts
-  useEffect(() => {
-    isMountedRef.current = true;
-    setIsMounted(true);
-    
-    // Fetch methods when component mounts
-    fetchMethods();
-    
-    return () => {
-      isMountedRef.current = false;
-      setIsMounted(false);
-    };
-  }, []);
-  
   // Get astrological state
   const {
     currentZodiac,
@@ -434,7 +400,7 @@ export default function CookingMethods() {
   ], []);
   
   // Helper functions for the component
-  const normalizeAstroState = () => {
+  const normalizeAstroState = useCallback(() => {
     return {
       currentZodiac,
       lunarPhase,
@@ -442,7 +408,7 @@ export default function CookingMethods() {
       isDaytime,
       currentPlanetaryAlignment
     };
-  };
+  }, [activePlanets, currentPlanetaryAlignment, currentZodiac, isDaytime, lunarPhase]);
   
   const methodToThermodynamics = (method: unknown): BasicThermodynamicProperties => {
     // @ts-expect-error - Auto-fixed by script
@@ -1482,11 +1448,11 @@ export default function CookingMethods() {
   // Add this function to run our test
   const runDebugTest = useCallback(() => {
     console.log("Running cooking method recommendations test...");
-    testCookingMethodRecommendations();
+    void testCookingMethodRecommendations();
   }, []);
   
   // Update the fetchMethods function to use isMountedRef
-  const fetchMethods = async () => {
+  const fetchMethods = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -1627,7 +1593,21 @@ export default function CookingMethods() {
         setLoading(false);
       }
     }
-  };
+  }, [normalizeAstroState]);
+
+  // Set mounted state when component mounts
+  useEffect(() => {
+    isMountedRef.current = true;
+    setIsMounted(true);
+
+    // Fetch methods when component mounts
+    void fetchMethods();
+
+    return () => {
+      isMountedRef.current = false;
+      setIsMounted(false);
+    };
+  }, [fetchMethods]);
 
   if (loading) {
     return (
@@ -1678,7 +1658,7 @@ export default function CookingMethods() {
     const newCulture = e.target.value;
     setSelectedCulture(newCulture);
     // Refetch methods with the new culture filter
-    fetchMethods();
+    void fetchMethods();
   };
   
   // In your return statement, add the debug panel at the end

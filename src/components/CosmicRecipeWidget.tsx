@@ -3,22 +3,23 @@
 import React, { useEffect, useState } from "react";
 import { fetchAstrologicalRecipes } from "../services/astrologizeApi";
 
+const SAMPLE_BIRTH_DATA = {
+  year: 1992,
+  month: 8,
+  day: 12,
+  hour: 7,
+  minute: 15,
+  latitude: 34.0522,
+  longitude: -118.2437,
+};
+
 export default function CosmicRecipeWidget() {
   const [recipes, setRecipes] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const sampleBirthData = {
-    year: 1992,
-    month: 8,
-    day: 12,
-    hour: 7,
-    minute: 15,
-    latitude: 34.0522,
-    longitude: -118.2437,
-  };
 
   useEffect(() => {
-    fetchAstrologicalRecipes(sampleBirthData)
+    fetchAstrologicalRecipes(SAMPLE_BIRTH_DATA)
       .then(setRecipes)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

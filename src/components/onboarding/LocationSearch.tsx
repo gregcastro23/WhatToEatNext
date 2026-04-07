@@ -166,7 +166,7 @@ export function LocationSearch({
   return (
     <div ref={containerRef} className="relative">
       {!compact && (
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="birth-location" className="block text-sm font-medium text-gray-700 mb-2">
           Birth Location
           <span className="text-red-500 ml-1">*</span>
         </label>
@@ -174,6 +174,7 @@ export function LocationSearch({
 
       <div className="relative">
         <input
+          id="birth-location"
           type="text"
           value={query}
           onChange={(e) => {

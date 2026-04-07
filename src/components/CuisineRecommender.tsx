@@ -1,21 +1,15 @@
 // @ts-nocheck
 'use client';
 
-import { Flame, Droplets, Mountain, Wind, _GalleryVertical, _Sparkles, _ArrowLeft, _Moon, _SunIcon, _ChevronDown, _ChevronUp, _Info } from 'lucide-react';
-import { useState, useEffect, useCallback, _useMemo } from 'react';
+import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { _ElementalItem } from '@/calculations/alchemicalTransformation';
-import { _AlchemicalProperty } from '@/constants/planetaryElements';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 // @ts-expect-error - Auto-fixed by script
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
-import { _cuisineFlavorProfiles, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
-import type { _Sauce } from '@/data/sauces';
-import { _useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
-import { _LunarPhaseWithSpaces } from '@/types/alchemy';
-import type { _Recipe } from '@/types/recipe';
-import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
+import { _transformCuisines as transformCuisines, _sortByAlchemicalCompatibility as sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
 import styles from './CuisineRecommender.module.css';
 
 // Keep the interface exports for any code that depends on them
@@ -63,7 +57,10 @@ export default function CuisineRecommender() {
   // Provide fallback values in case AlchemicalContext is not available
   const alchemicalContext = useAlchemical();
   const isDaytime = alchemicalContext?.isDaytime ?? true;
-  const planetaryPositions = alchemicalContext?.planetaryPositions ?? {};
+  const planetaryPositions = useMemo(
+    () => alchemicalContext?.planetaryPositions ?? {},
+    [alchemicalContext?.planetaryPositions],
+  );
   const state = alchemicalContext?.state ?? {
     astrologicalState: {
       zodiacSign: 'aries',

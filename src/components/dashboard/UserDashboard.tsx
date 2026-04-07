@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
 import { PremiumGate } from '@/components/PremiumGate';
@@ -265,7 +266,7 @@ function SettingsPanel({
 
       <div className="bg-white rounded-3xl shadow-sm p-6 border border-red-50">
         <button
-          onClick={() => signOut({ callbackUrl: '/' })}
+          onClick={() => { void signOut({ callbackUrl: '/' }); }}
           className="px-4 py-2 bg-red-50 text-red-500 rounded-full hover:bg-red-100 transition-colors text-xs font-bold uppercase tracking-wider border border-red-100"
         >
           Log Out
@@ -276,8 +277,6 @@ function SettingsPanel({
 }
 
 /* ─── Birth Chart Section ────────────────────────────────── */
-
-import Link from 'next/link';
 
 function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
   const sunSign = (natalChart.planetaryPositions?.Sun || '') as string;

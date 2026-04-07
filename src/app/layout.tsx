@@ -47,9 +47,11 @@ export default function RootLayout({
                 <div className="flex flex-row items-center justify-between">
                   <Link href="/" className="group flex flex-row items-center gap-4">
                     <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-                      <img
+                      <Image
                         src="/brand/logo.jpg"
                         alt="Alchm Kitchen Logo"
+                        fill
+                        sizes="(min-width: 768px) 64px, 48px"
                         className="w-full h-full rounded-xl object-contain shadow-sm border border-purple-100 group-hover:scale-105 transition-transform"
                       />
                     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 interface User {
   id: string;
@@ -28,11 +28,7 @@ export default function AdminUsersPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
 
-  useEffect(() => {
-    void fetchUsers();
-  }, [statusFilter]);
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
@@ -53,7 +49,11 @@ export default function AdminUsersPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, statusFilter]);
+
+  useEffect(() => {
+    void fetchUsers();
+  }, [fetchUsers]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,7 +153,12 @@ export default function AdminUsersPage() {
 
       {/* Filters */}
       <div className="bg-white rounded-lg shadow p-4 mb-6">
-        <form onSubmit={handleSearch} className="flex flex-wrap gap-4">
+        <form
+          onSubmit={(event) => {
+            handleSearch(event);
+          }}
+          className="flex flex-wrap gap-4"
+        >
           <div className="flex-1 min-w-[200px]">
             <input
               type="text"
@@ -186,7 +191,9 @@ export default function AdminUsersPage() {
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center mb-6">
           <p className="text-red-700">{error}</p>
           <button
-            onClick={fetchUsers}
+            onClick={() => {
+              void fetchUsers();
+            }}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
           >
             Retry
@@ -314,9 +321,9 @@ export default function AdminUsersPage() {
                         {!user.roles.includes("admin") && (
                           <>
                             <button
-                              onClick={() =>
-                                handleStatusChange(user.id, !user.isActive)
-                              }
+                              onClick={() => {
+                                void handleStatusChange(user.id, !user.isActive);
+                              }}
                               disabled={actionLoading}
                               className={`text-sm ${
                                 user.isActive
@@ -327,7 +334,9 @@ export default function AdminUsersPage() {
                               {user.isActive ? "Deactivate" : "Activate"}
                             </button>
                             <button
-                              onClick={() => handleDelete(user.id)}
+                              onClick={() => {
+                                void handleDelete(user.id);
+                              }}
                               disabled={actionLoading}
                               className="text-sm text-red-600 hover:text-red-800"
                             >

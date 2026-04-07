@@ -92,7 +92,7 @@ export default function AlchmKitchen() {
             }
         };
 
-        fetchData();
+        void fetchData();
         
         return () => {
             logger.debug('AlchmKitchen component unmounting');

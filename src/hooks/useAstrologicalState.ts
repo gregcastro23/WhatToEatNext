@@ -215,13 +215,10 @@ export function useAstrologicalState(): AstrologyHookData {
     [],
   );
 
-  // Extract stringified positions to avoid complex expression in dependency array
-  const planetaryPositionsString = JSON.stringify(planetaryPositions);
-
   // Memoize key values to prevent unnecessary updates
   const memoizedPlanetaryPositions = useMemo(
     () => planetaryPositions,
-    [planetaryPositionsString],
+    [planetaryPositions],
   );
 
   // Track changes to planetary positions and update state

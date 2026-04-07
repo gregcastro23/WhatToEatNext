@@ -12,6 +12,7 @@
 //   - preserve-caught-error: WARN - good practice but non-blocking
 
 import js from "@eslint/js";
+import nextPlugin from "@next/eslint-plugin-next";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import importPlugin from "eslint-plugin-import";
@@ -27,6 +28,8 @@ import globals from "globals";
 export default [
   // Start with recommended JS rules
   js.configs.recommended,
+  nextPlugin.flatConfig.recommended,
+  nextPlugin.flatConfig.coreWebVitals,
 
   // ============================================================================
   // Main TypeScript/React Configuration
@@ -444,9 +447,9 @@ export default [
 
       // Config files that might have intentional patterns
       "*.config.js",
-      "*.config.mjs",
       "*.config.cjs",
       "*.config.ts",
+      "!eslint.config.mjs",
       "next.config.js",
       "tailwind.config.*",
       "postcss.config.*",

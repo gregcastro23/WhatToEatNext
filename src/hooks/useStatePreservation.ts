@@ -347,7 +347,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
  * Hook for cultural sensitivity guidance from steering files
  */
 export function useCulturalSensitivityGuidance() {
-  const intelligence = useSteeringFileIntelligence();
+  useSteeringFileIntelligence();
 
   const validateCulturalContent = useCallback(
     (content: {
@@ -401,7 +401,7 @@ export function useCulturalSensitivityGuidance() {
         isCompliant: issues.length === 0,
       };
     },
-    [intelligence],
+    [],
   );
 
   const getInclusiveLanguageGuidelines = useCallback(

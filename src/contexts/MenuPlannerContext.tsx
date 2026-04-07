@@ -969,9 +969,14 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         meals: updatedMeals,
         updatedAt: new Date(),
       };
+      const newGroceryList = generateGroceryList(updatedMeals, {
+        consolidateBy: "ingredient",
+        convertUnits: true,
+        excludePantryItems: false,
+      });
 
       setCurrentMenu(updatedMenu as any);
-      regenerateGroceryList();
+      setGroceryList(newGroceryList);
       logger.info(`Added sauce ${sauceData.name} to meal ${mealSlotId}`);
     },
     [currentMenu],
@@ -1000,9 +1005,14 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         meals: updatedMeals,
         updatedAt: new Date(),
       };
+      const newGroceryList = generateGroceryList(updatedMeals, {
+        consolidateBy: "ingredient",
+        convertUnits: true,
+        excludePantryItems: false,
+      });
 
       setCurrentMenu(updatedMenu as any);
-      regenerateGroceryList();
+      setGroceryList(newGroceryList);
       logger.info(`Removed sauce from meal ${mealSlotId}`);
     },
     [currentMenu],
@@ -1034,9 +1044,14 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         meals: updatedMeals,
         updatedAt: new Date(),
       };
+      const newGroceryList = generateGroceryList(updatedMeals, {
+        consolidateBy: "ingredient",
+        convertUnits: true,
+        excludePantryItems: false,
+      });
 
       setCurrentMenu(updatedMenu as any);
-      regenerateGroceryList();
+      setGroceryList(newGroceryList);
       logger.info(`Updated sauce servings to ${servings} for meal ${mealSlotId}`);
     },
     [currentMenu],
@@ -1313,6 +1328,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       natalChart,
       chartComparison,
       weeklyBudget,
+      syncWithLunarCycle,
     ],
   );
 
@@ -1545,32 +1561,34 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     });
 
     // 2. Background IDP Probe (Debounced)
-    const probeTimeout = setTimeout(async () => {
-      try {
-        const lineItems = allIngredientsBreakdown.slice(0, 50).map(b => ({
-          name: b.ingredient,
-          display_text: b.ingredient
-        }));
+    const probeTimeout = setTimeout(() => {
+      void (async () => {
+        try {
+          const lineItems = allIngredientsBreakdown.slice(0, 50).map(b => ({
+            name: b.ingredient,
+            display_text: b.ingredient
+          }));
 
-        const response = await fetch("/api/instacart/price-estimate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ line_items: lineItems }),
-        });
+          const response = await fetch("/api/instacart/price-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ line_items: lineItems }),
+          });
 
-        if (response.ok) {
-          const data = await response.json();
-          if (data.confidence === "high") {
-             // If IDP confirms matching, we can bump our confidence
-             setEstimatedCostState(prev => ({
-               ...prev,
-               confidence: "high"
-             }));
+          if (response.ok) {
+            const data = await response.json();
+            if (data.confidence === "high") {
+               // If IDP confirms matching, we can bump our confidence
+               setEstimatedCostState(prev => ({
+                 ...prev,
+                 confidence: "high"
+               }));
+            }
           }
+        } catch (err) {
+          logger.warn("Cost probe failed:", err);
         }
-      } catch (err) {
-        logger.warn("Cost probe failed:", err);
-      }
+      })();
     }, 2000);
 
     return () => clearTimeout(probeTimeout);
@@ -1878,6 +1896,11 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       getSuggestions,
       saveMenu,
       loadMenu,
+      participants,
+      addParticipant,
+      removeParticipant,
+      syncWithLunarCycle,
+      toggleSyncWithLunarCycle,
       weeklyBudget,
       setWeeklyBudget,
       inventory,

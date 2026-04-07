@@ -47,18 +47,31 @@ export interface KalchmResult {
   timestamp: string;
 }
 
+interface ThermodynamicInputs {
+  Spirit: number;
+  Substance: number;
+  Essence: number;
+  Matter: number;
+  Fire: number;
+  Water: number;
+  Air: number;
+  Earth: number;
+}
+
 /**
  * Calculate Heat using the exact formula: * Heat = (Spirit^2 + Fire^2) / (Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0))^2
  */
 export function calculateHeat(
-  Spirit: number,
-  Fire: number,
-  Substance: number,
-  Essence: number,
-  Matter: number,
-  Water: number,
-  Air: number,
-  Earth: number,
+  {
+    Spirit,
+    Fire,
+    Substance,
+    Essence,
+    Matter,
+    Water,
+    Air,
+    Earth,
+  }: ThermodynamicInputs,
 ): number {
   const numerator = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
   const denominator = Math.pow(
@@ -75,14 +88,16 @@ export function calculateHeat(
  * Calculate Entropy using the exact formula: * Entropy = (Spirit^2 + Substance^2 + Fire^2 + Air^2) / (Essence + Matter + Earth + Water)^2
  */
 export function calculateEntropy(
-  Spirit: number,
-  Substance: number,
-  Fire: number,
-  Air: number,
-  Essence: number,
-  Matter: number,
-  Earth: number,
-  Water: number,
+  {
+    Spirit,
+    Substance,
+    Fire,
+    Air,
+    Essence,
+    Matter,
+    Earth,
+    Water,
+  }: ThermodynamicInputs,
 ): number {
   const numerator =
     Math.pow(Spirit, 2) +
@@ -103,14 +118,16 @@ export function calculateEntropy(
  * Calculate Reactivity using the exact formula: * Reactivity = (Spirit^2 + Substance^2 + Essence^2 + Fire^2 + Air^2 + Water^2) / (Matter + Earth)^2
  */
 export function calculateReactivity(
-  Spirit: number,
-  Substance: number,
-  Essence: number,
-  Fire: number,
-  Air: number,
-  Water: number,
-  Matter: number,
-  Earth: number,
+  {
+    Spirit,
+    Substance,
+    Essence,
+    Fire,
+    Air,
+    Water,
+    Matter,
+    Earth,
+  }: ThermodynamicInputs,
 ): number {
   const numerator =
     Math.pow(Spirit, 2) +
@@ -354,38 +371,22 @@ export function calculateKalchmResults(planetaryPositions: {
       const elementalValues = calculateElementalValues(planetaryPositions);
 
       // Calculate thermodynamic properties
-      const heat = calculateHeat(
-        alchemicalProperties.Spirit,
-        elementalValues.Fire,
-        alchemicalProperties.Substance,
-        alchemicalProperties.Essence,
-        alchemicalProperties.Matter,
-        elementalValues.Water,
-        elementalValues.Air,
-        elementalValues.Earth,
-      );
+      const thermodynamicInputs = {
+        Spirit: alchemicalProperties.Spirit,
+        Substance: alchemicalProperties.Substance,
+        Essence: alchemicalProperties.Essence,
+        Matter: alchemicalProperties.Matter,
+        Fire: elementalValues.Fire,
+        Water: elementalValues.Water,
+        Air: elementalValues.Air,
+        Earth: elementalValues.Earth,
+      };
 
-      const entropy = calculateEntropy(
-        alchemicalProperties.Spirit,
-        alchemicalProperties.Substance,
-        elementalValues.Fire,
-        elementalValues.Air,
-        alchemicalProperties.Essence,
-        alchemicalProperties.Matter,
-        elementalValues.Earth,
-        elementalValues.Water,
-      );
+      const heat = calculateHeat(thermodynamicInputs);
 
-      const reactivity = calculateReactivity(
-        alchemicalProperties.Spirit,
-        alchemicalProperties.Substance,
-        alchemicalProperties.Essence,
-        elementalValues.Fire,
-        elementalValues.Air,
-        elementalValues.Water,
-        alchemicalProperties.Matter,
-        elementalValues.Earth,
-      );
+      const entropy = calculateEntropy(thermodynamicInputs);
+
+      const reactivity = calculateReactivity(thermodynamicInputs);
 
       const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
 

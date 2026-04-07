@@ -39,6 +39,16 @@ export default function PayPalButton() {
           e.currentTarget.style.boxShadow =
             "0 4px 12px rgba(255, 209, 64, 0.3)";
         }}
+        onFocus={(e) => {
+          e.currentTarget.style.transform = "translateY(-2px)";
+          e.currentTarget.style.boxShadow =
+            "0 8px 20px rgba(255, 209, 64, 0.4)";
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.boxShadow =
+            "0 4px 12px rgba(255, 209, 64, 0.3)";
+        }}
       />
     </form>
   );

@@ -4,12 +4,8 @@ import type { ElementalItem } from '@/calculations/alchemicalTransformation';
 import type { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
 import type { RulingPlanet } from '@/constants/planets';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-
-// Import the correct data sources
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-
-// Add import for modality type and utils
 import type { Modality } from '@/data/ingredients/types';
 import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 import { _LunarPhase } from '@/types/alchemy';
@@ -411,7 +407,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
             <span className="value">{recommendations.reactivity.toFixed(2)}</span>
           </div>
           <div className="stat">
-            <span className="label">Greg's Energy:</span>
+            <span className="label">Greg&apos;s Energy:</span>
             // @ts-expect-error - Auto-fixed by script
             <span className="value">{recommendations.gregsEnergy.toFixed(2)}</span>
           </div>
@@ -459,8 +455,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         <h3>Filter Recommendations</h3>
         <div className="filter-controls">
           <div className="filter-group">
-            <label>Element:</label>
+            <label htmlFor="recommendation-element-filter">Element:</label>
             <select 
+              id="recommendation-element-filter"
               value={targetElement || ''} 
               onChange={(e) => setTargetElement(e.target.value as ElementalCharacter || undefined)}
             >
@@ -473,8 +470,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           </div>
           
           <div className="filter-group">
-            <label>Alchemical Property:</label>
+            <label htmlFor="recommendation-property-filter">Alchemical Property:</label>
             <select 
+              id="recommendation-property-filter"
               value={targetProperty || ''} 
               onChange={(e) => setTargetProperty(e.target.value as AlchemicalProperty || undefined)}
             >
@@ -523,7 +521,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                       <span className="value">{ingredient.dominantAlchemicalProperty}</span>
                     </div>
                     <div className="detail">
-                      <span className="label">Greg's Energy:</span>
+                      <span className="label">Greg&apos;s Energy:</span>
                       <span className="value">{ingredient.gregsEnergy.toFixed(2)}</span>
                     </div>
                   </div>

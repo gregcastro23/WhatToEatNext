@@ -1,15 +1,11 @@
 'use client';
 
 import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { CelestialPosition} from '@/types/celestial';
-
 import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
-
 import { createLogger } from '@/utils/logger';
-
-
 // Create a component-specific logger
 const logger = createLogger('PlanetaryPositions');
 
@@ -53,7 +49,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
 
   // Function to update positions with comprehensive retry logic
-  const attemptPositionUpdate = async (force = false): Promise<boolean> => {
+  const attemptPositionUpdate = useCallback(async (force = false): Promise<boolean> => {
     if (retryStatus.isRetrying && !force) return false;
     
     try {
@@ -122,10 +118,10 @@ const PlanetaryPositionInitializer: React.FC = () => {
       
       return false;
     }
-  };
+  }, [refreshPlanetaryPositions, retryStatus.count, retryStatus.isRetrying]);
 
   // Function to apply fallback positions
-  const applyFallbackPositions = (): void => {
+  const applyFallbackPositions = useCallback((): void => {
     const now = new Date();
     logger.warn(`Applying fallback positions for ${now.toISOString()}...`);
     
@@ -165,7 +161,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
         needsFallback: false
       }));
     }
-  };
+  }, [updatePlanetaryPositions]);
 
   // Apply fallback positions immediately on first render
   useEffect(() => {
@@ -181,7 +177,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
         await attemptPositionUpdate();
       };
       
-      getInitialPositions();
+      void getInitialPositions();
     } catch (error) {
       logger.error('Error during component initialization:', error);
       // Make sure fallback is applied even if initialization fails
@@ -191,7 +187,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
     // Set up regular refresh interval (every 15 minutes)
     const refreshInterval = setInterval(() => {
       if (!retryStatus.isRetrying) {
-        attemptPositionUpdate();
+        void attemptPositionUpdate();
       }
     }, 15 * 60 * 1000);
     
@@ -206,14 +202,14 @@ const PlanetaryPositionInitializer: React.FC = () => {
           
           if (minsSinceLastAttempt >= waitMinutes) {
             logger.debug(`Initiating retry #${retryStatus.count + 1} after ${minsSinceLastAttempt.toFixed(1)} minutes`);
-            attemptPositionUpdate();
+            void attemptPositionUpdate();
           }
         } else if (retryStatus.count === 5) {
           // Final retry after a longer wait
           const hoursSinceLastAttempt = (Date.now() - retryStatus.lastAttempt) / (60 * 60 * 1000);
           if (hoursSinceLastAttempt >= 1) {
             logger.debug('Initiating final retry attempt after 1 hour');
-            attemptPositionUpdate();
+            void attemptPositionUpdate();
           }
         }
       }
@@ -223,14 +219,21 @@ const PlanetaryPositionInitializer: React.FC = () => {
       clearInterval(refreshInterval);
       clearInterval(retryInterval);
     };
-  }, []);
+  }, [
+    applyFallbackPositions,
+    attemptPositionUpdate,
+    retryStatus.count,
+    retryStatus.isRetrying,
+    retryStatus.lastAttempt,
+    retryStatus.usingFallback,
+  ]);
 
   // Also handle the fallback positions when needed
   useEffect(() => {
     if (retryStatus.needsFallback) {
       applyFallbackPositions();
     }
-  }, [retryStatus.needsFallback]);
+  }, [retryStatus.needsFallback, applyFallbackPositions]);
 
   // Render fallback notification with retry button if we're using fallback positions
   if (retryStatus.usingFallback) {
@@ -248,7 +251,9 @@ const PlanetaryPositionInitializer: React.FC = () => {
           </div>
         </div>
         <button 
-          onClick={() => attemptPositionUpdate(true)}
+          onClick={() => {
+            void attemptPositionUpdate(true);
+          }}
           disabled={retryStatus.isRetrying}
           className={`px-3 py-1 rounded text-xs flex items-center ${
             retryStatus.isRetrying 

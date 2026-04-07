@@ -1,10 +1,9 @@
 // @ts-nocheck
 // @ts-expect-error - Auto-fixed by script
-import { Flame, Droplets, Mountain, Wind, _Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp } from 'lucide-react';
-import { useEffect, useState, useMemo } from 'react';
-import { _normalizeChakraKey } from '@/constants/chakraSymbols';
+import { Flame, Droplets, Mountain, Wind, Clock, Tag, Leaf, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { herbsCollection, oilsCollection, vinegarsCollection, _grainsCollection } from '@/data/ingredients';
+import { herbsCollection, oilsCollection, vinegarsCollection } from '@/data/ingredients';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import type { ElementalProperties } from '@/types/alchemy';
@@ -191,16 +190,16 @@ export default function IngredientRecommender() {
   []);
   
   // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: IngredientRecommendation): boolean => {
+  const isOil = useCallback((ingredient: IngredientRecommendation): boolean => {
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
     const name = ingredient.name.toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
-  };
+  }, [oilTypes]);
   
   // Helper function to check if an ingredient is a vinegar
-  const isVinegar = (ingredient: unknown): boolean => {
+  const isVinegar = useCallback((ingredient: unknown): boolean => {
     // @ts-expect-error - Auto-fixed by script
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
@@ -208,7 +207,7 @@ export default function IngredientRecommender() {
     // @ts-expect-error - Auto-fixed by script
     const name = ingredient.name.toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
-  };
+  }, [vinegarTypes]);
   
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: unknown): string => {
@@ -377,7 +376,7 @@ export default function IngredientRecommender() {
     return Object.fromEntries(
       Object.entries(categories).filter(([_, items]) => items.length > 0)
     );
-  }, [foodRecommendations, astroRecommendations, herbNames, oilTypes, vinegarTypes]);
+  }, [foodRecommendations, astroRecommendations, herbNames, isOil, isVinegar]);
   
   // Helper function to determine the category of a food by name
   function determineCategory(name: string): string {

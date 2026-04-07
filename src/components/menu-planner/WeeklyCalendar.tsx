@@ -169,30 +169,34 @@ function DayColumn({
           <MealSlot
             key={mealSlot.id}
             mealSlot={mealSlot}
-            onAddRecipe={(recipe: MonicaOptimizedRecipe) =>
-              addMealToSlot(dayOfWeek, mealSlot.mealType, recipe)
-            }
-            onRemoveRecipe={() => removeMealFromSlot(mealSlot.id)}
-            onUpdateServings={(servings: number) =>
-              updateMealServings(mealSlot.id, servings)
-            }
-            onMoveMeal={(sourceSlotId: string) =>
-              moveMeal(sourceSlotId, mealSlot.id)
-            }
-            onSwapMeals={(sourceSlotId: string) =>
-              swapMeals(sourceSlotId, mealSlot.id)
-            }
+            onAddRecipe={(recipe: MonicaOptimizedRecipe) => {
+              void addMealToSlot(dayOfWeek, mealSlot.mealType, recipe);
+            }}
+            onRemoveRecipe={() => {
+              void removeMealFromSlot(mealSlot.id);
+            }}
+            onUpdateServings={(servings: number) => {
+              void updateMealServings(mealSlot.id, servings);
+            }}
+            onMoveMeal={(sourceSlotId: string) => {
+              void moveMeal(sourceSlotId, mealSlot.id);
+            }}
+            onSwapMeals={(sourceSlotId: string) => {
+              void swapMeals(sourceSlotId, mealSlot.id);
+            }}
             onCopyMeal={() => onCopyMealClick?.(mealSlot)}
             onGenerateMeal={() => {
               void generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] });
             }}
-            onAddSauce={(sauceId: string, servings?: number) =>
-              addSauceToMeal(mealSlot.id, sauceId, servings)
-            }
-            onRemoveSauce={() => removeSauceFromMeal(mealSlot.id)}
-            onUpdateSauceServings={(servings: number) =>
-              updateSauceServings(mealSlot.id, servings)
-            }
+            onAddSauce={(sauceId: string, servings?: number) => {
+              void addSauceToMeal(mealSlot.id, sauceId, servings);
+            }}
+            onRemoveSauce={() => {
+              void removeSauceFromMeal(mealSlot.id);
+            }}
+            onUpdateSauceServings={(servings: number) => {
+              void updateSauceServings(mealSlot.id, servings);
+            }}
           />
         ))}
       </div>

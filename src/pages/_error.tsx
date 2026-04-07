@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { NextPageContext } from "next";
 
 interface ErrorProps {
@@ -17,7 +18,7 @@ function Error({ statusCode }: ErrorProps) {
           ? "The page you are looking for does not exist."
           : "An unexpected error has occurred."}
       </p>
-      <a
+      <Link
         href="/"
         style={{
           color: "#6b46c1",
@@ -27,7 +28,7 @@ function Error({ statusCode }: ErrorProps) {
         }}
       >
         Return Home
-      </a>
+      </Link>
     </div>
   );
 }

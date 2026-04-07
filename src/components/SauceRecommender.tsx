@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { Sauce } from '@/data/sauces';
 import type { ElementalProperties } from '@/types/alchemy';
 
@@ -36,24 +36,6 @@ export default function SauceRecommender({
   const [loading, setLoading] = useState<boolean>(true);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
   const [filter, setFilter] = useState<string>('all');
-
-  useEffect(() => {
-    // Generate sauce recommendations when component mounts or when inputs change
-    const generateRecommendations = async () => {
-      setLoading(true);
-      try {
-        // Wait for any async data to load
-        const recommendations = await generateSauceRecommendations();
-        setSauceRecommendations(recommendations);
-      } catch (error) {
-        console.error("Error generating sauce recommendations:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    generateRecommendations();
-  }, [cuisine, protein, vegetable, cookingMethod, currentElementalProfile]);
 
   // Toggle function for sauce card expansion
   const toggleSauceCard = (sauceId: string) => {
@@ -137,7 +119,7 @@ export default function SauceRecommender({
   };
 
   // Generate sauce recommendations based on criteria
-  const generateSauceRecommendations = async (): Promise<any[]> => {
+  const generateSauceRecommendations = useCallback(async (): Promise<any[]> => {
     // Initialize results array
     const results: unknown[] = [];
     
@@ -324,7 +306,25 @@ export default function SauceRecommender({
       // @ts-expect-error - Auto-fixed by script
       .sort((a, b) => b.matchScore - a.matchScore)
       .slice(0, maxResults);
-  };
+  }, [cookingMethod, cuisine, cuisines, currentElementalProfile, maxResults, protein, sauces, vegetable]);
+
+  useEffect(() => {
+    // Generate sauce recommendations when component mounts or when inputs change
+    const generateRecommendations = async () => {
+      setLoading(true);
+      try {
+        // Wait for any async data to load
+        const recommendations = await generateSauceRecommendations();
+        setSauceRecommendations(recommendations);
+      } catch (error) {
+        console.error("Error generating sauce recommendations:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void generateRecommendations();
+  }, [generateSauceRecommendations]);
 
   // Helper function to determine if a sauce-cuisine combination should be excluded
   const shouldExcludeSauceCombination = (sauceName: string, targetCuisine?: string): boolean => {
@@ -610,7 +610,7 @@ export default function SauceRecommender({
                       <div className="bg-amber-50 p-2 rounded text-xs mb-2">
                         {sauce.preparationNotes && (
                           <p className="mb-1">
-                            <span className="font-medium">Chef's Notes:</span> {sauce.preparationNotes}
+                            <span className="font-medium">Chef&apos;s Notes:</span> {sauce.preparationNotes}
                           </p>
                         )}
                         {sauce.technicalTips && (

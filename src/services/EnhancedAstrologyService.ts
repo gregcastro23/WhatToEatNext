@@ -219,10 +219,10 @@ export class EnhancedAstrologyService {
 
     // Unified positions service
     try {
-      const module =
+      const positionsModule =
         (await import("@/services/PlanetaryPositionsService")) as any;
       const servicePositions =
-        await module.planetaryPositionsService.getForDate(date);
+        await positionsModule.planetaryPositionsService.getForDate(date);
       primaryPositions = servicePositions as unknown as Record<
         string,
         CelestialPosition

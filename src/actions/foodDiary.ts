@@ -8,7 +8,6 @@ import type {
   MoodTag,
   QuickFoodCategory,
 } from "@/types/foodDiary";
-import type { MealType } from "@/types/menuPlanner";
 
 export async function getServerDayEntries(userId: string, date: Date) {
   return typeof date === "string" ? foodDiaryService.getDayEntries(userId, new Date(date)) : foodDiaryService.getDayEntries(userId, date);

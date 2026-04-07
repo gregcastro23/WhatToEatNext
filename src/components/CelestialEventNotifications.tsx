@@ -213,6 +213,12 @@ export function CelestialEventNotifications({
             onMouseOut={(e) =>
               (e.currentTarget.style.backgroundColor = "transparent")
             }
+            onFocus={(e) =>
+              (e.currentTarget.style.backgroundColor = "#f5f5f5")
+            }
+            onBlur={(e) =>
+              (e.currentTarget.style.backgroundColor = "transparent")
+            }
           >
             Clear All
           </button>

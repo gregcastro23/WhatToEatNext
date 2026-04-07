@@ -279,7 +279,7 @@ export default function EnhancedSauceRecommender() {
       <div className="p-6">
         {/* Input Mode Selector */}
         <div className="mb-6">
-          <label className="text-sm font-medium text-slate-700 mb-2 block">Target Profile</label>
+          <div className="text-sm font-medium text-slate-700 mb-2 block">Target Profile</div>
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => setInputMode("cuisine")}

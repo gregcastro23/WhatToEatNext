@@ -131,9 +131,10 @@ export function useSafeFlavorEngine() {
 
   // Extract values to avoid complex expressions in dependency array
   const profileCount = isReady ? flavorEngine.profileCount : 0;
-  const categoriesString = isReady
-    ? JSON.stringify(flavorEngine.categories)
-    : "{}";
+  const categories = useMemo(
+    () => (isReady ? flavorEngine.categories : {}),
+    [isReady, flavorEngine.categories],
+  );
 
   // Memoize the complete API to prevent unnecessary re-renders
   const result = useMemo(
@@ -144,7 +145,7 @@ export function useSafeFlavorEngine() {
       searchProfiles,
       calculateCompatibility,
       profileCount,
-      categories: isReady ? flavorEngine.categories : {},
+      categories,
     }),
     [
       isReady,
@@ -153,7 +154,7 @@ export function useSafeFlavorEngine() {
       searchProfiles,
       calculateCompatibility,
       profileCount,
-      categoriesString,
+      categories,
     ],
   );
 

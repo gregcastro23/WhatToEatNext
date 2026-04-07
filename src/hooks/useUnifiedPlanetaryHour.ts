@@ -22,6 +22,8 @@ export function useUnifiedPlanetaryHour(
   );
 
   const { connected, planetaryHour: wsHour } = usePlanetaryWebSocket(location);
+  const wsStartMs = wsHour?.start?.getTime();
+  const wsEndMs = wsHour?.end?.getTime();
 
   const [state, setState] = useState<{
     planet: Planet | null;
@@ -75,7 +77,7 @@ export function useUnifiedPlanetaryHour(
     return () => {
       cancelled = true;
     };
-  }, [location?.latitude, location?.longitude]);
+  }, [location]);
 
   // Realtime override when available
   useEffect(() => {
@@ -93,11 +95,9 @@ export function useUnifiedPlanetaryHour(
     }));
   }, [
     useRealtime,
-    wsHour?.planet,
-    wsHour?.isDaytime,
-    wsHour?.start?.getTime(),
-    wsHour?.end?.getTime(),
-    connected,
+    wsHour,
+    wsStartMs,
+    wsEndMs,
   ]);
 
   return {

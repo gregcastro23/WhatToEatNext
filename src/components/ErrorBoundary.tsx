@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 
@@ -140,7 +141,7 @@ export class ErrorBoundary extends Component<Props, State> {
             >
               Refresh Page
             </button>
-            <a
+            <Link
               href="/"
               style={{
                 padding: "0.625rem 1.5rem",
@@ -152,7 +153,7 @@ export class ErrorBoundary extends Component<Props, State> {
               }}
             >
               Go Home
-            </a>
+            </Link>
           </div>
 
           {process.env.NODE_ENV === "development" && this.state.error && (

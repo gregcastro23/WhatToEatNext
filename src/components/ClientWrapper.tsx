@@ -1,12 +1,11 @@
 'use client';
 
 import React from 'react';
+import ClientProviders from '@/app/ClientProviders';
 import AstrologyWarning from '@/components/AstrologyWarning';
 import CalculationErrors from '@/components/CalculationErrors';
 import _Clock from '@/components/Clock';
-
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import ClientProviders from '@/app/ClientProviders';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { ChartProvider } from '@/contexts/ChartContext/provider';
 import { ThemeProvider } from '@/contexts/ThemeContext';

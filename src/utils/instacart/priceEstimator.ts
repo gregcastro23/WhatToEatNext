@@ -11,9 +11,9 @@
  * 3. Confidence probing via Instacart IDP (Phase 2)
  */
 
-import { IngredientCategory } from "./ingredientNormalizer";
+import { CATEGORY_BASELINES, getPricePoint } from "../../constants/priceDatabase";
 import { convertToGrams, getPriceTier } from "./ingredientIntelligence";
-import { getPricePoint, CATEGORY_BASELINES } from "../../constants/priceDatabase";
+import type { IngredientCategory } from "./ingredientNormalizer";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -175,7 +175,7 @@ export function calculateBangForBuck(
  */
 export function estimateWeeklyGroceryCost(
   recipes: Array<{ ingredients: RecipeIngredient[]; servings?: number; dietaryFlags?: string[] }>,
-  userInventory: string[] = []
+  _userInventory: string[] = []
 ): { totalCost: number; perMealAverage: number; recipeBreakdown: RecipeCostEstimate[] } {
   const recipeBreakdown: RecipeCostEstimate[] = [];
   

@@ -170,7 +170,7 @@ export async function calculateLunarPhase(
 ): Promise<number> {
   try {
     // Get accurate positions
-    const positions = await getAccuratePlanetaryPositions(date);
+    const positions = getAccuratePlanetaryPositions(date);
     // Validate essential planetary positions are available
     if (
       typeof positions.Sun.exactLongitude !== "number" ||
@@ -326,7 +326,7 @@ export async function calculateMoonSign(
 ): Promise<ZodiacSignType> {
   try {
     // Try to get accurate positions first
-    const positions = await getAccuratePlanetaryPositions(date);
+    const positions = getAccuratePlanetaryPositions(date);
     // Return Moon position sign (guaranteed by getAccuratePlanetaryPositions)
     return positions.Moon.sign;
   } catch (error) {
@@ -345,7 +345,7 @@ export async function calculatePlanetaryPositions(
     // Use the new VSOP87-enhanced planetary positions for revolutionary accuracy
     try {
       // Get enhanced positions with VSOP87 Sun accuracy (±0.01°)
-      const positions = await getEnhancedPlanetaryPositions(date);
+      const positions = getEnhancedPlanetaryPositions(date);
       // Process the positions data to the correct format
       const formattedPositions: Record<string, PlanetPosition> = {};
       // Format each planet's position with enhanced accuracy
@@ -379,7 +379,7 @@ export async function calculatePlanetaryPositions(
       );
       // Fallback to standard astronomy-engine calculations
       try {
-        const positions = await getAccuratePlanetaryPositions(date);
+        const positions = getAccuratePlanetaryPositions(date);
         // Process the positions data to the correct format
         const formattedPositions: Record<string, PlanetPosition> = {};
         // Format each planet's position

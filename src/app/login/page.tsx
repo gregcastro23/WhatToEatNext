@@ -157,7 +157,7 @@ function LoginContent() {
 
           <div className="mt-10 text-center">
             <p className="text-[11px] text-gray-500 leading-relaxed font-medium">
-              By continuing, you agree to our <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a> and <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>.
+              By continuing, you agree to our <span className="text-gray-400">Terms of Service</span> and <span className="text-gray-400">Privacy Policy</span>.
             </p>
           </div>
         </div>

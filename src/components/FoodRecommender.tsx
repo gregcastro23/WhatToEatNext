@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use client';
 
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useState, useEffect, useMemo } from 'react';
 // @ts-expect-error - Auto-fixed by script
 import { 
@@ -638,9 +638,9 @@ export default function FoodRecommender() {
                 <h3 className="text-xl font-semibold text-gray-800">{displayName}</h3>
                 <button className="text-gray-500 hover:text-gray-700">
                   {isExpanded ? (
-                    <ChevronUpIcon className="h-5 w-5" />
+                    <ChevronUp className="h-5 w-5" />
                   ) : (
-                    <ChevronDownIcon className="h-5 w-5" />
+                    <ChevronDown className="h-5 w-5" />
                   )}
                 </button>
               </div>

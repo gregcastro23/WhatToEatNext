@@ -218,7 +218,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
     insights.sort((a, b) => order[a.type] - order[b.type]);
 
     return insights;
-  }, [natalChart.planetaryPositions, transitPositions]);
+  }, [natalChart, transitPositions]);
 
   const elementSynergy = useMemo(() => {
     const natalEl = natalChart.dominantElement;

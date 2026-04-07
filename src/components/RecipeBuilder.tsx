@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { Chakra } from '@/constants/chakraMappings';
 import type { SignEnergyState } from '@/constants/signEnergyStates';
 import type { Modality } from '@/data/ingredients/types';
@@ -19,11 +19,11 @@ interface ChakraEnergyAccess {
 // No longer need to define Recipe interface here
 
 export default function RecipeBuilder() {
-  const [selectedIngredients, setSelectedIngredients] = useState<any[]>([]);
+  const [selectedIngredients, _setSelectedIngredients] = useState<any[]>([]);
   const [recipeModality, setRecipeModality] = useState<Modality>('Mutable');
   const [chakraAccess, setChakraAccess] = useState<ChakraEnergyAccess[]>([]);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [signEnergyStates, setSignEnergyStates] = useState<SignEnergyState[]>([]);
+  const [signEnergyStates, _setSignEnergyStates] = useState<SignEnergyState[]>([]);
   
   // Calculate the dominant modality of the recipe based on selected ingredients
   useEffect(() => {
@@ -54,16 +54,8 @@ export default function RecipeBuilder() {
     setRecipeModality(dominantModality);
   }, [selectedIngredients]);
   
-  useEffect(() => {
-    if (signEnergyStates && signEnergyStates.length > 0) {
-      // Instead of calculating chakra energy states, map chakras to access the energy states
-      const chakraAccessPoints = mapChakrasToEnergyStates(signEnergyStates);
-      setChakraAccess(chakraAccessPoints);
-    }
-  }, [signEnergyStates]);
-  
   // Map chakras to access the energy states (Spirit, Essence, Matter, Substance)
-  const mapChakrasToEnergyStates = (energyStates: SignEnergyState[]): ChakraEnergyAccess[] => {
+  const mapChakrasToEnergyStates = useCallback((energyStates: SignEnergyState[]): ChakraEnergyAccess[] => {
     const chakras: Chakra[] = ['Root', 'Sacral', 'Solar Plexus', 'Heart', 'Throat', 'Third Eye', 'Crown'];
     
     // Mapping of chakras to their influence on the four energy types
@@ -118,7 +110,15 @@ export default function RecipeBuilder() {
     });
     
     return chakraAccessPoints;
-  };
+  }, []);
+
+  useEffect(() => {
+    if (signEnergyStates && signEnergyStates.length > 0) {
+      // Instead of calculating chakra energy states, map chakras to access the energy states
+      const chakraAccessPoints = mapChakrasToEnergyStates(signEnergyStates);
+      setChakraAccess(chakraAccessPoints);
+    }
+  }, [mapChakrasToEnergyStates, signEnergyStates]);
   
   // Get food recommendations for a chakra based on energy influences
   const getChakraFoodRecommendations = (

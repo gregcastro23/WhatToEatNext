@@ -1,9 +1,8 @@
 // @ts-nocheck
 'use client';
 
-import { Flame, Droplets, Mountain, Wind, Clock, Users, Utensils, Calendar, _Tag, _CircleDashed, Activity, Sun, MoonStar } from 'lucide-react';
-import React, { useState, useEffect, _useMemo } from 'react';
-import { _useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { Flame, Droplets, Mountain, Wind, Clock, Users, Utensils, Calendar, Activity, Sun, MoonStar } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 import { zodiacSeasons } from '@/data/zodiacSeasons';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
@@ -11,7 +10,6 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import type { Planet } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe'; // Import the Recipe type
-import { _logger } from '@/utils/logger';
 import { enrichRecipeData } from '@/utils/recipeEnrichment';
 // @ts-expect-error - Auto-fixed by script
 import { _recipeFilter } from '@/utils/recipeFilters';
@@ -24,7 +22,7 @@ interface RecipeListProps {
 export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   const { cuisines, loading: dataLoading } = useAlchemicalData();
   const { currentPlanetaryAlignment, currentZodiac, activePlanets, isDaytime } = useAstrologicalState();
-  const [planetaryHour, setPlanetaryHour] = useState<Planet | null>(null);
+  const [_planetaryHour, setPlanetaryHour] = useState<Planet | null>(null);
   const [expandedRecipeId, setExpandedRecipeId] = useState<string | null>(null);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
@@ -144,10 +142,10 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
     );
     
     setRecipes(sortedRecipes);
-  }, [cuisineFilter, cuisines, dataLoading, currentPlanetaryAlignment, currentZodiac, activePlanets, isDaytime]);
+  }, [calculateAstrologicalCompatibility, cuisineFilter, cuisines, dataLoading]);
 
   // Enhanced astrological compatibility calculation with day/night effects and planetary hours
-  const calculateAstrologicalCompatibility = (recipeList: Recipe[]): Recipe[] => {
+  const calculateAstrologicalCompatibility = useCallback((recipeList: Recipe[]): Recipe[] => {
     return recipeList.map(recipe => {
       try {
         let score = 50; // Base score
@@ -416,7 +414,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
         };
       }
     });
-  };
+  }, [activePlanets, currentPlanetaryAlignment, currentZodiac, isDaytime]);
 
   // Helper function to identify harmonious planetary aspects
   const checkHarmonicAspects = (alignment: unknown): Array<{planet1: string, planet2: string, aspect: string}> => {

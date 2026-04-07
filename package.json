@@ -27,6 +27,8 @@
     "check-pm": "bash scripts/check-package-manager.sh",
     "dev": "next dev",
     "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "verify": "yarn typecheck && yarn lint",
     "lint": "eslint --config eslint.config.mjs src --max-warnings=10000",
     "lint:fix": "eslint --config eslint.config.mjs --fix src",
     "lint:fast": "eslint --config eslint.config.mjs --cache --cache-location .eslintcache src",

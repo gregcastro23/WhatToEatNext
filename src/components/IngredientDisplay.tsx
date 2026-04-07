@@ -9,13 +9,6 @@ interface IngredientDisplayProps {
 }
 
 export const IngredientDisplay = ({ ingredient, showDetails = false }: IngredientDisplayProps) => {
-  // Safe accessor function for nested properties
-  const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N/A') => {
-    return path.split('.').reduce((prev, curr) => {
-      return prev && prev[curr] !== undefined ? prev[curr] : undefined;
-    }, obj) ?? defaultValue;
-  };
-
   // Safe formatter for numbers
   const formatNumber = (value: unknown, decimals: number = 2) => {
     if (value === undefined || value === null) return 'N/A';

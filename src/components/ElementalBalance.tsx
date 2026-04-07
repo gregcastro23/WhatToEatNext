@@ -1,10 +1,10 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
-interface elementalStateProps {
+interface ElementalStateProps {
     balance: ElementalProperties;
 }
 
-export const elementalState = ({ balance }: elementalStateProps) => {
+export const elementalState = ({ balance }: ElementalStateProps) => {
     return (
         <div className="elemental-balance">
             {Object.entries(balance).map(([element, value]) => (

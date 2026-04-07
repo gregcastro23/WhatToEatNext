@@ -5,7 +5,6 @@ import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { AstrologicalService } from '@/services/AstrologicalService';
-import { _getSignFromLongitude } from '@/utils/astrologyUtils';
 import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport';
 
 /**
@@ -167,7 +166,7 @@ const MoonDisplay: React.FC = () => {
       }
     };
     
-    getLocation();
+    void getLocation();
   }, []);
 
   // Dynamic import for moon time calculations
@@ -212,10 +211,12 @@ const MoonDisplay: React.FC = () => {
       }
     };
     
-    calculateTimes();
+    void calculateTimes();
     
     // Update moon times every 30 minutes
-    const interval = setInterval(() => calculateTimes(), 30 * 60 * 1000);
+    const interval = setInterval(() => {
+      void calculateTimes();
+    }, 30 * 60 * 1000);
     return () => clearInterval(interval);
   }, [coordinates.latitude, coordinates.longitude]);
 
@@ -266,10 +267,12 @@ const MoonDisplay: React.FC = () => {
       }
     };
     
-    getLunarPhaseData();
+    void getLunarPhaseData();
     
     // Run calculation every minute to ensure accuracy
-    const interval = setInterval(() => getLunarPhaseData(), 60 * 1000);
+    const interval = setInterval(() => {
+      void getLunarPhaseData();
+    }, 60 * 1000);
     return () => clearInterval(interval);
   }, [planetaryPositions.moon]);
 
@@ -348,7 +351,7 @@ const MoonDisplay: React.FC = () => {
         availableKeys: Object.keys(planetaryPositions)
       });
     }
-  }, [planetaryPositions.northNode, planetaryPositions.northnode]); // Only depend on the north node data
+  }, [planetaryPositions]);
 
   return (
     <div className="bg-gray-900 bg-opacity-90 rounded-lg p-4 shadow-lg border border-indigo-800">
@@ -443,7 +446,7 @@ const MoonDisplay: React.FC = () => {
                     : 'Calculating...'}
                   {northNode && northNode.isRetrograde ? ' ℞' : ''}
                 </div>
-                <div className="text-xs text-gray-400 mt-1">Karma you're growing toward</div>
+                <div className="text-xs text-gray-400 mt-1">Karma you&apos;re growing toward</div>
               </div>
               
               <div className="bg-gray-800 rounded p-3">

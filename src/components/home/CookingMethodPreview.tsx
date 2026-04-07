@@ -220,21 +220,23 @@ export default function CookingMethodPreview() {
 
   // Get current alchemical context — called unconditionally (Rules of Hooks)
   const alchemicalContext = useAlchemical();
+  const contextPlanetaryPositions = alchemicalContext?.planetaryPositions;
+  const refreshPlanetaryPositions = alchemicalContext?.refreshPlanetaryPositions;
+  const contextElementalState = alchemicalContext?.state?.elementalState;
 
   // Update planetary positions from context
   useEffect(() => {
-    if (alchemicalContext?.planetaryPositions) {
+    if (contextPlanetaryPositions) {
       const normalized = normalizePlanetaryPositions(
-        alchemicalContext.planetaryPositions,
+        contextPlanetaryPositions,
       );
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
     }
 
     // Also try to refresh positions from backend
-    if (alchemicalContext?.refreshPlanetaryPositions) {
-      alchemicalContext
-        .refreshPlanetaryPositions()
+    if (refreshPlanetaryPositions) {
+      refreshPlanetaryPositions()
         .then((positions) => {
           if (positions && Object.keys(positions).length > 0) {
             const normalized = normalizePlanetaryPositions(
@@ -248,12 +250,12 @@ export default function CookingMethodPreview() {
           console.warn("[CookingMethodPreview] Failed to refresh planetary positions, using defaults");
         });
     }
-  }, [alchemicalContext?.planetaryPositions, alchemicalContext?.refreshPlanetaryPositions]);
+  }, [contextPlanetaryPositions, refreshPlanetaryPositions]);
 
   // Get current elemental properties from alchemical context
   const currentElementals = useMemo(() => {
-    if (alchemicalContext?.state?.elementalState) {
-      return alchemicalContext.state.elementalState as {
+    if (contextElementalState) {
+      return contextElementalState as {
         Fire: number;
         Water: number;
         Earth: number;
@@ -262,7 +264,7 @@ export default function CookingMethodPreview() {
     }
     // Default balanced elementals
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  }, [alchemicalContext?.state?.elementalState]);
+  }, [contextElementalState]);
 
   // Calculate BASE ESMS from real planetary positions (calculated once per planetary change)
   const baseESMS = useMemo(() => {
@@ -354,7 +356,7 @@ export default function CookingMethodPreview() {
       })
       .sort((a, b) => b.score - a.score)
       .slice(0, 6);
-  }, [selectedCategory, currentElementals, baseESMS, planetaryPositions]);
+  }, [selectedCategory, currentElementals, baseESMS]);
 
   const toggleMethod = (methodId: string) => {
     setExpandedMethods((prev) => {

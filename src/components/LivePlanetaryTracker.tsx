@@ -7,7 +7,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // import { getPlanetaryInfluencers } from "@/calculations/elementalcalculations";
 import { useAlchmWebSocket } from "@/hooks/useAlchmWebSocket";
 import { logger } from "@/lib/logger";
@@ -68,7 +68,45 @@ export const LivePlanetaryTracker: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Calculate planetary influence and display data
-  const updatePlanetaryDisplay = async () => {
+  const generateRecommendations = useCallback((planet: string): string[] => {
+    const recommendations: Record<string, string[]> = {
+      Sun: [
+        "Golden turmeric dishes",
+        "Citrus-based recipes",
+        "Grilled or roasted foods",
+      ],
+      Moon: [
+        "Cooling cucumber dishes",
+        "Dairy-based recipes",
+        "Silver/white colored foods",
+      ],
+      Mars: [
+        "Spicy chili dishes",
+        "Red meat preparations",
+        "High-energy protein foods",
+      ],
+      Mercury: ["Light salads", "Herb-infused dishes", "Quick-cooking methods"],
+      Jupiter: [
+        "Rich, abundant meals",
+        "Purple foods",
+        "Celebration-worthy dishes",
+      ],
+      Venus: [
+        "Sweet desserts",
+        "Beautiful plated foods",
+        "Rose or floral ingredients",
+      ],
+      Saturn: [
+        "Slow-cooked stews",
+        "Root vegetables",
+        "Traditional comfort foods",
+      ],
+    };
+
+    return recommendations[planet] || recommendations.Sun;
+  }, []);
+
+  const updatePlanetaryDisplay = useCallback(async () => {
     try {
       const influence: any = null; // await (getPlanetaryInfluencers as any)();
       const currentTime = new Date();
@@ -105,46 +143,7 @@ export const LivePlanetaryTracker: React.FC = () => {
       void logger.error("Error updating planetary display", error);
       setIsLoading(false);
     }
-  };
-
-  // Generate contextual recommendations based on current planetary influence
-  const generateRecommendations = (planet: string): string[] => {
-    const recommendations: Record<string, string[]> = {
-      Sun: [
-        "Golden turmeric dishes",
-        "Citrus-based recipes",
-        "Grilled or roasted foods",
-      ],
-      Moon: [
-        "Cooling cucumber dishes",
-        "Dairy-based recipes",
-        "Silver/white colored foods",
-      ],
-      Mars: [
-        "Spicy chili dishes",
-        "Red meat preparations",
-        "High-energy protein foods",
-      ],
-      Mercury: ["Light salads", "Herb-infused dishes", "Quick-cooking methods"],
-      Jupiter: [
-        "Rich, abundant meals",
-        "Purple foods",
-        "Celebration-worthy dishes",
-      ],
-      Venus: [
-        "Sweet desserts",
-        "Beautiful plated foods",
-        "Rose or floral ingredients",
-      ],
-      Saturn: [
-        "Slow-cooked stews",
-        "Root vegetables",
-        "Traditional comfort foods",
-      ],
-    };
-
-    return recommendations[planet] || recommendations.Sun;
-  };
+  }, [generateRecommendations]);
 
   // Real-time updates
   useEffect(() => {
@@ -154,7 +153,7 @@ export const LivePlanetaryTracker: React.FC = () => {
     const interval = setInterval(() => void updatePlanetaryDisplay(), 60000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [updatePlanetaryDisplay]);
 
   // Handle WebSocket updates
   useEffect(() => {
@@ -165,7 +164,7 @@ export const LivePlanetaryTracker: React.FC = () => {
       );
       void updatePlanetaryDisplay();
     }
-  }, [lastPlanetaryHour]);
+  }, [lastPlanetaryHour, updatePlanetaryDisplay]);
 
   if (isLoading) {
     return (

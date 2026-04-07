@@ -30,7 +30,7 @@ export function NotificationPanel() {
   }, []);
 
   useEffect(() => {
-    fetchNotifications();
+    void fetchNotifications();
   }, [fetchNotifications]);
 
   const markAsRead = async (id: string) => {
@@ -70,7 +70,7 @@ export function NotificationPanel() {
       {unreadCount > 0 && (
         <div className="flex justify-end mb-3">
           <button
-            onClick={markAllRead}
+            onClick={() => { void markAllRead(); }}
             className="text-xs text-purple-600 hover:text-purple-800 font-medium"
           >
             Mark all as read ({unreadCount})
@@ -87,7 +87,11 @@ export function NotificationPanel() {
           return (
             <div
               key={n.id}
-              onClick={() => { if (!n.isRead) markAsRead(n.id); }}
+              onClick={() => {
+                if (!n.isRead) {
+                  void markAsRead(n.id);
+                }
+              }}
               className={`relative p-4 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-lg ${
                 isDailyInsight ? 'sm:col-span-2' : ''
               }`}

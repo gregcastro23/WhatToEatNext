@@ -2,9 +2,7 @@
 
 import { Loader2, Info } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
-import type { ZodiacSign } from '@/types/alchemy';
 import { getPlanetaryDignity } from '@/utils/astrologyUtils';
 import { PlanetInfoModal as _PlanetInfoModal } from './PlanetInfoModal';
 

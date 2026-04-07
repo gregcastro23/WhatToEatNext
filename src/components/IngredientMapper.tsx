@@ -12,13 +12,13 @@ export default function IngredientMapper() {
   const {
     isLoading,
     error,
-    mapRecipeIngredients,
+    mapRecipeIngredients: _mapRecipeIngredients,
     findMatchingRecipes,
     suggestAlternatives,
     calculateCompatibility
   } = useIngredientMapping();
 
-  const { cuisines, loading: cuisinesLoading } = useAlchemicalData();
+  const { cuisines, loading: _cuisinesLoading } = useAlchemicalData();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('');
@@ -76,8 +76,9 @@ export default function IngredientMapper() {
         <h2 className="text-xl font-semibold mb-2">Find Recipes</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block mb-1">Ingredient</label>
+            <label htmlFor="recipe-search-ingredient" className="block mb-1">Ingredient</label>
             <input
+              id="recipe-search-ingredient"
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -86,8 +87,9 @@ export default function IngredientMapper() {
             />
           </div>
           <div>
-            <label className="block mb-1">Cuisine</label>
+            <label htmlFor="recipe-search-cuisine" className="block mb-1">Cuisine</label>
             <select
+              id="recipe-search-cuisine"
               value={selectedCuisine}
               onChange={(e) => setSelectedCuisine(e.target.value)}
               className="w-full p-2 border rounded"
@@ -143,8 +145,9 @@ export default function IngredientMapper() {
       <div className="mb-8 p-4 border rounded">
         <h2 className="text-xl font-semibold mb-2">Find Alternative Ingredients</h2>
         <div className="mb-4">
-          <label className="block mb-1">Ingredient</label>
+          <label htmlFor="alternative-ingredient" className="block mb-1">Ingredient</label>
           <input
+            id="alternative-ingredient"
             type="text"
             value={selectedIngredient}
             onChange={(e) => setSelectedIngredient(e.target.value)}
@@ -186,8 +189,9 @@ export default function IngredientMapper() {
         <h2 className="text-xl font-semibold mb-2">Ingredient Compatibility</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block mb-1">First Ingredient</label>
+            <label htmlFor="compatibility-first-ingredient" className="block mb-1">First Ingredient</label>
             <input
+              id="compatibility-first-ingredient"
               type="text"
               value={selectedIngredient}
               onChange={(e) => setSelectedIngredient(e.target.value)}
@@ -196,8 +200,9 @@ export default function IngredientMapper() {
             />
           </div>
           <div>
-            <label className="block mb-1">Second Ingredient</label>
+            <label htmlFor="compatibility-second-ingredient" className="block mb-1">Second Ingredient</label>
             <input
+              id="compatibility-second-ingredient"
               type="text"
               value={secondIngredient}
               onChange={(e) => setSecondIngredient(e.target.value)}

@@ -69,8 +69,8 @@ let vinegars: { [key: string]: Record<string, unknown> } = {};
 const loadVegetables = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(vegetables).length === 0) {
     try {
-      const module = await import("../../data/ingredients/vegetables");
-      vegetables = module.vegetables;
+      const ingredientModule = await import("../../data/ingredients/vegetables");
+      vegetables = ingredientModule.vegetables;
     } catch (error) {
       _logger.error("Error loading vegetables: ", error);
     }
@@ -81,8 +81,8 @@ const loadVegetables = async (): Promise<Record<string, unknown>> => {
 const loadFruits = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(fruits).length === 0) {
     try {
-      const module = await import("../../data/ingredients/fruits");
-      fruits = module.fruits;
+      const ingredientModule = await import("../../data/ingredients/fruits");
+      fruits = ingredientModule.fruits;
     } catch (error) {
       _logger.error("Error loading fruits: ", error);
     }
@@ -93,8 +93,8 @@ const loadFruits = async (): Promise<Record<string, unknown>> => {
 const loadHerbs = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(herbs).length === 0) {
     try {
-      const module = await import("../../data/ingredients/herbs");
-      herbs = module.herbs;
+      const ingredientModule = await import("../../data/ingredients/herbs");
+      herbs = ingredientModule.herbs;
     } catch (error) {
       _logger.error("Error loading herbs: ", error);
     }
@@ -105,8 +105,8 @@ const loadHerbs = async (): Promise<Record<string, unknown>> => {
 const loadSpices = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(spices).length === 0) {
     try {
-      const module = await import("../../data/ingredients/spices");
-      spices = module.spices;
+      const ingredientModule = await import("../../data/ingredients/spices");
+      spices = ingredientModule.spices;
     } catch (error) {
       _logger.error("Error loading spices: ", error);
     }
@@ -117,8 +117,8 @@ const loadSpices = async (): Promise<Record<string, unknown>> => {
 const loadProteins = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(proteins).length === 0) {
     try {
-      const module = await import("../../data/ingredients/proteins");
-      proteins = module._proteins;
+      const ingredientModule = await import("../../data/ingredients/proteins");
+      proteins = ingredientModule._proteins;
     } catch (error) {
       _logger.error("Error loading proteins: ", error);
     }
@@ -129,8 +129,8 @@ const loadProteins = async (): Promise<Record<string, unknown>> => {
 const loadGrains = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(grains).length === 0) {
     try {
-      const module = await import("../../data/ingredients/grains");
-      grains = module.grains;
+      const ingredientModule = await import("../../data/ingredients/grains");
+      grains = ingredientModule.grains;
     } catch (error) {
       _logger.error("Error loading grains: ", error);
     }
@@ -141,8 +141,9 @@ const loadGrains = async (): Promise<Record<string, unknown>> => {
 const loadSeasonings = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(seasonings).length === 0) {
     try {
-      const module = await import("../../data/ingredients/seasonings");
-      seasonings = module.seasonings;
+      const ingredientModule =
+        await import("../../data/ingredients/seasonings");
+      seasonings = ingredientModule.seasonings;
     } catch (error) {
       _logger.error("Error loading seasonings: ", error);
     }
@@ -153,8 +154,8 @@ const loadSeasonings = async (): Promise<Record<string, unknown>> => {
 const loadOils = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(oils).length === 0) {
     try {
-      const module = await import("../../data/ingredients/oils");
-      oils = (module as any).oils || module;
+      const ingredientModule = await import("../../data/ingredients/oils");
+      oils = (ingredientModule as any).oils || ingredientModule;
     } catch (error) {
       _logger.error("Error loading oils: ", error);
     }
@@ -165,8 +166,8 @@ const loadOils = async (): Promise<Record<string, unknown>> => {
 const loadVinegars = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(vinegars).length === 0) {
     try {
-      const module = await import("../../data/ingredients/vinegars");
-      vinegars = module.vinegars;
+      const ingredientModule = await import("../../data/ingredients/vinegars");
+      vinegars = ingredientModule.vinegars;
     } catch (error) {
       _logger.error("Error loading vinegars: ", error);
     }

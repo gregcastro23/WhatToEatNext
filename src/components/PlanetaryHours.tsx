@@ -1,5 +1,4 @@
-// Re-export the PlanetaryHoursDisplay component
-// @ts-expect-error - Auto-fixed by script
-import PlanetaryHoursDisplay from './PlanetaryHours/PlanetaryHoursDisplay';
+// Re-export the existing planetary hours UI component
+import PlanetaryHourCard from './PlanetaryHourCard';
 
-export default PlanetaryHoursDisplay; 
+export default PlanetaryHourCard;

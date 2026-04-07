@@ -39,7 +39,7 @@ function AuthErrorContent() {
         
         // Wait a brief moment before retrying to let the DB actually wake up
         const timer = setTimeout(() => {
-          signIn('google', { callbackUrl: '/profile' });
+          void signIn('google', { callbackUrl: '/profile' });
         }, 1500);
         
         return () => clearTimeout(timer);

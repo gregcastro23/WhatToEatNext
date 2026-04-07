@@ -2,8 +2,8 @@
 
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-
 import AstrologicalClock from '@/components/AstrologicalClock';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 import CookingMethods from '@/components/CookingMethods';
 import CuisineRecommender from '@/components/CuisineRecommender';
 import ElementalEnergyDisplay from '@/components/ElementalEnergyDisplay';
@@ -11,7 +11,6 @@ import MoonDisplay from '@/components/MoonDisplay';
 import OptimizedComponentWrapper from '@/components/OptimizedComponentWrapper';
 import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer';
 import SunDisplay from '@/components/SunDisplay';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { useAstrologicalState as _useAstrologicalState } from '@/hooks/useAstrologicalState';
 
 // Wrap components with optimization
@@ -32,8 +31,8 @@ export function ClientPage() {
   const [renderCount, setRenderCount] = useState(0);
   
   useEffect(() => {
-    setRenderCount(prev => prev + 1);
-    console.log(`ClientPage rendered ${renderCount + 1} times`);
+    setRenderCount(1);
+    console.log('ClientPage rendered 1 time');
   }, []);
   
   return (

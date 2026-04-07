@@ -404,7 +404,6 @@ export default function RecipeSelector({
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search recipes by name, ingredient, cuisine..."
             className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-lg"
-            autoFocus
           />
         </div>
 

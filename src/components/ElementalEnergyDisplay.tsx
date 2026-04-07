@@ -2,13 +2,11 @@
 
 import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle } from 'lucide-react';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import type { FC, ReactNode } from 'react';
 import { 
   calculateAlchemicalDistribution, 
   convertToElementalProperties, 
   calculateThermodynamicProperties 
 } from '@/constants/alchemicalEnergyMapping';
-
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
@@ -19,10 +17,9 @@ import type {
   ElementalProperties, 
   ThermodynamicProperties 
 } from '@/types/celestial';
-
-
 import { createLogger } from '@/utils/logger';
 import styles from './ElementalEnergyDisplay.module.css';
+import type { FC, ReactNode } from 'react';
 
 // Create a component-specific logger
 const logger = createLogger('ElementalEnergyDisplay');
@@ -108,19 +105,9 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   } = useAlchemical() as unknown as AlchemicalHookResult;
   
   const { currentPlanetaryAlignment } = useAstrologicalState();
-  const [renderCount, setRenderCount] = useState<number>(0);
   
   // Create the ref at the component level instead of inside useEffect
   const lastPositionKeyRef = useRef('');
-  
-  // Log render count - run only once
-  useEffect(() => {
-    // Only increment once when component mounts
-    if (renderCount === 0) {
-      setRenderCount(1);
-      logger.debug(`ElementalEnergyDisplay mounted`);
-    }
-  }, []); // Empty dependency array means this runs only once
   
   const [alchemicalResults, setAlchemicalResults] = useState<AlchemicalResults>(() => {
     // Start with defaults
@@ -168,25 +155,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     return initialState;
   });
   
-  // Memoize planetary position input with proper serialization to prevent infinite loops
-  const memoizedPlanetaryInput = useMemo(() => {
-    // Create a stable hash from the positions that only changes when relevant data changes
-    const positionsHash = Object.entries(planetaryPositions || {}).reduce((acc, [planet, data]) => {
-      if (!data) return acc;
-      // Only include data that affects calculations
-      return `${acc  }${planet}:${data.sign || ''}:${data.degree || 0}:${data.isRetrograde ? 1 : 0}|`;
-    }, '');
-    
-    const serialized = {
-      positionsHash,
-      isDaytime,
-      timestamp: Math.floor(Date.now() / 60000) // Only recalculate at most once per minute
-    };
-    
-    return serialized;
-  }, [planetaryPositions, isDaytime]);
-  
-  // Memoize expensive calculations
+  // Recalculate elemental state when planetary positions or daytime state changes.
   useEffect(() => {
     // Skip if we don't have valid data
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
@@ -255,7 +224,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     } catch (error) {
       logger.error('Error in alchemical calculation:', error);
     }
-  }, [memoizedPlanetaryInput.positionsHash, memoizedPlanetaryInput.isDaytime, memoizedPlanetaryInput.timestamp]);
+  }, [planetaryPositions, isDaytime]);
 
   // Get alchemical values from context state if available
   useEffect(() => {
@@ -525,18 +494,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     }
   };
 
-  // Replace the debug-info section with a memoized version to prevent re-rendering loops
-  const DebugInfo = React.memo(() => (
-    <div style={{ fontSize: '10px', color: '#999', textAlign: 'right', marginBottom: '4px' }}>
-      Renders: {renderCount}
-    </div>
-  ));
-
   return (
     <div className={styles.container}>
-      {/* Use the memoized debug component */}
-      <DebugInfo />
-      
       <div className={styles.elementSection}>
         <h3 className={styles.sectionTitle}>Elemental State</h3>
         <div className={styles.elementBars}>
@@ -835,7 +794,9 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       </div>
       
       <button 
-        onClick={refreshPlanetaryPositions}
+        onClick={() => {
+          void refreshPlanetaryPositions();
+        }}
         className={styles.refreshButton}
       >
         Refresh Celestial Data

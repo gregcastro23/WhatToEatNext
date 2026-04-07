@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-
 import type { ElementalItem } from '@/calculations/alchemicalTransformation';
 import type { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';

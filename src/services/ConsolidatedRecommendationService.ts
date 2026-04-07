@@ -368,7 +368,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const elementalState =
         criteriaData.elementalState || criteriaData.elementalProperties;
       // ✅ Pattern MM-1: Type assertion to match AstrologicalState interface
-      const methodRecommendations = await getCookingMethodRecommendations({
+      const methodRecommendations = getCookingMethodRecommendations({
         elementalPreference: elementalState,
         planetaryPositions: criteria.planetaryPositions,
         limit: criteria.limit,

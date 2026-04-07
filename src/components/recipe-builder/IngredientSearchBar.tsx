@@ -14,6 +14,7 @@ import React, {
   useRef,
   useEffect,
   useCallback,
+  useId,
 } from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import type { SelectedIngredient } from "@/contexts/RecipeBuilderContext";
@@ -139,8 +140,16 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         }
       `}
       onClick={isSelected ? undefined : onAdd}
+      onKeyDown={(e) => {
+        if (isSelected) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onAdd();
+        }
+      }}
       role="option"
       aria-selected={isSelected}
+      tabIndex={isSelected ? -1 : 0}
     >
       {/* Left: Dominant element indicator */}
       {dominant && dominantColor && (
@@ -220,6 +229,7 @@ export default function IngredientSearchBar({
   maxResults = 20,
 }: IngredientSearchBarProps) {
   const { addIngredient, hasIngredient } = useRecipeBuilder();
+  const resultsListId = useId();
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -322,6 +332,7 @@ export default function IngredientSearchBar({
           placeholder="Search ingredients... (e.g., tomato, basil, chicken)"
           className="w-full px-4 py-3 pl-10 rounded-xl border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none text-sm transition-all bg-white"
           aria-label="Search ingredients"
+          aria-controls={resultsListId}
           aria-expanded={!!showResults}
           role="combobox"
           aria-autocomplete="list"
@@ -388,6 +399,7 @@ export default function IngredientSearchBar({
       {/* Results Dropdown */}
       {showResults && (
         <div
+          id={resultsListId}
           className="absolute z-50 w-full mt-2 bg-white rounded-xl border-2 border-gray-200 shadow-xl max-h-80 overflow-y-auto"
           role="listbox"
         >

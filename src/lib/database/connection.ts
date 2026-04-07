@@ -298,5 +298,3 @@ export async function executeQueryWithRetry<T extends any = any>(
   }
   throw lastError!;
 }
-// Export pool for advanced usage
-export { pool };

@@ -191,7 +191,7 @@ export default function PossoWidget({
           ) : inventory.length === 0 ? (
             <div className="text-center py-10">
               <span className="text-4xl block mb-2">🍽️</span>
-              <p className="text-gray-500">Add ingredients to unlock "Posso" meals.</p>
+              <p className="text-gray-500">Add ingredients to unlock &quot;Posso&quot; meals.</p>
             </div>
           ) : scoredRecipes.length === 0 ? (
             <div className="text-center py-10">
