@@ -1,4 +1,18 @@
 import { getCurrentSeason } from "@/data/integrations/seasonal";
+import {
+  unifiedBeverages,
+  unifiedDairy,
+  unifiedFruits,
+  unifiedGrains,
+  unifiedHerbs,
+  unifiedMisc,
+  unifiedOils,
+  unifiedProteins,
+  unifiedSeasonings,
+  unifiedSpices,
+  unifiedVegetables,
+  unifiedVinegars,
+} from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { IngredientRecommendationOptions } from "@/services/interfaces/IngredientServiceInterface";
 import type {
@@ -9,9 +23,8 @@ import type {
   ThermodynamicProperties,
 } from "@/types/alchemy";
 import { alchemicalEngine } from "@/utils/alchemyInitializer";
+import { calculateThermodynamicMetrics as calcThermo } from "@/utils/monicaKalchmCalculations";
 import type { Recipe } from "../types/recipe";
-
-// Fix import - getCurrentSeason is likely in a different location
 
 /**
  * UnifiedIngredientService
@@ -20,7 +33,6 @@ import type { Recipe } from "../types/recipe";
  * Implements the IngredientServiceInterface and follows the singleton pattern.
  */
 
-// Missing interface definitions
 interface IngredientServiceInterface {
   getAllIngredients(): Record<string, UnifiedIngredient[]>;
   getIngredientByName(name: string): UnifiedIngredient | undefined;
@@ -85,18 +97,21 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   }
 
   /**
-   * Load ingredients from data sources
+   * Load ingredients from unified data sources
    */
   private loadIngredients(): void {
-    // This would load ingredients from data files or APIs
-    // For now we'll use a mock implementation with an empty cache
-    this.ingredientCache.set("vegetables", []);
-    this.ingredientCache.set("fruits", []);
-    this.ingredientCache.set("grains", []);
-    this.ingredientCache.set("proteins", []);
-    this.ingredientCache.set("herbs", []);
-    this.ingredientCache.set("spices", []);
-    this.ingredientCache.set("oils", []);
+    this.ingredientCache.set("vegetables", Object.values(unifiedVegetables));
+    this.ingredientCache.set("fruits", Object.values(unifiedFruits));
+    this.ingredientCache.set("grains", Object.values(unifiedGrains));
+    this.ingredientCache.set("proteins", Object.values(unifiedProteins));
+    this.ingredientCache.set("herbs", Object.values(unifiedHerbs));
+    this.ingredientCache.set("spices", Object.values(unifiedSpices));
+    this.ingredientCache.set("oils", Object.values(unifiedOils));
+    this.ingredientCache.set("dairy", Object.values(unifiedDairy));
+    this.ingredientCache.set("vinegars", Object.values(unifiedVinegars));
+    this.ingredientCache.set("seasonings", Object.values(unifiedSeasonings));
+    this.ingredientCache.set("beverages", Object.values(unifiedBeverages));
+    this.ingredientCache.set("misc", Object.values(unifiedMisc));
   }
 
   /**
@@ -614,13 +629,32 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   }
 
   /**
-   * Calculate thermodynamic metrics
+   * Calculate thermodynamic metrics from ingredient's elemental and alchemical properties
    */
   calculateThermodynamicMetrics(
-    _ingredient: UnifiedIngredient,
+    ingredient: UnifiedIngredient,
   ): ThermodynamicProperties {
-    // TODO: Implement actual calculation or import from utility
-    return { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0 };
+    const elemental = ingredient.elementalProperties || {
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    };
+    const alchemical = ingredient.alchemicalProperties || {
+      Spirit: 1,
+      Essence: 1,
+      Matter: 1,
+      Substance: 1,
+    };
+
+    const metrics = calcThermo(alchemical, elemental);
+
+    return {
+      heat: metrics.heat,
+      entropy: metrics.entropy,
+      reactivity: metrics.reactivity,
+      gregsEnergy: metrics.gregsEnergy,
+    };
   }
 
   /**
