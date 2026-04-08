@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { CreateFoodDiaryEntrySchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { CreateFoodDiaryEntryInput } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
@@ -101,7 +102,7 @@ export async function POST(request: NextRequest) {
     // Prefer session auth, fall back to body userId for backwards compat
     let userId = await getUserIdFromRequest(request);
 
-    let body: Record<string, unknown>;
+    let body: unknown;
     try {
       body = await request.json();
     } catch {
@@ -111,8 +112,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const parsedBody = CreateFoodDiaryEntrySchema.safeParse(body);
+    
+    if (!parsedBody.success) {
+      return NextResponse.json(
+        { success: false, message: "Validation error", details: parsedBody.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
+    
+    const inputData = parsedBody.data;
+
     if (!userId) {
-      userId = body.userId as string | null;
+      userId = inputData.userId ?? null;
     }
 
     if (!userId) {
@@ -122,15 +134,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { userId: _uid, ...inputData } = body;
-    const input = inputData as unknown as CreateFoodDiaryEntryInput;
-
-    if (!input.foodName || !input.date || !input.mealType) {
-      return NextResponse.json(
-        { success: false, message: "foodName, date, and mealType are required" },
-        { status: 400 },
-      );
-    }
+    // We can confidently assert the type now because Zod validated the exact shape
+    const { userId: _uid, ...inputForService } = inputData;
+    const input = inputForService as CreateFoodDiaryEntryInput;
 
     const entry = await foodDiaryService.createEntry(userId, input);
 

@@ -11,10 +11,11 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
-import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
+import type { NatalChart, PlanetInfo } from "@/types/natalChart";
 import { validatePlanetaryPositions, formatValidationResult } from "@/utils/astrology/planetaryValidation";
 import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -70,7 +71,7 @@ function calcElementalBalance(positions: Record<Planet, ZodiacSignType>) {
 
 export async function POST(request: NextRequest) {
   try {
-    let body: Record<string, unknown>;
+    let body: unknown;
     try {
       body = await request.json();
     } catch {
@@ -80,17 +81,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { name, birthData } = body as {
-      name?: string;
-      birthData?: BirthData;
-    };
-
-    if (!birthData?.dateTime || birthData.latitude === undefined || birthData.longitude === undefined) {
+    const parsedBody = OnboardingRequestSchema.safeParse(body);
+    
+    if (!parsedBody.success) {
       return NextResponse.json(
-        { success: false, message: "birthData.dateTime, latitude, and longitude are required" },
+        { success: false, message: "Validation error", details: parsedBody.error.flatten().fieldErrors },
         { status: 400 },
       );
     }
+    
+    const { name, birthData } = parsedBody.data;
 
     // Resolve user from session or fallback
     const user = await getDatabaseUserFromRequest(request);

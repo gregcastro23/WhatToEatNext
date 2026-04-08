@@ -14,6 +14,7 @@ import {
   PlanetaryRequestSchema,
   type PlanetaryRequest,
   type RailwayPositionsResponse,
+  type RailwayPlanetData,
 } from "@/lib/validation/railway";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 import type { NextRequest } from "next/server";
@@ -127,7 +128,7 @@ function formatRailwayResponse(
   const positionsData =
     railwayData.planetary_positions ??
     railwayData.positions ??
-    (railwayData as Record<string, unknown>);
+    (railwayData as Record<string, RailwayPlanetData>);
 
   for (const key of planetKeys) {
     const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
@@ -136,11 +137,11 @@ function formatRailwayResponse(
       (positionsData)[capitalizedKey];
     if (!planetData || typeof planetData !== "object") continue;
 
-    const pd = planetData as Record<string, unknown>;
+    const pd = planetData;
     const longitude =
-      (pd.exactLongitude as number | undefined) ??
-      (pd.longitude as number | undefined) ??
-      (pd.eclipticLongitude as number | undefined) ??
+      pd.exactLongitude ??
+      pd.longitude ??
+      pd.eclipticLongitude ??
       0;
 
     const { sign, degree: degreeInSign } = getSignFromLongitude(longitude);
@@ -173,14 +174,14 @@ function formatRailwayResponse(
   let ascendant: AscendantData | undefined;
   const positionsRecord = positionsData;
   const ascData =
-    (positionsRecord.Ascendant as Record<string, unknown> | undefined) ??
-    (positionsRecord.ascendant as Record<string, unknown> | undefined);
+    (positionsRecord.Ascendant as RailwayPlanetData | undefined) ??
+    (positionsRecord.ascendant as RailwayPlanetData | undefined);
 
   if (ascData) {
     const ascLong =
-      (ascData.exactLongitude as number | undefined) ??
-      (ascData.longitude as number | undefined) ??
-      (ascData.eclipticLongitude as number | undefined) ??
+      ascData.exactLongitude ??
+      ascData.longitude ??
+      ascData.eclipticLongitude ??
       0;
     const { sign: ascSign, degree: ascDeg } = getSignFromLongitude(ascLong);
     ascendant = {

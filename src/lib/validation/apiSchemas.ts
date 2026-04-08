@@ -90,6 +90,54 @@ export const ApiErrorSchema = z.object({
 
 export type ApiError = z.infer<typeof ApiErrorSchema>;
 
+// ─── Food Diary ───────────────────────────────────────────────────────────────
+
+export const ServingSizeSchema = z.object({
+  amount: z.number(),
+  unit: z.string(),
+  grams: z.number(),
+  description: z.string().optional(),
+});
+
+export const CreateFoodDiaryEntrySchema = z.object({
+  userId: z.string().optional(),
+  foodName: z.string().min(1),
+  foodSource: z.enum(["recipe", "custom", "barcode", "search", "quick", "favorite"]),
+  sourceId: z.string().optional(),
+  brandName: z.string().optional(),
+  date: z.coerce.date(),
+  mealType: z.enum(["breakfast", "lunch", "dinner", "snack"]),
+  time: z.string(),
+  serving: ServingSizeSchema,
+  quantity: z.number().positive(),
+  nutrition: z.record(z.string(), z.unknown()).optional(),
+  elementalProperties: ElementalPropertiesSchema.optional(),
+  notes: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+});
+
+export type ParsedCreateFoodDiaryEntry = z.infer<typeof CreateFoodDiaryEntrySchema>;
+
+// ─── Onboarding ───────────────────────────────────────────────────────────────
+
+export const BirthDataSchema = z.object({
+  dateTime: z.string(), // ISO 8601 format
+  latitude: z.number(),
+  longitude: z.number(),
+  timezone: z.string().optional(),
+  location: z.object({
+    latitude: z.number(),
+    longitude: z.number(),
+  }).optional()
+});
+
+export const OnboardingRequestSchema = z.object({
+  name: z.string().optional(),
+  birthData: BirthDataSchema
+});
+
+export type ParsedOnboardingRequest = z.infer<typeof OnboardingRequestSchema>;
+
 // ─── Helper: extract cooking methods normalised to string[] ──────────────────
 // Replaces the `as unknown as Record<string, unknown>` dance in route handlers.
 
@@ -107,3 +155,4 @@ export function extractCookingMethods(recipe: ParsedRecipe): string[] {
     )
     .filter(Boolean);
 }
+
