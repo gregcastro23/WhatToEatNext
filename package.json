@@ -21,6 +21,8 @@
   "scripts": {
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build",
+    "build:size-check": "next build && node scripts/check-route-sizes.cjs",
+    "check-route-sizes": "node scripts/check-route-sizes.cjs",
     "types:api": "bash scripts/generate-api-types.sh",
     "generate-types": "bash scripts/generate-api-types.sh",
     "predev": "node scripts/check-node-version.cjs",
