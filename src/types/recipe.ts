@@ -602,6 +602,11 @@ export interface EnhancedRecipe {
   ingredients: string[];
   instructions: string[];
   tags: string[];
+  // 6-Metric SMES Grid
+  spirit?: number;
+  essence?: number;
+  matter?: number;
+  substance?: number;
   // This matches the structure you are actually receiving
   alchemicalProperties?: {
     heat?: number;

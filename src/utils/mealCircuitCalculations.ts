@@ -72,11 +72,11 @@ export function calculateMealCircuit(
 
   // Ensure we have required properties for alchemical calculations
   if (
-    (recipe as any).spirit == null &&
-    (recipe as any).essence == null &&
-    (recipe as any).matter == null &&
-    (recipe as any).substance == null &&
-    !(recipe as any).alchemicalProperties
+    recipe.spirit == null &&
+    recipe.essence == null &&
+    recipe.matter == null &&
+    recipe.substance == null &&
+    !recipe.alchemicalProperties
   ) {
     console.warn(
       `Recipe ${recipe.id} missing alchemical or elemental properties for circuit calculation.`,
@@ -87,10 +87,10 @@ export function calculateMealCircuit(
   try {
     // Type assertions for recipe properties (checked above)
     const alchemicalProps: AlchemicalProperties = {
-      Spirit: (recipe as any).spirit ?? (recipe as any).alchemicalProperties?.reactivity ?? 0,
-      Essence: (recipe as any).essence ?? (recipe as any).alchemicalProperties?.entropy ?? 0,
-      Matter: (recipe as any).matter ?? (recipe as any).alchemicalProperties?.heat ?? 0,
-      Substance: (recipe as any).substance ?? (recipe as any).alchemicalProperties?.stability ?? 0,
+      Spirit: recipe.spirit ?? recipe.alchemicalProperties?.reactivity ?? 0,
+      Essence: recipe.essence ?? recipe.alchemicalProperties?.entropy ?? 0,
+      Matter: recipe.matter ?? recipe.alchemicalProperties?.heat ?? 0,
+      Substance: recipe.substance ?? recipe.alchemicalProperties?.stability ?? 0,
     };
 
     const elementalProps = recipe.elementalProperties as ElementalProperties;
