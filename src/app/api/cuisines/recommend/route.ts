@@ -14,8 +14,8 @@
  */
 import { NextResponse } from "next/server";
 import { allRecipes } from "@/data/recipes/index";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

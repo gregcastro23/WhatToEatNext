@@ -9,13 +9,13 @@
  */
 
 import { NextResponse } from "next/server";
-import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 import {
   parseRailwayResponse,
   PlanetaryRequestSchema,
   type PlanetaryRequest,
   type RailwayPositionsResponse,
 } from "@/lib/validation/railway";
+import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -132,8 +132,8 @@ function formatRailwayResponse(
   for (const key of planetKeys) {
     const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
     const planetData =
-      (positionsData as Record<string, unknown>)[key] ??
-      (positionsData as Record<string, unknown>)[capitalizedKey];
+      (positionsData)[key] ??
+      (positionsData)[capitalizedKey];
     if (!planetData || typeof planetData !== "object") continue;
 
     const pd = planetData as Record<string, unknown>;
@@ -171,7 +171,7 @@ function formatRailwayResponse(
 
   // Extract Ascendant if the backend computed it (added via PySwisseph modifications)
   let ascendant: AscendantData | undefined;
-  const positionsRecord = positionsData as Record<string, unknown>;
+  const positionsRecord = positionsData;
   const ascData =
     (positionsRecord.Ascendant as Record<string, unknown> | undefined) ??
     (positionsRecord.ascendant as Record<string, unknown> | undefined);
