@@ -21,7 +21,8 @@
   "scripts": {
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build",
-    "types:api": "node scripts/generate-types-from-backend.cjs",
+    "types:api": "bash scripts/generate-api-types.sh",
+    "generate-types": "bash scripts/generate-api-types.sh",
     "predev": "node scripts/check-node-version.cjs",
     "prebuild": "node scripts/check-node-version.cjs",
     "check-pm": "bash scripts/check-package-manager.sh",
