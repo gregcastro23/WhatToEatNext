@@ -6,10 +6,16 @@
  *
  * Returns cuisine recommendations based on current planetary positions, including
  * recipe counts per cuisine from the local data layer.
+ *
+ * Query parameters:
+ * - zodiacSign: optional zodiac sign filter (e.g. "aries", "taurus")
+ * - season: optional season filter ("spring" | "summer" | "fall" | "winter")
+ * - mealType: optional meal type ("breakfast" | "lunch" | "dinner" | "snack" | "brunch" | "dessert")
  */
 import { NextResponse } from "next/server";
 import { allRecipes } from "@/data/recipes/index";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -47,15 +53,16 @@ function getRecipeCounts(): Record<string, number> {
 
 /**
  * Try Railway backend for full astrological cuisine recommendations.
+ * Returns a validated response object or null on failure/schema mismatch.
  */
-async function fetchFromBackend(params?: { zodiacSign?: string; season?: string; mealType?: string }) {
+async function fetchFromBackend(params: { zodiacSign?: string; season?: string; mealType?: string }) {
   if (!RAILWAY_URL) return null;
 
   try {
     const url = new URL(`${RAILWAY_URL}/cuisines/recommend`);
-    if (params?.zodiacSign) url.searchParams.set("zodiac_sign", params.zodiacSign);
-    if (params?.season) url.searchParams.set("season", params.season);
-    if (params?.mealType) url.searchParams.set("meal_type", params.mealType);
+    if (params.zodiacSign) url.searchParams.set("zodiac_sign", params.zodiacSign);
+    if (params.season)     url.searchParams.set("season",      params.season);
+    if (params.mealType)   url.searchParams.set("meal_type",   params.mealType);
     url.searchParams.set("limit", "14");
 
     const response = await fetch(url.toString(), {
@@ -72,8 +79,8 @@ async function fetchFromBackend(params?: { zodiacSign?: string; season?: string;
       return null;
     }
 
-    const data = await response.json();
-    return data;
+    const raw: unknown = await response.json();
+    return parseCuisinesResponse(raw); // validated or null
   } catch (error) {
     console.warn("Railway /cuisines/recommend unavailable, falling back to local:", error);
     return null;
@@ -87,42 +94,56 @@ function computeLocalRecommendations() {
   const positions = getAccuratePlanetaryPositions(new Date());
 
   const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  Object.values(positions).forEach((pos) => {
+  for (const pos of Object.values(positions)) {
     const sign = typeof pos.sign === "string" ? pos.sign : "";
     const el = SIGN_TO_ELEMENT[sign];
     if (el) elementCounts[el]++;
-  });
+  }
 
   const sorted = Object.entries(elementCounts).sort(([, a], [, b]) => b - a);
-  const dominant = sorted[0][0];
+  const dominant  = sorted[0][0];
   const secondary = sorted[1][0];
 
   const primData = CUISINE_MAP[dominant];
-  const secData = CUISINE_MAP[secondary];
+  const secData  = CUISINE_MAP[secondary];
 
   return {
     dominantElement: dominant,
     secondaryElement: secondary,
     recommendations: {
-      cuisines: [...primData.cuisines.slice(0, 3), ...secData.cuisines.slice(0, 2)],
-      cookingMethods: [...primData.cookingMethods.slice(0, 2), ...secData.cookingMethods.slice(0, 2)],
-      flavors: [...primData.flavors, ...secData.flavors],
+      cuisines:      [...primData.cuisines.slice(0, 3),      ...secData.cuisines.slice(0, 2)],
+      cookingMethods:[...primData.cookingMethods.slice(0, 2), ...secData.cookingMethods.slice(0, 2)],
+      flavors:       [...primData.flavors,                    ...secData.flavors],
     },
     elementDistribution: elementCounts,
   };
 }
 
-async function handleRequest() {
+async function handleRequest(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+
+    // Validate + coerce query params; unknown enum values are silently dropped via .catch(undefined)
+    const { zodiacSign, season, mealType } = CuisinesQuerySchema.parse({
+      zodiacSign: searchParams.get("zodiacSign") ?? undefined,
+      season:     searchParams.get("season")     ?? undefined,
+      mealType:   searchParams.get("mealType")   ?? undefined,
+    });
+
     const recipeCounts = getRecipeCounts();
 
-    // Try backend first
-    const backendData = await fetchFromBackend();
+    // Try Railway backend first
+    const backendData = await fetchFromBackend({ zodiacSign, season, mealType });
     if (backendData) {
       return NextResponse.json({
         success: true,
         source: "backend",
-        ...backendData,
+        dominantElement:    backendData.dominantElement,
+        secondaryElement:   backendData.secondaryElement,
+        recommendations:    backendData.recommendations,
+        elementDistribution: backendData.elementDistribution,
+        cuisines:           backendData.cuisines,
+        topCuisines:        backendData.topCuisines,
         recipeCounts,
         calculatedAt: new Date().toISOString(),
       });
@@ -147,10 +168,10 @@ async function handleRequest() {
   }
 }
 
-export async function GET() {
-  return handleRequest();
+export async function GET(request: Request) {
+  return handleRequest(request);
 }
 
-export async function POST() {
-  return handleRequest();
+export async function POST(request: Request) {
+  return handleRequest(request);
 }
