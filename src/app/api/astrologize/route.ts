@@ -10,6 +10,12 @@
 
 import { NextResponse } from "next/server";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
+import {
+  parseRailwayResponse,
+  PlanetaryRequestSchema,
+  type PlanetaryRequest,
+  type RailwayPositionsResponse,
+} from "@/lib/validation/railway";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -17,22 +23,54 @@ export const dynamic = "force-dynamic";
 const RAILWAY_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
 
-interface PlanetaryRequest {
-  year: number;
-  month: number;
-  date: number;
-  hour: number;
-  minute: number;
-  latitude?: number;
-  longitude?: number;
-  zodiacSystem?: "tropical" | "sidereal";
+// ─── Shared response body shape ──────────────────────────────────────────────
+
+interface ArcDegrees {
+  degrees: number;
+  minutes: number;
+  seconds: number;
 }
+
+interface CelestialBody {
+  key: string;
+  label: string;
+  Sign: { key: string; zodiac: string; label: string };
+  ChartPosition: { Ecliptic: { DecimalDegrees: number; ArcDegrees: ArcDegrees } };
+  isRetrograde: boolean;
+}
+
+interface AscendantData {
+  sign: string;
+  degree: number;
+  minute: number;
+  exactLongitude: number;
+}
+
+interface AstrologizeResponse {
+  success: boolean;
+  _celestialBodies: { all: CelestialBody[] } & Record<string, CelestialBody | CelestialBody[]>;
+  ascendant?: AscendantData;
+  birth_info: {
+    year: number;
+    month: number;
+    date: number;
+    hour: number;
+    minute: number;
+    latitude: number;
+    longitude: number;
+    ayanamsa: string;
+  };
+  source: string;
+  precision: string;
+}
+
+// ─── Railway backend ──────────────────────────────────────────────────────────
 
 /**
  * Try Railway backend first for high-precision pyswisseph calculations.
- * Returns null if Railway is unavailable.
+ * Returns null if Railway is unavailable or returns an unexpected shape.
  */
-async function fetchFromRailway(params: PlanetaryRequest) {
+async function fetchFromRailway(params: PlanetaryRequest): Promise<RailwayPositionsResponse | null> {
   if (!RAILWAY_URL) return null;
 
   try {
@@ -45,7 +83,7 @@ async function fetchFromRailway(params: PlanetaryRequest) {
       body: JSON.stringify({
         year: params.year,
         month: params.month,
-        day: params.date,
+        day: params.date ?? params.day,
         hour: params.hour,
         minute: params.minute,
         latitude: params.latitude,
@@ -59,9 +97,13 @@ async function fetchFromRailway(params: PlanetaryRequest) {
       return null;
     }
 
-    return await response.json();
+    const raw: unknown = await response.json();
+    return parseRailwayResponse(raw);
   } catch (error) {
-    console.error("Railway backend unavailable:", error instanceof Error ? error.message : error);
+    console.error(
+      "Railway backend unavailable:",
+      error instanceof Error ? error.message : error,
+    );
     return null;
   }
 }
@@ -70,26 +112,43 @@ async function fetchFromRailway(params: PlanetaryRequest) {
  * Convert Railway backend response to the _celestialBodies format
  * that the frontend expects.
  */
-function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
-  const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
+function formatRailwayResponse(
+  railwayData: RailwayPositionsResponse,
+  params: PlanetaryRequest,
+): AstrologizeResponse {
+  const planetKeys = [
+    "sun", "moon", "mercury", "venus", "mars",
+    "jupiter", "saturn", "uranus", "neptune", "pluto",
+  ];
 
-  const bodies: Record<string, any> = {};
-  const allBodies: any[] = [];
-  
-  const positionsData = railwayData.planetary_positions || railwayData.positions || railwayData;
+  const bodies: Record<string, CelestialBody> = {};
+  const allBodies: CelestialBody[] = [];
+
+  const positionsData =
+    railwayData.planetary_positions ??
+    railwayData.positions ??
+    (railwayData as Record<string, unknown>);
 
   for (const key of planetKeys) {
     const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-    const planetData = positionsData[key] || positionsData[capitalizedKey];
-    if (!planetData) continue;
+    const planetData =
+      (positionsData as Record<string, unknown>)[key] ??
+      (positionsData as Record<string, unknown>)[capitalizedKey];
+    if (!planetData || typeof planetData !== "object") continue;
 
-    const longitude = planetData.exactLongitude ?? planetData.longitude ?? planetData.eclipticLongitude ?? 0;
+    const pd = planetData as Record<string, unknown>;
+    const longitude =
+      (pd.exactLongitude as number | undefined) ??
+      (pd.longitude as number | undefined) ??
+      (pd.eclipticLongitude as number | undefined) ??
+      0;
+
     const { sign, degree: degreeInSign } = getSignFromLongitude(longitude);
     const degrees = Math.floor(degreeInSign);
     const minutes = Math.floor((degreeInSign - degrees) * 60);
     const seconds = Math.round(((degreeInSign - degrees) * 60 - minutes) * 60);
 
-    const body = {
+    const body: CelestialBody = {
       key,
       label: capitalizedKey,
       Sign: {
@@ -103,7 +162,7 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
           ArcDegrees: { degrees, minutes, seconds },
         },
       },
-      isRetrograde: planetData.isRetrograde ?? planetData.retrograde ?? false,
+      isRetrograde: Boolean(pd.isRetrograde ?? pd.retrograde ?? false),
     };
 
     bodies[key] = body;
@@ -111,11 +170,18 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
   }
 
   // Extract Ascendant if the backend computed it (added via PySwisseph modifications)
-  let ascendant: { sign: string; degree: number; minute: number; exactLongitude: number } | undefined;
-  const ascData = positionsData.Ascendant || positionsData.ascendant;
-  
+  let ascendant: AscendantData | undefined;
+  const positionsRecord = positionsData as Record<string, unknown>;
+  const ascData =
+    (positionsRecord.Ascendant as Record<string, unknown> | undefined) ??
+    (positionsRecord.ascendant as Record<string, unknown> | undefined);
+
   if (ascData) {
-    const ascLong = ascData.exactLongitude ?? ascData.longitude ?? ascData.eclipticLongitude ?? 0;
+    const ascLong =
+      (ascData.exactLongitude as number | undefined) ??
+      (ascData.longitude as number | undefined) ??
+      (ascData.eclipticLongitude as number | undefined) ??
+      0;
     const { sign: ascSign, degree: ascDeg } = getSignFromLongitude(ascLong);
     ascendant = {
       sign: ascSign,
@@ -127,15 +193,12 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
 
   return {
     success: true,
-    _celestialBodies: {
-      all: allBodies,
-      ...bodies,
-    },
+    _celestialBodies: { all: allBodies, ...bodies },
     ascendant,
     birth_info: {
       year: params.year,
       month: params.month,
-      date: params.date,
+      date: params.date ?? params.day ?? 1,
       hour: params.hour,
       minute: params.minute,
       latitude: params.latitude ?? 0,
@@ -147,18 +210,26 @@ function formatRailwayResponse(railwayData: any, params: PlanetaryRequest) {
   };
 }
 
-/**
- * Fall back to local astronomy-engine calculations.
- */
-function calculateLocally(params: PlanetaryRequest) {
+// ─── Local fallback ───────────────────────────────────────────────────────────
+
+function calculateLocally(params: PlanetaryRequest): AstrologizeResponse {
   const date = new Date(
-    Date.UTC(params.year, params.month - 1, params.date, params.hour, params.minute),
+    Date.UTC(
+      params.year,
+      params.month - 1,
+      params.date ?? params.day ?? 1,
+      params.hour,
+      params.minute,
+    ),
   );
   const positions = getAccuratePlanetaryPositions(date);
 
-  const planetKeys = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
-  const allBodies: any[] = [];
-  const bodies: Record<string, any> = {};
+  const planetKeys = [
+    "Sun", "Moon", "Mercury", "Venus", "Mars",
+    "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto",
+  ];
+  const allBodies: CelestialBody[] = [];
+  const bodies: Record<string, CelestialBody> = {};
 
   for (const key of planetKeys) {
     const pos = positions[key];
@@ -169,15 +240,16 @@ function calculateLocally(params: PlanetaryRequest) {
     const minutes = Math.floor((pos.degree - degrees) * 60);
     const seconds = Math.round(((pos.degree - degrees) * 60 - minutes) * 60);
 
-    const body = {
+    const body: CelestialBody = {
       key: apiKey,
       label: key,
       Sign: {
         key: typeof pos.sign === "string" ? pos.sign : "aries",
         zodiac: typeof pos.sign === "string" ? pos.sign : "aries",
-        label: typeof pos.sign === "string"
-          ? pos.sign.charAt(0).toUpperCase() + pos.sign.slice(1)
-          : "Aries",
+        label:
+          typeof pos.sign === "string"
+            ? pos.sign.charAt(0).toUpperCase() + pos.sign.slice(1)
+            : "Aries",
       },
       ChartPosition: {
         Ecliptic: {
@@ -192,28 +264,25 @@ function calculateLocally(params: PlanetaryRequest) {
     allBodies.push(body);
   }
 
-  // Calculate Ascendant from positions if available
-  let ascendant: { sign: string; degree: number; minute: number; exactLongitude: number } | undefined;
+  let ascendant: AscendantData | undefined;
   if (positions.Ascendant) {
+    const asc = positions.Ascendant;
     ascendant = {
-      sign: typeof positions.Ascendant.sign === "string" ? positions.Ascendant.sign : "aries",
-      degree: Math.floor(positions.Ascendant.degree),
-      minute: Math.floor((positions.Ascendant.degree - Math.floor(positions.Ascendant.degree)) * 60),
-      exactLongitude: positions.Ascendant.exactLongitude,
+      sign: typeof asc.sign === "string" ? asc.sign : "aries",
+      degree: Math.floor(asc.degree),
+      minute: Math.floor((asc.degree - Math.floor(asc.degree)) * 60),
+      exactLongitude: asc.exactLongitude,
     };
   }
 
   return {
     success: true,
-    _celestialBodies: {
-      all: allBodies,
-      ...bodies,
-    },
+    _celestialBodies: { all: allBodies, ...bodies },
     ascendant,
     birth_info: {
       year: params.year,
       month: params.month,
-      date: params.date,
+      date: params.date ?? params.day ?? 1,
       hour: params.hour,
       minute: params.minute,
       latitude: params.latitude ?? 0,
@@ -224,6 +293,8 @@ function calculateLocally(params: PlanetaryRequest) {
     precision: "sub-arcminute",
   };
 }
+
+// ─── Query-string parser ──────────────────────────────────────────────────────
 
 function parseParams(searchParams: URLSearchParams): PlanetaryRequest {
   const now = new Date();
@@ -238,67 +309,51 @@ function parseParams(searchParams: URLSearchParams): PlanetaryRequest {
     return Number.isNaN(parsed) ? undefined : parsed;
   };
 
-  return {
+  return PlanetaryRequestSchema.parse({
     year: parseOptionalInt(searchParams.get("year")) ?? now.getUTCFullYear(),
-    month: parseOptionalInt(searchParams.get("month")) ?? (now.getUTCMonth() + 1),
+    month: parseOptionalInt(searchParams.get("month")) ?? now.getUTCMonth() + 1,
     date: parseOptionalInt(searchParams.get("date") ?? searchParams.get("day")) ?? now.getUTCDate(),
     hour: parseOptionalInt(searchParams.get("hour")) ?? now.getUTCHours(),
     minute: parseOptionalInt(searchParams.get("minute")) ?? now.getUTCMinutes(),
     latitude: parseOptionalFloat(searchParams.get("latitude")),
     longitude: parseOptionalFloat(searchParams.get("longitude")),
     zodiacSystem: (searchParams.get("zodiacSystem") as "tropical" | "sidereal") || "tropical",
-  };
+  });
 }
+
+// ─── Route handlers ───────────────────────────────────────────────────────────
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const params = parseParams(searchParams);
 
-  // Try Railway backend first
   const railwayData = await fetchFromRailway(params);
-  if (railwayData) {
-    return NextResponse.json(formatRailwayResponse(railwayData, params));
-  }
+  if (railwayData) return NextResponse.json(formatRailwayResponse(railwayData, params));
 
-  // Fall back to local astronomy-engine
   return NextResponse.json(calculateLocally(params));
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const params: PlanetaryRequest = {
-      year: body.year,
-      month: body.month,
-      date: body.date ?? body.day,
-      hour: body.hour ?? 0,
-      minute: body.minute ?? 0,
-      latitude: body.latitude,
-      longitude: body.longitude,
-      zodiacSystem: body.zodiacSystem || "tropical",
-    };
+    const body: unknown = await request.json();
 
-    if (
-      !Number.isInteger(params.year) ||
-      !Number.isInteger(params.month) ||
-      !Number.isInteger(params.date)
-    ) {
+    const parsed = PlanetaryRequestSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
         {
           success: false,
           error: "year, month, and date are required for POST calculations",
+          details: parsed.error.flatten().fieldErrors,
         },
         { status: 400 },
       );
     }
 
-    // Try Railway backend first
-    const railwayData = await fetchFromRailway(params);
-    if (railwayData) {
-      return NextResponse.json(formatRailwayResponse(railwayData, params));
-    }
+    const params = parsed.data;
 
-    // Fall back to local astronomy-engine
+    const railwayData = await fetchFromRailway(params);
+    if (railwayData) return NextResponse.json(formatRailwayResponse(railwayData, params));
+
     return NextResponse.json(calculateLocally(params));
   } catch (error) {
     console.error("Astrologize API error:", error);
@@ -308,7 +363,7 @@ export async function POST(request: NextRequest) {
         error: "Failed to calculate planetary positions",
         details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
