@@ -65,7 +65,7 @@ export function getSeasonalData(
         value > 0.7 &&
         _key !== "elementalInfluence",
     )
-    .map(([_name_]) => name)
+    .map(([_name_]) => _name_)
     .slice(0, 5); // Top 5
 
   return {
