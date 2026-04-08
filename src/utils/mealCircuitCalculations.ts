@@ -71,23 +71,28 @@ export function calculateMealCircuit(
   }
 
   // Ensure we have required properties for alchemical calculations
-  if (!recipe.alchemicalProperties || !recipe.elementalProperties) {
+  if (
+    recipe.spirit == null &&
+    recipe.essence == null &&
+    recipe.matter == null &&
+    recipe.substance == null &&
+    !(recipe as any).alchemicalProperties
+  ) {
     console.warn(
       `Recipe ${recipe.id} missing alchemical or elemental properties for circuit calculation.`,
     );
     return null;
   }
 
-  console.log(`Auditing alchemical properties for recipe: ${recipe.id}`, recipe.alchemicalProperties);
-
   try {
     // Type assertions for recipe properties (checked above)
     const alchemicalProps: AlchemicalProperties = {
-      Spirit: recipe.alchemicalProperties.reactivity || 0,
-      Essence: recipe.alchemicalProperties.entropy || 0,
-      Matter: recipe.alchemicalProperties.heat || 0,
-      Substance: recipe.alchemicalProperties.stability || 0,
+      Spirit: recipe.spirit ?? (recipe as any).alchemicalProperties?.reactivity ?? 0,
+      Essence: recipe.essence ?? (recipe as any).alchemicalProperties?.entropy ?? 0,
+      Matter: recipe.matter ?? (recipe as any).alchemicalProperties?.heat ?? 0,
+      Substance: recipe.substance ?? (recipe as any).alchemicalProperties?.stability ?? 0,
     };
+
     const elementalProps = recipe.elementalProperties as ElementalProperties;
 
     // 1. Calculate thermodynamic metrics (heat, entropy, reactivity, Greg's Energy)

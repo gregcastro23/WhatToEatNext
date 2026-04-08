@@ -167,10 +167,15 @@ async def startup_event():
     print(f"✅ Startup complete - ready to accept requests on port {port}")
 
 # CORS Configuration
-CORS_ALLOWED_ORIGINS = os.getenv(
+raw_cors = os.getenv(
     "CORS_ALLOWED_ORIGINS", 
     "https://alchm.kitchen,https://v0-alchm-kitchen.vercel.app,http://localhost:3000"
-).split(",")
+)
+CORS_ALLOWED_ORIGINS = [o.strip() for o in raw_cors.split(",") if o.strip()]
+
+# Add wildcard if empty or explicitly requested
+if not CORS_ALLOWED_ORIGINS or "*" in CORS_ALLOWED_ORIGINS:
+    CORS_ALLOWED_ORIGINS = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -179,6 +184,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
 
 # ==========================================
 # EXTERNAL DATA SERVICE (Migrated Data)
