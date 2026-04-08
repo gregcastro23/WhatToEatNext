@@ -231,19 +231,27 @@ export function useFoodDiary(): UseFoodDiaryReturn {
     ): Promise<FoodDiaryEntry | null> => {
       try {
         let entry: FoodDiaryEntry | null = null;
+        
+        // Client-side validation using the shared schema
+        const { CreateFoodDiaryEntrySchema } = await import("@/lib/validation/apiSchemas");
+        const parsedInput = CreateFoodDiaryEntrySchema.safeParse({ userId, ...input });
+        
+        if (!parsedInput.success) {
+          throw new Error(`Invalid food diary entry: ${Object.values(parsedInput.error.flatten().fieldErrors).flat().join(", ")}`);
+        }
 
         if (userId && userId !== "guest") {
           const res = await fetch("/api/food-diary", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify({ userId, ...input }),
+            body: JSON.stringify(parsedInput.data),
           });
           if (!res.ok) throw new Error(`Server error (${res.status})`);
           const data = await res.json();
           entry = data.entry ?? null;
         } else {
-          entry = await createServerEntry(userId, input);
+          entry = await createServerEntry(userId, parsedInput.data as any);
         }
 
         await loadData();

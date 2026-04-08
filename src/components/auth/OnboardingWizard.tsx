@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form"; // For form management
 import { z } from "zod"; // For validation
+import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
 
 // Assuming these types are defined elsewhere (e.g., src/types/auth.ts, src/types/chart.ts)
           // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -13,15 +14,6 @@ interface _UserIdentity {
   email: string;
   password: string;
   confirmPassword?: string;
-}
-
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _BirthData {
-  birthDate: string; // YYYY-MM-DD
-  birthTime: string; // HH:MM (24-hour format)
-  birthLatitude: number;
-  birthLongitude: number;
-  timezone: string;
 }
 
           // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -33,6 +25,7 @@ interface _KitchenPreferences {
 // Zod schemas for validation
 const IdentitySchema = z
   .object({
+    name: z.string().min(2, "Name must be at least 2 characters").optional(),
     email: z.string().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
@@ -42,7 +35,7 @@ const IdentitySchema = z
     path: ["confirmPassword"],
   });
 
-const BirthDataSchema = z.object({
+const WizardBirthDataSchema = z.object({
   birthDate: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format (YYYY-MM-DD)"),
@@ -64,7 +57,7 @@ const KitchenPreferencesSchema = z.object({
 });
 
 type IdentityForm = z.infer<typeof IdentitySchema>;
-type BirthDataForm = z.infer<typeof BirthDataSchema>;
+type BirthDataForm = z.infer<typeof WizardBirthDataSchema>;
 type KitchenPreferencesForm = z.infer<typeof KitchenPreferencesSchema>;
 
 const STEPS = ["Identity", "Birth Data", "Kitchen Preferences"];
@@ -97,7 +90,7 @@ export default function OnboardingWizard() {
     formState: { errors: errorsBirthData },
     trigger: triggerBirthData,
   } = useForm<BirthDataForm>({
-    resolver: zodResolver(BirthDataSchema),
+    resolver: zodResolver(WizardBirthDataSchema),
     defaultValues: formData.birthData,
   });
 
@@ -145,16 +138,30 @@ export default function OnboardingWizard() {
     setIsLoading(true);
     setError(null);
 
+    // Build the payload using the shared schema for validation
+    const apiPayloadRaw = {
+      name: formData.identity.name,
+      birthData: {
+        dateTime: new Date(`${formData.birthData.birthDate}T${formData.birthData.birthTime}:00`).toISOString(),
+        latitude: formData.birthData.birthLatitude,
+        longitude: formData.birthData.birthLongitude,
+        timezone: formData.birthData.timezone,
+      }
+    };
+    
+    const parsedPayload = OnboardingRequestSchema.safeParse(apiPayloadRaw);
+    
+    if (!parsedPayload.success) {
+      setError(`Form data is invalid: ${JSON.stringify(parsedPayload.error.flatten().fieldErrors)}`);
+      setIsLoading(false);
+      return;
+    }
+
     const payload = {
       email: formData.identity.email,
       password: formData.identity.password,
-      birthData: {
-        birthDate: formData.birthData.birthDate,
-        birthTime: formData.birthData.birthTime,
-        birthLatitude: formData.birthData.birthLatitude,
-        birthLongitude: formData.birthData.birthLongitude,
-        timezone: formData.birthData.timezone,
-      },
+      name: parsedPayload.data.name,
+      birthData: parsedPayload.data.birthData,
       kitchenPreferences: {
         thermodynamicDefaults: finalData.thermodynamicDefaults,
         kineticDefaults: finalData.kineticDefaults,

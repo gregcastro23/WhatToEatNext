@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import { LocationSearch } from "@/components/onboarding/LocationSearch";
-import type { BirthData } from "@/types/natalChart";
 
 /**
  * Onboarding Portal
@@ -82,17 +81,27 @@ export default function OnboardingPage() {
     setIsSubmitting(true);
 
     try {
-      const birthData: BirthData = {
-        dateTime: new Date(birthDateTime).toISOString(),
-        latitude: birthLocation.latitude,
-        longitude: birthLocation.longitude,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      const apiPayloadRaw = {
+        name,
+        birthData: {
+          dateTime: new Date(birthDateTime).toISOString(),
+          latitude: birthLocation.latitude,
+          longitude: birthLocation.longitude,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        }
       };
+
+      const { OnboardingRequestSchema } = await import("@/lib/validation/apiSchemas");
+      const parsedPayload = OnboardingRequestSchema.safeParse(apiPayloadRaw);
+
+      if (!parsedPayload.success) {
+        throw new Error(`Invalid birth data: ${Object.values(parsedPayload.error.flatten().fieldErrors).flat().join(", ")}`);
+      }
 
       const response = await fetch("/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, birthData }),
+        body: JSON.stringify(parsedPayload.data),
       });
 
       if (!response.ok) throw new Error(`Server error (${response.status})`);
@@ -110,7 +119,7 @@ export default function OnboardingPage() {
           userId: data.user.id,
           email: data.user.email,
           name: data.user.name,
-          birthData,
+          birthData: parsedPayload.data.birthData,
           natalChart: data.natalChart,
         }),
       );
