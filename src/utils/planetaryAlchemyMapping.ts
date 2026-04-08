@@ -306,7 +306,16 @@ export function calculateAlchemicalFromPlanets(
     Substance: 0,
   };
 
+  const ignoredBodies = new Set([
+    "Ascendant", "Midheaven", "True Node", "South Node", 
+    "Chiron", "Lilith", "Vertex", "Pars Fortune", "Mean Node"
+  ]);
+
   for (const planet in planetaryPositions) {
+    if (ignoredBodies.has(planet)) {
+      continue;
+    }
+
     const entry = PLANETARY_SECTARIAN_ALCHEMICAL[planet as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL];
     
     // Fallback to legacy PLANETARY_ALCHEMY if missing, though it shouldn't be
