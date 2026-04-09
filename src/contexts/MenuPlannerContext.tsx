@@ -91,7 +91,7 @@ export interface Participant {
 interface MenuPlannerContextType {
   // Guest alchemist participants
   participants: Participant[];
-  addParticipant: (participant: Omit<Participant, 'id'>) => void;
+  addParticipant: (participant: Omit<Participant, 'id'>, id?: string) => void;
   removeParticipant: (id: string) => void;
   // Current menu state
   currentMenu: WeeklyMenu | null;
@@ -343,8 +343,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
   // Guest alchemist participants
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const addParticipant = useCallback((participant: Omit<Participant, 'id'>) => {
-    setParticipants(prev => [...prev, { ...participant, id: `participant-${Date.now()}` }]);
+  const addParticipant = useCallback((participant: Omit<Participant, 'id'>, id?: string) => {
+    const newId = id ?? `participant-${Date.now()}`;
+    setParticipants(prev => (prev.some(p => p.id === newId) ? prev : [...prev, { ...participant, id: newId }]));
   }, []);
   const removeParticipant = useCallback((id: string) => {
     setParticipants(prev => prev.filter(p => p.id !== id));

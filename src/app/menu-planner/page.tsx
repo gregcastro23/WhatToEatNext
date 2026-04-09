@@ -10,12 +10,13 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import {
     MenuPlannerProvider,
+    type Participant,
     useMenuPlanner,
 } from "@/contexts/MenuPlannerContext";
 import {
@@ -23,6 +24,7 @@ import {
     useRecipeQueue,
 } from "@/contexts/RecipeQueueContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
+import type { SavedChart } from "@/types/natalChart";
 import type { Recipe } from "@/types/recipe";
 
 const GroceryListModal = dynamic(
@@ -54,15 +56,20 @@ const SmartSuggestionsSidebarLazy = dynamic(
   () => import("@/components/menu-builder/SmartSuggestionsSidebar"),
 );
 
-interface SavedChart {
-  id: string;
-  chart_name: string;
-  birth_date: string; // ISO format or similar
-  birth_time: string;
-  birth_latitude: number;
-  birth_longitude: number;
-  timezone_str: string;
-  is_primary: boolean;
+/**
+ * Convert a SavedChart into a Participant payload for the menu planner.
+ * Returns null if the chart's birth date is invalid.
+ */
+function chartToParticipant(chart: SavedChart): Omit<Participant, "id"> | null {
+  const dt = new Date(chart.birthData.dateTime);
+  if (Number.isNaN(dt.getTime())) return null;
+  const iso = dt.toISOString();
+  return {
+    name: chart.label,
+    birthDate: iso.slice(0, 10),
+    birthTime: iso.slice(11, 16),
+    location: `${chart.birthData.latitude.toFixed(2)}, ${chart.birthData.longitude.toFixed(2)} (${chart.birthData.timezone ?? "UTC"})`,
+  };
 }
 
 /**
@@ -80,6 +87,9 @@ function MenuPlannerContent() {
     refreshStats: _refreshStats,
     syncWithLunarCycle,
     toggleSyncWithLunarCycle,
+    participants,
+    addParticipant,
+    removeParticipant,
   } = menuPlannerActions;
 
   const { queueSize } = useRecipeQueue();
@@ -106,25 +116,40 @@ function MenuPlannerContent() {
 
   const [showParticipantSelection, setShowParticipantSelection] =
     useState(false);
-  const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]); // Assuming SavedChart type
-  const [selectedParticipantCharts, setSelectedParticipantCharts] = useState<
-    string[]
-  >([]); // Stores savedChart.id's of selected participants
+  const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]);
   const [loadingSavedCharts, setLoadingSavedCharts] = useState(true);
   const [errorSavedCharts, setErrorSavedCharts] = useState<string | null>(null);
+
+  // Derive selected chart ids from the planner context so the modal stays in
+  // sync across reopens. Chart-derived participants use id `chart-<chartId>`.
+  const selectedChartIds = useMemo(
+    () =>
+      new Set(
+        participants
+          .filter((p) => p.id.startsWith("chart-"))
+          .map((p) => p.id.slice("chart-".length)),
+      ),
+    [participants],
+  );
 
   useEffect(() => {
     const fetchSavedCharts = async () => {
       try {
         setLoadingSavedCharts(true);
         setErrorSavedCharts(null);
-        // Assuming there's an API endpoint to fetch a user's saved charts
-        const response = await fetch("/api/user/saved-charts"); // TODO: Implement this API endpoint
+        const response = await fetch("/api/user/charts");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data: SavedChart[] = await response.json();
-        setSavedCharts(data);
+        const json = (await response.json()) as {
+          success: boolean;
+          charts?: SavedChart[];
+          message?: string;
+        };
+        if (!json.success) {
+          throw new Error(json.message ?? "Failed to load charts");
+        }
+        setSavedCharts(json.charts ?? []);
       } catch (error: any) {
         setErrorSavedCharts(error.message);
         console.error("Failed to fetch saved charts:", error);
@@ -179,14 +204,17 @@ function MenuPlannerContent() {
           </div>
 
           {/* New: Collective Meal Active Indicator */}
-          {selectedParticipantCharts.length > 0 && (
+          {selectedChartIds.size > 0 && (
             <div className="mb-4 p-3 bg-purple-100 border border-purple-300 text-purple-800 rounded-lg flex items-center justify-between">
               <span className="font-medium">
-                ✨ Collective Meal Active with{" "}
-                {selectedParticipantCharts.length} guest(s)!
+                ✨ Collective Meal Active with {selectedChartIds.size} guest(s)!
               </span>
               <button
-                onClick={() => setSelectedParticipantCharts([])}
+                onClick={() => {
+                  participants
+                    .filter((p) => p.id.startsWith("chart-"))
+                    .forEach((p) => removeParticipant(p.id));
+                }}
                 className="text-purple-600 hover:text-purple-900 text-sm font-semibold"
               >
                 Clear Guests
@@ -458,28 +486,32 @@ function MenuPlannerContent() {
                         >
                           <input
                             type="checkbox"
-                            checked={selectedParticipantCharts.includes(
-                              chart.id,
-                            )}
+                            checked={selectedChartIds.has(chart.id)}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setSelectedParticipantCharts((prev) => [
-                                  ...prev,
-                                  chart.id,
-                                ]);
+                                const payload = chartToParticipant(chart);
+                                if (!payload) {
+                                  showError(
+                                    "Saved chart has invalid birth date",
+                                  );
+                                  return;
+                                }
+                                addParticipant(payload, `chart-${chart.id}`);
                               } else {
-                                setSelectedParticipantCharts((prev) =>
-                                  prev.filter((id) => id !== chart.id),
-                                );
+                                removeParticipant(`chart-${chart.id}`);
                               }
                             }}
                             className="form-checkbox h-5 w-5 text-purple-600"
                           />
                           <span className="ml-3 text-gray-800 font-medium">
-                            {chart.chart_name} (Born: {chart.birth_date})
+                            {chart.label} (Born:{" "}
+                            {new Date(
+                              chart.birthData.dateTime,
+                            ).toLocaleDateString()}
+                            )
                           </span>
                           <span className="ml-auto text-sm text-gray-500">
-                            {chart.is_primary ? "Primary" : ""}
+                            {chart.isPrimary ? "Primary" : ""}
                           </span>
                         </label>
                       ))}
