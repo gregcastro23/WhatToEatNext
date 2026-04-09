@@ -27,7 +27,7 @@ import type {
   ChartDataPoint as _ChartDataPoint,
   NutritionalChart,
 } from "@/types/menuPlanner";
-import type { ElementalProperties} from "@/types/recipe";
+import type { ElementalProperties } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("NutritionalCalculator");
@@ -41,6 +41,8 @@ export const EMPTY_DAILY_TOTALS: DailyNutritionTotals = {
   carbs: 0,
   fat: 0,
   fiber: 0,
+  sodium: 0,
+  sugar: 0,
   gregsEnergy: 0,
   monicaConstant: 0,
   kalchm: 1.0,
@@ -66,6 +68,8 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
   let totalCarbs = 0;
   let totalFat = 0;
   let totalFiber = 0;
+  let totalSodium = 0;
+  let totalSugar = 0;
   const elementalAccumulator: ElementalProperties = {
     Fire: 0,
     Water: 0,
@@ -86,20 +90,39 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
     const recipe = meal.recipe;
 
     // Safe check for ingredients and instructions
-    if (!recipe.ingredients || recipe.ingredients.length === 0 || !recipe.instructions || recipe.instructions.length === 0) {
-      logger.warn(`Recipe ${recipe.id} is incomplete (missing ingredients or instructions). Skipping nutrition calculation.`);
+    if (
+      !recipe.ingredients ||
+      recipe.ingredients.length === 0 ||
+      !recipe.instructions ||
+      recipe.instructions.length === 0
+    ) {
+      logger.warn(
+        `Recipe ${recipe.id} is incomplete (missing ingredients or instructions). Skipping nutrition calculation.`,
+      );
       return; // Skip nutrition calculation for incomplete recipes
     }
     const servings = meal.servings || 1;
 
-    // Basic nutrition
-    const nutrition = recipe.nutritionalProfile as any;
-    if (nutrition) {
-      totalCalories += (nutrition.calories || 0) * servings;
-      totalProtein += (nutrition.protein || 0) * servings;
-      totalCarbs += (nutrition.carbs || 0) * servings;
-      totalFat += (nutrition.fat || 0) * servings;
-      totalFiber += (nutrition.fiber || 0) * servings;
+    // Basic nutrition - support both new AlchemicalRecipe format and old format
+    const nutritionPerServing = (recipe as any).nutritionPerServing;
+    const nutritionalProfile = (recipe as any).nutritionalProfile;
+
+    if (nutritionPerServing) {
+      totalCalories += (nutritionPerServing.calories || 0) * servings;
+      totalProtein += (nutritionPerServing.proteinG || 0) * servings;
+      totalCarbs += (nutritionPerServing.carbsG || 0) * servings;
+      totalFat += (nutritionPerServing.fatG || 0) * servings;
+      totalFiber += (nutritionPerServing.fiberG || 0) * servings;
+      totalSodium += (nutritionPerServing.sodiumMg || 0) * servings;
+      totalSugar += (nutritionPerServing.sugarG || 0) * servings;
+    } else if (nutritionalProfile) {
+      totalCalories += (nutritionalProfile.calories || 0) * servings;
+      totalProtein += (nutritionalProfile.protein || 0) * servings;
+      totalCarbs += (nutritionalProfile.carbs || 0) * servings;
+      totalFat += (nutritionalProfile.fat || 0) * servings;
+      totalFiber += (nutritionalProfile.fiber || 0) * servings;
+      totalSodium += (nutritionalProfile.sodium || 0) * servings;
+      totalSugar += (nutritionalProfile.sugar || 0) * servings;
     }
 
     // Elemental properties
@@ -112,39 +135,44 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
 
     // Alchemical properties (ESMS)
     if (recipe.alchemicalProperties) {
-      console.log(`Auditing alchemical properties for recipe: ${recipe.id}`, recipe.alchemicalProperties);
-      // Map properties from recipe.alchemicalProperties (heat, entropy, reactivity, stability)
-      // to AlchemicalProperties (Spirit, Essence, Matter, Substance)
+      const ap = recipe.alchemicalProperties as any;
       const mappedAlchemicalProps: AlchemicalProperties = {
-        Spirit: (recipe.alchemicalProperties as any).reactivity || 0,
-        Essence: (recipe.alchemicalProperties as any).entropy || 0,
-        Matter: (recipe.alchemicalProperties as any).heat || 0,
-        Substance: (recipe.alchemicalProperties as any).stability || 0,
+        Spirit: ap.Spirit ?? ap.reactivity ?? 0,
+        Essence: ap.Essence ?? ap.entropy ?? 0,
+        Matter: ap.Matter ?? ap.heat ?? 0,
+        Substance: ap.Substance ?? ap.stability ?? 0,
       };
-      alchemicalAccumulator.Spirit += (mappedAlchemicalProps.Spirit || 0) * servings;
-      alchemicalAccumulator.Essence += (mappedAlchemicalProps.Essence || 0) * servings;
-      alchemicalAccumulator.Matter += (mappedAlchemicalProps.Matter || 0) * servings;
-      alchemicalAccumulator.Substance += (mappedAlchemicalProps.Substance || 0) * servings;
+      alchemicalAccumulator.Spirit += mappedAlchemicalProps.Spirit * servings;
+      alchemicalAccumulator.Essence += mappedAlchemicalProps.Essence * servings;
+      alchemicalAccumulator.Matter += mappedAlchemicalProps.Matter * servings;
+      alchemicalAccumulator.Substance +=
+        mappedAlchemicalProps.Substance * servings;
     }
 
     // Sauce nutrition (adds to meal totals)
     if (meal.sauce?.nutritionalProfile) {
       const sauceServings = meal.sauce.servings || 1;
-      const sauceNutrition = meal.sauce.nutritionalProfile;
+      const sauceNutrition = meal.sauce.nutritionalProfile as any;
       totalCalories += (sauceNutrition.calories || 0) * sauceServings;
       totalProtein += (sauceNutrition.protein || 0) * sauceServings;
       totalCarbs += (sauceNutrition.carbs || 0) * sauceServings;
       totalFat += (sauceNutrition.fat || 0) * sauceServings;
       totalFiber += (sauceNutrition.fiber || 0) * sauceServings;
+      totalSodium += (sauceNutrition.sodium || 0) * sauceServings;
+      totalSugar += (sauceNutrition.sugar || 0) * sauceServings;
     }
 
     // Sauce elemental properties
     if (meal.sauce?.elementalProperties) {
       const sauceServings = meal.sauce.servings || 1;
-      elementalAccumulator.Fire += meal.sauce.elementalProperties.Fire * sauceServings;
-      elementalAccumulator.Water += meal.sauce.elementalProperties.Water * sauceServings;
-      elementalAccumulator.Earth += meal.sauce.elementalProperties.Earth * sauceServings;
-      elementalAccumulator.Air += meal.sauce.elementalProperties.Air * sauceServings;
+      elementalAccumulator.Fire +=
+        meal.sauce.elementalProperties.Fire * sauceServings;
+      elementalAccumulator.Water +=
+        meal.sauce.elementalProperties.Water * sauceServings;
+      elementalAccumulator.Earth +=
+        meal.sauce.elementalProperties.Earth * sauceServings;
+      elementalAccumulator.Air +=
+        meal.sauce.elementalProperties.Air * sauceServings;
     }
   });
 
@@ -169,6 +197,8 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
     carbs: totalCarbs,
     fat: totalFat,
     fiber: totalFiber,
+    sodium: totalSodium,
+    sugar: totalSugar,
     gregsEnergy: alchemicalMetrics.gregsEnergy,
     monicaConstant: alchemicalMetrics.monica,
     kalchm: alchemicalMetrics.kalchm,
@@ -192,6 +222,8 @@ export function calculateWeeklyTotals(
   let totalCarbs = 0;
   let totalFat = 0;
   let totalFiber = 0;
+  let totalSodium = 0;
+  let totalSugar = 0;
   let gregsEnergySum = 0;
   let monicaSum = 0;
   let kalchmSum = 0;
@@ -216,6 +248,8 @@ export function calculateWeeklyTotals(
       totalCarbs += dailyTotal.carbs;
       totalFat += dailyTotal.fat;
       totalFiber += dailyTotal.fiber;
+      totalSodium += dailyTotal.sodium;
+      totalSugar += dailyTotal.sugar;
       gregsEnergySum += dailyTotal.gregsEnergy;
       monicaSum += dailyTotal.monicaConstant;
       kalchmSum += dailyTotal.kalchm;
@@ -241,6 +275,8 @@ export function calculateWeeklyTotals(
     totalCarbs,
     totalFat,
     totalFiber,
+    totalSodium,
+    totalSugar,
     averageGregsEnergy: daysWithMeals > 0 ? gregsEnergySum / daysWithMeals : 0,
     averageMonica: daysWithMeals > 0 ? monicaSum / daysWithMeals : 0,
     averageKalchm: daysWithMeals > 0 ? kalchmSum / daysWithMeals : 1.0,

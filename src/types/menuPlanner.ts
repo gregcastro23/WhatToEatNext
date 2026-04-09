@@ -10,7 +10,6 @@ import type { LunarPhase } from "./alchemy";
 import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
 import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
 
-
 /**
  * Days of the week enumeration
  * Sunday = 0 (standard JS Date convention)
@@ -96,6 +95,8 @@ export interface DailyNutritionTotals {
   carbs: number;
   fat: number;
   fiber: number;
+  sodium: number;
+  sugar: number;
   gregsEnergy: number;
   monicaConstant: number;
   kalchm: number;
@@ -112,6 +113,8 @@ export interface WeeklyNutritionTotals {
   totalCarbs: number;
   totalFat: number;
   totalFiber: number;
+  totalSodium: number;
+  totalSugar: number;
   averageGregsEnergy: number;
   averageMonica: number;
   averageKalchm: number;
@@ -258,10 +261,9 @@ export interface MenuTemplate {
   id: string;
   name: string;
   description?: string;
-  meals: Array<Omit<
-    MealSlot,
-    "id" | "planetarySnapshot" | "createdAt" | "updatedAt"
-  >>;
+  meals: Array<
+    Omit<MealSlot, "id" | "planetarySnapshot" | "createdAt" | "updatedAt">
+  >;
   tags?: string[];
   author?: string;
   isPublic: boolean;

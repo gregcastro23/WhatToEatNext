@@ -158,9 +158,9 @@ function RadarChart({
     };
   });
 
-  const dataPath =
-    `${dataPoints.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ") 
-    } Z`;
+  const dataPath = `${dataPoints
+    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
+    .join(" ")} Z`;
 
   // Calculate axis labels positions
   const axisLabels = data.map((item, i) => {
@@ -187,10 +187,9 @@ function RadarChart({
               y: center + levelRadius * Math.sin(angle),
             };
           });
-          const levelPath =
-            `${levelPoints
-              .map((p, j) => `${j === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-              .join(" ")  } Z`;
+          const levelPath = `${levelPoints
+            .map((p, j) => `${j === 0 ? "M" : "L"} ${p.x} ${p.y}`)
+            .join(" ")} Z`;
 
           return (
             <path
@@ -370,7 +369,11 @@ export default function NutritionalDashboard({
     currentMenu.meals.forEach((meal) => {
       if (meal.recipe?.ingredients) {
         meal.recipe.ingredients.forEach((ing) => {
-          uniqueIngredients.add(typeof ing === 'string' ? ing.toLowerCase() : (ing as any).name?.toLowerCase() ?? '');
+          uniqueIngredients.add(
+            typeof ing === "string"
+              ? ing.toLowerCase()
+              : ((ing as any).name?.toLowerCase() ?? ""),
+          );
         });
       }
     });
@@ -461,7 +464,7 @@ export default function NutritionalDashboard({
             </button>
 
             {expandedSection === "overview" && (
-              <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 <div className="bg-blue-50 rounded-lg p-4">
                   <p className="text-sm text-gray-600">Total Calories</p>
                   <p className="text-2xl font-bold text-blue-700">
@@ -499,6 +502,26 @@ export default function NutritionalDashboard({
                   </p>
                   <p className="text-xs text-gray-500">
                     {Math.round(weeklyTotals.totalFat / 7)}g/day avg
+                  </p>
+                </div>
+
+                <div className="bg-indigo-50 rounded-lg p-4">
+                  <p className="text-sm text-gray-600">Sodium</p>
+                  <p className="text-2xl font-bold text-indigo-700">
+                    {Math.round(weeklyTotals.totalSodium)}mg
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {Math.round(weeklyTotals.totalSodium / 7)}mg/day avg
+                  </p>
+                </div>
+
+                <div className="bg-teal-50 rounded-lg p-4">
+                  <p className="text-sm text-gray-600">Sugar</p>
+                  <p className="text-2xl font-bold text-teal-700">
+                    {Math.round(weeklyTotals.totalSugar)}g
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {Math.round(weeklyTotals.totalSugar / 7)}g/day avg
                   </p>
                 </div>
               </div>

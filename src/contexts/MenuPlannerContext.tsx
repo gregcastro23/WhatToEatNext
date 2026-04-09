@@ -1,5 +1,7 @@
 "use client";
 
+import PantryManager from "@/utils/pantryManager";
+
 /**
  * Menu Planner Context
  * Provides global state management for the weekly menu planning system
@@ -276,6 +278,8 @@ function createInitialMenu(weekStartDate: Date): WeeklyMenu {
       carbs: 0,
       fat: 0,
       fiber: 0,
+      sodium: 0,
+      sugar: 0,
       gregsEnergy: 0,
       monicaConstant: 0,
       kalchm: 0,
