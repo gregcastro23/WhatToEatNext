@@ -1,6 +1,5 @@
 "use client";
 
-import PantryManager from "@/utils/pantryManager";
 
 /**
  * Menu Planner Context
@@ -42,7 +41,6 @@ import type {
   GroceryItem,
   DailyNutritionTotals,
   PlanetarySnapshot,
-  MenuTemplate,
   WeeklyMenuStats,
   CalendarNavigation,
 } from "@/types/menuPlanner";
@@ -73,6 +71,7 @@ import {
   type AstrologicalState,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
+import PantryManager from "@/utils/pantryManager";
 import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
 
 /**
@@ -300,6 +299,34 @@ function createInitialMenu(weekStartDate: Date): WeeklyMenu {
   };
 }
 
+function toDate(value: unknown): Date {
+  if (value instanceof Date) return value;
+  if (typeof value === "string" || typeof value === "number") {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) return parsed;
+  }
+  return new Date();
+}
+
+function hydrateMenuDates(menu: WeeklyMenu): WeeklyMenu {
+  return {
+    ...menu,
+    weekStartDate: toDate(menu.weekStartDate),
+    weekEndDate: toDate(menu.weekEndDate),
+    createdAt: toDate(menu.createdAt),
+    updatedAt: toDate(menu.updatedAt),
+    meals: (menu.meals || []).map((meal) => ({
+      ...meal,
+      createdAt: toDate(meal.createdAt),
+      updatedAt: toDate(meal.updatedAt),
+      planetarySnapshot: {
+        ...meal.planetarySnapshot,
+        timestamp: toDate(meal.planetarySnapshot?.timestamp),
+      },
+    })),
+  };
+}
+
 /**
  * Menu Planner Provider Component
  */
@@ -312,6 +339,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<Error | null>(null);
   const [groceryList, setGroceryList] = useState<GroceryItem[]>([]);
   const [weeklyStats, setWeeklyStats] = useState<WeeklyMenuStats | null>(null);
+  const { currentUser } = useUser();
 
   // Guest alchemist participants
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -337,46 +365,106 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const [syncWithLunarCycle, setSyncWithLunarCycle] = useState<boolean>(false);
 
   // Budget state
-  const [weeklyBudget, setWeeklyBudgetRaw] = useState<number | null>(() => {
-    if (typeof window === "undefined") return null;
-    try {
-      const saved = localStorage.getItem("weeklyBudget");
-      return saved ? Number(saved) : null;
-    } catch {
-      return null;
-    }
-  });
+  const [weeklyBudget, setWeeklyBudgetRaw] = useState<number | null>(null);
 
-  const setWeeklyBudget = useCallback((budget: number | null) => {
-    setWeeklyBudgetRaw(budget);
-    try {
-      if (budget !== null) {
-        localStorage.setItem("weeklyBudget", String(budget));
-      } else {
-        localStorage.removeItem("weeklyBudget");
-      }
-    } catch { /* ignore storage errors */ }
+  // Inventory state - unified with PantryManager
+  const [inventory, setInventoryRaw] = useState<string[]>([]);
+  const saveInFlightRef = useRef(false);
+  const pendingSaveRef = useRef(false);
+
+  // Initialize inventory from PantryManager on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const pantry = PantryManager.getPantry();
+      const itemNames = pantry.map(item => item.name.toLowerCase());
+      setInventoryRaw(itemNames);
+    }
   }, []);
-
-  // Inventory state
-  const [inventory, setInventoryRaw] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const saved = localStorage.getItem("userInventory");
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
 
   const setInventory = useCallback((inv: string[]) => {
     setInventoryRaw(inv);
+    // Sync with PantryManager for items that might be missing
     try {
-      localStorage.setItem("userInventory", JSON.stringify(inv));
-    } catch { /* ignore storage errors */ }
+      const currentPantry = PantryManager.getPantry();
+      const currentNames = new Set(currentPantry.map(i => i.name.toLowerCase()));
+      
+      inv.forEach(name => {
+        if (!currentNames.has(name.toLowerCase())) {
+          PantryManager.addItem({
+            name,
+            quantity: 1,
+            unit: "each",
+            category: "other",
+          });
+        }
+      });
+      
+    } catch (err) {
+      logger.error("Failed to sync inventory with PantryManager", err);
+    }
   }, []);
 
   const isMountedRef = useRef(false);
+
+  const persistMenu = useCallback(
+    async (overrides?: {
+      menu?: WeeklyMenu;
+      groceryList?: GroceryItem[];
+      inventory?: string[];
+      weeklyBudget?: number | null;
+    }) => {
+      const activeMenu = overrides?.menu ?? currentMenu;
+      if (!activeMenu || !currentUser?.userId) return;
+
+      if (saveInFlightRef.current) {
+        pendingSaveRef.current = true;
+        return;
+      }
+
+      saveInFlightRef.current = true;
+      try {
+        const response = await fetch("/api/menu-planner/menus", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            weekStartDate: activeMenu.weekStartDate,
+            meals: activeMenu.meals,
+            nutritionalTotals: activeMenu.nutritionalTotals,
+            groceryList: overrides?.groceryList ?? groceryList,
+            inventory: overrides?.inventory ?? inventory,
+            weeklyBudget:
+              overrides?.weeklyBudget === undefined
+                ? weeklyBudget
+                : overrides.weeklyBudget,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Save failed with status ${response.status}`);
+        }
+      } catch (err) {
+        logger.error("Failed to persist weekly menu", err);
+      } finally {
+        saveInFlightRef.current = false;
+        if (pendingSaveRef.current) {
+          pendingSaveRef.current = false;
+          void persistMenu();
+        }
+      }
+    },
+    [currentMenu, currentUser?.userId, groceryList, inventory, weeklyBudget],
+  );
+
+  const setWeeklyBudget = useCallback((budget: number | null) => {
+    setWeeklyBudgetRaw(budget);
+    void persistMenu({ weeklyBudget: budget });
+  }, [persistMenu]);
+
+  const setInventoryAndPersist = useCallback((inv: string[]) => {
+    setInventory(inv);
+    void persistMenu({ inventory: inv });
+  }, [setInventory, persistMenu]);
 
   const toggleSyncWithLunarCycle = useCallback(() => {
     setSyncWithLunarCycle((prev) => !prev);
@@ -389,29 +477,49 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     isMountedRef.current = true;
 
     const initializeMenu = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
-        // Try to load from localStorage
-        const savedMenuJson = localStorage.getItem("currentWeeklyMenu");
-        if (savedMenuJson) {
-          const savedMenu = JSON.parse(savedMenuJson) as WeeklyMenu;
-          // Check if saved menu is for current week
-          const savedWeekStart = new Date(savedMenu.weekStartDate);
-          if (
-            savedWeekStart.getTime() === currentWeekStart.getTime() &&
-            isMountedRef.current
-          ) {
+        if (currentUser?.userId) {
+          const response = await fetch(
+            `/api/menu-planner/menus?weekStartDate=${encodeURIComponent(currentWeekStart.toISOString())}`,
+            { credentials: "include" },
+          );
+          if (!response.ok) {
+            throw new Error(`Load failed with status ${response.status}`);
+          }
+          const data = await response.json();
+          const savedMenu = data?.menu
+            ? hydrateMenuDates(data.menu as WeeklyMenu)
+            : null;
+          if (savedMenu && isMountedRef.current) {
             setCurrentMenu(savedMenu);
             setGroceryList(savedMenu.groceryList || []);
+            setWeeklyBudgetRaw(
+              typeof data.menu.weeklyBudget === "number"
+                ? data.menu.weeklyBudget
+                : null,
+            );
+            setInventoryRaw(
+              Array.isArray(data.menu.inventory)
+                ? data.menu.inventory.map((item: string) => item.toLowerCase())
+                : [],
+            );
             setIsLoading(false);
-            logger.info("Loaded menu from localStorage");
+            logger.info("Loaded menu from backend");
             return;
           }
         }
 
-        // Create new menu for current week
         const newMenu = createInitialMenu(currentWeekStart);
         if (isMountedRef.current) {
+          const pantryNames = PantryManager.getPantry().map((item) =>
+            item.name.toLowerCase(),
+          );
           setCurrentMenu(newMenu);
+          setGroceryList([]);
+          setInventoryRaw(pantryNames);
+          setWeeklyBudgetRaw(null);
           setIsLoading(false);
           logger.info("Created new weekly menu");
         }
@@ -431,21 +539,15 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     return () => {
       isMountedRef.current = false;
     };
-  }, [currentWeekStart]);
+  }, [currentWeekStart, currentUser?.userId]);
 
-  /**
-   * Save menu to localStorage whenever it changes
-   */
   useEffect(() => {
-    if (currentMenu && !isLoading) {
-      try {
-        localStorage.setItem("currentWeeklyMenu", JSON.stringify(currentMenu));
-        logger.debug("Menu saved to localStorage");
-      } catch (err) {
-        logger.error("Failed to save menu to localStorage:", err);
-      }
-    }
-  }, [currentMenu, isLoading]);
+    if (!currentMenu || isLoading || !currentUser?.userId) return;
+    const timeoutId = setTimeout(() => {
+      void persistMenu();
+    }, 250);
+    return () => clearTimeout(timeoutId);
+  }, [currentMenu, groceryList, isLoading, persistMenu, currentUser?.userId]);
 
   /**
    * Calendar Navigation
@@ -1155,7 +1257,6 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   );
 
   // Get user context for personalization
-  const { currentUser } = useUser();
   const natalChart = currentUser?.natalChart;
 
   // Memoize chart comparison to avoid recalculating on every render
@@ -1341,13 +1442,15 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
    */
   const updateGroceryItem = useCallback(
     (itemId: string, updates: Partial<GroceryItem>) => {
-      setGroceryList((prev) =>
-        prev.map((item) =>
+      setGroceryList((prev) => {
+        const next = prev.map((item) =>
           item.id === itemId ? { ...item, ...updates } : item,
-        ),
-      );
+        );
+        void persistMenu({ groceryList: next });
+        return next;
+      });
     },
-    [],
+    [persistMenu],
   );
 
   /**
@@ -1377,33 +1480,28 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
    * TODO: Implement backend persistence in Phase 4
    */
   const saveAsTemplate = useCallback(
-    async (name: string, description?: string) => {
+    async (name: string, _description?: string) => {
       if (!currentMenu) return;
 
       try {
-        const template: MenuTemplate = {
-          id: `template-${Date.now()}`,
-          name,
-          description,
-          meals: currentMenu.meals.map((m) => ({
-            dayOfWeek: m.dayOfWeek,
-            mealType: m.mealType,
-            recipe: m.recipe,
-            servings: m.servings,
-            notes: m.notes,
-          })),
-          isPublic: false,
-          usageCount: 0,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
+        const response = await fetch("/api/menu-planner/templates", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            name,
+            weekStartDate: currentMenu.weekStartDate,
+            meals: currentMenu.meals,
+            nutritionalTotals: currentMenu.nutritionalTotals,
+            groceryList,
+            inventory,
+            weeklyBudget,
+          }),
+        });
 
-        // Save to localStorage for now
-        const templates = JSON.parse(
-          localStorage.getItem("menuTemplates") || "[]",
-        );
-        templates.push(template);
-        localStorage.setItem("menuTemplates", JSON.stringify(templates));
+        if (!response.ok) {
+          throw new Error(`Template save failed with status ${response.status}`);
+        }
 
         logger.info(`Saved menu as template: ${name}`);
       } catch (err) {
@@ -1411,7 +1509,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         throw err;
       }
     },
-    [currentMenu],
+    [currentMenu, groceryList, inventory, weeklyBudget],
   );
 
   /**
@@ -1421,10 +1519,15 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const loadTemplate = useCallback(
     async (templateId: string) => {
       try {
-        const templates = JSON.parse(
-          localStorage.getItem("menuTemplates") || "[]",
+        const response = await fetch(
+          `/api/menu-planner/templates?id=${encodeURIComponent(templateId)}`,
+          { credentials: "include" },
         );
-        const template = templates.find((t: any) => t.id === templateId);
+        if (!response.ok) {
+          throw new Error(`Template load failed with status ${response.status}`);
+        }
+        const data = await response.json();
+        const template = data?.template;
 
         if (!template) {
           throw new Error("Template not found");
@@ -1443,13 +1546,33 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         }));
 
         setCurrentMenu(newMenu);
+        setGroceryList(template.groceryList || []);
+        setInventoryRaw(
+          Array.isArray(template.inventory) ? template.inventory : [],
+        );
+        setWeeklyBudgetRaw(
+          typeof template.weeklyBudget === "number"
+            ? template.weeklyBudget
+            : null,
+        );
+        void persistMenu({
+          menu: newMenu,
+          groceryList: template.groceryList || [],
+          inventory: Array.isArray(template.inventory)
+            ? template.inventory
+            : [],
+          weeklyBudget:
+            typeof template.weeklyBudget === "number"
+              ? template.weeklyBudget
+              : null,
+        });
         logger.info(`Loaded template: ${template.name}`);
       } catch (err) {
         logger.error("Failed to load template:", err);
         throw err;
       }
     },
-    [currentWeekStart],
+    [currentWeekStart, persistMenu],
   );
 
   /**
@@ -1496,17 +1619,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
    * Save menu (persistence)
    */
   const saveMenu = useCallback(async () => {
-    if (!currentMenu) return;
-
-    try {
-      // For now, just use localStorage
-      localStorage.setItem("currentWeeklyMenu", JSON.stringify(currentMenu));
-      logger.info("Menu saved");
-    } catch (err) {
-      logger.error("Failed to save menu:", err);
-      throw err;
-    }
-  }, [currentMenu]);
+    await persistMenu();
+  }, [persistMenu]);
 
   // Cost Estimation State
   const [estimatedCostState, setEstimatedCostState] = useState<{
@@ -1603,13 +1717,12 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
    */
   const loadMenu = useCallback(async (menuId: string) => {
     try {
-      // TODO: Implement backend loading
-      logger.info(`Loading menu ${menuId} (not yet implemented)`);
+      await loadTemplate(menuId);
     } catch (err) {
       logger.error("Failed to load menu:", err);
       throw err;
     }
-  }, []);
+  }, [loadTemplate]);
 
   /**
    * Circuit Calculations (NEW - Phase 3A)
@@ -1857,7 +1970,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       costBreakdown: estimatedCostState.breakdown,
       budgetPerMeal: weeklyBudget ? Math.round((weeklyBudget / 21) * 100) / 100 : null,
       inventory,
-      setInventory,
+      setInventory: setInventoryAndPersist,
     }),
     [
       currentMenu,
@@ -1908,7 +2021,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       weeklyBudget,
       setWeeklyBudget,
       inventory,
-      setInventory,
+      setInventoryAndPersist,
       estimatedCostState, // Added this
     ],
   );

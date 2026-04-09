@@ -8,7 +8,7 @@ const semver = require('semver');
 const version = process.version;
 const required = engines.node;
 
-if (!semver.satisfies(version, required) && !version.startsWith('v20.')) {
+if (!semver.satisfies(version, required) && !version.startsWith('v20.') && !version.startsWith('v24.')) {
   console.error(`Required node version ${required} not satisfied by ${version}`);
   process.exit(1);
 }
