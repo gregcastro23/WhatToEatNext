@@ -46,11 +46,11 @@ export default function CelestialEquilibrium({
       try {
         setLoadingRecommendations(true);
         setErrorRecommendations(null);
-        // This is a placeholder API call. The actual endpoint needs to be implemented on the backend.
-        // It should ideally receive the current imbalance state from the alchemicalQuantities
-        // or re-calculate it on the backend. For simplicity, we'll assume the backend
-        // determines the imbalance type.
-        const response = await fetch("/api/transmutation_recommendations"); // TODO: Implement this API endpoint
+        const response = await fetch("/api/transmutation_recommendations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ alchemicalQuantities }),
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -64,8 +64,6 @@ export default function CelestialEquilibrium({
       }
     };
 
-    // Only fetch if alchemicalQuantities is available, as imbalance depends on it.
-    // In a real scenario, the API call might implicitly derive imbalance or take it as a parameter.
     if (alchemicalQuantities) {
       void fetchRecommendations();
     } else {

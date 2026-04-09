@@ -98,6 +98,7 @@
     "prepare": "husky install || true",
     "update-vegetables": "yarn ts-node src/scripts/updateVegetables.ts",
     "update-oils-vinegars": "yarn ts-node src/scripts/updateOilsAndVinegars.ts",
+    "cuisines:process-all": "node --loader ts-node/esm src/scripts/process-all-cuisines.ts",
     "clean-imports": "scripts/typescript-fixes/clean-imports.sh",
     "clean-imports:dry": "scripts/typescript-fixes/clean-imports.sh --dry-run",
     "clean-imports:auto": "scripts/typescript-fixes/clean-imports.sh --auto-fix",
