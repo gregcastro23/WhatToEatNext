@@ -309,6 +309,7 @@ export default function GroceryListModal({
   });
 
   const [showPantryModal, setShowPantryModal] = useState(false);
+  const [showInstacartPreview, setShowInstacartPreview] = useState(false);
 
   // Group items by category
   const groupedItems = useMemo(
@@ -354,8 +355,13 @@ export default function GroceryListModal({
     }
   };
 
-  // Handle Instacart order — calls real IDP API via our server-side route
-  const handleOrderOnInstacart = async () => {
+  // Handle Instacart order — opens preview first
+  const handleOrderOnInstacart = () => {
+    setShowInstacartPreview(true);
+  };
+
+  // Actually submit to Instacart IDP
+  const confirmUpdateCart = async () => {
     setInstacartLoading(true);
     setInstacartError(null);
     try {
@@ -367,6 +373,7 @@ export default function GroceryListModal({
       window.open(url, "_blank", "noopener,noreferrer");
 
       logger.info("Instacart shopping list handoff successful");
+      setShowInstacartPreview(false);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Failed to connect to Instacart";
       setInstacartError(message);
@@ -501,20 +508,20 @@ export default function GroceryListModal({
           )}
 
           <button
-            onClick={() => { void handleOrderOnInstacart(); }}
+            onClick={() => { handleOrderOnInstacart(); }}
             disabled={instacartLoading || stats.remaining === 0}
             className="px-4 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            title={stats.remaining === 0 ? "No items to order" : "Create shopping list on Instacart"}
+            title={stats.remaining === 0 ? "No items to order" : "Update cart on Instacart"}
           >
             {instacartLoading ? (
               <>
                 <span className="animate-spin inline-block">⟳</span>
-                Creating list...
+                Updating...
               </>
             ) : (
               <>
                 <span>🛒</span>
-                Order on Instacart
+                Update Cart
               </>
             )}
           </button>
@@ -644,6 +651,91 @@ export default function GroceryListModal({
       {/* Pantry Modal (Simple) */}
       {showPantryModal && (
         <PantryModalSimple onClose={() => setShowPantryModal(false)} />
+      )}
+
+      {/* Instacart Handoff Preview Modal */}
+      {showInstacartPreview && (
+        <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full overflow-hidden animate-fade-in flex flex-col">
+            <div className="bg-[#43B02A] p-5 text-white flex justify-between items-center">
+              <h3 className="text-xl font-bold flex items-center gap-2">
+                <span>🛒</span> Update Cart
+              </h3>
+              <button
+                onClick={() => setShowInstacartPreview(false)}
+                className="text-white/80 hover:text-white transition-colors text-lg"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <p className="text-gray-700 mb-6 font-medium">
+                Here is your current cart status. We&apos;ll send the <strong className="text-[#43B02A]">Shopping List</strong> to Instacart and ignore items you already have.
+              </p>
+              
+              <div className="space-y-4">
+                <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🏺</span>
+                    <div>
+                      <h4 className="font-bold text-emerald-900">In Pantry</h4>
+                      <p className="text-xs text-emerald-700">Stocked items</p>
+                    </div>
+                  </div>
+                  <span className="text-2xl font-black text-emerald-600">{stats.inPantry}</span>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">📦</span>
+                    <div>
+                      <h4 className="font-bold text-blue-900">In Posso (Inventory)</h4>
+                      <p className="text-xs text-blue-700">Available to cook</p>
+                    </div>
+                  </div>
+                  <span className="text-2xl font-black text-blue-600">
+                    {groceryList.filter(i => inventory.includes(i.ingredient.toLowerCase()) && !i.inPantry).length}
+                  </span>
+                </div>
+
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-center justify-between shadow-sm relative overflow-hidden">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-400" />
+                  <div className="flex items-center gap-3 pl-2">
+                    <span className="text-2xl">📝</span>
+                    <div>
+                      <h4 className="font-bold text-amber-900">Shopping List</h4>
+                      <p className="text-xs text-amber-700">Sending to Instacart</p>
+                    </div>
+                  </div>
+                  <span className="text-2xl font-black text-amber-600">{stats.remaining}</span>
+                </div>
+              </div>
+              
+              {instacartError && (
+                <div className="mt-4 p-3 bg-red-50 text-red-700 text-sm rounded-lg border border-red-200">
+                  {instacartError}
+                </div>
+              )}
+            </div>
+            
+            <div className="p-4 bg-gray-50 border-t flex justify-end gap-3">
+              <button
+                onClick={() => setShowInstacartPreview(false)}
+                className="px-4 py-2 text-gray-600 font-medium hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => { void confirmUpdateCart(); }}
+                disabled={instacartLoading || stats.remaining === 0}
+                className="px-6 py-2 bg-[#43B02A] text-white font-bold rounded-lg hover:bg-[#38941f] transition-all flex items-center gap-2 disabled:opacity-50"
+              >
+                {instacartLoading ? "Processing..." : "Update Cart on Instacart"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
