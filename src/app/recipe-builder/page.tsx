@@ -147,6 +147,7 @@ export default function RecipeBuilderPage() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [hasGenerated, setHasGenerated] = useState(false);
   const [lastGeneratedFrom, setLastGeneratedFrom] = useState<"builder" | "quick" | null>(null);
+  const [generationError, setGenerationError] = useState<string | null>(null);
 
   // Current day for planetary characteristics
   const currentDay = useMemo(() => new Date().getDay() as DayOfWeek, []);
@@ -198,6 +199,7 @@ export default function RecipeBuilderPage() {
     async (mealType: MealType) => {
       setIsGenerating(true);
       setLastGeneratedFrom("quick");
+      setGenerationError(null);
       try {
         const recommendations = await generateDayRecommendations(
           currentDay,
@@ -215,6 +217,7 @@ export default function RecipeBuilderPage() {
         handleSuggestionsUpdate(recommendations);
       } catch (err) {
         logger.error("Quick generate failed:", err as any);
+        setGenerationError("Quick generate failed. Please try again in a moment.");
         handleSuggestionsUpdate([]);
       } finally {
         setIsGenerating(false);
@@ -233,6 +236,7 @@ export default function RecipeBuilderPage() {
   );
 
   const handleGeneratingChange = useCallback((val: boolean) => {
+    if (val) setGenerationError(null);
     setIsGenerating(val);
   }, []);
 
@@ -241,6 +245,7 @@ export default function RecipeBuilderPage() {
     setHasGenerated(false);
     setLastGeneratedFrom(null);
     setCarouselIndex(0);
+    setGenerationError(null);
   }, []);
 
   return (
@@ -309,8 +314,15 @@ export default function RecipeBuilderPage() {
         <GenerateRecipeButton
           onGenerated={handleBuilderGenerated}
           onGeneratingChange={handleGeneratingChange}
+          onError={setGenerationError}
           isGenerating={isGenerating}
         />
+
+        {generationError && (
+          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3">
+            <p className="text-sm text-red-700">{generationError}</p>
+          </div>
+        )}
 
         {/* Recipe Carousel / Results */}
         {hasGenerated && (

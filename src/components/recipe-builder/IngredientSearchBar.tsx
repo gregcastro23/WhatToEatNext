@@ -15,6 +15,8 @@ import React, {
   useEffect,
   useCallback,
   useId,
+  type ChangeEvent,
+  type KeyboardEvent,
 } from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import type { SelectedIngredient } from "@/contexts/RecipeBuilderContext";
@@ -324,11 +326,17 @@ export default function IngredientSearchBar({
       {/* Search Input */}
       <div className="relative">
         <input
-          ref={inputRef as any}
+          ref={inputRef}
           type="text"
           value={query}
-          onChange={(e: any) => setQuery(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
+          onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Escape") {
+              setIsFocused(false);
+              inputRef.current?.blur();
+            }
+          }}
           placeholder="Search ingredients... (e.g., tomato, basil, chicken)"
           className="w-full px-4 py-3 pl-10 rounded-xl border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none text-sm transition-all bg-white"
           aria-label="Search ingredients"

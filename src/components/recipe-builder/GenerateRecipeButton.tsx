@@ -28,6 +28,7 @@ const logger = createLogger("GenerateRecipeButton");
 interface GenerateRecipeButtonProps {
   onGenerated: (results: RecommendedMeal[]) => void;
   onGeneratingChange: (isGenerating: boolean) => void;
+  onError?: (message: string) => void;
   isGenerating: boolean;
   className?: string;
 }
@@ -35,6 +36,7 @@ interface GenerateRecipeButtonProps {
 export default function GenerateRecipeButton({
   onGenerated,
   onGeneratingChange,
+  onError,
   isGenerating,
   className = "",
 }: GenerateRecipeButtonProps) {
@@ -42,7 +44,13 @@ export default function GenerateRecipeButton({
   const astroHook = useAstrologicalState();
   const { currentUser } = useUser();
 
-  const canGenerate = builder.totalItems > 0 || builder.mealType !== null;
+  const hasAnySelection =
+    builder.mealType !== null ||
+    builder.totalItems > 0 ||
+    builder.flavors.length > 0 ||
+    builder.dietaryPreferences.length > 0 ||
+    builder.allergies.length > 0;
+  const canGenerate = hasAnySelection;
 
   const handleGenerate = useCallback(async () => {
     if (!canGenerate || isGenerating) return;
@@ -116,6 +124,7 @@ export default function GenerateRecipeButton({
       onGenerated(recommendations);
     } catch (err) {
       logger.error("Recipe generation failed:", err as any);
+      onError?.("Could not generate recipes right now. Please try again.");
       onGenerated([]);
     } finally {
       onGeneratingChange(false);
@@ -128,6 +137,7 @@ export default function GenerateRecipeButton({
     currentUser,
     onGenerated,
     onGeneratingChange,
+    onError,
   ]);
 
   return (
@@ -164,7 +174,7 @@ export default function GenerateRecipeButton({
 
       {!canGenerate && (
         <p className="text-xs text-gray-400 text-center mt-2">
-          Add at least one ingredient, cuisine, cooking method, or meal type to generate
+          Add at least one preference (meal type, ingredients, cuisines, methods, flavors, or dietary filters)
         </p>
       )}
 

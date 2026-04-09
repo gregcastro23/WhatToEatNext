@@ -53,6 +53,36 @@ const COMMON_ALLERGIES = [
   "Shellfish",
 ];
 
+const CUISINE_OPTIONS = [
+  "American",
+  "Chinese",
+  "French",
+  "Greek",
+  "Indian",
+  "Italian",
+  "Japanese",
+  "Korean",
+  "Mediterranean",
+  "Mexican",
+  "Middle Eastern",
+  "Thai",
+  "Vietnamese",
+];
+
+const COOKING_METHOD_OPTIONS = [
+  "Baked",
+  "Blended",
+  "Braised",
+  "Fried",
+  "Grilled",
+  "Poached",
+  "Roasted",
+  "Sauteed",
+  "Slow-Cooked",
+  "Steamed",
+  "Stir-Fried",
+];
+
 // ===== Sub-Components =====
 
 function MealTypeSelector() {
@@ -207,6 +237,126 @@ function AllergySelector() {
   );
 }
 
+function CuisineSelector() {
+  const { selectedCuisines, addCuisine, removeCuisine } = useRecipeBuilder();
+  const [customCuisine, setCustomCuisine] = useState("");
+
+  const handleAddCustomCuisine = () => {
+    const trimmed = customCuisine.trim();
+    if (trimmed && !selectedCuisines.includes(trimmed)) {
+      addCuisine(trimmed);
+      setCustomCuisine("");
+    }
+  };
+
+  return (
+    <div>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+        Preferred Cuisines
+      </label>
+      <div className="flex flex-wrap gap-2 mb-2">
+        {CUISINE_OPTIONS.map((cuisine) => {
+          const isSelected = selectedCuisines.includes(cuisine);
+          return (
+            <button
+              key={cuisine}
+              onClick={() => (isSelected ? removeCuisine(cuisine) : addCuisine(cuisine))}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
+                isSelected
+                  ? "bg-purple-600 text-white border-purple-600"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:bg-purple-50"
+              }`}
+            >
+              {cuisine}
+            </button>
+          );
+        })}
+      </div>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={customCuisine}
+          onChange={(e) => setCustomCuisine(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleAddCustomCuisine()}
+          placeholder="Add custom cuisine..."
+          className="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:border-purple-300 focus:ring-1 focus:ring-purple-100 outline-none"
+        />
+        <button
+          onClick={handleAddCustomCuisine}
+          disabled={!customCuisine.trim()}
+          className="px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-100 text-purple-700 hover:bg-purple-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function CookingMethodSelector() {
+  const {
+    selectedCookingMethods,
+    addCookingMethod,
+    removeCookingMethod,
+  } = useRecipeBuilder();
+  const [customMethod, setCustomMethod] = useState("");
+
+  const handleAddCustomMethod = () => {
+    const trimmed = customMethod.trim();
+    if (trimmed && !selectedCookingMethods.includes(trimmed)) {
+      addCookingMethod(trimmed);
+      setCustomMethod("");
+    }
+  };
+
+  return (
+    <div>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      <label className="text-xs font-medium text-gray-600 mb-1.5 block">
+        Cooking Methods
+      </label>
+      <div className="flex flex-wrap gap-2 mb-2">
+        {COOKING_METHOD_OPTIONS.map((method) => {
+          const isSelected = selectedCookingMethods.includes(method);
+          return (
+            <button
+              key={method}
+              onClick={() =>
+                isSelected ? removeCookingMethod(method) : addCookingMethod(method)
+              }
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
+                isSelected
+                  ? "bg-orange-600 text-white border-orange-600"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-orange-300 hover:bg-orange-50"
+              }`}
+            >
+              {method}
+            </button>
+          );
+        })}
+      </div>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={customMethod}
+          onChange={(e) => setCustomMethod(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleAddCustomMethod()}
+          placeholder="Add custom method..."
+          className="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:border-orange-300 focus:ring-1 focus:ring-orange-100 outline-none"
+        />
+        <button
+          onClick={handleAddCustomMethod}
+          disabled={!customMethod.trim()}
+          className="px-3 py-1.5 rounded-lg text-xs font-medium bg-orange-100 text-orange-700 hover:bg-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ===== Collapsible Section =====
 
 interface CollapsibleSectionProps {
@@ -274,6 +424,11 @@ export default function RecipeBuilderPanel({
       <CollapsibleSection title="Dietary & Allergies">
         <DietarySelector />
         <AllergySelector />
+      </CollapsibleSection>
+
+      <CollapsibleSection title="Cuisine & Cooking Method">
+        <CuisineSelector />
+        <CookingMethodSelector />
       </CollapsibleSection>
 
       {/* Queue Display */}

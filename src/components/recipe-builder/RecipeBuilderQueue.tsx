@@ -122,7 +122,7 @@ export default function RecipeBuilderQueue({
         <div className="text-3xl mb-2 opacity-30">&#x2615;</div>
         <p className="text-sm text-gray-500">Your recipe builder is empty</p>
         <p className="text-xs text-gray-400 mt-1">
-          Search for ingredients, double-click cuisines or cooking methods to add them
+          Search for ingredients and select cuisine or cooking method preferences to begin
         </p>
       </div>
     );
