@@ -266,7 +266,7 @@ export default function GroceryListModal({
   isOpen,
   onClose,
 }: GroceryListModalProps) {
-  const { groceryList, updateGroceryItem, regenerateGroceryList, currentMenu } =
+  const { groceryList, updateGroceryItem, regenerateGroceryList, currentMenu, inventory, setInventory } =
     useMenuPlanner();
 
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
@@ -381,7 +381,7 @@ export default function GroceryListModal({
     return PantryManager.hasItem(itemName);
   };
 
-  // Add item to pantry
+  // Add item to pantry and sync with context for Posso
   const addToPantry = (item: GroceryItem) => {
     PantryManager.addItem({
       name: item.ingredient,
@@ -390,6 +390,12 @@ export default function GroceryListModal({
       category: item.category,
       addedDate: new Date(),
     });
+    
+    // Update local context inventory so PossoWidget reacts immediately
+    if (!inventory.includes(item.ingredient.toLowerCase())) {
+      setInventory([...inventory, item.ingredient.toLowerCase()]);
+    }
+    
     updateGroceryItem(item.id, { inPantry: true });
   };
 
@@ -399,34 +405,44 @@ export default function GroceryListModal({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold">🛒 Grocery List</h2>
+        <div className="bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-800 text-white p-8 relative overflow-hidden shadow-inner">
+          {/* Decorative background circles */}
+          <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-[-20%] left-[-10%] w-48 h-48 bg-pink-500/20 rounded-full blur-2xl pointer-events-none" />
+          
+          <div className="relative z-10 flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <span className="text-4xl filter drop-shadow-md">🛒</span>
+              <div>
+                <h2 className="text-3xl font-extrabold tracking-tight">Grocery List</h2>
+                <p className="text-indigo-100 text-sm opacity-80 mt-1 font-medium">Equip your kitchen for alchemical success</p>
+              </div>
+            </div>
             <button
               onClick={onClose}
-              className="text-white hover:text-gray-200 text-2xl font-bold"
+              className="text-white/60 hover:text-white bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-300 font-bold"
             >
               ×
             </button>
           </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-4 gap-4 text-sm">
-            <div className="bg-white bg-opacity-20 rounded-lg p-2 text-center">
-              <div className="font-bold text-lg">{stats.total}</div>
-              <div className="text-xs">Total</div>
+ 
+          {/* Stats Bar */}
+          <div className="relative z-10 grid grid-cols-4 gap-4">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg">
+              <div className="font-black text-2xl mb-1">{stats.total}</div>
+              <div className="text-[10px] uppercase tracking-wider font-bold text-indigo-200">Total</div>
             </div>
-            <div className="bg-white bg-opacity-20 rounded-lg p-2 text-center">
-              <div className="font-bold text-lg">{stats.remaining}</div>
-              <div className="text-xs">To Buy</div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg border-amber-400/30">
+              <div className="font-black text-2xl mb-1 text-amber-200">{stats.remaining}</div>
+              <div className="text-[10px] uppercase tracking-wider font-bold text-amber-300">To Buy</div>
             </div>
-            <div className="bg-white bg-opacity-20 rounded-lg p-2 text-center">
-              <div className="font-bold text-lg">{stats.inPantry}</div>
-              <div className="text-xs">In Pantry</div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg border-emerald-400/30">
+              <div className="font-black text-2xl mb-1 text-emerald-300">{stats.inPantry}</div>
+              <div className="text-[10px] uppercase tracking-wider font-bold text-emerald-300">In Pantry</div>
             </div>
-            <div className="bg-white bg-opacity-20 rounded-lg p-2 text-center">
-              <div className="font-bold text-lg">{stats.purchased}</div>
-              <div className="text-xs">Purchased</div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg border-blue-400/30">
+              <div className="font-black text-2xl mb-1 text-blue-300">{stats.purchased}</div>
+              <div className="text-[10px] uppercase tracking-wider font-bold text-blue-300">Got it</div>
             </div>
           </div>
         </div>
@@ -658,21 +674,22 @@ function GroceryItemRow({
       }`}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3 flex-1">
-          <input
-            type="checkbox"
-            checked={item.purchased}
-            onChange={(e) => onTogglePurchased(e.target.checked)}
-            className="w-5 h-5"
-          />
-          <div className={item.purchased ? "line-through" : ""}>
-            <div className="font-medium">
-              {item.quantity} {item.unit} {item.ingredient}
+        <div className="flex items-center gap-4 flex-1">
+          <div className="relative flex items-center justify-center">
+            <input
+              type="checkbox"
+              checked={item.purchased}
+              onChange={(e) => onTogglePurchased(e.target.checked)}
+              className="w-6 h-6 rounded-md border-2 border-indigo-200 text-indigo-600 focus:ring-indigo-500 transition-all cursor-pointer accent-indigo-600"
+            />
+          </div>
+          <div className={item.purchased ? "opacity-60" : ""}>
+            <div className={`font-bold text-slate-800 ${item.purchased ? "line-through" : ""}`}>
+              <span className="text-indigo-600 mr-1">{item.quantity} {item.unit}</span> {item.ingredient}
             </div>
             {item.usedInRecipes && item.usedInRecipes.length > 0 && (
-              <div className="text-xs text-gray-600">
-                Used in {item.usedInRecipes.length} recipe
-                {item.usedInRecipes.length > 1 ? "s" : ""}
+              <div className="text-[10px] text-slate-500 font-medium uppercase tracking-wide mt-0.5">
+                Needed for {item.usedInRecipes.length} recipe{item.usedInRecipes.length > 1 ? "s" : ""}
               </div>
             )}
           </div>
@@ -680,15 +697,17 @@ function GroceryItemRow({
 
         <div className="flex items-center gap-2">
           {isInPantry ? (
-            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full uppercase tracking-tighter">
+              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
               In Pantry
             </span>
           ) : (
             <button
               onClick={onAddToPantry}
-              className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded hover:bg-orange-200"
+              className="group/btn relative text-[10px] font-bold bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-lg hover:bg-indigo-600 hover:text-white transition-all transform active:scale-95 flex items-center gap-1"
             >
-              + Pantry
+              <span>🏺</span>
+              <span className="uppercase">Add to Pantry</span>
             </button>
           )}
         </div>

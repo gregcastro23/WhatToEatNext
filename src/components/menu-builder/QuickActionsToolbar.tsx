@@ -382,10 +382,10 @@ export default function QuickActionsToolbar() {
         // Find recipes with ingredients not currently in the menu
         const currentIngs = new Set(ingredientCounts.keys());
         const diverseRecipes = allRecipes
-          .filter((r) => !usedIds.has(r.id))
+          .filter((r) => !usedIds.has(r.id) && isSuitableForMealType(r, meal.slot.mealType))
           .map((r) => {
             const recipeIngs = (r.ingredients || []).map((ing) =>
-              ing.name.toLowerCase(),
+              (typeof ing === 'string' ? ing : (ing as any).name ?? '').toLowerCase()
             );
             const newIngCount = recipeIngs.filter(
               (ing) => !currentIngs.has(ing),
