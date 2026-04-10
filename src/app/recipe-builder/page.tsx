@@ -24,7 +24,6 @@ import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
 import {
-  generateDayRecommendations,
   type RecommendedMeal,
   type AstrologicalState,
   type UserPersonalizationContext,
@@ -201,10 +200,10 @@ export default function RecipeBuilderPage() {
       setLastGeneratedFrom("quick");
       setGenerationError(null);
       try {
-        const recommendations = await generateDayRecommendations(
-          currentDay,
-          convertedAstroState,
-          {
+        const payload = {
+          dayOfWeek: currentDay,
+          astroState: convertedAstroState,
+          options: {
             mealTypes: [mealType],
             dietaryRestrictions: [],
             preferredCuisines: [],
@@ -213,7 +212,56 @@ export default function RecipeBuilderPage() {
             maxRecipesPerMeal: 10,
             userContext,
           },
-        );
+        };
+
+        let res = await fetch("/api/recommendations/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(payload),
+        });
+        let data = await res.json();
+
+        // One free retry for timeout within server-issued 5-minute window.
+        if (!res.ok && res.status === 504 && data?.retry?.token) {
+          res = await fetch("/api/recommendations/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({
+              ...payload,
+              retryToken: data.retry.token,
+            }),
+          });
+          data = await res.json();
+        }
+
+        if (!res.ok || !data?.success) {
+          if (res.status === 402) {
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(new Event("open-token-shop"));
+            }
+            setGenerationError("Insufficient tokens. Each generation costs 5 Spirit + 5 Essence.");
+            handleSuggestionsUpdate([]);
+            return;
+          }
+          if (res.status === 401) {
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(new Event("open-signin-modal"));
+            }
+            setGenerationError("Please sign in to generate recipes.");
+            handleSuggestionsUpdate([]);
+            return;
+          }
+          if (res.status === 504) {
+            setGenerationError("Generation timed out. Please retry.");
+            handleSuggestionsUpdate([]);
+            return;
+          }
+          throw new Error(data?.message || "Quick generate failed");
+        }
+
+        const recommendations = (data.recommendations || []) as RecommendedMeal[];
         handleSuggestionsUpdate(recommendations);
       } catch (err) {
         logger.error("Quick generate failed:", err as any);

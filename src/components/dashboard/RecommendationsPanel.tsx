@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { RestaurantBuilder } from '@/components/profile/RestaurantBuilder';
 import { RestaurantSearch } from '@/components/profile/RestaurantSearch';
+import { TokenGate } from '@/components/economy/TokenGate';
 import { useUser } from '@/contexts/UserContext';
+import { reportQuestEvent } from '@/lib/questReporter';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
 
@@ -188,6 +190,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
         savedRestaurants: newSaved
       }
     });
+    reportQuestEvent('save_restaurant');
   };
 
   const handleRemoveRestaurant = async (restaurantId: string) => {
@@ -532,12 +535,19 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 <p className="text-xs text-gray-500 mb-4">
                   Create custom restaurants and build menus with categories &amp; dietary tags.
                 </p>
-                <RestaurantBuilder
-                  savedRestaurants={savedRestaurants}
-                  onSave={(restaurant) => { void handleSaveRestaurant(restaurant); }}
-                  onRemove={(restaurantId) => { void handleRemoveRestaurant(restaurantId); }}
-                  onUpdate={(updatedRestaurant) => { void handleUpdateRestaurant(updatedRestaurant); }}
-                />
+                <TokenGate
+                  shopItemSlug="unlock-restaurant-creator"
+                  featureName="Restaurant Creator"
+                  showPreview
+                  cost={{ essence: 10, matter: 10 }}
+                >
+                  <RestaurantBuilder
+                    savedRestaurants={savedRestaurants}
+                    onSave={(restaurant) => { void handleSaveRestaurant(restaurant); }}
+                    onRemove={(restaurantId) => { void handleRemoveRestaurant(restaurantId); }}
+                    onUpdate={(updatedRestaurant) => { void handleUpdateRestaurant(updatedRestaurant); }}
+                  />
+                </TokenGate>
               </>
             ) : (
               <>

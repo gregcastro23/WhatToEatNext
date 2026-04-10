@@ -31,6 +31,7 @@ export default function SignInModal() {
   useEffect(() => {
     const handleOpen = () => {
       if (status !== 'authenticated') {
+        setError(null);
         setIsOpen(true);
       }
     };

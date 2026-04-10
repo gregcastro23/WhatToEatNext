@@ -305,6 +305,117 @@ export interface SystemMetric {
 }
 
 // ==========================================
+// TOKEN ECONOMY TABLES
+// ==========================================
+
+export interface TokenTransactionRecord {
+  id: number; // BIGINT IDENTITY
+  transaction_group_id: string; // UUID
+  user_id: string; // UUID (references users.id)
+  token_type: "Spirit" | "Essence" | "Matter" | "Substance";
+  amount: number; // DECIMAL(12,4) (+ credit / - debit)
+  source_type:
+    | "daily_yield"
+    | "quest_reward"
+    | "purchase"
+    | "transmutation"
+    | "streak_bonus"
+    | "admin";
+  source_id?: string;
+  description?: string;
+  idempotency_key?: string;
+  created_at: Date;
+}
+
+export interface TokenBalanceRecord {
+  user_id: string; // UUID (references users.id)
+  spirit: number; // DECIMAL(12,4)
+  essence: number; // DECIMAL(12,4)
+  matter: number; // DECIMAL(12,4)
+  substance: number; // DECIMAL(12,4)
+  last_daily_claim_at?: Date;
+  updated_at: Date;
+}
+
+export interface UserYieldProfileRecord {
+  user_id: string; // UUID (references users.id)
+  spirit_weight: number; // DECIMAL(5,4)
+  essence_weight: number; // DECIMAL(5,4)
+  matter_weight: number; // DECIMAL(5,4)
+  substance_weight: number; // DECIMAL(5,4)
+  natal_chart_hash?: string;
+  last_transit_bonus?: Record<string, any>; // JSONB
+  yield_cache_date?: Date;
+  calculated_at: Date;
+}
+
+export interface DailyEphemerisCacheRecord {
+  cache_date: Date;
+  planet_positions: Record<string, any>; // JSONB
+  transit_esms: Record<string, any>; // JSONB
+  fetched_at: Date;
+  source?: string;
+}
+
+export interface UserStreakRecord {
+  user_id: string; // UUID (references users.id)
+  current_streak: number;
+  longest_streak: number;
+  last_activity_date?: Date;
+  streak_frozen_until?: Date;
+  updated_at: Date;
+}
+
+export interface QuestDefinitionRecord {
+  id: string; // UUID
+  slug: string;
+  title: string;
+  description?: string;
+  quest_type: "daily" | "weekly" | "achievement";
+  token_reward_type: "Spirit" | "Essence" | "Matter" | "Substance" | "all";
+  token_reward_amount: number; // DECIMAL(10,4)
+  trigger_event: string;
+  trigger_threshold: number;
+  is_active: boolean;
+  sort_order: number;
+  created_at: Date;
+}
+
+export interface UserQuestProgressRecord {
+  id: number; // BIGINT IDENTITY
+  user_id: string; // UUID (references users.id)
+  quest_id: string; // UUID (references quest_definitions.id)
+  progress: number;
+  completed_at?: Date;
+  period_start?: Date;
+  created_at: Date;
+}
+
+export interface ShopItemRecord {
+  id: string; // UUID
+  slug: string;
+  title: string;
+  description?: string;
+  category: string;
+  cost_spirit: number; // DECIMAL(10,4)
+  cost_essence: number; // DECIMAL(10,4)
+  cost_matter: number; // DECIMAL(10,4)
+  cost_substance: number; // DECIMAL(10,4)
+  is_one_time: boolean;
+  is_active: boolean;
+  sort_order: number;
+  created_at: Date;
+}
+
+export interface UserPurchaseRecord {
+  id: number; // BIGINT IDENTITY
+  user_id: string; // UUID (references users.id)
+  shop_item_id: string; // UUID (references shop_items.id)
+  transaction_group_id: string; // UUID
+  purchased_at: Date;
+}
+
+// ==========================================
 // QUERY RESULT TYPES
 // ==========================================
 
@@ -351,7 +462,16 @@ export type DatabaseTable =
   | "calculation_cache"
   | "user_calculations"
   | "recommendations"
-  | "system_metrics";
+  | "system_metrics"
+  | "token_transactions"
+  | "token_balances"
+  | "user_yield_profiles"
+  | "daily_ephemeris_cache"
+  | "user_streaks"
+  | "quest_definitions"
+  | "user_quest_progress"
+  | "shop_items"
+  | "user_purchases";
 export type Insertable<T> = Omit<T, "id" | "created_at" | "updated_at">;
 export type Updatable<T> = Partial<Omit<T, "id" | "created_at">> & {
   updated_at?: Date;

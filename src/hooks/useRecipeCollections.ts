@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
+import { reportQuestEvent } from "@/lib/questReporter";
 
 const STORAGE_KEYS = {
   favorites: "alchm-recipe-favorites",
@@ -70,10 +71,12 @@ export function useRecipeCollections() {
   // Favorites
   const toggleFavorite = useCallback((recipeId: string) => {
     setFavoriteIds((prev) => {
-      const next = prev.includes(recipeId)
+      const isRemoving = prev.includes(recipeId);
+      const next = isRemoving
         ? prev.filter((id) => id !== recipeId)
         : [...prev, recipeId];
       saveToStorage(STORAGE_KEYS.favorites, next);
+      if (!isRemoving) reportQuestEvent('save_recipe');
       return next;
     });
   }, []);

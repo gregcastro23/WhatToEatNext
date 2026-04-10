@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import SignInModal from "@/components/auth/SignInModal";
+import TokenShopModal from "@/components/economy/TokenShopModal";
 import NavAuthLink from "@/components/nav/NavAuthLink";
 import NotificationBell from "@/components/nav/NotificationBell";
 import PremiumLink from "@/components/nav/PremiumLink";
@@ -255,6 +256,7 @@ export default function RootLayout({
             </div>
           </footer>
           <SignInModal />
+          <TokenShopModal />
         </ClientProviders>
         <Analytics />
       </body>

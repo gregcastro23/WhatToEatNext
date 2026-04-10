@@ -3,7 +3,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { reportQuestEvent } from '@/lib/questReporter';
 import { PremiumGate } from '@/components/PremiumGate';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
@@ -20,6 +21,8 @@ import { FoodLabBook } from './FoodLabBook';
 import { NatalTransitChart } from './NatalTransitChart';
 import { NotificationPanel } from './NotificationPanel';
 import { RecommendationsPanel } from './RecommendationsPanel';
+import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
+import { QuestPanel } from '@/components/economy/QuestPanel';
 
 const SIGN_SYMBOLS: Record<string, string> = {
   aries: '\u2648', taurus: '\u2649', gemini: '\u264A', cancer: '\u264B',
@@ -381,7 +384,7 @@ function usePendingRequestCount(): number {
 
 /* ─── Main Dashboard ─────────────────────────────────────── */
 
-type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'labbook' | 'settings';
+type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'labbook' | 'cosmic-quests' | 'settings';
 
 export const UserDashboard: React.FC<UserDashboardProps> = ({
   session,
@@ -393,6 +396,13 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('dashboard');
   const pendingRequests = usePendingRequestCount();
+
+  // Fire quest events when navigating to specific views
+  const handleViewMode = useCallback((mode: ViewMode) => {
+    setViewMode(mode);
+    if (mode === 'chart-detail') reportQuestEvent('view_chart');
+    if (mode === 'recommendations') reportQuestEvent('view_insight');
+  }, []);
 
   const email = session?.user?.email || '';
   const userName = session?.user?.name || 'User';
@@ -460,6 +470,16 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     );
   }
 
+  if (viewMode === 'cosmic-quests') {
+    return (
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+        <BackButton />
+        <TokenBalanceBar className="mb-4" />
+        <QuestPanel />
+      </motion.div>
+    );
+  }
+
   if (viewMode === 'settings') {
     return (
       <div className="space-y-4">
@@ -504,6 +524,15 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
         </div>
       </header>
 
+      {/* Token Economy Bar */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+      >
+        <TokenBalanceBar />
+      </motion.div>
+
       {/* Main Grid: Identity & Cosmic Pulse */}
       <div className="grid lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Core Identity */}
@@ -545,8 +574,14 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
               <NavCard
                 label="Full Natal Chart"
                 description="Explore the deep architecture of your natal celestial alignment."
-                onClick={() => setViewMode('chart-detail')}
+                onClick={() => handleViewMode('chart-detail')}
                 delay={0.7}
+              />
+              <NavCard
+                label="Cosmic Quests"
+                description="Complete daily rituals and weekly quests to earn ESMS tokens."
+                onClick={() => setViewMode('cosmic-quests')}
+                delay={0.75}
               />
               <NavCard
                 label="Commensal Sync"
