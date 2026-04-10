@@ -8,6 +8,7 @@ import { streamObject } from "ai";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { auth } from "@/lib/auth/auth";
+import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
@@ -39,12 +40,40 @@ export async function POST(request: Request) {
 
   // 2. If not premium, they MUST spend tokens OR have a valid monthly slot
   // (We'll prioritize tokens for 'cosmic' recipes as they are special sinks)
+  // Apply live pricing so the debit matches what the Token Shop displays.
   if (!isPremium) {
-    const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe");
+    const item = await tokenEconomy.getShopItem("unlock-cosmic-recipe");
+    if (!item || !item.isActive) {
+      return new Response(JSON.stringify({
+        error: "shop_item_unavailable",
+        message: "Cosmic recipe unlock is not configured.",
+      }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const pricing = await getLivePricingContext();
+    const liveCost = applyLivePricing(
+      {
+        spirit: item.costSpirit,
+        essence: item.costEssence,
+        matter: item.costMatter,
+        substance: item.costSubstance,
+      },
+      pricing.multiplier,
+    );
+
+    const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe", {
+      overrideCosts: liveCost,
+      descriptionSuffix: `live x${pricing.multiplier.toFixed(2)}`,
+    });
     if (!purchase.success && purchase.reason !== "already_owned") {
       return new Response(JSON.stringify({
         error: "Insufficient tokens",
-        message: "Cosmic recipes require 15 Spirit and 15 Essence tokens. Earn more or upgrade to Premium!"
+        message: `Cosmic recipes require ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence (live x${pricing.multiplier.toFixed(2)}). Earn more or upgrade to Premium!`,
+        liveCost,
+        pricing,
       }), {
         status: 402,
         headers: { "Content-Type": "application/json" },

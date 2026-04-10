@@ -9,6 +9,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import {
@@ -39,20 +40,28 @@ function cleanupExpiredRetryGrants(now = Date.now()): void {
   }
 }
 
-function consumeRetryGrant(userId: string, retryToken?: string): boolean {
-  if (!retryToken) return false;
+function lookupRetryGrant(userId: string, retryToken?: string): RetryGrant | null {
+  if (!retryToken) return null;
   cleanupExpiredRetryGrants();
   const grant = retryGrants.get(retryToken);
-  if (!grant) return false;
-  if (grant.userId !== userId) return false;
-  retryGrants.delete(retryToken);
-  return true;
+  if (!grant) return null;
+  if (grant.userId !== userId) return null;
+  return grant;
 }
 
-function createRetryGrant(userId: string): { token: string; expiresAt: string } {
+function deleteRetryGrant(retryToken?: string): void {
+  if (!retryToken) return;
+  retryGrants.delete(retryToken);
+}
+
+function createRetryGrant(
+  userId: string,
+  existingToken?: string,
+  expiresAtOverride?: number,
+): { token: string; expiresAt: string } {
   cleanupExpiredRetryGrants();
-  const token = randomUUID();
-  const expiresAtMs = Date.now() + RETRY_WINDOW_MS;
+  const token = existingToken ?? randomUUID();
+  const expiresAtMs = expiresAtOverride ?? Date.now() + RETRY_WINDOW_MS;
   retryGrants.set(token, { userId, expiresAt: expiresAtMs });
   return { token, expiresAt: new Date(expiresAtMs).toISOString() };
 }
@@ -116,21 +125,53 @@ export async function POST(request: NextRequest) {
 
   let charged = false;
   let usedRetryWindow = false;
+  let activeRetryGrant: RetryGrant | null = null;
 
   // Strict server-side per-click consumption for non-premium users.
   if (!isPremium) {
-    const usedRetryGrant = consumeRetryGrant(userId, retryToken);
-    if (usedRetryGrant) {
+    const reusedGrant = lookupRetryGrant(userId, retryToken);
+    if (reusedGrant) {
       usedRetryWindow = true;
+      activeRetryGrant = reusedGrant;
     } else {
-      const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-basic-recipe");
+      // Resolve the item to read base costs, then apply the live pricing
+      // multiplier so generation matches the in-shop price experience.
+      const item = await tokenEconomy.getShopItem("unlock-basic-recipe");
+      if (!item || !item.isActive) {
+        return NextResponse.json(
+          {
+            success: false,
+            reason: "item_not_found",
+            message: "Recipe generation shop item not configured.",
+          },
+          { status: 500 },
+        );
+      }
+
+      const pricing = await getLivePricingContext();
+      const liveCost = applyLivePricing(
+        {
+          spirit: item.costSpirit,
+          essence: item.costEssence,
+          matter: item.costMatter,
+          substance: item.costSubstance,
+        },
+        pricing.multiplier,
+      );
+
+      const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-basic-recipe", {
+        overrideCosts: liveCost,
+        descriptionSuffix: `live x${pricing.multiplier.toFixed(2)}`,
+      });
       if (!purchase.success) {
         if (purchase.reason === "insufficient_funds") {
           return NextResponse.json(
             {
               success: false,
               reason: "insufficient_tokens",
-              message: "Insufficient tokens for recipe generation. Cost: 5 Spirit + 5 Essence.",
+              message: `Insufficient tokens for recipe generation. Cost: ${liveCost.spirit.toFixed(2)} Spirit + ${liveCost.essence.toFixed(2)} Essence (live x${pricing.multiplier.toFixed(2)}).`,
+              liveCost,
+              pricing,
             },
             { status: 402 },
           );
@@ -155,6 +196,12 @@ export async function POST(request: NextRequest) {
       55_000,
     );
 
+    // Success: the retry grant (if any) has delivered a recipe and must be
+    // consumed so it cannot be reused to bypass future payments.
+    if (usedRetryWindow) {
+      deleteRetryGrant(retryToken);
+    }
+
     return NextResponse.json({
       success: true,
       recommendations,
@@ -165,7 +212,18 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     if (error instanceof Error && error.message === "GENERATION_TIMEOUT") {
-      const retry = !isPremium && charged ? createRetryGrant(userId) : null;
+      // Issue or refresh a retry grant so the caller keeps the full
+      // 5-minute window even if multiple timeouts occur in a row. For
+      // retry-window requests, preserve the original grant's expiration
+      // so the timer never extends beyond the original 5-minute budget.
+      let retry: { token: string; expiresAt: string } | null = null;
+      if (!isPremium) {
+        if (activeRetryGrant && retryToken) {
+          retry = createRetryGrant(userId, retryToken, activeRetryGrant.expiresAt);
+        } else if (charged) {
+          retry = createRetryGrant(userId);
+        }
+      }
       return NextResponse.json(
         {
           success: false,
@@ -175,6 +233,12 @@ export async function POST(request: NextRequest) {
         },
         { status: 504 },
       );
+    }
+
+    // Non-timeout failure: consume the retry grant. Persisting it would let
+    // a user keep trying with a fresh payload, which could be abused.
+    if (usedRetryWindow) {
+      deleteRetryGrant(retryToken);
     }
 
     return NextResponse.json(
