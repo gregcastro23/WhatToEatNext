@@ -16,7 +16,6 @@ import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
 import { CommensalManager } from './CommensalManager';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
-import { DashboardOverview } from './DashboardOverview';
 import { FoodLabBook } from './FoodLabBook';
 import { NatalTransitChart } from './NatalTransitChart';
 import { NotificationPanel } from './NotificationPanel';
@@ -351,41 +350,6 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
             </div>
           );
         })}
-      </div>
-    </Link>
-  );
-}
-
-function CurrentChartSection() {
-  const { planetaryPositions } = useAlchemical();
-  const sunData = planetaryPositions?.sun as any;
-  const moonData = planetaryPositions?.moon as any;
-  
-  return (
-    <Link href="/current-chart" className="block bg-gray-950 rounded-3xl p-6 border border-white/5 hover:border-orange-500/50 hover:shadow-lg hover:shadow-orange-900/20 transition-all cursor-pointer group">
-      <div className="flex justify-between items-start mb-5">
-        <div>
-          <h3 className="text-sm font-bold text-white uppercase tracking-widest">Current Transits</h3>
-          <p className="text-white/30 text-xs mt-0.5">Real-time planetary alignments</p>
-        </div>
-        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-          <svg className="w-4 h-4 text-white/40 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </div>
-      </div>
-
-      <div className="flex gap-3 mb-5">
-        {[
-          { label: 'Sun', sign: sunData?.sign, color: 'amber' },
-          { label: 'Moon', sign: moonData?.sign, color: 'blue' },
-        ].map(({ label, sign, color }) => sign && (
-          <div key={label} className="flex-1 bg-white/[0.03] rounded-2xl p-3 border border-white/5 text-center">
-            <div className={`text-${color}-400 text-xl mb-1`}>{SIGN_SYMBOLS[sign.toLowerCase()] || ''}</div>
-            <div className="text-white/30 text-[9px] uppercase tracking-widest">{label}</div>
-            <div className="text-white font-bold capitalize text-sm mt-0.5">{sign}</div>
-          </div>
-        ))}
       </div>
     </Link>
   );

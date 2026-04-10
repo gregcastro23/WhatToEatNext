@@ -42,7 +42,6 @@ export const AlchemicalConstitutionPanel: React.FC<AlchemicalConstitutionPanelPr
           const val = alch[item.key] ?? 0;
           const pct = (val / norm) * 100;
           const isDominant = item.key === dominant.key;
-          const gradClass = `grad-${item.key.toLowerCase()}-${item.name?.toLowerCase() || ''}`.replace('--', '-');
           // Map to the premium gradients in globals.css
           const gradMap: Record<string, string> = {
             Spirit: 'grad-spirit-fire',
