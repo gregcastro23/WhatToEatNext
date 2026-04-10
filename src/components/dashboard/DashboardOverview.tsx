@@ -36,10 +36,10 @@ interface PersonalizedData {
 }
 
 const ELEMENT_COLORS: Record<string, { bg: string; text: string; border: string; bar: string }> = {
-  Fire: { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200', bar: 'bg-red-500' },
-  Water: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', bar: 'bg-blue-500' },
-  Earth: { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200', bar: 'bg-green-600' },
-  Air: { bg: 'bg-yellow-50', text: 'text-yellow-700', border: 'border-yellow-200', bar: 'bg-yellow-400' },
+  Fire: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/20', bar: 'bg-gradient-to-r from-red-600 to-red-400' },
+  Water: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20', bar: 'bg-gradient-to-r from-blue-600 to-blue-400' },
+  Earth: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20', bar: 'bg-gradient-to-r from-green-700 to-green-500' },
+  Air: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20', bar: 'bg-gradient-to-r from-amber-500 to-amber-300' },
 };
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
@@ -93,64 +93,64 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     <div className="space-y-6">
       {/* Top Row: Harmony Scores */}
       {personalData?.chartComparison ? (
-        <div className="bg-white rounded-xl shadow-sm p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-gray-800">Cosmic Harmony</h3>
-            <span className="text-xs text-gray-400">
+        <div className="alchm-card rounded-[2.5rem] shadow-2xl p-7 border-white/5">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-[11px] font-bold text-white/50 uppercase tracking-[0.2em]">Cosmic Harmony</h3>
+            <span className="text-[10px] text-white/20 font-medium italic">
               Natal chart vs current transits
             </span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <HarmonyGauge
               label="Overall"
               value={personalData.chartComparison.overallHarmony}
-              color="#8b5cf6"
+              color="#a78bfa"
             />
             <HarmonyGauge
               label="Elemental"
               value={personalData.chartComparison.elementalHarmony}
-              color="#f97316"
+              color="#fb923c"
             />
             <HarmonyGauge
               label="Alchemical"
               value={personalData.chartComparison.alchemicalAlignment}
-              color="#3b82f6"
+              color="#60a5fa"
             />
             <HarmonyGauge
               label="Planetary"
               value={personalData.chartComparison.planetaryResonance}
-              color="#22c55e"
+              color="#4ade80"
             />
           </div>
         </div>
       ) : isLoading ? (
-        <div className="bg-white rounded-xl shadow-sm p-8 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500" />
-          <span className="ml-3 text-sm text-gray-500">Calculating cosmic harmony...</span>
+        <div className="alchm-card rounded-[2.5rem] shadow-2xl p-10 flex flex-col items-center justify-center border-white/5">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-500 mb-4" />
+          <span className="text-[11px] font-bold text-white/30 uppercase tracking-widest">Calculating resonance...</span>
         </div>
       ) : null}
 
       {/* Two-Column: ESMS + Elemental */}
       <div className="grid md:grid-cols-2 gap-5">
         {/* Alchemical Constitution (ESMS) */}
-        <div className="bg-white rounded-xl shadow-sm p-5 border-t-4 border-purple-500">
-          <h3 className="text-base font-bold text-gray-800 mb-3">Alchemical Constitution</h3>
-          <div className="space-y-3">
+        <div className="alchm-card rounded-[2.5rem] shadow-2xl p-7 border-white/5">
+          <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-6">Alchemical Constitution</h3>
+          <div className="space-y-5">
             {[
-              { key: 'Spirit', val: alch.Spirit, color: 'bg-red-500', desc: 'The spark of action and thought' },
-              { key: 'Essence', val: alch.Essence, color: 'bg-blue-400', desc: 'The flow of feeling and connection' },
-              { key: 'Matter', val: alch.Matter, color: 'bg-green-600', desc: 'The physical form and nourishment' },
-              { key: 'Substance', val: alch.Substance, color: 'bg-orange-500', desc: 'The building blocks and fuel' },
+              { key: 'Spirit', val: alch.Spirit, color: 'grad-spirit-fire', desc: 'The spark of action and thought' },
+              { key: 'Essence', val: alch.Essence, color: 'grad-essence-water', desc: 'The flow of feeling and connection' },
+              { key: 'Matter', val: alch.Matter, color: 'grad-matter-earth', desc: 'The physical form and nourishment' },
+              { key: 'Substance', val: alch.Substance, color: 'grad-substance-air', desc: 'The building blocks and fuel' },
             ].map((item) => {
               const pct = Math.min((item.val / esmsNorm) * 100, 100);
               return (
-                <div key={item.key} title={item.desc}>
-                  <div className="flex justify-between text-sm font-medium text-gray-700 mb-1">
-                    <span>{item.key}</span>
-                    <span>{pct.toFixed(1)}%</span>
+                <div key={item.key} title={item.desc} className="group">
+                  <div className="flex justify-between text-[11px] font-bold mb-2">
+                    <span className="text-white/60 group-hover:text-white transition-colors uppercase tracking-wider">{item.key}</span>
+                    <span className="text-white font-mono">{pct.toFixed(1)}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className={`h-2 rounded-full ${item.color} transition-all duration-500`} style={{ width: `${pct}%` }} />
+                  <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden ring-1 ring-white/5">
+                    <div className={`h-1.5 rounded-full ${item.color} transition-all duration-1000 ease-out`} style={{ width: `${pct}%` }} />
                   </div>
                 </div>
               );
@@ -159,26 +159,26 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Elemental Balance */}
-        <div className="bg-white rounded-xl shadow-sm p-5 border-t-4 border-blue-500">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-base font-bold text-gray-800">Elemental Balance</h3>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-800 border border-blue-200">
-              Dominant: {natalChart.dominantElement || getDominantElement()}
+        <div className="alchm-card rounded-[2.5rem] shadow-2xl p-7 border-white/5">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">Elemental Balance</h3>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-widest">
+              {natalChart.dominantElement || getDominantElement()}
             </span>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-5">
             {(['Fire', 'Water', 'Earth', 'Air'] as const).map((el) => {
               const val = elemental[el] ?? 0;
               const pct = Math.min(val * 100, 100);
               const colors = ELEMENT_COLORS[el];
               return (
-                <div key={el}>
-                  <div className="flex justify-between text-sm font-medium text-gray-700 mb-1">
-                    <span>{el}</span>
-                    <span>{pct.toFixed(1)}%</span>
+                <div key={el} className="group">
+                  <div className="flex justify-between text-[11px] font-bold mb-2">
+                    <span className="text-white/60 group-hover:text-white transition-colors uppercase tracking-wider">{el}</span>
+                    <span className="text-white font-mono">{pct.toFixed(1)}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className={`h-2 rounded-full ${colors.bar} transition-all duration-500`} style={{ width: `${pct}%` }} />
+                  <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden ring-1 ring-white/5">
+                    <div className={`h-1.5 rounded-full ${colors.bar} transition-all duration-1000 ease-out`} style={{ width: `${pct}%` }} />
                   </div>
                 </div>
               );
@@ -191,19 +191,19 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       {personalData && (
         <div className="grid md:grid-cols-2 gap-5">
           {/* Favorable Elements & Harmonic Planets */}
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <h3 className="text-base font-bold text-gray-800 mb-3">Current Alignments</h3>
+          <div className="alchm-card rounded-[2.5rem] shadow-2xl p-7 border-white/5">
+            <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-5">Current Alignments</h3>
 
             {personalData.recommendations.favorableElements.length > 0 && (
-              <div className="mb-4">
-                <p className="text-xs font-medium text-gray-600 mb-2 uppercase tracking-wider">Favorable Elements</p>
+              <div className="mb-6">
+                <p className="text-[10px] font-bold text-white/20 mb-3 uppercase tracking-widest">Favorable Elements</p>
                 <div className="flex flex-wrap gap-2">
                   {personalData.recommendations.favorableElements.map((el) => {
                     const colors = ELEMENT_COLORS[el] || ELEMENT_COLORS.Fire;
                     return (
                       <span
                         key={el}
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${colors.bg} ${colors.text} border ${colors.border}`}
+                        className={`px-3 py-1 rounded-full text-[10px] font-bold tracking-wider ${colors.bg} ${colors.text} border ${colors.border} uppercase`}
                       >
                         {el}
                       </span>
@@ -215,12 +215,12 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
             {personalData.recommendations.harmonicPlanets.length > 0 && (
               <div>
-                <p className="text-xs font-medium text-gray-600 mb-2 uppercase tracking-wider">Harmonic Planets</p>
+                <p className="text-[10px] font-bold text-white/20 mb-3 uppercase tracking-widest">Harmonic Planets</p>
                 <div className="flex flex-wrap gap-2">
                   {personalData.recommendations.harmonicPlanets.map((planet) => (
                     <span
                       key={planet}
-                      className="px-3 py-1 rounded-full text-sm font-medium bg-purple-50 text-purple-700 border border-purple-200"
+                      className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase"
                     >
                       {planet}
                     </span>
@@ -231,19 +231,19 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
 
           {/* Cosmic Insights */}
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <h3 className="text-base font-bold text-gray-800 mb-3">Cosmic Insights</h3>
+          <div className="alchm-card rounded-[2.5rem] shadow-2xl p-7 border-white/5">
+            <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-5">Cosmic Insights</h3>
             {personalData.recommendations.insights.length > 0 ? (
-              <ul className="space-y-2">
+              <ul className="space-y-4">
                 {personalData.recommendations.insights.map((insight, idx) => (
-                  <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
-                    <span className="text-purple-400 mt-0.5 flex-shrink-0">&#x2022;</span>
-                    <span>{insight}</span>
+                  <li key={idx} className="text-sm text-white/70 flex items-start gap-3">
+                    <span className="text-purple-400 mt-1 flex-shrink-0 w-1 h-1 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(167,139,250,1)]" />
+                    <span className="leading-relaxed">{insight}</span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-gray-500 italic">No additional insights at this moment.</p>
+              <p className="text-xs text-white/30 italic font-medium">No additional insights at this moment.</p>
             )}
           </div>
         </div>
@@ -251,22 +251,22 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
       {/* Thermodynamic State */}
       {thermodynamic && (
-        <div className="bg-white rounded-xl shadow-sm p-5">
-          <h3 className="text-base font-bold text-gray-800 mb-3">Thermodynamic State</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="alchm-card rounded-[2.5rem] shadow-2xl p-7 border-white/5">
+          <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-6">Thermodynamic State</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Heat', key: 'heat', color: 'text-red-600', bgColor: 'bg-red-50' },
-              { label: 'Entropy', key: 'entropy', color: 'text-blue-600', bgColor: 'bg-blue-50' },
-              { label: 'Reactivity', key: 'reactivity', color: 'text-orange-600', bgColor: 'bg-orange-50' },
-              { label: "Greg's Energy", key: 'gregsEnergy', color: 'text-purple-600', bgColor: 'bg-purple-50' },
+              { label: 'Heat', key: 'heat', color: 'text-red-400', bgColor: 'bg-red-500/5', border: 'border-red-500/10' },
+              { label: 'Entropy', key: 'entropy', color: 'text-blue-400', bgColor: 'bg-blue-500/5', border: 'border-blue-500/10' },
+              { label: 'Reactivity', key: 'reactivity', color: 'text-orange-400', bgColor: 'bg-orange-500/5', border: 'border-orange-500/10' },
+              { label: "Greg's Energy", key: 'gregsEnergy', color: 'text-purple-400', bgColor: 'bg-purple-500/5', border: 'border-purple-500/10' },
             ].map((item) => {
               const val = thermodynamic[item.key] ?? 0;
               return (
-                <div key={item.key} className={`${item.bgColor} rounded-lg p-3 text-center`}>
-                  <div className={`text-xl font-bold ${item.color}`}>
+                <div key={item.key} className={`${item.bgColor} rounded-3xl p-5 text-center border ${item.border} backdrop-blur-sm`}>
+                  <div className={`text-xl font-mono font-bold ${item.color}`}>
                     {typeof val === 'number' ? val.toFixed(3) : '—'}
                   </div>
-                  <div className="text-xs font-medium text-gray-600 mt-1">{item.label}</div>
+                  <div className="text-[10px] font-bold text-white/30 mt-2 uppercase tracking-widest">{item.label}</div>
                 </div>
               );
             })}
@@ -278,13 +278,13 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       {personalData && (
         <div className="grid md:grid-cols-2 gap-5">
           {personalData.recommendations.suggestedCuisines.length > 0 && (
-            <div className="bg-white rounded-xl shadow-sm p-5">
-              <h3 className="text-base font-bold text-gray-800 mb-3">Suggested Cuisines</h3>
+            <div className="alchm-card rounded-[2.5rem] shadow-2xl p-7 border-white/5">
+              <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-5">Suggested Cuisines</h3>
               <div className="flex flex-wrap gap-2">
                 {personalData.recommendations.suggestedCuisines.map((cuisine) => (
                   <span
                     key={cuisine}
-                    className="px-3 py-1.5 bg-gradient-to-r from-purple-50 to-orange-50 text-purple-700 rounded-lg text-sm font-medium border border-purple-200"
+                    className="px-4 py-2 bg-gradient-to-r from-purple-500/10 to-orange-500/10 text-white font-bold rounded-2xl text-[10px] border border-white/5 uppercase tracking-widest hover:border-purple-500/30 transition-colors"
                   >
                     {cuisine}
                   </span>
@@ -293,13 +293,13 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             </div>
           )}
           {personalData.recommendations.suggestedCookingMethods.length > 0 && (
-            <div className="bg-white rounded-xl shadow-sm p-5">
-              <h3 className="text-base font-bold text-gray-800 mb-3">Suggested Cooking Methods</h3>
+            <div className="alchm-card rounded-[2.5rem] shadow-2xl p-7 border-white/5">
+              <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-5">Suggested Cooking Methods</h3>
               <div className="flex flex-wrap gap-2">
                 {personalData.recommendations.suggestedCookingMethods.map((method) => (
                   <span
                     key={method}
-                    className="px-3 py-1.5 bg-orange-50 text-orange-700 rounded-lg text-sm font-medium border border-orange-200"
+                    className="px-4 py-2 bg-orange-500/10 text-orange-400 rounded-2xl text-[10px] font-bold border border-orange-500/20 uppercase tracking-widest hover:border-orange-500/40 transition-colors"
                   >
                     {method}
                   </span>
@@ -311,12 +311,12 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       )}
 
       {/* Context bar */}
-      <div className="bg-white rounded-xl shadow-sm p-3 flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500">
-        <span>Season: <span className="font-medium text-gray-700 capitalize">{state.currentSeason}</span></span>
-        <span className="text-gray-300">|</span>
-        <span>Time: <span className="font-medium text-gray-700">{state.timeOfDay}</span></span>
-        <span className="text-gray-300">|</span>
-        <span>Alchemical Harmony: <span className="font-medium text-gray-700">{(getAlchemicalHarmony() * 100).toFixed(0)}%</span></span>
+      <div className="alchm-card rounded-full p-4 flex flex-wrap items-center justify-center gap-6 text-[10px] font-bold uppercase tracking-[0.15em] border-white/5 text-white/30">
+        <span className="flex items-center gap-2">Season: <span className="text-white/60 font-mono tracking-tighter">{state.currentSeason}</span></span>
+        <div className="w-1 h-1 rounded-full bg-white/10" />
+        <span className="flex items-center gap-2">Time: <span className="text-white/60 font-mono tracking-tighter">{state.timeOfDay}</span></span>
+        <div className="w-1 h-1 rounded-full bg-white/10" />
+        <span className="flex items-center gap-2">Harmony: <span className="text-purple-400 font-mono tracking-tighter">{(getAlchemicalHarmony() * 100).toFixed(0)}%</span></span>
       </div>
     </div>
   );
@@ -334,32 +334,39 @@ function HarmonyGauge({
   color: string;
 }) {
   const pct = Math.round((value ?? 0) * 100);
-  const r = 32;
+  const r = 30;
   const circumference = 2 * Math.PI * r;
   const dashOffset = circumference * (1 - (value ?? 0));
 
   return (
-    <div className="flex flex-col items-center p-2">
-      <svg width="76" height="76" viewBox="0 0 76 76">
-        <circle cx="38" cy="38" r={r} fill="none" stroke="#e5e7eb" strokeWidth="6" />
-        <circle
-          cx="38"
-          cy="38"
-          r={r}
-          fill="none"
-          stroke={color}
-          strokeWidth="6"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={dashOffset}
-          transform="rotate(-90 38 38)"
-          className="transition-all duration-700"
-        />
-        <text x="38" y="42" textAnchor="middle" fill={color} fontSize="16" fontWeight="700">
-          {pct}
-        </text>
-      </svg>
-      <span className="text-xs font-medium text-gray-600 mt-1">{label}</span>
+    <div className="flex flex-col items-center p-2 group">
+      <div className="relative">
+        <svg width="84" height="84" viewBox="0 0 84 84" className="drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]">
+          <circle cx="42" cy="42" r={r} fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="6" />
+          <circle
+            cx="42"
+            cy="42"
+            r={r}
+            fill="none"
+            stroke={color}
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={dashOffset}
+            transform="rotate(-90 42 42)"
+            className="transition-all duration-1000 ease-in-out"
+            style={{ filter: `drop-shadow(0 0 8px ${color})` }}
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-lg font-mono font-bold text-white group-hover:scale-110 transition-transform">
+            {pct}
+          </span>
+        </div>
+      </div>
+      <span className="text-[10px] font-bold text-white/30 mt-3 uppercase tracking-widest group-hover:text-white/60 transition-colors">
+        {label}
+      </span>
     </div>
   );
 }

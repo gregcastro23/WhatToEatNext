@@ -13,6 +13,7 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { NatalChart, PlanetInfo } from "@/types/natalChart";
@@ -212,6 +213,7 @@ export async function POST(request: NextRequest) {
     };
 
     const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates as any, user.email);
+    await reportQuestEventBestEffort(userId, "complete_onboarding");
 
     // Send admin notification about completed onboarding
     // This provides the admin team with the user's dominant element

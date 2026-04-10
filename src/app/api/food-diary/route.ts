@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { CreateFoodDiaryEntrySchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { CreateFoodDiaryEntryInput } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
 
@@ -139,6 +140,7 @@ export async function POST(request: NextRequest) {
     const input = inputForService as CreateFoodDiaryEntryInput;
 
     const entry = await foodDiaryService.createEntry(userId, input);
+    await reportQuestEventBestEffort(userId, "log_meal");
 
     return NextResponse.json({ success: true, entry }, { status: 201 });
   } catch (error) {

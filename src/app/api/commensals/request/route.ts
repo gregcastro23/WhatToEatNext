@@ -71,7 +71,12 @@ export async function POST(request: NextRequest) {
       "commensal_request",
       "New Dining Companion Request",
       `${requesterName} wants to be your dining companion`,
-      { relatedUserId: userId },
+      {
+        relatedUserId: userId,
+        metadata: {
+          commensalshipId: commensalship.id,
+        },
+      },
     ).catch(() => {});
 
     return NextResponse.json(

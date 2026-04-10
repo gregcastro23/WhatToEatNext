@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaArrowRight, FaArrowLeft, FaSyncAlt } from "react-icons/fa";
+import { reportQuestEvent } from "@/lib/questReporter";
 
 interface AspectEntry {
   planet1: string;
@@ -149,6 +150,7 @@ export default function PlanetaryAspectsDisplay() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "applying" | "separating">("all");
+  const questFired = useRef(false);
 
   const fetchData = async () => {
     try {
@@ -158,6 +160,10 @@ export default function PlanetaryAspectsDisplay() {
       const json = await res.json();
       setData(json);
       setError(null);
+      if (!questFired.current) {
+        questFired.current = true;
+        reportQuestEvent('view_aspect');
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unknown error");
     } finally {

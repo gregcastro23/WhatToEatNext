@@ -55,7 +55,12 @@ export async function PUT(request: NextRequest) {
         "commensal_accepted",
         "Dining Companion Request Accepted",
         `${accepterName} accepted your dining companion request`,
-        { relatedUserId: userId },
+        {
+          relatedUserId: userId,
+          metadata: {
+            commensalshipId: commensalship.id,
+          },
+        },
       ).catch(() => {});
     }
 

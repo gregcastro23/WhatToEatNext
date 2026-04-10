@@ -1,9 +1,9 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { formatNotificationTimeAgo, useNotifications } from '@/hooks/useNotifications';
 import { NOTIFICATION_STYLES } from '@/types/notification';
-import type { UserNotification } from '@/types/notification';
 
 /**
  * NotificationBell — test-tube icon in the header with unread badge.
@@ -11,37 +11,14 @@ import type { UserNotification } from '@/types/notification';
  */
 export default function NotificationBell() {
   const { status } = useSession();
-  const [notifications, setNotifications] = useState<UserNotification[]>([]);
-  const [unreadCount, setUnreadCount] = useState(0);
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const fetchNotifications = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch('/api/notifications?limit=10');
-      if (res.ok) {
-        const data = await res.json();
-        setNotifications(data.notifications || []);
-        setUnreadCount(data.unreadCount || 0);
-      }
-    } catch {
-      // silently fail
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Fetch on mount and every 60s
-  useEffect(() => {
-    if (status !== 'authenticated') return;
-    void fetchNotifications();
-    const interval = setInterval(() => {
-      void fetchNotifications();
-    }, 60_000);
-    return () => clearInterval(interval);
-  }, [status, fetchNotifications]);
+  const { notifications, unreadCount, loading, error, fetchNotifications, markAsRead, markAllRead } =
+    useNotifications({
+      enabled: status === 'authenticated',
+      limit: 10,
+      pollingMs: 60_000,
+    });
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -53,20 +30,6 @@ export default function NotificationBell() {
     if (open) document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open]);
-
-  const markAsRead = async (id: string) => {
-    await fetch(`/api/notifications/${id}/read`, { method: 'PUT' }).catch(() => {});
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)),
-    );
-    setUnreadCount((c) => Math.max(0, c - 1));
-  };
-
-  const markAllRead = async () => {
-    await fetch('/api/notifications/read-all', { method: 'PUT' }).catch(() => {});
-    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
-    setUnreadCount(0);
-  };
 
   if (status !== 'authenticated') return null;
 
@@ -123,6 +86,10 @@ export default function NotificationBell() {
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-500" />
             </div>
+          ) : error ? (
+            <div className="py-6 px-4 text-sm text-rose-600">
+              {error}
+            </div>
           ) : notifications.length === 0 ? (
             <div className="py-8 text-center text-sm text-gray-400">
               No notifications yet
@@ -131,6 +98,9 @@ export default function NotificationBell() {
             <div className="p-2 space-y-2">
               {notifications.map((n) => {
                 const style = NOTIFICATION_STYLES[n.type] || NOTIFICATION_STYLES.welcome;
+                const seed = Number.parseInt(n.id.replace(/[^a-z0-9]/gi, '').slice(-4), 36);
+                const angle = Number.isFinite(seed) ? ((seed % 5) - 2) * 0.4 : 0;
+                const tilt = n.isRead ? 'rotate(0deg)' : `${angle}deg`;
                 return (
                   <button
                     key={n.id}
@@ -144,7 +114,7 @@ export default function NotificationBell() {
                       backgroundColor: style.bg,
                       border: `1px solid ${style.border}`,
                       opacity: n.isRead ? 0.7 : 1,
-                      transform: `rotate(${n.isRead ? 0 : (Math.random() - 0.5) * 1.5}deg)`,
+                      transform: `rotate(${tilt})`,
                       boxShadow: n.isRead ? 'none' : '2px 2px 8px rgba(0,0,0,0.08)',
                     }}
                   >
@@ -159,7 +129,7 @@ export default function NotificationBell() {
                         </p>
                         <p className="text-xs text-gray-600 mt-0.5 line-clamp-2">{n.message}</p>
                         <p className="text-[10px] text-gray-400 mt-1">
-                          {formatTimeAgo(n.createdAt)}
+                          {formatNotificationTimeAgo(n.createdAt)}
                         </p>
                       </div>
                     </div>
@@ -172,16 +142,4 @@ export default function NotificationBell() {
       )}
     </div>
   );
-}
-
-function formatTimeAgo(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return 'Just now';
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}d ago`;
-  return new Date(dateStr).toLocaleDateString();
 }

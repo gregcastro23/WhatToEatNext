@@ -1,5 +1,6 @@
 import "server-only";
 
+import { _logger } from "@/lib/logger";
 import type {
   DayOfWeek,
   DailyNutritionTotals,
@@ -7,7 +8,6 @@ import type {
   MealSlot,
   WeeklyMenu,
 } from "@/types/menuPlanner";
-import { _logger } from "@/lib/logger";
 
 const isServerWithDB = (): boolean => {
   return typeof window === "undefined" && !!process.env.DATABASE_URL;

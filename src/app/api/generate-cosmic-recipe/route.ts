@@ -7,6 +7,10 @@ import { openai } from "@ai-sdk/openai";
 import { streamObject } from "ai";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { auth } from "@/lib/auth/auth";
+import { subscriptionService } from "@/services/subscriptionService";
+import { tokenEconomy } from "@/services/TokenEconomyService";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -20,12 +24,41 @@ const SIGN_TO_ELEMENT: Record<string, string> = {
 };
 
 export async function POST(request: Request) {
-  if (!process.env.OPENAI_API_KEY) {
-    return new Response(JSON.stringify({ error: "Recipe generation not configured" }), {
-      status: 503,
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    return new Response(JSON.stringify({ error: "Authentication required" }), {
+      status: 401,
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  // 1. Check if user is premium
+  const sub = await subscriptionService.getUserSubscription(userId);
+  const isPremium = sub?.tier === "premium";
+
+  // 2. If not premium, they MUST spend tokens OR have a valid monthly slot
+  // (We'll prioritize tokens for 'cosmic' recipes as they are special sinks)
+  if (!isPremium) {
+    const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe");
+    if (!purchase.success && purchase.reason !== "already_owned") {
+      return new Response(JSON.stringify({
+        error: "Insufficient tokens",
+        message: "Cosmic recipes require 15 Spirit and 15 Essence tokens. Earn more or upgrade to Premium!"
+      }), {
+        status: 402,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+  }
+
+  // 3. Increment usage counter
+  try {
+    await subscriptionService.incrementUsage(userId, "recipe_generation");
+  } catch (error) {
+    console.warn("[generate-cosmic-recipe] Failed to increment usage", error);
+  }
+  await reportQuestEventBestEffort(userId, "generate_cosmic_recipe");
 
   const body = await request.json();
   const {

@@ -18,6 +18,7 @@ import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { normalizeIngredientList } from "@/utils/instacart/ingredientNormalizer";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
+import { reportQuestEvent } from "@/lib/questReporter";
 
 const logger = createLogger("GroceryListModal");
 
@@ -371,6 +372,7 @@ export default function GroceryListModal({
 
       const url = await instacartService.createShoppingList(groceryList, menuTitle);
       window.open(url, "_blank", "noopener,noreferrer");
+      reportQuestEvent('create_grocery_list');
 
       logger.info("Instacart shopping list handoff successful");
       setShowInstacartPreview(false);

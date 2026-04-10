@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { reportQuestEvent } from '@/lib/questReporter';
 
 /* ─── Types ─────────────────────────────────────────────── */
 
@@ -566,6 +567,7 @@ function NewEntryForm({
         ...prev,
         { dataUrl: data.dataUrl, uploadedAt: data.uploadedAt },
       ]);
+      reportQuestEvent('upload_food_photo');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Photo upload failed');
     } finally {

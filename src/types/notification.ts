@@ -13,6 +13,14 @@ export type NotificationType =
   | 'commensal_request'
   | 'commensal_accepted';
 
+export interface NotificationMetadata {
+  commensalshipId?: string;
+  overallHarmony?: number;
+  dominantElement?: string;
+  favorableElements?: string[];
+  [key: string]: unknown;
+}
+
 export interface UserNotification {
   id: string;
   userId: string;
@@ -22,7 +30,7 @@ export interface UserNotification {
   isRead: boolean;
   relatedUserId?: string;
   relatedUserName?: string;
-  metadata?: Record<string, any>;
+  metadata?: NotificationMetadata;
   createdAt: string;
   expiresAt?: string;
 }
