@@ -1,0 +1,1015 @@
+{
+  "generatedAt": "2026-04-10T22:31:00.142Z",
+  "totalCuisines": 26,
+  "totalRecipes": 442,
+  "assumptions": {
+    "multiCuisineRecipesCountedInEachAggregation": true,
+    "uniqueByRecipeNameWithinCuisine": true,
+    "weightingStrategy": "equal"
+  },
+  "globalAverages": {
+    "elementals": {
+      "Fire": 0.26319355725053284,
+      "Water": 0.2791699080860758,
+      "Earth": 0.3352901545504867,
+      "Air": 0.12234638011290475
+    },
+    "alchemical": {
+      "Spirit": 2.530701614218984,
+      "Essence": 3.233078465056099,
+      "Matter": 3.385254765333033,
+      "Substance": 3.0781898698560513
+    },
+    "thermodynamics": {
+      "heat": 0,
+      "entropy": 0,
+      "reactivity": 0,
+      "gregsEnergy": 0,
+      "kalchm": 0,
+      "monica": 0
+    },
+    "elementalsStdDev": {
+      "Fire": 0.08334456482563227,
+      "Water": 0.07388449107679013,
+      "Earth": 0.053366301449764245,
+      "Air": 0.038991075011574616
+    },
+    "alchemicalStdDev": {
+      "Spirit": 0.9232586038367651,
+      "Essence": 1.1549272898629654,
+      "Matter": 1.2075589075865847,
+      "Substance": 1.0474019767501697
+    },
+    "thermodynamicsStdDev": {
+      "heat": 0,
+      "entropy": 0,
+      "reactivity": 0,
+      "gregsEnergy": 0,
+      "kalchm": 0,
+      "monica": 0
+    }
+  },
+  "cuisines": [
+    {
+      "cuisine": "Korean",
+      "sampleSize": 34,
+      "averageElementals": {
+        "Fire": 0.2970588235294118,
+        "Water": 0.3029411764705882,
+        "Earth": 0.27794117647058825,
+        "Air": 0.12205882352941175
+      },
+      "averageAlchemical": {
+        "Spirit": 2.0020588235294126,
+        "Essence": 2.5085294117647057,
+        "Matter": 2.710000000000001,
+        "Substance": 2.5199999999999996
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.16039527299336456,
+          "Water": 0.15288460492196498,
+          "Earth": 0.1058517112525183,
+          "Air": 0.07295362796948508
+        },
+        "diversityScore": 0.36906391285299966
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Middle Eastern",
+      "sampleSize": 33,
+      "averageElementals": {
+        "Fire": 0.2803030303030303,
+        "Water": 0.24242424242424243,
+        "Earth": 0.3757575757575758,
+        "Air": 0.10151515151515152
+      },
+      "averageAlchemical": {
+        "Spirit": 2.55060606060606,
+        "Essence": 3.3096969696969696,
+        "Matter": 3.4645454545454535,
+        "Substance": 3.2063636363636365
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.12549260145968882,
+          "Water": 0.10009178524190147,
+          "Earth": 0.09856639980176118,
+          "Air": 0.043493030589113114
+        },
+        "diversityScore": 0.2757328628193485
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Thai",
+      "sampleSize": 33,
+      "averageElementals": {
+        "Fire": 0.30909090909090914,
+        "Water": 0.31212121212121213,
+        "Earth": 0.25303030303030305,
+        "Air": 0.12575757575757576
+      },
+      "averageAlchemical": {
+        "Spirit": 3.018787878787879,
+        "Essence": 3.914848484848484,
+        "Matter": 3.4615151515151514,
+        "Substance": 3.2339393939393952
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.13226153238057692,
+          "Water": 0.15026759112990837,
+          "Earth": 0.07681085973113078,
+          "Air": 0.061694766883340406
+        },
+        "diversityScore": 0.3157760625937174
+      },
+      "signatures": [
+        {
+          "property": "Earth",
+          "zscore": -1.5414193842460309,
+          "strength": "moderate",
+          "averageValue": 0.25303030303030305,
+          "globalAverage": 0.3352901545504867,
+          "description": "Earth is reduced (1.5σ below global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Vietnamese",
+      "sampleSize": 32,
+      "averageElementals": {
+        "Fire": 0.26093749999999993,
+        "Water": 0.3265624999999999,
+        "Earth": 0.2640625,
+        "Air": 0.14843749999999997
+      },
+      "averageAlchemical": {
+        "Spirit": 2.0450000000000004,
+        "Essence": 2.7709375000000005,
+        "Matter": 2.8284375000000006,
+        "Substance": 2.6425
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.13153800246981856,
+          "Water": 0.14630040530958893,
+          "Earth": 0.09456675469608754,
+          "Air": 0.07233210624439192
+        },
+        "diversityScore": 0.3335529515399152
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Chinese",
+      "sampleSize": 30,
+      "averageElementals": {
+        "Fire": 0.2783333333333333,
+        "Water": 0.3083333333333334,
+        "Earth": 0.27166666666666667,
+        "Air": 0.1416666666666667
+      },
+      "averageAlchemical": {
+        "Spirit": 2.5130000000000003,
+        "Essence": 3.231333333333333,
+        "Matter": 3.149,
+        "Substance": 2.9516666666666667
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.17639129482173685,
+          "Water": 0.18711998527385815,
+          "Earth": 0.10462897410479673,
+          "Air": 0.07425556469981821
+        },
+        "diversityScore": 0.4067968641751575
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Japanese",
+      "sampleSize": 30,
+      "averageElementals": {
+        "Fire": 0.23666666666666666,
+        "Water": 0.3116666666666666,
+        "Earth": 0.3066666666666667,
+        "Air": 0.145
+      },
+      "averageAlchemical": {
+        "Spirit": 2.3473333333333333,
+        "Essence": 3.1793333333333336,
+        "Matter": 3.2536666666666667,
+        "Substance": 3.0893333333333337
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.15107025591499548,
+          "Water": 0.15093228798224573,
+          "Earth": 0.12229290885229428,
+          "Air": 0.06370504951205463
+        },
+        "diversityScore": 0.3660003766961926
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Greek",
+      "sampleSize": 29,
+      "averageElementals": {
+        "Fire": 0.21206896551724141,
+        "Water": 0.27586206896551724,
+        "Earth": 0.3879310344827586,
+        "Air": 0.12413793103448274
+      },
+      "averageAlchemical": {
+        "Spirit": 2.3727586206896554,
+        "Essence": 2.9151724137931043,
+        "Matter": 3.083103448275863,
+        "Substance": 2.845172413793104
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.10476177607560905,
+          "Water": 0.11112333134015183,
+          "Earth": 0.09437194609244146,
+          "Air": 0.04846023904329377
+        },
+        "diversityScore": 0.26903796941362207
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "American",
+      "sampleSize": 28,
+      "averageElementals": {
+        "Fire": 0.2107142857142858,
+        "Water": 0.2875,
+        "Earth": 0.35357142857142865,
+        "Air": 0.14821428571428577
+      },
+      "averageAlchemical": {
+        "Spirit": 2.639285714285714,
+        "Essence": 3.3832142857142853,
+        "Matter": 4.057142857142857,
+        "Substance": 3.751071428571429
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.115230470035012,
+          "Water": 0.13067475983196933,
+          "Earth": 0.09536449944870494,
+          "Air": 0.0619362328429451
+        },
+        "diversityScore": 0.30240447161897355
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Italian",
+      "sampleSize": 26,
+      "averageElementals": {
+        "Fire": 0.17307692307692304,
+        "Water": 0.32692307692307687,
+        "Earth": 0.32499999999999996,
+        "Air": 0.17500000000000002
+      },
+      "averageAlchemical": {
+        "Spirit": 2.1261538461538465,
+        "Essence": 2.872307692307693,
+        "Matter": 2.867692307692308,
+        "Substance": 2.67846153846154
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.10022164785227217,
+          "Water": 0.13883496652138497,
+          "Earth": 0.10492671435156724,
+          "Air": 0.0932840987356531
+        },
+        "diversityScore": 0.3279505705956581
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Mexican",
+      "sampleSize": 26,
+      "averageElementals": {
+        "Fire": 0.2846153846153846,
+        "Water": 0.30000000000000004,
+        "Earth": 0.29999999999999993,
+        "Air": 0.1153846153846154
+      },
+      "averageAlchemical": {
+        "Spirit": 1.9873076923076918,
+        "Essence": 2.7249999999999996,
+        "Matter": 2.7561538461538464,
+        "Substance": 2.5784615384615384
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.12229317765834342,
+          "Water": 0.14741359920566768,
+          "Earth": 0.10561177090573833,
+          "Air": 0.06319875663521149
+        },
+        "diversityScore": 0.32888797830372074
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "African",
+      "sampleSize": 25,
+      "averageElementals": {
+        "Fire": 0.34400000000000014,
+        "Water": 0.20800000000000002,
+        "Earth": 0.33799999999999997,
+        "Air": 0.11
+      },
+      "averageAlchemical": {
+        "Spirit": 2.8007999999999997,
+        "Essence": 3.6192,
+        "Matter": 3.824,
+        "Substance": 3.4780000000000006
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.15512575543732254,
+          "Water": 0.11805083650698966,
+          "Earth": 0.09516301802696256,
+          "Air": 0.0447213595499958
+        },
+        "diversityScore": 0.30979572714095294
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "French",
+      "sampleSize": 25,
+      "averageElementals": {
+        "Fire": 0.17,
+        "Water": 0.304,
+        "Earth": 0.34199999999999997,
+        "Air": 0.18400000000000002
+      },
+      "averageAlchemical": {
+        "Spirit": 2.2924,
+        "Essence": 2.8356,
+        "Matter": 3.237999999999999,
+        "Substance": 3.010800000000001
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.0648074069840786,
+          "Water": 0.11740528097151337,
+          "Earth": 0.11285388783732705,
+          "Air": 0.1286234815265082
+        },
+        "diversityScore": 0.31776754298957044
+      },
+      "signatures": [
+        {
+          "property": "Air",
+          "zscore": 1.5812239049267869,
+          "strength": "moderate",
+          "averageValue": 0.18400000000000002,
+          "globalAverage": 0.12234638011290475,
+          "description": "Air is elevated (1.6σ above global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Indian",
+      "sampleSize": 25,
+      "averageElementals": {
+        "Fire": 0.284,
+        "Water": 0.27,
+        "Earth": 0.32599999999999985,
+        "Air": 0.12000000000000002
+      },
+      "averageAlchemical": {
+        "Spirit": 2.8052000000000006,
+        "Essence": 3.3124000000000007,
+        "Matter": 3.3128,
+        "Substance": 3.0528000000000004
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.1036532681587995,
+          "Water": 0.11313708498984762,
+          "Earth": 0.103072789813801,
+          "Air": 0.03741657386773941
+        },
+        "diversityScore": 0.2679597876226406
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Russian",
+      "sampleSize": 25,
+      "averageElementals": {
+        "Fire": 0.19799999999999998,
+        "Water": 0.33,
+        "Earth": 0.348,
+        "Air": 0.12400000000000004
+      },
+      "averageAlchemical": {
+        "Spirit": 2.5188,
+        "Essence": 3.3608000000000002,
+        "Matter": 4.0764,
+        "Substance": 3.6452000000000004
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.09846826900072936,
+          "Water": 0.1392838827718412,
+          "Earth": 0.10533755265810954,
+          "Air": 0.060199667773169666
+        },
+        "diversityScore": 0.3024670291528873
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Various",
+      "sampleSize": 13,
+      "averageElementals": {
+        "Fire": 0.25,
+        "Water": 0.25,
+        "Earth": 0.25,
+        "Air": 0.25
+      },
+      "averageAlchemical": {
+        "Spirit": 0.7,
+        "Essence": 0.7,
+        "Matter": 0.7,
+        "Substance": 0.7
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0,
+          "Water": 0,
+          "Earth": 0,
+          "Air": 0
+        },
+        "diversityScore": 0
+      },
+      "signatures": [
+        {
+          "property": "Air",
+          "zscore": 3.273918963485898,
+          "strength": "very_high",
+          "averageValue": 0.25,
+          "globalAverage": 0.12234638011290475,
+          "description": "Air is elevated (3.3σ above global average)"
+        },
+        {
+          "property": "Substance",
+          "zscore": -2.2705607996224986,
+          "strength": "high",
+          "averageValue": 0.7,
+          "globalAverage": 3.0781898698560513,
+          "description": "Substance is reduced (2.3σ below global average)"
+        },
+        {
+          "property": "Matter",
+          "zscore": -2.22370498736145,
+          "strength": "high",
+          "averageValue": 0.7,
+          "globalAverage": 3.385254765333033,
+          "description": "Matter is reduced (2.2σ below global average)"
+        },
+        {
+          "property": "Essence",
+          "zscore": -2.193279600620273,
+          "strength": "high",
+          "averageValue": 0.7,
+          "globalAverage": 3.233078465056099,
+          "description": "Essence is reduced (2.2σ below global average)"
+        },
+        {
+          "property": "Spirit",
+          "zscore": -1.9828698120019448,
+          "strength": "moderate",
+          "averageValue": 0.7,
+          "globalAverage": 2.530701614218984,
+          "description": "Spirit is reduced (2.0σ below global average)"
+        },
+        {
+          "property": "Earth",
+          "zscore": -1.5982024654785871,
+          "strength": "moderate",
+          "averageValue": 0.25,
+          "globalAverage": 0.3352901545504867,
+          "description": "Earth is reduced (1.6σ below global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "West African",
+      "sampleSize": 8,
+      "averageElementals": {
+        "Fire": 0.4000000000000001,
+        "Water": 0.16875,
+        "Earth": 0.30624999999999997,
+        "Air": 0.12499999999999999
+      },
+      "averageAlchemical": {
+        "Spirit": 3.08625,
+        "Essence": 4.0249999999999995,
+        "Matter": 4.4625,
+        "Substance": 4.07
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.12747548783981963,
+          "Water": 0.10879309490955755,
+          "Earth": 0.06343057228182639,
+          "Air": 0.04330127018922193
+        },
+        "diversityScore": 0.25725031891531913
+      },
+      "signatures": [
+        {
+          "property": "Fire",
+          "zscore": 1.6414560809776164,
+          "strength": "moderate",
+          "averageValue": 0.4000000000000001,
+          "globalAverage": 0.26319355725053284,
+          "description": "Fire is elevated (1.6σ above global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "South African",
+      "sampleSize": 6,
+      "averageElementals": {
+        "Fire": 0.2833333333333333,
+        "Water": 0.25833333333333336,
+        "Earth": 0.35000000000000003,
+        "Air": 0.10833333333333332
+      },
+      "averageAlchemical": {
+        "Spirit": 2.268333333333333,
+        "Essence": 3.203333333333333,
+        "Matter": 3.2116666666666664,
+        "Substance": 2.8516666666666666
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.09428090415820635,
+          "Water": 0.12388390622765423,
+          "Earth": 0.10408329997330663,
+          "Air": 0.03435921354681383
+        },
+        "diversityScore": 0.2674554929294858
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "North African",
+      "sampleSize": 4,
+      "averageElementals": {
+        "Fire": 0.2375,
+        "Water": 0.275,
+        "Earth": 0.375,
+        "Air": 0.11250000000000002
+      },
+      "averageAlchemical": {
+        "Spirit": 4.0375,
+        "Essence": 4.64,
+        "Matter": 4.4,
+        "Substance": 4.0775
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.1293010054098575,
+          "Water": 0.055901699437494734,
+          "Earth": 0.114564392373896,
+          "Air": 0.021650635094610963
+        },
+        "diversityScore": 0.2410632992368944
+      },
+      "signatures": [
+        {
+          "property": "Spirit",
+          "zscore": 1.6320436977454065,
+          "strength": "moderate",
+          "averageValue": 4.0375,
+          "globalAverage": 2.530701614218984,
+          "description": "Spirit is elevated (1.6σ above global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "East African",
+      "sampleSize": 3,
+      "averageElementals": {
+        "Fire": 0.48333333333333334,
+        "Water": 0.09999999999999999,
+        "Earth": 0.3166666666666667,
+        "Air": 0.10000000000000002
+      },
+      "averageAlchemical": {
+        "Spirit": 2.516666666666667,
+        "Essence": 3.1733333333333333,
+        "Matter": 3.8300000000000005,
+        "Substance": 3.6300000000000003
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.10274023338281627,
+          "Water": 0.07071067811865475,
+          "Earth": 0.062360956446232366,
+          "Air": 0.08164965809277261
+        },
+        "diversityScore": 0.23809614453035696
+      },
+      "signatures": [
+        {
+          "property": "Fire",
+          "zscore": 2.641321321232665,
+          "strength": "very_high",
+          "averageValue": 0.48333333333333334,
+          "globalAverage": 0.26319355725053284,
+          "description": "Fire is elevated (2.6σ above global average)"
+        },
+        {
+          "property": "Water",
+          "zscore": -2.4250002331322786,
+          "strength": "high",
+          "averageValue": 0.09999999999999999,
+          "globalAverage": 0.2791699080860758,
+          "description": "Water is reduced (2.4σ below global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "East African (ethiopia",
+      "sampleSize": 1,
+      "averageElementals": {
+        "Fire": 0.35,
+        "Water": 0.2,
+        "Earth": 0.35,
+        "Air": 0.1
+      },
+      "averageAlchemical": {
+        "Spirit": 3.73,
+        "Essence": 4.37,
+        "Matter": 3.94,
+        "Substance": 3.22
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0,
+          "Water": 0,
+          "Earth": 0,
+          "Air": 0
+        },
+        "diversityScore": 0
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Eritrea)",
+      "sampleSize": 1,
+      "averageElementals": {
+        "Fire": 0.35,
+        "Water": 0.2,
+        "Earth": 0.35,
+        "Air": 0.1
+      },
+      "averageAlchemical": {
+        "Spirit": 3.73,
+        "Essence": 4.37,
+        "Matter": 3.94,
+        "Substance": 3.22
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0,
+          "Water": 0,
+          "Earth": 0,
+          "Air": 0
+        },
+        "diversityScore": 0
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "West African (senegal",
+      "sampleSize": 1,
+      "averageElementals": {
+        "Fire": 0.15,
+        "Water": 0.35,
+        "Earth": 0.4,
+        "Air": 0.1
+      },
+      "averageAlchemical": {
+        "Spirit": 3.37,
+        "Essence": 5.06,
+        "Matter": 5.91,
+        "Substance": 5.19
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0,
+          "Water": 0,
+          "Earth": 0,
+          "Air": 0
+        },
+        "diversityScore": 0
+      },
+      "signatures": [
+        {
+          "property": "Matter",
+          "zscore": 2.0907843243133355,
+          "strength": "high",
+          "averageValue": 5.91,
+          "globalAverage": 3.385254765333033,
+          "description": "Matter is elevated (2.1σ above global average)"
+        },
+        {
+          "property": "Substance",
+          "zscore": 2.0162365328890974,
+          "strength": "high",
+          "averageValue": 5.19,
+          "globalAverage": 3.0781898698560513,
+          "description": "Substance is elevated (2.0σ above global average)"
+        },
+        {
+          "property": "Essence",
+          "zscore": 1.5818498281053424,
+          "strength": "moderate",
+          "averageValue": 5.06,
+          "globalAverage": 3.233078465056099,
+          "description": "Essence is elevated (1.6σ above global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Mali)",
+      "sampleSize": 1,
+      "averageElementals": {
+        "Fire": 0.15,
+        "Water": 0.35,
+        "Earth": 0.4,
+        "Air": 0.1
+      },
+      "averageAlchemical": {
+        "Spirit": 3.37,
+        "Essence": 5.06,
+        "Matter": 5.91,
+        "Substance": 5.19
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0,
+          "Water": 0,
+          "Earth": 0,
+          "Air": 0
+        },
+        "diversityScore": 0
+      },
+      "signatures": [
+        {
+          "property": "Matter",
+          "zscore": 2.0907843243133355,
+          "strength": "high",
+          "averageValue": 5.91,
+          "globalAverage": 3.385254765333033,
+          "description": "Matter is elevated (2.1σ above global average)"
+        },
+        {
+          "property": "Substance",
+          "zscore": 2.0162365328890974,
+          "strength": "high",
+          "averageValue": 5.19,
+          "globalAverage": 3.0781898698560513,
+          "description": "Substance is elevated (2.0σ above global average)"
+        },
+        {
+          "property": "Essence",
+          "zscore": 1.5818498281053424,
+          "strength": "moderate",
+          "averageValue": 5.06,
+          "globalAverage": 3.233078465056099,
+          "description": "Essence is elevated (1.6σ above global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Cameroonian",
+      "sampleSize": 1,
+      "averageElementals": {
+        "Fire": 0.15,
+        "Water": 0.3,
+        "Earth": 0.5,
+        "Air": 0.05
+      },
+      "averageAlchemical": {
+        "Spirit": 0.49,
+        "Essence": 0.55,
+        "Matter": 0.69,
+        "Substance": 0.67
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0,
+          "Water": 0,
+          "Earth": 0,
+          "Air": 0
+        },
+        "diversityScore": 0
+      },
+      "signatures": [
+        {
+          "property": "Earth",
+          "zscore": 3.086401736207277,
+          "strength": "very_high",
+          "averageValue": 0.5,
+          "globalAverage": 0.3352901545504867,
+          "description": "Earth is elevated (3.1σ above global average)"
+        },
+        {
+          "property": "Essence",
+          "zscore": -2.323157906654411,
+          "strength": "high",
+          "averageValue": 0.55,
+          "globalAverage": 3.233078465056099,
+          "description": "Essence is reduced (2.3σ below global average)"
+        },
+        {
+          "property": "Substance",
+          "zscore": -2.2992030980579883,
+          "strength": "high",
+          "averageValue": 0.67,
+          "globalAverage": 3.0781898698560513,
+          "description": "Substance is reduced (2.3σ below global average)"
+        },
+        {
+          "property": "Matter",
+          "zscore": -2.2319861568656245,
+          "strength": "high",
+          "averageValue": 0.69,
+          "globalAverage": 3.385254765333033,
+          "description": "Matter is reduced (2.2σ below global average)"
+        },
+        {
+          "property": "Spirit",
+          "zscore": -2.2103250440759354,
+          "strength": "high",
+          "averageValue": 0.49,
+          "globalAverage": 2.530701614218984,
+          "description": "Spirit is reduced (2.2σ below global average)"
+        },
+        {
+          "property": "Air",
+          "zscore": -1.855460001844743,
+          "strength": "moderate",
+          "averageValue": 0.05,
+          "globalAverage": 0.12234638011290475,
+          "description": "Air is reduced (1.9σ below global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Chinese-american",
+      "sampleSize": 1,
+      "averageElementals": {
+        "Fire": 0.35,
+        "Water": 0.2,
+        "Earth": 0.35,
+        "Air": 0.1
+      },
+      "averageAlchemical": {
+        "Spirit": 3.98,
+        "Essence": 4.22,
+        "Matter": 3.74,
+        "Substance": 3.38
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0,
+          "Water": 0,
+          "Earth": 0,
+          "Air": 0
+        },
+        "diversityScore": 0
+      },
+      "signatures": [
+        {
+          "property": "Spirit",
+          "zscore": 1.5697642889632428,
+          "strength": "moderate",
+          "averageValue": 3.98,
+          "globalAverage": 2.530701614218984,
+          "description": "Spirit is elevated (1.6σ above global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    },
+    {
+      "cuisine": "Ukrainian",
+      "sampleSize": 1,
+      "averageElementals": {
+        "Fire": 0.15,
+        "Water": 0.5,
+        "Earth": 0.3,
+        "Air": 0.05
+      },
+      "averageAlchemical": {
+        "Spirit": 0.5,
+        "Essence": 0.75,
+        "Matter": 1.2,
+        "Substance": 1.15
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0,
+          "Water": 0,
+          "Earth": 0,
+          "Air": 0
+        },
+        "diversityScore": 0
+      },
+      "signatures": [
+        {
+          "property": "Water",
+          "zscore": 2.988855830168873,
+          "strength": "very_high",
+          "averageValue": 0.5,
+          "globalAverage": 0.2791699080860758,
+          "description": "Water is elevated (3.0σ above global average)"
+        },
+        {
+          "property": "Spirit",
+          "zscore": -2.1994938425486024,
+          "strength": "high",
+          "averageValue": 0.5,
+          "globalAverage": 2.530701614218984,
+          "description": "Spirit is reduced (2.2σ below global average)"
+        },
+        {
+          "property": "Essence",
+          "zscore": -2.149986831942227,
+          "strength": "high",
+          "averageValue": 0.75,
+          "globalAverage": 3.233078465056099,
+          "description": "Essence is reduced (2.1σ below global average)"
+        },
+        {
+          "property": "Air",
+          "zscore": -1.855460001844743,
+          "strength": "moderate",
+          "averageValue": 0.05,
+          "globalAverage": 0.12234638011290475,
+          "description": "Air is reduced (1.9σ below global average)"
+        },
+        {
+          "property": "Substance",
+          "zscore": -1.8409263230901565,
+          "strength": "moderate",
+          "averageValue": 1.15,
+          "globalAverage": 3.0781898698560513,
+          "description": "Substance is reduced (1.8σ below global average)"
+        },
+        {
+          "property": "Matter",
+          "zscore": -1.8096465121527376,
+          "strength": "moderate",
+          "averageValue": 1.2,
+          "globalAverage": 3.385254765333033,
+          "description": "Matter is reduced (1.8σ below global average)"
+        }
+      ],
+      "planetaryPatterns": []
+    }
+  ]
+}

@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { RestaurantBuilder } from '@/components/profile/RestaurantBuilder';
 import { RestaurantSearch } from '@/components/profile/RestaurantSearch';
+import { TokenGate } from '@/components/economy/TokenGate';
 import { useUser } from '@/contexts/UserContext';
+import { reportQuestEvent } from '@/lib/questReporter';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
 
@@ -60,10 +62,10 @@ interface PersonalizedData {
 type SubTab = 'cuisines' | 'methods' | 'ingredients';
 
 const ELEMENT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  Fire: { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' },
-  Water: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
-  Earth: { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
-  Air: { bg: 'bg-yellow-50', text: 'text-yellow-700', border: 'border-yellow-200' },
+  Fire: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/20' },
+  Water: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
+  Earth: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20' },
+  Air: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
 };
 
 const PLANET_SYMBOLS: Record<string, string> = {
@@ -188,6 +190,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
         savedRestaurants: newSaved
       }
     });
+    reportQuestEvent('save_restaurant');
   };
 
   const handleRemoveRestaurant = async (restaurantId: string) => {
@@ -304,10 +307,10 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm p-8">
+      <div className="alchm-card rounded-[2.5rem] p-10 border-white/5">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-500" />
-          <p className="text-gray-600 text-sm">Loading personalized recommendations...</p>
+          <p className="text-white/30 text-[11px] font-bold uppercase tracking-widest">Alchemizing recommendations...</p>
         </div>
       </div>
     );
@@ -322,17 +325,17 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
       )}
 
       {/* Natal chart context bar */}
-      <div className="bg-white rounded-xl shadow-sm p-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-500">Your Chart:</span>
-            <div className="flex gap-1.5">
+      <div className="alchm-card rounded-[2.5rem] p-5 border-white/5">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-4">
+            <span className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Your Constitution:</span>
+            <div className="flex gap-2">
               {sortedElements.map(([el, val]) => {
                 const colors = ELEMENT_COLORS[el] || ELEMENT_COLORS.Fire;
                 return (
                   <span
                     key={el}
-                    className={`px-2 py-0.5 rounded text-xs font-semibold ${colors.bg} ${colors.text}`}
+                    className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${colors.bg} ${colors.text} border ${colors.border}`}
                   >
                     {el} {Math.round((val as number) * 100)}%
                   </span>
@@ -340,14 +343,14 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
               })}
             </div>
           </div>
-          <div className="flex items-center gap-2 text-xs text-gray-500">
-            <span>ESMS: S{alchemical.Spirit} E{alchemical.Essence} M{alchemical.Matter} Su{alchemical.Substance}</span>
+          <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
+            <span>ESMS Alignment: S{alchemical.Spirit} E{alchemical.Essence} M{alchemical.Matter} Su{alchemical.Substance}</span>
           </div>
         </div>
       </div>
 
       {/* Sub-tab navigation */}
-      <div className="bg-white rounded-xl shadow-sm p-1.5 flex gap-1">
+      <div className="alchm-card rounded-[2.5rem] p-1.5 flex gap-1 border-white/5">
         {([
           { key: 'cuisines' as SubTab, label: 'Cuisines', icon: '\uD83C\uDF5D' },
           { key: 'methods' as SubTab, label: 'Cooking Methods', icon: '\uD83D\uDD25' },
@@ -356,13 +359,13 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           <button
             key={tab.key}
             onClick={() => setActiveSubTab(tab.key)}
-            className={`flex-1 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+            className={`flex-1 px-3 py-3 rounded-[2rem] text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-300 ${
               activeSubTab === tab.key
-                ? 'bg-gradient-to-r from-purple-600 to-orange-600 text-white shadow-sm'
-                : 'text-gray-600 hover:bg-gray-100'
+                ? 'bg-gradient-to-r from-purple-600 to-orange-600 text-white shadow-lg shadow-purple-900/40'
+                : 'text-white/30 hover:text-white/60 hover:bg-white/[0.03]'
             }`}
           >
-            <span className="mr-1.5">{tab.icon}</span>
+            <span className="mr-2 opacity-80">{tab.icon}</span>
             {tab.label}
           </button>
         ))}
@@ -373,14 +376,14 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
         <div className="space-y-4">
           {/* Personalized cuisine tags */}
           {personalData?.recommendations.suggestedCuisines && personalData.recommendations.suggestedCuisines.length > 0 && (
-            <div className="bg-white rounded-xl shadow-sm p-5">
-              <h3 className="text-base font-bold text-gray-800 mb-2">Matched to Your Chart</h3>
-              <p className="text-xs text-gray-500 mb-3">Cuisine styles aligned with your favorable elements and planetary harmony</p>
+            <div className="alchm-card rounded-[2.5rem] p-7 border-white/5 shadow-2xl">
+              <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-2">Matched to Your Chart</h3>
+              <p className="text-[10px] text-white/30 mb-5 italic">Cuisine styles aligned with your favorable elements and planetary harmony</p>
               <div className="flex flex-wrap gap-2">
                 {personalData.recommendations.suggestedCuisines.map((cuisine) => (
                   <span
                     key={cuisine}
-                    className="px-3 py-1.5 bg-gradient-to-r from-purple-50 to-orange-50 text-purple-700 rounded-lg text-sm font-medium border border-purple-200"
+                    className="px-4 py-2 bg-gradient-to-r from-purple-500/10 to-orange-500/10 text-white font-bold rounded-2xl text-[10px] border border-white/5 uppercase tracking-widest hover:border-purple-500/30 transition-colors"
                   >
                     {cuisine}
                   </span>
@@ -391,32 +394,32 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
 
           {/* Full cuisine list */}
           {cuisines.length > 0 && (
-            <div className="bg-white rounded-xl shadow-sm p-5">
-              <h3 className="text-base font-bold text-gray-800 mb-1">Cuisine Recommendations</h3>
-              <p className="text-xs text-gray-500 mb-4">
+            <div className="alchm-card rounded-[3rem] p-7 border-white/5 shadow-2xl">
+              <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-1">Cuisine Recommendations</h3>
+              <p className="text-[10px] text-white/30 mb-6 italic">
                 Based on current planetary positions and your natal alignment
               </p>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {cuisines.slice(0, 10).map((cuisine) => {
                   const isExpanded = expandedCuisine === cuisine.cuisine_id;
                   return (
                     <div
                       key={cuisine.cuisine_id}
-                      className="border border-gray-200 rounded-lg overflow-hidden"
+                      className="alchm-card rounded-[2rem] overflow-hidden border-white/5"
                     >
                       <button
                         type="button"
                         onClick={() => setExpandedCuisine(isExpanded ? null : cuisine.cuisine_id)}
-                        className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors text-left"
+                        className="w-full px-6 py-4 flex items-center justify-between hover:bg-white/[0.03] transition-colors text-left"
                       >
                         <div>
-                          <span className="font-semibold text-gray-800">{cuisine.name}</span>
+                          <span className="text-[11px] font-bold text-white uppercase tracking-widest">{cuisine.name}</span>
                           {cuisine.description && (
-                            <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{cuisine.description}</p>
+                            <p className="text-[10px] text-white/30 mt-1 line-clamp-1 italic">{cuisine.description}</p>
                           )}
                         </div>
-                        <div className="flex items-center gap-3">
-                          <div className="hidden sm:flex gap-1">
+                        <div className="flex items-center gap-4">
+                          <div className="hidden sm:flex gap-1.5">
                             {Object.entries(cuisine.elemental_properties || {})
                               .sort(([, a], [, b]) => (b) - (a))
                               .slice(0, 2)
@@ -425,22 +428,22 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                                 return (
                                   <span
                                     key={el}
-                                    className={`px-2 py-0.5 rounded text-xs font-medium ${colors.bg} ${colors.text}`}
+                                    className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-tighter ${colors.bg} ${colors.text}`}
                                   >
                                     {el}
                                   </span>
                                 );
                               })}
                           </div>
-                          <span className="text-gray-400 text-sm">{isExpanded ? '\u25B2' : '\u25BC'}</span>
+                          <span className="text-white/20 text-xs">{isExpanded ? '\u25B2' : '\u25BC'}</span>
                         </div>
                       </button>
 
                       {isExpanded && (
-                        <div className="px-4 pb-4 border-t border-gray-100">
+                        <div className="px-6 pb-6 pt-2 border-t border-white/5">
                           {cuisine.flavor_profile && (
-                            <div className="mt-3 mb-4">
-                              <p className="text-xs font-medium text-gray-600 mb-2">Flavor Profile</p>
+                            <div className="mb-6">
+                              <p className="text-[10px] font-bold text-white/20 mb-3 uppercase tracking-widest">Flavor Profile</p>
                               <div className="flex flex-wrap gap-2">
                                 {Object.entries(cuisine.flavor_profile)
                                   .filter(([, v]) => (v) > 0)
@@ -448,7 +451,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                                   .map(([flavor, value]) => (
                                     <span
                                       key={flavor}
-                                      className="px-2 py-1 bg-gray-100 rounded text-xs text-gray-700"
+                                      className="px-3 py-1 bg-white/5 rounded-full text-[10px] text-white/60 font-medium uppercase tracking-tighter border border-white/5"
                                     >
                                       {flavor}: {typeof value === 'number' ? (value * 100).toFixed(0) : value}%
                                     </span>
@@ -459,31 +462,31 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
 
                           {cuisine.nested_recipes && cuisine.nested_recipes.length > 0 && (
                             <div>
-                              <p className="text-xs font-medium text-gray-600 mb-2">
+                              <p className="text-[10px] font-bold text-white/20 mb-3 uppercase tracking-widest">
                                 Suggested Recipes ({cuisine.nested_recipes.length})
                               </p>
-                              <div className="grid gap-2">
+                              <div className="grid gap-3">
                                 {cuisine.nested_recipes.slice(0, 4).map((recipe) => (
-                                  <div key={recipe.recipe_id} className="p-3 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center justify-between">
-                                      <span className="font-medium text-sm text-gray-800">{recipe.name}</span>
-                                      <div className="flex gap-2 text-xs text-gray-500">
+                                  <div key={recipe.recipe_id} className="p-4 bg-white/[0.02] rounded-[1.5rem] border border-white/5 hover:border-white/10 transition-colors">
+                                    <div className="flex items-center justify-between mb-2">
+                                      <span className="text-[11px] font-bold text-white hover:text-purple-400 transition-colors cursor-pointer">{recipe.name}</span>
+                                      <div className="flex gap-2">
                                         {recipe.difficulty && (
-                                          <span className="px-2 py-0.5 bg-white rounded border border-gray-200">
+                                          <span className="px-2 py-0.5 bg-black/40 text-[9px] font-bold text-white/40 rounded border border-white/5 uppercase tracking-tighter">
                                             {recipe.difficulty}
                                           </span>
                                         )}
                                         {recipe.meal_type && (
-                                          <span className="px-2 py-0.5 bg-white rounded border border-gray-200">
+                                          <span className="px-2 py-0.5 bg-black/40 text-[9px] font-bold text-white/40 rounded border border-white/5 uppercase tracking-tighter">
                                             {recipe.meal_type}
                                           </span>
                                         )}
                                       </div>
                                     </div>
                                     {recipe.description && (
-                                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">{recipe.description}</p>
+                                      <p className="text-[11px] text-white/30 mb-3 leading-relaxed">{recipe.description}</p>
                                     )}
-                                    <div className="flex gap-3 mt-1 text-xs text-gray-400">
+                                    <div className="flex gap-4 text-[10px] text-white/20 font-mono tracking-tighter">
                                       {recipe.prep_time && <span>Prep: {recipe.prep_time}</span>}
                                       {recipe.cook_time && <span>Cook: {recipe.cook_time}</span>}
                                     </div>
@@ -502,28 +505,28 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           )}
 
           {/* Restaurant Builder + Search Feature */}
-          <div className="bg-white rounded-xl shadow-sm p-5 mt-6 border border-purple-100">
+          <div className="alchm-card rounded-[3rem] p-7 border-white/5 shadow-2xl mt-8">
             {/* Section Toggle */}
-            <div className="flex gap-1 bg-gray-100 p-1 rounded-lg mb-5">
+            <div className="flex gap-1 bg-black/40 p-1.5 rounded-[2rem] border border-white/5 mb-8">
               <button
                 onClick={() => setRestaurantView('build')}
-                className={`flex-1 px-4 py-2 rounded-md text-xs font-semibold transition-all ${
+                className={`flex-1 px-4 py-3 rounded-[1.5rem] text-[10px] font-bold tracking-[0.1em] uppercase transition-all ${
                   restaurantView === 'build'
-                    ? 'bg-white text-purple-700 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
+                    ? 'bg-gradient-to-r from-purple-600 to-orange-600 text-white shadow-lg'
+                    : 'text-white/30 hover:text-white/60'
                 }`}
               >
                 📋 My Menus
               </button>
               <button
                 onClick={() => setRestaurantView('discover')}
-                className={`flex-1 px-4 py-2 rounded-md text-xs font-semibold transition-all ${
+                className={`flex-1 px-4 py-3 rounded-[1.5rem] text-[10px] font-bold tracking-[0.1em] uppercase transition-all ${
                   restaurantView === 'discover'
-                    ? 'bg-white text-blue-700 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
+                    : 'text-white/30 hover:text-white/60'
                 }`}
               >
-                🌍 Discover Restaurants
+                🌍 Discover
               </button>
             </div>
 
@@ -532,12 +535,19 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                 <p className="text-xs text-gray-500 mb-4">
                   Create custom restaurants and build menus with categories &amp; dietary tags.
                 </p>
-                <RestaurantBuilder
-                  savedRestaurants={savedRestaurants}
-                  onSave={(restaurant) => { void handleSaveRestaurant(restaurant); }}
-                  onRemove={(restaurantId) => { void handleRemoveRestaurant(restaurantId); }}
-                  onUpdate={(updatedRestaurant) => { void handleUpdateRestaurant(updatedRestaurant); }}
-                />
+                <TokenGate
+                  shopItemSlug="unlock-restaurant-creator"
+                  featureName="Restaurant Creator"
+                  showPreview
+                  cost={{ essence: 10, matter: 10 }}
+                >
+                  <RestaurantBuilder
+                    savedRestaurants={savedRestaurants}
+                    onSave={(restaurant) => { void handleSaveRestaurant(restaurant); }}
+                    onRemove={(restaurantId) => { void handleRemoveRestaurant(restaurantId); }}
+                    onUpdate={(updatedRestaurant) => { void handleUpdateRestaurant(updatedRestaurant); }}
+                  />
+                </TokenGate>
               </>
             ) : (
               <>
@@ -597,14 +607,14 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           )}
 
           {/* Methods by dominant element */}
-          <div className="bg-white rounded-xl shadow-sm p-5">
-            <h3 className="text-base font-bold text-gray-800 mb-2">
+          <div className="alchm-card rounded-[2.5rem] p-7 border-white/5 shadow-2xl">
+            <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-2">
               Methods for {dominantElement}-Dominant Charts
             </h3>
-            <p className="text-xs text-gray-500 mb-3">
+            <p className="text-[10px] text-white/30 mb-5 italic">
               Cooking techniques that resonate with your elemental nature
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {Object.entries(COOKING_METHOD_DETAILS)
                 .filter(([, d]) => d.element === dominantElement)
                 .slice(0, 6)
@@ -613,12 +623,12 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                   return (
                     <div
                       key={method}
-                      className="p-3 bg-gray-50 rounded-lg border border-gray-100"
+                      className="p-4 bg-white/[0.02] rounded-[1.5rem] border border-white/5 hover:border-white/10 transition-colors"
                     >
-                      <span className={`text-sm font-semibold ${elColors.text}`}>{method}</span>
-                      <p className="text-xs text-gray-600 mt-1">{detail.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        <span className="font-medium">Best for:</span> {detail.bestFor}
+                      <span className={`text-[11px] font-bold uppercase tracking-wider ${elColors.text}`}>{method}</span>
+                      <p className="text-[11px] text-white/40 mt-1.5 leading-relaxed">{detail.description}</p>
+                      <p className="text-[10px] text-white/20 mt-3 font-mono">
+                        <span className="font-bold text-white/30">BEST FOR:</span> {detail.bestFor}
                       </p>
                     </div>
                   );

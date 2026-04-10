@@ -9,6 +9,7 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo, GroupMember } from "@/types/natalChart";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
@@ -184,6 +185,8 @@ export async function POST(request: NextRequest) {
     if (!created) {
       throw new Error("Database insertion failed");
     }
+
+    await reportQuestEventBestEffort(user.id, "add_commensal");
 
     return NextResponse.json({ success: true, commensal: created }, { status: 201 });
   } catch (error) {

@@ -17,7 +17,6 @@ import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import { createLogger } from "@/utils/logger";
 import {
-  generateDayRecommendations,
   type RecommendedMeal,
   type AstrologicalState,
   type UserPersonalizationContext,
@@ -99,10 +98,10 @@ export default function GenerateRecipeButton({
         personalized: !!userContext,
       });
 
-      const recommendations = await generateDayRecommendations(
+      const payload = {
         dayOfWeek,
         astroState,
-        {
+        options: {
           mealTypes,
           dietaryRestrictions: [
             ...builder.dietaryPreferences,
@@ -118,7 +117,56 @@ export default function GenerateRecipeButton({
           maxRecipesPerMeal: builder.mealType ? 8 : 4,
           userContext,
         },
-      );
+      };
+
+      let res = await fetch("/api/recommendations/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(payload),
+      });
+      let data = await res.json();
+
+      // One free retry for timeout within server-issued 5-minute window.
+      if (!res.ok && res.status === 504 && data?.retry?.token) {
+        res = await fetch("/api/recommendations/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            ...payload,
+            retryToken: data.retry.token,
+          }),
+        });
+        data = await res.json();
+      }
+
+      if (!res.ok || !data?.success) {
+        if (res.status === 402) {
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new Event("open-token-shop"));
+          }
+          onError?.("Insufficient tokens. Each generation costs 5 Spirit + 5 Essence.");
+          onGenerated([]);
+          return;
+        }
+        if (res.status === 401) {
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new Event("open-signin-modal"));
+          }
+          onError?.("Please sign in to generate recipes.");
+          onGenerated([]);
+          return;
+        }
+        if (res.status === 504) {
+          onError?.("Generation timed out. Please retry.");
+          onGenerated([]);
+          return;
+        }
+        throw new Error(data?.message || "Generation failed");
+      }
+
+      const recommendations = (data.recommendations || []) as RecommendedMeal[];
 
       logger.info(`Generated ${recommendations.length} recipe suggestions`);
       onGenerated(recommendations);

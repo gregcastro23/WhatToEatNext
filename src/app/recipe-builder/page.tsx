@@ -24,7 +24,6 @@ import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
 import {
-  generateDayRecommendations,
   type RecommendedMeal,
   type AstrologicalState,
   type UserPersonalizationContext,
@@ -36,6 +35,10 @@ const RecipeBuilderPanel = dynamic(
 );
 const RecipeSuggestionCarousel = dynamic(
   () => import("@/components/recipe-builder/RecipeSuggestionCarousel"),
+);
+const CosmicAlignmentPreview = dynamic(
+  () => import("@/components/recipe-builder/CosmicAlignmentPreview"),
+  { ssr: false },
 );
 
 const logger = createLogger("RecipeBuilder");
@@ -201,10 +204,10 @@ export default function RecipeBuilderPage() {
       setLastGeneratedFrom("quick");
       setGenerationError(null);
       try {
-        const recommendations = await generateDayRecommendations(
-          currentDay,
-          convertedAstroState,
-          {
+        const payload = {
+          dayOfWeek: currentDay,
+          astroState: convertedAstroState,
+          options: {
             mealTypes: [mealType],
             dietaryRestrictions: [],
             preferredCuisines: [],
@@ -213,7 +216,56 @@ export default function RecipeBuilderPage() {
             maxRecipesPerMeal: 10,
             userContext,
           },
-        );
+        };
+
+        let res = await fetch("/api/recommendations/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(payload),
+        });
+        let data = await res.json();
+
+        // One free retry for timeout within server-issued 5-minute window.
+        if (!res.ok && res.status === 504 && data?.retry?.token) {
+          res = await fetch("/api/recommendations/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({
+              ...payload,
+              retryToken: data.retry.token,
+            }),
+          });
+          data = await res.json();
+        }
+
+        if (!res.ok || !data?.success) {
+          if (res.status === 402) {
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(new Event("open-token-shop"));
+            }
+            setGenerationError("Insufficient tokens. Each generation costs 5 Spirit + 5 Essence.");
+            handleSuggestionsUpdate([]);
+            return;
+          }
+          if (res.status === 401) {
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(new Event("open-signin-modal"));
+            }
+            setGenerationError("Please sign in to generate recipes.");
+            handleSuggestionsUpdate([]);
+            return;
+          }
+          if (res.status === 504) {
+            setGenerationError("Generation timed out. Please retry.");
+            handleSuggestionsUpdate([]);
+            return;
+          }
+          throw new Error(data?.message || "Quick generate failed");
+        }
+
+        const recommendations = (data.recommendations || []) as RecommendedMeal[];
         handleSuggestionsUpdate(recommendations);
       } catch (err) {
         logger.error("Quick generate failed:", err as any);
@@ -282,6 +334,12 @@ export default function RecipeBuilderPage() {
           </div>
           <div className="flex items-center gap-2">
             <Link
+              href="/cosmic-recipe"
+              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 transition-colors text-sm text-purple-700 font-semibold border border-purple-200"
+            >
+              Cosmic Recipe
+            </Link>
+            <Link
               href="/recipe-generator"
               className="px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors text-sm text-purple-700 font-medium border border-purple-200"
             >
@@ -309,6 +367,9 @@ export default function RecipeBuilderPage() {
 
         {/* Main Builder Panel */}
         <RecipeBuilderPanel />
+
+        {/* Cosmic Alignment Preview (live-indexed grounding) */}
+        <CosmicAlignmentPreview />
 
         {/* Generate Button (from builder selections) */}
         <GenerateRecipeButton

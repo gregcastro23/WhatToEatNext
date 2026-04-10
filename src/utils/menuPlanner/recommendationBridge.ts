@@ -32,6 +32,10 @@ import {
     getPlanetaryDayCharacteristics,
     type PlanetaryDayCharacteristics,
 } from "@/utils/planetaryDayRecommendations";
+import {
+    getCuisineEntry,
+    getDominantElementForCuisine,
+} from "@/utils/cuisine/cuisineIndex";
 
 const logger = createLogger("RecommendationBridge");
 
@@ -983,6 +987,24 @@ function scoreRecipeForDay(
       reasons.push(
         `${recipe.cuisine} cuisine aligned with ${dayChar.planet} day`,
       );
+    }
+
+    // 2a. Indexed cuisine signature boost.
+    // Only applies when the cuisine's dominant element matches the day's
+    // dominant element — i.e. the statistical signature of the cuisine is
+    // actually in phase with today's planetary mood. Capped at +0.1 so it
+    // never dominates the weighted sum.
+    const cuisineDominant = getDominantElementForCuisine(recipe.cuisine);
+    if (cuisineDominant && cuisineDominant === dayChar.element) {
+      const entry = getCuisineEntry(recipe.cuisine);
+      const signatureCount = entry?.signatures?.length ?? 0;
+      if (signatureCount > 0) {
+        const boost = Math.min(0.1, 0.03 + signatureCount * 0.015);
+        score += boost;
+        reasons.push(
+          `${recipe.cuisine} statistically favours ${cuisineDominant} (${signatureCount} signature${signatureCount === 1 ? "" : "s"})`,
+        );
+      }
     }
   }
 

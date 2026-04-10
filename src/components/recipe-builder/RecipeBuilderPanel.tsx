@@ -8,12 +8,16 @@
  * @file src/components/recipe-builder/RecipeBuilderPanel.tsx
  */
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   useRecipeBuilder,
   type MealType,
   type FlavorPreference,
 } from "@/contexts/RecipeBuilderContext";
+import {
+  getAllCuisineNames,
+  getCuisineEntry,
+} from "@/utils/cuisine/cuisineIndex";
 import IngredientSearchBar from "./IngredientSearchBar";
 import IngredientSuggestions from "./IngredientSuggestions";
 import RecipeBuilderQueue from "./RecipeBuilderQueue";
@@ -53,7 +57,7 @@ const COMMON_ALLERGIES = [
   "Shellfish",
 ];
 
-const CUISINE_OPTIONS = [
+const CUISINE_FALLBACK = [
   "American",
   "Chinese",
   "French",
@@ -68,6 +72,15 @@ const CUISINE_OPTIONS = [
   "Thai",
   "Vietnamese",
 ];
+
+function formatSignatureLabel(
+  property: string,
+  zscore: number,
+): string {
+  const direction = zscore >= 0 ? "elevated" : "reduced";
+  const magnitude = Math.abs(zscore).toFixed(1);
+  return `${property} ${direction} ${magnitude}\u03C3`;
+}
 
 const COOKING_METHOD_OPTIONS = [
   "Baked",
@@ -241,6 +254,39 @@ function CuisineSelector() {
   const { selectedCuisines, addCuisine, removeCuisine } = useRecipeBuilder();
   const [customCuisine, setCustomCuisine] = useState("");
 
+  const cuisineOptions = useMemo<string[]>(() => {
+    const fromIndex = getAllCuisineNames();
+    if (fromIndex.length === 0) return CUISINE_FALLBACK;
+    // Merge + dedupe so we always show core cuisines even if the
+    // generated manifest is missing one (e.g. first-run sandbox).
+    const merged = new Set<string>(fromIndex);
+    for (const name of CUISINE_FALLBACK) merged.add(name);
+    return Array.from(merged);
+  }, []);
+
+  const signatureBySelected = useMemo(() => {
+    const map = new Map<
+      string,
+      { signatures: { property: string; zscore: number; description?: string }[]; sampleSize: number }
+    >();
+    for (const cuisine of selectedCuisines) {
+      const entry = getCuisineEntry(cuisine);
+      if (!entry) continue;
+      const top = [...(entry.signatures ?? [])]
+        .sort((a, b) => Math.abs(b.zscore) - Math.abs(a.zscore))
+        .slice(0, 2)
+        .map((sig) => ({
+          property: String(sig.property),
+          zscore: sig.zscore,
+          description: sig.description,
+        }));
+      if (top.length > 0) {
+        map.set(cuisine, { signatures: top, sampleSize: entry.sampleSize });
+      }
+    }
+    return map;
+  }, [selectedCuisines]);
+
   const handleAddCustomCuisine = () => {
     const trimmed = customCuisine.trim();
     if (trimmed && !selectedCuisines.includes(trimmed)) {
@@ -256,7 +302,7 @@ function CuisineSelector() {
         Preferred Cuisines
       </label>
       <div className="flex flex-wrap gap-2 mb-2">
-        {CUISINE_OPTIONS.map((cuisine) => {
+        {cuisineOptions.map((cuisine) => {
           const isSelected = selectedCuisines.includes(cuisine);
           return (
             <button
@@ -273,6 +319,37 @@ function CuisineSelector() {
           );
         })}
       </div>
+      {signatureBySelected.size > 0 && (
+        <div className="mb-2 space-y-1.5">
+          {Array.from(signatureBySelected.entries()).map(([cuisine, info]) => (
+            <div
+              key={cuisine}
+              className="rounded-lg border border-purple-100 bg-purple-50/50 px-3 py-2"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-semibold text-purple-800">
+                  {cuisine}
+                </span>
+                <span className="text-[10px] text-purple-500">
+                  n={info.sampleSize}
+                </span>
+              </div>
+              <div className="mt-1 flex flex-wrap gap-1.5">
+                {info.signatures.map((sig, i) => (
+                  <span
+                    key={`${cuisine}-${sig.property}-${i}`}
+                    title={sig.description}
+                    className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[10px] font-medium text-purple-700 border border-purple-200"
+                  >
+                    <span aria-hidden>{"\u2728"}</span>
+                    {formatSignatureLabel(sig.property, sig.zscore)}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="flex gap-2">
         <input
           type="text"

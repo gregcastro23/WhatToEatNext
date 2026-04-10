@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken, type FoodLabEntry } from "./shared";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { NextRequest } from "next/server";
 
 let _dbMod: typeof import("@/lib/database") | null = null;
@@ -115,6 +116,10 @@ export async function POST(request: NextRequest) {
           rating ?? null, tags, isPublic, shareToken ?? null, now, now,
         ],
       );
+      await reportQuestEventBestEffort(userId, "cook_recipe");
+      if (photos.length > 0) {
+        await reportQuestEventBestEffort(userId, "upload_food_photo");
+      }
       return NextResponse.json({ success: true, entry }, { status: 201 });
     } catch { /* fall through */ }
   }
@@ -122,6 +127,10 @@ export async function POST(request: NextRequest) {
   // In-memory fallback
   const existing = getUserEntries(userId);
   saveUserEntries(userId, [entry, ...existing]);
+  await reportQuestEventBestEffort(userId, "cook_recipe");
+  if (photos.length > 0) {
+    await reportQuestEventBestEffort(userId, "upload_food_photo");
+  }
   return NextResponse.json({ success: true, entry }, { status: 201 });
 }
 
