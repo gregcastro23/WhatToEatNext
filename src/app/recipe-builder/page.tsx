@@ -36,6 +36,10 @@ const RecipeBuilderPanel = dynamic(
 const RecipeSuggestionCarousel = dynamic(
   () => import("@/components/recipe-builder/RecipeSuggestionCarousel"),
 );
+const CosmicAlignmentPreview = dynamic(
+  () => import("@/components/recipe-builder/CosmicAlignmentPreview"),
+  { ssr: false },
+);
 
 const logger = createLogger("RecipeBuilder");
 
@@ -330,6 +334,12 @@ export default function RecipeBuilderPage() {
           </div>
           <div className="flex items-center gap-2">
             <Link
+              href="/cosmic-recipe"
+              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 transition-colors text-sm text-purple-700 font-semibold border border-purple-200"
+            >
+              Cosmic Recipe
+            </Link>
+            <Link
               href="/recipe-generator"
               className="px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors text-sm text-purple-700 font-medium border border-purple-200"
             >
@@ -357,6 +367,9 @@ export default function RecipeBuilderPage() {
 
         {/* Main Builder Panel */}
         <RecipeBuilderPanel />
+
+        {/* Cosmic Alignment Preview (live-indexed grounding) */}
+        <CosmicAlignmentPreview />
 
         {/* Generate Button (from builder selections) */}
         <GenerateRecipeButton

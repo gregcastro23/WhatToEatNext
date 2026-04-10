@@ -2,24 +2,168 @@
 
 import { experimental_useObject as useObject } from '@ai-sdk/react';
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
 import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
+import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
+import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
 import type { z } from 'zod';
 
 type CosmicRecipe = z.infer<typeof cosmicRecipeSchema>;
 
+/**
+ * Adapts a streamed `CosmicRecipe` into the `MonicaOptimizedRecipe` shape
+ * consumed by `/generated-recipe/[id]`. We don't fabricate monica/seasonal
+ * metadata — those fields remain empty placeholders; the destination page
+ * already guards each section with optional chaining.
+ */
+function mapCosmicToStoreRecipe(
+  cosmic: CosmicRecipe,
+  cuisineHint?: string,
+): MonicaOptimizedRecipe {
+  const id = `cosmic-${Date.now()}-${Math.floor(Math.random() * 1e6).toString(36)}`;
+  const elementalRaw = cosmic.elementalBalance ?? {};
+  const normalize = (v: unknown) => {
+    const n = Number(v ?? 0);
+    if (!Number.isFinite(n)) return 0;
+    return n > 1 ? n / 100 : n;
+  };
+  const elementalProperties = {
+    Fire: normalize((elementalRaw as any).fire),
+    Water: normalize((elementalRaw as any).water),
+    Earth: normalize((elementalRaw as any).earth),
+    Air: normalize((elementalRaw as any).air),
+  };
+
+  const ingredients = (cosmic.ingredients ?? []).map((ing) => {
+    const rawQty = ing?.quantity;
+    const numeric = Number(rawQty);
+    return {
+      name: ing?.name ?? "",
+      amount: Number.isFinite(numeric) ? numeric : (rawQty ?? 0),
+      unit: ing?.unit ?? "",
+      notes: ing?.household_description ?? undefined,
+    };
+  });
+
+  const instructions = (cosmic.steps ?? [])
+    .slice()
+    .sort((a, b) => (a?.step_number ?? 0) - (b?.step_number ?? 0))
+    .map((step) => step?.instruction ?? "")
+    .filter(Boolean);
+
+  const cuisine = cosmic.cuisine ?? cuisineHint ?? "Fusion";
+
+  const totalMinutes = cosmic.total_time ?? undefined;
+
+  const nutrition = cosmic.nutrition
+    ? {
+        calories: cosmic.nutrition.calories,
+        protein: cosmic.nutrition.protein,
+        carbs: cosmic.nutrition.carbohydrates,
+        fat: cosmic.nutrition.fat,
+      }
+    : undefined;
+
+  return {
+    id,
+    name: cosmic.title ?? "Cosmic Recipe",
+    description: cosmic.short_description ?? "",
+    cuisine,
+    mealType: cosmic.tags?.meal_type ? [cosmic.tags.meal_type] : [],
+    prepTime: totalMinutes ? `${totalMinutes} min` : undefined,
+    cookTime: undefined,
+    numberOfServings: cosmic.yields ?? undefined,
+    ingredients: ingredients as any,
+    instructions: instructions as any,
+    elementalProperties: elementalProperties as any,
+    nutrition: nutrition as any,
+    monicaOptimization: {
+      originalMonica: null,
+      optimizedMonica: 0,
+      optimizationScore: 0,
+      temperatureAdjustments: [],
+      timingAdjustments: [],
+      intensityModifications: [],
+      planetaryTimingRecommendations: cosmic.astro_explanation?.correspondences ?? [],
+    },
+    seasonalAdaptation: {
+      currentSeason: "spring" as any,
+      seasonalScore: 0,
+      seasonalIngredientSubstitutions: [],
+      seasonalCookingMethodAdjustments: [],
+    },
+    cuisineIntegration: {
+      authenticity: 0,
+      fusionPotential: 0,
+      culturalNotes: cosmic.astro_explanation?.summary
+        ? [cosmic.astro_explanation.summary]
+        : [],
+    } as any,
+  } as unknown as MonicaOptimizedRecipe;
+}
+
 export default function CosmicRecipeGenerator() {
   const { currentUser } = useUser();
+  const builder = useRecipeBuilder();
 
   const [prompt, setPrompt] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [ingredientsMain, setIngredientsMain] = useState("");
   const [disallowedIngredients, setDisallowedIngredients] = useState("");
+  const [preferredCuisine, setPreferredCuisine] = useState<string>("");
+  const [savedRecipeId, setSavedRecipeId] = useState<string | null>(null);
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+
+  const cuisineOptions = useMemo(() => {
+    const names = getAllCuisineNames();
+    return names.length > 0
+      ? names
+      : [
+          "American",
+          "Chinese",
+          "French",
+          "Greek",
+          "Indian",
+          "Italian",
+          "Japanese",
+          "Korean",
+          "Mediterranean",
+          "Mexican",
+          "Middle Eastern",
+          "Thai",
+          "Vietnamese",
+        ];
+  }, []);
+
+  // Auto-sync preferred cuisine from the Recipe Builder if the user has
+  // exactly one selected — the single most common case we want to support.
+  useEffect(() => {
+    if (builder.selectedCuisines.length === 1 && !preferredCuisine) {
+      setPreferredCuisine(builder.selectedCuisines[0]);
+    }
+  }, [builder.selectedCuisines, preferredCuisine]);
+
+  const handleUseBuilderSelections = () => {
+    if (builder.selectedIngredients.length > 0) {
+      setIngredientsMain(
+        builder.selectedIngredients.map((i) => i.name).join(", "),
+      );
+    }
+    if (builder.allergies.length > 0) {
+      setDisallowedIngredients(builder.allergies.join(", "));
+    }
+    if (builder.selectedCuisines.length > 0) {
+      setPreferredCuisine(builder.selectedCuisines[0]);
+    }
+    setShowAdvanced(true);
+  };
 
   // Parse birthData from UserContext if available
   const bd = currentUser?.birthData;
@@ -40,11 +184,26 @@ export default function CosmicRecipeGenerator() {
   const dietArray = (preferences?.dietaryRestrictions ?? []) as string[];
   const diet = dietArray.length ? dietArray.join(", ") : "no-restrictions";
 
+  const preferredCuisineRef = useRef<string>("");
+  preferredCuisineRef.current = preferredCuisine;
+
   const { object: rawObject, submit, isLoading } = useObject({
     api: '/api/generate-cosmic-recipe',
     schema: cosmicRecipeSchema as any,
     onFinish: async (event: any) => {
        if (event.object?.title) {
+          // Persist to the shared localStorage store so /generated-recipe/[id]
+          // can render the full view, and so the builder queue can reference it.
+          try {
+            const stored = mapCosmicToStoreRecipe(
+              event.object as CosmicRecipe,
+              preferredCuisineRef.current || undefined,
+            );
+            saveRecipeToStore(stored);
+            setSavedRecipeId(stored.id);
+          } catch (err) {
+            console.error("Failed to persist cosmic recipe", err);
+          }
           await generateImage(event.object?.title, event.object?.short_description || "");
        }
     }
@@ -53,12 +212,14 @@ export default function CosmicRecipeGenerator() {
 
   const handleGenerate = () => {
     setImageUrl(null);
+    setSavedRecipeId(null);
     submit({
       prompt: prompt || "A nourishing, restorative meal",
       diet,
       ingredients_main: ingredientsMain.split(',').map(i => i.trim()).filter(Boolean),
       disallowed_ingredients: disallowedIngredients.split(',').map(i => i.trim()).filter(Boolean),
       birthData,
+      preferredCuisine: preferredCuisine || undefined,
     });
   };
 
@@ -139,8 +300,8 @@ export default function CosmicRecipeGenerator() {
         </div>
 
         {/* Advanced Settings Toggle */}
-        <div className="pt-2">
-          <button 
+        <div className="pt-2 flex flex-wrap items-center gap-3">
+          <button
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-purple-600 transition-colors"
           >
@@ -148,6 +309,17 @@ export default function CosmicRecipeGenerator() {
             {showAdvanced ? 'Hide Elements & Restrictions' : 'Expand Culinary Settings'}
             {showAdvanced ? <FaChevronUp className="w-4 h-4" /> : <FaChevronDown className="w-4 h-4" />}
           </button>
+          {(builder.selectedIngredients.length > 0 ||
+            builder.selectedCuisines.length > 0 ||
+            builder.allergies.length > 0) && (
+            <button
+              type="button"
+              onClick={handleUseBuilderSelections}
+              className="text-xs font-semibold text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-full px-3 py-1.5 transition-colors"
+            >
+              Use Recipe Builder selections
+            </button>
+          )}
           
           {showAdvanced && (
             <div className="mt-4 grid sm:grid-cols-2 gap-4 animate-in slide-in-from-top-2 fade-in duration-200">
@@ -177,12 +349,36 @@ export default function CosmicRecipeGenerator() {
                   className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
                 />
               </div>
+              <div>
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                  Preferred Cuisine
+                </label>
+                <select
+                  value={preferredCuisine}
+                  onChange={(e) => setPreferredCuisine(e.target.value)}
+                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                >
+                  <option value="">Any (let the stars decide)</option>
+                  {cuisineOptions.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="sm:col-span-2 mt-2">
-                <div className="flex gap-2 items-center text-xs text-slate-500 bg-white dark:bg-slate-900 px-3 py-2 rounded border border-slate-200 dark:border-slate-700">
+                <div className="flex flex-wrap gap-2 items-center text-xs text-slate-500 bg-white dark:bg-slate-900 px-3 py-2 rounded border border-slate-200 dark:border-slate-700">
                   <span className="font-bold text-purple-600">Active Profile:</span>
                   <span>{birthData ? `Birth Chart Attached` : `No Chart Provided`}</span>
                   <span className="mx-2">|</span>
                   <span className="capitalize text-slate-600 font-medium">Diet: {diet || 'None'}</span>
+                  {preferredCuisine && (
+                    <>
+                      <span className="mx-2">|</span>
+                      <span className="text-slate-600 font-medium">Cuisine: {preferredCuisine}</span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -206,6 +402,22 @@ export default function CosmicRecipeGenerator() {
             <p className="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 font-serif italic max-w-3xl">
               {object.short_description}
             </p>
+            {savedRecipeId && !isLoading && (
+              <div className="mt-4 flex flex-wrap gap-3">
+                <Link
+                  href={`/generated-recipe/${savedRecipeId}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold shadow-sm transition-colors"
+                >
+                  View full recipe page
+                </Link>
+                <Link
+                  href="/recipe-builder"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white hover:bg-slate-50 text-purple-700 text-sm font-semibold border border-purple-200 transition-colors"
+                >
+                  Back to Recipe Builder
+                </Link>
+              </div>
+            )}
             
             {/* Image Box */}
             {!isLoading && (
