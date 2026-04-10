@@ -1,9 +1,9 @@
 'use client';
 
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { PremiumGate } from '@/components/PremiumGate';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
@@ -84,29 +84,44 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
   const moonDeg = moonData?.degree != null ? `${Math.floor(moonData.degree % 30)}\u00B0` : '';
 
   return (
-    <div className="alchm-card rounded-[2rem] px-7 py-4 border-white/5 shadow-2xl">
-      <div className="flex items-center justify-between flex-wrap gap-4">
-        <div className="flex items-center gap-4">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,1)]" />
+    <div className="glass-card-premium rounded-full px-8 py-4 border-white/10 shadow-3xl relative overflow-hidden group">
+      <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      <div className="relative z-10 flex items-center justify-between flex-wrap gap-4">
+        <div className="flex items-center gap-5">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.8)]" />
           </span>
-          <span className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">Live Transits</span>
-          <span className="text-[10px] text-white/20 font-mono tracking-tighter uppercase">
-            {now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-          </span>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.3em]">Live Transits</span>
+            <span className="text-[9px] text-white/20 font-mono tracking-tighter uppercase mt-0.5">
+              {now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-6 text-[11px] font-bold uppercase">
+        <div className="flex items-center gap-8 text-[11px] font-bold uppercase">
           {transitSunSign && (
-            <span className="flex items-center gap-1.5 group">
-              <span className="text-amber-400 text-lg group-hover:scale-125 transition-transform duration-500 drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]">{SIGN_SYMBOLS[transitSunSign.toLowerCase()] || '\u2609'}</span>
-              <span className="text-white/60 group-hover:text-white transition-colors tracking-widest">{transitSunSign}</span>
-              {sunDeg && <span className="text-white/20 font-mono text-[9px] tracking-tighter">{sunDeg}</span>}
-            </span>
+            <div className="flex items-center gap-2 group/sun">
+              <span className="text-amber-400 text-xl group-hover/sun:scale-125 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]">
+                {SIGN_SYMBOLS[transitSunSign.toLowerCase()] || '\u2609'}
+              </span>
+              <div className="flex flex-col">
+                <span className="text-white/70 group-hover/sun:text-white transition-colors tracking-[0.15em]">{transitSunSign}</span>
+                {sunDeg && <span className="text-white/20 font-mono text-[9px] tracking-tighter">{sunDeg} Solar Transit</span>}
+              </div>
+            </div>
           )}
+          <div className="w-px h-6 bg-white/5" />
           {transitMoonSign && (
-              <span className="text-white/70 capitalize font-medium">{ascendant}</span>
-            </span>
+            <div className="flex items-center gap-2 group/moon">
+              <span className="text-blue-300 text-xl group-hover/moon:scale-125 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(147,197,253,0.5)]">
+                {SIGN_SYMBOLS[transitMoonSign.toLowerCase()] || '\u263D'}
+              </span>
+              <div className="flex flex-col">
+                <span className="text-white/70 group-hover/moon:text-white transition-colors tracking-[0.15em]">{transitMoonSign}</span>
+                {moonDeg && <span className="text-white/20 font-mono text-[9px] tracking-tighter">{moonDeg} Lunar Flow</span>}
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -130,10 +145,10 @@ function CollapsibleSection({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="alchm-card rounded-[2rem] overflow-hidden border-white/5 shadow-2xl">
+    <div className="glass-base rounded-[2.5rem] overflow-hidden border-white/10 shadow-3xl transition-all duration-500">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-7 py-5 text-left hover:bg-white/[0.03] transition-colors"
+        className="w-full flex items-center justify-between px-8 py-6 text-left hover:bg-white/[0.04] transition-all"
       >
         <div className="flex items-center gap-3">
           <h3 className="text-[11px] font-bold text-white/50 uppercase tracking-[0.2em]">{title}</h3>
@@ -197,9 +212,9 @@ function SettingsPanel({
     : null;
 
   return (
-    <div className="space-y-4">
-      <div className="alchm-card rounded-[2.5rem] p-7 border-white/5">
-        <h3 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-5">Account</h3>
+    <div className="space-y-6">
+      <div className="glass-card-premium rounded-[2.5rem] p-8 border-white/10">
+        <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-6">Account Identity</h3>
         <div className="space-y-4">
           <div className="flex items-center justify-between py-2 border-b border-white/5">
             <span className="text-xs text-white/40">Name</span>
@@ -216,11 +231,11 @@ function SettingsPanel({
         </div>
       </div>
 
-      <div className="alchm-card rounded-[2.5rem] p-7 border-white/5">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Birth Data</h3>
-          <button onClick={onEditBirthData} className="text-[10px] text-purple-400 font-bold hover:text-purple-300 transition-colors uppercase tracking-widest">
-            Edit
+      <div className="glass-card-premium rounded-[2.5rem] p-8 border-white/10">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">Temporal Origin</h3>
+          <button onClick={onEditBirthData} className="text-[10px] text-purple-400 font-black hover:text-purple-300 transition-colors uppercase tracking-[0.25em]">
+            Recalibrate
           </button>
         </div>
         {chartDate && <p className="text-sm text-white/90 font-medium mb-1.5">{chartDate}</p>}
@@ -231,11 +246,11 @@ function SettingsPanel({
         )}
       </div>
 
-      <div className="alchm-card rounded-[2.5rem] p-7 border-white/5">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Food Preferences</h3>
-          <button onClick={onEditPreferences} className="text-[10px] text-purple-400 font-bold hover:text-purple-300 transition-colors uppercase tracking-widest">
-            Edit
+      <div className="glass-card-premium rounded-[2.5rem] p-8 border-white/10">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">Culinary Vectors</h3>
+          <button onClick={onEditPreferences} className="text-[10px] text-purple-400 font-black hover:text-purple-300 transition-colors uppercase tracking-[0.25em]">
+            Reconfigure
           </button>
         </div>
         <div className="space-y-3 text-xs">
@@ -499,132 +514,146 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="space-y-6"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="max-w-7xl mx-auto px-6 py-12 space-y-12"
     >
-      {/* Live Transit Status Bar */}
-      <motion.div
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1 }}
-      >
-        <LiveTransitBar natalChart={natalChart} />
-      </motion.div>
-
-      {/* Hero Identity Card */}
-      <motion.div
-        initial={{ scale: 0.98, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.2, type: 'spring', damping: 20 }}
-      >
-        <ProfileHeroCard
-          userName={userName}
-          email={email}
-          natalChart={natalChart}
-          tier={tier}
-          onEditProfile={onEditBirthData}
-          onOpenSettings={() => setViewMode('settings')}
-        />
-      </motion.div>
-
-      {/* Alchemical Self + Cosmic Alignment — dark cards */}
-      <div className="grid md:grid-cols-2 gap-5">
-        <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
-          <AlchemicalConstitutionPanel natalChart={natalChart} />
-        </motion.div>
-        <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
-          <CosmicAlignmentCard natalChart={natalChart} />
-        </motion.div>
-      </div>
-
-      {/* Elemental Wheel + Birth/Transit Action Cards */}
-      <div className="grid md:grid-cols-2 gap-5">
-        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}>
-          <ElementalWheel natalChart={natalChart} />
-        </motion.div>
-        <div className="flex flex-col gap-5">
-          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.5 }}>
-            <BirthChartSection natalChart={natalChart} />
+      {/* Header Section */}
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/5 pb-12">
+        <div className="space-y-4">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex items-center gap-3"
+          >
+            <span className="w-12 h-px bg-purple-500/30" />
+            <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.5em]">Alchm.kitchen // Adept Core</span>
           </motion.div>
-          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.6 }}>
-            <CurrentChartSection />
+          <h1 className="text-6xl md:text-7xl font-black text-white tracking-tighter alchm-gradient-text uppercase leading-[0.9]">
+            Adept<br />Dashboard
+          </h1>
+        </div>
+        <div className="w-full md:w-auto">
+          <LiveTransitBar natalChart={natalChart} />
+        </div>
+      </header>
+
+      {/* Main Grid: Identity & Cosmic Pulse */}
+      <div className="grid lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column: Core Identity */}
+        <div className="lg:col-span-8 space-y-8">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.7 }}
+          >
+            <ProfileHeroCard
+              userName={userName}
+              email={email}
+              natalChart={natalChart}
+              tier={tier}
+              onEditProfile={onEditBirthData}
+              onOpenSettings={() => setViewMode('settings')}
+            />
           </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}>
+              <AlchemicalConstitutionPanel natalChart={natalChart} />
+            </motion.div>
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
+              <ElementalWheel natalChart={natalChart} />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Right Column: Active Transits & Actions */}
+        <div className="lg:col-span-4 space-y-8">
+          <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.6 }}>
+            <CosmicAlignmentCard natalChart={natalChart} />
+          </motion.div>
+
+          <div className="space-y-4">
+            <h4 className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] ml-2">Quick Modules</h4>
+            <div className="grid grid-cols-1 gap-4">
+              <NavCard
+                label="Full Natal Chart"
+                description="Explore the deep architecture of your natal celestial alignment."
+                onClick={() => setViewMode('chart-detail')}
+                delay={0.7}
+              />
+              <NavCard
+                label="Commensal Sync"
+                description="Coordinate culinary harmony with your dining companions."
+                onClick={() => setViewMode('companions')}
+                badge={pendingRequests}
+                delay={0.8}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Quick Navigation Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <NavCard
-          label="Full Chart"
-          description="Natal & transit overlay"
-          onClick={() => setViewMode('chart-detail')}
-          delay={0.7}
-        />
-        <NavCard
-          label="Recommendations"
-          description="Cuisines & methods"
-          onClick={() => setViewMode('recommendations')}
-          delay={0.8}
-        />
-        <NavCard
-          label="Companions"
-          description="Dining group harmony"
-          onClick={() => setViewMode('companions')}
-          badge={pendingRequests}
-          delay={0.9}
-        />
-        <NavCard
-          label="Lab Book"
-          description="Experiments & notes"
-          onClick={() => setViewMode('labbook')}
-          delay={1.0}
-        />
-      </div>
+      {/* Lab Logs & Notifications Section */}
+      <section className="pt-12 border-t border-white/5 space-y-12">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-1">
+            <h2 className="text-[11px] font-black text-white/50 uppercase tracking-[0.4em]">Esoteric Logs</h2>
+            <p className="text-white/20 text-[10px] italic">Insights, notifications, and transit events</p>
+          </div>
+          <div className="h-px flex-1 bg-white/5 hidden md:block mx-8" />
+        </div>
 
-      {/* Cosmic Harmony Overview */}
-      <motion.div
-        initial={{ y: 30, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-      >
-        <DashboardOverview profileData={profileData} natalChart={natalChart} email={email} />
-      </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Logs Panel */}
+          <div className="lg:col-span-2">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="glass-base rounded-[2.5rem] p-8 border border-white/10"
+            >
+              <NotificationPanel />
+            </motion.div>
+          </div>
 
-      {/* Notifications */}
-      <motion.div
-        initial={{ y: 30, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        <CollapsibleSection title="Notifications" defaultOpen>
-          <NotificationPanel />
-        </CollapsibleSection>
-      </motion.div>
+          {/* Side Transits/Premium */}
+          <div className="space-y-8">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+            >
+              <CollapsibleSection title="Active Transits" defaultOpen>
+                <CurrentTransitAnalysis natalChart={natalChart} />
+              </CollapsibleSection>
+            </motion.div>
 
-      {/* Transits */}
-      <motion.div
-        initial={{ y: 30, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        <CollapsibleSection title="Current Transits" defaultOpen>
-          <CurrentTransitAnalysis natalChart={natalChart} />
-        </CollapsibleSection>
-      </motion.div>
+            {tier === 'free' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+              >
+                <TierUpgradePrompt />
+              </motion.div>
+            )}
+          </div>
+        </div>
+      </section>
 
-      {/* Premium Upsell */}
-      {tier === 'free' && (
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <TierUpgradePrompt />
-        </motion.div>
-      )}
+      {/* Footer / Meta */}
+      <footer className="pt-12 pb-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="text-[9px] font-black text-white/10 uppercase tracking-[0.5em]">
+          Codex Revision 4.2.0 // System Operational
+        </div>
+        <div className="flex gap-8">
+          <button className="text-[9px] font-black text-white/20 uppercase tracking-widest hover:text-white transition-colors">Documentation</button>
+          <button className="text-[9px] font-black text-white/20 uppercase tracking-widest hover:text-white transition-colors">Support Registry</button>
+        </div>
+      </footer>
     </motion.div>
   );
 };
@@ -646,25 +675,30 @@ function NavCard({
 }) {
   return (
     <motion.button
-      initial={{ y: 10, opacity: 0 }}
+      initial={{ y: 15, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay }}
-      whileHover={{ y: -5, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      transition={{ delay, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -8, scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className="relative alchm-card rounded-2xl p-5 border-white/5 text-left transition-all group overflow-hidden"
+      className="relative glass-card-premium rounded-[1.5rem] p-6 text-left transition-all group overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute -right-4 -top-4 w-16 h-16 bg-white/5 rounded-full blur-2xl group-hover:bg-purple-500/10 transition-colors" />
+      
       {badge !== undefined && badge > 0 && (
-        <span className="absolute top-3 right-3 w-5 h-5 flex items-center justify-center text-[10px] font-bold bg-amber-500 text-amber-950 rounded-full shadow-lg shadow-amber-500/30 ring-2 ring-gray-950">
+        <span className="absolute top-4 right-4 w-5 h-5 flex items-center justify-center text-[10px] font-black bg-amber-400 text-amber-950 rounded-full shadow-[0_0_15px_rgba(251,191,36,0.4)] ring-4 ring-gray-950/20 z-10">
           {badge}
         </span>
       )}
-      <div className="text-[11px] font-bold text-white/40 uppercase tracking-widest mb-1 group-hover:text-purple-400 transition-colors">
-        {label}
-      </div>
-      <div className="text-[10px] text-white/20 leading-relaxed font-medium group-hover:text-white/40 transition-colors">
-        {description}
+      
+      <div className="relative z-10">
+        <div className="text-[11px] font-black text-white/40 uppercase tracking-[0.25em] mb-2 group-hover:text-purple-300 transition-colors">
+          {label}
+        </div>
+        <div className="text-[10px] text-white/25 leading-relaxed font-medium group-hover:text-white/50 transition-colors max-w-[80%]">
+          {description}
+        </div>
       </div>
     </motion.button>
   );

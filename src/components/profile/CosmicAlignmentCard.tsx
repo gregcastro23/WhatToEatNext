@@ -62,47 +62,49 @@ export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalC
   const aligned = currentDominant === natalDominant;
 
   return (
-    <div className="alchm-card rounded-[2.5rem] p-7 border-white/5 shadow-2xl">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.2em]">Today&apos;s Cosmic Alignment</h3>
-          <p className="text-white/30 text-[10px] mt-1 italic">Real-time celestial weather</p>
+    <div className="glass-card-premium rounded-[2.5rem] p-8 border-white/10 shadow-3xl group">
+      <div className="flex items-center justify-between mb-8">
+        <div className="space-y-1">
+          <h3 className="text-[11px] font-black text-white/50 uppercase tracking-[0.3em] group-hover:text-purple-400 transition-colors">Cosmic Alignment</h3>
+          <p className="text-white/20 text-[10px] font-medium italic">Pulse of the Celestial Sphere</p>
         </div>
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,1)]" />
-        </span>
+        <div className="flex items-center gap-2 px-3 py-1 glass-highlight rounded-full">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          </span>
+          <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Live Sync</span>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white/5 rounded-[1.5rem] p-4 border border-white/5">
-          <div className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">Planetary Hour</div>
-          <div className="text-white font-bold text-[13px] uppercase tracking-widest">{planetaryHour}</div>
-        </div>
-        <div className="bg-white/5 rounded-[1.5rem] p-4 border border-white/5">
-          <div className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">Moon Phase</div>
-          <div className="text-white font-bold text-[13px] uppercase tracking-widest flex items-center gap-1.5">
-            <span className="opacity-80">{moonPhase.icon}</span>
-            <span className="text-[11px]">{moonPhase.name}</span>
+      <div className="grid grid-cols-2 gap-5">
+        {[
+          { label: 'Planetary Hour', value: planetaryHour, sub: 'Current Governor' },
+          { label: 'Moon Phase', value: moonPhase.name, icon: moonPhase.icon, sub: 'Lunar Cycle' },
+          { label: 'Current Element', value: currentDominant, sub: 'Celestial State' },
+          { label: 'Natal Status', value: aligned ? 'In Harmony' : 'Contrast', sub: 'Personal Resonance', highlighted: true, alert: aligned }
+        ].map((item, idx) => (
+          <div 
+            key={idx} 
+            className="glass-highlight rounded-[1.75rem] p-5 border border-white/5 hover:border-white/10 transition-all hover:translate-y-[-2px] group/item"
+          >
+            <div className="text-white/20 text-[9px] font-black uppercase tracking-[0.3em] mb-2.5 group-hover/item:text-white/40 transition-colors">{item.label}</div>
+            <div className="flex flex-col">
+              <div className={`text-white font-black text-[13px] uppercase tracking-widest flex items-center gap-2 ${item.highlighted ? (item.alert ? 'text-emerald-400' : 'text-amber-400') : ''}`}>
+                {item.icon && <span className="opacity-80 text-lg">{item.icon}</span>}
+                {item.value}
+              </div>
+              <span className="text-[8px] text-white/10 uppercase tracking-widest mt-1 group-hover/item:text-white/20 transition-colors">{item.sub}</span>
+            </div>
           </div>
-        </div>
-        <div className="bg-white/5 rounded-[1.5rem] p-4 border border-white/5">
-          <div className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">Current Element</div>
-          <div className="text-white font-bold text-[13px] uppercase tracking-widest">{currentDominant}</div>
-        </div>
-        <div className="bg-white/5 rounded-[1.5rem] p-4 border border-white/5">
-          <div className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">Natal Alignment</div>
-          <div className={`font-bold text-[11px] uppercase tracking-[0.15em] ${aligned ? 'text-green-400' : 'text-amber-400'}`}>
-            {aligned ? 'In Harmony' : 'Contrast'}
-          </div>
-        </div>
+        ))}
       </div>
 
       <Link
         href="/"
-        className="mt-6 block text-center text-[10px] text-purple-400 font-bold hover:text-purple-300 transition-colors uppercase tracking-[0.2em]"
+        className="mt-8 block text-center text-[10px] text-purple-400 font-black hover:text-purple-300 transition-all uppercase tracking-[0.3em] hover:tracking-[0.35em]"
       >
-        Explore Today&apos;s Recommendations &rarr;
+        Sync Recommendations &rarr;
       </Link>
     </div>
   );
