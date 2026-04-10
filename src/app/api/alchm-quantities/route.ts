@@ -5,6 +5,7 @@
  * - alchm-kinetics
  */
 import { NextResponse } from "next/server";
+import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
 import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
@@ -181,63 +182,77 @@ export async function GET() {
 
     const isDiurnalNow = isSectDiurnal(now);
 
-    return NextResponse.json(
-      {
-        success: true,
-        timestamp: now.toISOString(),
+    const payload = {
+      success: true as const,
+      timestamp: now.toISOString(),
 
-        // Legacy payload expected by alchm-quantities-display
-        quantities: {
-          ...quantities,
-          ANumber: aNumber,
-          DayEssence: isDiurnalNow ? quantities.Essence : previousQuantities.Essence,
-          NightEssence: isDiurnalNow ? previousQuantities.Essence : quantities.Essence,
-        },
-        dominantElement: nowAlch.metadata.dominantElement,
-        isDiurnal: isDiurnalNow,
-        heat,
-        entropy,
+      // Legacy payload expected by alchm-quantities-display
+      quantities: {
+        ...quantities,
+        ANumber: aNumber,
+        DayEssence: isDiurnalNow ? quantities.Essence : previousQuantities.Essence,
+        NightEssence: isDiurnalNow ? previousQuantities.Essence : quantities.Essence,
+      },
+      dominantElement: nowAlch.metadata.dominantElement,
+      isDiurnal: isDiurnalNow,
+      heat,
+      entropy,
+      reactivity,
+      energy,
+      kalchm,
+      monica,
+
+      // Detailed kinetics payload expected by alchm-kinetics
+      kinetics: {
+        velocity,
+        acceleration,
+        momentum,
+        // Additional summary metrics preserved for compatibility
         reactivity,
-        energy,
-        kalchm,
-        monica,
-
-        // Detailed kinetics payload expected by alchm-kinetics
-        kinetics: {
-          velocity,
-          acceleration,
-          momentum,
-          // Additional summary metrics preserved for compatibility
-          reactivity,
-          entropy,
-          power,
-        },
-        circuit: {
-          charge,
-          potentialDifference,
-          currentFlow,
-          power,
-          inertia,
-          forceMagnitude,
-          forceClassification,
-          thermalDirection,
-          primaryElement: nowAlch.metadata.dominantElement,
-          elementalBalance: nowAlch.elementalProperties,
-          esmsBalance: ESMS_KEYS.reduce(
-            (acc, key) => ({ ...acc, [key]: quantities[key] }),
-            {} as Record<EsmsKey, number>,
-          ),
-        },
-
-        // Preserve prior field for any older consumers
-        alchemical: quantities,
+        entropy,
+        power,
       },
-      {
-        headers: {
-          "Cache-Control": "no-store, max-age=0, must-revalidate",
-        },
+      circuit: {
+        charge,
+        potentialDifference,
+        currentFlow,
+        power,
+        inertia,
+        forceMagnitude,
+        forceClassification,
+        thermalDirection,
+        primaryElement: nowAlch.metadata.dominantElement,
+        elementalBalance: nowAlch.elementalProperties,
+        esmsBalance: ESMS_KEYS.reduce(
+          (acc, key) => ({ ...acc, [key]: quantities[key] }),
+          {} as Record<EsmsKey, number>,
+        ),
       },
-    );
+
+      // Preserve prior field for any older consumers
+      alchemical: quantities,
+    };
+
+    const validated = AlchmQuantitiesApiResponseSchema.safeParse(payload);
+    if (!validated.success) {
+      logger.error("Invalid /api/alchm-quantities response payload", {
+        issues: validated.error.issues,
+      });
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Invalid alchm-quantities response shape",
+          details: validated.error.flatten(),
+        },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json(validated.data, {
+      headers: {
+        "Cache-Control": "no-store, max-age=0, must-revalidate",
+      },
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logger.error("Failed to compute /api/alchm-quantities", { error: message });

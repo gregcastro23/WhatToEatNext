@@ -138,6 +138,66 @@ export const OnboardingRequestSchema = z.object({
 
 export type ParsedOnboardingRequest = z.infer<typeof OnboardingRequestSchema>;
 
+// ─── Alchm Quantities API (/api/alchm-quantities) ───────────────────────────
+
+const EsmsQuantitiesSchema = z.object({
+  Spirit: z.number(),
+  Essence: z.number(),
+  Matter: z.number(),
+  Substance: z.number(),
+});
+
+const EsmsKineticsSchema = z.object({
+  Spirit: z.number(),
+  Essence: z.number(),
+  Matter: z.number(),
+  Substance: z.number(),
+});
+
+export const AlchmQuantitiesApiResponseSchema = z.object({
+  success: z.literal(true),
+  timestamp: z.string(),
+  quantities: EsmsQuantitiesSchema.extend({
+    ANumber: z.number(),
+    DayEssence: z.number(),
+    NightEssence: z.number(),
+  }),
+  dominantElement: z.string(),
+  isDiurnal: z.boolean(),
+  heat: z.number(),
+  entropy: z.number(),
+  reactivity: z.number(),
+  energy: z.number(),
+  kalchm: z.number(),
+  monica: z.number(),
+  kinetics: z.object({
+    velocity: EsmsKineticsSchema,
+    acceleration: EsmsKineticsSchema,
+    momentum: EsmsKineticsSchema,
+    reactivity: z.number(),
+    entropy: z.number(),
+    power: z.number(),
+  }),
+  circuit: z.object({
+    charge: z.number(),
+    potentialDifference: z.number(),
+    currentFlow: z.number(),
+    power: z.number(),
+    inertia: z.number(),
+    forceMagnitude: z.number(),
+    forceClassification: z.enum(["accelerating", "decelerating", "balanced"]),
+    thermalDirection: z.enum(["heating", "cooling", "stable"]),
+    primaryElement: z.string(),
+    elementalBalance: ElementalPropertiesSchema,
+    esmsBalance: EsmsQuantitiesSchema,
+  }),
+  alchemical: EsmsQuantitiesSchema,
+});
+
+export type AlchmQuantitiesApiResponse = z.infer<
+  typeof AlchmQuantitiesApiResponseSchema
+>;
+
 // ─── Helper: extract cooking methods normalised to string[] ──────────────────
 // Replaces the `as unknown as Record<string, unknown>` dance in route handlers.
 
@@ -155,4 +215,3 @@ export function extractCookingMethods(recipe: ParsedRecipe): string[] {
     )
     .filter(Boolean);
 }
-
