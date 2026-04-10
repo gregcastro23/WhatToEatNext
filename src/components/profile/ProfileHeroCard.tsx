@@ -87,94 +87,95 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
   const ascPlanet = natalChart.planets?.find(p => p.name === 'Ascendant');
 
   return (
-    <div className="relative overflow-hidden rounded-3xl">
+    <div className="alchm-card rounded-[3rem] overflow-hidden border-white/5 shadow-2xl">
       {/* Dark gradient background — Co-Star inspired */}
-      <div className="bg-gradient-to-br from-gray-950 via-gray-900 to-purple-950 p-6 md:p-8">
+      <div className="bg-gradient-to-br from-gray-950 via-gray-900 to-[#1e1435] p-7 md:p-10 relative overflow-hidden">
         {/* Subtle radial overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(139,92,246,0.15),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(99,102,241,0.1),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(167,139,250,0.1),_transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(251,146,60,0.05),_transparent_70%)]" />
 
         <div className="relative z-10">
           {/* Top row: name + actions */}
-          <div className="flex items-start justify-between mb-6">
+          <div className="flex items-start justify-between mb-8">
             <div>
-              <div className="flex items-center gap-3 mb-1">
-                <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+              <div className="flex items-center gap-4 mb-1.5">
+                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tighter alchm-gradient-text">
                   {userName}
                 </h1>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest ${
+                <span className={`text-[9px] font-bold px-3 py-0.5 rounded-full uppercase tracking-[0.2em] ${
                   tier === 'premium'
-                    ? 'bg-amber-400/90 text-amber-950'
-                    : 'bg-white/10 text-white/60 border border-white/10'
+                    ? 'bg-amber-400 text-amber-950 shadow-[0_0_15px_rgba(251,191,36,0.5)]'
+                    : 'bg-white/5 text-white/40 border border-white/10'
                 }`}>
-                  {tier === 'premium' ? 'Premium' : 'Free'}
+                  {tier === 'premium' ? 'Premium' : 'Standard'}
                 </span>
               </div>
-              <p className="text-white/40 text-xs tracking-wide uppercase">Your Cosmic Profile</p>
+              <p className="text-white/30 text-[10px] font-bold tracking-[0.3em] uppercase opacity-80">Alchemical Identity Profile</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2.5">
               <button
                 onClick={onEditProfile}
-                className="px-3.5 py-1.5 bg-white/10 text-white/80 rounded-full hover:bg-white/15 transition-colors text-xs font-medium border border-white/10"
+                className="px-5 py-2 bg-white/5 text-white/60 rounded-full hover:bg-white/10 hover:text-white transition-all text-[10px] font-bold uppercase tracking-widest border border-white/5 bg-blur"
               >
-                Edit Profile
+                Refine Data
               </button>
               <button
                 onClick={onOpenSettings}
-                className="p-1.5 bg-white/5 text-white/50 rounded-full hover:bg-white/10 transition-colors border border-white/10"
+                className="p-2.5 bg-white/5 text-white/40 rounded-full hover:bg-white/10 hover:text-white transition-all border border-white/5"
                 title="Settings"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </button>
             </div>
           </div>
 
-          {/* Big Three + Sigil */}
-          <div className="flex items-center gap-6">
-            <CosmicSigil natalChart={natalChart} />
-            <div className="flex-1 grid grid-cols-3 gap-4">
+          <div className="flex items-center gap-10">
+            <div className="hover:scale-105 transition-transform duration-700">
+              <CosmicSigil natalChart={natalChart} />
+            </div>
+            <div className="flex-1 grid grid-cols-3 gap-6">
               {/* Sun */}
-              <div>
-                <div className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Sun</div>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-xl text-amber-400">{SIGN_SYMBOLS[sunSign] || ''}</span>
-                  <span className="text-white font-bold capitalize text-lg">{sunSign}</span>
+              <div className="group">
+                <div className="text-white/20 text-[9px] font-bold uppercase tracking-[0.2em] mb-2 group-hover:text-amber-400/40 transition-colors">Sun</div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]">{SIGN_SYMBOLS[sunSign] || ''}</span>
+                  <span className="text-white font-bold capitalize text-xl tracking-tight">{sunSign}</span>
                 </div>
-                <div className="text-white/30 text-xs font-mono mt-0.5">{formatDeg(sunPlanet?.position)}</div>
+                <div className="text-white/20 font-mono text-[10px] mt-1 tracking-tighter">{formatDeg(sunPlanet?.position)}</div>
               </div>
               {/* Moon */}
-              <div>
-                <div className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Moon</div>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-xl text-blue-400">{SIGN_SYMBOLS[moonSign] || ''}</span>
-                  <span className="text-white font-bold capitalize text-lg">{moonSign}</span>
+              <div className="group">
+                <div className="text-white/20 text-[9px] font-bold uppercase tracking-[0.2em] mb-2 group-hover:text-blue-400/40 transition-colors">Moon</div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl text-blue-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]">{SIGN_SYMBOLS[moonSign] || ''}</span>
+                  <span className="text-white font-bold capitalize text-xl tracking-tight">{moonSign}</span>
                 </div>
-                <div className="text-white/30 text-xs font-mono mt-0.5">{formatDeg(moonPlanet?.position)}</div>
+                <div className="text-white/20 font-mono text-[10px] mt-1 tracking-tighter">{formatDeg(moonPlanet?.position)}</div>
               </div>
               {/* Rising */}
-              <div>
-                <div className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Rising</div>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-xl text-purple-400">{SIGN_SYMBOLS[ascendant] || ''}</span>
-                  <span className="text-white font-bold capitalize text-lg">{ascendant}</span>
+              <div className="group">
+                <div className="text-white/20 text-[9px] font-bold uppercase tracking-[0.2em] mb-2 group-hover:text-purple-400/40 transition-colors">Rising</div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl text-purple-400 drop-shadow-[0_0_8px_rgba(167,139,250,0.3)]">{SIGN_SYMBOLS[ascendant] || ''}</span>
+                  <span className="text-white font-bold capitalize text-xl tracking-tight">{ascendant}</span>
                 </div>
-                <div className="text-white/30 text-xs font-mono mt-0.5">{formatDeg(ascPlanet?.position)}</div>
+                <div className="text-white/20 font-mono text-[10px] mt-1 tracking-tighter">{formatDeg(ascPlanet?.position)}</div>
               </div>
             </div>
           </div>
 
           {/* Bottom tags */}
-          <div className="flex flex-wrap gap-2 mt-5 pt-4 border-t border-white/5">
+          <div className="flex flex-wrap gap-3 mt-8 pt-6 border-t border-white/5">
             {natalChart.dominantElement && (
-              <span className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 text-white/50 border border-white/10 uppercase tracking-wider">
-                {natalChart.dominantElement} dominant
+              <span className="text-[9px] font-bold px-4 py-1.5 rounded-full bg-white/5 text-white/50 border border-white/10 uppercase tracking-[0.2em] hover:bg-white/10 hover:text-white transition-colors">
+                {natalChart.dominantElement}-DOMINANT
               </span>
             )}
             {natalChart.dominantModality && (
-              <span className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 text-white/50 border border-white/10 uppercase tracking-wider">
+              <span className="text-[9px] font-bold px-4 py-1.5 rounded-full bg-white/5 text-white/50 border border-white/10 uppercase tracking-[0.2em] hover:bg-white/10 hover:text-white transition-colors">
                 {natalChart.dominantModality}
               </span>
             )}

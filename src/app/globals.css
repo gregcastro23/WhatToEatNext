@@ -60,28 +60,44 @@ body {
 
 /* Alchemical theme enhancements */
 .alchm-card {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95),
-    rgba(255, 255, 255, 0.85)
-  );
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(139, 92, 246, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(15, 15, 20, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .alchm-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
-  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.25);
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+.alchm-card-glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .alchm-gradient-text {
-  background: linear-gradient(135deg, #8b5cf6, #f97316, #10b981);
+  background: linear-gradient(135deg, #a78bfa, #fb923c, #f472b6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* Alchemical Property Gradients */
+.grad-spirit-fire { background: linear-gradient(135deg, #f87171, #ef4444); }
+.grad-essence-water { background: linear-gradient(135deg, #60a5fa, #3b82f6); }
+.grad-matter-earth { background: linear-gradient(135deg, #4ade80, #22c55e); }
+.grad-substance-air { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+
+.glow-purple { box-shadow: 0 0 15px rgba(167, 139, 250, 0.4); }
+.glow-orange { box-shadow: 0 0 15px rgba(251, 146, 60, 0.4); }
+.glow-blue { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+
 
 .alchm-shimmer {
   position: relative;

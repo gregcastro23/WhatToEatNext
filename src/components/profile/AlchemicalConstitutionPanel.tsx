@@ -26,13 +26,13 @@ export const AlchemicalConstitutionPanel: React.FC<AlchemicalConstitutionPanelPr
   }, ESMS_CONFIG[0]);
 
   return (
-    <div className="bg-gray-950 rounded-3xl p-6 border border-white/5">
-      <div className="flex items-center justify-between mb-5">
+    <div className="alchm-card rounded-[2.5rem] p-7 border-white/5 shadow-2xl">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-sm font-bold text-white uppercase tracking-widest">Alchemical Constitution</h3>
-          <p className="text-white/30 text-xs mt-0.5">Your natal ESMS signature</p>
+          <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.2em]">Alchemical Constitution</h3>
+          <p className="text-white/30 text-[10px] mt-1 italic">Your natal ESMS signature</p>
         </div>
-        <span className="text-xs text-white/20 font-mono">A# {total.toFixed(1)}</span>
+        <span className="text-[10px] font-bold text-white/20 font-mono tracking-tighter uppercase">A# {total.toFixed(1)}</span>
       </div>
 
       <div className="space-y-4">

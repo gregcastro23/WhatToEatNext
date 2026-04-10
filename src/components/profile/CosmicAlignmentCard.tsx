@@ -62,37 +62,37 @@ export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalC
   const aligned = currentDominant === natalDominant;
 
   return (
-    <div className="bg-gray-950 rounded-3xl p-6 border border-white/5">
-      <div className="flex items-center justify-between mb-5">
+    <div className="alchm-card rounded-[2.5rem] p-7 border-white/5 shadow-2xl">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-sm font-bold text-white uppercase tracking-widest">Today&apos;s Cosmic Alignment</h3>
-          <p className="text-white/30 text-xs mt-0.5">Real-time celestial weather</p>
+          <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.2em]">Today&apos;s Cosmic Alignment</h3>
+          <p className="text-white/30 text-[10px] mt-1 italic">Real-time celestial weather</p>
         </div>
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,1)]" />
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/5">
-          <div className="text-white/30 text-[10px] uppercase tracking-widest mb-2">Planetary Hour</div>
-          <div className="text-white font-bold text-lg">{planetaryHour}</div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-white/5 rounded-[1.5rem] p-4 border border-white/5">
+          <div className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">Planetary Hour</div>
+          <div className="text-white font-bold text-[13px] uppercase tracking-widest">{planetaryHour}</div>
         </div>
-        <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/5">
-          <div className="text-white/30 text-[10px] uppercase tracking-widest mb-2">Moon Phase</div>
-          <div className="text-white font-bold text-lg">
-            <span className="mr-1.5">{moonPhase.icon}</span>
-            <span className="text-sm">{moonPhase.name}</span>
+        <div className="bg-white/5 rounded-[1.5rem] p-4 border border-white/5">
+          <div className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">Moon Phase</div>
+          <div className="text-white font-bold text-[13px] uppercase tracking-widest flex items-center gap-1.5">
+            <span className="opacity-80">{moonPhase.icon}</span>
+            <span className="text-[11px]">{moonPhase.name}</span>
           </div>
         </div>
-        <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/5">
-          <div className="text-white/30 text-[10px] uppercase tracking-widest mb-2">Current Element</div>
-          <div className="text-white font-bold text-lg">{currentDominant}</div>
+        <div className="bg-white/5 rounded-[1.5rem] p-4 border border-white/5">
+          <div className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">Current Element</div>
+          <div className="text-white font-bold text-[13px] uppercase tracking-widest">{currentDominant}</div>
         </div>
-        <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/5">
-          <div className="text-white/30 text-[10px] uppercase tracking-widest mb-2">Natal Alignment</div>
-          <div className={`font-bold text-lg ${aligned ? 'text-green-400' : 'text-amber-400'}`}>
+        <div className="bg-white/5 rounded-[1.5rem] p-4 border border-white/5">
+          <div className="text-white/30 text-[9px] font-bold uppercase tracking-[0.2em] mb-2">Natal Alignment</div>
+          <div className={`font-bold text-[11px] uppercase tracking-[0.15em] ${aligned ? 'text-green-400' : 'text-amber-400'}`}>
             {aligned ? 'In Harmony' : 'Contrast'}
           </div>
         </div>
@@ -100,9 +100,9 @@ export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalC
 
       <Link
         href="/"
-        className="mt-5 block text-center text-xs text-purple-400/80 font-medium hover:text-purple-300 transition-colors uppercase tracking-wider"
+        className="mt-6 block text-center text-[10px] text-purple-400 font-bold hover:text-purple-300 transition-colors uppercase tracking-[0.2em]"
       >
-        See today&apos;s recommended cuisines &rarr;
+        Explore Today&apos;s Recommendations &rarr;
       </Link>
     </div>
   );
