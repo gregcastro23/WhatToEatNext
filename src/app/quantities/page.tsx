@@ -1,14 +1,13 @@
 "use client";
 
+import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { Suspense, useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   FaFire,
   FaTint,
   FaWind,
   FaMountain,
-  FaBolt,
   FaSyncAlt,
   FaSun,
   FaMoon,
@@ -16,9 +15,9 @@ import {
 } from "react-icons/fa";
 import AlchmKinetics from "@/components/alchm-kinetics";
 import AlchmQuantitiesDisplay from "@/components/alchm-quantities-display";
+import { QuestPanel } from "@/components/economy/QuestPanel";
 import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";
 import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
-import { QuestPanel } from "@/components/economy/QuestPanel";
 import { usePremium } from "@/contexts/PremiumContext";
 import type {
   TokenBalances,
@@ -120,7 +119,7 @@ const TOKEN_CONFIG = [
 
 type Tab = "economy" | "quantities" | "kinetics" | "aspects" | "trends" | "quests";
 
-const TABS: { id: Tab; label: string; icon: string }[] = [
+const TABS: Array<{ id: Tab; label: string; icon: string }> = [
   { id: "economy", label: "Token Economy", icon: "⚗️" },
   { id: "quantities", label: "Live Quantities", icon: "🔮" },
   { id: "kinetics", label: "Kinetics", icon: "⚡" },

@@ -1,23 +1,21 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { signOut, useSession } from 'next-auth/react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { UserDashboard } from '@/components/dashboard';
+import { QuestPanel } from '@/components/economy/QuestPanel';
+import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
-import { FoodPreferences } from '@/components/profile/FoodPreferences';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
+import { FoodPreferences } from '@/components/profile/FoodPreferences';
 import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
-import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
-import { QuestPanel } from '@/components/economy/QuestPanel';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { usePremium } from '@/contexts/PremiumContext';
 import { PREMIUM_FEATURES_DISPLAY } from '@/lib/tiers';
-import type { UserTier } from '@/lib/tiers';
 import type { BirthData, NatalChart } from '@/types/natalChart';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -747,16 +745,11 @@ export default function ProfilePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingProfile, setIsFetchingProfile] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [prefsCompleted, setPrefsCompleted] = useState(false);
 
   const [birthDateTime, setBirthDateTime] = useState('');
   const [birthLocation, setBirthLocation] = useState<{
     displayName: string; latitude: number; longitude: number;
   } | null>(null);
-
-  useEffect(() => {
-    setPrefsCompleted(!!getStorageItem('preferencesCompleted'));
-  }, []);
 
   const determineStep = useCallback((profile: any, _prefs: UserPreferences, _prefsComplete: boolean): ProfileStep => {
     if (!profile?.natalChart) return 'birth-data';
@@ -816,7 +809,6 @@ export default function ProfilePage() {
       setPreferences(loadedPrefs);
 
       const prefsComplete = !!getStorageItem('preferencesCompleted');
-      setPrefsCompleted(prefsComplete);
       setCurrentStep(determineStep(profile, loadedPrefs, prefsComplete));
       setIsFetchingProfile(false);
     }
@@ -885,7 +877,6 @@ export default function ProfilePage() {
       localStorage.setItem('userFoodPreferences', JSON.stringify(updatedPrefs));
       localStorage.setItem('preferencesCompleted', 'true');
     }
-    setPrefsCompleted(true);
     fetch('/api/user/profile', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -1028,10 +1019,11 @@ function BirthDataScreen({
         <div className="glass-card-premium rounded-3xl p-8 border-white/8">
           <form onSubmit={onSubmit} className="space-y-6">
             <div>
-              <label className="block text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">
+              <label htmlFor="birthDateTime" className="block text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">
                 Birth Date & Time <span className="text-red-400">*</span>
               </label>
               <input
+                id="birthDateTime"
                 type="datetime-local"
                 value={birthDateTime}
                 onChange={(e) => setBirthDateTime(e.target.value)}
@@ -1043,10 +1035,10 @@ function BirthDataScreen({
             </div>
 
             <div>
-              <label className="block text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">
+              <label htmlFor="birthLocation" className="block text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">
                 Birth Location <span className="text-red-400">*</span>
               </label>
-              <div className="[&_input]:bg-white/[0.04] [&_input]:border-white/10 [&_input]:border [&_input]:rounded-2xl [&_input]:text-white [&_input]:outline-none [&_input]:px-4 [&_input]:py-3 [&_input]:w-full [&_input]:text-sm">
+              <div id="birthLocation" className="[&_input]:bg-white/[0.04] [&_input]:border-white/10 [&_input]:border [&_input]:rounded-2xl [&_input]:text-white [&_input]:outline-none [&_input]:px-4 [&_input]:py-3 [&_input]:w-full [&_input]:text-sm">
                 <LocationSearch onLocationSelect={(loc) => setBirthLocation(loc)} />
               </div>
             </div>
