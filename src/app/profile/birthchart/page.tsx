@@ -41,12 +41,12 @@ export default function BirthChartPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 animate-fade-in relative">
-      <div className="absolute inset-0 bg-slate-950 -z-20 hidden md:block rounded-3xl mt-12 mx-2 blur-3xl opacity-20" />
+      <div className="absolute inset-0 bg-[#08080e] -z-20 hidden md:block rounded-3xl mt-12 mx-2 blur-3xl opacity-20" />
       <Link href="/profile" className="text-purple-600 hover:text-purple-800 transition-colors font-bold mb-6 inline-flex items-center gap-2 group tracking-wide">
         <span className="text-xl group-hover:-translate-x-1 transition-transform">&larr;</span> Return to Dashboard
       </Link>
 
-      <div className="mb-10 p-8 md:p-12 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 rounded-[2.5rem] shadow-2xl border border-indigo-500/30 text-white relative overflow-hidden group">
+      <div className="mb-10 p-8 md:p-12 bg-gradient-to-br from-[#08080e] via-[#0b0814] to-[#0f0b1a] rounded-[2.5rem] shadow-2xl border border-indigo-500/30 text-white relative overflow-hidden group">
         <div className="absolute top-0 right-0 p-12 opacity-10 blur-xl pointer-events-none group-hover:opacity-20 transition-opacity duration-1000">
           <div className="w-96 h-96 bg-white rounded-full animate-pulse-slow" />
         </div>
@@ -89,10 +89,10 @@ export default function BirthChartPage() {
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <div className="bg-[#0f111a] rounded-[2.5rem] shadow-xl p-6 md:p-10 border border-slate-800">
+          <div className="bg-[#0f111a] rounded-[2.5rem] shadow-xl p-6 md:p-10 border border-white/10">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-black text-white tracking-tight">Active Sky vs Natal Blueprint</h2>
-              <div className="hidden sm:flex items-center gap-4 text-xs font-bold bg-black/50 px-4 py-2 rounded-full border border-slate-800/50 backdrop-blur-md">
+              <div className="hidden sm:flex items-center gap-4 text-xs font-bold bg-black/50 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md">
                 <span className="flex items-center gap-2 text-purple-200"><div className="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]"/> Natal Base</span>
                 <span className="flex items-center gap-2 text-orange-200"><div className="w-2.5 h-2.5 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.8)]"/> Live Transit</span>
               </div>
@@ -104,10 +104,10 @@ export default function BirthChartPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white rounded-[2.5rem] shadow-sm p-8 border border-slate-100">
-            <h3 className="text-xl font-black text-slate-800 mb-6 flex justify-between items-end">
+          <div className="glass-card-premium rounded-[2.5rem] p-8 border border-white/8">
+            <h3 className="text-xl font-black text-white mb-6 flex justify-between items-end">
               <span>Planetary Constellation</span>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Natal</span>
+              <span className="text-xs font-bold text-white/60 uppercase tracking-widest">Natal</span>
             </h3>
             <div className="grid grid-cols-2 gap-4">
               {(['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] as const).map((planet) => {
@@ -115,13 +115,13 @@ export default function BirthChartPage() {
                 if (!sign) return null;
                 const signStr = typeof sign === 'string' ? sign : '';
                 return (
-                  <div key={planet} className="relative p-4 bg-slate-50 hover:bg-white rounded-2xl border border-slate-200 hover:border-purple-300 transition-all duration-300 group hover:shadow-xl hover:-translate-y-1 overflow-hidden cursor-default">
+                  <div key={planet} className="relative p-4 glass-card-premium rounded-2xl border border-white/8 hover:bg-white/5 hover:border-purple-300 transition-all duration-300 group hover:shadow-xl hover:-translate-y-1 overflow-hidden cursor-default">
                     <div className="absolute -right-4 -bottom-4 text-6xl opacity-[0.03] group-hover:opacity-10 transition-opacity font-serif group-hover:text-purple-600">
                       {planet[0]}
                     </div>
                     <div className="relative z-10">
-                      <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover:text-purple-500 transition-colors">{planet}</div>
-                      <div className="text-base font-bold text-slate-800 capitalize">{signStr}</div>
+                      <div className="text-[10px] font-black text-white/60 uppercase tracking-widest mb-1 group-hover:text-purple-500 transition-colors">{planet}</div>
+                      <div className="text-base font-bold text-white capitalize">{signStr}</div>
                     </div>
                   </div>
                 );

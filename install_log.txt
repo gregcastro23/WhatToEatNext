@@ -1,0 +1,3 @@
+Unknown Syntax Error: Unsupported option name ("--verbose").
+
+$ yarn install [--json] [--immutable] [--immutable-cache] [--check-cache] [--inline-builds] [--mode #0]

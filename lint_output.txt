@@ -1,0 +1,29 @@
+[napi-postinstall@0.3.4] Failed to find package "@unrs/resolver-binding-darwin-x64" on the file system
+
+This can happen if you use the "--no-optional" flag. The "optionalDependencies"
+package.json feature is used by unrs-resolver to install the correct napi binary
+for your current platform. This install script will now attempt to work around
+this. If that fails, you need to remove the "--no-optional" flag to use unrs-resolver.
+
+[napi-postinstall@0.3.4] Trying to install package "@unrs/resolver-binding-darwin-x64" using npm
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/app/recipes/page.tsx
+Line 200, column 2: Expression expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.4
+
+Error: Error while loading rule 'import/no-cycle': ENOENT: no such file or directory, stat '/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@types/react/index.d.ts'
+Occurred while linting /Users/GregCastro/Desktop/WhatToEatNext/src/components/astrological/AstrologicalRecommendations.tsx
+    at Object.statSync (node:fs:1725:25)
+    at ExportMapBuilder._for (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint-plugin-import/lib/exportMap/builder.js:52:37)
+    at Object.getter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint-plugin-import/lib/exportMap/builder.js:32:53)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint-plugin-import/lib/scc.js:67:25
+    at Map.forEach (<anonymous>)
+    at visitNode (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint-plugin-import/lib/scc.js:51:29)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint-plugin-import/lib/scc.js:67:13
+    at Map.forEach (<anonymous>)
+    at visitNode (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint-plugin-import/lib/scc.js:51:29)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint-plugin-import/lib/scc.js:67:13

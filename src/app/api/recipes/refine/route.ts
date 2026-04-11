@@ -3,12 +3,12 @@
  * Spends Substance (🝉) tokens to get a high-precision recommendation based on current transits.
  */
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Recipe } from "@/types/recipe";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

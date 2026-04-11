@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 import { Suspense, useEffect, useState } from 'react';
 
 const ERROR_MESSAGES: Record<string, string> = {
-  Configuration: "There's a problem with the server configuration. Please contact support.",
+  Configuration: "There&apos;s a problem with the server configuration. Please contact support.",
   AccessDenied: "Access denied. You do not have permission to sign in.",
   Verification: "The verification link has expired or has already been used.",
   OAuthSignin: "Could not start the sign-in process. Please try again.",
@@ -87,7 +87,7 @@ function AuthErrorContent() {
           </h1>
           <p className="text-gray-600 text-sm">
             {failedRetries 
-              ? "We're having trouble connecting to our database. Please try again in an hour."
+              ? "We&apos;re having trouble connecting to our database. Please try again in an hour."
               : errorMessage}
           </p>
         </div>

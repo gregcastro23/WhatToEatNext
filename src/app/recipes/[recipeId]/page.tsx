@@ -35,8 +35,8 @@ const PLANET_ICONS: Record<string, string> = {
 };
 
 const SPICE_LEVEL_DISPLAY: Record<string, { label: string; color: string; dots: number }> = {
-  "None": { label: "No Spice", color: "text-slate-400", dots: 0 },
-  "none": { label: "No Spice", color: "text-slate-400", dots: 0 },
+  "None": { label: "No Spice", color: "text-white/60", dots: 0 },
+  "none": { label: "No Spice", color: "text-white/60", dots: 0 },
   "mild": { label: "Mild", color: "text-green-400", dots: 1 },
   "Mild": { label: "Mild", color: "text-green-400", dots: 1 },
   "medium": { label: "Medium", color: "text-yellow-400", dots: 2 },
@@ -264,7 +264,7 @@ function SectionCard({ title, icon, children, className = "" }: {
   className?: string;
 }) {
   return (
-    <div className={`bg-slate-900/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 ${className}`}>
+    <div className={`glass-card-premium rounded-2xl border border-white/8 p-6 ${className}`}>
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
         {icon && <span className="text-2xl not-italic">{icon}</span>}
         {title}
@@ -275,25 +275,25 @@ function SectionCard({ title, icon, children, className = "" }: {
 }
 
 function ElementalBar({ element, value }: { element: string; value: number }) {
-  const colors = ELEMENT_COLORS[element] || { bar: "bg-slate-500", text: "text-slate-400", bg: "bg-slate-500/10" };
+  const colors = ELEMENT_COLORS[element] || { bar: "bg-white/10", text: "text-white/60", bg: "bg-white/10/10" };
   const pct = Math.round(value * 100);
   return (
     <div className="flex items-center gap-3">
       <span className="w-6 text-center text-lg">{ELEMENT_ICONS[element] || ""}</span>
       <span className={`w-14 text-sm font-medium ${colors.text}`}>{element}</span>
-      <div className="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+      <div className="flex-1 h-3 bg-white/5 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full ${colors.bar} transition-all duration-700`}
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="w-10 text-right text-sm text-slate-400">{pct}%</span>
+      <span className="w-10 text-right text-sm text-white/60">{pct}%</span>
     </div>
   );
 }
 
 function SpiceMeter({ level }: { level: string }) {
-  const config = SPICE_LEVEL_DISPLAY[level] || { label: level, color: "text-slate-400", dots: 0 };
+  const config = SPICE_LEVEL_DISPLAY[level] || { label: level, color: "text-white/60", dots: 0 };
   return (
     <div className="flex items-center gap-2">
       <span className={`text-sm font-medium ${config.color}`}>{config.label}</span>
@@ -301,7 +301,7 @@ function SpiceMeter({ level }: { level: string }) {
         {[1, 2, 3, 4].map((i) => (
           <span
             key={i}
-            className={`w-2 h-2 rounded-full ${i <= config.dots ? "bg-red-500" : "bg-slate-700"}`}
+            className={`w-2 h-2 rounded-full ${i <= config.dots ? "bg-red-500" : "bg-white/10"}`}
           />
         ))}
       </div>
@@ -366,8 +366,8 @@ function SegmentedDonut({
         })}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xl font-bold text-slate-100 leading-tight">{centerLabel}</span>
-        {centerSublabel && <span className="text-xs text-slate-500 leading-tight">{centerSublabel}</span>}
+        <span className="text-xl font-bold text-white leading-tight">{centerLabel}</span>
+        {centerSublabel && <span className="text-xs text-white/60 leading-tight">{centerSublabel}</span>}
       </div>
     </div>
   );
@@ -379,8 +379,8 @@ function DonutLegend({ segments, total }: { segments: DonutSegment[]; total: num
       {segments.map((seg) => (
         <div key={seg.label} className="flex items-center gap-1.5 text-xs">
           <span className="w-2 h-2 rounded-full shrink-0" style={{ background: seg.color }} />
-          <span className="text-slate-400 truncate">{seg.label}</span>
-          <span className="text-slate-300 font-medium ml-auto">
+          <span className="text-white/60 truncate">{seg.label}</span>
+          <span className="text-white/80 font-medium ml-auto">
             {total > 0 ? Math.round((seg.value / total) * 100) : 0}%
           </span>
         </div>
@@ -491,10 +491,10 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
           <div>
             <div className="flex items-center justify-between mb-3">
               <div>
-                <span className="text-sm font-semibold text-slate-300">A<sup className="text-amber-400">#</sup></span>
-                <span className="text-xs text-slate-500 ml-2">Ingredient Sum</span>
+                <span className="text-sm font-semibold text-white/80">A<sup className="text-amber-400">#</sup></span>
+                <span className="text-xs text-white/60 ml-2">Ingredient Sum</span>
               </div>
-              <span className="text-xs text-slate-500 font-mono">
+              <span className="text-xs text-white/60 font-mono">
                 Σ ingredients = <span className="text-amber-300 font-bold">{ingTotalASharp.toFixed(2)}</span>
               </span>
             </div>
@@ -517,7 +517,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
                 return (
                   <div key={prop} className="flex items-center gap-1.5 text-xs">
                     <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
-                    <span className="text-slate-400">{cfg.label}</span>
+                    <span className="text-white/60">{cfg.label}</span>
                     <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
                   </div>
                 );
@@ -526,7 +526,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
 
             {/* Match rate indicator */}
             {ingAlch && ingAlch.matchRate < 1 && (
-              <p className="text-xs text-slate-600 mt-2">
+              <p className="text-xs text-white/60 mt-2">
                 {Math.round(ingAlch.matchRate * 100)}% of ingredients matched in alchemical database
               </p>
             )}
@@ -534,7 +534,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
         )}
 
         {hasIngASharp && (hasASharp || hasMonicaDisplay) && (
-          <div className="border-t border-slate-800" />
+          <div className="border-t border-white/10" />
         )}
 
         {/* ── Planetary A# gauge ── */}
@@ -542,10 +542,10 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
           <div>
             <div className="flex items-center justify-between mb-3">
               <div>
-                <span className="text-sm font-semibold text-slate-300">A<sup className="text-amber-400">#</sup></span>
-                <span className="text-xs text-slate-500 ml-2">Planetary</span>
+                <span className="text-sm font-semibold text-white/80">A<sup className="text-amber-400">#</sup></span>
+                <span className="text-xs text-white/60 ml-2">Planetary</span>
               </div>
-              <span className="text-xs text-slate-500 font-mono">
+              <span className="text-xs text-white/60 font-mono">
                 S+E+M+Sb = <span className="text-amber-300 font-bold">{aSharp.toFixed(2)}</span>
               </span>
             </div>
@@ -565,7 +565,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
                 return (
                   <div key={prop} className="flex items-center gap-1.5 text-xs">
                     <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
-                    <span className="text-slate-400">{cfg.label}</span>
+                    <span className="text-white/60">{cfg.label}</span>
                     <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
                   </div>
                 );
@@ -575,7 +575,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
         )}
 
         {hasASharp && hasMonicaDisplay && (
-          <div className="border-t border-slate-800" />
+          <div className="border-t border-white/10" />
         )}
 
         {/* ── Monica gauge ── */}
@@ -583,11 +583,11 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
           <div>
             <div className="flex items-center justify-between mb-3">
               <div>
-                <span className="text-sm font-semibold text-slate-300">Monica</span>
-                <span className="text-xs text-slate-500 ml-2">Constant</span>
+                <span className="text-sm font-semibold text-white/80">Monica</span>
+                <span className="text-xs text-white/60 ml-2">Constant</span>
               </div>
               {rawMonica != null && (
-                <span className="text-xs text-slate-500 font-mono">
+                <span className="text-xs text-white/60 font-mono">
                   M = <span className="text-indigo-300 font-bold">{rawMonica.toFixed(3)}</span>
                 </span>
               )}
@@ -617,7 +617,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-xl font-bold text-amber-300">{Math.round(monicaScore)}</span>
-                  <span className="text-xs text-slate-500">/100</span>
+                  <span className="text-xs text-white/60">/100</span>
                 </div>
               </div>
             ) : null}
@@ -629,9 +629,9 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
                   const val = comp === "Heat" ? Heat : comp === "Entropy" ? Entropy : Reactivity;
                   const cfg = MONICA_COMPONENT_CONFIG[comp];
                   return (
-                    <div key={comp} className="bg-slate-800/50 rounded-lg p-2 text-center">
+                    <div key={comp} className="glass-card-premium rounded-lg border border-white/8 p-2 text-center">
                       <div className={`text-sm font-bold ${cfg.text}`}>{val.toFixed(3)}</div>
-                      <div className="text-xs text-slate-500 mt-0.5">{cfg.label}</div>
+                      <div className="text-xs text-white/60 mt-0.5">{cfg.label}</div>
                     </div>
                   );
                 })}
@@ -664,11 +664,11 @@ function NutritionGrid({ nutrition }: { nutrition: NormalizedNutrition }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       {macros.map((m) => (
-        <div key={m.label} className="bg-slate-800/50 rounded-xl p-3 text-center">
+        <div key={m.label} className="glass-card-premium rounded-xl border border-white/8 p-3 text-center">
           <div className={`text-xl font-bold ${m.color}`}>
             {m.value}{m.unit}
           </div>
-          <div className="text-xs text-slate-500 mt-1">{m.label}</div>
+          <div className="text-xs text-white/60 mt-1">{m.label}</div>
         </div>
       ))}
     </div>
@@ -760,10 +760,10 @@ export default function RecipePage({ params }: RecipePageProps) {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
+      <main className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-4 border-amber-400/30 border-t-amber-400 rounded-full animate-spin mx-auto" />
-          <p className="text-slate-400 text-lg">Conjuring recipe...</p>
+          <p className="text-white/60 text-lg">Conjuring recipe...</p>
         </div>
       </main>
     );
@@ -771,10 +771,10 @@ export default function RecipePage({ params }: RecipePageProps) {
 
   if (!recipe) {
     return (
-      <main className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
+      <main className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
         <div className="text-center space-y-4">
           <p className="text-4xl">&#x1F50D;</p>
-          <p className="text-xl text-slate-400">Recipe not found</p>
+          <p className="text-xl text-white/60">Recipe not found</p>
           <Link
             href="/recipes"
             className="inline-block mt-4 px-6 py-2 bg-amber-500/20 text-amber-300 rounded-lg hover:bg-amber-500/30 transition-colors"
@@ -801,7 +801,7 @@ export default function RecipePage({ params }: RecipePageProps) {
   const pairings = getPairingRecommendations(recipe);
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen bg-[#08080e] text-white">
       {/* ===== Hero Header ===== */}
       <div
         className="relative overflow-hidden"
@@ -812,7 +812,7 @@ export default function RecipePage({ params }: RecipePageProps) {
           {/* Back link */}
           <Link
             href="/recipes"
-            className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-amber-400 transition-colors mb-6"
+            className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-amber-400 transition-colors mb-6"
           >
             &#x2190; Back to recipes
           </Link>
@@ -823,7 +823,7 @@ export default function RecipePage({ params }: RecipePageProps) {
           </h1>
 
           {recipe.description && (
-            <p className="mt-4 text-lg text-slate-400 max-w-3xl leading-relaxed">
+            <p className="mt-4 text-lg text-white/60 max-w-3xl leading-relaxed">
               {recipe.description}
             </p>
           )}
@@ -831,17 +831,17 @@ export default function RecipePage({ params }: RecipePageProps) {
           {/* Quick info pills */}
           <div className="flex flex-wrap gap-3 mt-6">
             {recipe.cuisine && (
-              <span className="px-3 py-1.5 bg-slate-800/80 border border-slate-700/50 rounded-full text-sm text-amber-300 font-medium">
+              <span className="px-3 py-1.5 glass-card-premium rounded-full border border-white/8 text-sm text-amber-300 font-medium">
                 {recipe.cuisine}
               </span>
             )}
             {times.prep > 0 && (
-              <span className="px-3 py-1.5 bg-slate-800/80 border border-slate-700/50 rounded-full text-sm text-slate-300">
+              <span className="px-3 py-1.5 glass-card-premium rounded-full border border-white/8 text-sm text-white/80">
                 Prep: {formatTime(times.prep)}
               </span>
             )}
             {times.cook > 0 && (
-              <span className="px-3 py-1.5 bg-slate-800/80 border border-slate-700/50 rounded-full text-sm text-slate-300">
+              <span className="px-3 py-1.5 glass-card-premium rounded-full border border-white/8 text-sm text-white/80">
                 Cook: {formatTime(times.cook)}
               </span>
             )}
@@ -851,7 +851,7 @@ export default function RecipePage({ params }: RecipePageProps) {
               </span>
             )}
             {methods.length > 0 && methods.map((m) => (
-              <span key={m} className="px-3 py-1.5 bg-slate-800/80 border border-slate-700/50 rounded-full text-sm text-slate-300 capitalize">
+              <span key={m} className="px-3 py-1.5 glass-card-premium rounded-full border border-white/8 text-sm text-white/80 capitalize">
                 {m}
               </span>
             ))}
@@ -859,13 +859,13 @@ export default function RecipePage({ params }: RecipePageProps) {
 
           {/* Servings adjuster + Copy button */}
           <div className="flex flex-wrap items-center gap-4 mt-8">
-            <div className="flex items-center gap-3 bg-slate-800/80 border border-slate-700/50 rounded-xl px-4 py-2.5">
-              <label htmlFor="servings" className="text-sm text-slate-400 font-medium whitespace-nowrap">
+            <div className="flex items-center gap-3 glass-card-premium rounded-xl border border-white/8 px-4 py-2.5">
+              <label htmlFor="servings" className="text-sm text-white/60 font-medium whitespace-nowrap">
                 Servings
               </label>
               <button
                 onClick={() => setServings((s) => Math.max(1, s - 1))}
-                className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition-colors text-lg font-bold"
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/10 text-white transition-colors text-lg font-bold"
                 aria-label="Decrease servings"
               >
                 -
@@ -880,11 +880,11 @@ export default function RecipePage({ params }: RecipePageProps) {
                   const val = parseInt(e.target.value, 10);
                   if (!isNaN(val) && val >= 1 && val <= 100) setServings(val);
                 }}
-                className="w-14 text-center bg-slate-900 border border-slate-600 rounded-lg py-1 text-slate-100 text-lg font-bold focus:outline-none focus:border-amber-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-14 text-center glass-card-premium border border-white/8 border border-white/10 rounded-lg py-1 text-white text-lg font-bold focus:outline-none focus:border-amber-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
               <button
                 onClick={() => setServings((s) => Math.min(100, s + 1))}
-                className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition-colors text-lg font-bold"
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/10 text-white transition-colors text-lg font-bold"
                 aria-label="Increase servings"
               >
                 +
@@ -906,7 +906,7 @@ export default function RecipePage({ params }: RecipePageProps) {
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 ${
                 copied
                   ? "bg-emerald-500/20 border border-emerald-500/50 text-emerald-300"
-                  : "bg-slate-800/80 border border-slate-700/50 text-slate-300 hover:bg-slate-700/80 hover:text-amber-300"
+                  : "bg-white/10/80 border border-white/10/50 text-white/80 hover:bg-white/10/80 hover:text-amber-300"
               }`}
             >
               {copied ? (
@@ -944,15 +944,15 @@ export default function RecipePage({ params }: RecipePageProps) {
                     <li key={index} className="flex items-start gap-3 group">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2.5 shrink-0 group-hover:bg-amber-300 transition-colors" />
                       <div>
-                        <span className="text-slate-100">
+                        <span className="text-white">
                           {scaledAmount != null && (
                             <span className="text-amber-300 font-semibold">{scaledAmount} </span>
                           )}
-                          {ing.unit && <span className="text-slate-300">{ing.unit} </span>}
+                          {ing.unit && <span className="text-white/80">{ing.unit} </span>}
                           {ing.name}
                         </span>
                         {ing.notes && (
-                          <span className="text-sm text-slate-500 ml-2 italic">({ing.notes})</span>
+                          <span className="text-sm text-white/60 ml-2 italic">({ing.notes})</span>
                         )}
                       </div>
                     </li>
@@ -969,7 +969,7 @@ export default function RecipePage({ params }: RecipePageProps) {
                     <span className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex items-center justify-center text-sm font-bold text-amber-300">
                       {index + 1}
                     </span>
-                    <p className="text-slate-300 leading-relaxed pt-1">{instruction}</p>
+                    <p className="text-white/80 leading-relaxed pt-1">{instruction}</p>
                   </li>
                 ))}
               </ol>
@@ -981,10 +981,10 @@ export default function RecipePage({ params }: RecipePageProps) {
                 <div className="space-y-4">
                   {recipe.chefNotes && recipe.chefNotes.length > 0 && (
                     <div>
-                      <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Notes</h3>
+                      <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-2">Notes</h3>
                       <ul className="space-y-2">
                         {recipe.chefNotes.map((note, i) => (
-                          <li key={i} className="text-slate-300 text-sm flex gap-2">
+                          <li key={i} className="text-white/80 text-sm flex gap-2">
                             <span className="text-amber-500 shrink-0">&#x25B8;</span> {note}
                           </li>
                         ))}
@@ -993,10 +993,10 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {recipe.tips && recipe.tips.length > 0 && (
                     <div>
-                      <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Tips</h3>
+                      <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-2">Tips</h3>
                       <ul className="space-y-2">
                         {recipe.tips.map((tip, i) => (
-                          <li key={i} className="text-slate-300 text-sm flex gap-2">
+                          <li key={i} className="text-white/80 text-sm flex gap-2">
                             <span className="text-emerald-500 shrink-0">&#x2714;</span> {tip}
                           </li>
                         ))}
@@ -1005,10 +1005,10 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {recipe.technicalTips && recipe.technicalTips.length > 0 && (
                     <div>
-                      <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Technical Tips</h3>
+                      <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-2">Technical Tips</h3>
                       <ul className="space-y-2">
                         {recipe.technicalTips.map((tip, i) => (
-                          <li key={i} className="text-slate-300 text-sm flex gap-2">
+                          <li key={i} className="text-white/80 text-sm flex gap-2">
                             <span className="text-blue-500 shrink-0">&#x2699;</span> {tip}
                           </li>
                         ))}
@@ -1017,10 +1017,10 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {recipe.commonMistakes && recipe.commonMistakes.length > 0 && (
                     <div>
-                      <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Common Mistakes to Avoid</h3>
+                      <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-2">Common Mistakes to Avoid</h3>
                       <ul className="space-y-2">
                         {recipe.commonMistakes.map((mistake, i) => (
-                          <li key={i} className="text-slate-300 text-sm flex gap-2">
+                          <li key={i} className="text-white/80 text-sm flex gap-2">
                             <span className="text-red-500 shrink-0">&#x26A0;</span> {mistake}
                           </li>
                         ))}
@@ -1029,10 +1029,10 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {recipe.variations && recipe.variations.length > 0 && (
                     <div>
-                      <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Variations</h3>
+                      <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-2">Variations</h3>
                       <ul className="space-y-2">
                         {recipe.variations.map((variation, i) => (
-                          <li key={i} className="text-slate-300 text-sm flex gap-2">
+                          <li key={i} className="text-white/80 text-sm flex gap-2">
                             <span className="text-purple-500 shrink-0">&#x2728;</span> {variation}
                           </li>
                         ))}
@@ -1041,10 +1041,10 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {recipe.presentationTips && recipe.presentationTips.length > 0 && (
                     <div>
-                      <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Presentation</h3>
+                      <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-2">Presentation</h3>
                       <ul className="space-y-2">
                         {recipe.presentationTips.map((tip, i) => (
-                          <li key={i} className="text-slate-300 text-sm flex gap-2">
+                          <li key={i} className="text-white/80 text-sm flex gap-2">
                             <span className="text-pink-500 shrink-0">&#x1F3A8;</span> {tip}
                           </li>
                         ))}
@@ -1060,7 +1060,7 @@ export default function RecipePage({ params }: RecipePageProps) {
               <SectionCard title="Recommended Sauces" icon="&#x1F372;">
                 <div className="flex flex-wrap gap-2">
                   {recommendedSauces.map((sauce, index) => (
-                    <span key={index} className="px-3 py-1.5 bg-slate-800/80 border border-slate-700/50 rounded-full text-sm text-slate-300">
+                    <span key={index} className="px-3 py-1.5 glass-card-premium rounded-full border border-white/8 text-sm text-white/80">
                       {sauce}
                     </span>
                   ))}
@@ -1076,34 +1076,34 @@ export default function RecipePage({ params }: RecipePageProps) {
               <div className="space-y-3 text-sm">
                 {recipe.cuisine && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Cuisine</span>
-                    <span className="text-slate-200 font-medium capitalize">{recipe.cuisine}</span>
+                    <span className="text-white/60">Cuisine</span>
+                    <span className="text-white font-medium capitalize">{recipe.cuisine}</span>
                   </div>
                 )}
                 {mealTypes.length > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Meal Type</span>
-                    <span className="text-slate-200 capitalize">{mealTypes.join(", ")}</span>
+                    <span className="text-white/60">Meal Type</span>
+                    <span className="text-white capitalize">{mealTypes.join(", ")}</span>
                   </div>
                 )}
                 {seasons.length > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Season</span>
-                    <span className="text-slate-200 capitalize">{seasons.join(", ")}</span>
+                    <span className="text-white/60">Season</span>
+                    <span className="text-white capitalize">{seasons.join(", ")}</span>
                   </div>
                 )}
                 {spiceLevel && (
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-500">Spice Level</span>
+                    <span className="text-white/60">Spice Level</span>
                     <SpiceMeter level={spiceLevel} />
                   </div>
                 )}
                 {recipe.tools && recipe.tools.length > 0 && (
-                  <div className="pt-2 border-t border-slate-800">
-                    <span className="text-slate-500 block mb-1.5">Equipment</span>
+                  <div className="pt-2 border-t border-white/10">
+                    <span className="text-white/60 block mb-1.5">Equipment</span>
                     <div className="flex flex-wrap gap-1.5">
                       {recipe.tools.map((tool, i) => (
-                        <span key={i} className="px-2 py-1 bg-slate-800 rounded text-xs text-slate-400">{tool}</span>
+                        <span key={i} className="px-2 py-1 bg-white/5 rounded text-xs text-white/60">{tool}</span>
                       ))}
                     </div>
                   </div>
@@ -1135,7 +1135,7 @@ export default function RecipePage({ params }: RecipePageProps) {
                 <div className="space-y-4">
                   {planets.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Planets</h3>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">Planets</h3>
                       <div className="flex flex-wrap gap-2">
                         {planets.map((planet) => (
                           <span key={planet} className="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded-lg text-sm text-indigo-300">
@@ -1147,7 +1147,7 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {signs.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Zodiac Signs</h3>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">Zodiac Signs</h3>
                       <div className="flex flex-wrap gap-2">
                         {signs.map((sign) => (
                           <span key={sign} className="px-2.5 py-1 bg-purple-500/10 border border-purple-500/30 rounded-lg text-sm text-purple-300 capitalize">
@@ -1159,10 +1159,10 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {lunarPhases.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Lunar Phases</h3>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">Lunar Phases</h3>
                       <div className="flex flex-wrap gap-2">
                         {lunarPhases.map((phase) => (
-                          <span key={phase} className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-slate-300">
+                          <span key={phase} className="px-2.5 py-1 bg-white/10/50 border border-white/10/50 rounded-lg text-sm text-white/80">
                             &#x1F319; {phase}
                           </span>
                         ))}
@@ -1181,7 +1181,7 @@ export default function RecipePage({ params }: RecipePageProps) {
                   <div className="mt-4 space-y-3">
                     {nutrition.vitamins?.length && nutrition.vitamins.length > 0 && (
                       <div>
-                        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Vitamins</h3>
+                        <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-1.5">Vitamins</h3>
                         <div className="flex flex-wrap gap-1.5">
                           {nutrition.vitamins.map((v: string) => (
                             <span key={v} className="px-2 py-0.5 bg-emerald-500/10 rounded text-xs text-emerald-400">{v}</span>
@@ -1191,7 +1191,7 @@ export default function RecipePage({ params }: RecipePageProps) {
                     )}
                     {nutrition.minerals?.length && nutrition.minerals.length > 0 && (
                       <div>
-                        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Minerals</h3>
+                        <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-1.5">Minerals</h3>
                         <div className="flex flex-wrap gap-1.5">
                           {nutrition.minerals.map((m: string) => (
                             <span key={m} className="px-2 py-0.5 bg-sky-500/10 rounded text-xs text-sky-400">{m}</span>
@@ -1211,8 +1211,8 @@ export default function RecipePage({ params }: RecipePageProps) {
                   {substitutions.map((sub, i) => (
                     <li key={i} className="text-sm">
                       <span className="text-amber-300 font-medium">{sub.original}</span>
-                      <span className="text-slate-600 mx-2">&#x2192;</span>
-                      <span className="text-slate-400">{sub.alternatives.join(", ")}</span>
+                      <span className="text-white/60 mx-2">&#x2192;</span>
+                      <span className="text-white/60">{sub.alternatives.join(", ")}</span>
                     </li>
                   ))}
                 </ul>
@@ -1225,7 +1225,7 @@ export default function RecipePage({ params }: RecipePageProps) {
                 <div className="space-y-3">
                   {Object.entries(pairings).map(([category, items]) => (
                     <div key={category}>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">{category}</h3>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-1.5">{category}</h3>
                       <div className="flex flex-wrap gap-1.5">
                         {items.map((item, i) => (
                           <span key={i} className="px-2.5 py-1 bg-rose-500/10 border border-rose-500/20 rounded-lg text-sm text-rose-300">
@@ -1244,7 +1244,7 @@ export default function RecipePage({ params }: RecipePageProps) {
               <SectionCard title="Cultural Notes" icon="&#x1F30E;">
                 <ul className="space-y-2">
                   {recipe.cuisineIntegration.culturalNotes.map((note, i) => (
-                    <li key={i} className="text-sm text-slate-400">{note}</li>
+                    <li key={i} className="text-sm text-white/60">{note}</li>
                   ))}
                 </ul>
               </SectionCard>
@@ -1256,26 +1256,26 @@ export default function RecipePage({ params }: RecipePageProps) {
                 <div className="space-y-3 text-sm">
                   {recipe.sensoryIndicators.visual?.length && recipe.sensoryIndicators.visual.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Visual</h3>
-                      <p className="text-slate-400">{recipe.sensoryIndicators.visual.join("; ")}</p>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Visual</h3>
+                      <p className="text-white/60">{recipe.sensoryIndicators.visual.join("; ")}</p>
                     </div>
                   )}
                   {recipe.sensoryIndicators.aroma?.length && recipe.sensoryIndicators.aroma.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Aroma</h3>
-                      <p className="text-slate-400">{recipe.sensoryIndicators.aroma.join("; ")}</p>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Aroma</h3>
+                      <p className="text-white/60">{recipe.sensoryIndicators.aroma.join("; ")}</p>
                     </div>
                   )}
                   {recipe.sensoryIndicators.texture?.length && recipe.sensoryIndicators.texture.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Texture</h3>
-                      <p className="text-slate-400">{recipe.sensoryIndicators.texture.join("; ")}</p>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Texture</h3>
+                      <p className="text-white/60">{recipe.sensoryIndicators.texture.join("; ")}</p>
                     </div>
                   )}
                   {recipe.sensoryIndicators.sound?.length && recipe.sensoryIndicators.sound.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Sound</h3>
-                      <p className="text-slate-400">{recipe.sensoryIndicators.sound.join("; ")}</p>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Sound</h3>
+                      <p className="text-white/60">{recipe.sensoryIndicators.sound.join("; ")}</p>
                     </div>
                   )}
                 </div>
@@ -1288,7 +1288,7 @@ export default function RecipePage({ params }: RecipePageProps) {
                 <div className="space-y-3 text-sm">
                   {recipe.flavorProfile.primary && recipe.flavorProfile.primary.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Primary</h3>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Primary</h3>
                       <div className="flex flex-wrap gap-1.5">
                         {recipe.flavorProfile.primary.map((f, i) => (
                           <span key={i} className="px-2 py-0.5 bg-orange-500/10 rounded text-xs text-orange-300">{f}</span>
@@ -1298,7 +1298,7 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {recipe.flavorProfile.accent && recipe.flavorProfile.accent.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase mb-1">Accent</h3>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase mb-1">Accent</h3>
                       <div className="flex flex-wrap gap-1.5">
                         {recipe.flavorProfile.accent.map((f, i) => (
                           <span key={i} className="px-2 py-0.5 bg-yellow-500/10 rounded text-xs text-yellow-300">{f}</span>
@@ -1308,15 +1308,15 @@ export default function RecipePage({ params }: RecipePageProps) {
                   )}
                   {recipe.flavorProfile.tasteBalance && (
                     <div>
-                      <h3 className="text-xs font-semibold text-slate-500 uppercase mb-2">Taste Balance</h3>
+                      <h3 className="text-xs font-semibold text-white/60 uppercase mb-2">Taste Balance</h3>
                       <div className="space-y-1.5">
                         {Object.entries(recipe.flavorProfile.tasteBalance).map(([taste, value]) => (
                           <div key={taste} className="flex items-center gap-2">
-                            <span className="w-14 text-xs text-slate-500 capitalize">{taste}</span>
-                            <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <span className="w-14 text-xs text-white/60 capitalize">{taste}</span>
+                            <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
                               <div className="h-full bg-amber-500/60 rounded-full" style={{ width: `${((value) / 10) * 100}%` }} />
                             </div>
-                            <span className="w-5 text-xs text-slate-500 text-right">{value}</span>
+                            <span className="w-5 text-xs text-white/60 text-right">{value}</span>
                           </div>
                         ))}
                       </div>

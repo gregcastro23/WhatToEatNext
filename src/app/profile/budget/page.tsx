@@ -28,31 +28,31 @@ export default function BudgetPage() {
   const perMeal = !isNaN(currentBudget) && currentBudget > 0 ? (currentBudget / 21).toFixed(2) : null;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
+    <div className="min-h-screen bg-[#08080e] text-white py-8">
       <div className="max-w-3xl mx-auto px-4">
-        <Link href="/profile" className="text-slate-600 hover:text-slate-900 transition-colors font-medium mb-6 inline-flex items-center gap-1 group">
+        <Link href="/profile" className="text-white/60 hover:text-white transition-colors font-medium mb-6 inline-flex items-center gap-1 group">
           <span className="text-xl group-hover:-translate-x-1 transition-transform">&larr;</span> Back to Dashboard
         </Link>
         
-        <div className="bg-white rounded-3xl shadow-sm p-8 md:p-12 border border-slate-100 flex flex-col items-center mt-4">
+        <div className="glass-card-premium rounded-3xl p-8 md:p-12 border border-white/8 flex flex-col items-center mt-4">
           <div className="w-20 h-20 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-sm">
             &#x1F4B0;
           </div>
-          <h1 className="text-3xl font-black text-slate-800 mb-3 tracking-tight">Weekly Grocery Budget</h1>
-          <p className="text-base text-slate-500 mb-10 text-center max-w-md leading-relaxed">
+          <h1 className="text-3xl font-black text-white mb-3 tracking-tight">Weekly Grocery Budget</h1>
+          <p className="text-base text-white/60 mb-10 text-center max-w-md leading-relaxed">
             Set your weekly grocery limits to receive cost-effective recipe recommendations tailored to your astrological alignment.
           </p>
 
           <div className="w-full max-w-sm space-y-6">
             <div className="relative">
-              <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-lg">$</span>
+              <span className="absolute left-5 top-1/2 -translate-y-1/2 text-white/60 font-bold text-lg">$</span>
               <input
                 type="number"
                 min="0"
                 max="2000"
                 value={budgetVal}
                 onChange={(e) => setBudgetVal(e.target.value)}
-                className="w-full pl-10 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-bold text-slate-800 text-lg outline-none placeholder:font-medium placeholder:text-slate-400"
+                className="w-full pl-10 pr-5 py-4 glass-card-premium border border-white/8 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-bold text-white text-lg outline-none placeholder:font-medium placeholder:text-white/60"
                 placeholder="e.g. 150 (Leave blank for none)"
               />
             </div>
@@ -70,7 +70,7 @@ export default function BudgetPage() {
               className={`w-full py-4 rounded-2xl font-black text-lg transition-all shadow-sm active:scale-[0.98] flex items-center justify-center gap-2 ${
                 saved 
                   ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' 
-                  : 'bg-slate-900 border border-slate-800 text-white hover:bg-slate-800 shadow-slate-900/20 shadow-xl'
+                  : 'bg-[#08080e] border border-white/10 text-white hover:bg-white/5 shadow-black/20 shadow-xl'
               }`}
             >
               {saved ? '&#x2713; Saved Successfully!' : 'Save Budget Preference'}

@@ -120,7 +120,7 @@ function RecipesPageContent() {
     : "";
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
+    <main className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">
@@ -156,7 +156,7 @@ function RecipesPageContent() {
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="bg-slate-900 rounded-xl border border-slate-800 animate-pulse h-48"
+                className="glass-card-premium rounded-2xl border border-white/8 animate-pulse h-48"
               />
             ))}
           </div>
@@ -181,12 +181,12 @@ function RecipesPageContent() {
 export default function RecipesPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
+      <main className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
         <div className="max-w-6xl mx-auto space-y-8 animate-pulse">
-          <div className="h-12 w-64 bg-slate-900 rounded-xl mx-auto mb-8" />
+          <div className="h-12 w-64 glass-card-premium rounded-2xl border border-white/8 mx-auto mb-8" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className="bg-slate-900 rounded-xl border border-slate-800 h-48" />
+              <div key={i} className="glass-card-premium rounded-2xl border border-white/8 h-48" />
             ))}
           </div>
         </div>

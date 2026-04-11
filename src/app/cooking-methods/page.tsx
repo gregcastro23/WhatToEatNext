@@ -7,7 +7,7 @@ const EnhancedCookingMethodRecommender = dynamic(
   () => import("@/components/recommendations/EnhancedCookingMethodRecommender"),
   {
     loading: () => (
-      <div className="flex min-h-[320px] items-center justify-center text-slate-500">
+      <div className="flex min-h-[320px] items-center justify-center text-white/50">
         Loading cooking methods...
       </div>
     ),

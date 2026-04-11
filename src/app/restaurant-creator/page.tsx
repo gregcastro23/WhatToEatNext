@@ -148,13 +148,13 @@ export default function RestaurantCreatorPage() {
   // Premium gate
   if (!canAccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-rose-50 flex items-center justify-center px-4">
-        <div className="max-w-md text-center bg-white rounded-2xl shadow-xl border border-slate-200 p-10">
+      <div className="min-h-screen bg-[#08080e] text-white to-rose-50 flex items-center justify-center px-4">
+        <div className="max-w-md text-center bg-white rounded-2xl shadow-xl border border-white/10 p-10">
           <div className="text-6xl mb-6">{"\uD83C\uDF1F"}</div>
-          <h1 className="text-3xl font-black mb-3 text-slate-900">
+          <h1 className="text-3xl font-black mb-3 text-white">
             Premium Feature
           </h1>
-          <p className="text-slate-600 mb-6">
+          <p className="text-white/60 mb-6">
             The Cosmic Restaurant Creator is available to Premium and Cosmic
             subscribers. Design your dream restaurant aligned with the stars.
           </p>
@@ -180,14 +180,14 @@ export default function RestaurantCreatorPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-rose-50 to-amber-50">
+    <div className="min-h-screen bg-[#08080e] text-white via-rose-50 to-amber-50">
       <div className="max-w-5xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-black mb-3 bg-gradient-to-r from-rose-600 via-purple-600 to-amber-600 bg-clip-text text-transparent">
             Cosmic Restaurant Creator
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-lg text-white/60 max-w-2xl mx-auto">
             Design a celestially-aligned restaurant concept. Name, menu, ambiance,
             and signature drink - all guided by the cosmic moment.
           </p>
@@ -217,7 +217,7 @@ export default function RestaurantCreatorPage() {
         {concept.name && (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Restaurant Identity */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <div className="glass-card-premium rounded-2xl border border-white/8 p-8">
               <div className="flex flex-col md:flex-row justify-between items-start gap-6">
                 <div className="flex-1">
                   <input
@@ -226,7 +226,7 @@ export default function RestaurantCreatorPage() {
                     onChange={(e) =>
                       setConcept((prev) => ({ ...prev, name: e.target.value }))
                     }
-                    className="text-4xl font-black text-slate-900 bg-transparent border-none outline-none w-full placeholder-slate-300"
+                    className="text-4xl font-black text-white bg-transparent border-none outline-none w-full placeholder-slate-300"
                     placeholder="Restaurant Name"
                   />
                   <input
@@ -238,19 +238,19 @@ export default function RestaurantCreatorPage() {
                         tagline: e.target.value,
                       }))
                     }
-                    className="text-lg text-slate-500 italic bg-transparent border-none outline-none w-full mt-2 placeholder-slate-300"
+                    className="text-lg text-white/60 italic bg-transparent border-none outline-none w-full mt-2 placeholder-slate-300"
                     placeholder="Your cosmic tagline..."
                   />
                 </div>
-                <div className="text-right text-sm text-slate-400">
+                <div className="text-right text-sm text-white/60">
                   <p className="font-medium">{concept.cosmicAlignment}</p>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 mt-8">
                 {/* Cuisine Fusion */}
-                <div className="bg-slate-50 rounded-xl p-5">
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                <div className="bg-white/5 rounded-xl p-5">
+                  <p className="text-xs font-bold text-white/60 uppercase tracking-wider mb-2">
                     Cuisine Fusion
                   </p>
                   <select
@@ -261,7 +261,7 @@ export default function RestaurantCreatorPage() {
                         cuisineFusion: e.target.value,
                       }))
                     }
-                    className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-medium"
+                    className="w-full bg-white border border-white/10 rounded-lg px-3 py-2 text-sm font-medium"
                   >
                     {CUISINE_FUSIONS.map((f) => (
                       <option key={f} value={f}>
@@ -272,8 +272,8 @@ export default function RestaurantCreatorPage() {
                 </div>
 
                 {/* Ambiance */}
-                <div className="bg-slate-50 rounded-xl p-5">
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                <div className="bg-white/5 rounded-xl p-5">
+                  <p className="text-xs font-bold text-white/60 uppercase tracking-wider mb-2">
                     Ambiance Style
                   </p>
                   <select
@@ -284,7 +284,7 @@ export default function RestaurantCreatorPage() {
                         ambianceStyle: e.target.value,
                       }))
                     }
-                    className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-medium"
+                    className="w-full bg-white border border-white/10 rounded-lg px-3 py-2 text-sm font-medium"
                   >
                     {AMBIANCE_STYLES.map((a) => (
                       <option key={a.id} value={a.id}>
@@ -293,15 +293,15 @@ export default function RestaurantCreatorPage() {
                     ))}
                   </select>
                   {selectedAmbiance && (
-                    <p className="text-xs text-slate-400 mt-2">
+                    <p className="text-xs text-white/60 mt-2">
                       {selectedAmbiance.desc}
                     </p>
                   )}
                 </div>
 
                 {/* Signature Drink */}
-                <div className="bg-slate-50 rounded-xl p-5">
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                <div className="bg-white/5 rounded-xl p-5">
+                  <p className="text-xs font-bold text-white/60 uppercase tracking-wider mb-2">
                     Signature Drink
                   </p>
                   <input
@@ -313,7 +313,7 @@ export default function RestaurantCreatorPage() {
                         signatureDrink: e.target.value,
                       }))
                     }
-                    className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-medium"
+                    className="w-full bg-white border border-white/10 rounded-lg px-3 py-2 text-sm font-medium"
                     placeholder="e.g., Nebula Negroni"
                   />
                 </div>
@@ -321,9 +321,9 @@ export default function RestaurantCreatorPage() {
             </div>
 
             {/* Menu Builder */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <div className="glass-card-premium rounded-2xl border border-white/8 p-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-black text-slate-900">Menu</h2>
+                <h2 className="text-2xl font-black text-white">Menu</h2>
                 <button
                   onClick={() => setShowMenu(!showMenu)}
                   className="text-sm font-medium text-purple-600 hover:underline"
@@ -333,7 +333,7 @@ export default function RestaurantCreatorPage() {
               </div>
 
               {showMenu && (
-                <div className="bg-slate-50 rounded-xl p-6 mb-6 space-y-4">
+                <div className="bg-white/5 rounded-xl p-6 mb-6 space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <input
                       type="text"
@@ -342,7 +342,7 @@ export default function RestaurantCreatorPage() {
                         setNewItem((prev) => ({ ...prev, name: e.target.value }))
                       }
                       placeholder="Dish name"
-                      className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-sm"
+                      className="px-4 py-2 border border-white/10 rounded-lg bg-white text-sm"
                     />
                     <input
                       type="text"
@@ -354,7 +354,7 @@ export default function RestaurantCreatorPage() {
                         }))
                       }
                       placeholder="Short description"
-                      className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-sm"
+                      className="px-4 py-2 border border-white/10 rounded-lg bg-white text-sm"
                     />
                     <input
                       type="number"
@@ -367,7 +367,7 @@ export default function RestaurantCreatorPage() {
                       }
                       placeholder="Price"
                       step="0.01"
-                      className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-sm"
+                      className="px-4 py-2 border border-white/10 rounded-lg bg-white text-sm"
                     />
                     <select
                       value={newItem.category}
@@ -377,7 +377,7 @@ export default function RestaurantCreatorPage() {
                           category: e.target.value as MenuCategory,
                         }))
                       }
-                      className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-sm"
+                      className="px-4 py-2 border border-white/10 rounded-lg bg-white text-sm"
                     >
                       {MENU_CATEGORIES.map((c) => (
                         <option key={c} value={c}>
@@ -403,7 +403,7 @@ export default function RestaurantCreatorPage() {
                         className={`px-3 py-1 rounded-full text-xs font-bold border transition-all ${
                           newItem.tags.includes(tag.key)
                             ? `${tag.color  } border-current`
-                            : "bg-white text-slate-400 border-slate-200"
+                            : "bg-white text-white/60 border-white/10"
                         }`}
                       >
                         {tag.icon} {tag.label}
@@ -426,7 +426,7 @@ export default function RestaurantCreatorPage() {
                 concept.menu.some((item) => item.category === cat),
               ).map((cat) => (
                 <div key={cat} className="mb-6 last:mb-0">
-                  <h3 className="text-lg font-bold text-slate-700 mb-3 pb-2 border-b border-slate-100">
+                  <h3 className="text-lg font-bold text-white/80 mb-3 pb-2 border-b border-white/10">
                     {cat}
                   </h3>
                   <div className="space-y-2">
@@ -435,11 +435,11 @@ export default function RestaurantCreatorPage() {
                       .map((item) => (
                         <div
                           key={item.id}
-                          className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 group"
+                          className="flex items-center justify-between p-3 rounded-lg hover:bg-white/5 group"
                         >
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold text-slate-800">
+                              <span className="font-semibold text-white">
                                 {item.name}
                               </span>
                               {item.dietaryTags.map((tag) => {
@@ -457,14 +457,14 @@ export default function RestaurantCreatorPage() {
                               })}
                             </div>
                             {item.description && (
-                              <p className="text-sm text-slate-500">
+                              <p className="text-sm text-white/60">
                                 {item.description}
                               </p>
                             )}
                           </div>
                           <div className="flex items-center gap-3">
                             {item.price && (
-                              <span className="font-bold text-slate-700">
+                              <span className="font-bold text-white/80">
                                 ${item.price.toFixed(2)}
                               </span>
                             )}
@@ -482,7 +482,7 @@ export default function RestaurantCreatorPage() {
               ))}
 
               {concept.menu.length === 0 && (
-                <p className="text-center text-slate-400 py-8">
+                <p className="text-center text-white/60 py-8">
                   No menu items yet. Click &quot;+ Add items&quot; to start building your
                   cosmic menu.
                 </p>
@@ -493,7 +493,7 @@ export default function RestaurantCreatorPage() {
 
         {/* Empty state */}
         {!concept.name && (
-          <div className="text-center py-20 text-slate-400">
+          <div className="text-center py-20 text-white/60">
             <div className="text-6xl mb-4">{"\uD83C\uDF1F"}</div>
             <p className="text-xl font-medium">
               Click &quot;Generate Cosmic Concept&quot; to start designing your restaurant

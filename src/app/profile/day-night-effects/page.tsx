@@ -17,7 +17,7 @@ export default function DayNightEffectsPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-12 flex items-center justify-center min-h-[50vh]">
         <div className="animate-pulse flex flex-col items-center">
-          <div className="w-16 h-16 rounded-full border-4 border-slate-200 border-t-slate-800 animate-spin mb-4" />
+          <div className="w-16 h-16 rounded-full border-4 border-white/10 border-t-white animate-spin mb-4" />
           <p className="text-gray-500 font-medium">Analyzing sectarian thermodynamics...</p>
         </div>
       </div>
@@ -27,7 +27,7 @@ export default function DayNightEffectsPage() {
   if (!profileData?.natalChart) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Link href="/profile" className="text-slate-600 hover:text-slate-800 transition-colors font-medium mb-6 inline-flex items-center gap-1">
+        <Link href="/profile" className="text-white/60 hover:text-white transition-colors font-medium mb-6 inline-flex items-center gap-1">
           <span className="text-xl">&larr;</span> Back to Dashboard
         </Link>
         <div className="bg-white rounded-2xl shadow-sm p-8 border border-red-100 text-center">
@@ -62,9 +62,9 @@ export default function DayNightEffectsPage() {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-700 ${viewDiurnal ? 'bg-slate-50' : 'bg-slate-900'} py-8`}>
+    <div className={`min-h-screen bg-[#08080e] text-white py-8 transition-colors duration-700`}>
       <div className="max-w-6xl mx-auto px-4 animate-fade-in">
-        <Link href="/profile" className={`${viewDiurnal ? 'text-slate-600 hover:text-slate-900' : 'text-slate-400 hover:text-white'} transition-colors font-medium mb-6 inline-flex items-center gap-1 group`}>
+        <Link href="/profile" className={`${'text-white/60 hover:text-white'} transition-colors font-medium mb-6 inline-flex items-center gap-1 group`}>
           <span className="text-xl group-hover:-translate-x-1 transition-transform">&larr;</span> Back to Dashboard
         </Link>
 
@@ -72,7 +72,7 @@ export default function DayNightEffectsPage() {
         <div className={`mb-12 p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden transition-all duration-1000 ${
           viewDiurnal 
             ? 'bg-gradient-to-br from-amber-200 via-orange-100 to-sky-200 border border-amber-300 text-amber-950' 
-            : 'bg-gradient-to-br from-indigo-950 via-slate-950 to-purple-950 border border-indigo-500/30 text-white'
+            : 'bg-gradient-to-br from-[#08080e] via-[#0b0814] to-[#0f0b1a] border border-indigo-500/30 text-white'
         }`}>
           {/* Decorative Background Elements */}
           <div className="absolute top-0 right-0 p-12 opacity-40 blur-[100px] pointer-events-none transition-all duration-1000 z-0">
@@ -98,8 +98,8 @@ export default function DayNightEffectsPage() {
               onClick={toggleView}
               className={`shrink-0 w-full md:w-auto px-8 py-5 rounded-[2rem] font-black shadow-2xl flex flex-col items-center justify-center gap-2 transition-all duration-500 hover:-translate-y-1 active:scale-95 border ${
                 viewDiurnal 
-                  ? 'bg-slate-900 text-white hover:bg-slate-800 border-slate-700 shadow-slate-900/20' 
-                  : 'bg-white text-slate-900 hover:bg-slate-50 border-white/80 shadow-white/10'
+                  ? 'bg-[#08080e] text-white hover:bg-white/5 border-white/10 shadow-black/20' 
+                  : 'bg-white/10 text-white hover:bg-white/20 border-white/20 shadow-white/5'
               }`}
             >
               <span className="text-3xl">{viewDiurnal ? '&#x1F319;' : '&#x2600;&#xFE0F;'}</span>
@@ -110,22 +110,22 @@ export default function DayNightEffectsPage() {
 
         {/* Global Alchemical Shift Summary */}
         <div className={`mb-8 p-6 rounded-3xl transition-all duration-700 ${
-          viewDiurnal ? 'bg-white shadow-sm border border-slate-200' : 'bg-slate-800/50 border border-slate-700 backdrop-blur-sm'
+          'glass-card-premium rounded-2xl border border-white/8'
         }`}>
-          <h2 className={`text-xl font-bold mb-6 ${viewDiurnal ? 'text-slate-800' : 'text-white'}`}>Aggregate Alchemical Shift</h2>
+          <h2 className={`text-xl font-bold mb-6 ${'text-white'}`}>Aggregate Alchemical Shift</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.entries(currentAlchemical).map(([key, rawValue]) => {
               // Extract numeric value from the proxy/getter if needed
               const value = typeof rawValue === 'number' ? rawValue : 0;
               return (
               <div key={key} className={`p-4 rounded-2xl ${
-                viewDiurnal ? 'bg-slate-50 border border-slate-100' : 'bg-slate-900/50 border border-slate-800'
+                'glass-card-premium border border-white/8'
               }`}>
                 <div className={`text-xs font-bold uppercase tracking-wider mb-2 ${
-                  viewDiurnal ? 'text-slate-400' : 'text-slate-500'
+                  'text-white/60'
                 }`}>{key}</div>
                 <div className={`text-3xl font-black ${
-                  viewDiurnal ? 'text-slate-800' : 'text-white'
+                  'text-white'
                 }`}>
                   {value.toFixed(1)}
                 </div>
@@ -135,7 +135,7 @@ export default function DayNightEffectsPage() {
         </div>
 
         {/* Planetary Breakdown Grid */}
-        <h2 className={`text-2xl font-black mb-6 mt-16 ${viewDiurnal ? 'text-slate-800' : 'text-white'}`}>Planetary State Details</h2>
+        <h2 className={`text-2xl font-black mb-6 mt-16 ${'text-white'}`}>Planetary State Details</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {(['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Ascendant'] as const).map((planet) => {
             const sectEl = PLANETARY_SECTARIAN_ELEMENTS[planet as Extract<keyof typeof PLANETARY_SECTARIAN_ELEMENTS, string>];
@@ -153,10 +153,10 @@ export default function DayNightEffectsPage() {
 
             return (
               <div key={planet} className={`p-6 rounded-[2rem] transition-all duration-700 flex flex-col justify-between group hover:-translate-y-1 ${
-                viewDiurnal ? 'bg-white shadow-sm border border-slate-200 hover:shadow-xl hover:border-amber-200' : 'bg-slate-800/60 border border-slate-700 backdrop-blur-md hover:bg-slate-800 hover:border-indigo-500/50'
+                'glass-card-premium border border-white/8 hover:border-white/20'
               }`}>
                 <div className="flex justify-between items-start mb-6">
-                  <h3 className={`text-xl font-black ${viewDiurnal ? 'text-slate-800' : 'text-white'}`}>{planet}</h3>
+                  <h3 className={`text-xl font-black ${'text-white'}`}>{planet}</h3>
                   {elementShifted && (
                     <span className={`text-[9px] uppercase font-black px-2.5 py-1 rounded-full shadow-sm animate-pulse-slow ${
                       viewDiurnal ? 'bg-amber-100 text-amber-700 border border-amber-200' : 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
@@ -164,14 +164,14 @@ export default function DayNightEffectsPage() {
                   )}
                   {planet === 'Ascendant' && (
                     <span className={`text-[9px] uppercase font-black px-2.5 py-1 rounded-full shadow-sm ${
-                      viewDiurnal ? 'bg-slate-100 text-slate-500 border border-slate-200' : 'bg-white/10 text-slate-300 border border-white/20'
+                      'bg-white/10 text-white/80 border border-white/20'
                     }`}>Constant</span>
                   )}
                 </div>
                 
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className={`text-xs font-bold uppercase tracking-widest ${viewDiurnal ? 'text-slate-400' : 'text-slate-500'}`}>Element</span>
+                    <span className={`text-xs font-bold uppercase tracking-widest ${'text-white/60'}`}>Element</span>
                     <span className={`text-sm font-black px-3 py-1 rounded-xl shadow-sm ${
                       currentEl === 'Fire' ? 'bg-red-50 text-red-600 border border-red-100' : 
                       currentEl === 'Water' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 
@@ -181,8 +181,8 @@ export default function DayNightEffectsPage() {
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className={`text-xs font-bold uppercase tracking-widest ${viewDiurnal ? 'text-slate-400' : 'text-slate-500'}`}>Focus</span>
-                    <span className={`text-base font-black ${viewDiurnal ? 'text-slate-700' : 'text-indigo-200'}`}>{dominantESMS}</span>
+                    <span className={`text-xs font-bold uppercase tracking-widest ${'text-white/60'}`}>Focus</span>
+                    <span className={`text-base font-black ${'text-white'}`}>{dominantESMS}</span>
                   </div>
                 </div>
               </div>

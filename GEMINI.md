@@ -1,6 +1,6 @@
 # WhatToEatNext - Gemini AI Assistant Guide
 
-_Last Updated: March 27, 2026_
+_Version: 2.0.0 | Last Updated: April 11, 2026_
 
 ## Project Overview
 
@@ -17,7 +17,7 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 - **Build Status**: ✅ **BUILDING ON RAILWAY** (93s build time)
 - **Latest Milestone**: Backend decoupled from Vercel for better performance and reliability.
 
-### 🚀 **MAJOR CHANGES (March 2026)**
+### 🚀 **MAJOR CHANGES (Version 2.0.0)**
 
 #### **Railway Backend Migration**
 - ✅ **Decoupling**: Backend moved from Vercel to a standalone Railway service.
@@ -200,3 +200,4 @@ AUTH_GOOGLE_SECRET=<google-oauth-client-secret>
 ---
 
 _Updated March 27, 2026 — Backend successfully migrated to Railway, Build context fixed via .railwayignore, Neon Database integrated, NextAuth.js v5 migration complete. Zero TypeScript errors maintained._
+maintained._

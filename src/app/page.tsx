@@ -8,7 +8,7 @@ import type { Variants } from "framer-motion";
 function SectionLoader() {
   return (
     <div className="flex items-center justify-center py-12">
-      <div className="animate-pulse text-slate-400">Loading...</div>
+      <div className="animate-pulse text-white/60">Loading...</div>
     </div>
   );
 }
@@ -50,7 +50,7 @@ const fadeInItem: Variants = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8">
+    <main className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
       <motion.div 
         className="max-w-4xl mx-auto space-y-8"
         initial="hidden"

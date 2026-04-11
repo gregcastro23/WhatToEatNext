@@ -77,7 +77,7 @@ export default function AdeptTablePage() {
 
   if (!isPremium && !isInvite) {
     return (
-      <main className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
+      <main className="min-h-screen bg-[#08080e] flex items-center justify-center p-6">
         <div className="glass-card-premium rounded-3xl p-8 max-w-md text-center border-amber-500/30">
           <h1 className="text-2xl font-black text-amber-400 mb-4">Premium Status Required</h1>
           <p className="text-white/60 mb-6">Group Rituals and the Alchemical Midpoint table are exclusive to Premium users.</p>
@@ -90,7 +90,7 @@ export default function AdeptTablePage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 p-6 md:p-12 relative overflow-hidden">
+    <main className="min-h-screen bg-[#08080e] text-white/80 p-6 md:p-12 relative overflow-hidden">
       {/* Background Orbs */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
