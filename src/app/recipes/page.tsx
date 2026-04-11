@@ -1,14 +1,14 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import type { Recipe } from "@/types/recipe";
 
-export default function RecipesPage() {
+function RecipesPageContent() {
   const searchParams = useSearchParams();
-  const cuisine = searchParams ? searchParams.get("cuisine") : null;
+  const cuisine = searchParams?.get("cuisine") || null;
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isScoring, setIsScoring] = useState(false);
@@ -126,5 +126,24 @@ export default function RecipesPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function RecipesPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
+        <div className="max-w-6xl mx-auto space-y-8 animate-pulse">
+          <div className="h-12 w-64 bg-slate-900 rounded-xl mx-auto mb-8" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="bg-slate-900 rounded-xl border border-slate-800 h-48" />
+            ))}
+          </div>
+        </div>
+      </main>
+    }>
+      <RecipesPageContent />
+    </Suspense>
   );
 }

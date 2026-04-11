@@ -56,8 +56,7 @@ export default function PremiumPage() {
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // @ts-expect-error - Auto-fixed by script
-    const checkoutStatus = searchParams.get("checkout");
+    const checkoutStatus = searchParams?.get("checkout");
     if (checkoutStatus === "success") {
       setCheckoutMessage("Your Premium subscription is now active! Welcome aboard.");
       void refresh();

@@ -767,17 +767,18 @@ export default function QuantitiesPage() {
 function QuantitiesPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const urlTab = searchParams.get("tab") as Tab | null;
+  const urlTab = searchParams?.get("tab") as Tab | null;
+
   const initialTab: Tab = urlTab && VALID_TABS.has(urlTab) ? urlTab : "economy";
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   const [autoClaim, setAutoClaim] = useState(
-    searchParams.get("claim") === "true",
+    searchParams?.get("claim") === "true",
   );
   const [splash, setSplash] = useState(false);
 
   // If the URL ever changes to claim=true while mounted, retrigger auto-claim.
   useEffect(() => {
-    if (searchParams.get("claim") === "true") {
+    if (searchParams?.get("claim") === "true") {
       setAutoClaim(true);
       setActiveTab("economy");
     }
