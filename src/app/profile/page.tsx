@@ -5,8 +5,13 @@ import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import React, { useEffect, useState, useCallback } from 'react';
 import { UserDashboard } from '@/components/dashboard';
+import { BlurredLedgerPreview } from '@/components/economy/BlurredLedgerPreview';
+import { DailyAlignmentWidget } from '@/components/economy/DailyAlignmentWidget';
+import { LiveLedgerFeed } from '@/components/economy/LiveLedgerFeed';
 import { QuestPanel } from '@/components/economy/QuestPanel';
+import { SanctumTasks } from '@/components/economy/SanctumTasks';
 import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
+import { YieldMultiplierCard } from '@/components/economy/YieldMultiplierCard';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
@@ -159,6 +164,9 @@ function PremiumDashboard({
           >
             {activeTab === 'overview' && (
               <div className="space-y-8">
+                {/* Daily Cosmic Alignment — the keystone ritual */}
+                <DailyAlignmentWidget />
+
                 {/* Profile identity row */}
                 <ProfileHeroCard
                   userName={userName}
@@ -174,6 +182,12 @@ function PremiumDashboard({
                   <AlchemicalConstitutionPanel natalChart={natalChart} />
                   <ElementalWheel natalChart={natalChart} />
                 </div>
+
+                {/* Live ledger feed */}
+                <LiveLedgerFeed />
+
+                {/* Sanctum Tasks — dev-ops quests */}
+                <SanctumTasks onOpenSettings={() => setActiveTab('settings')} />
 
                 {/* Quick links */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -219,6 +233,8 @@ function PremiumDashboard({
             {activeTab === 'economy' && (
               <div className="space-y-7">
                 <TokenBalanceBar />
+                <YieldMultiplierCard />
+                <LiveLedgerFeed limit={5} />
                 <div className="rounded-3xl glass-card-premium p-6 border-white/8">
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">
@@ -506,6 +522,9 @@ function FreeDashboard({
                   <AlchemicalConstitutionPanel natalChart={natalChart} />
                   <ElementalWheel natalChart={natalChart} />
                 </div>
+
+                {/* Blurred ledger preview — Adept teaser */}
+                <BlurredLedgerPreview />
 
                 {/* Free nav tiles */}
                 <div className="grid grid-cols-2 gap-4">
@@ -883,6 +902,33 @@ export default function ProfilePage() {
       credentials: 'include',
       body: JSON.stringify({ preferences: updatedPrefs }),
     }).catch(() => { /* silent */ });
+
+    // Fire the Temporal Anchor quest — rewards if all essentials are filled.
+    const essentialsFilled =
+      updatedPrefs.preferredCuisines.length > 0 &&
+      updatedPrefs.dietaryRestrictions.length >= 0 &&
+      !!updatedPrefs.spicePreference &&
+      !!updatedPrefs.complexity;
+    if (essentialsFilled) {
+      fetch('/api/quests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ event: 'preferences_complete' }),
+      })
+        .then((res) => res.ok && res.json())
+        .then((data) => {
+          if (data?.completedQuests?.length > 0 && typeof window !== 'undefined') {
+            void import('@/hooks/useTokenEconomy').then(({ emitTokenEconomyUpdate }) => {
+              emitTokenEconomyUpdate({
+                source: 'quest',
+                credits: { spirit: 25, essence: 25, matter: 25, substance: 25 },
+              });
+            });
+          }
+        })
+        .catch(() => { /* silent */ });
+    }
     setCurrentStep('dashboard');
   };
 

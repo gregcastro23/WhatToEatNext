@@ -10,7 +10,8 @@
  */
 
 import { motion, AnimatePresence } from 'framer-motion';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { TOKEN_ECONOMY_EVENT, emitTokenEconomyUpdate } from '@/hooks/useTokenEconomy';
 import type { QuestPanelData, QuestProgress, UserStreak } from '@/types/economy';
 
 // ─── Token Symbols ────────────────────────────────────────────────────
@@ -173,6 +174,7 @@ export function QuestPanel({ className = '' }: QuestPanelProps) {
   const [questData, setQuestData] = useState<QuestPanelData | null>(null);
   const [streak, setStreak] = useState<UserStreak | null>(null);
   const [loading, setLoading] = useState(true);
+  const prevCompletedSlugs = useRef<Set<string>>(new Set());
 
   const fetchQuests = useCallback(async () => {
     try {
@@ -180,7 +182,29 @@ export function QuestPanel({ className = '' }: QuestPanelProps) {
       if (!res.ok) return;
       const data = await res.json();
       if (data.success) {
-        setQuestData(data.quests);
+        const quests: QuestPanelData = data.quests;
+        // Detect newly completed quests and dispatch a credit-flash event so
+        // TokenBalanceBar sparks green on any quest finished elsewhere.
+        const all = [...quests.daily, ...quests.weekly, ...quests.achievements];
+        const currentCompleted = new Set(
+          all.filter((q) => q.completedAt).map((q) => q.quest.slug),
+        );
+        const newlyCompleted = all.filter(
+          (q) => q.completedAt && !prevCompletedSlugs.current.has(q.quest.slug),
+        );
+        if (prevCompletedSlugs.current.size > 0 && newlyCompleted.length > 0) {
+          for (const q of newlyCompleted) {
+            const amt = q.quest.tokenRewardAmount;
+            const type = q.quest.tokenRewardType;
+            const credits =
+              type === 'all'
+                ? { spirit: amt, essence: amt, matter: amt, substance: amt }
+                : { [type.toLowerCase()]: amt };
+            emitTokenEconomyUpdate({ source: 'quest', credits });
+          }
+        }
+        prevCompletedSlugs.current = currentCompleted;
+        setQuestData(quests);
         setStreak(data.streak);
       }
     } catch {
@@ -192,6 +216,16 @@ export function QuestPanel({ className = '' }: QuestPanelProps) {
 
   useEffect(() => {
     void fetchQuests();
+  }, [fetchQuests]);
+
+  // Refresh when any other component dispatches a tokenEconomy update.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handler = () => {
+      setTimeout(() => void fetchQuests(), 400);
+    };
+    window.addEventListener(TOKEN_ECONOMY_EVENT, handler);
+    return () => window.removeEventListener(TOKEN_ECONOMY_EVENT, handler);
   }, [fetchQuests]);
 
   if (loading) {

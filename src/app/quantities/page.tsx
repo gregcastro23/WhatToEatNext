@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState, useEffect, useCallback, useRef } from "react";
 import {
   FaFire,
@@ -16,9 +17,11 @@ import {
 import AlchmKinetics from "@/components/alchm-kinetics";
 import AlchmQuantitiesDisplay from "@/components/alchm-quantities-display";
 import { QuestPanel } from "@/components/economy/QuestPanel";
+import { TokenRainParticles } from "@/components/economy/TokenRainParticles";
 import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";
 import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
 import { usePremium } from "@/contexts/PremiumContext";
+import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
 import type {
   TokenBalances,
   UserStreak,
@@ -118,6 +121,15 @@ const TOKEN_CONFIG = [
 // ─── Tab Definition ───────────────────────────────────────────────────────────
 
 type Tab = "economy" | "quantities" | "kinetics" | "aspects" | "trends" | "quests";
+
+const VALID_TABS: Set<Tab> = new Set([
+  "economy",
+  "quantities",
+  "kinetics",
+  "aspects",
+  "trends",
+  "quests",
+]);
 
 const TABS: Array<{ id: Tab; label: string; icon: string }> = [
   { id: "economy", label: "Token Economy", icon: "⚗️" },
@@ -285,7 +297,13 @@ function TokenHeroCard({
 
 // ─── Economy Tab ──────────────────────────────────────────────────────────────
 
-function EconomyTab() {
+interface EconomyTabProps {
+  autoClaim?: boolean;
+  onAutoClaimHandled?: () => void;
+  onSplash?: () => void;
+}
+
+function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: EconomyTabProps) {
   const { isPremium } = usePremium();
 
   const [balances, setBalances] = useState<TokenBalances | null>(null);
@@ -296,6 +314,7 @@ function EconomyTab() {
   const [claimResult, setClaimResult] = useState<DailyYieldResult | null>(null);
   const [debitFlash, setDebitFlash] = useState<string | null>(null);
   const [economyError, setEconomyError] = useState<string | null>(null);
+  const autoClaimFiredRef = useRef(false);
 
   const [alchData, setAlchData] = useState<AlchemyData | null>(null);
   const [alchLoading, setAlchLoading] = useState(true);
@@ -359,7 +378,7 @@ function EconomyTab() {
   }, [fetchBalances, fetchAlchData]);
 
   // Claim daily
-  const handleClaim = async () => {
+  const handleClaim = useCallback(async () => {
     setClaiming(true);
     setEconomyError(null);
     try {
@@ -373,6 +392,13 @@ function EconomyTab() {
         navigator.vibrate?.([10, 30, 10]);
         setCanClaim(false);
         await fetchBalances();
+        // Fire the token rain splash and broadcast to the rest of the app.
+        onSplash?.();
+        emitTokenEconomyUpdate({
+          source: "claim",
+          credits: data.yield?.distribution,
+          yield: data.yield,
+        });
         setTimeout(() => setClaimResult(null), 5000);
       } else {
         setEconomyError(data.message);
@@ -382,7 +408,20 @@ function EconomyTab() {
     } finally {
       setClaiming(false);
     }
-  };
+  }, [fetchBalances, onSplash]);
+
+  // Auto-claim when the page is entered with ?claim=true (from DailyAlignmentWidget).
+  useEffect(() => {
+    if (!autoClaim || autoClaimFiredRef.current) return;
+    // Wait for the first balance load so we know whether canClaim is true.
+    if (balances === null) return;
+    autoClaimFiredRef.current = true;
+    if (canClaim && !claiming) {
+      void handleClaim();
+    }
+    // Regardless of whether we claimed, strip the flag so a nav-back doesn't retrigger.
+    onAutoClaimHandled?.();
+  }, [autoClaim, balances, canClaim, claiming, handleClaim, onAutoClaimHandled]);
 
   const totalANumber = alchData
     ? (alchData.quantities.Spirit || 0) +
@@ -718,7 +757,40 @@ function SectionCard({
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function QuantitiesPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("economy");
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#09090f]" />}>
+      <QuantitiesPageContent />
+    </Suspense>
+  );
+}
+
+function QuantitiesPageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlTab = searchParams.get("tab") as Tab | null;
+  const initialTab: Tab = urlTab && VALID_TABS.has(urlTab) ? urlTab : "economy";
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab);
+  const [autoClaim, setAutoClaim] = useState(
+    searchParams.get("claim") === "true",
+  );
+  const [splash, setSplash] = useState(false);
+
+  // If the URL ever changes to claim=true while mounted, retrigger auto-claim.
+  useEffect(() => {
+    if (searchParams.get("claim") === "true") {
+      setAutoClaim(true);
+      setActiveTab("economy");
+    }
+  }, [searchParams]);
+
+  const handleAutoClaimHandled = useCallback(() => {
+    setAutoClaim(false);
+    // Strip the claim flag from the URL so navigating back doesn't retrigger.
+    const next = new URLSearchParams(searchParams.toString());
+    next.delete("claim");
+    next.set("tab", "economy");
+    router.replace(`/quantities?${next.toString()}`);
+  }, [router, searchParams]);
 
   return (
     <div className="min-h-screen bg-[#09090f]">
@@ -801,7 +873,13 @@ export default function QuantitiesPage() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            {activeTab === "economy" && <EconomyTab />}
+            {activeTab === "economy" && (
+              <EconomyTab
+                autoClaim={autoClaim}
+                onAutoClaimHandled={handleAutoClaimHandled}
+                onSplash={() => setSplash(true)}
+              />
+            )}
 
             {activeTab === "quantities" && (
               <SectionCard
@@ -950,6 +1028,12 @@ export default function QuantitiesPage() {
             )}
           </motion.div>
         </AnimatePresence>
+
+        {/* ── Token Rain Splash overlay ── */}
+        <TokenRainParticles
+          trigger={splash}
+          onComplete={() => setSplash(false)}
+        />
 
         {/* ── Footer ── */}
         <footer className="mt-16 pt-8 border-t border-white/5 flex items-center justify-between">

@@ -10,10 +10,12 @@
  * @file src/components/economy/TokenBalanceBar.tsx
  */
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { usePremium } from '@/contexts/PremiumContext';
-import type { TokenBalances, UserStreak, DailyYieldResult } from '@/types/economy';
+import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
+import type { TokenBalances, UserStreak, DailyYieldResult, TokenType } from '@/types/economy';
+import { PlanetaryInfluenceTooltip } from './PlanetaryInfluenceTooltip';
 
 // ─── Token Config ─────────────────────────────────────────────────────
 
@@ -40,6 +42,8 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
   const [claiming, setClaiming] = useState(false);
   const [claimResult, setClaimResult] = useState<DailyYieldResult | null>(null);
   const [debitFlash, setDebitFlash] = useState<string | null>(null);
+  const [creditFlash, setCreditFlash] = useState<string | null>(null);
+  const [hoveredToken, setHoveredToken] = useState<TokenType | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const fetchBalances = useCallback(async () => {
@@ -59,16 +63,24 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
 
   useEffect(() => {
     if (balances) {
-      // Check for debits to trigger animation
+      // Check for debits/credits to trigger animation
       if (prevBalances.current) {
         const types: Array<keyof TokenBalances> = ['spirit', 'essence', 'matter', 'substance'];
         for (const t of types) {
-          if ((balances[t] || 0) < (prevBalances.current[t] || 0)) {
+          const cur = Number(balances[t] || 0);
+          const prev = Number(prevBalances.current[t] || 0);
+          if (cur < prev) {
             setDebitFlash(t);
             if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
               navigator.vibrate?.(15);
             }
             setTimeout(() => setDebitFlash(null), 1000);
+          } else if (cur > prev) {
+            setCreditFlash(t);
+            if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+              navigator.vibrate?.([8, 20, 8]);
+            }
+            setTimeout(() => setCreditFlash(null), 1200);
           }
         }
       }
@@ -78,6 +90,17 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
 
   useEffect(() => {
     void fetchBalances();
+  }, [fetchBalances]);
+
+  // Refetch when any other component dispatches a tokenEconomy:updated event.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handler = () => {
+      // Give the server a moment to commit any row before refetching.
+      setTimeout(() => void fetchBalances(), 350);
+    };
+    window.addEventListener(TOKEN_ECONOMY_EVENT, handler);
+    return () => window.removeEventListener(TOKEN_ECONOMY_EVENT, handler);
   }, [fetchBalances]);
 
   const handleClaim = async () => {
@@ -159,28 +182,48 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
           <div className="flex items-center gap-6">
             {(Object.entries(TOKEN_CONFIG) as Array<[keyof typeof TOKEN_CONFIG, typeof TOKEN_CONFIG[keyof typeof TOKEN_CONFIG]]>).map(
               ([key, cfg]) => {
-                const bal = balances[key.toLowerCase() as keyof Pick<TokenBalances, 'spirit' | 'essence' | 'matter' | 'substance'>];
+                const lowerKey = key.toLowerCase() as 'spirit' | 'essence' | 'matter' | 'substance';
+                const bal = balances[lowerKey];
+                const isCreditFlashing = creditFlash === lowerKey;
+                const isDebitFlashing = debitFlash === lowerKey;
                 return (
-                  <div key={key} className="flex items-center gap-2 group/token">
-                    <span
+                  <div
+                    key={key}
+                    className="relative flex items-center gap-2 group/token cursor-default"
+                    onMouseEnter={() => setHoveredToken(key as TokenType)}
+                    onMouseLeave={() => setHoveredToken(null)}
+                  >
+                    <motion.span
+                      animate={isCreditFlashing ? { scale: [1, 1.35, 1] } : {}}
+                      transition={{ type: 'spring', stiffness: 300, damping: 18 }}
                       className={`text-lg text-${cfg.color}-400 group-hover/token:scale-125 transition-transform drop-shadow-[0_0_8px_${cfg.glow}]`}
                     >
                       {cfg.symbol}
-                    </span>
+                    </motion.span>
                     <div className="flex flex-col">
                       <span className="text-[9px] text-white/30 font-black uppercase tracking-[0.2em]">
                         {key}
                       </span>
-                      <motion.span 
-                        animate={debitFlash === key.toLowerCase() ? { 
-                          color: ['#ffffff', '#ef4444', '#ffffff'],
-                          scale: [1, 1.2, 1]
-                        } : {}}
+                      <motion.span
+                        animate={
+                          isDebitFlashing
+                            ? { color: ['#ffffff', '#ef4444', '#ffffff'], scale: [1, 1.2, 1] }
+                            : isCreditFlashing
+                              ? { color: ['#ffffff', '#34d399', '#ffffff'], scale: [1, 1.25, 1] }
+                              : {}
+                        }
                         className="text-sm font-bold text-white tabular-nums"
                       >
                         {(bal || 0).toFixed(1)}
                       </motion.span>
                     </div>
+                    <AnimatePresence>
+                      {hoveredToken === key && (
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 z-[80] pointer-events-none">
+                          <PlanetaryInfluenceTooltip tokenType={key as TokenType} />
+                        </div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               },
