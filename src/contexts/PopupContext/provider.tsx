@@ -149,12 +149,12 @@ export const PopupProvider = ({
                 <div className="popup-metadata">
                   {popup.metadata.sunSign && (
                     <span className="popup-sun-sign">
-                      ☉ {popup.metadata.sunSign}
+                      🝇 {popup.metadata.sunSign}
                     </span>
                   )}
                   {popup.metadata.moonSign && (
                     <span className="popup-moon-sign">
-                      ☽ {popup.metadata.moonSign}
+                      🝑 {popup.metadata.moonSign}
                     </span>
                   )}
                 </div>

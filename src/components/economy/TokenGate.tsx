@@ -121,10 +121,10 @@ export function TokenGate({
 
   // Token costs display
   const tokenIcons: Record<string, { symbol: string; color: string }> = {
-    spirit: { symbol: "☉", color: "#f59e0b" },
-    essence: { symbol: "☽", color: "#8b5cf6" },
-    matter: { symbol: "⊕", color: "#10b981" },
-    substance: { symbol: "☿", color: "#3b82f6" },
+    spirit: { symbol: "🝇", color: "#f59e0b" },
+    essence: { symbol: "🝑", color: "#8b5cf6" },
+    matter: { symbol: "🝙", color: "#10b981" },
+    substance: { symbol: "🝉", color: "#3b82f6" },
   };
 
   return (

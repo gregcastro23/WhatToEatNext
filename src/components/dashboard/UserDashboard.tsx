@@ -513,10 +513,10 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
             className="flex items-center gap-3"
           >
             <span className="w-12 h-px bg-purple-500/30" />
-            <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.5em]">Alchm.kitchen // Adept Core</span>
+            <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.5em]">Alchm.kitchen // Premium Core</span>
           </motion.div>
           <h1 className="text-6xl md:text-7xl font-black text-white tracking-tighter alchm-gradient-text uppercase leading-[0.9]">
-            Adept<br />Dashboard
+            Premium<br />Dashboard
           </h1>
         </div>
         <div className="w-full md:w-auto">

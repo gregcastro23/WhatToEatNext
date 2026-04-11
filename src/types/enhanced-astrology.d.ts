@@ -25,9 +25,9 @@ declare global {
 
     // Planetary bodies with enhanced documentation
     type Planet =
-      | "sun" // ☉ Vitality, ego, life force,
-      | "moon" // ☽ Emotions, intuition, cycles
-      | "mercury" // ☿ Communication, intellect, travel
+      | "sun" // 🝇 Vitality, ego, life force,
+      | "moon" // 🝑 Emotions, intuition, cycles
+      | "mercury" // 🝉 Communication, intellect, travel
       | "venus" // ♀ Love, beauty, harmony, values
       | "mars" // ♂ Action, energy, desire, conflict
       | "jupiter" // ♃ Expansion, wisdom, abundance

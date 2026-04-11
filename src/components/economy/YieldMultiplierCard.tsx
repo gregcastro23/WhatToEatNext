@@ -3,7 +3,7 @@
 /**
  * Yield Multiplier Card (Premium-Only)
  *
- * Visualizes the breakdown of the user's daily Cosmic Paycheck:
+ * Visualizes the breakdown of the user's daily Cosmic Yield:
  *
  *    Base 10  ×  Premium 2.0  ×  Streak {multiplier}  =  {total}
  *
@@ -109,7 +109,7 @@ export function YieldMultiplierCard({ className = '' }: YieldMultiplierCardProps
       <div className="flex items-center gap-3 mb-3">
         <span className="w-8 h-px bg-amber-500/40" />
         <span className="text-[9px] font-black text-amber-400/70 uppercase tracking-[0.4em]">
-          Adept Yield Multiplier
+          Premium Yield Multiplier
         </span>
       </div>
 
@@ -166,7 +166,7 @@ export function YieldMultiplierCard({ className = '' }: YieldMultiplierCardProps
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-amber-400" />
           <span className="text-white/50 font-medium">
-            Adept{' '}
+            Premium{' '}
             <span className="text-amber-400 font-black tabular-nums">
               +{premiumContribution.toFixed(1)}
             </span>

@@ -823,7 +823,7 @@ export const ingredientSummaries: Record<string, string> = {
 
 **Selection & Storage:** Choose heads with crisp, vibrant leaves, avoiding any wilting or sliminess. Store unwashed in a plastic bag in the crisper drawer for up to a week.`,
 
-  frisee: `A curly, frizzled variety of endive (*Cichorium endivia*) boasting a distinctly bushy, chaotic appearance and a mildly bitter, peppery flavor. Its complex structure is incredibly adept at trapping thick, emulsified vinaigrettes (traditionally warm bacon fat), making it the classic base for a Salade Lyonnaise.
+  frisee: `A curly, frizzled variety of endive (*Cichorium endivia*) boasting a distinctly bushy, chaotic appearance and a mildly bitter, peppery flavor. Its complex structure is incredibly premium at trapping thick, emulsified vinaigrettes (traditionally warm bacon fat), making it the classic base for a Salade Lyonnaise.
 
 **Selection & Storage:** Look for bright, springy leaves with pale yellow centers. Frisée is delicate; store it loosely wrapped in a slightly damp paper towel in the crisper drawer.`,
 

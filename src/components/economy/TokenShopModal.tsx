@@ -42,10 +42,10 @@ interface ShopResponse {
 }
 
 const TOKEN_CONFIG = {
-  spirit: { symbol: "☉", color: "text-amber-300" },
-  essence: { symbol: "☽", color: "text-blue-300" },
-  matter: { symbol: "⊕", color: "text-emerald-300" },
-  substance: { symbol: "☿", color: "text-fuchsia-300" },
+  spirit: { symbol: "🝇", color: "text-amber-300" },
+  essence: { symbol: "🝑", color: "text-blue-300" },
+  matter: { symbol: "🝙", color: "text-emerald-300" },
+  substance: { symbol: "🝉", color: "text-fuchsia-300" },
 } as const;
 
 export default function TokenShopModal() {

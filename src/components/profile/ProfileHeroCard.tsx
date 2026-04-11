@@ -107,7 +107,7 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
                     ? 'bg-amber-400 text-amber-950 shadow-[0_0_20px_rgba(251,191,36,0.5)]'
                     : 'glass-base text-white/40 border border-white/10'
                 }`}>
-                  {tier === 'premium' ? 'Adept' : 'Initiate'}
+                  {tier === 'premium' ? 'Premium' : 'Initiate'}
                 </span>
               </div>
               <p className="text-white/25 text-[10px] font-black tracking-[0.4em] uppercase opacity-80 flex items-center gap-2">

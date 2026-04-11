@@ -90,7 +90,7 @@ export function BugReportModal({ open, onClose }: BugReportModalProps) {
       showToast(
         data.completedQuests?.length > 0
           ? '🏆 The Alchemist\'s Eye — +15 Spirit tokens awarded!'
-          : 'Bug report received. Thank you, Adept.',
+          : 'Bug report received. Thank you, Premium.',
         'success',
       );
       // Emit a formal quest-source update so siblings refresh ledger + balance.
@@ -149,7 +149,7 @@ export function BugReportModal({ open, onClose }: BugReportModalProps) {
             </h2>
             <p className="text-[11px] text-white/30 mb-5 leading-relaxed">
               Help us perfect the Sanctum. Every confirmed report earns{' '}
-              <span className="text-amber-400 font-bold">+15 Spirit ☉</span>.
+              <span className="text-amber-400 font-bold">+15 Spirit 🝇</span>.
             </p>
 
             <form onSubmit={(e) => void handleSubmit(e)} className="space-y-4">

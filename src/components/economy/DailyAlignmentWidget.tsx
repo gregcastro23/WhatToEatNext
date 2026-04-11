@@ -4,7 +4,7 @@
  * Daily Alignment Widget
  *
  * Lives on the Profile Overview tab. Checks whether the user has claimed
- * their daily Cosmic Paycheck. If not, renders a shimmering "Align with the
+ * their daily Cosmic Yield. If not, renders a shimmering "Align with the
  * Cosmos" button that plays a birth-element glow animation, then redirects
  * to `/quantities?tab=economy&claim=true` — where the quantities page
  * auto-executes the claim and fires the TokenRainParticles splash.
@@ -108,7 +108,7 @@ export function DailyAlignmentWidget() {
           </h3>
           <p className="text-[11px] text-white/30 mt-1 max-w-md leading-relaxed">
             {canClaimDaily
-              ? `Draw down your daily Cosmic Paycheck — weighted by your natal chart and amplified by your ${dominantElement} ${ELEMENT_SYMBOL[dominantElement] ?? ''} element.`
+              ? `Draw down your daily Cosmic Yield — weighted by your natal chart and amplified by your ${dominantElement} ${ELEMENT_SYMBOL[dominantElement] ?? ''} element.`
               : 'Your ESMS tokens have been harvested for today. The next alignment unlocks at midnight local time.'}
           </p>
 

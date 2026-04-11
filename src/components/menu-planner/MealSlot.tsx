@@ -647,10 +647,10 @@ export default function MealSlot({
         className="absolute top-2 right-2 text-xs text-gray-400"
         title={`Ruled by ${mealSlot.planetarySnapshot.dominantPlanet}`}
       >
-        {mealSlot.planetarySnapshot.dominantPlanet === "Sun" && "☉"}
-        {mealSlot.planetarySnapshot.dominantPlanet === "Moon" && "☽"}
+        {mealSlot.planetarySnapshot.dominantPlanet === "Sun" && "🝇"}
+        {mealSlot.planetarySnapshot.dominantPlanet === "Moon" && "🝑"}
         {mealSlot.planetarySnapshot.dominantPlanet === "Mars" && "♂"}
-        {mealSlot.planetarySnapshot.dominantPlanet === "Mercury" && "☿"}
+        {mealSlot.planetarySnapshot.dominantPlanet === "Mercury" && "🝉"}
         {mealSlot.planetarySnapshot.dominantPlanet === "Jupiter" && "♃"}
         {mealSlot.planetarySnapshot.dominantPlanet === "Venus" && "♀"}
         {mealSlot.planetarySnapshot.dominantPlanet === "Saturn" && "♄"}

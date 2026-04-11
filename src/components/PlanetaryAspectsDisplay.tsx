@@ -24,7 +24,7 @@ interface AspectsData {
 // ── Visual helpers ───────────────────────────────────────────────────────────
 
 const PLANET_GLYPHS: Record<string, string> = {
-  Sun: "☉", Moon: "☽", Mercury: "☿", Venus: "♀", Mars: "♂",
+  Sun: "🝇", Moon: "🝑", Mercury: "🝉", Venus: "♀", Mars: "♂",
   Jupiter: "♃", Saturn: "♄", Uranus: "⛢", Neptune: "♆", Pluto: "♇",
 };
 

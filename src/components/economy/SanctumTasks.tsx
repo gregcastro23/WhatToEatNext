@@ -20,6 +20,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BugReportModal } from './BugReportModal';
+import { PantryModal } from './PantryModal';
 import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
 import type { QuestPanelData, QuestProgress } from '@/types/economy';
 
@@ -29,6 +30,7 @@ const QUEST_SLUGS = {
   alchemistsEye: 'achieve-alchemists-eye',
   recipeHarmonizer: 'weekly-recipe-harmonizer',
   temporalAnchor: 'achieve-temporal-anchor',
+  mastersPantry: 'masters-pantry',
 } as const;
 
 // ─── Helpers ──────────────────────────────────────────────────────────
@@ -148,6 +150,7 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
   const [questData, setQuestData] = useState<QuestPanelData | null>(null);
   const [loading, setLoading] = useState(true);
   const [bugModalOpen, setBugModalOpen] = useState(false);
+  const [pantryModalOpen, setPantryModalOpen] = useState(false);
 
   const fetchQuests = useCallback(async () => {
     try {
@@ -179,6 +182,7 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
   const alchemistsEye = findQuest(questData, QUEST_SLUGS.alchemistsEye);
   const recipeHarmonizer = findQuest(questData, QUEST_SLUGS.recipeHarmonizer);
   const temporalAnchor = findQuest(questData, QUEST_SLUGS.temporalAnchor);
+  const mastersPantry = findQuest(questData, QUEST_SLUGS.mastersPantry);
 
   return (
     <>
@@ -203,7 +207,7 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
 
         {loading ? (
           <div className="space-y-3 animate-pulse">
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3, 4].map((i) => (
               <div key={i} className="h-20 bg-white/[0.03] rounded-2xl" />
             ))}
           </div>
@@ -267,11 +271,31 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
                 </button>
               }
             />
+
+            {/* 4. The Master's Pantry — classify ingredient */}
+            <TaskRow
+              title="The Master's Pantry"
+              description="Classify an unknown ingredient's elemental properties to earn Matter (🝙) tokens."
+              reward={mastersPantry ? formatReward(mastersPantry) : '+2 Matter'}
+              progress={mastersPantry?.progress ?? 0}
+              total={mastersPantry?.quest.triggerThreshold ?? 1}
+              completed={false}
+              accent="emerald"
+              action={
+                <button
+                  onClick={() => setPantryModalOpen(true)}
+                  className="px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all"
+                >
+                  Classify
+                </button>
+              }
+            />
           </div>
         )}
       </div>
 
       <BugReportModal open={bugModalOpen} onClose={() => setBugModalOpen(false)} />
+      <PantryModal open={pantryModalOpen} onClose={() => setPantryModalOpen(false)} />
     </>
   );
 }

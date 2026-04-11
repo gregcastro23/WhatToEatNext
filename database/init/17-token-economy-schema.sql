@@ -210,7 +210,7 @@ VALUES
     ('report-cuisine-dna', 'Cuisine DNA Report', 'Full cuisine compatibility breakdown across all 14 cuisines', 'report', 0, 75, 50, 0, false, 11),
     ('report-transit-forecast', 'Weekly Transit Forecast', 'Personalized weekly food and energy forecast', 'report', 0, 0, 0, 60, false, 12),
     ('streak-freeze', 'Streak Freeze', 'Preserve your streak for 1 missed day', 'freeze', 20, 0, 0, 0, false, 20),
-    ('title-fire-adept', 'Title: Fire Adept', 'Earn the "Fire Adept" profile title', 'cosmetic', 0, 0, 0, 0, true, 30),
+    ('title-fire-premium', 'Title: Fire Premium', 'Earn the "Fire Premium" profile title', 'cosmetic', 0, 0, 0, 0, true, 30),
     ('title-water-sage', 'Title: Water Sage', 'Earn the "Water Sage" profile title', 'cosmetic', 0, 0, 0, 0, true, 31)
 ON CONFLICT (slug) DO NOTHING;
 

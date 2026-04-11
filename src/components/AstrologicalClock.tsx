@@ -8,9 +8,9 @@ import { PlanetInfoModal as _PlanetInfoModal } from './PlanetInfoModal';
 
 // Define planet and zodiac symbols for the legend
 const PLANET_SYMBOLS: Record<string, string> = {
-  'Sun': '☉',
-  'Moon': '☽',
-  'Mercury': '☿',
+  'Sun': '🝇',
+  'Moon': '🝑',
+  'Mercury': '🝉',
   'Venus': '♀',
   'Mars': '♂',
   'Jupiter': '♃',

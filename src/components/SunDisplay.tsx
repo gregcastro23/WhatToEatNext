@@ -159,7 +159,7 @@ const SunDisplay: React.FC = () => {
       
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
-          <span className="text-3xl mr-3">☉</span>
+          <span className="text-3xl mr-3">🝇</span>
           <div>
             // @ts-expect-error - Auto-fixed by script
             <p className="font-medium">{sun.sign || 'Unknown'}</p>

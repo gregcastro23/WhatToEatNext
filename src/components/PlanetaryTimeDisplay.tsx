@@ -17,7 +17,7 @@ const PlanetaryTimeDisplay: React.FC<PlanetaryTimeDisplayProps> = ({
     const emojiMap: Record<string, string> = {
       'Sun': '☀️',
       'Moon': '🌙',
-      'Mercury': '☿️',
+      'Mercury': '🝉️',
       'Venus': '♀️',
       'Mars': '♂️',
       'Jupiter': '♃',

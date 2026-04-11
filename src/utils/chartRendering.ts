@@ -115,9 +115,9 @@ export function getAspectLineStyle(type: AspectType | undefined): string {
  */
 export function getPlanetSymbol(planet: string): string {
   const symbols: Record<string, string> = {
-    Sun: "☉",
-    Moon: "☽",
-    Mercury: "☿",
+    Sun: "🝇",
+    Moon: "🝑",
+    Mercury: "🝉",
     Venus: "♀",
     Mars: "♂",
     Jupiter: "♃",

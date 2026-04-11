@@ -153,7 +153,7 @@ export default function TodaysMealsWidget({
     Sun: "☀️",
     Moon: "🌙",
     Mars: "🔴",
-    Mercury: "☿",
+    Mercury: "🝉",
     Jupiter: "♃",
     Venus: "💜",
     Saturn: "♄",

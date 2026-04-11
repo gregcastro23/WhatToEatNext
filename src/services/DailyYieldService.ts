@@ -2,7 +2,7 @@
  * Daily Yield Service
  *
  * Calculates personalized ESMS token yields based on the user's natal chart
- * and current planetary transits. This is the "Cosmic Paycheck" engine.
+ * and current planetary transits. This is the "Cosmic Yield" engine.
  *
  * Architecture:
  *   - Today's planetary positions are read from daily_ephemeris_cache (1 fetch/day)
@@ -247,7 +247,7 @@ class DailyYieldService {
   }
 
   /**
-   * Main entry point: Calculate and credit the user's daily Cosmic Paycheck.
+   * Main entry point: Calculate and credit the user's daily Cosmic Yield.
    *
    * @param userId - User's database ID
    * @param natalPositions - Planet → sign map from user's natal chart
@@ -305,7 +305,7 @@ class DailyYieldService {
       credits,
       "daily_yield",
       {
-        description: `Cosmic Paycheck for ${todayStr}`,
+        description: `Cosmic Yield for ${todayStr}`,
         idempotencyKey: `daily:${userId}:${todayStr}`,
       },
     );

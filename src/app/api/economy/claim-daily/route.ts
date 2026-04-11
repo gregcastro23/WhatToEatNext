@@ -1,6 +1,6 @@
 /**
  * Claim Daily Yield API Route
- * POST /api/economy/claim-daily - Claim the user's Cosmic Paycheck
+ * POST /api/economy/claim-daily - Claim the user's Cosmic Yield
  *
  * Requires user to have completed onboarding (birth data + natal chart).
  * Yields are personalized based on natal chart and current transits.
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "You have already claimed your Cosmic Paycheck today. Return tomorrow!",
+        message: "You have already claimed your Cosmic Yield today. Return tomorrow!",
       },
       { status: 409 },
     );
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
   const response: ClaimDailyResponse = {
     success: true,
     yield: yieldResult,
-    message: `✨ Cosmic Paycheck collected! +${yieldResult.totalTokens.toFixed(1)} tokens across Spirit, Essence, Matter & Substance.`,
+    message: `✨ Cosmic Yield collected! +${yieldResult.totalTokens.toFixed(1)} tokens across Spirit, Essence, Matter & Substance.`,
   };
 
   return NextResponse.json(response);

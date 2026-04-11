@@ -33,13 +33,18 @@ const AlchmQuantitiesTrends = dynamic(
   { ssr: false }
 );
 
+const TokenBalanceTrends = dynamic(
+  () => import("@/components/economy/TokenBalanceTrends").then(mod => mod.TokenBalanceTrends),
+  { ssr: false }
+);
+
 // ─── Token Config ─────────────────────────────────────────────────────────────
 
 const TOKEN_CONFIG = [
   {
     key: "Spirit" as const,
     balanceKey: "spirit" as const,
-    symbol: "☉",
+    symbol: "🝇",
     icon: FaFire,
     label: "Spirit",
     subtitle: "Creative Force",
@@ -54,12 +59,12 @@ const TOKEN_CONFIG = [
     barColor: "from-amber-500 to-yellow-400",
     ringColor: "ring-amber-500/30",
     chartStroke: "#f59e0b",
-    planet: "Sun ☉",
+    planet: "Sun 🝇",
   },
   {
     key: "Essence" as const,
     balanceKey: "essence" as const,
-    symbol: "☽",
+    symbol: "🝑",
     icon: FaTint,
     label: "Essence",
     subtitle: "Life Energy",
@@ -74,12 +79,12 @@ const TOKEN_CONFIG = [
     barColor: "from-blue-500 to-cyan-400",
     ringColor: "ring-blue-500/30",
     chartStroke: "#3b82f6",
-    planet: "Moon ☽",
+    planet: "Moon 🝑",
   },
   {
     key: "Matter" as const,
     balanceKey: "matter" as const,
-    symbol: "⊕",
+    symbol: "🝙",
     icon: FaMountain,
     label: "Matter",
     subtitle: "Physical Form",
@@ -94,12 +99,12 @@ const TOKEN_CONFIG = [
     barColor: "from-emerald-500 to-green-400",
     ringColor: "ring-emerald-500/30",
     chartStroke: "#10b981",
-    planet: "Earth ⊕",
+    planet: "Earth 🝙",
   },
   {
     key: "Substance" as const,
     balanceKey: "substance" as const,
-    symbol: "☿",
+    symbol: "🝉",
     icon: FaWind,
     label: "Substance",
     subtitle: "Etheric Field",
@@ -114,7 +119,7 @@ const TOKEN_CONFIG = [
     barColor: "from-purple-500 to-fuchsia-400",
     ringColor: "ring-purple-500/30",
     chartStroke: "#8b5cf6",
-    planet: "Mercury ☿",
+    planet: "Mercury 🝉",
   },
 ] as const;
 
@@ -444,7 +449,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="text-[10px] font-black text-amber-400 uppercase tracking-[0.4em] mb-2">
-                  ✨ Cosmic Paycheck Received
+                  ✨ Cosmic Yield Received
                 </div>
                 <div className="flex items-center gap-4 text-sm font-bold">
                   {TOKEN_CONFIG.map((cfg) => {
@@ -546,7 +551,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
                   Aligning...
                 </span>
               ) : (
-                "Claim Cosmic Paycheck"
+                "Claim Cosmic Yield"
               )}
             </motion.button>
           ) : (
@@ -704,7 +709,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
               First Claim Available
             </p>
             <p className="text-[11px] text-white/40 leading-relaxed">
-              Claim your first Cosmic Paycheck to initialize your token ledger. 
+              Claim your first Cosmic Yield to initialize your token ledger. 
               Daily yields are weighted by your natal chart. Complete birth data for optimal yields.
             </p>
           </div>
@@ -787,7 +792,7 @@ function QuantitiesPageContent() {
   const handleAutoClaimHandled = useCallback(() => {
     setAutoClaim(false);
     // Strip the claim flag from the URL so navigating back doesn't retrigger.
-    const next = new URLSearchParams(searchParams.toString());
+    const next = new URLSearchParams(searchParams?.toString() ?? "");
     next.delete("claim");
     next.set("tab", "economy");
     router.replace(`/quantities?${next.toString()}`);
@@ -943,6 +948,10 @@ function QuantitiesPageContent() {
 
             {activeTab === "trends" && (
               <div className="space-y-6">
+                <Suspense fallback={<Spinner />}>
+                  <TokenBalanceTrends />
+                </Suspense>
+
                 <SectionCard
                   title="Trends & Forecasts"
                   subtitle="7-day ESMS quantity history sampled every 4 h"

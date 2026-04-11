@@ -30,9 +30,9 @@ import {
 
 // Planet symbols and colors
 const PLANET_SYMBOLS: Record<string, string> = {
-  Sun: "☉",
-  Moon: "☽",
-  Mercury: "☿",
+  Sun: "🝇",
+  Moon: "🝑",
+  Mercury: "🝉",
   Venus: "♀",
   Mars: "♂",
   Jupiter: "♃",

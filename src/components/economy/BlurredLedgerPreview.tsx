@@ -5,7 +5,7 @@
  *
  * Shows a fake Trends / Kinetics / Ledger panel with plausible-looking
  * sparkline placeholders blurred behind a glass scrim. On top, a gold
- * "Upgrade to See Your Trends" CTA invites the user to become an Adept.
+ * "Upgrade to See Your Trends" CTA invites the user to become an Premium.
  *
  * No real data is ever rendered — the sparklines are generated from a
  * deterministic seed so the preview looks alive without leaking anything.
@@ -45,10 +45,10 @@ function sparklinePath(values: number[], w: number, h: number): string {
 // ─── Fake token rows ─────────────────────────────────────────────────
 
 const FAKE_ROWS = [
-  { token: 'Spirit', symbol: '☉', color: 'text-amber-400', seed: 42 },
-  { token: 'Essence', symbol: '☽', color: 'text-blue-400', seed: 97 },
-  { token: 'Matter', symbol: '⊕', color: 'text-emerald-400', seed: 131 },
-  { token: 'Substance', symbol: '☿', color: 'text-purple-400', seed: 173 },
+  { token: 'Spirit', symbol: '🝇', color: 'text-amber-400', seed: 42 },
+  { token: 'Essence', symbol: '🝑', color: 'text-blue-400', seed: 97 },
+  { token: 'Matter', symbol: '🝙', color: 'text-emerald-400', seed: 131 },
+  { token: 'Substance', symbol: '🝉', color: 'text-purple-400', seed: 173 },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────
@@ -133,7 +133,7 @@ export function BlurredLedgerPreview({
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/5 mb-4">
             <span className="text-amber-400 text-xs">🔒</span>
             <span className="text-[9px] font-black text-amber-400 uppercase tracking-[0.3em]">
-              Adept Only
+              Premium Only
             </span>
           </div>
           <h3 className="text-2xl font-black text-white tracking-tight mb-2">
@@ -141,14 +141,14 @@ export function BlurredLedgerPreview({
           </h3>
           <p className="text-[11px] text-white/50 mb-5 max-w-xs mx-auto leading-relaxed">
             Unlock 30-day elemental trajectories, kinetic variance, and ledger
-            analytics when you ascend to the Adept tier.
+            analytics when you ascend to the Premium tier.
           </p>
           <Link
             href={upgradeHref}
             className="inline-block px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-gradient-to-r from-amber-500 via-purple-600 to-amber-500 text-white shadow-[0_0_30px_rgba(251,191,36,0.35)] hover:shadow-[0_0_50px_rgba(251,191,36,0.6)] transition-all alchm-shimmer"
             style={{ backgroundSize: '200% 100%' }}
           >
-            Ascend to Adept
+            Ascend to Premium
           </Link>
         </motion.div>
       </div>

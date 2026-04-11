@@ -22,10 +22,10 @@ import type { TokenType } from '@/types/economy';
 // ─── Palette ──────────────────────────────────────────────────────────
 
 const TOKEN_VISUAL: Record<TokenType, { symbol: string; color: string; glow: string }> = {
-  Spirit: { symbol: '☉', color: '#fbbf24', glow: 'rgba(251,191,36,0.6)' },
-  Essence: { symbol: '☽', color: '#60a5fa', glow: 'rgba(96,165,250,0.6)' },
-  Matter: { symbol: '⊕', color: '#34d399', glow: 'rgba(52,211,153,0.6)' },
-  Substance: { symbol: '☿', color: '#c084fc', glow: 'rgba(192,132,252,0.6)' },
+  Spirit: { symbol: '🝇', color: '#fbbf24', glow: 'rgba(251,191,36,0.6)' },
+  Essence: { symbol: '🝑', color: '#60a5fa', glow: 'rgba(96,165,250,0.6)' },
+  Matter: { symbol: '🝙', color: '#34d399', glow: 'rgba(52,211,153,0.6)' },
+  Substance: { symbol: '🝉', color: '#c084fc', glow: 'rgba(192,132,252,0.6)' },
 };
 
 const ALL_TOKEN_TYPES: TokenType[] = ['Spirit', 'Essence', 'Matter', 'Substance'];

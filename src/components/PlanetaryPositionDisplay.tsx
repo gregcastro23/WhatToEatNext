@@ -21,9 +21,9 @@ export const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> =
 
   // Planet symbols lookup
   const planetSymbols: Record<string, string> = {
-    sun: '☉',
-    moon: '☽',
-    mercury: '☿',
+    sun: '🝇',
+    moon: '🝑',
+    mercury: '🝉',
     venus: '♀',
     mars: '♂',
     jupiter: '♃',

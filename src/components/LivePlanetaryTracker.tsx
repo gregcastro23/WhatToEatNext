@@ -40,7 +40,7 @@ const PLANETARY_DATA = {
   },
   Mercury: {
     color: "from-yellow-400 to-green-400",
-    icon: "☿",
+    icon: "🝉",
     energyType: "Communication & Learning",
   },
   Jupiter: {

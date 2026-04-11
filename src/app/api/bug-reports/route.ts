@@ -83,6 +83,6 @@ export async function POST(request: NextRequest) {
     message:
       completed.length > 0
         ? "🏆 Bug report received — Spirit tokens awarded."
-        : "Bug report received. Thank you, Adept.",
+        : "Bug report received. Thank you, Premium.",
   });
 }

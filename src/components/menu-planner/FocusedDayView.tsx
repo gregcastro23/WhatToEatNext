@@ -717,10 +717,10 @@ export default function FocusedDayView({
 
   // Planetary symbols
   const planetSymbols: Record<string, string> = {
-    Sun: "☉",
-    Moon: "☽",
+    Sun: "🝇",
+    Moon: "🝑",
     Mars: "♂",
-    Mercury: "☿",
+    Mercury: "🝉",
     Jupiter: "♃",
     Venus: "♀",
     Saturn: "♄",

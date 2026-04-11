@@ -4,7 +4,7 @@
  * Token Balance Bar
  *
  * Always-visible ESMS token balance display for the dashboard.
- * Shows Spirit ☉, Essence ☽, Matter ⊕, Substance ☿ with glassmorphic styling.
+ * Shows Spirit 🝇, Essence 🝑, Matter 🝙, Substance 🝉 with glassmorphic styling.
  * Also shows streak count and daily claim availability.
  *
  * @file src/components/economy/TokenBalanceBar.tsx
@@ -20,10 +20,10 @@ import { PlanetaryInfluenceTooltip } from './PlanetaryInfluenceTooltip';
 // ─── Token Config ─────────────────────────────────────────────────────
 
 const TOKEN_CONFIG = {
-  Spirit: { symbol: '☉', color: 'amber', gradient: 'from-amber-400 to-yellow-500', glow: 'rgba(251,191,36,0.4)' },
-  Essence: { symbol: '☽', color: 'blue', gradient: 'from-blue-400 to-cyan-400', glow: 'rgba(96,165,250,0.4)' },
-  Matter: { symbol: '⊕', color: 'emerald', gradient: 'from-emerald-400 to-green-400', glow: 'rgba(52,211,153,0.4)' },
-  Substance: { symbol: '☿', color: 'purple', gradient: 'from-purple-400 to-fuchsia-400', glow: 'rgba(192,132,252,0.4)' },
+  Spirit: { symbol: '🝇', color: 'amber', gradient: 'from-amber-400 to-yellow-500', glow: 'rgba(251,191,36,0.4)' },
+  Essence: { symbol: '🝑', color: 'blue', gradient: 'from-blue-400 to-cyan-400', glow: 'rgba(96,165,250,0.4)' },
+  Matter: { symbol: '🝙', color: 'emerald', gradient: 'from-emerald-400 to-green-400', glow: 'rgba(52,211,153,0.4)' },
+  Substance: { symbol: '🝉', color: 'purple', gradient: 'from-purple-400 to-fuchsia-400', glow: 'rgba(192,132,252,0.4)' },
 } as const;
 
 // ─── Component ────────────────────────────────────────────────────────
@@ -45,6 +45,8 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
   const [creditFlash, setCreditFlash] = useState<string | null>(null);
   const [hoveredToken, setHoveredToken] = useState<TokenType | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
 
   const fetchBalances = useCallback(async () => {
     try {
@@ -151,7 +153,7 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
         >
           <div className="glass-card-premium rounded-2xl px-6 py-3 border border-amber-500/30 shadow-[0_0_30px_rgba(251,191,36,0.15)] whitespace-nowrap">
             <div className="text-[10px] font-black text-amber-400 uppercase tracking-[0.3em] mb-1">
-              ✨ Cosmic Paycheck
+              ✨ Cosmic Yield
             </div>
             <div className="flex items-center gap-3 text-xs font-bold">
               {Object.entries(TOKEN_CONFIG).map(([key, cfg]) => {
@@ -176,7 +178,7 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
       )}
 
       {/* Main Balance Bar */}
-      <div className="glass-card-premium rounded-[2rem] border-white/10 overflow-hidden">
+      <div className="glass-card-premium rounded-[2rem] border-white/10 overflow-hidden hidden md:block">
         <div className="px-6 py-4 flex items-center justify-between flex-wrap gap-4">
           {/* Token Balances */}
           <div className="flex items-center gap-6">
@@ -276,7 +278,7 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
                     Aligning...
                   </span>
                 ) : (
-                  'Claim Cosmic Paycheck'
+                  'Claim Cosmic Yield'
                 )}
                 {/* Shimmer effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
@@ -291,6 +293,95 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
             <p className="text-[10px] text-red-400/80 font-medium">{error}</p>
           </div>
         )}
+      </div>
+
+      {/* Mobile Orb View */}
+      <div className="md:hidden">
+        <motion.div
+          className={`glass-card-premium rounded-[2rem] border-white/10 overflow-hidden cursor-pointer ${
+            isMobileExpanded ? 'p-4' : 'w-14 h-14 rounded-full flex items-center justify-center p-0 mx-auto shadow-[0_0_25px_rgba(139,92,246,0.2)]'
+          }`}
+          onClick={() => !isMobileExpanded && setIsMobileExpanded(true)}
+          layout
+        >
+          <AnimatePresence mode="wait">
+            {!isMobileExpanded ? (
+              <motion.div
+                key="orb"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="flex items-center justify-center relative w-full h-full"
+              >
+                <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/20 via-purple-500/20 to-emerald-500/20 rounded-full animate-spin-slow" />
+                <span className="text-xl relative z-10 text-white/80 font-serif alchm-shimmer">⚗️</span>
+                {canClaim && (
+                  <span className="absolute top-0 right-0 w-3 h-3 bg-amber-400 rounded-full border border-[#0f0f13] animate-ping" />
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="expanded"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="flex flex-col gap-4"
+              >
+                <div className="flex justify-between items-center w-full">
+                  <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Alchemical Ledger</span>
+                  <button
+                    className="text-white/40 hover:text-white"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsMobileExpanded(false);
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  {(Object.entries(TOKEN_CONFIG) as Array<[keyof typeof TOKEN_CONFIG, typeof TOKEN_CONFIG[keyof typeof TOKEN_CONFIG]]>).map(
+                    ([key, cfg]) => {
+                      const lowerKey = key.toLowerCase() as 'spirit' | 'essence' | 'matter' | 'substance';
+                      const bal = balances[lowerKey];
+                      return (
+                        <div key={key} className="flex items-center gap-2">
+                          <span className={`text-lg text-${cfg.color}-400 drop-shadow-[0_0_8px_${cfg.glow}]`}>
+                            {cfg.symbol}
+                          </span>
+                          <div className="flex flex-col">
+                            <span className="text-[9px] text-white/30 font-black uppercase tracking-[0.2em]">{key}</span>
+                            <span className="text-sm font-bold text-white tabular-nums">{(bal || 0).toFixed(1)}</span>
+                          </div>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+                {canClaim && (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleClaimClick();
+                    }}
+                    disabled={claiming}
+                    className="mt-2 w-full relative px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-gradient-to-r from-amber-500 to-purple-600 text-white shadow-[0_0_20px_rgba(251,191,36,0.3)]"
+                  >
+                    {claiming ? 'Aligning...' : 'Claim Daily'}
+                  </motion.button>
+                )}
+                {streak && streak.currentStreak > 0 && (
+                  <div className="flex justify-center items-center gap-2 px-3 py-1.5 bg-white/[0.04] rounded-full border border-white/5 mx-auto">
+                    <span className="text-amber-400 text-sm">🔥</span>
+                    <span className="text-xs font-bold text-white/80 tabular-nums">{streak.currentStreak} day streak</span>
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </div>
   );

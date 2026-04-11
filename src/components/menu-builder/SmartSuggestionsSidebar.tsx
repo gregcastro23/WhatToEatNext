@@ -343,7 +343,7 @@ export default function SmartSuggestionsSidebar({
       },
       3: {
         planet: "Mercury",
-        emoji: "☿",
+        emoji: "🝉",
         suggestion: "Complex, varied dishes stimulate the mind",
         mealTip: "Mix textures and flavors; try something new today",
       },

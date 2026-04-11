@@ -100,9 +100,9 @@ export function useCurrentChart() {
   const createChartSvg = () => {
     // Map of planet names to their astronomical symbols
     const planetSymbols: Record<string, string> = {
-      Sun: "☉",
-      Moon: "☽",
-      Mercury: "☿",
+      Sun: "🝇",
+      Moon: "🝑",
+      Mercury: "🝉",
       Venus: "♀",
       Mars: "♂",
       Jupiter: "♃",

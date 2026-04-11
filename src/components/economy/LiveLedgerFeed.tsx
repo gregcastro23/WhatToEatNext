@@ -18,14 +18,14 @@ import type { TokenTransaction } from '@/types/economy';
 // ─── Token visual map ────────────────────────────────────────────────
 
 const TOKEN_VISUAL: Record<string, { symbol: string; color: string }> = {
-  Spirit: { symbol: '☉', color: 'text-amber-400' },
-  Essence: { symbol: '☽', color: 'text-blue-400' },
-  Matter: { symbol: '⊕', color: 'text-emerald-400' },
-  Substance: { symbol: '☿', color: 'text-purple-400' },
+  Spirit: { symbol: '🝇', color: 'text-amber-400' },
+  Essence: { symbol: '🝑', color: 'text-blue-400' },
+  Matter: { symbol: '🝙', color: 'text-emerald-400' },
+  Substance: { symbol: '🝉', color: 'text-purple-400' },
 };
 
 const SOURCE_LABELS: Record<string, string> = {
-  daily_yield: 'Cosmic Paycheck',
+  daily_yield: 'Cosmic Yield',
   quest_reward: 'Quest Reward',
   purchase: 'Shop Purchase',
   premium_purchase: 'Premium Purchase',
@@ -136,7 +136,7 @@ export function LiveLedgerFeed({ className = '', limit = 3 }: LiveLedgerFeedProp
 
       {transactions.length === 0 ? (
         <p className="text-[11px] text-white/25 italic text-center py-4">
-          No transactions yet — claim your first Cosmic Paycheck to begin the ledger.
+          No transactions yet — claim your first Cosmic Yield to begin the ledger.
         </p>
       ) : (
         <ul className="space-y-2">

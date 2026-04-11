@@ -16,13 +16,13 @@ const PLANETARY_INFO: Record<
   { icon: string; color: string; description: string; foodSuggestion: string }
 > = {
   Sun: {
-    icon: "☉",
+    icon: "🝇",
     color: "text-yellow-600",
     description: "Vitality, success, leadership",
     foodSuggestion: "Bold, energizing dishes",
   },
   Moon: {
-    icon: "☽",
+    icon: "🝑",
     color: "text-blue-400",
     description: "Emotions, intuition, comfort",
     foodSuggestion: "Soups, dairy, comfort foods",
@@ -34,7 +34,7 @@ const PLANETARY_INFO: Record<
     foodSuggestion: "Spicy, protein-rich meals",
   },
   Mercury: {
-    icon: "☿",
+    icon: "🝉",
     color: "text-gray-600",
     description: "Communication, variety",
     foodSuggestion: "Complex, multi-ingredient dishes",

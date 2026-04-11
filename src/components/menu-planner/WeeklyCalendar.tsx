@@ -77,10 +77,10 @@ function DayColumn({
 
   // Planetary symbol
   const planetSymbols: Record<string, string> = {
-    Sun: "☉",
-    Moon: "☽",
+    Sun: "🝇",
+    Moon: "🝑",
     Mars: "♂",
-    Mercury: "☿",
+    Mercury: "🝉",
     Jupiter: "♃",
     Venus: "♀",
     Saturn: "♄",

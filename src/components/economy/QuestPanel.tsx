@@ -17,10 +17,10 @@ import type { QuestPanelData, QuestProgress, UserStreak } from '@/types/economy'
 // ─── Token Symbols ────────────────────────────────────────────────────
 
 const TOKEN_SYMBOLS: Record<string, { symbol: string; color: string }> = {
-  Spirit: { symbol: '☉', color: 'amber' },
-  Essence: { symbol: '☽', color: 'blue' },
-  Matter: { symbol: '⊕', color: 'emerald' },
-  Substance: { symbol: '☿', color: 'purple' },
+  Spirit: { symbol: '🝇', color: 'amber' },
+  Essence: { symbol: '🝑', color: 'blue' },
+  Matter: { symbol: '🝙', color: 'emerald' },
+  Substance: { symbol: '🝉', color: 'purple' },
   all: { symbol: '✦', color: 'amber' },
 };
 

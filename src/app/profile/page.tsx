@@ -53,7 +53,7 @@ function getStorageItem(key: string): string | null {
 const PREMIUM_NAV = [
   { id: 'overview', label: 'Command', icon: '⚗️' },
   { id: 'cosmos', label: 'Cosmos', icon: '🔮' },
-  { id: 'economy', label: 'Tokens', icon: '☉' },
+  { id: 'economy', label: 'Tokens', icon: '🝇' },
   { id: 'quests', label: 'Quests', icon: '🎯' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ] as const;
@@ -76,7 +76,7 @@ function PremiumDashboard({
   onEditPreferences: () => void;
 }) {
   const [activeTab, setActiveTab] = useState<PremiumTab>('overview');
-  const userName = session?.user?.name || 'Adept';
+  const userName = session?.user?.name || 'Premium';
   const email = session?.user?.email || '';
 
   return (
@@ -101,14 +101,14 @@ function PremiumDashboard({
             <div className="flex items-center gap-3 mb-2">
               <span className="w-10 h-px bg-amber-500/40" />
               <span className="text-[9px] font-black text-amber-400/60 uppercase tracking-[0.5em]">
-                Adept — Premium Sanctum
+                Premium — Premium Sanctum
               </span>
             </div>
             <h1 className="text-4xl font-black text-white tracking-tighter alchm-gradient-text uppercase">
               {userName}
             </h1>
             <p className="text-white/20 text-xs mt-1 font-mono">
-              {email} · Alchemical Adept · Premium
+              {email} · Alchemical Premium · Premium
             </p>
           </div>
 
@@ -117,7 +117,7 @@ function PremiumDashboard({
             <div className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 rounded-full border border-amber-500/30">
               <span className="text-amber-400 text-xs">✦</span>
               <span className="text-[10px] font-black text-amber-400 uppercase tracking-[0.3em]">
-                Premium Adept
+                Premium Premium
               </span>
             </div>
             <button
@@ -248,15 +248,15 @@ function PremiumDashboard({
                     </Link>
                   </div>
                   <p className="text-white/20 text-xs mb-6">
-                    Your Spirit ☉, Essence ☽, Matter ⊕, and Substance ☿ token balances. 
-                    As a Premium Adept you earn 2× daily yields.
+                    Your Spirit 🝇, Essence 🝑, Matter 🝙, and Substance 🝉 token balances. 
+                    As a Premium Premium you earn 2× daily yields.
                   </p>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
-                      { symbol: '☉', label: 'Spirit', color: 'text-amber-400', border: 'border-amber-500/25', bg: 'bg-amber-500/8', desc: 'Creative Force · Sun' },
-                      { symbol: '☽', label: 'Essence', color: 'text-blue-400', border: 'border-blue-500/25', bg: 'bg-blue-500/8', desc: 'Life Energy · Moon' },
-                      { symbol: '⊕', label: 'Matter', color: 'text-emerald-400', border: 'border-emerald-500/25', bg: 'bg-emerald-500/8', desc: 'Physical Form · Earth' },
-                      { symbol: '☿', label: 'Substance', color: 'text-purple-400', border: 'border-purple-500/25', bg: 'bg-purple-500/8', desc: 'Etheric Field · Mercury' },
+                      { symbol: '🝇', label: 'Spirit', color: 'text-amber-400', border: 'border-amber-500/25', bg: 'bg-amber-500/8', desc: 'Creative Force · Sun' },
+                      { symbol: '🝑', label: 'Essence', color: 'text-blue-400', border: 'border-blue-500/25', bg: 'bg-blue-500/8', desc: 'Life Energy · Moon' },
+                      { symbol: '🝙', label: 'Matter', color: 'text-emerald-400', border: 'border-emerald-500/25', bg: 'bg-emerald-500/8', desc: 'Physical Form · Earth' },
+                      { symbol: '🝉', label: 'Substance', color: 'text-purple-400', border: 'border-purple-500/25', bg: 'bg-purple-500/8', desc: 'Etheric Field · Mercury' },
                     ].map((t) => (
                       <div key={t.label} className={`rounded-2xl p-5 border ${t.border} ${t.bg} text-center`}>
                         <div className={`text-3xl ${t.color} mb-2`}>{t.symbol}</div>
@@ -317,7 +317,7 @@ function PremiumSettingsPanel({
   const rows = [
     { label: 'Name', value: session?.user?.name || '—' },
     { label: 'Email', value: session?.user?.email || '—' },
-    { label: 'Plan', value: 'Premium Adept' },
+    { label: 'Plan', value: 'Premium Premium' },
     { label: 'Dominant Element', value: natalChart.dominantElement || '—' },
     { label: 'Dominant Modality', value: natalChart.dominantModality || '—' },
   ];
@@ -327,7 +327,7 @@ function PremiumSettingsPanel({
       {/* Identity */}
       <div className="glass-card-premium rounded-3xl p-7 border-white/8">
         <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-5">
-          Adept Identity
+          Premium Identity
         </h3>
         <div className="space-y-3">
           {rows.map((r) => (
@@ -523,7 +523,7 @@ function FreeDashboard({
                   <ElementalWheel natalChart={natalChart} />
                 </div>
 
-                {/* Blurred ledger preview — Adept teaser */}
+                {/* Blurred ledger preview — Premium teaser */}
                 <BlurredLedgerPreview />
 
                 {/* Free nav tiles */}
@@ -567,7 +567,7 @@ function FreeDashboard({
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-amber-400 text-lg">✦</span>
                           <h3 className="text-lg font-black text-white tracking-tight">
-                            Ascend to Premium Adept
+                            Ascend to Premium Premium
                           </h3>
                         </div>
                         <p className="text-white/40 text-sm max-w-lg leading-relaxed">

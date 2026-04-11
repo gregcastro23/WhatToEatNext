@@ -24,9 +24,9 @@ const PLANET_COLORS = {
 } as const;
 
 const PLANET_SYMBOLS = {
-  Sun: "☉",
-  Moon: "☽",
-  Mercury: "☿",
+  Sun: "🝇",
+  Moon: "🝑",
+  Mercury: "🝉",
   Venus: "♀",
   Mars: "♂",
   Jupiter: "♃",

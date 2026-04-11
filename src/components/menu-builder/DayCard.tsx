@@ -129,10 +129,10 @@ function DailyNutritionRings({ meals }: { meals: MealSlotType[] }) {
  * Planet symbols mapping
  */
 const _PLANET_SYMBOLS: Record<string, string> = {
-  Sun: "☉",
-  Moon: "☽",
+  Sun: "🝇",
+  Moon: "🝑",
   Mars: "♂",
-  Mercury: "☿",
+  Mercury: "🝉",
   Jupiter: "♃",
   Venus: "♀",
   Saturn: "♄",
