@@ -19,12 +19,11 @@ import type {
   CuisineSignature,
   PlanetaryPattern,
 } from "@/types/hierarchy";
-import type { ElementalProperties } from "@/types/alchemy";
+import type { ClassicalElement } from "@/utils/astrology/signElement";
 import {
   CUISINE_SIGNATURES,
   CUISINE_GLOBAL_AVERAGES,
 } from "@/utils/cuisineSignatures.generated";
-import type { ClassicalElement } from "@/utils/astrology/signElement";
 
 export interface CuisineIndexEntry {
   cuisine: string;
@@ -134,7 +133,7 @@ export function getDominantElementForCuisine(
 ): ClassicalElement | null {
   const entry = getCuisineEntry(name);
   if (!entry) return null;
-  const averages = entry.averageElementals as ElementalProperties;
+  const averages = entry.averageElementals;
   const order: ClassicalElement[] = ["Fire", "Water", "Earth", "Air"];
   let dominant: ClassicalElement = "Fire";
   let highest = -Infinity;

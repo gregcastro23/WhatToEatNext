@@ -10,7 +10,7 @@
  * @file src/components/economy/TokenBalanceBar.tsx
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { usePremium } from '@/contexts/PremiumContext';
 import type { TokenBalances, UserStreak, DailyYieldResult } from '@/types/economy';
@@ -61,7 +61,7 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
     if (balances) {
       // Check for debits to trigger animation
       if (prevBalances.current) {
-        const types: (keyof TokenBalances)[] = ['spirit', 'essence', 'matter', 'substance'];
+        const types: Array<keyof TokenBalances> = ['spirit', 'essence', 'matter', 'substance'];
         for (const t of types) {
           if ((balances[t] || 0) < (prevBalances.current[t] || 0)) {
             setDebitFlash(t);
@@ -108,6 +108,10 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
       setClaiming(false);
     }
     onClaimDaily?.();
+  };
+
+  const handleClaimClick = () => {
+    void handleClaim();
   };
 
   if (!balances) return null;
@@ -206,7 +210,7 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={handleClaim}
+                onClick={handleClaimClick}
                 disabled={claiming}
                 className={`
                   relative px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em]

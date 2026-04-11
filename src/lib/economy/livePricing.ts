@@ -4,19 +4,19 @@ import {
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
 
-type EsmsCost = {
+interface EsmsCost {
   spirit: number;
   essence: number;
   matter: number;
   substance: number;
-};
+}
 
-export type LivePricingContext = {
+export interface LivePricingContext {
   multiplier: number;
   aNumber: number;
   dominantElement: string;
   timestamp: string;
-};
+}
 
 function round(value: number, digits = 2): number {
   const factor = 10 ** digits;

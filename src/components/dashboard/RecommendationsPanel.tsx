@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { TokenGate } from '@/components/economy/TokenGate';
 import { RestaurantBuilder } from '@/components/profile/RestaurantBuilder';
 import { RestaurantSearch } from '@/components/profile/RestaurantSearch';
-import { TokenGate } from '@/components/economy/TokenGate';
 import { useUser } from '@/contexts/UserContext';
 import { reportQuestEvent } from '@/lib/questReporter';
 import type { NatalChart } from '@/types/natalChart';

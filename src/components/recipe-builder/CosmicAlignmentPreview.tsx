@@ -22,6 +22,7 @@
 import React, { useMemo } from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import type { DayOfWeek } from "@/types/menuPlanner";
 import {
   getDominantElementFromPositions,
   type ClassicalElement,
@@ -31,7 +32,6 @@ import {
   getDominantElementForCuisine,
 } from "@/utils/cuisine/cuisineIndex";
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
-import type { DayOfWeek } from "@/types/menuPlanner";
 import { getPlanetaryDayCharacteristics } from "@/utils/planetaryDayRecommendations";
 
 const ELEMENT_ICON: Record<ClassicalElement, string> = {
@@ -120,7 +120,7 @@ export default function CosmicAlignmentPreview() {
           </span>
           <div>
             <p className="text-xs uppercase tracking-wide opacity-70">
-              Today's dominant element
+              Today&apos;s dominant element
             </p>
             <p className="text-sm font-semibold">
               {dominantElement}

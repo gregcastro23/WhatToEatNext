@@ -5,10 +5,10 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { tokenEconomy } from "@/services/TokenEconomyService";
 import { streakService } from "@/services/StreakService";
-import type { NextRequest } from "next/server";
+import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { EconomyBalanceResponse } from "@/types/economy";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

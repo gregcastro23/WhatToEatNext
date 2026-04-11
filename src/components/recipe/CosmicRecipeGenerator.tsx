@@ -7,10 +7,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
-import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
-import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
+import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
+import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
 import type { z } from 'zod';
 
 type CosmicRecipe = z.infer<typeof cosmicRecipeSchema>;

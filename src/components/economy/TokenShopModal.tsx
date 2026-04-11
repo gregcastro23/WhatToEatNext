@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-type ShopItem = {
+interface ShopItem {
   id: string;
   slug: string;
   title: string;
@@ -22,9 +22,9 @@ type ShopItem = {
     substance: number;
   };
   canAfford: boolean;
-};
+}
 
-type ShopResponse = {
+interface ShopResponse {
   success: boolean;
   balances: {
     spirit: number;
@@ -39,7 +39,7 @@ type ShopResponse = {
     timestamp: string;
   };
   items: ShopItem[];
-};
+}
 
 const TOKEN_CONFIG = {
   spirit: { symbol: "☉", color: "text-amber-300" },

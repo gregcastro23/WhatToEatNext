@@ -11,18 +11,38 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
-import type Stripe from "stripe";
 
 /**
  * Extract current_period_start/end from a Stripe Subscription.
  * In Stripe SDK v20+ these fields live on SubscriptionItem, not Subscription.
  */
-function getSubscriptionPeriod(subscription: Stripe.Subscription): {
+interface SubscriptionPeriodCarrier {
+  items?: {
+    data?: Array<{
+      current_period_start?: number | null;
+      current_period_end?: number | null;
+    }>;
+  };
+}
+
+interface InvoiceSubscriptionCarrier {
+  parent?: {
+    subscription_details?: {
+      subscription?: string | { id: string } | null;
+    } | null;
+  } | null;
+}
+
+function getSubscriptionPeriod(subscription: SubscriptionPeriodCarrier): {
   currentPeriodStart: string;
   currentPeriodEnd: string;
 } {
   const firstItem = subscription.items?.data?.[0];
-  if (firstItem) {
+  if (
+    firstItem &&
+    typeof firstItem.current_period_start === "number" &&
+    typeof firstItem.current_period_end === "number"
+  ) {
     return {
       currentPeriodStart: new Date(firstItem.current_period_start * 1000).toISOString(),
       currentPeriodEnd: new Date(firstItem.current_period_end * 1000).toISOString(),
@@ -40,7 +60,7 @@ function getSubscriptionPeriod(subscription: Stripe.Subscription): {
  * In v20 the `subscription` top-level field was removed; the data now lives
  * under `invoice.parent.subscription_details.subscription`.
  */
-function getInvoiceSubscriptionId(invoice: Stripe.Invoice): string | null {
+function getInvoiceSubscriptionId(invoice: InvoiceSubscriptionCarrier): string | null {
   const subDetails = invoice.parent?.subscription_details;
   if (!subDetails?.subscription) return null;
   return typeof subDetails.subscription === "string"

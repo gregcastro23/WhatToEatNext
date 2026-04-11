@@ -12,22 +12,22 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
+import type { DayOfWeek } from "@/types/menuPlanner";
 import {
   generateDayRecommendations,
   type AstrologicalState,
   type DayRecommendationOptions,
 } from "@/utils/menuPlanner/recommendationBridge";
-import type { DayOfWeek } from "@/types/menuPlanner";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-type RetryGrant = {
+interface RetryGrant {
   userId: string;
   expiresAt: number;
-};
+}
 
 const RETRY_WINDOW_MS = 5 * 60 * 1000;
 const retryGrants = new Map<string, RetryGrant>();
@@ -80,12 +80,12 @@ async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T
   }
 }
 
-type GenerateRequestBody = {
+interface GenerateRequestBody {
   dayOfWeek: DayOfWeek;
   astroState: AstrologicalState;
   options?: DayRecommendationOptions;
   retryToken?: string;
-};
+}
 
 export async function POST(request: NextRequest) {
   const userId = await getUserIdFromRequest(request);

@@ -9,7 +9,9 @@
 
 import Stripe from "stripe";
 
-function getStripeInstance(): Stripe {
+type StripeClient = InstanceType<typeof Stripe>;
+
+function getStripeInstance(): StripeClient {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) {
     throw new Error(
@@ -17,15 +19,15 @@ function getStripeInstance(): Stripe {
     );
   }
   return new Stripe(key, {
-    apiVersion: "2025-02-24.acacia" as Stripe.LatestApiVersion,
+    apiVersion: "2026-03-25.dahlia",
     typescript: true,
   });
 }
 
 /** Lazily-initialized Stripe instance */
-let _stripe: Stripe | null = null;
+let _stripe: StripeClient | null = null;
 
-export function getStripe(): Stripe {
+export function getStripe(): StripeClient {
   if (!_stripe) {
     _stripe = getStripeInstance();
   }

@@ -323,7 +323,7 @@ class QuestService {
     } else {
       await tokenEconomy.creditTokens(
         userId,
-        quest.tokenRewardType as TokenType,
+        quest.tokenRewardType,
         quest.tokenRewardAmount,
         "quest_reward",
         {

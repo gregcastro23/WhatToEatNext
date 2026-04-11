@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import React, { useState, useEffect, useCallback } from 'react';
-import { reportQuestEvent } from '@/lib/questReporter';
+import { QuestPanel } from '@/components/economy/QuestPanel';
+import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
 import { PremiumGate } from '@/components/PremiumGate';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
@@ -12,6 +13,7 @@ import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
 import { TierUpgradePrompt } from '@/components/profile/TierUpgradePrompt';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { reportQuestEvent } from '@/lib/questReporter';
 import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
@@ -21,8 +23,6 @@ import { FoodLabBook } from './FoodLabBook';
 import { NatalTransitChart } from './NatalTransitChart';
 import { NotificationPanel } from './NotificationPanel';
 import { RecommendationsPanel } from './RecommendationsPanel';
-import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
-import { QuestPanel } from '@/components/economy/QuestPanel';
 
 const SIGN_SYMBOLS: Record<string, string> = {
   aries: '\u2648', taurus: '\u2649', gemini: '\u264A', cancer: '\u264B',

@@ -11,6 +11,7 @@
 import Image from "next/image";
 import { useState, useMemo, useEffect } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { reportQuestEvent } from "@/lib/questReporter";
 import { instacartService } from "@/services/InstacartService";
 import type { InstacartRetailer, InstacartShoppingListRequest } from "@/types/instacart";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
@@ -18,7 +19,6 @@ import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { normalizeIngredientList } from "@/utils/instacart/ingredientNormalizer";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
-import { reportQuestEvent } from "@/lib/questReporter";
 
 const logger = createLogger("GroceryListModal");
 

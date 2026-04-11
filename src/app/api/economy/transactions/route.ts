@@ -6,8 +6,8 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import type { NextRequest } from "next/server";
 import type { TransactionsResponse } from "@/types/economy";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

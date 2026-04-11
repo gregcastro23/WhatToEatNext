@@ -24,6 +24,10 @@ import {
     getUserTargetKAlchm,
 } from "@/utils/alchemy/derivedStats";
 import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
+import {
+    getCuisineEntry,
+    getDominantElementForCuisine,
+} from "@/utils/cuisine/cuisineIndex";
 import { calculateRecipeEstimatedCost, calculateBangForBuck } from "@/utils/instacart/priceEstimator";
 import { createLogger } from "@/utils/logger";
 import { isSuitableForMealType } from "@/utils/menuPlanner/mealTypeMatching";
@@ -32,10 +36,6 @@ import {
     getPlanetaryDayCharacteristics,
     type PlanetaryDayCharacteristics,
 } from "@/utils/planetaryDayRecommendations";
-import {
-    getCuisineEntry,
-    getDominantElementForCuisine,
-} from "@/utils/cuisine/cuisineIndex";
 
 const logger = createLogger("RecommendationBridge");
 

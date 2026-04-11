@@ -106,7 +106,15 @@ describe("useFoodDiary hook", () => {
 
   describe("CRUD Operations", () => {
     it("adds an entry and refreshes data", async () => {
-      const newEntryInput = { foodName: "Orange", foodSource: "custom" as const, quantity: 1 };
+      const newEntryInput = {
+        foodName: "Orange",
+        foodSource: "custom" as const,
+        quantity: 1,
+        date: new Date(),
+        mealType: "snack" as const,
+        time: "12:00",
+        serving: { amount: 1, unit: "piece", grams: 130 },
+      };
       const createdEntry = { id: "2", ...newEntryInput };
       (foodDiaryActions.createServerEntry as jest.Mock).mockResolvedValue(createdEntry);
 
@@ -119,7 +127,15 @@ describe("useFoodDiary hook", () => {
         returnedEntry = await result.current.addEntry(newEntryInput as any);
       });
 
-      expect(foodDiaryActions.createServerEntry).toHaveBeenCalledWith("guest", newEntryInput);
+      expect(foodDiaryActions.createServerEntry).toHaveBeenCalledWith(
+        "guest",
+        expect.objectContaining({
+          userId: "guest",
+          foodName: "Orange",
+          foodSource: "custom",
+          quantity: 1,
+        }),
+      );
       expect(returnedEntry).toEqual(createdEntry);
       // Verify refresh was called (getServerDayEntries called again)
       expect(foodDiaryActions.getServerDayEntries).toHaveBeenCalledTimes(2);

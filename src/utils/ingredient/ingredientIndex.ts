@@ -53,10 +53,10 @@ function buildIndex(): IndexedIngredient[] {
       | Record<string, unknown>
       | undefined;
     const rulingPlanets = Array.isArray(astro?.rulingPlanets)
-      ? (astro!.rulingPlanets as unknown[]).map(String)
+      ? (astro.rulingPlanets as unknown[]).map(String)
       : undefined;
     const favorableZodiac = Array.isArray(astro?.zodiacAffinity)
-      ? (astro!.zodiacAffinity as unknown[]).map(String)
+      ? (astro.zodiacAffinity as unknown[]).map(String)
       : undefined;
 
     out.push({

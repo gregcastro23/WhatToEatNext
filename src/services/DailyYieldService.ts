@@ -14,7 +14,6 @@
  */
 
 import { _logger } from "@/lib/logger";
-import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { AlchemicalProperties } from "@/types/celestial";
 import type { DailyYieldResult, TokenType } from "@/types/economy";
 import {
@@ -23,9 +22,10 @@ import {
   TRANSIT_BONUS_SCALE,
   getStreakMultiplier,
 } from "@/types/economy";
-import { tokenEconomy } from "./TokenEconomyService";
+import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import { reportQuestEventBestEffort } from "./questEventReporter";
 import { streakService } from "./StreakService";
+import { tokenEconomy } from "./TokenEconomyService";
 
 // ─── DB Bootstrapping ─────────────────────────────────────────────────
 

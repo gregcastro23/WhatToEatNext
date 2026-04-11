@@ -18,7 +18,6 @@ import type {
 } from "@/types/economy";
 import {
   EMPTY_BALANCES,
-  TOKEN_TYPES,
   TRANSMUTATION_RATIO,
 } from "@/types/economy";
 

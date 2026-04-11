@@ -6,8 +6,8 @@
 
 import { NextResponse } from "next/server";
 import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken, type FoodLabEntry } from "./shared";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
+import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken, type FoodLabEntry } from "./shared";
 import type { NextRequest } from "next/server";
 
 let _dbMod: typeof import("@/lib/database") | null = null;

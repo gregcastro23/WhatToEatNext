@@ -267,7 +267,7 @@ function CuisineSelector() {
   const signatureBySelected = useMemo(() => {
     const map = new Map<
       string,
-      { signatures: { property: string; zscore: number; description?: string }[]; sampleSize: number }
+      { signatures: Array<{ property: string; zscore: number; description?: string }>; sampleSize: number }
     >();
     for (const cuisine of selectedCuisines) {
       const entry = getCuisineEntry(cuisine);

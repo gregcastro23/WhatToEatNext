@@ -10,8 +10,8 @@ import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { dailyYieldService } from "@/services/DailyYieldService";
 import { subscriptionService } from "@/services/subscriptionService";
-import type { NextRequest } from "next/server";
 import type { ClaimDailyResponse } from "@/types/economy";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

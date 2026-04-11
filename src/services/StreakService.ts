@@ -49,8 +49,8 @@ function getUTCDateString(date?: Date): string {
 }
 
 function daysBetween(dateStr1: string, dateStr2: string): number {
-  const d1 = new Date(dateStr1 + "T00:00:00Z");
-  const d2 = new Date(dateStr2 + "T00:00:00Z");
+  const d1 = new Date(`${dateStr1  }T00:00:00Z`);
+  const d2 = new Date(`${dateStr2  }T00:00:00Z`);
   return Math.round((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
 }
 

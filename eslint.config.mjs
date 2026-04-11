@@ -28,8 +28,8 @@ import globals from "globals";
 export default [
   // Start with recommended JS rules
   js.configs.recommended,
-  nextPlugin.flatConfig.recommended,
-  nextPlugin.flatConfig.coreWebVitals,
+  nextPlugin.configs.recommended,
+  nextPlugin.configs["core-web-vitals"],
 
   // ============================================================================
   // Main TypeScript/React Configuration
