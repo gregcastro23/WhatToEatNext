@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { dailyYieldService } from "@/services/DailyYieldService";
 import { subscriptionService } from "@/services/subscriptionService";
+import { extractNatalPositions } from "@/utils/astrology/extractNatalPositions";
 import type { ClaimDailyResponse } from "@/types/economy";
 import type { NextRequest } from "next/server";
 
@@ -38,24 +39,8 @@ export async function POST(request: NextRequest) {
   }
 
   // Build planet → sign map from natal chart
-  // The natal chart stores positions as { Sun: { sign: "Gemini", ... }, ... }
-  const natalPositions: Record<string, string> = {};
-  const chartData = typeof natalChart === "string" ? JSON.parse(natalChart) : natalChart;
-
-  // Extract sign from each planet's position data
-  const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
-  for (const planet of planets) {
-    const position = chartData[planet] || chartData[planet.toLowerCase()];
-    if (position) {
-      const sign = typeof position === "string" ? position : position.sign;
-      if (sign) {
-        // Capitalize first letter for consistency
-        natalPositions[planet] = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
-      }
-    }
-  }
-
-  if (Object.keys(natalPositions).length === 0) {
+  const natalPositions = extractNatalPositions(natalChart);
+  if (!natalPositions) {
     return NextResponse.json(
       {
         success: false,
