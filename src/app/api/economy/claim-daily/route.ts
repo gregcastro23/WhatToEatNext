@@ -41,11 +41,21 @@ export async function POST(request: NextRequest) {
   // The natal chart stores positions as { Sun: { sign: "Gemini", ... }, ... }
   const natalPositions: Record<string, string> = {};
   const chartData = typeof natalChart === "string" ? JSON.parse(natalChart) : natalChart;
+  
+  // Also try to extract from a planets array if planetaryPositions isn't available
+  const positionsData = chartData.planetaryPositions || chartData;
+  if (!chartData.planetaryPositions && Array.isArray(chartData.planets)) {
+    for (const p of chartData.planets) {
+      if (p.name && p.sign) {
+        positionsData[p.name] = p.sign;
+      }
+    }
+  }
 
   // Extract sign from each planet's position data
   const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
   for (const planet of planets) {
-    const position = chartData[planet] || chartData[planet.toLowerCase()];
+    const position = positionsData[planet] || positionsData[planet.toLowerCase()];
     if (position) {
       const sign = typeof position === "string" ? position : position.sign;
       if (sign) {
