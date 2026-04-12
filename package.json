@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "22.x",
-    "yarn": ">=3.6.4"
+    "node": ">=22"
+  },
+  "overrides": {
+    "react": "19.2.5",
+    "react-dom": "19.2.5"
   },
   "resolutions": {
     "@typescript-eslint/scope-manager": "8.47.0",

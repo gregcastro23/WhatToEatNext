@@ -20,6 +20,7 @@ export interface AlchemicalContextType {
   state: AlchemicalState;
   dispatch: (action: unknown) => void;
   planetaryPositions: Record<string, unknown>;
+  historicalPositions: Record<string, unknown>;
   normalizedPositions: Record<string, unknown>;
   isLoading: boolean;
   error: string | null;

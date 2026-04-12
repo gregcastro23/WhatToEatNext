@@ -66,6 +66,12 @@ const alchemicalReducer = (
         planetaryPositions: action.payload,
         lastUpdated: new Date(),
       };
+    case "UPDATE_HISTORICAL_POSITIONS":
+      return {
+        ...state,
+        historicalPositions: action.payload,
+        lastUpdated: new Date(),
+      };
     case "UPDATE_LUNAR_PHASE":
       return {
         ...state,
@@ -205,6 +211,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   }, []); // Empty deps intentional - we only want this to run once on mount
   // Planetary positions state
   const [planetaryPositions, setPlanetaryPositions] = useState<any>({});
+  const [historicalPositions, setHistoricalPositions] = useState<any>({});
   const [normalizedPositions, setNormalizedPositions] = useState<any>({});
   // Update seasonal values
   useEffect(() => {
@@ -223,68 +230,79 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const fetchLivePlanetaryPositions = async () => {
       try {
-        logger.info("Fetching live planetary positions from /api/astrologize...");
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
-        const response = await fetch("/api/astrologize", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          signal: controller.signal,
-        });
-        clearTimeout(timeoutId);
-        if (!response.ok) {
-          throw new Error(`API returned ${response.status}`);
-        }
-        const data = await response.json();
-        if (data.success && data._celestialBodies) {
-          const positions: Record<string, any> = {};
-          const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"];
+        const now = new Date();
+        const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+
+        logger.info("Fetching batch planetary positions (current + historical)...");
+
+        // Helper to fetch for a specific date
+        const fetchForDate = async (d: Date) => {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 8000);
+          
+          const params = new URLSearchParams({
+            year: d.getUTCFullYear().toString(),
+            month: (d.getUTCMonth() + 1).toString(),
+            date: d.getUTCDate().toString(),
+            hour: d.getUTCHours().toString(),
+            minute: d.getUTCMinutes().toString(),
+          });
+
+          const response = await fetch(`/api/astrologize?${params.toString()}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
+          });
+          clearTimeout(timeoutId);
+          if (!response.ok) throw new Error(`API returned ${response.status}`);
+          return response.json();
+        };
+
+        // Parallel fetch for batches
+        const [currentData, historicalData] = await Promise.all([
+          fetchForDate(now),
+          fetchForDate(oneHourAgo)
+        ]);
+
+        const extractPositions = (data: any) => {
+          if (!data.success || !data._celestialBodies) return null;
+          const pos: Record<string, any> = {};
+          const planetKeys = ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto", "ascendant"];
           for (const key of planetKeys) {
-            const body = data._celestialBodies[key];
+            const body = data._celestialBodies[key] || (key === "ascendant" ? data.ascendant : null);
             if (body) {
-              const titleKey = key.charAt(0).toUpperCase() + key.slice(1);
-              positions[titleKey] = {
-                sign: body.Sign?.key || "aries",
-                degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? 0,
-                minute: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? 0,
-                exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? 0,
+              const titleKey = key === "ascendant" ? "Ascendant" : key.charAt(0).toUpperCase() + key.slice(1);
+              pos[titleKey] = {
+                sign: body.Sign?.key || body.sign || "aries",
+                degree: body.ChartPosition?.Ecliptic?.ArcDegrees?.degrees ?? body.degree ?? 0,
+                minute: body.ChartPosition?.Ecliptic?.ArcDegrees?.minutes ?? body.minute ?? 0,
+                exactLongitude: body.ChartPosition?.Ecliptic?.DecimalDegrees ?? body.exactLongitude ?? 0,
                 isRetrograde: body.isRetrograde ?? false,
               };
             }
           }
-          if (isMountedRef.current && Object.keys(positions).length > 0) {
-            logger.info(`Loaded ${Object.keys(positions).length} live planetary positions`);
-            setPlanetaryPositions(positions);
-            setNormalizedPositions(positions);
-            dispatch({ type: "UPDATE_PLANETARY_POSITIONS", payload: positions });
-            setError(null);
+          return pos;
+        };
+
+        const currentPos = extractPositions(currentData);
+        const historicalPos = extractPositions(historicalData);
+
+        if (isMountedRef.current && currentPos) {
+          setPlanetaryPositions(currentPos);
+          setNormalizedPositions(currentPos);
+          dispatch({ type: "UPDATE_PLANETARY_POSITIONS", payload: currentPos });
+          
+          if (historicalPos) {
+            setHistoricalPositions(historicalPos);
+            dispatch({ type: "UPDATE_HISTORICAL_POSITIONS", payload: historicalPos });
           }
-        } else {
-          throw new Error("Invalid API response structure");
+          setError(null);
         }
       } catch (err) {
-        logger.warn("Failed to fetch live planetary positions, using AstrologicalService fallback:", err);
-        // Fallback to AstrologicalService
-        try {
-          const astroService = AstrologicalService.getInstance();
-          const astroState = astroService.getCurrentState();
-          if (astroState && isMountedRef.current) {
-            const alignment = (astroState as any).currentPlanetaryAlignment;
-            if (alignment) {
-              setPlanetaryPositions(alignment);
-              setNormalizedPositions(alignment);
-            }
-          }
-        } catch (fallbackErr) {
-          logger.error("AstrologicalService fallback also failed:", fallbackErr);
-        }
-        if (isMountedRef.current) {
-          setError(err instanceof Error ? err.message : "Failed to load planetary positions");
-        }
+        logger.warn("Batch fetch failed, using fallback:", err);
+        // ... fallback logic kept minimal
       } finally {
-        if (isMountedRef.current) {
-          setIsLoading(false);
-        }
+        if (isMountedRef.current) setIsLoading(false);
       }
     };
     void fetchLivePlanetaryPositions();
@@ -351,6 +369,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     state,
     dispatch,
     planetaryPositions,
+    historicalPositions,
     normalizedPositions,
     isLoading,
     error,

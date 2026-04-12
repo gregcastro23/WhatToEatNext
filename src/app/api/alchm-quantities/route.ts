@@ -111,9 +111,9 @@ export async function GET() {
       prev2Positions = getFallbackPlanetaryPositions();
     }
 
-    const nowAlch = alchemize(asPlanetaryPositions(nowPositions), now);
-    const prevAlch = alchemize(asPlanetaryPositions(prevPositions), oneHourAgo);
-    const prev2Alch = alchemize(asPlanetaryPositions(prev2Positions), twoHoursAgo);
+    const nowAlch = alchemize(asPlanetaryPositions(nowPositions), asPlanetaryPositions(prevPositions), now);
+    const prevAlch = alchemize(asPlanetaryPositions(prevPositions), asPlanetaryPositions(prev2Positions), oneHourAgo);
+    const prev2Alch = alchemize(asPlanetaryPositions(prev2Positions), null, twoHoursAgo);
 
     const quantities = {
       Spirit: round(nowAlch.esms.Spirit),
@@ -231,6 +231,7 @@ export async function GET() {
 
       // Preserve prior field for any older consumers
       alchemical: quantities,
+      planetaryMomentum: nowAlch.planetaryMomentum,
     };
 
     const validated = AlchmQuantitiesApiResponseSchema.safeParse(payload);

@@ -170,6 +170,7 @@ interface AlchemyData {
     DayEssence: number;
     NightEssence: number;
   };
+  planetaryMomentum: Record<string, number>;
   dominantElement: string;
   isDiurnal?: boolean;
   heat: number;
@@ -297,6 +298,54 @@ function TokenHeroCard({
         </div>
       </div>
     </motion.div>
+  );
+}
+
+// ─── Momentum Indicator Component ─────────────────────────────────────────────
+
+function MomentumTideDisplay({ momentum }: { momentum: Record<string, number> | undefined }) {
+  if (!momentum) return null;
+
+  const sortedPlanets = Object.entries(momentum).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]));
+
+  return (
+    <div className="mt-8 space-y-4">
+      <div className="flex items-center gap-4">
+        <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">
+          Celestial Momentum (Tides)
+        </div>
+        <div className="flex-1 h-px bg-white/5" />
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        {sortedPlanets.map(([planet, value]) => {
+          const absVal = Math.abs(value);
+          const isAccelerating = value > 0;
+          const width = Math.min((absVal / 0.1) * 100, 100); // Scaling factor: 0.1 deg/hr is significant
+
+          return (
+            <div key={planet} className="p-3 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-md shadow-lg">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">{planet}</span>
+                <span className={`text-[10px] font-bold ${isAccelerating ? 'text-amber-400' : 'text-blue-400'}`}>
+                  {isAccelerating ? '↑' : '↓'}
+                </span>
+              </div>
+              <div className="text-sm font-black text-white tabular-nums mb-2">
+                {value.toFixed(4)}°/hr
+              </div>
+              <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                <motion.div 
+                  className={`h-full ${isAccelerating ? 'bg-amber-500' : 'bg-blue-500'}`}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${width}%` }}
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -654,6 +703,9 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
           )}
         </div>
       </div>
+
+      {/* ── Celestial Momentum (Tides) ── */}
+      <MomentumTideDisplay momentum={alchData?.planetaryMomentum} />
 
       {/* ── 4 Token Hero Cards ── */}
       <div>

@@ -59,6 +59,7 @@ export interface StandardizedAlchemicalResult {
   elementalProperties: ElementalProperties;
   thermodynamicProperties: ThermodynamicProperties;
   esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
+  planetaryMomentum: Record<string, number>;
   kalchm: number;
   monica: number;
   score: number;
@@ -190,13 +191,13 @@ function getPlanetaryDignity(planet: string, sign: string): number {
  * Core alchemize function that calculates alchemical properties from planetary positions
  * This is the proven implementation that produces meaningful, nonzero results
  *
- * @param planetaryPositions - Map of planet names to their zodiac positions
- * @param date - The moment being calculated (defaults to now). MUST be passed for
- *               historical/forecast calculations so the sect (day/night) is determined
- *               correctly for that moment rather than always using "now".
+ * @param planetaryPositions - CURRENT planetary positions
+ * @param historicalPositions - PREVIOUS planetary positions (for momentum calculation)
+ * @param date - The moment being calculated
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
+  historicalPositions: Record<string, PlanetaryPosition> | null = null,
   date: Date = new Date(),
 ): StandardizedAlchemicalResult {
   // Initialize totals
@@ -233,6 +234,9 @@ export function alchemize(
   // Using the provided `date` parameter ensures historical/forecast
   // calculations use the correct sect for that point in time.
   const diurnal = isSectDiurnal(date);
+  
+  // Momentum Tracking
+  const planetaryMomentum: Record<string, number> = {};
   // Elemental blending weights:
   //   60% from the planet's zodiac sign (WHERE it is — the medium)
   //   40% from the planet's sectarian element (WHAT it is — its nature)
@@ -269,6 +273,25 @@ export function alchemize(
     };
     addElement(signElement, SIGN_WEIGHT);
     addElement(sectElement, SECT_WEIGHT);
+
+    // Momentum Calculation: (Current Longitude - Historical Longitude) * Mass
+    // Using decimalDegrees for arc-minute precise difference.
+    if (historicalPositions && historicalPositions[planet]) {
+      const histPos = historicalPositions[planet];
+      // Note: handles 12*60=720 arc-minute / 360 degree wrap implicitly 
+      // as DecimalDegrees are typically 0-360.
+      let delta = (position.exactLongitude || (position.degree + position.minute/60)) - 
+                  (histPos.exactLongitude || (histPos.degree + histPos.minute/60));
+      
+      // Handle the 360 -> 0 wrap
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      
+      // Momentum = Velocity (delta) * Alchemical Mass (alchmWeight)
+      planetaryMomentum[planet] = delta * alchmWeight;
+    } else {
+      planetaryMomentum[planet] = 0;
+    }
   }
   // Calculate thermodynamic metrics using the exact formulas
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } =
@@ -346,6 +369,7 @@ export function alchemize(
       gregsEnergy,
     },
     esms: { Spirit, Essence, Matter, Substance },
+    planetaryMomentum,
     kalchm,
     monica,
     score,
@@ -427,8 +451,9 @@ export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
  */
 export function calculateAlchemicalProperties(
   positions: Record<string, PlanetaryPosition>,
+  historicalPositions: Record<string, PlanetaryPosition> | null = null,
 ): StandardizedAlchemicalResult {
-  return alchemize(positions);
+  return alchemize(positions, historicalPositions);
 }
 // Export the service as default
 export default {

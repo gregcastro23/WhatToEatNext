@@ -192,6 +192,7 @@ export const AlchmQuantitiesApiResponseSchema = z.object({
     esmsBalance: EsmsQuantitiesSchema,
   }),
   alchemical: EsmsQuantitiesSchema,
+  planetaryMomentum: z.record(z.string(), z.number()),
 });
 
 export type AlchmQuantitiesApiResponse = z.infer<
