@@ -48,6 +48,7 @@ export interface PlanetaryPosition {
   degree: number;
   minute: number;
   isRetrograde: boolean;
+  exactLongitude?: number;
 }
 export interface ThermodynamicProperties {
   heat: number;
@@ -246,14 +247,15 @@ export function alchemize(
   for (const [planet, position] of Object.entries(planetaryPositions)) {
     // Get planetary alchemical properties
     const alchemy = planetaryAlchemy[planet];
+    // Alchm weighting: orbital period (slower = deeper alchemical tide)
+    // SPECIAL CASE: The Ascendant is the "Physical Vessel" grounding constant (weight = 1.0)
+    // Declared here (outside if-alchemy) so alchmWeight is in scope for momentum calc below.
+    const period = PLANET_ALCHM_PERIODS[planet] ?? 1.0;
+    const alchmWeight = planet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);
     if (alchemy) {
       // Apply dignity modifier (existing ±0.15/level scale kept for RealAlchemize compat)
       const dignity = getPlanetaryDignity(planet, position.sign);
       const dignityMultiplier = Math.max(0.5, 1.0 + dignity * 0.15);
-      // Alchm weighting: orbital period (slower = deeper alchemical tide)
-      // SPECIAL CASE: The Ascendant is the "Physical Vessel" grounding constant (weight = 1.0)
-      const period = PLANET_ALCHM_PERIODS[planet] ?? 1.0;
-      const alchmWeight = planet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);
       totals.Spirit    += alchemy.Spirit    * dignityMultiplier * alchmWeight;
       totals.Essence   += alchemy.Essence   * dignityMultiplier * alchmWeight;
       totals.Matter    += alchemy.Matter    * dignityMultiplier * alchmWeight;
