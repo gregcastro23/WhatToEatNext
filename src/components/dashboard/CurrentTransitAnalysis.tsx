@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { NatalChart } from '@/types/natalChart';
+import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
 
 interface CurrentTransitAnalysisProps {
   natalChart: NatalChart;
@@ -194,10 +195,11 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
 
   const transitInsights = useMemo(() => {
     const insights: TransitInsight[] = [];
-    if (!natalChart.planetaryPositions) return insights;
+    const natalSigns = extractPlanetaryPositions(natalChart);
+    if (Object.keys(natalSigns).length === 0) return insights;
 
     for (const planet of PLANETS) {
-      const natalSign = natalChart.planetaryPositions[planet as keyof typeof natalChart.planetaryPositions];
+      const natalSign = natalSigns[planet];
       const transit = transitPositions[planet];
       if (!natalSign || !transit) continue;
 
