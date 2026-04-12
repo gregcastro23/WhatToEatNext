@@ -50,7 +50,7 @@ export async function getLivePricingContext(now = new Date()): Promise<LivePrici
     positions = getFallbackPlanetaryPositions();
   }
 
-  const alch = alchemize(asPlanetaryPositions(positions), now);
+  const alch = alchemize(asPlanetaryPositions(positions), null, now);
   const aNumber =
     Number(alch.esms.Spirit || 0) +
     Number(alch.esms.Essence || 0) +

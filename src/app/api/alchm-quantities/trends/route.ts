@@ -62,7 +62,7 @@ export async function GET() {
         // Calculate alchemical properties for this moment.
         // CRITICAL: pass timePoint so the sect (day/night) is correct for
         // that historical moment, not always "now".
-        const alchemicalResult = alchemize(planetaryPositions, timePoint);
+        const alchemicalResult = alchemize(planetaryPositions, null, timePoint);
 
         // Format time label
         const timeLabel =
