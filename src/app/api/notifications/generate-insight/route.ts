@@ -35,7 +35,20 @@ export async function POST(request: NextRequest) {
     (user as any).profile?.natal_chart ||
     (user as any).natalChart;
 
-  if (!natalChart || !natalChart.planetaryPositions) {
+  if (!natalChart) {
+    return NextResponse.json(
+      { success: false, message: "Complete your birth chart first to receive daily insights" },
+      { status: 400 },
+    );
+  }
+
+  const hasPositions = !!(
+    natalChart.planetaryPositions ||
+    natalChart.planets?.length > 0 ||
+    natalChart.Sun
+  );
+
+  if (!hasPositions) {
     return NextResponse.json(
       { success: false, message: "Complete your birth chart first to receive daily insights" },
       { status: 400 },

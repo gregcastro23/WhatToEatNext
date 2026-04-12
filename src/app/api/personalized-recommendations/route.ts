@@ -55,6 +55,18 @@ export async function POST(request: NextRequest) {
       Object.entries(natalChart.planetaryPositions).forEach(([planet, sign]) => {
         if (typeof sign === "string") natalPositions[planet] = sign;
       });
+    } else if (Array.isArray(natalChart?.planets)) {
+      natalChart.planets.forEach((p: any) => {
+        if (p?.name && p?.sign) natalPositions[p.name] = p.sign;
+      });
+    } else if (natalChart) {
+      // Try root properties
+      const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+      planets.forEach((planet) => {
+        const pos = natalChart[planet] || natalChart[planet.toLowerCase()];
+        if (typeof pos === "string") natalPositions[planet] = pos;
+        else if (pos?.sign) natalPositions[planet] = pos.sign;
+      });
     }
 
     // Current sky positions

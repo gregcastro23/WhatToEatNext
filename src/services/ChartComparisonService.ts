@@ -377,19 +377,43 @@ export async function compareCharts(
   // Calculate moment chart if not provided
   const moment = momentChart || (await calculateMomentChart());
 
+  // Safely extract planetary positions from legacy formats if needed
+  const safePlanetaryPositions = (() => {
+    if (natalChart.planetaryPositions && Object.keys(natalChart.planetaryPositions).length > 0) {
+      return natalChart.planetaryPositions;
+    }
+    const pos: Record<string, ZodiacSignType> = {} as any;
+    if (Array.isArray(natalChart.planets)) {
+      for (const p of natalChart.planets) {
+        if (p.name && p.sign) pos[p.name] = p.sign as ZodiacSignType;
+      }
+    } else {
+      const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+      planets.forEach((planet) => {
+        const p = (natalChart as any)[planet] || (natalChart as any)[planet.toLowerCase()];
+        if (typeof p === "string") pos[planet] = p as ZodiacSignType;
+        else if (p?.sign) pos[planet] = p.sign as ZodiacSignType;
+      });
+    }
+    return pos;
+  })();
+
+  const safeElementalBalance = (natalChart.elementalBalance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as ElementalProperties;
+  const safeAlchemicalProperties = natalChart.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 } as any;
+
   // Calculate individual harmony scores (cast to align ElementalProperties types)
   const elementalHarmony = calculateElementalHarmony(
-    natalChart.elementalBalance as ElementalProperties,
+    safeElementalBalance,
     moment.elementalBalance,
   );
 
   const alchemicalAlignment = calculateAlchemicalAlignment(
-    natalChart.alchemicalProperties,
+    safeAlchemicalProperties,
     moment.alchemicalProperties,
   );
 
   const planetaryResonance = calculatePlanetaryResonance(
-    natalChart.planetaryPositions,
+    safePlanetaryPositions,
     moment.planetaryPositions,
   );
 
@@ -402,16 +426,16 @@ export async function compareCharts(
   // Identify favorable and challenging elements
   const elementalDifferences: Record<Element, number> = {
     Fire: Math.abs(
-      natalChart.elementalBalance.Fire - moment.elementalBalance.Fire,
+      safeElementalBalance.Fire - moment.elementalBalance.Fire,
     ),
     Water: Math.abs(
-      natalChart.elementalBalance.Water - moment.elementalBalance.Water,
+      safeElementalBalance.Water - moment.elementalBalance.Water,
     ),
     Earth: Math.abs(
-      natalChart.elementalBalance.Earth - moment.elementalBalance.Earth,
+      safeElementalBalance.Earth - moment.elementalBalance.Earth,
     ),
     Air: Math.abs(
-      natalChart.elementalBalance.Air - moment.elementalBalance.Air,
+      safeElementalBalance.Air - moment.elementalBalance.Air,
     ),
   };
 
@@ -425,7 +449,7 @@ export async function compareCharts(
 
   // Identify harmonic planets
   const harmonicPlanets = getHarmonicPlanets(
-    natalChart.planetaryPositions,
+    safePlanetaryPositions,
     moment.planetaryPositions,
   );
 
