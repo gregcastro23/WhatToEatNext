@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { FaLock } from "react-icons/fa";
 import {
   LineChart,
   Line,
@@ -12,7 +13,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { usePremium } from "@/contexts/PremiumContext";
-import { FaLock } from "react-icons/fa";
 
 interface TrendPoint {
   date: string;

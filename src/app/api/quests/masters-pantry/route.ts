@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
 import { questService } from "@/services/QuestService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

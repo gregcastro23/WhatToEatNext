@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useReducer, useState } from "react";
-import { AstrologicalService } from "@/services/AstrologicalService";
 import { defaultState, _AlchemicalContext } from "./context";
 import type {
     // AlchemicalAction,

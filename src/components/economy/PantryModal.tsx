@@ -34,7 +34,7 @@ export function PantryModal({ open, onClose }: PantryModalProps) {
       setSuccess(null);
       setError(null);
       setFire(25); setWater(25); setEarth(25); setAir(25);
-      fetchIngredient();
+      void fetchIngredient();
     }
   }, [open]);
 
@@ -48,7 +48,7 @@ export function PantryModal({ open, onClose }: PantryModalProps) {
       } else {
         setError("Could not find an ingredient to classify.");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to fetch ingredient.");
     } finally {
       setLoading(false);
@@ -94,7 +94,7 @@ export function PantryModal({ open, onClose }: PantryModalProps) {
       } else {
         setError(data.error || "Failed to submit verification.");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An error occurred during submission.");
     } finally {
       setSubmitting(false);
@@ -121,7 +121,7 @@ export function PantryModal({ open, onClose }: PantryModalProps) {
           className="relative w-full max-w-md bg-[#0f0f13] border border-white/10 rounded-3xl p-6 shadow-2xl overflow-hidden"
         >
           <h2 className="text-xl font-black text-white uppercase tracking-wider mb-2">
-            The Master's Pantry
+            The Master&apos;s Pantry
           </h2>
           <p className="text-sm text-white/50 mb-6">
             Assign the elemental properties (summing to 100) for this ingredient. Earn 2 🝙 Matter.
@@ -137,7 +137,7 @@ export function PantryModal({ open, onClose }: PantryModalProps) {
               <p className="text-emerald-400 font-bold">{success}</p>
             </div>
           ) : ingredient ? (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={(e) => { void handleSubmit(e); }} className="space-y-6">
               <div className="bg-white/5 rounded-xl p-4 border border-white/5">
                 <h3 className="text-lg font-bold text-white">{ingredient.name}</h3>
                 <p className="text-xs text-white/50 mt-1">{ingredient.description}</p>

@@ -62,7 +62,7 @@ export default function DayNightEffectsPage() {
   };
 
   return (
-    <div className={`min-h-screen bg-[#08080e] text-white py-8 transition-colors duration-700`}>
+    <div className="min-h-screen bg-[#08080e] text-white py-8 transition-colors duration-700">
       <div className="max-w-6xl mx-auto px-4 animate-fade-in">
         <Link href="/profile" className={`${'text-white/60 hover:text-white'} transition-colors font-medium mb-6 inline-flex items-center gap-1 group`}>
           <span className="text-xl group-hover:-translate-x-1 transition-transform">&larr;</span> Back to Dashboard

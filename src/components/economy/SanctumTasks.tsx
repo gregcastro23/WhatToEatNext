@@ -19,10 +19,10 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BugReportModal } from './BugReportModal';
-import { PantryModal } from './PantryModal';
 import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
 import type { QuestPanelData, QuestProgress } from '@/types/economy';
+import { BugReportModal } from './BugReportModal';
+import { PantryModal } from './PantryModal';
 
 // ─── Quest slugs (must match migration 18) ───────────────────────────
 

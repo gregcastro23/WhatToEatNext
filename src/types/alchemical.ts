@@ -80,6 +80,7 @@ export type AlchemicalAction =
 
 export interface AlchemicalState {
   planetaryPositions: Record<string, unknown>;
+  historicalPositions?: Record<string, unknown>;
   normalizedPositions: Record<string, unknown>;
   elementalState: {
     Fire: number;

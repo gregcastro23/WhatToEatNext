@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { usePremium } from "@/contexts/PremiumContext";
+import { useState, useEffect } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
+import { usePremium } from "@/contexts/PremiumContext";
 import type { Recipe } from "@/types/recipe";
 
 export default function AdeptTablePage() {
@@ -31,7 +31,7 @@ export default function AdeptTablePage() {
   }, []);
 
   const copyLink = () => {
-    navigator.clipboard.writeText(link);
+    void navigator.clipboard.writeText(link);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -121,7 +121,7 @@ export default function AdeptTablePage() {
             {!composite ? (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card-premium rounded-3xl p-8 max-w-md mx-auto border-white/10">
                 <h2 className="text-2xl font-bold mb-6 text-center text-purple-400">Join the Table</h2>
-                <p className="text-sm text-white/50 mb-6 text-center">Enter your elemental resonance to calculate the group's Alchemical Midpoint.</p>
+                <p className="text-sm text-white/50 mb-6 text-center">Enter your elemental resonance to calculate the group&apos;s Alchemical Midpoint.</p>
                 <div className="space-y-4 mb-8">
                   {[
                     { label: "Fire", val: friendFire, set: setFriendFire, color: "text-amber-400" },

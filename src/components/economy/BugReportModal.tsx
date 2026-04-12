@@ -138,7 +138,7 @@ export function BugReportModal({ open, onClose }: BugReportModalProps) {
             <div className="flex items-center gap-3 mb-2">
               <span className="w-8 h-px bg-amber-500/40" />
               <span className="text-[9px] font-black text-amber-400/70 uppercase tracking-[0.4em]">
-                Sanctum Task · The Alchemist's Eye
+                Sanctum Task · The Alchemist&apos;s Eye
               </span>
             </div>
             <h2
@@ -154,10 +154,11 @@ export function BugReportModal({ open, onClose }: BugReportModalProps) {
 
             <form onSubmit={(e) => void handleSubmit(e)} className="space-y-4">
               <div>
-                <label className="block text-[9px] font-black text-white/40 uppercase tracking-[0.3em] mb-1.5">
+                <label htmlFor="bug-title" className="block text-[9px] font-black text-white/40 uppercase tracking-[0.3em] mb-1.5">
                   Title
                 </label>
                 <input
+                  id="bug-title"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -165,14 +166,14 @@ export function BugReportModal({ open, onClose }: BugReportModalProps) {
                   maxLength={255}
                   className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/10 rounded-xl text-sm text-white/90 placeholder-white/20 focus:outline-none focus:border-amber-500/40 transition-all"
                   required
-                  autoFocus
                 />
               </div>
               <div>
-                <label className="block text-[9px] font-black text-white/40 uppercase tracking-[0.3em] mb-1.5">
+                <label htmlFor="bug-desc" className="block text-[9px] font-black text-white/40 uppercase tracking-[0.3em] mb-1.5">
                   Description
                 </label>
                 <textarea
+                  id="bug-desc"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="What happened? What did you expect? Steps to reproduce."

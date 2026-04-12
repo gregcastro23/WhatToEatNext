@@ -108,7 +108,7 @@ function RecipesPageContent() {
       } else {
         setError(data.error || "Failed to refine recipes");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An error occurred while communicating with the Alchemical Oracle.");
     } finally {
       setIsRefining(false);
