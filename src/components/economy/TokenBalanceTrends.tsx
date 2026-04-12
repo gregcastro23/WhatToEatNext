@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   LineChart,
   Line,
@@ -129,6 +130,35 @@ export function TokenBalanceTrends() {
     return (
       <div className="flex justify-center items-center h-[340px] border border-white/5 rounded-3xl bg-white/[0.02]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400" />
+      </div>
+    );
+  }
+
+  const isEmpty =
+    data.length > 0 &&
+    data.every(
+      (d) => d.Spirit === 0 && d.Essence === 0 && d.Matter === 0 && d.Substance === 0,
+    );
+
+  if (isEmpty) {
+    return (
+      <div className="border border-white/5 rounded-3xl bg-white/[0.02] p-8 text-center">
+        <p className="text-[11px] uppercase tracking-wider opacity-60 text-white font-bold mb-4">
+          Personal Transmutation Ledger (7 Days)
+        </p>
+        <div className="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-4">
+          <span className="text-2xl">🝇</span>
+        </div>
+        <p className="text-white font-semibold mb-1">No token history yet</p>
+        <p className="text-white/50 text-sm mb-6 max-w-xs mx-auto">
+          Claim your first daily cosmic yield to begin building your transmutation ledger.
+        </p>
+        <Link
+          href="/quantities?tab=economy&claim=true"
+          className="inline-block px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest bg-gradient-to-r from-amber-500 to-amber-600 text-black shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all"
+        >
+          Claim Now
+        </Link>
       </div>
     );
   }

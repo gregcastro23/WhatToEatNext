@@ -76,7 +76,8 @@ export const authConfig = {
       const isProtected =
         pathname.startsWith("/profile") ||
         pathname.startsWith("/onboarding") ||
-        pathname.startsWith("/admin");
+        pathname.startsWith("/admin") ||
+        pathname.startsWith("/quantities");
 
       // Routes that require premium tier (authenticated users without premium
       // get redirected to /upgrade instead of seeing errors)

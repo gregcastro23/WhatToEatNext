@@ -186,6 +186,18 @@ function getPlanetaryDignity(planet: string, sign: string): number {
   if (!planetMap) return 0;
   return planetMap[sign.toLowerCase()] || 0;
 }
+// Zodiac signs in ecliptic order — used for degree-based sign transition blending.
+const ZODIAC_ORDER: string[] = [
+  "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+  "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
+];
+
+function getNextSign(sign: string): string {
+  const idx = ZODIAC_ORDER.indexOf(sign.toLowerCase());
+  if (idx === -1) return sign;
+  return ZODIAC_ORDER[(idx + 1) % 12];
+}
+
 /**
  * Core alchemize function that calculates alchemical properties from planetary positions
  * This is the proven implementation that produces meaningful, nonzero results
@@ -240,12 +252,23 @@ export function alchemize(
   const SECT_WEIGHT = 0.4;
   // Process each planet
   for (const [planet, position] of Object.entries(planetaryPositions)) {
+    // Degree-based sign transition factor (0 = just entered sign, ~1 = about to leave).
+    // Blends the current sign's influence with the next sign's influence as the planet
+    // moves through its 30° arc. This makes ESMS values change continuously, enabling
+    // non-zero velocity/acceleration/momentum in kinetic calculations.
+    const degreeProgress = Math.min(1, (position.degree + position.minute / 60) / 30);
+    const nextSign = getNextSign(position.sign);
+
     // Get planetary alchemical properties
     const alchemy = planetaryAlchemy[planet];
     if (alchemy) {
-      // Apply dignity modifier (existing ±0.15/level scale kept for RealAlchemize compat)
+      // Blend dignity modifier between the current sign and the approaching next sign.
       const dignity = getPlanetaryDignity(planet, position.sign);
-      const dignityMultiplier = Math.max(0.5, 1.0 + dignity * 0.15);
+      const nextDignity = getPlanetaryDignity(planet, nextSign);
+      const currentDignityMul = Math.max(0.5, 1.0 + dignity * 0.15);
+      const nextDignityMul = Math.max(0.5, 1.0 + nextDignity * 0.15);
+      const dignityMultiplier =
+        (1 - degreeProgress) * currentDignityMul + degreeProgress * nextDignityMul;
       // Alchm weighting: orbital period (slower = deeper alchemical tide)
       // SPECIAL CASE: The Ascendant is the "Physical Vessel" grounding constant (weight = 1.0)
       const period = PLANET_ALCHM_PERIODS[planet] ?? 1.0;
@@ -256,18 +279,22 @@ export function alchemize(
       totals.Substance += alchemy.Substance * dignityMultiplier * alchmWeight;
     }
     // Elemental contribution — blend of zodiac sign element and sectarian element.
-    // Sign element: the element of the sign the planet currently occupies.
+    // Current sign contributes (1 - degreeProgress) of SIGN_WEIGHT; next sign
+    // contributes degreeProgress of SIGN_WEIGHT. This means elemental mix shifts
+    // smoothly as each planet orbits, so the sky's elemental profile is always live.
     const signElement = getZodiacElement(position.sign);
+    const nextSignElement = getZodiacElement(nextSign);
     // Sectarian element: the planet's own elemental nature under the current sect.
     const sectElement = getPlanetarySectElement(planet, diurnal);
-    // Apply both weights (total weight per planet remains 1.0)
+    // Apply all weights (total weight per planet remains 1.0)
     const addElement = (el: string, weight: number) => {
       if (el === "Fire") totals.Fire += weight;
       else if (el === "Water") totals.Water += weight;
       else if (el === "Air") totals.Air += weight;
       else if (el === "Earth") totals.Earth += weight;
     };
-    addElement(signElement, SIGN_WEIGHT);
+    addElement(signElement, (1 - degreeProgress) * SIGN_WEIGHT);
+    addElement(nextSignElement, degreeProgress * SIGN_WEIGHT);
     addElement(sectElement, SECT_WEIGHT);
   }
   // Calculate thermodynamic metrics using the exact formulas

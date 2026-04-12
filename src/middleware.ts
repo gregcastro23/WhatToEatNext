@@ -24,5 +24,6 @@ export const config = {
     "/admin/:path*",
     "/recipe-generator/:path*",
     "/planetary-chart/:path*",
+    "/quantities/:path*",
   ],
 };

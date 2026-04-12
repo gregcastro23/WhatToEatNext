@@ -95,21 +95,25 @@ export async function GET() {
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
     const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
 
-    let nowPositions: Record<string, any>;
-    let prevPositions: Record<string, any>;
-    let prev2Positions: Record<string, any>;
-    try {
-      nowPositions = await calculatePlanetaryPositions(now);
-      prevPositions = await calculatePlanetaryPositions(oneHourAgo);
-      prev2Positions = await calculatePlanetaryPositions(twoHoursAgo);
-    } catch (error) {
-      logger.warn("Using fallback planetary positions for /api/alchm-quantities", {
-        error: error instanceof Error ? error.message : String(error),
-      });
-      nowPositions = getFallbackPlanetaryPositions();
-      prevPositions = getFallbackPlanetaryPositions();
-      prev2Positions = getFallbackPlanetaryPositions();
-    }
+    // Fetch positions for each time point independently so a single failure does not
+    // collapse all three snapshots into the same static fallback — which would make
+    // velocity/acceleration/momentum identically zero.
+    const safeGetPositions = async (date: Date): Promise<Record<string, any>> => {
+      try {
+        return await calculatePlanetaryPositions(date);
+      } catch (error) {
+        logger.warn(`Using fallback planetary positions for ${date.toISOString()}`, {
+          error: error instanceof Error ? error.message : String(error),
+        });
+        return getFallbackPlanetaryPositions();
+      }
+    };
+
+    const [nowPositions, prevPositions, prev2Positions] = await Promise.all([
+      safeGetPositions(now),
+      safeGetPositions(oneHourAgo),
+      safeGetPositions(twoHoursAgo),
+    ]);
 
     const nowAlch = alchemize(asPlanetaryPositions(nowPositions), now);
     const prevAlch = alchemize(asPlanetaryPositions(prevPositions), oneHourAgo);
