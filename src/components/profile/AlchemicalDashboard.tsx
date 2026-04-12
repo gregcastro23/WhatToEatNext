@@ -1,4 +1,5 @@
 import React from 'react';
+import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
 
 interface AlchemicalDashboardProps {
   data: any;
@@ -56,15 +57,14 @@ function normalizeData(data: any) {
 
     // Build positions from the chart's planetaryPositions (Record<Planet, ZodiacSign>)
     // or from the planets array
+    const rawPositions = extractPlanetaryPositions(chart);
     const positions: Record<string, any> = {};
-    if (chart.planetaryPositions && typeof chart.planetaryPositions === 'object') {
-      // If values are simple strings (sign names), wrap them
-      for (const [planet, val] of Object.entries(chart.planetaryPositions)) {
-        if (typeof val === 'string') {
-          positions[planet] = { sign: val, degree: 0, minute: 0 };
-        } else {
-          positions[planet] = val;
-        }
+    
+    for (const [planet, val] of Object.entries(rawPositions)) {
+      if (typeof val === 'string') {
+        positions[planet] = { sign: val, degree: 0, minute: 0 };
+      } else {
+        positions[planet] = val;
       }
     }
 

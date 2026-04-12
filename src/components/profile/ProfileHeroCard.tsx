@@ -3,6 +3,7 @@
 import React from 'react';
 import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
+import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
 
 interface ProfileHeroCardProps {
   userName: string;
@@ -64,8 +65,8 @@ function CosmicSigil({ natalChart }: { natalChart: NatalChart }) {
           </g>
         );
       })}
-      <circle cx={cx} cy={cy} r="3" fill="#a78bfa" />
-      <circle cx={cx} cy={cy} r="1.5" fill="white" opacity="0.9" />
+      <circle cx={cx} cy={cy} r={3} fill="#a78bfa" />
+      <circle cx={cx} cy={cy} r={1.5} fill="white" opacity="0.9" />
     </svg>
   );
 }
@@ -78,8 +79,9 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
   onEditProfile,
   onOpenSettings,
 }) => {
-  const sunSign = (natalChart.planetaryPositions?.Sun || '') as string;
-  const moonSign = (natalChart.planetaryPositions?.Moon || '') as string;
+  const natalPositions = extractPlanetaryPositions(natalChart);
+  const sunSign = (natalPositions.Sun || '') as string;
+  const moonSign = (natalPositions.Moon || '') as string;
   const ascendant = (natalChart.ascendant || '') as string;
 
   const sunPlanet = natalChart.planets?.find(p => p.name === 'Sun');
@@ -144,7 +146,7 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
               <div className="group/planet">
                 <div className="text-white/20 text-[9px] font-black uppercase tracking-[0.3em] mb-2 group-hover/planet:text-amber-400 transition-colors">Sun</div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)] group-hover/planet:scale-110 transition-transform duration-500">{SIGN_SYMBOLS[sunSign] || ''}</span>
+                  <span className="text-3xl text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)] group-hover/planet:scale-110 transition-transform duration-500">{SIGN_SYMBOLS[sunSign.toLowerCase()] || ''}</span>
                   <span className="text-white font-black capitalize text-2xl tracking-tighter group-hover/planet:text-amber-50 transition-colors">{sunSign}</span>
                 </div>
                 <div className="text-white/20 font-mono text-[10px] mt-1.5 tracking-tighter opacity-70">{formatDeg(sunPlanet?.position)} Ascendant</div>
@@ -153,7 +155,7 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
               <div className="group/planet">
                 <div className="text-white/20 text-[9px] font-black uppercase tracking-[0.3em] mb-2 group-hover/planet:text-blue-400 transition-colors">Moon</div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)] group-hover/planet:scale-110 transition-transform duration-500">{SIGN_SYMBOLS[moonSign] || ''}</span>
+                  <span className="text-3xl text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)] group-hover/planet:scale-110 transition-transform duration-500">{SIGN_SYMBOLS[moonSign.toLowerCase()] || ''}</span>
                   <span className="text-white font-black capitalize text-2xl tracking-tighter group-hover/planet:text-blue-50 transition-colors">{moonSign}</span>
                 </div>
                 <div className="text-white/20 font-mono text-[10px] mt-1.5 tracking-tighter opacity-70">{formatDeg(moonPlanet?.position)} Nocturnal</div>
@@ -162,7 +164,7 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
               <div className="group/planet">
                 <div className="text-white/20 text-[9px] font-black uppercase tracking-[0.3em] mb-2 group-hover/planet:text-purple-400 transition-colors">Rising</div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl text-purple-400 drop-shadow-[0_0_15px_rgba(167,139,250,0.6)] group-hover/planet:scale-110 transition-transform duration-500">{SIGN_SYMBOLS[ascendant] || ''}</span>
+                  <span className="text-3xl text-purple-400 drop-shadow-[0_0_15px_rgba(167,139,250,0.6)] group-hover/planet:scale-110 transition-transform duration-500">{SIGN_SYMBOLS[ascendant.toLowerCase()] || ''}</span>
                   <span className="text-white font-black capitalize text-2xl tracking-tighter group-hover/planet:text-purple-50 transition-colors">{ascendant}</span>
                 </div>
                 <div className="text-white/20 font-mono text-[10px] mt-1.5 tracking-tighter opacity-70">{formatDeg(ascPlanet?.position)} Horizon</div>

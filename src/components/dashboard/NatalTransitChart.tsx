@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { NatalChart, Planet, ZodiacSignType } from '@/types/natalChart';
+import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
 
 interface NatalTransitChartProps {
   natalChart: NatalChart;
@@ -93,20 +94,20 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
 
   // Build natal positions
   const natalPositions: Array<{ planet: string; sign: string; degree: number; absAngle: number }> = [];
-  if (natalChart.planetaryPositions) {
-    for (const planet of PLANETS) {
-      const sign = natalChart.planetaryPositions[planet];
-      if (!sign) continue;
-      const planetInfo = natalChart.planets?.find(p => p.name === planet);
-      const rawPos = planetInfo?.position ?? 0;
-      const deg = rawPos > 0 ? rawPos % 30 : 15;
-      natalPositions.push({
-        planet,
-        sign: typeof sign === 'string' ? sign : '',
-        degree: deg,
-        absAngle: toAbsoluteAngle(typeof sign === 'string' ? sign : '', deg),
-      });
-    }
+  const natalSigns = extractPlanetaryPositions(natalChart);
+  
+  for (const planet of PLANETS) {
+    const sign = natalSigns[planet];
+    if (!sign) continue;
+    const planetInfo = natalChart.planets?.find(p => p.name === planet);
+    const rawPos = planetInfo?.position ?? 0;
+    const deg = rawPos > 0 ? rawPos % 30 : 15;
+    natalPositions.push({
+      planet,
+      sign: typeof sign === 'string' ? sign : '',
+      degree: deg,
+      absAngle: toAbsoluteAngle(typeof sign === 'string' ? sign : '', deg),
+    });
   }
 
   // Build transit positions
@@ -280,7 +281,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
         <h4 className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3">Natal Placements</h4>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
           {PLANETS.map((planet) => {
-            const sign = natalChart.planetaryPositions?.[planet];
+            const sign = natalSigns[planet];
             if (!sign) return null;
             const signStr = typeof sign === 'string' ? sign : '';
             const planetInfo = natalChart.planets?.find(p => p.name === planet);

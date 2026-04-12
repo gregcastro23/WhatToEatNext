@@ -263,7 +263,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 (dbUser)?.profile?.natalChart ||
                 (dbUser)?.profile?.natal_chart;
 
-              if (isPremium && natalChart?.planetaryPositions) {
+              const hasPositions = !!(
+                natalChart?.planetaryPositions ||
+                natalChart?.planets?.length > 0 ||
+                natalChart?.Sun
+              );
+
+              if (isPremium && hasPositions) {
                 import("@/services/dailyInsightService").then(({ generateDailyInsightNotification }) => {
                   generateDailyInsightNotification(dbUser!.id, natalChart).catch(() => {});
                 }).catch(() => {});

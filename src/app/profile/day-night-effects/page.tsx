@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useProfile } from '@/hooks/useProfile';
+import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
 import { PLANETARY_SECTARIAN_ELEMENTS, PLANETARY_SECTARIAN_ESMS, isSectDiurnal, calculateEnhancedAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
 
 export default function DayNightEffectsPage() {
@@ -39,6 +40,7 @@ export default function DayNightEffectsPage() {
   }
 
   const natalChart = profileData.natalChart;
+  const natalPositions = extractPlanetaryPositions(natalChart);
   
   // Calculate user's natal sect using the birth time if available
   const birthDate = natalChart.birthData?.dateTime ? new Date(natalChart.birthData.dateTime) : new Date();
@@ -46,7 +48,7 @@ export default function DayNightEffectsPage() {
 
   // Get alchemical properties for current view
   const currentAlchemical = calculateEnhancedAlchemicalFromPlanets(
-    natalChart.planetaryPositions || {}, 
+    natalPositions, 
     viewDiurnal
   );
 
@@ -85,7 +87,7 @@ export default function DayNightEffectsPage() {
               <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6 shadow-sm transition-all duration-700 ${
                 viewDiurnal ? 'bg-white/80 text-amber-700 border border-amber-200' : 'bg-white/10 text-indigo-200 border border-indigo-500/30 backdrop-blur-md'
               }`}>
-                {viewDiurnal ? '&#x2600;&#xFE0F; Diurnal Sect (Day)' : '&#x263E;&#xFE0F; Nocturnal Sect (Night)'}
+                {viewDiurnal ? '☀️ Diurnal Sect (Day)' : '🌙 Nocturnal Sect (Night)'}
               </div>
               
               <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight drop-shadow-sm">Sectarian Resonance</h1>
@@ -102,7 +104,7 @@ export default function DayNightEffectsPage() {
                   : 'bg-white/10 text-white hover:bg-white/20 border-white/20 shadow-white/5'
               }`}
             >
-              <span className="text-3xl">{viewDiurnal ? '&#x1F319;' : '&#x2600;&#xFE0F;'}</span>
+              <span className="text-3xl">{viewDiurnal ? '🌙' : '☀️'}</span>
               <span>Switch to {viewDiurnal ? 'Night' : 'Day'}</span>
             </button>
           </div>

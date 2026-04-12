@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { NatalTransitChart } from '@/components/dashboard/NatalTransitChart';
 import { useProfile } from '@/hooks/useProfile';
+import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
 
 export default function BirthChartPage() {
   const { profileData, isLoading } = useProfile();
@@ -34,9 +35,10 @@ export default function BirthChartPage() {
   }
 
   const natalChart = profileData.natalChart;
+  const natalPositions = extractPlanetaryPositions(natalChart);
 
-  const sunSign = natalChart.planetaryPositions?.Sun;
-  const moonSign = natalChart.planetaryPositions?.Moon;
+  const sunSign = natalPositions.Sun;
+  const moonSign = natalPositions.Moon;
   const rising = natalChart.ascendant;
 
   return (
@@ -111,7 +113,7 @@ export default function BirthChartPage() {
             </h3>
             <div className="grid grid-cols-2 gap-4">
               {(['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] as const).map((planet) => {
-                const sign = natalChart.planetaryPositions?.[planet];
+                const sign = natalPositions[planet];
                 if (!sign) return null;
                 const signStr = typeof sign === 'string' ? sign : '';
                 return (

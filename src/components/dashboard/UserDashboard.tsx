@@ -16,6 +16,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { reportQuestEvent } from '@/lib/questReporter';
 import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
+import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
 import type { SavedRestaurant } from '@/types/restaurant';
 import { CommensalManager } from './CommensalManager';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';
@@ -77,10 +78,11 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
     return () => clearInterval(interval);
   }, []);
 
+  const natalPositions = extractPlanetaryPositions(natalChart);
   const sunData = currentPositionsRaw?.sun as any;
   const moonData = currentPositionsRaw?.moon as any;
-  const transitSunSign = (sunData?.sign || natalChart.planetaryPositions?.Sun || '') as string;
-  const transitMoonSign = (moonData?.sign || natalChart.planetaryPositions?.Moon || '') as string;
+  const transitSunSign = (sunData?.sign || natalPositions.Sun || '') as string;
+  const transitMoonSign = (moonData?.sign || natalPositions.Moon || '') as string;
 
   const sunDeg = sunData?.degree != null ? `${Math.floor(sunData.degree % 30)}\u00B0` : '';
   const moonDeg = moonData?.degree != null ? `${Math.floor(moonData.degree % 30)}\u00B0` : '';
@@ -297,8 +299,9 @@ function SettingsPanel({
 /* ─── Birth Chart Section ────────────────────────────────── */
 
 function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
-  const sunSign = (natalChart.planetaryPositions?.Sun || '') as string;
-  const moonSign = (natalChart.planetaryPositions?.Moon || '') as string;
+  const natalPositions = extractPlanetaryPositions(natalChart);
+  const sunSign = (natalPositions.Sun || '') as string;
+  const moonSign = (natalPositions.Moon || '') as string;
   const rising = (natalChart.ascendant || '') as string;
 
   const findPlanet = (name: string) => natalChart.planets?.find(p => p.name === name);
@@ -340,7 +343,7 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }) {
       {/* Remaining planets */}
       <div className="grid grid-cols-4 gap-2">
         {(['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] as const).map((planet) => {
-          const sign = natalChart.planetaryPositions?.[planet];
+          const sign = natalPositions[planet];
           if (!sign) return null;
           const signStr = typeof sign === 'string' ? sign : '';
           const pos = formatDegreeMinute(findPlanet(planet)?.position);
