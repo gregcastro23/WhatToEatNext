@@ -182,7 +182,9 @@ function getPlanetaryDignity(planet: string, sign: string): number {
       aquarius: -2,
     },
   };
-  return dignityMap[planet][sign.toLowerCase()] || 0;
+  const planetMap = dignityMap[planet];
+  if (!planetMap) return 0;
+  return planetMap[sign.toLowerCase()] || 0;
 }
 /**
  * Core alchemize function that calculates alchemical properties from planetary positions

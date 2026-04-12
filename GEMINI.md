@@ -48,6 +48,21 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 - ✅ **JWT Strategy**: 30-day sessions, updated once per day
 - ✅ **Admin Detection**: First user or `AUTH_ADMIN_EMAIL` gets `ADMIN` role
 
+#### **UI / UX Overhaul**
+- ✅ **Alchemical Dark Theme**: Upgraded the entire application interface to a cohesive, glassmorphism-based dark theme (`bg-[#08080e]`) with ambient glowing orbs, creating a rich, premium aesthetic.
+- ✅ **Unified Styling**: Standardized cards, headers, buttons, and layouts across all feature pages (Recipes, Premium, Profile, Quantities, Birth Chart, etc.) to match the new "deep space" look.
+
+---
+
+## 🔮 Plans & Remaining Work for 2.0
+
+Even with our solid database, system, and UI framework, we are tracking several initiatives to fully realize the 2.0 vision:
+
+- **Enhanced Personalization Engine**: Fine-tuning the ESMS (Spirit, Essence, Matter, Substance) token yields based on live planetary transits.
+- **Economy Integration**: Expanding the Token Economy's quest mechanics and daily alignments.
+- **Additional Cuisines & Cultural Rigor**: Continuing to build out underrepresented cuisines with authentic recipes and balanced thermodynamic properties.
+- **Performance & Testing**: Expanding test coverage and performance monitoring dashboards to maintain zero TypeScript errors and ensure rapid response times.
+
 ---
 
 ## Core Architecture

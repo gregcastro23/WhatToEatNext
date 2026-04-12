@@ -255,7 +255,8 @@ export async function GET() {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    logger.error("Failed to compute /api/alchm-quantities", { error: message });
+    const stack = error instanceof Error ? error.stack : "No stack";
+    logger.error("Failed to compute /api/alchm-quantities", { error: message, stack });
     return NextResponse.json(
       {
         success: false,
