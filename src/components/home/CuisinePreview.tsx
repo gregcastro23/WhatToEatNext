@@ -96,7 +96,7 @@ export default function CuisinePreview() {
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
   const fetchRecommendations = React.useCallback(() => {
-    fetch("/api/cuisines/recommend")
+    void fetch("/api/cuisines/recommend")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch cuisine recommendations");
         return res.json();

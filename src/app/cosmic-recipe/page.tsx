@@ -38,6 +38,3 @@ export default function CosmicRecipePage() {
     </div>
   );
 }
-iv>
-  );
-}

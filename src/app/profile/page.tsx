@@ -896,7 +896,7 @@ export default function ProfilePage() {
       localStorage.setItem('userFoodPreferences', JSON.stringify(updatedPrefs));
       localStorage.setItem('preferencesCompleted', 'true');
     }
-    fetch('/api/user/profile', {
+    void fetch('/api/user/profile', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -910,7 +910,7 @@ export default function ProfilePage() {
       !!updatedPrefs.spicePreference &&
       !!updatedPrefs.complexity;
     if (essentialsFilled) {
-      fetch('/api/quests', {
+      void fetch('/api/quests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
