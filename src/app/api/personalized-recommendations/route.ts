@@ -10,6 +10,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import type { Planet, ZodiacSignType } from "@/types/celestial";
+import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -51,21 +52,10 @@ export async function POST(request: NextRequest) {
     const natalChart = (user?.profile as any)?.natalChart ?? null;
     const natalPositions: Record<string, string> = {};
 
-    if (natalChart?.planetaryPositions) {
-      Object.entries(natalChart.planetaryPositions).forEach(([planet, sign]) => {
+    if (natalChart) {
+      const signs = extractPlanetaryPositions(natalChart);
+      Object.entries(signs).forEach(([planet, sign]) => {
         if (typeof sign === "string") natalPositions[planet] = sign;
-      });
-    } else if (Array.isArray(natalChart?.planets)) {
-      natalChart.planets.forEach((p: any) => {
-        if (p?.name && p?.sign) natalPositions[p.name] = p.sign;
-      });
-    } else if (natalChart) {
-      // Try root properties
-      const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
-      planets.forEach((planet) => {
-        const pos = natalChart[planet] || natalChart[planet.toLowerCase()];
-        if (typeof pos === "string") natalPositions[planet] = pos;
-        else if (pos?.sign) natalPositions[planet] = pos.sign;
       });
     }
 

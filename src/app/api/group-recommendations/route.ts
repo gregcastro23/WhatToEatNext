@@ -5,6 +5,7 @@ import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { AlchemicalProperties } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
+import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
@@ -113,15 +114,6 @@ export async function POST(request: NextRequest) {
       linkedUserIds?: string[];
       strategy?: "average" | "minimum" | "consensus";
     };
-    const extractPositions = (chart: any) => {
-      const pos = chart?.planetaryPositions || chart || {};
-      if (!chart?.planetaryPositions && Array.isArray(chart?.planets)) {
-        for (const p of chart.planets) {
-          if (p.name && p.sign) pos[p.name] = p.sign;
-        }
-      }
-      return pos;
-    };
 
     // Collect elemental + alchemical data from all group members
     const elementalList: ElementalProperties[] = [];
@@ -132,7 +124,7 @@ export async function POST(request: NextRequest) {
     if (ownerChart) {
       const el = (ownerChart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
       const diurnal = ownerChart.birthData?.dateTime ? isSectDiurnal(new Date(ownerChart.birthData.dateTime)) : true;
-      const alch = (ownerChart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPositions(ownerChart), diurnal)) as any;
+      const alch = (ownerChart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(ownerChart), diurnal)) as any;
       elementalList.push(el);
       alchemicalList.push(alch);
       memberInfo.push({ id: userId, name: currentUser.profile.name ?? "You", element: dominantElement(el) });
@@ -146,7 +138,7 @@ export async function POST(request: NextRequest) {
         if (!chart) continue;
         const el = (chart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
         const diurnal = chart.birthData?.dateTime ? isSectDiurnal(new Date(chart.birthData.dateTime)) : true;
-        const alch = (chart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPositions(chart), diurnal)) as any;
+        const alch = (chart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(chart), diurnal)) as any;
         elementalList.push(el);
         alchemicalList.push(alch);
         memberInfo.push({ id: commensal.id, name: commensal.name, element: dominantElement(el) });
@@ -162,7 +154,7 @@ export async function POST(request: NextRequest) {
           if (!chart) continue;
           const el = (chart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
           const diurnal = chart.birthData?.dateTime ? isSectDiurnal(new Date(chart.birthData.dateTime)) : true;
-          const alch = (chart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPositions(chart), diurnal)) as any;
+          const alch = (chart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(chart), diurnal)) as any;
           elementalList.push(el);
           alchemicalList.push(alch);
           memberInfo.push({ id: friend.userId, name: friend.name, element: dominantElement(el) });

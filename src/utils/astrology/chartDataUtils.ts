@@ -11,7 +11,7 @@ export function extractPlanetaryPositions(natalChart: NatalChart): Record<string
   
   // 1. Try modern format (planetaryPositions object)
   if (natalChart.planetaryPositions && Object.keys(natalChart.planetaryPositions).length > 0) {
-    return natalChart.planetaryPositions as Record<string, ZodiacSignType>;
+    return natalChart.planetaryPositions;
   }
   
   const positions: Record<string, ZodiacSignType> = {};
@@ -20,7 +20,7 @@ export function extractPlanetaryPositions(natalChart: NatalChart): Record<string
   if (Array.isArray(natalChart.planets) && natalChart.planets.length > 0) {
     natalChart.planets.forEach(p => {
       if (p.name && p.sign) {
-        positions[p.name] = p.sign as ZodiacSignType;
+        positions[p.name] = p.sign;
       }
     });
     if (Object.keys(positions).length > 0) return positions;
@@ -33,7 +33,7 @@ export function extractPlanetaryPositions(natalChart: NatalChart): Record<string
     if (typeof p === "string") {
       positions[planet] = p as ZodiacSignType;
     } else if (p?.sign) {
-      positions[planet] = p.sign as ZodiacSignType;
+      positions[planet] = p.sign;
     }
   });
   

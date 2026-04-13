@@ -18,6 +18,7 @@ import type {
 } from "@/types/alchemy";
 import type { Planet, ZodiacSignType, Element } from "@/types/celestial";
 import type { NatalChart } from "@/types/natalChart";
+import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import {
   calculateAlchemicalFromPlanets,
@@ -378,25 +379,7 @@ export async function compareCharts(
   const moment = momentChart || (await calculateMomentChart());
 
   // Safely extract planetary positions from legacy formats if needed
-  const safePlanetaryPositions = (() => {
-    if (natalChart.planetaryPositions && Object.keys(natalChart.planetaryPositions).length > 0) {
-      return natalChart.planetaryPositions;
-    }
-    const pos: Record<string, ZodiacSignType> = {} as any;
-    if (Array.isArray(natalChart.planets)) {
-      for (const p of natalChart.planets) {
-        if (p.name && p.sign) pos[p.name] = p.sign as ZodiacSignType;
-      }
-    } else {
-      const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
-      planets.forEach((planet) => {
-        const p = (natalChart as any)[planet] || (natalChart as any)[planet.toLowerCase()];
-        if (typeof p === "string") pos[planet] = p as ZodiacSignType;
-        else if (p?.sign) pos[planet] = p.sign as ZodiacSignType;
-      });
-    }
-    return pos;
-  })();
+  const safePlanetaryPositions = extractPlanetaryPositions(natalChart);
 
   const safeElementalBalance = (natalChart.elementalBalance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as ElementalProperties;
   const safeAlchemicalProperties = natalChart.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 } as any;

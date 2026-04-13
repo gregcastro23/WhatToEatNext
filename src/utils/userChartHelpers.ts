@@ -14,8 +14,7 @@ import type {
   PersonalizationContext,
 } from "@/services/PersonalizedRecommendationService";
 import { userDatabase } from "@/services/userDatabaseService";
-import type { NatalChart, ZodiacSignType } from "@/types/natalChart";
-import { extractPlanetaryPositions } from "./astrology/chartDataUtils";
+import type { NatalChart } from "@/types/natalChart";
 
 /**
  * Get user's natal chart by user ID

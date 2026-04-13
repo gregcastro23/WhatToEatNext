@@ -11,6 +11,7 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { dailyYieldService } from "@/services/DailyYieldService";
 import { subscriptionService } from "@/services/subscriptionService";
 import type { ClaimDailyResponse } from "@/types/economy";
+import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -38,32 +39,14 @@ export async function POST(request: NextRequest) {
   }
 
   // Build planet → sign map from natal chart
-  // The natal chart stores positions as { Sun: { sign: "Gemini", ... }, ... }
+  const signs = extractPlanetaryPositions(natalChart);
   const natalPositions: Record<string, string> = {};
-  const chartData = typeof natalChart === "string" ? JSON.parse(natalChart) : natalChart;
   
-  // Also try to extract from a planets array if planetaryPositions isn't available
-  const positionsData = chartData.planetaryPositions || chartData;
-  if (!chartData.planetaryPositions && Array.isArray(chartData.planets)) {
-    for (const p of chartData.planets) {
-      if (p.name && p.sign) {
-        positionsData[p.name] = p.sign;
-      }
+  Object.entries(signs).forEach(([planet, sign]) => {
+    if (typeof sign === "string") {
+      natalPositions[planet] = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
     }
-  }
-
-  // Extract sign from each planet's position data
-  const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
-  for (const planet of planets) {
-    const position = positionsData[planet] || positionsData[planet.toLowerCase()];
-    if (position) {
-      const sign = typeof position === "string" ? position : position.sign;
-      if (sign) {
-        // Capitalize first letter for consistency
-        natalPositions[planet] = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
-      }
-    }
-  }
+  });
 
   if (Object.keys(natalPositions).length === 0) {
     return NextResponse.json(
