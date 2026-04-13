@@ -16,7 +16,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { reportQuestEvent } from '@/lib/questReporter';
 import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
-import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
+import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 import type { SavedRestaurant } from '@/types/restaurant';
 import { CommensalManager } from './CommensalManager';
 import { CurrentTransitAnalysis } from './CurrentTransitAnalysis';

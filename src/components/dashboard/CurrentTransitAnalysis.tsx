@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { NatalChart } from '@/types/natalChart';
-import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
+import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 
 interface CurrentTransitAnalysisProps {
   natalChart: NatalChart;

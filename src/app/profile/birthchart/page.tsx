@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { NatalTransitChart } from '@/components/dashboard/NatalTransitChart';
 import { useProfile } from '@/hooks/useProfile';
-import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
+import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 
 export default function BirthChartPage() {
   const { profileData, isLoading } = useProfile();

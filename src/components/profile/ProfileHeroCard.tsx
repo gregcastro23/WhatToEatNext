@@ -3,7 +3,7 @@
 import React from 'react';
 import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
-import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
+import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 
 interface ProfileHeroCardProps {
   userName: string;

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useProfile } from '@/hooks/useProfile';
-import { extractPlanetaryPositions } from '@/utils/userChartHelpers';
+import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 import { PLANETARY_SECTARIAN_ELEMENTS, PLANETARY_SECTARIAN_ESMS, isSectDiurnal, calculateEnhancedAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
 
 export default function DayNightEffectsPage() {
