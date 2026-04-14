@@ -56,19 +56,18 @@ export default function CuisineRecommender() {
   
   // Provide fallback values in case AlchemicalContext is not available
   const alchemicalContext = useAlchemical();
-  const isDaytime = alchemicalContext?.isDaytime ?? true;
-  const planetaryPositions = useMemo(
-    () => alchemicalContext?.planetaryPositions ?? {},
-    [alchemicalContext?.planetaryPositions],
-  );
-  const state = alchemicalContext?.state ?? {
-    astrologicalState: {
-      zodiacSign: 'aries',
-      lunarPhase: 'new moon'
-    }
-  };
-  const currentZodiac = state.astrologicalState?.zodiacSign;
-  const lunarPhase = state.astrologicalState?.lunarPhase;
+  const { 
+    isDaytime = true, 
+    planetaryPositions = {}, 
+    state = {
+      astrologicalState: {
+        zodiacSign: 'aries',
+        lunarPhase: 'new moon'
+      }
+    },
+    zodiacSign: currentZodiac,
+    lunarPhase
+  } = alchemicalContext || {};
   
   const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
   const [transformedCuisines, setTransformedCuisines] = useState<AlchemicalItem[]>([]);

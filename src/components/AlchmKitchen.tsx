@@ -53,15 +53,20 @@ export default function AlchmKitchen() {
   const [displayPositions, setDisplayPositions] = useState<any>(null);
 
   // Get current state from AlchemicalContext
-  const { planetaryPositions: rawPositions, state } = useAlchemical();
-  const { elementalState, alchemicalValues, astrologicalState } = state;
-  // Cast to a typed shape — context stores positions as Record<string, unknown>
-  const planetaryPositions = rawPositions as Record<string, { sign?: string; degree?: number } | undefined>;
+  // Get current state from AlchemicalContext using the new shorthands
+  const { 
+    elementalState, 
+    alchemicalValues, 
+    astrologicalState,
+    planetaryHour: ctxPlanetaryHour,
+    lunarPhase: ctxLunarPhase,
+    planetaryPositions
+  } = useAlchemical();
 
   // Current states to use (either global context or custom calculated)
   const currentSign = astrologicalState?.sunSign || 'unknown';
-  const planetaryHour = astrologicalState?.planetaryHour || 'Unknown';
-  const lunarPhase = astrologicalState?.lunarPhase || 'Unknown';
+  const planetaryHour = ctxPlanetaryHour || 'Unknown';
+  const lunarPhase = ctxLunarPhase || 'Unknown';
 
   const activeElementalState = displayElementalState || elementalState || DEFAULT_ELEMENTAL_PROPERTIES;
   const activeAlchemicalValues = displayAlchemicalValues || alchemicalValues || { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };

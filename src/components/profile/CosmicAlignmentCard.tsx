@@ -43,20 +43,15 @@ function getPlanetaryHour(): string {
 }
 
 export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalChart }) => {
-  const { getDominantElement } = useAlchemical();
-  const [moonPhase, setMoonPhase] = useState(getMoonPhase);
-  const [planetaryHour, setPlanetaryHour] = useState(getPlanetaryHour);
-  const [, setTick] = useState(0);
+  const { getDominantElement, planetaryHour, lunarPhase } = useAlchemical();
+  
+  // Helper to map our alchemical context lunar phase string back to the display format
+  const getMoonDisplayData = (phaseStr: string) => {
+    const normalized = (phaseStr || 'new moon').toLowerCase().replace(/_/g, ' ');
+    return MOON_PHASES.find(p => p.name.toLowerCase() === normalized) || MOON_PHASES[0];
+  };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMoonPhase(getMoonPhase());
-      setPlanetaryHour(getPlanetaryHour());
-      setTick((t) => t + 1);
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
+  const moonData = getMoonDisplayData(lunarPhase);
   const currentDominant = getDominantElement();
   const natalDominant = natalChart.dominantElement || 'Fire';
   const aligned = currentDominant === natalDominant;
@@ -80,7 +75,7 @@ export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalC
       <div className="grid grid-cols-2 gap-5">
         {[
           { label: 'Planetary Hour', value: planetaryHour, sub: 'Current Governor' },
-          { label: 'Moon Phase', value: moonPhase.name, icon: moonPhase.icon, sub: 'Lunar Cycle' },
+          { label: 'Moon Phase', value: moonData.name, icon: moonData.icon, sub: 'Lunar Cycle' },
           { label: 'Current Element', value: currentDominant, sub: 'Celestial State' },
           { label: 'Natal Status', value: aligned ? 'In Harmony' : 'Contrast', sub: 'Personal Resonance', highlighted: true, alert: aligned }
         ].map((item, idx) => (

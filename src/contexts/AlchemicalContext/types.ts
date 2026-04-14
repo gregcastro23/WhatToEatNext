@@ -19,6 +19,14 @@ export type AstrologicalState = BaseAstrologicalState;
 export interface AlchemicalContextType {
   state: AlchemicalState;
   dispatch: (action: unknown) => void;
+  // Shorthands for direct state access
+  astrologicalState: AstrologicalState;
+  elementalState: AlchemicalState["elementalState"];
+  alchemicalValues: AlchemicalState["alchemicalValues"];
+  planetaryHour: string;
+  lunarPhase: string;
+  zodiacSign: string;
+  // Core status properties
   planetaryPositions: Record<string, unknown>;
   historicalPositions: Record<string, unknown>;
   normalizedPositions: Record<string, unknown>;

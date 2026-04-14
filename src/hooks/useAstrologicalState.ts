@@ -76,7 +76,7 @@ function _createCelestialPosition(
 }
 
 export function useAstrologicalState(): AstrologyHookData {
-  const { planetaryPositions, isDaytime } = useAlchemical();
+  const { planetaryPositions, isDaytime, planetaryHour, lunarPhase } = useAlchemical();
   const [isReady, setIsReady] = useState<boolean>(false);
   const [renderCount, setRenderCount] = useState<number>(0);
 
@@ -275,42 +275,16 @@ export function useAstrologicalState(): AstrologyHookData {
     [astroState.currentPlanetaryAlignment],
   );
 
-  const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<
-    string | null
-  >(null);
-
-  useEffect(() => {
-    try {
-      const calculator = new PlanetaryHourCalculator();
-      const hourInfo = calculator.getCurrentPlanetaryHour();
-      setCurrentPlanetaryHour(hourInfo.planet);
-
-      // Add a refresh interval if needed
-      const intervalId = setInterval(() => {
-        const hourInfo = calculator.getCurrentPlanetaryHour();
-        setCurrentPlanetaryHour(hourInfo.planet);
-      }, 60000); // Update every minute
-
-      return () => clearInterval(intervalId);
-    } catch (error) {
-      logger.error("Failed to calculate planetary hour", error);
-      setCurrentPlanetaryHour(null);
-      return () => {
-        // Intentionally empty - no cleanup needed in error case
-      };
-    }
-  }, []);
-
   // Return the astro state with isReady flag
   return {
     ...astroState,
     isReady,
     isDaytime,
     renderCount,
-    currentPlanetaryHour: currentPlanetaryHour || "sun",
+    currentPlanetaryHour: planetaryHour,
     currentZodiac: (astroState.currentZodiac || "aries") as any,
     currentPlanetaryAlignment:
       astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
-    lunarPhase: astroState.lunarPhase,
+    lunarPhase: (lunarPhase || astroState.lunarPhase) as any,
   } as AstrologyHookData;
 }

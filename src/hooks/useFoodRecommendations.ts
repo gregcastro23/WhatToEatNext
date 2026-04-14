@@ -77,8 +77,7 @@ export const useFoodRecommendations = (
           (state.astrologicalState?.lunarPhase as LunarPhase) || "new moon",
         zodiacSign:
           (state.astrologicalState?.zodiacSign as ZodiacSignType) || "aries",
-        planetaryHours:
-          (state.astrologicalState?.planetaryHour as Planet) || "Sun",
+        planetaryHours: (state.planetaryHour as Planet) || "Sun",
         aspects: (state.astrologicalState?.aspects || []) as PlanetaryAspect[],
         tarotElementBoosts: (state.astrologicalState?.tarotElementBoosts ||
           {}) as Record<string, number>,
@@ -90,7 +89,7 @@ export const useFoodRecommendations = (
       state.astrologicalState?.lunarPhase,
       state.astrologicalState?.currentPlanetaryAlignment,
       state.astrologicalState?.activePlanets,
-      state.astrologicalState?.planetaryHour,
+      state.planetaryHour,
       state.astrologicalState?.aspects,
       state.astrologicalState?.tarotElementBoosts,
       state.astrologicalState?.tarotPlanetaryBoosts,

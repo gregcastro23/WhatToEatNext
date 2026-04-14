@@ -34,8 +34,7 @@ const DebugInfoInner = () => {
         <p>Renders: {renderCountRef.current}</p>
         // @ts-expect-error - Auto-fixed by script
         <p>Current Sign: {planetaryPositions?.sun?.sign || 'unknown'}</p>
-        // @ts-expect-error - Auto-fixed by script
-        <p>Planetary Hour: {state?.astrologicalState?.planetaryHour || 'Unknown'}</p>
+        <p>Planetary Hour: {state?.planetaryHour || 'Unknown'}</p>
         <p>Lunar Phase: {state?.lunarPhase || 'Unknown'}</p>
         
         <h3 className="font-medium mt-3">Alchemical Tokens:</h3>

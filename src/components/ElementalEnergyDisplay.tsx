@@ -73,18 +73,13 @@ interface AlchemicalHookResult {
   planetaryPositions: PlanetaryPositionsType;
   isDaytime: boolean;
   refreshPlanetaryPositions: () => Promise<PlanetaryPositionsType>;
-  state: {
-    astrologicalState?: {
-      alchemicalValues?: AlchemicalProperties;
-      modalityDistribution?: {
-        Cardinal: number;
-        Fixed: number;
-        Mutable: number;
-      };
-      dominantModality?: Modality;
-      planetaryDignities?: Record<string, unknown>;
-    };
-  };
+  // Shorthands
+  astrologicalState?: any;
+  elementalState?: any;
+  alchemicalValues?: any;
+  planetaryHour?: string;
+  lunarPhase?: string;
+  state: AlchemicalState;
 }
 
 // Function to get energy level description
@@ -229,41 +224,43 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   // Get alchemical values from context state if available
   useEffect(() => {
     try {
-      if (state.astrologicalState?.alchemicalValues) {
-        logger.debug("Using alchemical values from context:", state.astrologicalState.alchemicalValues);
+      const { astrologicalState, alchemicalValues } = useAlchemical() as unknown as AlchemicalHookResult;
+      
+      if (alchemicalValues) {
+        logger.debug("Using alchemical values from context:", alchemicalValues);
         
         // Update the alchemical counts from context state, ensuring non-zero values
         setAlchemicalResults(prev => ({
           ...prev,
           alchemicalCounts: {
-            Spirit: state.astrologicalState?.alchemicalValues?.Spirit || 0.25,
-            Essence: state.astrologicalState?.alchemicalValues?.Essence || 0.25,
-            Matter: state.astrologicalState?.alchemicalValues?.Matter || 0.25,
-            Substance: state.astrologicalState?.alchemicalValues?.Substance || 0.25
+            Spirit: alchemicalValues.Spirit || 0.25,
+            Essence: alchemicalValues.Essence || 0.25,
+            Matter: alchemicalValues.Matter || 0.25,
+            Substance: alchemicalValues.Substance || 0.25
           }
         }));
       }
       
       // Update modality distribution if available
-      if (state.astrologicalState?.modalityDistribution) {
+      if (astrologicalState?.modalityDistribution) {
         setAlchemicalResults(prev => ({
           ...prev,
-          modalityDistribution: state.astrologicalState?.modalityDistribution || prev.modalityDistribution,
-          dominantModality: state.astrologicalState?.dominantModality || prev.dominantModality
+          modalityDistribution: astrologicalState.modalityDistribution || prev.modalityDistribution,
+          dominantModality: astrologicalState.dominantModality || prev.dominantModality
         }));
       }
       
       // Update planetary dignities if available
-      if (state.astrologicalState?.planetaryDignities) {
+      if (astrologicalState?.planetaryDignities) {
         setAlchemicalResults(prev => ({
           ...prev,
-          planetaryDignities: state.astrologicalState?.planetaryDignities || {}
+          planetaryDignities: astrologicalState.planetaryDignities || {}
         }));
       }
     } catch (error) {
       logger.error('Error updating alchemical values from context:', error);
     }
-  }, [state.astrologicalState]);
+  }, [state]);
 
   // Memoize total elementals calculation
   const _totalElementals = useMemo(() => {

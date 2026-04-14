@@ -367,6 +367,14 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const contextValue: AlchemicalContextType = {
     state,
     dispatch,
+    // Shorthands for direct state access
+    astrologicalState: state.astrologicalState,
+    elementalState: state.elementalState,
+    alchemicalValues: state.alchemicalValues,
+    planetaryHour: state.planetaryHour,
+    lunarPhase: state.lunarPhase,
+    zodiacSign: state.astrologicalState?.zodiacSign || 'aries',
+    // Core status properties
     planetaryPositions,
     historicalPositions,
     normalizedPositions,

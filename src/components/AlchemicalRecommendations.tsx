@@ -84,12 +84,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   }, [planetPositions, alchemicalContext.planetaryPositions]);
   
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
-  const resolvedCurrentZodiac = currentZodiac || 
-    (alchemicalContext.state?.astrologicalState?.zodiacSign as ZodiacSign) || null;
+  const resolvedCurrentZodiac = currentZodiac || alchemicalContext.zodiacSign || null;
   
   // Fix the lunar phase type resolution
   const resolvedLunarPhase: LunarPhaseWithSpaces = lunarPhase || 
-    (alchemicalContext.state?.astrologicalState?.lunarPhase as LunarPhaseWithSpaces) || 
+    (alchemicalContext.lunarPhase as LunarPhaseWithSpaces) || 
     'new moon';
   
   // State for targeting specific elements or properties
