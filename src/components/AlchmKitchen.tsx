@@ -53,8 +53,10 @@ export default function AlchmKitchen() {
   const [displayPositions, setDisplayPositions] = useState<any>(null);
 
   // Get current state from AlchemicalContext
-  const { planetaryPositions, state } = useAlchemical();
+  const { planetaryPositions: rawPositions, state } = useAlchemical();
   const { elementalState, alchemicalValues, astrologicalState } = state;
+  // Cast to a typed shape — context stores positions as Record<string, unknown>
+  const planetaryPositions = rawPositions as Record<string, { sign?: string; degree?: number } | undefined>;
 
   // Current states to use (either global context or custom calculated)
   const currentSign = astrologicalState?.sunSign || 'unknown';

@@ -4,6 +4,9 @@ import {
   InstacartConfigurationError,
 } from "@/lib/instacart/idpClient";
 import type { InstacartShoppingListRequest } from "@/types/instacart";
+import { createLogger } from "@/utils/logger";
+
+const logger = createLogger("instacart/price-estimate");
 
 /**
  * POST /api/instacart/price-estimate
@@ -65,7 +68,7 @@ export async function POST(req: Request) {
     });
 
   } catch (error) {
-    console.error("Price Probe Error:", error);
+    logger.error("Price probe error", error as Error);
     return NextResponse.json({ confidence: "low", error: "Internal probe failure" }, { status: 500 });
   }
 }

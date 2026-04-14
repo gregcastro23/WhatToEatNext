@@ -348,11 +348,10 @@ export default function GroceryListModal({
       await exportGroceryList(groceryList, format);
 
       if (format === "clipboard") {
-        // Show temporary success message
-        console.warn("Grocery list copied to clipboard!");
+        logger.info("Grocery list copied to clipboard");
       }
     } catch (_error) {
-      console.warn("Failed to export grocery list. Please try again.");
+      logger.warn("Failed to export grocery list");
     }
   };
 
