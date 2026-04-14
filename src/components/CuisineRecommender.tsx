@@ -2,7 +2,7 @@
 'use client';
 
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 // @ts-expect-error - Auto-fixed by script

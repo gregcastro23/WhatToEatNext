@@ -1,16 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getTarotCardsForDate } from '@/lib/tarotCalculations';
-import { getRecipesForTarotCard } from '@/lib/recipeCalculations';
-import styles from './AlchmKitchen.module.css';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import { createLogger } from '@/utils/logger';
-import ElementalVisualizer from '@/components/ElementalVisualizer';
 import AlchemicalPropertiesDisplay from '@/components/AlchemicalPropertiesDisplay';
+import ElementalVisualizer from '@/components/ElementalVisualizer';
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getRecipesForTarotCard } from '@/lib/recipeCalculations';
+import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { calculatePlanetaryAlchemicalValues, calculateElementalBalance } from '@/utils/alchemicalCalculations';
+import { createLogger } from '@/utils/logger';
+import styles from './AlchmKitchen.module.css';
 
 const logger = createLogger('AlchmKitchen');
 
@@ -45,11 +45,8 @@ export default function AlchmKitchen() {
   const [isDaytimeTarget, setIsDaytimeTarget] = useState<boolean>(true);
   const [currentSuit, setCurrentSuit] = useState<string | undefined>(undefined);
   
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [displayElementalState, setDisplayElementalState] = useState<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [displayAlchemicalValues, setDisplayAlchemicalValues] = useState<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [displayPositions, setDisplayPositions] = useState<any>(null);
 
   // Get current state from AlchemicalContext
@@ -151,7 +148,7 @@ export default function AlchmKitchen() {
       setLoading(false);
     };
     
-    calculateTimeFrame();
+    void calculateTimeFrame();
   }, [timeFrame, planetaryPositions.sun]);
 
   // Fetch tarot cards and recipes for the active configuration
@@ -182,7 +179,6 @@ export default function AlchmKitchen() {
             element: cards.minorCard.element,
             associatedRecipes: cards.minorCard.associatedRecipes,
           },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           majorCard: cards.majorCard as any,
         });
 
@@ -195,7 +191,7 @@ export default function AlchmKitchen() {
       }
     };
 
-    fetchData();
+    void fetchData();
   }, [activePositions?.sun, targetDate, mounted, currentSign, planetaryHour]);
 
   if (error) {

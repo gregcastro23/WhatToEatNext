@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { NatalChart } from '@/types/natalChart';
 
@@ -19,28 +19,6 @@ const MOON_PHASES = [
   { name: 'Last Quarter', icon: '\u{1F317}' },
   { name: 'Waning Crescent', icon: '\u{1F318}' },
 ];
-
-function getMoonPhase(): { name: string; icon: string } {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
-  const c = Math.floor(365.25 * year) + Math.floor(30.6 * month) + day - 694039.09;
-  const phase = ((c / 29.53058867) % 1 + 1) % 1;
-  const idx = Math.floor(phase * 8) % 8;
-  return MOON_PHASES[idx];
-}
-
-const PLANETARY_HOURS = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'];
-function getPlanetaryHour(): string {
-  const now = new Date();
-  const dayOfWeek = now.getDay();
-  const dayPlanetOrder = [3, 6, 2, 5, 1, 4, 0];
-  const hourOfDay = now.getHours();
-  const startPlanet = dayPlanetOrder[dayOfWeek];
-  const idx = (startPlanet + hourOfDay) % 7;
-  return PLANETARY_HOURS[idx];
-}
 
 export const CosmicAlignmentCard: React.FC<CosmicAlignmentCardProps> = ({ natalChart }) => {
   const { getDominantElement, planetaryHour, lunarPhase } = useAlchemical();

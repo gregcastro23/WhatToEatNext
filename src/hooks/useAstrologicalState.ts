@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import type { LunarPhase } from "@/constants/planetaryFoodAssociations";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
-import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 import type { CelestialPosition } from "@/types/celestial";
 import type { PlanetaryAlignment } from "@/types/common";
 import { logger } from "@/utils/logger";

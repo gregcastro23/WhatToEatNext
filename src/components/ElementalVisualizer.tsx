@@ -34,13 +34,6 @@ const ELEMENT_ICONS = {
   Air: '💨'
 };
 
-const ELEMENT_GRADIENTS = {
-  Fire: 'linear-gradient(135deg, #FF9800, #F44336)',
-  Water: 'linear-gradient(135deg, #03A9F4, #3F51B5)',
-  Earth: 'linear-gradient(135deg, #8BC34A, #4CAF50)',
-  Air: 'linear-gradient(135deg, #9C27B0, #673AB7)'
-};
-
 const SIZE_CONFIG = {
   sm: { width: 200, height: 200, fontSize: 12, padding: 15 },
   md: { width: 300, height: 300, fontSize: 14, padding: 20 },
@@ -118,7 +111,6 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   
   // Derived state calculations, memoized for performance
   const {
-    total,
     normalizedValues,
     dominantElement,
     compatibility,
@@ -131,12 +123,12 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     }
     
     // Calculate total to normalize percentages
-    const total = Object.values(elementalProperties).reduce((sum, value) => sum + value, 0);
+    const totalCalc = Object.values(elementalProperties).reduce((sum, value) => sum + value, 0);
     
     // Calculate normalized values (percentages)
     const normalizedValues: Record<string, number> = {};
     Object.entries(elementalProperties).forEach(([element, value]) => {
-      normalizedValues[element] = total > 0 ? (value / total) * 100 : 0;
+      normalizedValues[element] = totalCalc > 0 ? (value / totalCalc) * 100 : 0;
     });
     
     // Calculate dominant element
@@ -195,7 +187,6 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     
     // Create the result object
     const result = {
-      total,
       normalizedValues,
       dominantElement,
       compatibility,
@@ -229,8 +220,9 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
         height={chartHeight + (sizeConfig.padding * 2)}
         className="elemental-bar-chart"
       >
-        {(Object.entries(normalizedValues) as [string, number][]).map(([element, percentage], index) => {
+        {Object.entries(normalizedValues).map(([element, percentage], index) => {
           const y = (index * (barHeight + barSpacing)) + sizeConfig.padding;
+          const safePercentage = Number(percentage);
           
           return (
             <g key={element}>
@@ -247,7 +239,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
               <rect
                 x={sizeConfig.padding}
                 y={y}
-                width={(percentage / 100) * chartWidth}
+                width={(safePercentage / 100) * chartWidth}
                 height={barHeight}
                 rx={4}
                 fill={ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS]}
@@ -275,7 +267,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
                   fill="#FFFFFF"
                   textAnchor="end"
                 >
-                  {Math.round(percentage)}%
+                  {Math.round(safePercentage)}%
                 </text>
               )}
             </g>
@@ -290,10 +282,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     showPercentages, 
     animated, 
     darkMode,
-    elementalProperties.Fire,
-    elementalProperties.Water,
-    elementalProperties.Earth,
-    elementalProperties.Air
+    elementalProperties
   ]);
   
   // Render radar chart visualization
@@ -303,13 +292,14 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     const radius = Math.min(centerX, centerY) - sizeConfig.padding;
     
     // Create radar points for each element
-    const points = (Object.entries(normalizedValues) as [string, number][]).map(([element, percentage], index) => {
+    const points = Object.entries(normalizedValues).map(([element, percentage], index) => {
       const angle = (Math.PI * 2 * index) / Object.keys(normalizedValues).length;
-      const pointRadius = (percentage / 100) * radius;
+      const safePercentage = Number(percentage);
+      const pointRadius = (safePercentage / 100) * radius;
       
       return {
         element,
-        percentage,
+        percentage: safePercentage,
         x: centerX + pointRadius * Math.sin(angle),
         y: centerY - pointRadius * Math.cos(angle),
         labelX: centerX + (radius + 15) * Math.sin(angle),
@@ -415,8 +405,9 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     
     // Generate pie slices
     let startAngle = 0;
-    const slices = (Object.entries(normalizedValues) as [string, number][]).map(([element, percentage]) => {
-      const angle = (percentage / 100) * 360;
+    const slices = Object.entries(normalizedValues).map(([element, percentage]) => {
+      const safePercentage = Number(percentage);
+      const angle = (safePercentage / 100) * 360;
       const endAngle = startAngle + angle;
       
       // Convert angles to radians
@@ -447,7 +438,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
       
       return {
         element,
-        percentage,
+        percentage: safePercentage,
         path,
         labelX,
         labelY,
