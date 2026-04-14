@@ -8,6 +8,7 @@ import {
   calculateThermodynamicProperties 
 } from '@/constants/alchemicalEnergyMapping';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import type { AlchemicalState } from '@/contexts/AlchemicalContext/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import type { 
@@ -224,7 +225,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   // Get alchemical values from context state if available
   useEffect(() => {
     try {
-      const { astrologicalState, alchemicalValues } = useAlchemical() as unknown as AlchemicalHookResult;
+      const alchemicalValues = state.alchemicalValues;
+      const astrologicalState = state.astrologicalState;
       
       if (alchemicalValues) {
         logger.debug("Using alchemical values from context:", alchemicalValues);
@@ -245,16 +247,16 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       if (astrologicalState?.modalityDistribution) {
         setAlchemicalResults(prev => ({
           ...prev,
-          modalityDistribution: astrologicalState.modalityDistribution || prev.modalityDistribution,
-          dominantModality: astrologicalState.dominantModality || prev.dominantModality
+          modalityDistribution: (astrologicalState.modalityDistribution as any) || prev.modalityDistribution,
+          dominantModality: (astrologicalState.dominantModality as any) || prev.dominantModality
         }));
       }
-      
+
       // Update planetary dignities if available
       if (astrologicalState?.planetaryDignities) {
         setAlchemicalResults(prev => ({
           ...prev,
-          planetaryDignities: astrologicalState.planetaryDignities || {}
+          planetaryDignities: (astrologicalState.planetaryDignities as Record<string, unknown>) || {}
         }));
       }
     } catch (error) {
