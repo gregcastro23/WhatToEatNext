@@ -6,7 +6,7 @@ import AlchemicalPropertiesDisplay from './AlchemicalPropertiesDisplay';
 
 export default function ElementalDisplay() {
   const { state } = useAlchemical();
-  const { elementalState } = state;
+  const { elementalState, alchemicalValues } = state;
   
   // Helper function to format values as decimals
   const formatValue = (value: number) => {
@@ -54,7 +54,7 @@ export default function ElementalDisplay() {
       </div>
       
       {/* Alchemical Properties Display */}
-      <AlchemicalPropertiesDisplay />
+      <AlchemicalPropertiesDisplay values={alchemicalValues} />
     </div>
   );
 } 

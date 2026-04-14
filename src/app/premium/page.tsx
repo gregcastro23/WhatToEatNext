@@ -97,8 +97,7 @@ export default function PremiumPage() {
         {checkoutMessage && (
           <div
             className={`mb-8 p-4 rounded-xl text-center font-medium ${
-              // @ts-expect-error - Auto-fixed by script
-              searchParams.get("checkout") === "success"
+              searchParams?.get("checkout") === "success"
                 ? "bg-green-50 text-green-800 border border-green-200"
                 : "bg-amber-50 text-amber-800 border border-amber-200"
             }`}

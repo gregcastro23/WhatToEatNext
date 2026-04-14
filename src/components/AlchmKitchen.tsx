@@ -139,10 +139,12 @@ export default function AlchmKitchen() {
         const tarotUtils = await import('@/lib/tarotCalculations');
         const cards = tarotUtils.getTarotCardsForDate(
           new Date(),
-          planetaryPositions.sun && {
-            sign: (planetaryPositions.sun.sign as string) || 'aries',
-            degree: planetaryPositions.sun.degree || 0,
-          }
+          planetaryPositions.sun
+            ? {
+                sign: ((planetaryPositions.sun as any).sign as string) || 'aries',
+                degree: (planetaryPositions.sun as any).degree || 0,
+              }
+            : undefined
         );
         setCurrentSuit(cards.minorCard.suit);
       }

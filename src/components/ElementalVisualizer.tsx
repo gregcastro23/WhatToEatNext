@@ -161,7 +161,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
       .map(([element]) => element);
     
     // Recommendations based on elemental properties
-    let recommendations = null;
+    let recommendations: { flavorProfile: string[]; cuisineAffinity: string[]; wellnessProperties: string[] } | null = null;
     
     if (showRecommendations) {
       const flavorProfiles: Record<string, string[]> = {
@@ -216,20 +216,20 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     }
   }, []);
   
-  // Render bar chart visualization - memoized
-  const renderBarChart = useMemo(() => {
+  // Render bar chart visualization
+  const renderBarChart = useCallback(() => {
     const barHeight = 30;
     const barSpacing = 10;
     const chartWidth = sizeConfig.width - (sizeConfig.padding * 2);
     const chartHeight = (barHeight + barSpacing) * Object.keys(elementalProperties).length;
-    
+
     return (
-      <svg 
-        width={sizeConfig.width} 
+      <svg
+        width={sizeConfig.width}
         height={chartHeight + (sizeConfig.padding * 2)}
         className="elemental-bar-chart"
       >
-        {Object.entries(normalizedValues).map(([element, percentage], index) => {
+        {(Object.entries(normalizedValues) as [string, number][]).map(([element, percentage], index) => {
           const y = (index * (barHeight + barSpacing)) + sizeConfig.padding;
           
           return (
@@ -303,7 +303,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     const radius = Math.min(centerX, centerY) - sizeConfig.padding;
     
     // Create radar points for each element
-    const points = Object.entries(normalizedValues).map(([element, percentage], index) => {
+    const points = (Object.entries(normalizedValues) as [string, number][]).map(([element, percentage], index) => {
       const angle = (Math.PI * 2 * index) / Object.keys(normalizedValues).length;
       const pointRadius = (percentage / 100) * radius;
       
@@ -342,7 +342,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
         ))}
         {/* Axis lines */}
         {Object.keys(normalizedValues).map((_, index) => {
-          const angle = (Math.PI * 2 * index) / (Object.keysnormalizedValues).length;
+          const angle = (Math.PI * 2 * index) / Object.keys(normalizedValues).length;
           const endX = centerX + radius * Math.sin(angle);
           const endY = centerY - radius * Math.cos(angle);
           
@@ -415,7 +415,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     
     // Generate pie slices
     let startAngle = 0;
-    const slices = Object.entries(normalizedValues).map(([element, percentage]) => {
+    const slices = (Object.entries(normalizedValues) as [string, number][]).map(([element, percentage]) => {
       const angle = (percentage / 100) * 360;
       const endAngle = startAngle + angle;
       
