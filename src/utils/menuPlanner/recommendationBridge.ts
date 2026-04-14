@@ -1019,9 +1019,8 @@ function scoreRecipeForDay(
     reasons.push(`Matches ${dayChar.nutritionalEmphasis} emphasis`);
   }
 
-  // 4. Meal type appropriateness - THIS NEEDS TO BE RE-IMPLEMENTED FOR MONICAOPTIMIZEDRECIPE
-  // For now, setting a placeholder score
-  const mealTypeScore = 0.8; // Placeholder
+  // 4. Meal type appropriateness
+  const mealTypeScore = isSuitableForMealType(recipe, mealType) ? 1.0 : 0.5;
   score += mealTypeScore * weights.mealType;
 
   // 5. Planetary hour alignment — use a gradient instead of binary

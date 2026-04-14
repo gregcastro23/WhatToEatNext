@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
       urlObj.searchParams.set("utm_medium", "affiliate");
       urlObj.searchParams.set("utm_campaign", "idp_integration");
       productsLinkUrl = urlObj.toString();
-    } catch (_e) {
+    } catch {
       // fallback if URL parsing fails
       const separator = productsLinkUrl.includes("?") ? "&" : "?";
       productsLinkUrl += `${separator}utm_source=whattoeatnext&utm_medium=affiliate&utm_campaign=idp_integration`;

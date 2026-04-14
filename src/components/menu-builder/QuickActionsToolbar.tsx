@@ -129,11 +129,16 @@ export default function QuickActionsToolbar() {
         usePersonalization: hasNatalChart,
       });
 
-      // If generateMealsForDay didn't fill slots, try UnifiedRecipeService fallback
-      const dayMeals = currentMenu.meals.filter(
-        (m) => m.dayOfWeek === nextEmptyDay && m.recipe,
+      // If any meal slot is still empty after generation, fill it via fallback
+      const filledTypes = new Set(
+        currentMenu.meals
+          .filter((m) => m.dayOfWeek === nextEmptyDay && m.recipe)
+          .map((m) => m.mealType),
       );
-      if (dayMeals.length === 0) {
+      const allFilled = (["breakfast", "lunch", "dinner"] as MealType[]).every(
+        (t) => filledTypes.has(t),
+      );
+      if (!allFilled) {
         await fillDayWithRecipeService(nextEmptyDay);
       }
 

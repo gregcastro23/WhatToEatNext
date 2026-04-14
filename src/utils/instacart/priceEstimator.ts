@@ -72,8 +72,7 @@ export function estimateIngredientCost(
   const TIER_MODIFIER = tier === "premium" ? 1.35 : tier === "pantry" ? 0.05 : 1.0;
   
   if (priceMatch) {
-    const nLow = name.toLowerCase();
-    const isExact = priceMatch.unit === unit || nLow.includes(Object.keys(getPricePoint(name) || {}).find(k => k === nLow) || "###");
+    const isExact = priceMatch.unit === unit;
     const confidence = isExact ? "exact" : ("fuzzy" as const);
     
     // Scale price based on units
