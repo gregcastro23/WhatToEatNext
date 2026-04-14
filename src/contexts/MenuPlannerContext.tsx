@@ -1236,26 +1236,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     [currentMenu],
   );
 
-  /**
-   * Regenerate day with new recommendations
-   * TODO: Implement actual recommendation logic in Phase 3
-   */
-  const regenerateDay = useCallback(
-    async (dayOfWeek: DayOfWeek) => {
-      if (!currentMenu) return;
-
-      try {
-        // For now, just clear the day
-        // In Phase 3, this will call the recommendation engine
-        await clearDay(dayOfWeek);
-        logger.info(`Regenerated day ${dayOfWeek} (placeholder)`);
-      } catch (err) {
-        logger.error("Failed to regenerate day:", err);
-        throw err;
-      }
-    },
-    [currentMenu, clearDay],
-  );
+  // regenerateDay is defined after generateMealsForDay (see below) so it can
+  // call it. Forward-declare the ref so the context value shape stays intact.
 
   // Get user context for personalization
   const natalChart = currentUser?.natalChart;
@@ -1436,6 +1418,30 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       weeklyBudget,
       syncWithLunarCycle,
     ],
+  );
+
+  /**
+   * Regenerate a day: clears existing meals then re-runs the recommendation
+   * engine for that day.  Defined after generateMealsForDay so the dependency
+   * is always resolved.
+   */
+  const regenerateDay = useCallback(
+    async (dayOfWeek: DayOfWeek) => {
+      if (!currentMenu) return;
+      try {
+        await clearDay(dayOfWeek);
+        await generateMealsForDay(dayOfWeek, {
+          mealTypes: ["breakfast", "lunch", "dinner"],
+          useCurrentPlanetary: true,
+          usePersonalization: !!natalChart,
+        });
+        logger.info(`Regenerated day ${dayOfWeek}`);
+      } catch (err) {
+        logger.error("Failed to regenerate day:", err);
+        throw err;
+      }
+    },
+    [currentMenu, clearDay, generateMealsForDay, natalChart],
   );
 
   /**
