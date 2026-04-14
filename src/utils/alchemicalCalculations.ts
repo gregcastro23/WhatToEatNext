@@ -1,27 +1,32 @@
-// Define PlanetaryPositionsType if we can't import it
+// src/utils/alchemicalCalculations.ts
+
+import { SUIT_TO_ELEMENT, SUIT_TO_TOKEN } from './tarotMappings';
+
+// Define PlanetaryPositionsType
 export interface PlanetaryPositionsType {
   [key: string]: {
     sign?: string;
     degree?: number;
     isRetrograde?: boolean;
+    exactLongitude?: number;
     [key: string]: unknown;
   };
 }
 
 // Map elements to zodiac signs
 const signElements: Record<string, string> = {
-  aries: "Fire",
-  leo: "Fire",
-  sagittarius: "Fire",
-  taurus: "Earth",
-  virgo: "Earth",
-  capricorn: "Earth",
-  gemini: "Air",
-  libra: "Air",
-  aquarius: "Air",
-  cancer: "Water",
-  scorpio: "Water",
-  pisces: "Water",
+  aries: 'Fire',
+  leo: 'Fire',
+  sagittarius: 'Fire',
+  taurus: 'Earth',
+  virgo: 'Earth',
+  capricorn: 'Earth',
+  gemini: 'Air',
+  libra: 'Air',
+  aquarius: 'Air',
+  cancer: 'Water',
+  scorpio: 'Water',
+  pisces: 'Water',
 };
 
 // Map planets to their alchemical properties
@@ -38,8 +43,19 @@ const planetAlchemicalProperties: Record<string, Record<string, number>> = {
   pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 },
 };
 
-// Calculate elemental values based on planetary positions
-export function calculateElementalValues(_positions: PlanetaryPositionsType) {
+/**
+ * Calculates elemental balance based on planetary positions, day/night, and tarot card
+ * Throws error if critical planetary positions are missing.
+ */
+export function calculateElementalBalance(
+  positions: PlanetaryPositionsType,
+  isDaytime = true,
+  tarotCardSuit?: string
+) {
+  if (!positions || Object.keys(positions).length === 0) {
+    throw new Error('Alchemical Error: Planetary positions are required for elemental balance calculation.');
+  }
+
   const elements = {
     Fire: 0,
     Earth: 0,
@@ -47,458 +63,164 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
     Water: 0,
   };
 
-  // Count planets by element
-  Object.entries(_positions).forEach(([planet, data]) => {
-    if (
-      !data.sign ||
-      planet === "ascendant" ||
-      planet === "northnode" ||
-      planet === "southnode"
-    ) {
+  let totalWeight = 0;
+
+  Object.entries(positions).forEach(([planet, data]) => {
+    if (!data?.sign || ['ascendant', 'northnode', 'southnode'].includes(planet)) {
       return;
     }
 
     const signKey = data.sign.toLowerCase();
-    const element = signElements[signKey] || "balanced";
-    // Only add to elements if it's a valid element key
-    if (
-      element === "Fire" ||
-      element === "Water" ||
-      element === "Earth" ||
-      element === "Air"
-    ) {
-      // Weight by planet importance
+    const element = signElements[signKey] as keyof typeof elements;
+
+    if (element) {
       let weight = 1.0;
-      if (planet === "sun" || planet === "moon") weight = 3.0;
-      if (planet === "mercury" || planet === "venus" || planet === "mars")
-        weight = 1.5;
+      if (planet === 'sun' || planet === 'moon') weight = 2.5;
+      if (['mercury', 'venus', 'mars'].includes(planet)) weight = 1.5;
+      
+      if (data.isRetrograde) weight *= 0.8;
 
       elements[element] += weight;
+      totalWeight += weight;
     }
   });
 
-  // Calculate alchemical values from elements
-  const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
+  if (totalWeight === 0) {
+    throw new Error('Alchemical Error: No valid planetary positions found to calculate elemental balance.');
+  }
 
+  // Apply daytime / nighttime adjustments
+  if (isDaytime) {
+    elements.Fire *= 1.2;
+    elements.Air *= 1.1;
+  } else {
+    elements.Water *= 1.2;
+    elements.Earth *= 1.1;
+  }
+
+  // Apply Tarot card boost
+  if (tarotCardSuit) {
+    const boostedElement = SUIT_TO_ELEMENT[tarotCardSuit as keyof typeof SUIT_TO_ELEMENT] as keyof typeof elements;
+    if (boostedElement) {
+      elements[boostedElement] *= 1.3;
+    }
+  }
+
+  // Normalize to ensure sum equals 1.0
+  const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
   return {
-    Spirit: (elements.Fire + elements.Air) / (total * 2) + 0.1,
-    Essence: (elements.Fire + elements.Water) / (total * 2) + 0.1,
-    Matter: (elements.Earth + elements.Water) / (total * 2) + 0.1,
-    Substance: (elements.Earth + elements.Air) / (total * 2) + 0.1,
+    Fire: elements.Fire / total,
+    Earth: elements.Earth / total,
+    Air: elements.Air / total,
+    Water: elements.Water / total,
   };
 }
 
-// Calculate planetary contributions to alchemical values
+/**
+ * Calculates alchemical token values based on planetary positions, day/night, and tarot card
+ * Throws error if critical planetary positions are missing.
+ */
 export function calculatePlanetaryAlchemicalValues(
-  _positions: PlanetaryPositionsType,
+  positions: PlanetaryPositionsType,
+  isDaytime = true,
+  tarotCardSuit?: string
 ) {
+  if (!positions || Object.keys(positions).length === 0) {
+    throw new Error('Alchemical Error: Planetary positions are required for alchemical value calculation.');
+  }
+
   const alchemicalValues = {
-    Spirit: 0.25,
-    Essence: 0.25,
-    Matter: 0.25,
-    Substance: 0.25,
+    Spirit: 0,
+    Essence: 0,
+    Matter: 0,
+    Substance: 0,
   };
 
   let totalWeight = 0;
 
-  Object.entries(_positions).forEach(([planet, data]) => {
-    if (
-      !data ||
-      planet === "ascendant" ||
-      planet === "northnode" ||
-      planet === "southnode"
-    ) {
+  Object.entries(positions).forEach(([planet, data]) => {
+    if (!data || ['ascendant', 'northnode', 'southnode'].includes(planet)) {
       return;
     }
 
     const properties = planetAlchemicalProperties[planet];
     if (!properties) return;
 
-    // Weight by planetary dignity
     let dignityMultiplier = 1.0;
     if (data.sign) {
-      // Simple dignity check
+      const sign = data.sign.toLowerCase();
       if (
-        (planet === "sun" && data.sign === "leo") ||
-        (planet === "moon" && data.sign === "cancer") ||
-        (planet === "mercury" &&
-          (data.sign === "gemini" || data.sign === "virgo")) ||
-        (planet === "venus" &&
-          (data.sign === "taurus" || data.sign === "libra")) ||
-        (planet === "mars" &&
-          (data.sign === "aries" || data.sign === "scorpio")) ||
-        (planet === "jupiter" &&
-          (data.sign === "sagittarius" || data.sign === "pisces")) ||
-        (planet === "saturn" &&
-          (data.sign === "capricorn" || data.sign === "aquarius")) ||
-        (planet === "uranus" && data.sign === "aquarius") ||
-        (planet === "neptune" && data.sign === "pisces") ||
-        (planet === "pluto" && data.sign === "scorpio")
+        (planet === 'sun' && sign === 'leo') ||
+        (planet === 'moon' && sign === 'cancer') ||
+        (planet === 'mercury' && (sign === 'gemini' || sign === 'virgo')) ||
+        (planet === 'venus' && (sign === 'taurus' || sign === 'libra')) ||
+        (planet === 'mars' && (sign === 'aries' || sign === 'scorpio')) ||
+        (planet === 'jupiter' && (sign === 'sagittarius' || sign === 'pisces')) ||
+        (planet === 'saturn' && (sign === 'capricorn' || sign === 'aquarius'))
       ) {
-        dignityMultiplier = 1.5; // Domicile or rulership
+        dignityMultiplier = 1.5;
       } else if (
-        (planet === "sun" && data.sign === "aries") ||
-        (planet === "moon" && data.sign === "taurus") ||
-        (planet === "jupiter" && data.sign === "cancer") ||
-        (planet === "venus" && data.sign === "pisces")
+        (planet === 'sun' && sign === 'aries') ||
+        (planet === 'moon' && sign === 'taurus') ||
+        (planet === 'jupiter' && sign === 'cancer') ||
+        (planet === 'venus' && sign === 'pisces')
       ) {
-        dignityMultiplier = 1.3; // Exaltation
-      } else if (
-        (planet === "venus" && data.sign === "virgo") ||
-        (planet === "mercury" && data.sign === "pisces") ||
-        (planet === "mars" && data.sign === "cancer") ||
-        (planet === "jupiter" && data.sign === "capricorn")
-      ) {
-        dignityMultiplier = 0.7; // Fall
+        dignityMultiplier = 1.3;
       }
     }
 
-    // Add weighted contribution
-    const weight = dignityMultiplier;
-    totalWeight += weight;
+    if (data.isRetrograde) dignityMultiplier *= 0.8;
 
-    alchemicalValues.Spirit += properties.Spirit * weight;
-    alchemicalValues.Essence += properties.Essence * weight;
-    alchemicalValues.Matter += properties.Matter * weight;
-    alchemicalValues.Substance += properties.Substance * weight;
+    totalWeight += dignityMultiplier;
+    alchemicalValues.Spirit += properties.Spirit * dignityMultiplier;
+    alchemicalValues.Essence += properties.Essence * dignityMultiplier;
+    alchemicalValues.Matter += properties.Matter * dignityMultiplier;
+    alchemicalValues.Substance += properties.Substance * dignityMultiplier;
   });
 
-  // Normalize values
-  if (totalWeight > 0) {
-    const normalizer = (_positions ? Object.keys(_positions).length : 10) / 10;
-
-    return {
-      Spirit: alchemicalValues.Spirit / normalizer,
-      Essence: alchemicalValues.Essence / normalizer,
-      Matter: alchemicalValues.Matter / normalizer,
-      Substance: alchemicalValues.Substance / normalizer,
-    };
+  if (totalWeight === 0) {
+    throw new Error('Alchemical Error: No valid planetary positions found to calculate alchemical values.');
   }
 
-  return alchemicalValues;
-}
-
-// Calculate elemental balance based on planetary positions
-export function calculateElementalBalance(positions: PlanetaryPositionsType) {
-  // Initialize with balanced elements
-  const elements = {
-    Fire: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
-    Water: 0.25,
-  };
-
-  if (!positions || Object.keys(positions).length === 0) {
-    return elements;
+  if (isDaytime) {
+    alchemicalValues.Spirit *= 1.1;
+    alchemicalValues.Substance *= 1.1;
+  } else {
+    alchemicalValues.Essence *= 1.1;
+    alchemicalValues.Matter *= 1.1;
   }
 
-  let totalWeight = 0;
-  let elementsFound = false;
-
-  Object.entries(positions).forEach(([planet, data]) => {
-    if (
-      !data ||
-      !data.sign ||
-      planet === "ascendant" ||
-      planet === "northnode" ||
-      planet === "southnode"
-    ) {
-      return;
+  if (tarotCardSuit) {
+    const boostedToken = SUIT_TO_TOKEN[tarotCardSuit as keyof typeof SUIT_TO_TOKEN] as keyof typeof alchemicalValues;
+    if (boostedToken) {
+      alchemicalValues[boostedToken] *= 1.3;
     }
-
-    const signKey = data.sign.toLowerCase();
-    const element = signElements[signKey];
-
-    // Only proceed if it's a valid element
-    if (
-      element &&
-      (element === "Fire" ||
-        element === "Water" ||
-        element === "Earth" ||
-        element === "Air")
-    ) {
-      // Weight by planet importance
-      let weight = 1.0;
-      if (planet === "sun" || planet === "moon") weight = 2.5;
-      if (planet === "mercury" || planet === "venus" || planet === "mars")
-        weight = 1.5;
-
-      elements[element] += weight;
-      totalWeight += weight;
-      elementsFound = true;
-    }
-  });
-
-  // Normalize to ensure sum equals 1.0
-  if (totalWeight > 0 && elementsFound) {
-    const total =
-      elements.Fire + elements.Earth + elements.Air + elements.Water;
-
-    return {
-      Fire: elements.Fire / total,
-      Earth: elements.Earth / total,
-      Air: elements.Air / total,
-      Water: elements.Water / total,
-    };
   }
 
-  return elements;
-}
-
-// Interface for alchemical result
-export interface AlchemicalResult {
-  spirit: number;
-  essence: number;
-  matter: number;
-  substance: number;
-  elementalBalance: {
-    fire: number;
-    earth: number;
-    air: number;
-    water: number;
+  // Normalize
+  const total = alchemicalValues.Spirit + alchemicalValues.Essence + alchemicalValues.Matter + alchemicalValues.Substance;
+  return {
+    Spirit: alchemicalValues.Spirit / total,
+    Essence: alchemicalValues.Essence / total,
+    Matter: alchemicalValues.Matter / total,
+    Substance: alchemicalValues.Substance / total,
   };
-  dominantElement: string;
-  recommendation: string;
-  "Total Effect Value": {
-    Fire: number;
-    Earth: number;
-    Air: number;
-    Water: number;
-  };
-}
-
-// Interface for planetary position
-export interface PlanetaryPosition {
-  sign: string;
-  degree?: number;
-  isRetrograde?: boolean;
 }
 
 /**
- * Core alchemize function that calculates alchemical properties based on planetary positions
- *
- * @param planetaryPositions Current planetary positions
- * @param isDaytime Whether it is daytime
- * @param lunarPhase Current lunar phase
- * @param retrogrades Retrograde information for planets
- * @returns Alchemical result with elemental balance, spirit, essence, matter, and substance
+ * Combined alchemize function
  */
 export function alchemize(
-  planetaryPositions: Record<string, PlanetaryPosition>,
+  positions: PlanetaryPositionsType,
   isDaytime = true,
-  lunarPhase?: string,
-  retrogrades?: Record<string, boolean>,
-): AlchemicalResult {
-  // Initialize results with default values
-  const elementalBalance = {
-    fire: 0,
-    earth: 0,
-    air: 0,
-    water: 0,
-  };
-
-  let spirit = 0;
-  let essence = 0;
-  let matter = 0;
-  let substance = 0;
-
-  // Calculate elemental contributions from each planet
-  Object.entries(planetaryPositions).forEach(([planetName, planetData]) => {
-    if (!planetData.sign) return;
-
-    const sign = planetData.sign.toLowerCase();
-    let planetElement: string | null = null;
-
-    // Get the element from the sign
-    if (["aries", "leo", "sagittarius"].includes(sign)) {
-      planetElement = "fire";
-    } else if (["taurus", "virgo", "capricorn"].includes(sign)) {
-      planetElement = "earth";
-    } else if (["gemini", "libra", "aquarius"].includes(sign)) {
-      planetElement = "air";
-    } else if (["cancer", "scorpio", "pisces"].includes(sign)) {
-      planetElement = "water";
-    }
-
-    // Skip if no valid element
-    if (!planetElement) return;
-
-    // Calculate planet weight based on importance
-    let planetWeight = 1.0;
-    if (planetName === "sun" || planetName === "moon") {
-      planetWeight = 3.0;
-    } else if (["mercury", "venus", "mars"].includes(planetName)) {
-      planetWeight = 1.5;
-    }
-
-    // Adjust for retrograde
-    if (planetData.isRetrograde || retrogrades?.[planetName]) {
-      planetWeight *= 0.8; // Reduce influence when retrograde
-    }
-
-    // Increase elemental balance based on the planet's sign
-    elementalBalance[planetElement] += planetWeight;
-
-    // Add alchemical property contributions
-    switch (planetName.toLowerCase()) {
-      case "sun":
-        spirit += 1 * planetWeight;
-        break;
-      case "moon":
-        essence += 1 * planetWeight;
-        break;
-      case "mercury":
-        substance += 0.5 * planetWeight;
-        spirit += 0.5 * planetWeight;
-        break;
-      case "venus":
-        essence += 1 * planetWeight;
-        break;
-      case "mars":
-        matter += 0.5 * planetWeight;
-        essence += 0.5 * planetWeight;
-        break;
-      case "jupiter":
-        spirit += 0.5 * planetWeight;
-        essence += 0.5 * planetWeight;
-        break;
-      case "saturn":
-        matter += 1 * planetWeight;
-        break;
-      case "uranus":
-        substance += 1 * planetWeight;
-        break;
-      case "neptune":
-        essence += 0.5 * planetWeight;
-        substance += 0.5 * planetWeight;
-        break;
-      case "pluto":
-        matter += 0.5 * planetWeight;
-        essence += 0.5 * planetWeight;
-        break;
-    }
-  });
-
-  // Apply daytime/nighttime adjustment
-  if (isDaytime) {
-    elementalBalance.fire *= 1.2;
-    elementalBalance.air *= 1.1;
-  } else {
-    elementalBalance.water *= 1.2;
-    elementalBalance.earth *= 1.1;
-  }
-
-  // Apply lunar phase adjustment if provided
-  if (lunarPhase) {
-    if (lunarPhase.includes("full")) {
-      elementalBalance.fire *= 1.1;
-      elementalBalance.water *= 1.1;
-      spirit += 0.5;
-      essence += 0.5;
-    } else if (lunarPhase.includes("new")) {
-      elementalBalance.earth *= 1.1;
-      elementalBalance.air *= 1.1;
-      matter += 0.5;
-      substance += 0.5;
-    } else if (lunarPhase.includes("waxing")) {
-      elementalBalance.fire *= 1.05;
-      elementalBalance.air *= 1.05;
-      spirit += 0.3;
-      substance += 0.3;
-    } else if (lunarPhase.includes("waning")) {
-      elementalBalance.water *= 1.05;
-      elementalBalance.earth *= 1.05;
-      matter += 0.3;
-      essence += 0.3;
-    }
-  }
-
-  // Calculate dominant element
-  let dominantElement = "balanced";
-  let maxValue = 0;
-
-  for (const [element, value] of Object.entries(elementalBalance)) {
-    if (value > maxValue) {
-      maxValue = value;
-      dominantElement = element;
-    }
-  }
-
-  // Generate a recommendation based on the dominant element
-  const recommendation = generateRecommendation(dominantElement);
-
-  // Normalize the values
-  const totalElemental =
-    elementalBalance.fire +
-    elementalBalance.earth +
-    elementalBalance.air +
-    elementalBalance.water;
-
-  if (totalElemental > 0) {
-    elementalBalance.fire /= totalElemental;
-    elementalBalance.earth /= totalElemental;
-    elementalBalance.air /= totalElemental;
-    elementalBalance.water /= totalElemental;
-  } else {
-    // Default to balanced
-    elementalBalance.fire = 0.25;
-    elementalBalance.earth = 0.25;
-    elementalBalance.air = 0.25;
-    elementalBalance.water = 0.25;
-  }
-
-  // Normalize alchemical properties
-  const totalAlchemical = spirit + essence + matter + substance;
-
-  if (totalAlchemical > 0) {
-    spirit /= totalAlchemical;
-    essence /= totalAlchemical;
-    matter /= totalAlchemical;
-    substance /= totalAlchemical;
-  } else {
-    // Default to balanced
-    spirit = 0.25;
-    essence = 0.25;
-    matter = 0.25;
-    substance = 0.25;
-  }
-
-  // Convert to upper case for ElementalProperties return
-  const totalEffectValue = {
-    Fire: elementalBalance.fire,
-    Earth: elementalBalance.earth,
-    Air: elementalBalance.air,
-    Water: elementalBalance.water,
-  };
-
+  tarotCardSuit?: string
+) {
+  const elementalBalance = calculateElementalBalance(positions, isDaytime, tarotCardSuit);
+  const alchemicalValues = calculatePlanetaryAlchemicalValues(positions, isDaytime, tarotCardSuit);
+  
   return {
-    spirit,
-    essence,
-    matter,
-    substance,
     elementalBalance,
-    dominantElement,
-    recommendation,
-    "Total Effect Value": totalEffectValue,
+    ...alchemicalValues,
+    dominantElement: Object.entries(elementalBalance).reduce((a, b) => a[1] > b[1] ? a : b)[0]
   };
-}
-
-/**
- * Generate food recommendations based on elemental balance
- * @param dominantElement Dominant element
- * @returns Recommendation string
- */
-function generateRecommendation(dominantElement: string): string {
-  switch (dominantElement) {
-    case "fire":
-      return "Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.";
-    case "earth":
-      return "Foods that lighten and enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.";
-    case "air":
-      return "Foods that ground and nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.";
-    case "water":
-      return "Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.";
-    default:
-      return "A balanced diet incorporating elements from all food groups for holistic nourishment.";
-  }
 }
