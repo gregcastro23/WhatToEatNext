@@ -96,7 +96,7 @@ const RECIPE_QUERY = `
       )
     ) AS elemental_properties
   FROM recipes r
-  WHERE r.is_public = true
+  WHERE 1=1 -- r.is_public flag bypassed for migration compatibility
 `;
 
 function parseJsonValue<T>(value: unknown, fallback: T): T {
