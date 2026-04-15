@@ -3,6 +3,7 @@
  * Returns recipe catalog with optional filtering by element, cuisine, or search query.
  */
 import { NextResponse } from "next/server";
+import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -20,7 +21,7 @@ export async function GET(request: Request) {
       const { LocalRecipeService } = await import("@/services/LocalRecipeService");
 
       // Use the LocalRecipeService to fetch perfectly mapped recipes.
-      let recipes = [];
+      let recipes: Recipe[] = [];
       if (cuisine) {
         recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
       } else if (search) {
