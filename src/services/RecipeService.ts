@@ -11,6 +11,10 @@ import type {
     RecipeRecommendationOptions,
     RecipeSearchCriteria
 } from "./interfaces/RecipeServiceInterface";
+import { UnifiedScoringService } from "@/services/UnifiedScoringService";
+import { calculateFlavorCompatibility } from "@/data/unified/flavorCompatibilityLayer";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { calculateEnhancedElementalCompatibility } from "@/utils/enhancedCompatibilityScoring";
 
 // Import recipe service interface
 // Extended cuisine interface for internal use
@@ -243,10 +247,26 @@ export class RecipeService {
         "Getting recipes for planetary alignment:",
         planetaryPositions,
       );
-      // For now, return all recipes - full planetary matching would require
-      // more complex alchemical calculations
-      // TODO: Implement proper planetary recipe matching
-      return await this.getAllRecipes();
+      
+      const allRecipes = await this.getAllRecipes();
+      const skyAlchemical = calculateAlchemicalFromPlanets(planetaryPositions as any);
+      
+      const skyElemental = {
+        Fire: skyAlchemical.Spirit || 0.25,
+        Water: skyAlchemical.Essence || 0.25,
+        Earth: skyAlchemical.Matter || 0.25,
+        Air: skyAlchemical.Substance || 0.25
+      };
+
+      const scoredRecipes = allRecipes.map(recipe => {
+        const score = calculateEnhancedElementalCompatibility(
+          skyElemental,
+          recipe.elementalProperties || skyElemental
+        );
+        return { recipe, score };
+      });
+
+      return scoredRecipes.sort((a, b) => b.score - a.score).map(r => r.recipe);
     } catch (error) {
       logger.error("Error getting recipes for planetary alignment:", error);
       return [];
@@ -260,10 +280,18 @@ export class RecipeService {
   ): Promise<Recipe[]> {
     try {
       logger.debug("Getting recipes for flavor profile:", flavorProfile);
-      // For now, return all recipes - full flavor profile matching would require
-      // more complex flavor analysis
-      // TODO: Implement proper flavor profile matching
-      return await this.getAllRecipes();
+      
+      const allRecipes = await this.getAllRecipes();
+      const scoredRecipes = allRecipes.map(recipe => {
+        const recipeFlavor = (recipe as any).flavorProfile || { sweet: 0.5, savory: 0.5, spicy: 0, salty: 0.5 };
+        const match = calculateFlavorCompatibility(flavorProfile, recipeFlavor);
+        return { recipe, score: match.compatibility };
+      });
+
+      return scoredRecipes
+        .filter(r => r.score > 0.5)
+        .sort((a, b) => b.score - a.score)
+        .map(r => r.recipe);
     } catch (error) {
       logger.error("Error getting recipes for flavor profile:", error);
       return [];
@@ -279,13 +307,31 @@ export class RecipeService {
     try {
       logger.debug("Getting best recipe matches with criteria:", criteria);
       const recipes = await this.searchRecipes(criteria, options);
-      // For now, assign equal scores - full scoring would require
-      // elemental compatibility calculations
-      // TODO: Implement proper recipe scoring
-      return recipes.map((recipe) => ({
-        ...recipe,
-        score: 0.8,
-      }));
+      
+      const scoringService = UnifiedScoringService.getInstance();
+      const scoredRecipes = await Promise.all(
+        recipes.map(async (recipe) => {
+          try {
+            const result = await scoringService.scoreRecommendation({
+              dateTime: new Date(),
+              item: {
+                name: recipe.name,
+                type: "recipe",
+                elementalProperties: recipe.elementalProperties,
+                planetaryRulers: recipe.astrologicalInfluences as any,
+              }
+            });
+            return {
+              ...recipe,
+              score: Math.max(0.1, result.score || 0.8), // Normalize to reasonable floor
+            };
+          } catch (scoreError) {
+             return { ...recipe, score: 0.8 };
+          }
+        })
+      );
+      
+      return scoredRecipes.sort((a, b) => b.score - a.score);
     } catch (error) {
       logger.error("Error getting best recipe matches:", error);
       return [];
