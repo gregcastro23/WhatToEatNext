@@ -8,55 +8,11 @@ import type {
   QuantityScaledProperties,
   ThermodynamicMetrics,
 } from "@/types/alchemy";
+import { UNIT_CONVERSIONS } from "./unitConversion";
 
-/**
- * Unit conversion mappings for ingredient quantities
- * Maps various units to grams (base unit for calculations)
- */
-const UNIT_CONVERSIONS: Record<string, number> = {
-  // Weight units
-  g: 1,
-  gram: 1,
-  grams: 1,
-  kg: 1000,
-  kilogram: 1000,
-  kilograms: 1000,
-  oz: 28.35,
-  ounce: 28.35,
-  ounces: 28.35,
-  lb: 453.59,
-  pound: 453.59,
-  pounds: 453.59,
-
-  // Volume units (approximate conversions using water density)
-  ml: 1,
-  milliliter: 1,
-  milliliters: 1,
-  l: 1000,
-  liter: 1000,
-  liters: 1000,
-  cup: 240,
-  cups: 240,
-  tbsp: 15,
-  tablespoon: 15,
-  tablespoons: 15,
-  tsp: 5,
-  teaspoon: 5,
-  teaspoons: 5,
-  "fl oz": 29.57,
-  "fluid ounce": 29.57,
-  "fluid ounces": 29.57,
-
-  // Piece/count units (context-dependent, using approximate averages)
-  piece: 50, // Average piece weight
-  pieces: 50,
-  clove: 6, // Garlic clove
-  cloves: 6,
-  slice: 30, // Average slice
-  slices: 30,
-  head: 200, // Average head (e.g., garlic, lettuce)
-  heads: 200,
-};
+// Re-export for backwards compatibility with any consumers that imported
+// UNIT_CONVERSIONS directly from this module.
+export { UNIT_CONVERSIONS };
 
 /**
  * Calculate quantity scaling factor with logarithmic diminishing returns

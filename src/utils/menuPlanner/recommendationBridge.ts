@@ -8,7 +8,11 @@
  * @updated 2026-02-03 - Added user chart personalization support
  */
 
-import { getServerRecipes } from "@/actions/recipes";
+import {
+  getServerRecipeIndex,
+  getServerRecipes,
+} from "@/actions/recipes";
+import type { IndexedRecipe } from "@/types/indexedRecipe";
 import type { AlchemicalProfile } from "@/contexts/UserContext";
 import {
     type MonicaOptimizedRecipe,
@@ -685,8 +689,12 @@ async function searchRecipesForDay(
       recommendedCuisines: dayChar.recommendedCuisines,
     });
 
+    // Pull the prebuilt mealType × season index rather than scanning all
+    // 351 recipes on every generation request. The `recipes` variable is
+    // kept around for the relaxed-filter fallback paths below.
+    const recipeIndex = await getServerRecipeIndex();
     const allRecipes = await getServerRecipes();
-    const recipes = allRecipes as unknown as Recipe[];
+    const recipes = allRecipes as unknown as IndexedRecipe[];
     const currentSeason = getCurrentSeason();
     const existingMeals = options.existingMeals || [];
     const existingRecipeIds = new Set(existingMeals.map((m) => m.recipeId));
@@ -702,16 +710,29 @@ async function searchRecipesForDay(
       PLANET_CULINARY_PROFILES["Sun"];
 
     // ── Step 1: Filter pipeline ──
+    //
+    // Start from the `${mealType}-${season}` bucket (+ season-agnostic
+    // "all" bucket) in the prebuilt index instead of scanning every recipe.
+    const primaryBucket = recipeIndex.get(`${mealType}-${currentSeason}`) ?? [];
+    const allSeasonBucket = recipeIndex.get(`${mealType}-all`) ?? [];
+    const seed: IndexedRecipe[] = [];
+    const seedSeen = new Set<string>();
+    for (const r of primaryBucket) {
+      if (r.id && !seedSeen.has(r.id)) {
+        seed.push(r);
+        seedSeen.add(r.id);
+      }
+    }
+    for (const r of allSeasonBucket) {
+      if (r.id && !seedSeen.has(r.id)) {
+        seed.push(r);
+        seedSeen.add(r.id);
+      }
+    }
 
-    let candidates = recipes.filter((recipe) => {
+    let candidates = seed.filter((recipe) => {
       // Hard-exclude recipes already in the weekly plan
       if (existingRecipeIds.has(recipe.id)) return false;
-
-      // Meal type suitability
-      if (!isSuitableForMealType(recipe, mealType)) return false;
-
-      // Season match
-      if (!matchesSeason(recipe, currentSeason)) return false;
 
       // Dietary restrictions
       if (
@@ -742,7 +763,7 @@ async function searchRecipesForDay(
     // ── Step 2: Progressive fallback if filters are too restrictive ──
 
     if (candidates.length === 0) {
-      // Relax: drop season filter
+      // Relax: drop season filter (scan any season for this meal type)
       candidates = recipes.filter((recipe) => {
         if (existingRecipeIds.has(recipe.id)) return false;
         if (!isSuitableForMealType(recipe, mealType)) return false;
@@ -784,6 +805,17 @@ async function searchRecipesForDay(
       c.toLowerCase(),
     );
 
+    // Precompute lowercased planetary cooking methods once per call rather
+    // than once per candidate-per-method inside the inner loops.
+    const planetCookingMethodsLc = planetProfile.cookingMethods.map((pm) =>
+      pm.toLowerCase(),
+    );
+    const preferredCookingMethodsLc = (options.preferredCookingMethods ?? []).map(
+      (pm) => pm.toLowerCase(),
+    );
+    const budget = options.budgetPerMeal;
+    const budgetEnabled = typeof budget === "number" && budget > 0;
+
     const scored = candidates.map((recipe) => {
       let score = 0;
 
@@ -797,8 +829,9 @@ async function searchRecipesForDay(
       }
 
       // Cuisine match with day's recommended cuisines (weight: 0.2)
-      const recipeCuisine = recipe.cuisine?.toLowerCase() || "";
+      const recipeCuisine = recipe._lcCuisine ?? recipe.cuisine?.toLowerCase() ?? "";
       if (
+        recipeCuisine &&
         recommendedCuisinesLower.some(
           (c) => recipeCuisine.includes(c) || c.includes(recipeCuisine),
         )
@@ -807,17 +840,17 @@ async function searchRecipesForDay(
       }
 
       // Cooking method alignment with planetary profile (weight: 0.15)
-      if (recipe.cookingMethod && recipe.cookingMethod.length > 0) {
-        const methodMatch = recipe.cookingMethod.some((m) =>
-          planetProfile.cookingMethods.some((pm) =>
-            m.toLowerCase().includes(pm.toLowerCase()),
-          ),
+      const lcCookingMethods = recipe._lcCookingMethod;
+      if (lcCookingMethods && lcCookingMethods.length > 0) {
+        const methodMatch = lcCookingMethods.some((m) =>
+          planetCookingMethodsLc.some((pm) => m.includes(pm)),
         );
         if (methodMatch) score += 0.15;
       }
 
       // Preferred cuisine match (weight: 0.1)
       if (
+        recipeCuisine &&
         preferredCuisinesLower.length > 0 &&
         preferredCuisinesLower.some(
           (c) => recipeCuisine.includes(c) || c.includes(recipeCuisine),
@@ -828,16 +861,13 @@ async function searchRecipesForDay(
 
       // Preferred cooking methods match (weight: 0.05)
       if (
-        options.preferredCookingMethods &&
-        options.preferredCookingMethods.length > 0 &&
-        recipe.cookingMethod
+        preferredCookingMethodsLc.length > 0 &&
+        lcCookingMethods &&
+        lcCookingMethods.some((m) =>
+          preferredCookingMethodsLc.some((pm) => m.includes(pm)),
+        )
       ) {
-        const prefMethodMatch = recipe.cookingMethod.some((m) =>
-          options.preferredCookingMethods!.some((pm) =>
-            m.toLowerCase().includes(pm.toLowerCase()),
-          ),
-        );
-        if (prefMethodMatch) score += 0.05;
+        score += 0.05;
       }
 
       // Weekly variety penalties
@@ -858,8 +888,11 @@ async function searchRecipesForDay(
       }
 
       // ── Budget-aware scoring (weight: ±0.2) ──
+      // Early return when no budget is set — avoids the per-recipe call to
+      // `calculateRecipeEstimatedCost`, which is the hottest branch in this
+      // loop when pricing is enabled.
       let costPerServing = 0;
-      if (options.budgetPerMeal && options.budgetPerMeal > 0) {
+      if (budgetEnabled) {
         const ingredients = recipe.ingredients.map((ing: any) => ({
           name: typeof ing === "string" ? ing : ing.name ?? "",
           amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
@@ -867,20 +900,25 @@ async function searchRecipesForDay(
           category: typeof ing === "string" ? undefined : ing.category,
           optional: typeof ing === "string" ? false : ing.optional,
         }));
-        const estimate = calculateRecipeEstimatedCost(ingredients, (recipe as any).servings ?? 4);
+        const estimate = calculateRecipeEstimatedCost(
+          ingredients,
+          (recipe as { servings?: number }).servings ?? 4,
+        );
         costPerServing = estimate.costPerServing;
 
-        const budgetRatio = costPerServing / options.budgetPerMeal;
+        const budgetRatio = costPerServing / (budget as number);
 
         if (budgetRatio > 1.5) {
           // Way over budget → heavy penalty
           score -= 0.25;
         } else if (budgetRatio > 1.0) {
           // Slightly over budget → moderate penalty
-          score -= 0.15 * (budgetRatio - 1.0) / 0.5;
+          score -= (0.15 * (budgetRatio - 1.0)) / 0.5;
         } else if (budgetRatio < 0.6) {
           // Well under budget → bonus for value
-          const nutrition = (recipe as any).nutrition ?? (recipe as any).nutritionalProfile;
+          const nutrition =
+            (recipe as any).nutrition ??
+            (recipe as any).nutritionalProfile;
           const bfb = calculateBangForBuck(nutrition, costPerServing);
           score += Math.min(0.2, bfb.score / 500);
         }
@@ -902,7 +940,8 @@ async function searchRecipesForDay(
     for (const entry of scored) {
       if (selected.length >= maxCandidates) break;
 
-      const recipeCuisine = entry.recipe.cuisine?.toLowerCase() || "";
+      const recipeCuisine =
+        entry.recipe._lcCuisine ?? entry.recipe.cuisine?.toLowerCase() ?? "";
       const recipeProtein = entry.protein || "";
 
       // Prefer recipes that don't duplicate protein or cuisine within this batch
