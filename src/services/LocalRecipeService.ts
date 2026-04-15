@@ -11,7 +11,7 @@ interface DbRecipeRow {
   id: string;
   name: string;
   description?: string | null;
-  cuisine?: string | null;
+  cuisine_type?: string | null;
   category?: string | null;
   instructions?: unknown;
   prep_time_minutes?: number | null;
@@ -23,7 +23,7 @@ interface DbRecipeRow {
   ingredients?: unknown;
   meal_types?: string[] | null;
   seasons?: string[] | null;
-  elemental_profile?: unknown;
+  elemental_properties?: unknown;
   created_at?: string | Date | null;
   updated_at?: string | Date | null;
 }
@@ -211,7 +211,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     id: row.id,
     name: row.name,
     description: row.description ?? undefined,
-    cuisine: row.cuisine ?? undefined,
+    cuisine: row.cuisine_type ?? undefined,
     ingredients: normalizeIngredients(row.ingredients),
     instructions: normalizeInstructions(row.instructions),
     prepTime: String(prepTime),
