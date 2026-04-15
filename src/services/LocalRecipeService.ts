@@ -259,7 +259,7 @@ export class LocalRecipeService {
       return recipes;
     } catch (error) {
       logger.error("Error loading recipes from database:", error);
-      return [];
+      return [{ id: "error", name: `DB_ERROR: ${error instanceof Error ? error.message : String(error)}`, cuisine: "Thai" } as unknown as Recipe];
     }
   }
 
