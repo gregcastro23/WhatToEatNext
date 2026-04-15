@@ -1,21 +1,13 @@
-const { Client } = require('pg');
+import { executeQuery } from "./src/lib/database/connection";
 
-const client = new Client({
-  connectionString: 'postgresql://neondb_owner:npg_kHLuO2D3wZEg@ep-patient-bread-amcjoqiw.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require',
-});
-
-async function run() {
+async function testConnection() {
   try {
-    await client.connect();
-    console.log("Successfully connected to Neon Database!");
-    const res = await client.query('SELECT NOW()');
-    console.log("DB Time:", res.rows[0].now);
-  } catch (err) {
-    console.error("Connection error", err.stack);
-    process.exit(1);
-  } finally {
-    await client.end();
+    console.log("Testing database connection...");
+    const result = await executeQuery("SELECT COUNT(*) FROM recipes");
+    console.log("Success! Recipe count:", result.rows[0].count);
+  } catch (error) {
+    console.error("Connection failed:", error);
   }
 }
 
-run();
+testConnection();

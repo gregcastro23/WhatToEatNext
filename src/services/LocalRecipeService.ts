@@ -94,7 +94,7 @@ const RECIPE_QUERY = `
         'Earth', 0.25,
         'Air', 0.25
       )
-    ) AS elemental_profile
+    ) AS elemental_properties
   FROM recipes r
   WHERE r.is_public = true
 `;
@@ -222,7 +222,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     numberOfServings: row.servings ?? undefined,
     mealType: mealTypes,
     season: row.seasons || undefined,
-    elementalProperties: normalizeElementalProperties(row.elemental_profile),
+    elementalProperties: normalizeElementalProperties(row.elemental_properties),
     allergens: row.allergens || [],
     isVegetarian: hasDietaryTag(dietaryTags, "vegetarian"),
     isVegan: hasDietaryTag(dietaryTags, "vegan"),
@@ -269,7 +269,7 @@ export class LocalRecipeService {
 
     try {
       const recipes = await this.fetchRecipes(
-        "AND LOWER(r.cuisine) = LOWER($1) ORDER BY r.popularity_score DESC, r.created_at DESC",
+        "AND LOWER(r.cuisine_type) = LOWER($1) ORDER BY r.popularity_score DESC, r.created_at DESC",
         [cuisineName],
       );
 
