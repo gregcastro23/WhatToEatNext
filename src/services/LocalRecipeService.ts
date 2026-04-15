@@ -269,15 +269,6 @@ export class LocalRecipeService {
     }
 
     try {
-      const recipes = await this.fetchRecipes(
-        "AND LOWER(r.cuisine_type) = LOWER($1) ORDER BY r.popularity_score DESC, r.created_at DESC",
-        [cuisineName],
-      );
-
-      if (recipes.length > 0) {
-        return recipes;
-      }
-
       const allRecipes = await this.getAllRecipes();
       return allRecipes.filter(
         (recipe) => recipe.cuisine?.toLowerCase() === cuisineName.toLowerCase(),
