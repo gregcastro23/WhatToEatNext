@@ -16,43 +16,48 @@ export async function GET(request: Request) {
     const limit = Math.min(parseInt(url.searchParams.get("limit") || "20", 10), 50);
     const offset = parseInt(url.searchParams.get("offset") || "0", 10);
 
-    // Use the database service to fetch recipes if available
     try {
-      const { executeQuery } = await import("@/lib/database/connection");
-      let query = "SELECT * FROM recipes WHERE 1=1";
-      const params: Array<string | number> = [];
-      let paramIdx = 1;
+      const { LocalRecipeService } = await import("@/services/LocalRecipeService");
+
+      // Use the LocalRecipeService to fetch perfectly mapped recipes.
+      let recipes = [];
+      if (cuisine) {
+        recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
+      } else if (search) {
+        recipes = await LocalRecipeService.searchRecipes(search);
+      } else {
+        recipes = await LocalRecipeService.getAllRecipes();
+      }
 
       if (element) {
-        query += ` AND (elemental_properties->>'dominant_element' ILIKE $${paramIdx})`;
-        params.push(`%${element}%`);
-        paramIdx++;
-      }
-      if (cuisine) {
-        query += ` AND cuisine_type ILIKE $${paramIdx}`;
-        params.push(`%${cuisine}%`);
-        paramIdx++;
-      }
-      if (search) {
-        query += ` AND (name ILIKE $${paramIdx} OR description ILIKE $${paramIdx})`;
-        params.push(`%${search}%`);
-        paramIdx++;
+        const lowerElement = element.toLowerCase();
+        recipes = recipes.filter((recipe) => {
+          const ep = recipe.elementalProperties;
+          if (!ep) return false;
+          let dom = "";
+          let max = -1;
+          for (const k of ["Fire", "Water", "Earth", "Air"]) {
+            if (typeof ep[k] === "number" && ep[k] > max) {
+              max = ep[k] as number;
+              dom = k.toLowerCase();
+            }
+          }
+          return dom.includes(lowerElement);
+        });
       }
 
-      query += ` ORDER BY created_at DESC LIMIT $${paramIdx} OFFSET $${paramIdx + 1}`;
-      params.push(limit, offset);
+      const total = recipes.length;
+      const slicedRecipes = recipes.slice(offset, offset + limit);
 
-      const result = await executeQuery(query, params);
       return NextResponse.json({
         success: true,
-        recipes: result.rows,
-        total: result.rowCount ?? result.rows.length,
+        recipes: slicedRecipes,
+        total,
         limit,
         offset,
       });
-    } catch (dbError) {
-      // DB unavailable — return empty set gracefully
-      console.warn("[recipes] DB unavailable:", dbError);
+    } catch (apiError) {
+      console.warn("[recipes] backend service unavailable:", apiError);
       return NextResponse.json({
         success: true,
         recipes: [],

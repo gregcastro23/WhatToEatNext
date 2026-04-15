@@ -33,16 +33,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch recipes for the cuisine
-    let query = "SELECT * FROM recipes";
-    const params: string[] = [];
+    const { LocalRecipeService } = await import("@/services/LocalRecipeService");
+    
+    let recipes: Recipe[] = [];
     if (cuisine) {
-      query += " WHERE cuisine_type ILIKE $1";
-      params.push(`%${cuisine}%`);
+      recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
+    } else {
+      recipes = await LocalRecipeService.getAllRecipes();
     }
-    query += " LIMIT 50";
-
-    const dbResult = await executeQuery(query, params);
-    const recipes = dbResult.rows as Recipe[];
+    
+    // Limit to 50 for scoring performance
+    recipes = recipes.slice(0, 50);
 
     // Score recipes with high precision (simulated by adding a transit multiplier)
     const scoringService = PlanetaryScoringService.getInstance();

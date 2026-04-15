@@ -37,9 +37,9 @@ export async function POST(request: NextRequest) {
     const compositeChart = calculateCompositeNatalChart(groupMembers as any, "premium-table-session");
 
     // Fetch all recipes to score against the composite chart
-    const query = "SELECT * FROM recipes LIMIT 100";
-    const dbResult = await executeQuery(query, []);
-    const recipes = dbResult.rows as Recipe[];
+    const { LocalRecipeService } = await import("@/services/LocalRecipeService");
+    const allRecipes = await LocalRecipeService.getAllRecipes();
+    const recipes = allRecipes.slice(0, 100);
 
     // Score recipes against the composite chart
     const scoredRecipes = recipes.map((r) => {
