@@ -255,11 +255,20 @@ export class LocalRecipeService {
 
     try {
       const recipes = await this.fetchRecipes("ORDER BY r.popularity_score DESC, r.created_at DESC");
+      
+      if (recipes.length === 0) {
+        logger.warn("Database recipes table returned 0 rows, gracefully resolving local hardcoded payload fallback");
+        const { allRecipes } = await import("@/data/recipes/index");
+        this._allRecipes = allRecipes as Recipe[];
+        return this._allRecipes;
+      }
+      
       this._allRecipes = recipes;
       return recipes;
     } catch (error) {
-      logger.error("Error loading recipes from database:", error);
-      return [];
+      logger.error("Error loading recipes from database, extracting raw local fallback:", error);
+      const { allRecipes } = await import("@/data/recipes/index");
+      return allRecipes as Recipe[];
     }
   }
 
