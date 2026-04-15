@@ -70,7 +70,7 @@ const RECIPE_QUERY = `
     ) AS meal_types,
     COALESCE(
       (
-        SELECT rc.recommended_seasons
+        SELECT rc.recommended_seasons::text[]
         FROM recipe_contexts rc
         WHERE rc.recipe_id = r.id
         LIMIT 1
@@ -259,7 +259,7 @@ export class LocalRecipeService {
       return recipes;
     } catch (error) {
       logger.error("Error loading recipes from database:", error);
-      return [{ id: "error", name: `DB_ERROR: ${error instanceof Error ? error.message : String(error)}`, cuisine: "Thai" } as unknown as Recipe];
+      return [];
     }
   }
 
