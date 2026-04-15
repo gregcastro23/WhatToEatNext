@@ -211,7 +211,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     id: row.id,
     name: row.name,
     description: row.description ?? undefined,
-    cuisine: row.cuisine_type ?? undefined,
+    cuisine: (row as any).cuisine ?? row.cuisine_type ?? undefined,
     ingredients: normalizeIngredients(row.ingredients),
     instructions: normalizeInstructions(row.instructions),
     prepTime: String(prepTime),
