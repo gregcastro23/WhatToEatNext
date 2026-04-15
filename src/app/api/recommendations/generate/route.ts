@@ -32,6 +32,74 @@ interface RetryGrant {
 const RETRY_WINDOW_MS = 5 * 60 * 1000;
 const retryGrants = new Map<string, RetryGrant>();
 
+// ── TTL memo cache for generation results ──────────────────────────────
+//
+// Identical (dayOfWeek, astroState, options) payloads are common on this
+// route: users frequently click Generate multiple times in quick succession
+// while exploring suggestions. Caching results for a few minutes lets those
+// repeat clicks return in <5 ms instead of rerunning the full filter+score
+// pipeline.
+interface MemoEntry {
+  recommendations: unknown;
+  expiresAt: number;
+}
+const MEMO_TTL_MS = 3 * 60 * 1000;
+const MEMO_MAX_ENTRIES = 64;
+const generationMemo = new Map<string, MemoEntry>();
+
+/**
+ * Deterministic JSON serialization. Built-in JSON.stringify is not stable
+ * because object key order is not guaranteed. We need a key for the memo
+ * cache that is identical across clicks with the same logical payload.
+ */
+function stableStringify(value: unknown): string {
+  if (value === null || typeof value !== "object") {
+    return JSON.stringify(value);
+  }
+  if (Array.isArray(value)) {
+    return `[${value.map(stableStringify).join(",")}]`;
+  }
+  const obj = value as Record<string, unknown>;
+  const keys = Object.keys(obj).sort();
+  return `{${keys
+    .map((k) => `${JSON.stringify(k)}:${stableStringify(obj[k])}`)
+    .join(",")}}`;
+}
+
+function memoKey(
+  userId: string,
+  dayOfWeek: number,
+  astroState: unknown,
+  options: unknown,
+): string {
+  return `${userId}|${dayOfWeek}|${stableStringify({ astroState, options })}`;
+}
+
+function lookupMemo(key: string): unknown | null {
+  const entry = generationMemo.get(key);
+  if (!entry) return null;
+  if (entry.expiresAt <= Date.now()) {
+    generationMemo.delete(key);
+    return null;
+  }
+  // Refresh insertion order so LRU-style eviction keeps the hottest entries.
+  generationMemo.delete(key);
+  generationMemo.set(key, entry);
+  return entry.recommendations;
+}
+
+function storeMemo(key: string, recommendations: unknown): void {
+  if (generationMemo.size >= MEMO_MAX_ENTRIES) {
+    // Map iteration order is insertion order — drop the oldest entry.
+    const oldestKey = generationMemo.keys().next().value;
+    if (oldestKey !== undefined) generationMemo.delete(oldestKey);
+  }
+  generationMemo.set(key, {
+    recommendations,
+    expiresAt: Date.now() + MEMO_TTL_MS,
+  });
+}
+
 function cleanupExpiredRetryGrants(now = Date.now()): void {
   for (const [token, grant] of retryGrants.entries()) {
     if (grant.expiresAt <= now) {
@@ -88,6 +156,7 @@ interface GenerateRequestBody {
 }
 
 export async function POST(request: NextRequest) {
+  const tStart = Date.now();
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json(
@@ -117,6 +186,34 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { success: false, message: "Invalid request payload" },
       { status: 400 },
+    );
+  }
+
+  // ── Memo cache hit: return immediately without charging tokens ──
+  //
+  // We key on (userId, dayOfWeek, astroState, options). When the user
+  // clicks Generate repeatedly with the same payload, we return the
+  // previously computed result. No token charge on a cache hit.
+  const cacheKey = memoKey(userId, dayOfWeek, astroState, options);
+  const cachedRecommendations = lookupMemo(cacheKey);
+  if (cachedRecommendations !== null) {
+    const totalMs = Date.now() - tStart;
+    return NextResponse.json(
+      {
+        success: true,
+        recommendations: cachedRecommendations,
+        charged: false,
+        usedRetryWindow: false,
+        cached: true,
+        emptyResult:
+          Array.isArray(cachedRecommendations) &&
+          cachedRecommendations.length === 0,
+      },
+      {
+        headers: {
+          "Server-Timing": `cache;desc="hit";dur=${totalMs}, total;dur=${totalMs}`,
+        },
+      },
     );
   }
 
@@ -191,10 +288,12 @@ export async function POST(request: NextRequest) {
 
   try {
     // Keep below maxDuration to ensure timeout handling can return retry token.
+    const tGen = Date.now();
     const recommendations = await withTimeout(
       generateDayRecommendations(dayOfWeek, astroState, options),
       55_000,
     );
+    const genMs = Date.now() - tGen;
 
     // Success: the retry grant (if any) has delivered a recipe and must be
     // consumed so it cannot be reused to bypass future payments.
@@ -202,14 +301,25 @@ export async function POST(request: NextRequest) {
       deleteRetryGrant(retryToken);
     }
 
-    return NextResponse.json({
-      success: true,
-      recommendations,
-      charged,
-      usedRetryWindow,
-      // Tokens are intentionally charged even when recommendations are empty.
-      emptyResult: recommendations.length === 0,
-    });
+    // Cache the result for the TTL window so repeat clicks are instant.
+    storeMemo(cacheKey, recommendations);
+
+    const totalMs = Date.now() - tStart;
+    return NextResponse.json(
+      {
+        success: true,
+        recommendations,
+        charged,
+        usedRetryWindow,
+        // Tokens are intentionally charged even when recommendations are empty.
+        emptyResult: recommendations.length === 0,
+      },
+      {
+        headers: {
+          "Server-Timing": `generate;dur=${genMs}, total;dur=${totalMs}`,
+        },
+      },
+    );
   } catch (error) {
     if (error instanceof Error && error.message === "GENERATION_TIMEOUT") {
       // Issue or refresh a retry grant so the caller keeps the full
