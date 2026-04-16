@@ -94,8 +94,8 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
       const dayMeals = currentMenu.meals.filter(
         (m) => m.dayOfWeek === day && m.recipe,
       );
-      // If day has fewer than 3 main meals (breakfast, lunch, dinner), it needs generation
-      if (dayMeals.length < 3) {
+      // If day has fewer than 4 meals (breakfast, lunch, snack, dinner), it needs generation
+      if (dayMeals.length < 4) {
         return day as DayOfWeek;
       }
     }
@@ -129,7 +129,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
       // Generate meals for the next empty day with personalization
       await generateMealsForDay(nextEmptyDay, {
-        mealTypes: ["breakfast", "lunch", "dinner"],
+        mealTypes: ["breakfast", "lunch", "snack", "dinner"],
         useCurrentPlanetary: true,
         usePersonalization: hasNatalChart,
       });
@@ -140,7 +140,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           .filter((m) => m.dayOfWeek === nextEmptyDay && m.recipe)
           .map((m) => m.mealType),
       );
-      const allFilled = (["breakfast", "lunch", "dinner"] as MealType[]).every(
+      const allFilled = (["breakfast", "lunch", "snack", "dinner"] as MealType[]).every(
         (t) => filledTypes.has(t),
       );
       if (!allFilled) {
@@ -237,7 +237,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
       const usedRecipeIds = new Set(
         currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id),
       );
-      const mealTypes: MealType[] = ["breakfast", "lunch", "dinner"];
+      const mealTypes: MealType[] = ["breakfast", "lunch", "snack", "dinner"];
 
       for (const mealType of mealTypes) {
         // Check if slot already has a recipe
@@ -288,7 +288,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
       }
 
       const usedRecipeIds = new Set<string>();
-      const mealTypes: MealType[] = ["breakfast", "lunch", "dinner"];
+      const mealTypes: MealType[] = ["breakfast", "lunch", "snack", "dinner"];
 
       for (let day = 0; day < 7; day++) {
         for (const mealType of mealTypes) {
