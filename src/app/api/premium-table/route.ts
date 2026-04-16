@@ -5,7 +5,6 @@
  */
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import { executeQuery } from "@/lib/database/connection";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import type { Recipe } from "@/types/recipe";
 import type { NextRequest } from "next/server";

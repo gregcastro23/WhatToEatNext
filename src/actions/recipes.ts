@@ -1,8 +1,8 @@
 "use server";
 
 import { primaryCuisines } from "@/data/cuisines/index";
-import type { Recipe } from "@/types/recipe";
 import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
+import type { Recipe } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
 import {
   hasNutritionData,

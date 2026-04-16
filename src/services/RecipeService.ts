@@ -1,4 +1,6 @@
+import { calculateFlavorCompatibility } from "@/data/unified/flavorCompatibilityLayer";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
+import { UnifiedScoringService } from "@/services/UnifiedScoringService";
 import type {
     ElementalProperties,
     LunarPhase
@@ -6,15 +8,13 @@ import type {
 import type { ZodiacSignType as ZodiacSign } from "@/types/celestial";
 import type { Cuisine } from "@/types/cuisine";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
+import { calculateEnhancedElementalCompatibility } from "@/utils/enhancedCompatibilityScoring";
 import { logger } from "@/utils/logger";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type {
     RecipeRecommendationOptions,
     RecipeSearchCriteria
 } from "./interfaces/RecipeServiceInterface";
-import { UnifiedScoringService } from "@/services/UnifiedScoringService";
-import { calculateFlavorCompatibility } from "@/data/unified/flavorCompatibilityLayer";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
-import { calculateEnhancedElementalCompatibility } from "@/utils/enhancedCompatibilityScoring";
 
 // Import recipe service interface
 // Extended cuisine interface for internal use
@@ -325,7 +325,7 @@ export class RecipeService {
               ...recipe,
               score: Math.max(0.1, result.score || 0.8), // Normalize to reasonable floor
             };
-          } catch (scoreError) {
+          } catch (_scoreError) {
              return { ...recipe, score: 0.8 };
           }
         })

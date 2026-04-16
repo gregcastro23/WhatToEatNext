@@ -259,7 +259,7 @@ export class LocalRecipeService {
       if (recipes.length === 0) {
         logger.warn("Database recipes table returned 0 rows, gracefully resolving local hardcoded payload fallback");
         const { allRecipes } = await import("@/data/recipes/index");
-        this._allRecipes = allRecipes as Recipe[];
+        this._allRecipes = allRecipes;
         return this._allRecipes;
       }
       
@@ -268,7 +268,7 @@ export class LocalRecipeService {
     } catch (error) {
       logger.error("Error loading recipes from database, extracting raw local fallback:", error);
       const { allRecipes } = await import("@/data/recipes/index");
-      return allRecipes as Recipe[];
+      return allRecipes;
     }
   }
 
