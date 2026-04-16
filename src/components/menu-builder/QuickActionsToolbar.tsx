@@ -208,7 +208,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     if (generationPreferences.maxPrepTimeMinutes !== null) {
       const maxTime = generationPreferences.maxPrepTimeMinutes;
       const timeFiltered = filtered.filter((r) => {
-        const prepTime = r.prepTime || parseInt(r.timeToMake || "0", 10) || 0;
+        const prepTime = parseInt(r.prepTime || r.timeToMake || "0", 10) || 0;
         return prepTime <= 0 || prepTime <= maxTime;
       });
       if (timeFiltered.length > 0) filtered = timeFiltered;
