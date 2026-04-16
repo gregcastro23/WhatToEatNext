@@ -1138,7 +1138,7 @@ function scoreRecipeForDay(
     const nutrition = recipe.nutrition as Record<string, number | undefined> | undefined;
     if (nutrition) {
       let gapScore = 0;
-      let gapReasons: string[] = [];
+      const gapReasons: string[] = [];
 
       // Protein gap filling
       const recipeProtein = nutrition.protein ?? 0;
