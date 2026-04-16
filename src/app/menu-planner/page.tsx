@@ -27,6 +27,9 @@ import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import type { SavedChart } from "@/types/natalChart";
 import type { Recipe } from "@/types/recipe";
 
+const GenerationPreferencesPanel = dynamic(
+  () => import("@/components/menu-planner/GenerationPreferencesPanel"),
+);
 const GroceryListModal = dynamic(
   () => import("@/components/menu-planner/GroceryListModal"),
 );
@@ -103,6 +106,7 @@ function MenuPlannerContent() {
   const [templateName, setTemplateName] = useState("");
   const [showSaveTemplate, setShowSaveTemplate] = useState(false);
   const [showRecipeQueue, setShowRecipeQueue] = useState(true);
+  const [showPreferencesPanel, setShowPreferencesPanel] = useState(false);
   const [showRecipeBrowser, setShowRecipeBrowser] = useState(false);
   const [showPosso, setShowPosso] = useState(false);
   const [detailRecipe, setDetailRecipe] = useState<Recipe | null>(null);
@@ -223,7 +227,13 @@ function MenuPlannerContent() {
           )}
 
           {/* Quick Actions Toolbar - Generate, Balance, Variety, Clear */}
-          <QuickActionsToolbar />
+          <QuickActionsToolbar onTogglePreferences={() => setShowPreferencesPanel((p) => !p)} />
+
+          {/* Generation Preferences Panel */}
+          <GenerationPreferencesPanel
+            isOpen={showPreferencesPanel}
+            onToggle={() => setShowPreferencesPanel((p) => !p)}
+          />
 
           {/* Tools Bar */}
           <div className="bg-white rounded-xl shadow-md p-4 mt-3">

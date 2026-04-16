@@ -92,6 +92,8 @@ export interface DayRecommendationOptions {
   }>;
   /** Budget limit per meal in USD. When set, expensive recipes are penalised. */
   budgetPerMeal?: number;
+  /** Maximum prep time in minutes. Recipes exceeding this are filtered out. */
+  maxPrepTimeMinutes?: number | null;
 }
 
 /**
@@ -138,6 +140,7 @@ export async function generateDayRecommendations(
       userContext,
       existingMeals = [],
       budgetPerMeal,
+      maxPrepTimeMinutes,
     } = options;
 
     const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
@@ -168,6 +171,7 @@ export async function generateDayRecommendations(
           flavorPreferences,
           existingMeals,
           budgetPerMeal,
+          maxPrepTimeMinutes,
         },
       );
 
@@ -395,6 +399,7 @@ async function generateMealRecommendations(
       primaryProtein?: string;
     }>;
     budgetPerMeal?: number;
+    maxPrepTimeMinutes?: number | null;
   },
 ): Promise<RecommendedMeal[]> {
   try {
@@ -680,6 +685,7 @@ async function searchRecipesForDay(
       primaryProtein?: string;
     }>;
     budgetPerMeal?: number;
+    maxPrepTimeMinutes?: number | null;
   },
 ): Promise<MonicaOptimizedRecipe[]> {
   try {
@@ -755,6 +761,15 @@ async function searchRecipesForDay(
           recipeIngNames.some((name) => name.includes(req)),
         );
         if (!hasRequired) return false;
+      }
+
+      // Max prep time filter
+      if (options.maxPrepTimeMinutes) {
+        const maxTime = options.maxPrepTimeMinutes;
+        const recipeTime = (recipe as any).prepTime
+          || parseInt(String((recipe as any).timeToMake || "0"), 10)
+          || 0;
+        if (recipeTime > 0 && recipeTime > maxTime) return false;
       }
 
       return true;

@@ -44,7 +44,11 @@ function calculateNutritionScore(recipe: Recipe): number {
   return Math.min(100, score + 50);
 }
 
-export default function QuickActionsToolbar() {
+interface QuickActionsToolbarProps {
+  onTogglePreferences?: () => void;
+}
+
+export default function QuickActionsToolbar({ onTogglePreferences }: QuickActionsToolbarProps) {
   const {
     currentMenu,
     addMealToSlot,
@@ -56,6 +60,7 @@ export default function QuickActionsToolbar() {
     costConfidence,
     costBreakdown,
     budgetPerMeal,
+    generationPreferences,
   } = useMenuPlanner();
 
   // Get user context for personalization status
@@ -152,18 +157,82 @@ export default function QuickActionsToolbar() {
   };
 
   /**
+   * Apply generation preferences to filter a recipe list
+   */
+  const applyPreferenceFilters = (recipes: Recipe[]): Recipe[] => {
+    let filtered = recipes;
+
+    // Dietary restrictions
+    if (generationPreferences.dietaryRestrictions.length > 0) {
+      filtered = filtered.filter((r) =>
+        generationPreferences.dietaryRestrictions.every((restriction) => {
+          switch (restriction) {
+            case "vegetarian": return r.isVegetarian !== false;
+            case "vegan": return r.isVegan !== false;
+            case "gluten-free": return r.isGlutenFree !== false;
+            case "dairy-free": return r.isDairyFree !== false;
+            case "nut-free": return r.isNutFree !== false;
+            case "low-carb": return r.isLowCarb !== false;
+            case "keto": return r.isKeto !== false;
+            case "paleo": return r.isPaleo !== false;
+            default: return true;
+          }
+        }),
+      );
+    }
+
+    // Exclude ingredients
+    if (generationPreferences.excludeIngredients.length > 0) {
+      filtered = filtered.filter((r) => {
+        const ingNames = (r.ingredients || []).map((i) =>
+          (typeof i === "string" ? i : (i as any).name ?? "").toLowerCase(),
+        );
+        return !generationPreferences.excludeIngredients.some((excl) =>
+          ingNames.some((name) => name.includes(excl)),
+        );
+      });
+    }
+
+    // Preferred cuisines (filter to matching if set)
+    if (generationPreferences.preferredCuisines.length > 0) {
+      const cuisineFiltered = filtered.filter((r) =>
+        r.cuisine && generationPreferences.preferredCuisines.some(
+          (c) => c.toLowerCase() === (r.cuisine || "").toLowerCase(),
+        ),
+      );
+      // Fall back to full list if no matches
+      if (cuisineFiltered.length > 0) filtered = cuisineFiltered;
+    }
+
+    // Max prep time
+    if (generationPreferences.maxPrepTimeMinutes !== null) {
+      const maxTime = generationPreferences.maxPrepTimeMinutes;
+      const timeFiltered = filtered.filter((r) => {
+        const prepTime = r.prepTime || parseInt(r.timeToMake || "0", 10) || 0;
+        return prepTime <= 0 || prepTime <= maxTime;
+      });
+      if (timeFiltered.length > 0) filtered = timeFiltered;
+    }
+
+    return filtered;
+  };
+
+  /**
    * Fallback: fill a single day using UnifiedRecipeService
    */
   const fillDayWithRecipeService = async (day: DayOfWeek) => {
     if (!currentMenu) return;
 
     try {
-      const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
+      const rawRecipes = (await getServerRecipes()) as unknown as Recipe[];
 
-      if (!allRecipes || allRecipes.length === 0) {
+      if (!rawRecipes || rawRecipes.length === 0) {
         logger.info("No recipes available from UnifiedRecipeService");
         return;
       }
+
+      // Apply generation preferences to filter recipes
+      const allRecipes = applyPreferenceFilters(rawRecipes);
 
       const usedRecipeIds = new Set(
         currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id),
@@ -421,6 +490,16 @@ export default function QuickActionsToolbar() {
 
   const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
 
+  // Count active generation preferences
+  const prefsActiveCount =
+    generationPreferences.preferredCuisines.length +
+    generationPreferences.dietaryRestrictions.length +
+    generationPreferences.preferredCookingMethods.length +
+    generationPreferences.flavorPreferences.length +
+    generationPreferences.excludeIngredients.length +
+    generationPreferences.requiredIngredients.length +
+    (generationPreferences.maxPrepTimeMinutes !== null ? 1 : 0);
+
   const isAnyLoading = isGenerating || isBalancing || isDiversifying;
   const loadingMessage = isGenerating
     ? currentGeneratingDay !== null
@@ -514,6 +593,9 @@ export default function QuickActionsToolbar() {
           >
             <span>{hasNatalChart ? "🌟" : "✨"}</span>
             {getGenerateButtonText()}
+            {prefsActiveCount > 0 && (
+              <span className="w-2 h-2 bg-yellow-300 rounded-full" title={`${prefsActiveCount} preferences active`} />
+            )}
           </button>
 
           <button
@@ -571,7 +653,56 @@ export default function QuickActionsToolbar() {
             <span>💰</span>
             {weeklyBudget ? `$${weeklyBudget}/wk` : "Set Budget"}
           </button>
+
+          {/* Preferences Toggle */}
+          {onTogglePreferences && (
+            <button
+              onClick={onTogglePreferences}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 relative ${
+                prefsActiveCount > 0
+                  ? "bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 focus:ring-purple-500"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-400"
+              }`}
+              title="Customize generation preferences"
+            >
+              <span>🎯</span>
+              Preferences
+              {prefsActiveCount > 0 && (
+                <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-white text-purple-700">
+                  {prefsActiveCount}
+                </span>
+              )}
+            </button>
+          )}
         </div>
+
+        {/* Active Preferences Summary */}
+        {prefsActiveCount > 0 && (
+          <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+            <span className="font-medium text-gray-600">Generating with:</span>
+            {generationPreferences.preferredCuisines.length > 0 && (
+              <span className="px-2 py-0.5 bg-purple-50 text-purple-700 rounded-full">
+                {generationPreferences.preferredCuisines.slice(0, 3).join(", ")}
+                {generationPreferences.preferredCuisines.length > 3 && ` +${generationPreferences.preferredCuisines.length - 3}`}
+              </span>
+            )}
+            {generationPreferences.dietaryRestrictions.length > 0 && (
+              <span className="px-2 py-0.5 bg-green-50 text-green-700 rounded-full">
+                {generationPreferences.dietaryRestrictions.join(", ")}
+              </span>
+            )}
+            {generationPreferences.maxPrepTimeMinutes !== null && (
+              <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full">
+                &lt; {generationPreferences.maxPrepTimeMinutes}min
+              </span>
+            )}
+            {generationPreferences.flavorPreferences.length > 0 && (
+              <span className="px-2 py-0.5 bg-pink-50 text-pink-700 rounded-full">
+                {generationPreferences.flavorPreferences.join(", ")}
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Budget Control Panel */}
         {budgetInputVisible && (
