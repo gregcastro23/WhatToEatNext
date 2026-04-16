@@ -28,9 +28,11 @@ export interface TarotCardResult {
 }
 
 /**
- * Interface for a recipe
+ * Minimal recipe shape returned by getRecipesForTarotCard.
+ * Exported so callers don't redeclare it (see components/AlchmKitchen.tsx).
+ * Not to be confused with the full Recipe type in @/types/recipe.
  */
-interface Recipe {
+export interface TarotRecipe {
   id: string;
   name: string;
   ingredients: string[];
@@ -43,9 +45,9 @@ interface Recipe {
  */
 export async function getRecipesForTarotCard(
   cards: TarotCardResult,
-): Promise<Recipe[]> {
+): Promise<TarotRecipe[]> {
   // Default recipes if we can\'t find any
-  const defaultRecipes: Recipe[] = [
+  const defaultRecipes: TarotRecipe[] = [
     {
       id: "recipe-1",
       name: "Elemental Alignment Soup",

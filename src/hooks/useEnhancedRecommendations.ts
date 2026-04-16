@@ -21,7 +21,10 @@ interface EnhancedRecommendationContext {
   useBackendInfluence?: boolean;
   groupId?: string; // Optional group ID for group recommendations
 }
-interface Recipe {
+// Local recommendation-card shape. Distinct from the canonical Recipe in
+// @/types/recipe — this is only what the enhanced recommendations hook
+// returns for UI rendering.
+interface RecommendedRecipeCard {
   id: string;
   name: string;
   cuisine: string;
@@ -32,7 +35,7 @@ interface Recipe {
   tags: string[];
 }
 interface RecommendationResult {
-  recipe: Recipe;
+  recipe: RecommendedRecipeCard;
   score: number;
   reasons: string[];
   alchemicalCompatibility: number;
@@ -65,7 +68,7 @@ interface EnhancedRecommendationsResponse {
 // Real backend client
 const kitchenBackendClient = new KitchenBackendClient();
 // Fallback mock recipes only used if backend is not available
-const _mockRecipes: Recipe[] = [
+const _mockRecipes: RecommendedRecipeCard[] = [
   {
     id: "1",
     name: "Celestial Pasta Primavera",
