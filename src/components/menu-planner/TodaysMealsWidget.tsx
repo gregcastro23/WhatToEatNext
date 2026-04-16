@@ -188,7 +188,10 @@ export default function TodaysMealsWidget({
   // Prefer the freshest menu from context if the prop is stale
   const liveMenu = contextMenu ?? weekPlan;
 
-  const now = new Date();
+  // Memoize `now` so downstream hook deps don't change on every render.
+  // Intentionally empty deps — the widget remounts per route navigation, which
+  // refreshes the clock. If finer granularity is needed, use an interval.
+  const now = useMemo(() => new Date(), []);
   const todayDow = now.getDay() as DayOfWeek;
   const currentHour = now.getHours();
   const currentMealType = getCurrentMealWindow(currentHour);
@@ -386,7 +389,7 @@ export default function TodaysMealsWidget({
     setCollisionState((s) => ({ ...s, isOpen: false }));
     setIsGeneratingNext(true);
     try {
-      addToQueue(sourceSlot.recipe as Recipe, {
+      addToQueue(sourceSlot.recipe as unknown as Recipe, {
         suggestedMealTypes: [targetMealType],
         suggestedDays: [targetDay],
       });

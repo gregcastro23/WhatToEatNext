@@ -14,8 +14,8 @@ import React from "react";
 interface RecipeCollisionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onPush: () => void;
-  onQueue: () => void;
+  onPush: () => void | Promise<void>;
+  onQueue: () => void | Promise<void>;
   existingRecipeName: string;
   targetMealName: string;
 }
@@ -67,7 +67,9 @@ export default function RecipeCollisionModal({
         <div className="space-y-3 mt-6">
           <button
             type="button"
-            onClick={onPush}
+            onClick={() => {
+              void onPush();
+            }}
             className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:from-purple-700 hover:to-pink-700 transition-all shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-left"
           >
             <div className="flex items-center gap-3">
@@ -86,7 +88,9 @@ export default function RecipeCollisionModal({
 
           <button
             type="button"
-            onClick={onQueue}
+            onClick={() => {
+              void onQueue();
+            }}
             className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-left"
           >
             <div className="flex items-center gap-3">

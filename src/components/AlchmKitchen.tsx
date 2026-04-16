@@ -5,7 +5,7 @@ import AlchemicalPropertiesDisplay from '@/components/AlchemicalPropertiesDispla
 import ElementalVisualizer from '@/components/ElementalVisualizer';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getRecipesForTarotCard } from '@/lib/recipeCalculations';
+import { getRecipesForTarotCard, type TarotRecipe } from '@/lib/recipeCalculations';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { calculatePlanetaryAlchemicalValues, calculateElementalBalance } from '@/utils/alchemicalCalculations';
@@ -13,14 +13,6 @@ import { createLogger } from '@/utils/logger';
 import styles from './AlchmKitchen.module.css';
 
 const logger = createLogger('AlchmKitchen');
-
-interface Recipe {
-  id: string;
-  name: string;
-  ingredients: string[];
-  preparation: string;
-  astrologicalInfluences: string[];
-}
 
 type TimeFrame = 'current' | 'tomorrow' | 'nextWeek' | 'nextMonth';
 
@@ -35,7 +27,7 @@ const checkIsDaytime = (date: Date): boolean => {
 export default function AlchmKitchen() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
+  const [filteredRecipes, setFilteredRecipes] = useState<TarotRecipe[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [renderCount, setRenderCount] = useState(0);
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('current');

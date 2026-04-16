@@ -8,6 +8,9 @@ import { useUser } from '@/contexts/UserContext';
 import { reportQuestEvent } from '@/lib/questReporter';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
+import { createLogger } from '@/utils/logger';
+
+const logger = createLogger('RecommendationsPanel');
 
 interface RecommendationsPanelProps {
   email: string;
@@ -180,7 +183,9 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           const parsed = JSON.parse(stored);
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
-        } catch (_e) {}
+        } catch (err) {
+          logger.warn('Failed to sync saved restaurants to localStorage', err);
+        }
       }
     }
 
@@ -195,7 +200,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
 
   const handleRemoveRestaurant = async (restaurantId: string) => {
     const newSaved = savedRestaurants.filter(r => r.id !== restaurantId);
-    
+
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('userFoodPreferences');
       if (stored) {
@@ -203,7 +208,9 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           const parsed = JSON.parse(stored);
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
-        } catch (_e) {}
+        } catch (err) {
+          logger.warn('Failed to sync saved restaurants to localStorage', err);
+        }
       }
     }
 
@@ -216,10 +223,10 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
   };
 
   const handleUpdateRestaurant = async (updatedRestaurant: SavedRestaurant) => {
-    const newSaved = savedRestaurants.map(r => 
+    const newSaved = savedRestaurants.map(r =>
       r.id === updatedRestaurant.id ? updatedRestaurant : r
     );
-    
+
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('userFoodPreferences');
       if (stored) {
@@ -227,7 +234,9 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           const parsed = JSON.parse(stored);
           parsed.savedRestaurants = newSaved;
           localStorage.setItem('userFoodPreferences', JSON.stringify(parsed));
-        } catch (_e) {}
+        } catch (err) {
+          logger.warn('Failed to sync saved restaurants to localStorage', err);
+        }
       }
     }
 
