@@ -92,6 +92,22 @@ export interface DayRecommendationOptions {
   }>;
   /** Budget limit per meal in USD. When set, expensive recipes are penalised. */
   budgetPerMeal?: number;
+  /** Maximum prep time in minutes. Recipes exceeding this are filtered out. */
+  maxPrepTimeMinutes?: number | null;
+  /** Nutritional gap context for gap-aware scoring. When provided, recipes that
+   *  fill current nutritional deficits are scored higher. */
+  nutritionalContext?: {
+    /** Remaining daily macro budget (target minus already-planned totals) */
+    remainingCalories?: number;
+    remainingProteinG?: number;
+    remainingCarbsG?: number;
+    remainingFatG?: number;
+    remainingFiberG?: number;
+    /** Whether to heavily prioritize protein-rich recipes */
+    prioritizeProtein?: boolean;
+    /** Whether to heavily prioritize fiber-rich recipes */
+    prioritizeFiber?: boolean;
+  };
 }
 
 /**
@@ -138,6 +154,8 @@ export async function generateDayRecommendations(
       userContext,
       existingMeals = [],
       budgetPerMeal,
+      maxPrepTimeMinutes,
+      nutritionalContext,
     } = options;
 
     const dayChar = getPlanetaryDayCharacteristics(dayOfWeek);
@@ -168,6 +186,8 @@ export async function generateDayRecommendations(
           flavorPreferences,
           existingMeals,
           budgetPerMeal,
+          maxPrepTimeMinutes,
+          nutritionalContext,
         },
       );
 
@@ -395,6 +415,8 @@ async function generateMealRecommendations(
       primaryProtein?: string;
     }>;
     budgetPerMeal?: number;
+    maxPrepTimeMinutes?: number | null;
+    nutritionalContext?: DayRecommendationOptions["nutritionalContext"];
   },
 ): Promise<RecommendedMeal[]> {
   try {
@@ -408,7 +430,7 @@ async function generateMealRecommendations(
     // Score each recipe
     const scoredRecipes = candidateRecipes.map((recipe) => {
       const { score, reasons, dayAlignment, planetaryAlignment } =
-        scoreRecipeForDay(recipe, dayChar, mealType, astroState);
+        scoreRecipeForDay(recipe, dayChar, mealType, astroState, options.nutritionalContext);
 
       return {
         mealType,
@@ -680,6 +702,7 @@ async function searchRecipesForDay(
       primaryProtein?: string;
     }>;
     budgetPerMeal?: number;
+    maxPrepTimeMinutes?: number | null;
   },
 ): Promise<MonicaOptimizedRecipe[]> {
   try {
@@ -755,6 +778,15 @@ async function searchRecipesForDay(
           recipeIngNames.some((name) => name.includes(req)),
         );
         if (!hasRequired) return false;
+      }
+
+      // Max prep time filter
+      if (options.maxPrepTimeMinutes) {
+        const maxTime = options.maxPrepTimeMinutes;
+        const recipeTime = (recipe as any).prepTime
+          || parseInt(String((recipe as any).timeToMake || "0"), 10)
+          || 0;
+        if (recipeTime > 0 && recipeTime > maxTime) return false;
       }
 
       return true;
@@ -987,6 +1019,7 @@ function scoreRecipeForDay(
   dayChar: PlanetaryDayCharacteristics,
   mealType: MealType,
   astroState: AstrologicalState,
+  nutritionalContext?: DayRecommendationOptions["nutritionalContext"],
 ): {
   score: number;
   reasons: string[];
@@ -1097,6 +1130,48 @@ function scoreRecipeForDay(
     if (flavorOverlap > 0) {
       score += Math.min(0.1, flavorOverlap * 0.03);
       reasons.push("Flavour profile resonates with active planetary energies");
+    }
+  }
+
+  // 7. Nutritional gap scoring — boost recipes that fill current deficits
+  if (nutritionalContext) {
+    const nutrition = recipe.nutrition as Record<string, number | undefined> | undefined;
+    if (nutrition) {
+      let gapScore = 0;
+      let gapReasons: string[] = [];
+
+      // Protein gap filling
+      const recipeProtein = nutrition.protein ?? 0;
+      if (nutritionalContext.prioritizeProtein && recipeProtein >= 15) {
+        gapScore += 0.15;
+        gapReasons.push("High protein — fills nutritional priority");
+      } else if (nutritionalContext.remainingProteinG && nutritionalContext.remainingProteinG > 10 && recipeProtein >= 12) {
+        gapScore += 0.08;
+        gapReasons.push("Good protein content for daily target");
+      }
+
+      // Fiber gap filling
+      const recipeFiber = nutrition.fiber ?? 0;
+      if (nutritionalContext.prioritizeFiber && recipeFiber >= 5) {
+        gapScore += 0.12;
+        gapReasons.push("High fiber — fills nutritional priority");
+      } else if (nutritionalContext.remainingFiberG && nutritionalContext.remainingFiberG > 5 && recipeFiber >= 4) {
+        gapScore += 0.06;
+        gapReasons.push("Good fiber for daily target");
+      }
+
+      // Calorie alignment (prefer recipes that fit within remaining budget)
+      const recipeCals = nutrition.calories ?? 0;
+      if (nutritionalContext.remainingCalories && recipeCals > 0) {
+        const mealBudget = nutritionalContext.remainingCalories / 3; // split across remaining meals
+        if (recipeCals <= mealBudget * 1.15 && recipeCals >= mealBudget * 0.5) {
+          gapScore += 0.06;
+          gapReasons.push("Calories align with remaining daily budget");
+        }
+      }
+
+      score += gapScore;
+      reasons.push(...gapReasons);
     }
   }
 

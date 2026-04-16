@@ -75,6 +75,63 @@ import PantryManager from "@/utils/pantryManager";
 import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
 
 /**
+ * Flavor preference type for generation
+ */
+export type FlavorPreference = "spicy" | "sweet" | "savory" | "bitter" | "sour" | "umami";
+
+/**
+ * Generation preferences for meal recommendation customization
+ */
+/**
+ * Daily nutritional targets for meal generation.
+ * When set, recommendations will prioritize recipes that fill nutritional gaps.
+ * null values mean "use default RDA targets".
+ */
+export interface NutritionalTargets {
+  dailyCalories: number | null;
+  dailyProteinG: number | null;
+  dailyCarbsG: number | null;
+  dailyFatG: number | null;
+  dailyFiberG: number | null;
+  prioritizeProtein: boolean;
+  prioritizeFiber: boolean;
+}
+
+export interface GenerationPreferences {
+  preferredCuisines: string[];
+  dietaryRestrictions: string[];
+  excludeIngredients: string[];
+  requiredIngredients: string[];
+  preferredCookingMethods: string[];
+  flavorPreferences: FlavorPreference[];
+  maxPrepTimeMinutes: number | null; // null = no limit
+  nutritionalTargets: NutritionalTargets;
+}
+
+const GENERATION_PREFS_STORAGE_KEY = "alchm-generation-preferences";
+
+const DEFAULT_NUTRITIONAL_TARGETS: NutritionalTargets = {
+  dailyCalories: null,
+  dailyProteinG: null,
+  dailyCarbsG: null,
+  dailyFatG: null,
+  dailyFiberG: null,
+  prioritizeProtein: false,
+  prioritizeFiber: false,
+};
+
+const DEFAULT_GENERATION_PREFERENCES: GenerationPreferences = {
+  preferredCuisines: [],
+  dietaryRestrictions: [],
+  excludeIngredients: [],
+  requiredIngredients: [],
+  preferredCookingMethods: [],
+  flavorPreferences: [],
+  maxPrepTimeMinutes: null,
+  nutritionalTargets: DEFAULT_NUTRITIONAL_TARGETS,
+};
+
+/**
  * Guest alchemist participant for synastry calculations
  */
 export interface Participant {
@@ -145,6 +202,12 @@ interface MenuPlannerContextType {
     options?: {
       mealTypes?: MealType[];
       dietaryRestrictions?: string[];
+      preferredCuisines?: string[];
+      excludeIngredients?: string[];
+      requiredIngredients?: string[];
+      preferredCookingMethods?: string[];
+      flavorPreferences?: string[];
+      maxPrepTimeMinutes?: number | null;
       useCurrentPlanetary?: boolean;
       /** Use user's natal chart for personalized recommendations */
       usePersonalization?: boolean;
@@ -205,6 +268,12 @@ interface MenuPlannerContextType {
   // Inventory / Posso
   inventory: string[];
   setInventory: (inv: string[]) => void;
+
+  // Generation Preferences
+  generationPreferences: GenerationPreferences;
+  setGenerationPreferences: (prefs: GenerationPreferences) => void;
+  updateGenerationPreference: <K extends keyof GenerationPreferences>(key: K, value: GenerationPreferences[K]) => void;
+  resetGenerationPreferences: () => void;
 }
 
 /**
@@ -402,6 +471,47 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       
     } catch (err) {
       logger.error("Failed to sync inventory with PantryManager", err);
+    }
+  }, []);
+
+  // Generation preferences state with localStorage persistence
+  const [generationPreferences, setGenerationPreferencesRaw] = useState<GenerationPreferences>(() => {
+    if (typeof window === "undefined") return DEFAULT_GENERATION_PREFERENCES;
+    try {
+      const saved = localStorage.getItem(GENERATION_PREFS_STORAGE_KEY);
+      return saved ? { ...DEFAULT_GENERATION_PREFERENCES, ...JSON.parse(saved) } : DEFAULT_GENERATION_PREFERENCES;
+    } catch {
+      return DEFAULT_GENERATION_PREFERENCES;
+    }
+  });
+
+  const setGenerationPreferences = useCallback((prefs: GenerationPreferences) => {
+    setGenerationPreferencesRaw(prefs);
+    try {
+      localStorage.setItem(GENERATION_PREFS_STORAGE_KEY, JSON.stringify(prefs));
+    } catch {
+      // localStorage may be unavailable
+    }
+  }, []);
+
+  const updateGenerationPreference = useCallback(<K extends keyof GenerationPreferences>(key: K, value: GenerationPreferences[K]) => {
+    setGenerationPreferencesRaw(prev => {
+      const updated = { ...prev, [key]: value };
+      try {
+        localStorage.setItem(GENERATION_PREFS_STORAGE_KEY, JSON.stringify(updated));
+      } catch {
+        // localStorage may be unavailable
+      }
+      return updated;
+    });
+  }, []);
+
+  const resetGenerationPreferences = useCallback(() => {
+    setGenerationPreferencesRaw(DEFAULT_GENERATION_PREFERENCES);
+    try {
+      localStorage.removeItem(GENERATION_PREFS_STORAGE_KEY);
+    } catch {
+      // localStorage may be unavailable
     }
   }, []);
 
@@ -1274,6 +1384,12 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       options: {
         mealTypes?: MealType[];
         dietaryRestrictions?: string[];
+        preferredCuisines?: string[];
+        excludeIngredients?: string[];
+        requiredIngredients?: string[];
+        preferredCookingMethods?: string[];
+        flavorPreferences?: string[];
+        maxPrepTimeMinutes?: number | null;
         useCurrentPlanetary?: boolean;
         usePersonalization?: boolean;
       } = {},
@@ -1283,10 +1399,18 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       try {
         const {
           mealTypes = ["breakfast", "lunch", "dinner"],
-          dietaryRestrictions = [],
           useCurrentPlanetary = true,
           usePersonalization = true,
         } = options;
+
+        // Merge per-call options with stored generation preferences (per-call overrides stored)
+        const mergedDietaryRestrictions = options.dietaryRestrictions ?? generationPreferences.dietaryRestrictions;
+        const mergedPreferredCuisines = options.preferredCuisines ?? generationPreferences.preferredCuisines;
+        const mergedExcludeIngredients = options.excludeIngredients ?? generationPreferences.excludeIngredients;
+        const mergedRequiredIngredients = options.requiredIngredients ?? generationPreferences.requiredIngredients;
+        const mergedCookingMethods = options.preferredCookingMethods ?? generationPreferences.preferredCookingMethods;
+        const mergedFlavorPreferences = options.flavorPreferences ?? generationPreferences.flavorPreferences;
+        const mergedMaxPrepTime = options.maxPrepTimeMinutes !== undefined ? options.maxPrepTimeMinutes : generationPreferences.maxPrepTimeMinutes;
 
         const hasPersonalization = usePersonalization && !!natalChart;
 
@@ -1296,7 +1420,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
         logger.info(`Generating meals for day ${dayOfWeek}`, {
           mealTypes,
-          dietaryRestrictions,
+          dietaryRestrictions: mergedDietaryRestrictions,
+          preferredCuisines: mergedPreferredCuisines,
           personalized: hasPersonalization,
         });
 
@@ -1346,18 +1471,71 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           ? weeklyBudget / Math.max(21, totalPlannedMeals)
           : undefined;
 
+        // Build nutritional gap context from targets and current day's planned meals
+        const nutTargets = generationPreferences.nutritionalTargets;
+        const hasNutritionalTargets = nutTargets.dailyCalories !== null
+          || nutTargets.dailyProteinG !== null
+          || nutTargets.prioritizeProtein
+          || nutTargets.prioritizeFiber;
+
+        let nutritionalContext: {
+          remainingCalories?: number;
+          remainingProteinG?: number;
+          remainingCarbsG?: number;
+          remainingFatG?: number;
+          remainingFiberG?: number;
+          prioritizeProtein?: boolean;
+          prioritizeFiber?: boolean;
+        } | undefined;
+
+        if (hasNutritionalTargets) {
+          // Sum nutrition already planned for this day
+          const dayMeals = currentMenu.meals.filter(
+            (m) => m.dayOfWeek === dayOfWeek && m.recipe,
+          );
+          let plannedCals = 0, plannedProtein = 0, plannedCarbs = 0, plannedFat = 0, plannedFiber = 0;
+          for (const m of dayMeals) {
+            const n = m.recipe?.nutrition as Record<string, number | undefined> | undefined;
+            const s = m.servings || 1;
+            if (n) {
+              plannedCals += (n.calories ?? 0) * s;
+              plannedProtein += (n.protein ?? 0) * s;
+              plannedCarbs += (n.carbs ?? 0) * s;
+              plannedFat += (n.fat ?? 0) * s;
+              plannedFiber += (n.fiber ?? 0) * s;
+            }
+          }
+
+          nutritionalContext = {
+            remainingCalories: nutTargets.dailyCalories ? Math.max(0, nutTargets.dailyCalories - plannedCals) : undefined,
+            remainingProteinG: nutTargets.dailyProteinG ? Math.max(0, nutTargets.dailyProteinG - plannedProtein) : undefined,
+            remainingCarbsG: nutTargets.dailyCarbsG ? Math.max(0, nutTargets.dailyCarbsG - plannedCarbs) : undefined,
+            remainingFatG: nutTargets.dailyFatG ? Math.max(0, nutTargets.dailyFatG - plannedFat) : undefined,
+            remainingFiberG: nutTargets.dailyFiberG ? Math.max(0, nutTargets.dailyFiberG - plannedFiber) : undefined,
+            prioritizeProtein: nutTargets.prioritizeProtein,
+            prioritizeFiber: nutTargets.prioritizeFiber,
+          };
+        }
+
         // Generate recommendations using planetary intelligence + user personalization
         const recommendations = await generateDayRecommendations(
           dayOfWeek,
           astroState,
           {
             mealTypes,
-            dietaryRestrictions,
+            dietaryRestrictions: mergedDietaryRestrictions,
+            preferredCuisines: mergedPreferredCuisines,
+            excludeIngredients: mergedExcludeIngredients,
+            requiredIngredients: mergedRequiredIngredients,
+            preferredCookingMethods: mergedCookingMethods,
+            flavorPreferences: mergedFlavorPreferences,
+            maxPrepTimeMinutes: mergedMaxPrepTime,
             useCurrentPlanetary,
             maxRecipesPerMeal: 1, // Take top recommendation per meal
             userContext,
             existingMeals,
             budgetPerMeal: budgetPerMealValue,
+            nutritionalContext,
           },
         );
 
@@ -1417,6 +1595,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       chartComparison,
       weeklyBudget,
       syncWithLunarCycle,
+      generationPreferences,
     ],
   );
 
@@ -1978,6 +2157,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       budgetPerMeal: weeklyBudget ? Math.round((weeklyBudget / 21) * 100) / 100 : null,
       inventory,
       setInventory: setInventoryAndPersist,
+      generationPreferences,
+      setGenerationPreferences,
+      updateGenerationPreference,
+      resetGenerationPreferences,
     }),
     [
       currentMenu,
@@ -2030,6 +2213,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       inventory,
       setInventoryAndPersist,
       estimatedCostState, // Added this
+      generationPreferences,
+      setGenerationPreferences,
+      updateGenerationPreference,
+      resetGenerationPreferences,
     ],
   );
 

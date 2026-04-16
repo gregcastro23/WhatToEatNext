@@ -104,6 +104,28 @@ export class NutritionTrackingService {
   }
 
   /**
+   * Apply partial daily macro overrides from user's generation preferences.
+   * Only overrides macros that have non-null values; all other nutrients
+   * remain at their current (FDA default or profile-calculated) values.
+   */
+  applyDailyOverrides(overrides: {
+    calories?: number | null;
+    protein?: number | null;
+    carbs?: number | null;
+    fat?: number | null;
+    fiber?: number | null;
+  }): void {
+    if (overrides.calories != null) this.targets.daily.calories = overrides.calories;
+    if (overrides.protein != null) this.targets.daily.protein = overrides.protein;
+    if (overrides.carbs != null) this.targets.daily.carbs = overrides.carbs;
+    if (overrides.fat != null) this.targets.daily.fat = overrides.fat;
+    if (overrides.fiber != null) this.targets.daily.fiber = overrides.fiber;
+
+    // Recalculate weekly from daily
+    this.targets.weekly = multiplyNutrition(this.targets.daily, 7);
+  }
+
+  /**
    * Get current daily targets
    */
   getDailyTargets(): NutritionalSummary {
