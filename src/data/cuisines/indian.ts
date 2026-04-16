@@ -955,6 +955,717 @@ export const indian = {
     dinner: {
       all: [
         {
+          "name": "Authentic Murgh Makhani (Butter Chicken)",
+          "description": "A profoundly rich, creamy North Indian curry featuring tender, yogurt-marinated tandoori chicken simmered in a spiced tomato and butter sauce.",
+          "details": {
+            "cuisine": "Indian",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild-Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "chicken thighs",
+              "notes": "Boneless, skinless"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "plain yogurt",
+              "notes": "For marinade"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "garam masala",
+              "notes": "Divided"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Kashmiri chili powder",
+              "notes": "For color and mild heat"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "Divided"
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "butter",
+              "notes": "Essential"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "tomato purée",
+              "notes": "Fresh or canned"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "heavy cream",
+              "notes": "For finishing"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "kasuri methi",
+              "notes": "Dried fenugreek leaves, crushed"
+            }
+          ],
+          "instructions": [
+            "Step 1: Marinate chicken in yogurt, half the ginger-garlic paste, chili powder, half the garam masala, and salt for at least 2 hours.",
+            "Step 2: Grill, bake, or pan-sear the marinated chicken until deeply charred. Set aside.",
+            "Step 3: In a large pan, melt the butter. Sauté remaining ginger-garlic paste until fragrant.",
+            "Step 4: Add tomato purée, remaining chili powder, and salt. Simmer for 20 minutes until the oil separates from the paste.",
+            "Step 5: Stir in the heavy cream, remaining garam masala, and crushed kasuri methi.",
+            "Step 6: Add the cooked chicken back into the sauce. Simmer for 10 minutes and serve with naan or basmati rice."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner"
+            ],
+            "cookingMethods": [
+              "marinating",
+              "simmering",
+              "grilling"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.4,
+            "Earth": 0.2,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 620,
+            "proteinG": 35,
+            "carbsG": 12,
+            "fatG": 48,
+            "fiberG": 2,
+            "sodiumMg": 750,
+            "sugarG": 6,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 6,
+            "Matter": 7,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 1.6,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Palak Paneer",
+          "description": "A deeply vibrant, herbaceous vegetarian dish consisting of fresh paneer cheese cubes simmered in a smooth, spiced spinach purée.",
+          "details": {
+            "cuisine": "Indian",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "fresh spinach",
+              "notes": "Washed and stemmed"
+            },
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "paneer",
+              "notes": "Cut into cubes"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Finely chopped"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "tomato",
+              "notes": "Finely chopped"
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cumin seeds",
+              "notes": "Whole"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "turmeric",
+              "notes": "Ground"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "garam masala",
+              "notes": "For finishing"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "ghee",
+              "notes": "Or oil"
+            }
+          ],
+          "instructions": [
+            "Step 1: Blanch spinach in boiling water for 2 minutes, then immediately plunge into an ice bath. Purée in a blender.",
+            "Step 2: Lightly pan-fry the paneer cubes in a little oil until golden. Soak in warm water to keep them soft.",
+            "Step 3: Heat ghee in a pan, add cumin seeds until they pop, then add onions, ginger, and garlic, sautéing until golden.",
+            "Step 4: Add tomatoes, turmeric, and salt. Cook until tomatoes break down into a paste.",
+            "Step 5: Pour in the spinach purée. Simmer gently for 5 minutes (do not overcook or it loses its bright green color).",
+            "Step 6: Fold in the paneer cubes and garam masala. Serve hot."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch",
+              "vegetarian"
+            ],
+            "cookingMethods": [
+              "blanching",
+              "simmering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Cancer",
+              "Virgo"
+            ],
+            "lunarPhases": [
+              "Waxing Crescent"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 380,
+            "proteinG": 15,
+            "carbsG": 12,
+            "fatG": 32,
+            "fiberG": 4,
+            "sodiumMg": 450,
+            "sugarG": 3,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin K",
+              "Folate"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.03,
+            "entropy": 0.25,
+            "reactivity": 1.4,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Chana Masala",
+          "description": "A robust, tangy, and earthy North Indian chickpea curry layered with complex roasted spices and an acidic hit of amchur or pomegranate powder.",
+          "details": {
+            "cuisine": "Indian",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium-Hot",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cans",
+              "name": "chickpeas",
+              "notes": "Rinsed and drained (or 1 cup dried, soaked and boiled)"
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "onions",
+              "notes": "Finely diced"
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "tomatoes",
+              "notes": "Puréed"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "Fresh"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "chana masala powder",
+              "notes": "Specialized spice blend"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "amchur (dry mango powder)",
+              "notes": "Essential for tartness"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cumin powder",
+              "notes": "Ground"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "coriander powder",
+              "notes": "Ground"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "oil or ghee",
+              "notes": "For tempering"
+            }
+          ],
+          "instructions": [
+            "Step 1: Heat oil in a heavy pot. Sauté onions until deeply browned and caramelized (15 mins).",
+            "Step 2: Add ginger-garlic paste and cook for 1 minute.",
+            "Step 3: Add tomato purée, chana masala powder, cumin, coriander, and salt. Cook until the oil separates from the masala.",
+            "Step 4: Add the chickpeas and 1 cup of water. Bring to a boil.",
+            "Step 5: Cover and simmer on low for 20-30 minutes so the chickpeas absorb the spices.",
+            "Step 6: Stir in the amchur powder for a final tart kick. Garnish with cilantro and raw onion."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch",
+              "vegan"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "sautéing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Saturn"
+            ],
+            "signs": [
+              "Aries",
+              "Capricorn"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 310,
+            "proteinG": 12,
+            "carbsG": 45,
+            "fatG": 10,
+            "fiberG": 12,
+            "sodiumMg": 500,
+            "sugarG": 6,
+            "vitamins": [
+              "Vitamin C",
+              "Folate"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.35,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.03,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Hyderabadi Chicken Biryani",
+          "description": "The zenith of Indian rice dishes. A highly complex, layered masterpiece of marinated chicken and par-boiled saffron rice, sealed and steamed (dum) to lock in aromatics.",
+          "details": {
+            "cuisine": "Indian",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "Medium-Hot",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "kg",
+              "name": "bone-in chicken",
+              "notes": "Cut into large pieces"
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "basmati rice",
+              "notes": "Aged, extra-long grain, soaked for 30 mins"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "yogurt",
+              "notes": "For marinade"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "fried onions (birista)",
+              "notes": "Deeply caramelized"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "mint and cilantro",
+              "notes": "Chopped"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "ginger-garlic paste",
+              "notes": "Fresh"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "biryani masala",
+              "notes": "Complex spice blend"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "saffron threads",
+              "notes": "Soaked in warm milk"
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "ghee",
+              "notes": "Melted"
+            }
+          ],
+          "instructions": [
+            "Step 1: Marinate chicken with yogurt, half the fried onions, herbs, ginger-garlic paste, biryani masala, salt, and 2 tbsp oil for at least 3 hours.",
+            "Step 2: Boil a large pot of heavily salted water with whole spices (cardamom, cloves, cinnamon). Add soaked rice and boil until 70% cooked (al dente). Drain.",
+            "Step 3: In a heavy-bottomed pot, spread the marinated chicken in a single layer at the bottom.",
+            "Step 4: Layer the 70% cooked hot rice evenly over the raw chicken.",
+            "Step 5: Drizzle the saffron milk, melted ghee, remaining herbs, and remaining fried onions over the rice.",
+            "Step 6: Seal the pot hermetically with dough or heavy foil (Dum). Cook on high for 10 mins to generate steam, then on the absolute lowest heat for 40 mins. Rest 15 mins before opening."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "celebration"
+            ],
+            "cookingMethods": [
+              "marinating",
+              "steaming",
+              "layering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.2,
+            "Earth": 0.2,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Jupiter"
+            ],
+            "signs": [
+              "Leo",
+              "Sagittarius"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 35,
+            "carbsG": 65,
+            "fatG": 25,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin B6",
+              "Niacin"
+            ],
+            "minerals": [
+              "Zinc",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 6,
+            "Essence": 7,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.07,
+            "entropy": 0.45,
+            "reactivity": 2.1,
+            "gregsEnergy": -0.6,
+            "kalchm": 0.05,
+            "monica": 0.7
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Punjabi Samosa",
+          "description": "The quintessential Indian street snack. A crisp, blistered, carom-seeded pastry shell stuffed with a fiercely spiced potato and green pea filling.",
+          "details": {
+            "cuisine": "Indian",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "all-purpose flour (maida)",
+              "notes": "For the dough"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "oil or ghee",
+              "notes": "For the dough (moyen)"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "carom seeds (ajwain)",
+              "notes": "Crushed, for the dough"
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "potatoes",
+              "notes": "Boiled, peeled, and crumbled"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "green peas",
+              "notes": "Boiled"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger and green chili",
+              "notes": "Pounded into a coarse paste"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "coriander seeds",
+              "notes": "Crushed"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "garam masala",
+              "notes": "For the filling"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "amchur",
+              "notes": "Dry mango powder"
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "oil",
+              "notes": "For deep frying"
+            }
+          ],
+          "instructions": [
+            "Step 1: Rub the flour, ajwain, salt, and 1/4 cup oil together until it resembles breadcrumbs. Add cold water little by little to knead a stiff dough. Rest 30 mins.",
+            "Step 2: Heat 1 tbsp oil, temper crushed coriander seeds, add ginger-chili paste, and sauté for 30 seconds.",
+            "Step 3: Add crumbled potatoes, peas, garam masala, amchur, and salt. Toss well. Do not mash the potatoes fully; leave chunks. Cool the filling.",
+            "Step 4: Roll a ball of dough into an oval, cut in half. Form a cone with one half, seal the edge with water.",
+            "Step 5: Stuff the cone with the potato filling, pleat the back edge, and seal the base tightly with water.",
+            "Step 6: Fry in medium-low oil (not hot) for 15-20 minutes so the crust becomes crisp and flaky without blistering heavily."
+          ],
+          "classifications": {
+            "mealType": [
+              "snack",
+              "street food",
+              "vegetarian"
+            ],
+            "cookingMethods": [
+              "kneading",
+              "deep-frying"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.1,
+            "Earth": 0.5,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Earth"
+            ],
+            "signs": [
+              "Aries",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 380,
+            "proteinG": 6,
+            "carbsG": 45,
+            "fatG": 20,
+            "fiberG": 4,
+            "sodiumMg": 400,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Potassium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 4,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 1.6,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
           "name": "Authentic Butter Chicken (Murgh Makhani)",
           "description": "The masterpiece of Punjabi restaurant cuisine. The alchemy involves a two-stage process: first, chicken is yogurt-marinated and charred in a tandoor (Fire), then submerged in a 'Makhani' sauce—a velvet emulsion of tomatoes, butter, and cream, stabilized with pureed cashews.",
           "details": {
@@ -2583,11 +3294,11 @@ export const indian = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["pressure-cooking","tempering","simmering"]},
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Jupiter","Sun"],"signs":["capricorn","sagittarius","leo"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":320,"proteinG":16,"carbsG":42,"fatG":10,"fiberG":12,"sodiumMg":480,"sugarG":4,"vitamins":["Folate","Thiamin","Vitamin B6"],"minerals":["Iron","Magnesium","Potassium"]},
 
           alchemicalProperties: {"Spirit":4.5,"Essence":4.16,"Matter":4.14,"Substance":3.74},
           thermodynamicProperties: {"heat":0.1253,"entropy":0.4335,"reactivity":2.686,"gregsEnergy":-1.0391,"kalchm":6.576,"monica":0.5298},
-          substitutions: [{"originalIngredient":"Toor dal","substituteOptions":["Red lentils (masoor dal)","Chana dal (chickpea lentils)"]},{"originalIngredient":"Ghee","substituteOptions":["Coconut oil","Butter"]}]
+          substitutions: [{"originalIngredient":"Toor dal","substituteOptions":["Red lentils (masoor dal)","Chana dal (chickpea lentils)"]},{"originalIngredient":"Ghee","substituteOptions":["Coconut oil","Butter"]}],
+            nutritionPerServing: {"calories":72,"proteinG":2,"carbsG":12,"fatG":2,"fiberG":2,"sodiumMg":7,"sugarG":4,"vitamins":["Vitamin C","Vitamin K","Vitamin A","Vitamin folate","Vitamin B6","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Magnesium","Iron","Calcium","Phosphorus"]}
         },
         {
           name: "Palak Paneer",
@@ -2598,11 +3309,11 @@ export const indian = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["blanching","sauteing","simmering"]},
           elementalProperties: {"Fire":0.25,"Water":0.3,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon","Jupiter"],"signs":["taurus","cancer","pisces"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":420,"proteinG":22,"carbsG":18,"fatG":30,"fiberG":5,"sodiumMg":540,"sugarG":8,"vitamins":["Vitamin A","Vitamin C","Vitamin K","Folate"],"minerals":["Calcium","Iron","Magnesium"]},
 
           alchemicalProperties: {"Spirit":3.02,"Essence":3.93,"Matter":4.08,"Substance":3.68},
           thermodynamicProperties: {"heat":0.0593,"entropy":0.3032,"reactivity":1.9501,"gregsEnergy":-0.5318,"kalchm":0.1628,"monica":0.241},
-          substitutions: [{"originalIngredient":"Paneer","substituteOptions":["Extra-firm tofu","Halloumi cheese"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew cream"]}]
+          substitutions: [{"originalIngredient":"Paneer","substituteOptions":["Extra-firm tofu","Halloumi cheese"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew cream"]}],
+            nutritionPerServing: {"calories":59,"proteinG":2,"carbsG":10,"fatG":2,"fiberG":2,"sodiumMg":8,"sugarG":5,"vitamins":["Vitamin K","Vitamin A","Vitamin C","Vitamin folate","Vitamin B6","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3"],"minerals":["Iron","Calcium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Chicken Tikka Masala",
@@ -2613,11 +3324,11 @@ export const indian = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["grilling","sauteing","simmering"]},
           elementalProperties: {"Fire":0.35,"Water":0.25,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Sun","Jupiter"],"signs":["aries","leo","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":520,"proteinG":42,"carbsG":18,"fatG":32,"fiberG":4,"sodiumMg":720,"sugarG":10,"vitamins":["Vitamin A","Vitamin C","Niacin"],"minerals":["Iron","Calcium","Potassium"]},
 
           alchemicalProperties: {"Spirit":2.9,"Essence":3.69,"Matter":3.69,"Substance":3.47},
           thermodynamicProperties: {"heat":0.0645,"entropy":0.3317,"reactivity":2.2079,"gregsEnergy":-0.6678,"kalchm":0.2924,"monica":0.6974},
-          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Paneer cubes","Cauliflower florets","Shrimp"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew paste"]}]
+          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Paneer cubes","Cauliflower florets","Shrimp"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew paste"]}],
+            nutritionPerServing: {"calories":101,"proteinG":13,"carbsG":9,"fatG":2,"fiberG":2,"sodiumMg":34,"sugarG":5,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
         },
         {
           name: "Biryani",
@@ -2628,11 +3339,11 @@ export const indian = {
           classifications: {"mealType":["dinner","celebration"],"cookingMethods":["dum-cooking","layering","frying"]},
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Saturn","Sun"],"signs":["sagittarius","capricorn","leo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":72,"fatG":26,"fiberG":4,"sodiumMg":780,"sugarG":6,"vitamins":["Niacin","Vitamin B6","Folate"],"minerals":["Iron","Zinc","Potassium"]},
 
           alchemicalProperties: {"Spirit":3.11,"Essence":3.73,"Matter":3.94,"Substance":3.68},
           thermodynamicProperties: {"heat":0.0672,"entropy":0.3452,"reactivity":2.0256,"gregsEnergy":-0.6321,"kalchm":0.1723,"monica":1.3128},
-          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Lamb (raan biryani)","Vegetables and paneer (veg biryani)"]},{"originalIngredient":"Saffron","substituteOptions":["Turmeric for color only (flavor differs)"]}]
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Lamb (raan biryani)","Vegetables and paneer (veg biryani)"]},{"originalIngredient":"Saffron","substituteOptions":["Turmeric for color only (flavor differs)"]}],
+            nutritionPerServing: {"calories":94,"proteinG":11,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":26,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
         },
         {
           name: "Aloo Chaat",
@@ -2643,11 +3354,11 @@ export const indian = {
           classifications: {"mealType":["snack","appetizer","lunch"],"cookingMethods":["frying","boiling","assembly"]},
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Mercury","Sun"],"signs":["aries","gemini","leo"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":320,"proteinG":8,"carbsG":48,"fatG":12,"fiberG":6,"sodiumMg":580,"sugarG":12,"vitamins":["Vitamin C","Vitamin B6","Folate"],"minerals":["Potassium","Iron","Magnesium"]},
 
           alchemicalProperties: {"Spirit":3.13,"Essence":4.31,"Matter":4.68,"Substance":4.3},
           thermodynamicProperties: {"heat":0.0505,"entropy":0.312,"reactivity":1.8583,"gregsEnergy":-0.5293,"kalchm":0.0266,"monica":0.8564},
-          substitutions: [{"originalIngredient":"Sev","substituteOptions":["Crushed papdi","Crushed puffed rice (murmura)"]},{"originalIngredient":"Pomegranate seeds","substituteOptions":["Diced mango","Diced apple"]}]
+          substitutions: [{"originalIngredient":"Sev","substituteOptions":["Crushed papdi","Crushed puffed rice (murmura)"]},{"originalIngredient":"Pomegranate seeds","substituteOptions":["Diced mango","Diced apple"]}],
+            nutritionPerServing: {"calories":56,"proteinG":1,"carbsG":14,"fatG":0,"fiberG":2,"sodiumMg":42,"sugarG":10,"vitamins":["Vitamin B1","Vitamin B3","Vitamin C","Vitamin A","Vitamin B6","Vitamin folate","Vitamin K"],"minerals":["Potassium","Magnesium","Iron","Manganese"]}
         },
       ],
     },

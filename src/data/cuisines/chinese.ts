@@ -1648,6 +1648,655 @@ export const chinese = {
       all: [
         {
           "name": "Authentic Peking Duck",
+          "description": "A world-renowned dish from Beijing featuring duck with thin, crisp skin, served with pancakes, scallions, and hoisin sauce.",
+          "details": {
+            "cuisine": "Chinese",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "duck",
+              "notes": "Air-dried overnight"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "maltose syrup",
+              "notes": "For glazing the skin"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "soy sauce",
+              "notes": "Mixed into the glaze"
+            },
+            {
+              "amount": 10,
+              "unit": "whole",
+              "name": "Mandarin pancakes",
+              "notes": "For serving"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "scallions",
+              "notes": "Cut into thin strips"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "cucumber",
+              "notes": "Cut into thin strips"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "sweet bean sauce or hoisin",
+              "notes": "For serving"
+            }
+          ],
+          "instructions": [
+            "Step 1: Clean the duck and pour boiling water over the skin to tighten it.",
+            "Step 2: Mix maltose syrup with boiling water and soy sauce. Brush evenly over the duck.",
+            "Step 3: Hang the duck in a cool, well-ventilated area for 24 hours to completely dry the skin.",
+            "Step 4: Roast the duck at 400°F (200°C) until the skin is deep brown and crispy.",
+            "Step 5: Carve the duck table-side, ensuring every piece has crisp skin.",
+            "Step 6: Serve wrapped in Mandarin pancakes with scallions, cucumber, and sweet bean sauce."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner"
+            ],
+            "cookingMethods": [
+              "roasting",
+              "glazing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.3,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Venus"
+            ],
+            "signs": [
+              "Leo",
+              "Libra"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 750,
+            "proteinG": 35,
+            "carbsG": 45,
+            "fatG": 48,
+            "fiberG": 2,
+            "sodiumMg": 900,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin A",
+              "Iron"
+            ],
+            "minerals": [
+              "Zinc",
+              "Phosphorus"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 6,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.6
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Mapo Tofu",
+          "description": "A famously fiery and numbing Sichuan dish made of soft silken tofu set in a spicy, brilliant red, minced meat and chili bean sauce.",
+          "details": {
+            "cuisine": "Chinese (Sichuan)",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Fiery",
+            "season": [
+              "winter",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "silken tofu",
+              "notes": "Cut into cubes"
+            },
+            {
+              "amount": 150,
+              "unit": "g",
+              "name": "ground pork or beef",
+              "notes": "Finely minced"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "doubanjiang (spicy broad bean paste)",
+              "notes": "Essential for the red oil base"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "douchi (fermented black beans)",
+              "notes": "Chopped"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Sichuan peppercorns",
+              "notes": "Ground, for the 'ma' (numbing) flavor"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "chili oil",
+              "notes": "For extra heat and color"
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger",
+              "notes": "Minced"
+            }
+          ],
+          "instructions": [
+            "Step 1: Blanch the tofu cubes in salted boiling water for 2 minutes, then drain.",
+            "Step 2: Heat a wok, add oil, and stir-fry the ground meat until crispy and browned.",
+            "Step 3: Lower heat and add doubanjiang, frying until the oil turns bright red.",
+            "Step 4: Add garlic, ginger, and douchi, stir-frying until fragrant.",
+            "Step 5: Pour in 1 cup of water or broth and bring to a simmer. Gently slide in the tofu.",
+            "Step 6: Thicken with a cornstarch slurry. Sprinkle heavily with ground Sichuan peppercorns before serving."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch"
+            ],
+            "cookingMethods": [
+              "stir-frying",
+              "simmering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.6,
+            "Water": 0.2,
+            "Earth": 0.1,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Pluto"
+            ],
+            "signs": [
+              "Aries",
+              "Scorpio"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 22,
+            "carbsG": 12,
+            "fatG": 24,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 3,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 6,
+            "Essence": 5,
+            "Matter": 4,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.08,
+            "entropy": 0.4,
+            "reactivity": 2.2,
+            "gregsEnergy": -0.6,
+            "kalchm": 0.05,
+            "monica": 0.8
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Char Siu (Chinese BBQ Pork)",
+          "description": "A classic Cantonese roasted pork dish characterized by its sweet, savory, and sticky red glaze and tender, juicy interior.",
+          "details": {
+            "cuisine": "Chinese (Cantonese)",
+            "prepTimeMinutes": 240,
+            "cookTimeMinutes": 40,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "pork shoulder or belly",
+              "notes": "Cut into thick strips"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "hoisin sauce",
+              "notes": "Base of marinade"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "soy sauce",
+              "notes": "For saltiness"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "honey or maltose",
+              "notes": "For sweetness and glaze"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Shaoxing wine",
+              "notes": "For depth"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "five-spice powder",
+              "notes": "Aromatic"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "red fermented tofu or food coloring",
+              "notes": "For the iconic red hue"
+            }
+          ],
+          "instructions": [
+            "Step 1: Combine hoisin, soy sauce, honey, wine, five-spice, and coloring to make the marinade.",
+            "Step 2: Marinate the pork strips for at least 4 hours, or overnight for best results.",
+            "Step 3: Preheat oven to 400°F (200°C). Place pork on a wire rack over a roasting pan.",
+            "Step 4: Roast for 20 minutes. Reserve the leftover marinade.",
+            "Step 5: Simmer the leftover marinade until thick and syrupy.",
+            "Step 6: Flip the pork, brush generously with the thickened glaze, and roast for another 15-20 minutes until caramelized."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch"
+            ],
+            "cookingMethods": [
+              "roasting",
+              "marinating"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.1,
+            "Earth": 0.5,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 450,
+            "proteinG": 35,
+            "carbsG": 20,
+            "fatG": 25,
+            "fiberG": 1,
+            "sodiumMg": 800,
+            "sugarG": 15,
+            "vitamins": [
+              "Vitamin B6",
+              "Thiamin"
+            ],
+            "minerals": [
+              "Zinc",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 6,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.3,
+            "reactivity": 1.6,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Har Gow (Shrimp Dumplings)",
+          "description": "The crown jewel of Cantonese dim sum. Delicate, translucent wrappers pleated elegantly around a crisp, sweet shrimp filling.",
+          "details": {
+            "cuisine": "Chinese (Cantonese)",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "raw shrimp",
+              "notes": "Peeled, deveined, and roughly chopped"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "bamboo shoots",
+              "notes": "Finely diced"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "sesame oil",
+              "notes": "For aroma"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "white pepper",
+              "notes": "Finely ground"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "wheat starch",
+              "notes": "Essential for the translucent wrapper"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "tapioca starch",
+              "notes": "Adds chewiness to wrapper"
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "boiling water",
+              "notes": "To gelatinize the dough"
+            }
+          ],
+          "instructions": [
+            "Step 1: Mix the chopped shrimp, bamboo shoots, sesame oil, white pepper, and salt. Stir vigorously in one direction until sticky.",
+            "Step 2: Combine wheat starch and tapioca starch in a bowl. Pour in boiling water and stir rapidly.",
+            "Step 3: Knead the dough until smooth, then divide into small balls and flatten them into circles.",
+            "Step 4: Place a spoonful of shrimp filling in the center of a wrapper.",
+            "Step 5: Fold the wrapper over and make 9-13 fine pleats along the edge to seal it.",
+            "Step 6: Steam the dumplings in a bamboo steamer over high heat for 6-8 minutes until the wrappers turn translucent."
+          ],
+          "classifications": {
+            "mealType": [
+              "breakfast",
+              "lunch",
+              "dim sum"
+            ],
+            "cookingMethods": [
+              "steaming",
+              "folding"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.2,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Neptune"
+            ],
+            "signs": [
+              "Cancer",
+              "Pisces"
+            ],
+            "lunarPhases": [
+              "Waxing Crescent"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 250,
+            "proteinG": 18,
+            "carbsG": 35,
+            "fatG": 5,
+            "fiberG": 2,
+            "sodiumMg": 450,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin B12",
+              "Selenium"
+            ],
+            "minerals": [
+              "Iodine",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 5,
+            "Matter": 4,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.02,
+            "entropy": 0.2,
+            "reactivity": 1.1,
+            "gregsEnergy": -0.2,
+            "kalchm": 0.01,
+            "monica": 0.2
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Dan Dan Noodles",
+          "description": "A classic Sichuan street food consisting of fresh noodles tossed in a fiercely spicy, savory, and nutty sauce, topped with crispy spiced pork.",
+          "details": {
+            "cuisine": "Chinese (Sichuan)",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "fresh wheat noodles",
+              "notes": "Boiled"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "ground pork",
+              "notes": "For the topping"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "Sui Mi Ya Cai (preserved mustard greens)",
+              "notes": "Essential for authentic umami"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "chili oil",
+              "notes": "With chili flakes"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sesame paste",
+              "notes": "Or peanut butter"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "black vinegar",
+              "notes": "Chinkiang preferred"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "soy sauce",
+              "notes": "Light and dark"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "Sichuan peppercorn powder",
+              "notes": "For numbing heat"
+            }
+          ],
+          "instructions": [
+            "Step 1: Stir-fry the ground pork until crispy. Add the preserved mustard greens and a dash of soy sauce, cooking until fragrant. Set aside.",
+            "Step 2: In serving bowls, whisk together chili oil, sesame paste, black vinegar, soy sauce, and Sichuan peppercorn powder to form the sauce base.",
+            "Step 3: Boil the fresh noodles in a large pot of water until al dente.",
+            "Step 4: Drain the noodles and immediately divide them into the bowls over the sauce base.",
+            "Step 5: Top the noodles with the crispy pork mixture and blanched leafy greens.",
+            "Step 6: Toss everything together vigorously right before eating."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "stir-frying"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.1,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Mercury"
+            ],
+            "signs": [
+              "Aries",
+              "Gemini"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 520,
+            "proteinG": 22,
+            "carbsG": 60,
+            "fatG": 22,
+            "fiberG": 4,
+            "sodiumMg": 800,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin B6",
+              "Iron"
+            ],
+            "minerals": [
+              "Magnesium",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 4,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.06,
+            "entropy": 0.35,
+            "reactivity": 1.9,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Peking Duck",
           "description": "The imperial masterpiece of Chinese roasting. The skin is separated from the meat using compressed air, blanched to tighten pores, coated in a maltose-vinegar glaze, and air-dried for 24 hours. The resulting roast yields skin that shatters like glass, served with thin pancakes, hoisin, and scallions.",
           "details": {
             "cuisine": "Chinese (Beijing)",
@@ -2786,11 +3435,11 @@ export const chinese = {
           classifications: {"mealType":["lunch","breakfast","snack","appetizer"],"cookingMethods":["steaming","folding"]},
           elementalProperties: {"Fire":0.1,"Water":0.4,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Venus","Mercury"],"signs":["cancer","taurus","virgo"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":220,"proteinG":18,"carbsG":28,"fatG":4,"fiberG":1,"sodiumMg":580,"sugarG":1,"vitamins":["Vitamin B12","Niacin","Selenium"],"minerals":["Phosphorus","Potassium","Zinc"]},
 
           alchemicalProperties: {"Spirit":2.39,"Essence":2.91,"Matter":3.87,"Substance":3.71},
           thermodynamicProperties: {"heat":0.0441,"entropy":0.3441,"reactivity":1.58,"gregsEnergy":-0.4995,"kalchm":0.0074,"monica":0.0078},
-          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Scallop and shrimp blend","Crab meat"]},{"originalIngredient":"Wheat starch","substituteOptions":["Tapioca starch alone (slightly different texture)"]}]
+          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Scallop and shrimp blend","Crab meat"]},{"originalIngredient":"Wheat starch","substituteOptions":["Tapioca starch alone (slightly different texture)"]}],
+            nutritionPerServing: {"calories":47,"proteinG":4,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":55,"sugarG":0,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Phosphorus","0","1","2","Manganese","Iron","Calcium"]}
         },
         {
           name: "Mapo Tofu",
@@ -2801,11 +3450,11 @@ export const chinese = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["stir-frying","simmering","braising"]},
           elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Pluto","Uranus"],"signs":["aries","scorpio","aquarius"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":320,"proteinG":22,"carbsG":12,"fatG":22,"fiberG":3,"sodiumMg":980,"sugarG":3,"vitamins":["Calcium","Vitamin B12","Iron"],"minerals":["Iron","Magnesium","Potassium"]},
 
           alchemicalProperties: {"Spirit":3.55,"Essence":3.98,"Matter":4.75,"Substance":4.45},
           thermodynamicProperties: {"heat":0.0679,"entropy":0.387,"reactivity":2.022,"gregsEnergy":-0.7147,"kalchm":0.0174,"monica":0.3064},
-          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Shiitake mushrooms (vegetarian version)"]},{"originalIngredient":"Doubanjiang","substituteOptions":["Gochujang plus soy sauce (different flavor profile)"]}]
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Shiitake mushrooms (vegetarian version)"]},{"originalIngredient":"Doubanjiang","substituteOptions":["Gochujang plus soy sauce (different flavor profile)"]}],
+            nutritionPerServing: {"calories":142,"proteinG":20,"carbsG":7,"fatG":3,"fiberG":1,"sodiumMg":49,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
         },
         {
           name: "Zhajiangmian",
@@ -2816,11 +3465,11 @@ export const chinese = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["stir-frying","slow-cooking"]},
           elementalProperties: {"Fire":0.2,"Water":0.2,"Earth":0.5,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Earth","Jupiter"],"signs":["capricorn","taurus","virgo"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":560,"proteinG":28,"carbsG":64,"fatG":22,"fiberG":4,"sodiumMg":1200,"sugarG":8,"vitamins":["Thiamin","Niacin","Vitamin B6"],"minerals":["Iron","Zinc","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":2.64,"Essence":3.34,"Matter":3.85,"Substance":3.35},
           thermodynamicProperties: {"heat":0.0545,"entropy":0.293,"reactivity":1.5557,"gregsEnergy":-0.4014,"kalchm":0.0707,"monica":0.3252},
-          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Firm tofu crumbled (vegetarian)"]},{"originalIngredient":"Yellow soybean paste","substituteOptions":["Miso paste plus soy sauce"]}]
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Firm tofu crumbled (vegetarian)"]},{"originalIngredient":"Yellow soybean paste","substituteOptions":["Miso paste plus soy sauce"]}],
+            nutritionPerServing: {"calories":53,"proteinG":4,"carbsG":6,"fatG":2,"fiberG":1,"sodiumMg":9,"sugarG":3,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Congee",
@@ -2831,11 +3480,11 @@ export const chinese = {
           classifications: {"mealType":["breakfast","lunch","dinner"],"cookingMethods":["long-simmering","poaching"]},
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn","Neptune"],"signs":["cancer","capricorn","pisces"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":240,"proteinG":16,"carbsG":32,"fatG":6,"fiberG":1,"sodiumMg":680,"sugarG":1,"vitamins":["Niacin","Vitamin B6","Vitamin B12"],"minerals":["Potassium","Phosphorus","Selenium"]},
 
           alchemicalProperties: {"Spirit":4.27,"Essence":4.68,"Matter":3.61,"Substance":3.26},
           thermodynamicProperties: {"heat":0.1177,"entropy":0.3456,"reactivity":3.2538,"gregsEnergy":-1.0069,"kalchm":138.9912,"monica":0.4188},
-          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork (pork congee)","Fish fillet","Shrimp"]},{"originalIngredient":"Chicken broth","substituteOptions":["Pork bone broth","Vegetable broth"]}]
+          substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork (pork congee)","Fish fillet","Shrimp"]},{"originalIngredient":"Chicken broth","substituteOptions":["Pork bone broth","Vegetable broth"]}],
+            nutritionPerServing: {"calories":283,"proteinG":44,"carbsG":11,"fatG":5,"fiberG":1,"sodiumMg":106,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Potassium","0","1","2","Manganese"]}
         },
         {
           name: "Wonton Soup",
@@ -2846,11 +3495,11 @@ export const chinese = {
           classifications: {"mealType":["lunch","dinner","breakfast"],"cookingMethods":["boiling","folding","simmering"]},
           elementalProperties: {"Fire":0.15,"Water":0.5,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Mercury","Neptune"],"signs":["cancer","gemini","pisces"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":340,"proteinG":24,"carbsG":38,"fatG":10,"fiberG":2,"sodiumMg":860,"sugarG":2,"vitamins":["Niacin","Vitamin B12","Vitamin C"],"minerals":["Iron","Potassium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":3.28,"Essence":4.35,"Matter":3.81,"Substance":3.87},
           thermodynamicProperties: {"heat":0.065,"entropy":0.3246,"reactivity":2.7264,"gregsEnergy":-0.8199,"kalchm":0.9588,"monica":0.0734},
-          substitutions: [{"originalIngredient":"Wonton wrappers","substituteOptions":["Gyoza wrappers","Homemade egg dough wrappers"]},{"originalIngredient":"Ground pork","substituteOptions":["Chicken and shrimp","Tofu and water chestnuts"]}]
+          substitutions: [{"originalIngredient":"Wonton wrappers","substituteOptions":["Gyoza wrappers","Homemade egg dough wrappers"]},{"originalIngredient":"Ground pork","substituteOptions":["Chicken and shrimp","Tofu and water chestnuts"]}],
+            nutritionPerServing: {"calories":500,"proteinG":51,"carbsG":6,"fatG":29,"fiberG":1,"sodiumMg":124,"sugarG":3,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin C","Vitamin folate","Vitamin K","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","0","1","2","Manganese","Calcium","Magnesium"]}
         },
         ],
       spring: [],

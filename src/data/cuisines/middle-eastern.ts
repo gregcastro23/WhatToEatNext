@@ -220,10 +220,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["breakfast","lunch"],"cookingMethods":["stewing","mashing"]},
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.55,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Sun"],"signs":["capricorn","taurus"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":350,"proteinG":14,"carbsG":38,"fatG":18,"fiberG":12,"sodiumMg":600,"sugarG":3,"vitamins":["Folate","Vitamin C"],"minerals":["Iron","Magnesium"]},
           alchemicalProperties: {"Spirit":2.38,"Essence":2.99,"Matter":2.2,"Substance":1.96},
           thermodynamicProperties: {"heat":0.0889,"entropy":0.2703,"reactivity":2.4487,"gregsEnergy":-0.5731,"kalchm":9.8256,"monica":0.4842},
-          substitutions: [{"originalIngredient":"Fava beans","substituteOptions":["Chickpeas (for Balila)"]}]
+          substitutions: [{"originalIngredient":"Fava beans","substituteOptions":["Chickpeas (for Balila)"]}],
+            nutritionPerServing: {"calories":61,"proteinG":1,"carbsG":6,"fatG":4,"fiberG":1,"sodiumMg":2,"sugarG":2,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium"]}
         },
         {
           name: "Manakish Za'atar",
@@ -234,10 +234,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["breakfast","snack"],"cookingMethods":["baking","kneading"]},
           elementalProperties: {"Fire":0.35,"Water":0.05,"Earth":0.45,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Earth"],"signs":["taurus","virgo"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":480,"proteinG":10,"carbsG":65,"fatG":22,"fiberG":4,"sodiumMg":450,"sugarG":2,"vitamins":["Vitamin E","Thiamin"],"minerals":["Iron","Calcium"]},
           alchemicalProperties: {"Spirit":1.39,"Essence":2.12,"Matter":1.83,"Substance":1.61},
           thermodynamicProperties: {"heat":0.0533,"entropy":0.2358,"reactivity":1.7633,"gregsEnergy":-0.3625,"kalchm":1.1949,"monica":0.5486},
-          substitutions: [{"originalIngredient":"Za'atar blend","substituteOptions":["Akkawi cheese (for Manakish Jebne)"]}]
+          substitutions: [{"originalIngredient":"Za'atar blend","substituteOptions":["Akkawi cheese (for Manakish Jebne)"]}],
+            nutritionPerServing: {"calories":36,"proteinG":0,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin E","Vitamin K"],"minerals":[]}
         },
         {
           name: "Labneh with Za'atar",
@@ -248,15 +248,694 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["breakfast","brunch","appetizer"],"cookingMethods":["straining","assembling"]},
           elementalProperties: {"Earth":0.35,"Water":0.35,"Air":0.2,"Fire":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["taurus","cancer"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":220,"proteinG":10,"carbsG":18,"fatG":14,"fiberG":2,"sodiumMg":380,"sugarG":6,"vitamins":["Vitamin B12","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
           alchemicalProperties: {"Spirit":2.05,"Essence":2.88,"Matter":3.27,"Substance":3.2},
           thermodynamicProperties: {"heat":0.0401,"entropy":0.3089,"reactivity":1.7482,"gregsEnergy":-0.4999,"kalchm":0.046,"monica":0.1751},
-          substitutions: [{"originalIngredient":"full-fat plain yogurt","substituteOptions":["Greek yogurt (shorter straining time)","goat milk yogurt for tangier flavor"]},{"originalIngredient":"za'atar blend","substituteOptions":["dried oregano with sesame seeds and sumac","dukkah spice blend"]}]
+          substitutions: [{"originalIngredient":"full-fat plain yogurt","substituteOptions":["Greek yogurt (shorter straining time)","goat milk yogurt for tangier flavor"]},{"originalIngredient":"za'atar blend","substituteOptions":["dried oregano with sesame seeds and sumac","dukkah spice blend"]}],
+            nutritionPerServing: {"calories":13,"proteinG":0,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":291,"sugarG":0,"vitamins":["Vitamin E","Vitamin K"],"minerals":["Magnesium","Calcium"]}
         },
       ],
     },
     lunch: {
       all: [
+        {
+          "name": "Authentic Falafel",
+          "description": "The iconic Levantine street food. Crispy, deeply herb-flecked fritters made from raw (not cooked) soaked chickpeas ground with fresh parsley, cilantro, and cumin.",
+          "details": {
+            "cuisine": "Middle-Eastern",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "dried chickpeas",
+              "notes": "Do not use canned; soak for 24 hours"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "fresh parsley",
+              "notes": "Leaves and stems"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "fresh cilantro",
+              "notes": "Leaves and stems"
+            },
+            {
+              "amount": 1,
+              "unit": "small",
+              "name": "onion",
+              "notes": "Roughly chopped"
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Roughly chopped"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "cumin",
+              "notes": "Ground"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "coriander",
+              "notes": "Ground"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "baking soda",
+              "notes": "Crucial for an airy texture"
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "oil",
+              "notes": "For deep frying"
+            }
+          ],
+          "instructions": [
+            "Step 1: Drain the soaked raw chickpeas completely.",
+            "Step 2: In a food processor, pulse the chickpeas, herbs, onion, garlic, cumin, coriander, and salt until it forms a coarse meal that holds together when squeezed. Do not over-process into a paste.",
+            "Step 3: Transfer to a bowl, mix in the baking soda, and let the mixture rest in the fridge for 30 minutes.",
+            "Step 4: Form the mixture into small balls or patties without packing them too tightly.",
+            "Step 5: Heat oil to 350°F (175°C). Drop the falafel into the hot oil.",
+            "Step 6: Fry for 4-5 minutes until deeply browned and crisp on the outside, and bright green and fluffy inside. Serve in pita with tahini."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "snack",
+              "vegan",
+              "street food"
+            ],
+            "cookingMethods": [
+              "deep-frying",
+              "blending"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.1,
+            "Earth": 0.5,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Earth",
+              "Mars"
+            ],
+            "signs": [
+              "Taurus",
+              "Aries"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 420,
+            "proteinG": 15,
+            "carbsG": 45,
+            "fatG": 22,
+            "fiberG": 12,
+            "sodiumMg": 450,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin C",
+              "Folate"
+            ],
+            "minerals": [
+              "Iron",
+              "Magnesium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Hummus bi Tahini",
+          "description": "The foundational Levantine dip. A monument to texture, created by blending overcooked, skinless chickpeas with copious amounts of premium tahini, lemon juice, and ice water.",
+          "details": {
+            "cuisine": "Middle-Eastern",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "dried chickpeas",
+              "notes": "Soaked overnight with 1 tsp baking soda"
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "tahini",
+              "notes": "High-quality, runny sesame paste"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "lemon juice",
+              "notes": "Freshly squeezed"
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Smashed"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "ice water",
+              "notes": "Essential for a fluffy emulsion"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "salt",
+              "notes": "To taste"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "extra virgin olive oil",
+              "notes": "For garnish only"
+            }
+          ],
+          "instructions": [
+            "Step 1: Boil the soaked chickpeas with another pinch of baking soda until they are completely mushy and falling apart (about 1 hour).",
+            "Step 2: Drain the chickpeas. (Optional: agitate them in cold water to remove the skins for maximum smoothness).",
+            "Step 3: In a food processor, blend the tahini, lemon juice, and garlic until it whips into a pale, thick paste.",
+            "Step 4: Add the hot, mushy chickpeas and process continuously for 3-5 minutes.",
+            "Step 5: With the machine running, drizzle in the ice water. The hummus will transform, becoming dramatically lighter, paler, and fluffier.",
+            "Step 6: Spread onto a shallow plate, creating a well in the center. Pool olive oil in the well and dust with paprika."
+          ],
+          "classifications": {
+            "mealType": [
+              "appetizer",
+              "dip",
+              "vegan"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "emulsifying",
+              "blending"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0,
+            "Water": 0.3,
+            "Earth": 0.5,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 12,
+            "carbsG": 28,
+            "fatG": 24,
+            "fiberG": 8,
+            "sodiumMg": 400,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin C",
+              "B6"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 2,
+            "Essence": 6,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.02,
+            "entropy": 0.2,
+            "reactivity": 1.2,
+            "gregsEnergy": -0.2,
+            "kalchm": 0.01,
+            "monica": 0.3
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Chicken Shawarma",
+          "description": "The ubiquitous street food wrap. Chicken thighs marinated in a complex blend of warm spices and yogurt, roasted aggressively, and served with pungent garlic sauce (Toum).",
+          "details": {
+            "cuisine": "Middle-Eastern",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 800,
+              "unit": "g",
+              "name": "chicken thighs",
+              "notes": "Boneless, skinless"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "plain yogurt",
+              "notes": "For tenderizing"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "lemon juice",
+              "notes": "For acidity"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "cumin",
+              "notes": "Ground"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "coriander",
+              "notes": "Ground"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cardamom",
+              "notes": "Ground"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "cinnamon",
+              "notes": "Ground"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "smoked paprika",
+              "notes": "Ground"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "flatbreads",
+              "notes": "Pita or saj"
+            }
+          ],
+          "instructions": [
+            "Step 1: Whisk the yogurt, lemon juice, olive oil, minced garlic, and all the dry spices to form the marinade.",
+            "Step 2: Toss the chicken thighs in the marinade, ensuring complete coverage. Marinate for at least 4 hours.",
+            "Step 3: Preheat oven to 425°F (220°C).",
+            "Step 4: Pack the chicken tightly onto a wire rack over a baking sheet (or skewer them tightly together).",
+            "Step 5: Roast for 30 minutes until the edges are dark, charred, and crispy.",
+            "Step 6: Slice the meat thinly. Wrap in flatbread with Toum (garlic sauce), pickles, and fries."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cookingMethods": [
+              "roasting",
+              "marinating"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Mars"
+            ],
+            "signs": [
+              "Leo",
+              "Aries"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 580,
+            "proteinG": 45,
+            "carbsG": 35,
+            "fatG": 28,
+            "fiberG": 3,
+            "sodiumMg": 750,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin C",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.06,
+            "entropy": 0.3,
+            "reactivity": 1.7,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Shakshuka",
+          "description": "A brilliant North African and Middle Eastern breakfast staple of eggs gently poached in a fiercely bubbling, spiced sauce of tomatoes, bell peppers, and cumin.",
+          "details": {
+            "cuisine": "Middle-Eastern",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 6,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Fresh"
+            },
+            {
+              "amount": 1,
+              "unit": "can (28oz)",
+              "name": "whole peeled tomatoes",
+              "notes": "Crushed by hand"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "red bell pepper",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Diced"
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "cumin",
+              "notes": "Ground"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "sweet paprika",
+              "notes": "Ground"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cayenne pepper",
+              "notes": "Optional, for heat"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "feta cheese",
+              "notes": "Crumbled, for garnish"
+            }
+          ],
+          "instructions": [
+            "Step 1: Heat olive oil in a wide cast-iron skillet. Sauté the onions and bell peppers until soft and slightly blistered.",
+            "Step 2: Stir in the garlic, cumin, paprika, and cayenne. Cook for 1 minute until fragrant.",
+            "Step 3: Pour in the hand-crushed tomatoes and their juices.",
+            "Step 4: Simmer the sauce vigorously for 10-15 minutes until it reduces and thickens significantly.",
+            "Step 5: Use a spoon to make 6 small wells in the sauce. Carefully crack an egg into each well.",
+            "Step 6: Cover the skillet and simmer for 5-8 minutes until the egg whites are just set but the yolks remain runny. Garnish with feta and cilantro."
+          ],
+          "classifications": {
+            "mealType": [
+              "breakfast",
+              "brunch",
+              "vegetarian"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "poaching"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Venus"
+            ],
+            "signs": [
+              "Leo",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 320,
+            "proteinG": 14,
+            "carbsG": 22,
+            "fatG": 20,
+            "fiberG": 6,
+            "sodiumMg": 600,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 6,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.25,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Baba Ganoush",
+          "description": "A sublime Levantine dip relying on the intense smokiness imparted by charring whole eggplants over an open flame, then mixing the soft flesh with tahini and lemon.",
+          "details": {
+            "cuisine": "Middle-Eastern",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "summer",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggplants",
+              "notes": "Firm and shiny"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "tahini",
+              "notes": "Sesame paste"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "lemon juice",
+              "notes": "Freshly squeezed"
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Mashed into a paste with salt"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "extra virgin olive oil",
+              "notes": "For mixing and garnishing"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh parsley",
+              "notes": "Chopped"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "pomegranate seeds",
+              "notes": "For garnish"
+            }
+          ],
+          "instructions": [
+            "Step 1: Pierce the eggplants a few times with a fork.",
+            "Step 2: Place the whole eggplants directly onto the grates of a gas burner or charcoal grill. Char them aggressively, turning occasionally, until the skin is entirely black, ashen, and the inside collapses (15-20 mins).",
+            "Step 3: Transfer to a bowl and cover with plastic wrap for 10 minutes to steam.",
+            "Step 4: Peel away and discard the charred skin. Place the soft flesh in a colander to drain excess bitter liquid.",
+            "Step 5: Chop the eggplant flesh vigorously with a knife (do not blend, it should be rustic and stringy).",
+            "Step 6: In a bowl, fold the eggplant with tahini, lemon juice, garlic paste, and salt. Spread on a plate, pool with olive oil, and garnish."
+          ],
+          "classifications": {
+            "mealType": [
+              "appetizer",
+              "dip",
+              "vegan"
+            ],
+            "cookingMethods": [
+              "charring",
+              "mashing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Pluto",
+              "Moon"
+            ],
+            "signs": [
+              "Scorpio",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Waning Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 220,
+            "proteinG": 4,
+            "carbsG": 18,
+            "fatG": 16,
+            "fiberG": 8,
+            "sodiumMg": 300,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Potassium",
+              "Manganese"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 5,
+            "Matter": 4,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.03,
+            "entropy": 0.35,
+            "reactivity": 1.6,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
         {
           name: "Mansaf",
           description: "The majestic national dish of Jordan. An exercise in scale and distinct layers: a massive platter of saffron-stained rice covering thin shrak bread, crowned with massive chunks of slow-cooked lamb, all drenched continuously in a violently tangy, fermented dried yogurt sauce (Jameed).",
@@ -266,10 +945,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","celebration"],"cookingMethods":["boiling","simmering","layering"]},
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.4,"Air":0.05},
           astrologicalAffinities: {"planets":["Jupiter","Sun"],"signs":["sagittarius","leo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":850,"proteinG":48,"carbsG":65,"fatG":42,"fiberG":3,"sodiumMg":1400,"sugarG":5,"vitamins":["Vitamin B12","Riboflavin"],"minerals":["Zinc","Calcium"]},
           alchemicalProperties: {"Spirit":2.83,"Essence":2.97,"Matter":2.88,"Substance":2.8},
           thermodynamicProperties: {"heat":0.0901,"entropy":0.3648,"reactivity":2.3084,"gregsEnergy":-0.752,"kalchm":1.281,"monica":0.4},
-          substitutions: [{"originalIngredient":"Jameed","substituteOptions":["Greek yogurt mixed with liquid kashk or buttermilk"]}]
+          substitutions: [{"originalIngredient":"Jameed","substituteOptions":["Greek yogurt mixed with liquid kashk or buttermilk"]}],
+            nutritionPerServing: {"calories":66,"proteinG":9,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":21,"sugarG":0,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper"]}
         },
         {
           name: "Hummus",
@@ -280,10 +959,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["appetizer","lunch","snack"],"cookingMethods":["boiling","emulsifying"]},
           elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.5,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["capricorn","taurus"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":28,"fatG":18,"fiberG":9,"sodiumMg":420,"sugarG":3,"vitamins":["Folate","Vitamin B6"],"minerals":["Iron","Magnesium"]},
           alchemicalProperties: {"Spirit":2.83,"Essence":3.69,"Matter":3.9,"Substance":3.61},
           thermodynamicProperties: {"heat":0.0548,"entropy":0.2992,"reactivity":1.7958,"gregsEnergy":-0.4825,"kalchm":0.113,"monica":0.4188},
-          substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}]
+          substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}],
+            nutritionPerServing: {"calories":15,"proteinG":0,"carbsG":2,"fatG":1,"fiberG":0,"sodiumMg":389,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium","Magnesium"]}
         },
       ],
     },
@@ -298,10 +977,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["lunch","appetizer","dinner"],"cookingMethods":["frying","stewing"]},
           elementalProperties: {"Fire":0.25,"Water":0.35,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Pluto"],"signs":["taurus","scorpio"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":380,"proteinG":8,"carbsG":32,"fatG":26,"fiberG":12,"sodiumMg":650,"sugarG":10,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Manganese"]},
           alchemicalProperties: {"Spirit":3.0,"Essence":3.43,"Matter":2.94,"Substance":2.54},
           thermodynamicProperties: {"heat":0.0971,"entropy":0.315,"reactivity":2.6112,"gregsEnergy":-0.7255,"kalchm":7.2812,"monica":0.4842},
-          substitutions: [{"originalIngredient":"Dried mint","substituteOptions":["Fresh mint","Oregano"]}]
+          substitutions: [{"originalIngredient":"Dried mint","substituteOptions":["Fresh mint","Oregano"]}],
+            nutritionPerServing: {"calories":101,"proteinG":3,"carbsG":11,"fatG":4,"fiberG":3,"sodiumMg":8,"sugarG":7,"vitamins":["Vitamin B1","Vitamin B6","Vitamin K","Vitamin C","Vitamin A","Vitamin folate","Vitamin E"],"minerals":["Manganese","Copper","Potassium","Selenium"]}
         },
         {
           name: "Kuzi",
@@ -312,10 +991,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","celebration"],"cookingMethods":["roasting","layering","simmering"]},
           elementalProperties: {"Fire":0.3,"Earth":0.35,"Water":0.2,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Sun"],"signs":["sagittarius","leo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":55,"fatG":32,"fiberG":4,"sodiumMg":620,"sugarG":8,"vitamins":["Vitamin B12","Niacin"],"minerals":["Iron","Zinc"]},
           alchemicalProperties: {"Spirit":3.55,"Essence":3.82,"Matter":4.17,"Substance":3.85},
           thermodynamicProperties: {"heat":0.0807,"entropy":0.3776,"reactivity":2.0641,"gregsEnergy":-0.6986,"kalchm":0.2172,"monica":0.8564},
-          substitutions: [{"originalIngredient":"bone-in lamb shoulder","substituteOptions":["bone-in goat shoulder","beef chuck roast"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","garam masala with extra allspice"]}]
+          substitutions: [{"originalIngredient":"bone-in lamb shoulder","substituteOptions":["bone-in goat shoulder","beef chuck roast"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","garam masala with extra allspice"]}],
+            nutritionPerServing: {"calories":100,"proteinG":12,"carbsG":1,"fatG":5,"fiberG":0,"sodiumMg":29,"sugarG":1,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3","Vitamin folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium"]}
         },
       ],
       summer: [
@@ -328,10 +1007,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["grilling","charcoal-grilling","marinating"]},
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon","First Quarter"]},
-          nutritionPerServing: {"calories":620,"proteinG":48,"carbsG":20,"fatG":38,"fiberG":2,"sodiumMg":780,"sugarG":4,"vitamins":["Niacin","Vitamin B12","Vitamin B6"],"minerals":["Zinc","Iron","Selenium"]},
           alchemicalProperties: {"Spirit":3.92,"Essence":4.45,"Matter":5.2,"Substance":4.95},
           thermodynamicProperties: {"heat":0.0685,"entropy":0.3973,"reactivity":2.0185,"gregsEnergy":-0.7335,"kalchm":0.0112,"monica":0.6887},
-          substitutions: [{"originalIngredient":"lamb","substituteOptions":["beef sirloin for shish kebab","portobello mushrooms for vegetarian option"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","seven spice blend (allspice, black pepper, cinnamon, coriander, cumin, cloves, nutmeg)"]}]
+          substitutions: [{"originalIngredient":"lamb","substituteOptions":["beef sirloin for shish kebab","portobello mushrooms for vegetarian option"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","seven spice blend (allspice, black pepper, cinnamon, coriander, cumin, cloves, nutmeg)"]}],
+            nutritionPerServing: {"calories":94,"proteinG":11,"carbsG":6,"fatG":3,"fiberG":1,"sodiumMg":26,"sugarG":3,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin E","Vitamin K","Vitamin folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium"]}
         },
         {
           "name": "Authentic Mujaddara",
@@ -433,10 +1112,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch","street food"],"cookingMethods":["grilling","marinating","searing"]},
           elementalProperties: {"Fire":0.45,"Water":0.2,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":580,"proteinG":42,"carbsG":38,"fatG":28,"fiberG":3,"sodiumMg":890,"sugarG":4,"vitamins":["Niacin","Vitamin B6"],"minerals":["Zinc","Iron"]},
           alchemicalProperties: {"Spirit":3.86,"Essence":4.38,"Matter":3.62,"Substance":3.52},
           thermodynamicProperties: {"heat":0.1037,"entropy":0.3852,"reactivity":3.1199,"gregsEnergy":-1.0981,"kalchm":13.4131,"monica":0.6887},
-          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}]
+          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}],
+            nutritionPerServing: {"calories":117,"proteinG":16,"carbsG":5,"fatG":3,"fiberG":1,"sodiumMg":40,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin E","Vitamin K","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium","Calcium"]}
         },
 
         {
@@ -448,10 +1127,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dessert","snack"],"cookingMethods":["baking","layering"]},
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["taurus","libra"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-          nutritionPerServing: {"calories":245,"proteinG":4,"carbsG":28,"fatG":14,"fiberG":1.5,"sodiumMg":45,"sugarG":20,"vitamins":["Vitamin E","Thiamin"],"minerals":["Manganese","Copper","Magnesium"]},
           alchemicalProperties: {"Spirit":3.19,"Essence":4.76,"Matter":3.84,"Substance":3.27},
           thermodynamicProperties: {"heat":0.065,"entropy":0.2506,"reactivity":2.488,"gregsEnergy":-0.5585,"kalchm":8.0556,"monica":0.8752},
-          substitutions: [{"originalIngredient":"walnuts","substituteOptions":["pecans","hazelnuts","mixed nuts"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a strip of lemon zest simmered in the syrup"]}]
+          substitutions: [{"originalIngredient":"walnuts","substituteOptions":["pecans","hazelnuts","mixed nuts"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a strip of lemon zest simmered in the syrup"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin C"],"minerals":["Manganese","Iron","Magnesium"]}
         },
 
         {
@@ -530,10 +1209,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dessert"],"cookingMethods":["baking","soaking"]},
           elementalProperties: {"Fire":0.25,"Water":0.3,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":8,"carbsG":42,"fatG":25,"fiberG":2,"sodiumMg":180,"sugarG":28,"vitamins":["Vitamin A","Riboflavin","Vitamin E"],"minerals":["Calcium","Magnesium","Copper"]},
           alchemicalProperties: {"Spirit":2.68,"Essence":3.83,"Matter":3.84,"Substance":3.58},
           thermodynamicProperties: {"heat":0.0503,"entropy":0.29,"reactivity":1.9839,"gregsEnergy":-0.5249,"kalchm":0.1427,"monica":0.8752},
-          substitutions: [{"originalIngredient":"croissants","substituteOptions":["puff pastry sheets (baked and broken)","brioche","day-old pan dulce"]},{"originalIngredient":"golden raisins","substituteOptions":["dried apricots, chopped","dried dates, pitted and sliced"]}]
+          substitutions: [{"originalIngredient":"croissants","substituteOptions":["puff pastry sheets (baked and broken)","brioche","day-old pan dulce"]},{"originalIngredient":"golden raisins","substituteOptions":["dried apricots, chopped","dried dates, pitted and sliced"]}],
+            nutritionPerServing: {"calories":28,"proteinG":0,"carbsG":1,"fatG":3,"fiberG":1,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin folate"],"minerals":["Manganese","Copper","Iron"]}
         },
 
         {
@@ -545,10 +1224,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dessert","breakfast"],"cookingMethods":["baking","inverting"]},
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["libra","taurus"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-          nutritionPerServing: {"calories":480,"proteinG":12,"carbsG":55,"fatG":24,"fiberG":1.5,"sodiumMg":380,"sugarG":35,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus","Magnesium"]},
           alchemicalProperties: {"Spirit":2.64,"Essence":4.09,"Matter":3.42,"Substance":3.01},
           thermodynamicProperties: {"heat":0.0561,"entropy":0.2485,"reactivity":2.3155,"gregsEnergy":-0.5193,"kalchm":2.2291,"monica":0.8752},
-          substitutions: [{"originalIngredient":"akkawi/mozzarella cheese","substituteOptions":["ricotta mixed with a small amount of mozzarella","sweet whey cheese (ricotta salata, desalted)"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a thin strip of lemon zest in the syrup"]}]
+          substitutions: [{"originalIngredient":"akkawi/mozzarella cheese","substituteOptions":["ricotta mixed with a small amount of mozzarella","sweet whey cheese (ricotta salata, desalted)"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a thin strip of lemon zest in the syrup"]}],
+            nutritionPerServing: {"calories":118,"proteinG":3,"carbsG":18,"fatG":3,"fiberG":1,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3","Vitamin thiamin","Vitamin niacin","Vitamin riboflavin","Vitamin folate","Vitamin B6","Vitamin C"],"minerals":["Selenium","Manganese","Phosphorus","Iron","Magnesium","Zinc"]}
         },
 
         {
@@ -560,10 +1239,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["grilling","charcoal-grilling"]},
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":5,"fatG":38,"fiberG":1,"sodiumMg":720,"sugarG":2,"vitamins":["Niacin","Vitamin B12"],"minerals":["Zinc","Iron"]},
           alchemicalProperties: {"Spirit":3.49,"Essence":3.52,"Matter":5.0,"Substance":4.84},
           thermodynamicProperties: {"heat":0.0647,"entropy":0.4457,"reactivity":1.7184,"gregsEnergy":-0.7011,"kalchm":0.001,"monica":0.8752},
-          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
+          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}],
+            nutritionPerServing: {"calories":83,"proteinG":9,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Magnesium","Potassium","Manganese","Calcium"]}
         },
 
         {
@@ -575,10 +1254,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying","steaming"]},
           elementalProperties: {"Fire":0.3,"Water":0.25,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","virgo"],"lunarPhases":["Full Moon","Waning Gibbous"]},
-          nutritionPerServing: {"calories":580,"proteinG":32,"carbsG":65,"fatG":20,"fiberG":6,"sodiumMg":680,"sugarG":8,"vitamins":["Niacin","Vitamin B6","Vitamin C"],"minerals":["Iron","Potassium","Magnesium"]},
           alchemicalProperties: {"Spirit":3.13,"Essence":4.94,"Matter":5.17,"Substance":4.77},
           thermodynamicProperties: {"heat":0.0407,"entropy":0.2846,"reactivity":1.8745,"gregsEnergy":-0.4928,"kalchm":0.0113,"monica":0.3156},
-          substitutions: [{"originalIngredient":"chicken","substituteOptions":["lamb neck or shoulder pieces","chickpeas for a vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","bell peppers","potatoes"]}]
+          substitutions: [{"originalIngredient":"chicken","substituteOptions":["lamb neck or shoulder pieces","chickpeas for a vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","bell peppers","potatoes"]}],
+            nutritionPerServing: {"calories":147,"proteinG":22,"carbsG":4,"fatG":4,"fiberG":2,"sodiumMg":52,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin B1","Vitamin K","Vitamin C","Vitamin folate","Vitamin B5","Vitamin A","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Copper","Potassium","Magnesium"]}
         },
 
         {
@@ -590,10 +1269,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["salad","mezze","side"],"cookingMethods":["chopping","mixing"]},
           elementalProperties: {"Fire":0.1,"Water":0.35,"Earth":0.3,"Air":0.25},
           astrologicalAffinities: {"planets":["Mercury","Moon"],"signs":["gemini","virgo"],"lunarPhases":["New Moon","Waxing Crescent"]},
-          nutritionPerServing: {"calories":145,"proteinG":4,"carbsG":16,"fatG":8,"fiberG":4,"sodiumMg":290,"sugarG":3,"vitamins":["Vitamin K","Vitamin C","Vitamin A","Folate"],"minerals":["Iron","Potassium","Calcium"]},
           alchemicalProperties: {"Spirit":3.19,"Essence":4.02,"Matter":3.8,"Substance":3.6},
           thermodynamicProperties: {"heat":0.0671,"entropy":0.3235,"reactivity":2.3493,"gregsEnergy":-0.6929,"kalchm":0.6764,"monica":0.5486},
-          substitutions: [{"originalIngredient":"bulgur wheat","substituteOptions":["quinoa (gluten-free)","cooked millet","cauliflower rice (low-carb)"]},{"originalIngredient":"flat-leaf parsley","substituteOptions":["a mix of parsley and cilantro","arugula for a peppery variation"]}]
+          substitutions: [{"originalIngredient":"bulgur wheat","substituteOptions":["quinoa (gluten-free)","cooked millet","cauliflower rice (low-carb)"]},{"originalIngredient":"flat-leaf parsley","substituteOptions":["a mix of parsley and cilantro","arugula for a peppery variation"]}],
+            nutritionPerServing: {"calories":96,"proteinG":2,"carbsG":17,"fatG":3,"fiberG":4,"sodiumMg":591,"sugarG":8,"vitamins":["Vitamin C","Vitamin K","Vitamin A","Vitamin folate","Vitamin B6","Vitamin E"],"minerals":["Potassium","Manganese","Magnesium","Calcium"]}
         },
 
         {
@@ -605,10 +1284,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["appetizer","dinner"],"cookingMethods":["grinding","deep-frying","stuffing"]},
           elementalProperties: {"Fire":0.4,"Water":0.1,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":550,"proteinG":35,"carbsG":32,"fatG":28,"fiberG":6,"sodiumMg":750,"sugarG":2,"vitamins":["Iron","Niacin"],"minerals":["Zinc","Phosphorus"]},
           alchemicalProperties: {"Spirit":1.9,"Essence":2.55,"Matter":3.3,"Substance":3.15},
           thermodynamicProperties: {"heat":0.0409,"entropy":0.3398,"reactivity":1.4766,"gregsEnergy":-0.4609,"kalchm":0.0193,"monica":1.3128},
-          substitutions: [{"originalIngredient":"Lean beef","substituteOptions":["Potato and pumpkin (for vegan Kibbeh)"]}]
+          substitutions: [{"originalIngredient":"Lean beef","substituteOptions":["Potato and pumpkin (for vegan Kibbeh)"]}],
+            nutritionPerServing: {"calories":75,"proteinG":9,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":22,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin pantothenic_acid"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Copper"]}
         },
 
         {
@@ -620,10 +1299,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dessert"],"cookingMethods":["baking","saturating"]},
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":6,"carbsG":65,"fatG":18,"fiberG":3,"sodiumMg":180,"sugarG":45,"vitamins":["Riboflavin"],"minerals":["Calcium","Iron"]},
           alchemicalProperties: {"Spirit":1.8,"Essence":2.45,"Matter":2.83,"Substance":2.6},
           thermodynamicProperties: {"heat":0.0435,"entropy":0.281,"reactivity":1.5995,"gregsEnergy":-0.406,"kalchm":0.1136,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Ghee","substituteOptions":["Coconut oil"]}]
+          substitutions: [{"originalIngredient":"Ghee","substituteOptions":["Coconut oil"]}],
+            nutritionPerServing: {"calories":103,"proteinG":1,"carbsG":4,"fatG":10,"fiberG":2,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3"],"minerals":["Manganese","Copper","Iron"]}
         },
           {
             "name": "Authentic Hummus bi Tahini",
@@ -1056,10 +1735,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["appetizer","dinner","snack"],"cookingMethods":["boiling","emulsifying"]},
           elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.5,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["capricorn","taurus"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":28,"fatG":18,"fiberG":9,"sodiumMg":420,"sugarG":3,"vitamins":["Folate","Vitamin B6"],"minerals":["Iron","Magnesium"]},
           alchemicalProperties: {"Spirit":2.83,"Essence":3.69,"Matter":3.9,"Substance":3.61},
           thermodynamicProperties: {"heat":0.0548,"entropy":0.2992,"reactivity":1.7958,"gregsEnergy":-0.4825,"kalchm":0.113,"monica":0.4188},
-          substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}]
+          substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}],
+            nutritionPerServing: {"calories":15,"proteinG":0,"carbsG":2,"fatG":1,"fiberG":0,"sodiumMg":389,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium","Magnesium"]}
         },
         {
           name: "Falafel",
@@ -1070,10 +1749,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch","street food"],"cookingMethods":["grinding","deep-frying"]},
           elementalProperties: {"Fire":0.4,"Water":0.15,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":380,"proteinG":18,"carbsG":45,"fatG":16,"fiberG":12,"sodiumMg":650,"sugarG":3,"vitamins":["Folate","Vitamin K"],"minerals":["Iron","Magnesium"]},
           alchemicalProperties: {"Spirit":3.22,"Essence":3.98,"Matter":5.06,"Substance":4.57},
           thermodynamicProperties: {"heat":0.0521,"entropy":0.3453,"reactivity":1.6156,"gregsEnergy":-0.5057,"kalchm":0.0028,"monica":0.8752},
-          substitutions: [{"originalIngredient":"chickpeas","substituteOptions":["fava beans (Egyptian-style falafel)","half chickpeas and half fava beans"]},{"originalIngredient":"cilantro","substituteOptions":["additional parsley for cilantro-averse palates"]}]
+          substitutions: [{"originalIngredient":"chickpeas","substituteOptions":["fava beans (Egyptian-style falafel)","half chickpeas and half fava beans"]},{"originalIngredient":"cilantro","substituteOptions":["additional parsley for cilantro-averse palates"]}],
+            nutritionPerServing: {"calories":29,"proteinG":1,"carbsG":7,"fatG":0,"fiberG":1,"sodiumMg":585,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin K"],"minerals":["Potassium","Manganese","Selenium","Iron","Calcium","Magnesium"]}
         },
         {
           name: "Baba Ghanoush",
@@ -1084,10 +1763,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["appetizer","dinner","snack"],"cookingMethods":["charring","roasting","mashing"]},
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":180,"proteinG":5,"carbsG":15,"fatG":13,"fiberG":7,"sodiumMg":320,"sugarG":6,"vitamins":["Vitamin C","Folate"],"minerals":["Potassium","Magnesium"]},
           alchemicalProperties: {"Spirit":2.79,"Essence":3.52,"Matter":3.75,"Substance":3.47},
           thermodynamicProperties: {"heat":0.0609,"entropy":0.3264,"reactivity":2.0274,"gregsEnergy":-0.6007,"kalchm":0.1379,"monica":1.3128},
-          substitutions: [{"originalIngredient":"globe eggplants","substituteOptions":["Japanese eggplants (thinner, char faster)","zucchini for a milder version"]},{"originalIngredient":"tahini","substituteOptions":["Greek yogurt for a lighter, less smoky version"]}]
+          substitutions: [{"originalIngredient":"globe eggplants","substituteOptions":["Japanese eggplants (thinner, char faster)","zucchini for a milder version"]},{"originalIngredient":"tahini","substituteOptions":["Greek yogurt for a lighter, less smoky version"]}],
+            nutritionPerServing: {"calories":33,"proteinG":1,"carbsG":2,"fatG":1,"fiberG":2,"sodiumMg":292,"sugarG":1,"vitamins":["Vitamin B1","Vitamin B6","Vitamin K","Vitamin C","Vitamin E"],"minerals":["Manganese","Copper","Selenium","Magnesium","Calcium"]}
         },
         {
           name: "Mujaddara",
@@ -1098,10 +1777,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying","caramelizing"]},
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.6,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":480,"proteinG":17,"carbsG":68,"fatG":17,"fiberG":12,"sodiumMg":480,"sugarG":10,"vitamins":["Vitamin B6","Folate"],"minerals":["Iron","Magnesium"]},
           alchemicalProperties: {"Spirit":2.46,"Essence":3.58,"Matter":4.35,"Substance":4.01},
           thermodynamicProperties: {"heat":0.0371,"entropy":0.2907,"reactivity":1.429,"gregsEnergy":-0.3783,"kalchm":0.0056,"monica":0.6974},
-          substitutions: [{"originalIngredient":"long-grain white rice","substituteOptions":["bulgur wheat (traditional variation)","brown rice (longer cook time)"]},{"originalIngredient":"brown or green lentils","substituteOptions":["Puy lentils (firmer texture)","split peas"]}]
+          substitutions: [{"originalIngredient":"long-grain white rice","substituteOptions":["bulgur wheat (traditional variation)","brown rice (longer cook time)"]},{"originalIngredient":"brown or green lentils","substituteOptions":["Puy lentils (firmer texture)","split peas"]}],
+            nutritionPerServing: {"calories":80,"proteinG":1,"carbsG":10,"fatG":4,"fiberG":2,"sodiumMg":585,"sugarG":5,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin E","Vitamin K"],"minerals":["Potassium","Manganese","Iron","Calcium","Magnesium"]}
         },
         {
           name: "Maqluba",
@@ -1112,10 +1791,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","celebration"],"cookingMethods":["frying","braising","steaming"]},
           elementalProperties: {"Fire":0.3,"Water":0.25,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Sun"],"signs":["sagittarius","leo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":620,"proteinG":38,"carbsG":58,"fatG":24,"fiberG":6,"sodiumMg":820,"sugarG":7,"vitamins":["Niacin","Vitamin B6"],"minerals":["Iron","Zinc"]},
           alchemicalProperties: {"Spirit":2.83,"Essence":4.67,"Matter":4.9,"Substance":4.6},
           thermodynamicProperties: {"heat":0.0366,"entropy":0.283,"reactivity":1.8554,"gregsEnergy":-0.4884,"kalchm":0.0094,"monica":0.381},
-          substitutions: [{"originalIngredient":"bone-in chicken pieces","substituteOptions":["lamb shoulder","cauliflower and chickpeas for vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","potatoes"]}]
+          substitutions: [{"originalIngredient":"bone-in chicken pieces","substituteOptions":["lamb shoulder","cauliflower and chickpeas for vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","potatoes"]}],
+            nutritionPerServing: {"calories":167,"proteinG":27,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":64,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin B1","Vitamin K","Vitamin C","Vitamin A","Vitamin folate","Vitamin E"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Copper","Potassium"]}
         },
         {
           name: "Lamb Kofta Kebabs",
@@ -1126,10 +1805,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch","street food"],"cookingMethods":["grilling","charcoal-grilling","marinating"]},
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":490,"proteinG":36,"carbsG":22,"fatG":30,"fiberG":3,"sodiumMg":680,"sugarG":2,"vitamins":["Niacin","Vitamin B12"],"minerals":["Zinc","Iron"]},
           alchemicalProperties: {"Spirit":3.37,"Essence":4.3,"Matter":5.1,"Substance":4.84},
           thermodynamicProperties: {"heat":0.0534,"entropy":0.3611,"reactivity":1.8363,"gregsEnergy":-0.6097,"kalchm":0.0038,"monica":0.6887},
-          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["80/20 ground beef","half lamb and half beef","ground turkey with added olive oil"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
+          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["80/20 ground beef","half lamb and half beef","ground turkey with added olive oil"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}],
+            nutritionPerServing: {"calories":78,"proteinG":9,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin folate","Vitamin K"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Calcium","Magnesium"]}
         },
         {
           name: "Persian Tahdig",
@@ -1140,10 +1819,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["boiling","steaming","crust-forming"]},
           elementalProperties: {"Fire":0.25,"Water":0.3,"Earth":0.4,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Sun"],"signs":["capricorn","leo"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":380,"proteinG":6,"carbsG":68,"fatG":10,"fiberG":1,"sodiumMg":420,"sugarG":0,"vitamins":["Niacin","Thiamine"],"minerals":["Iron","Manganese"]},
           alchemicalProperties: {"Spirit":1.68,"Essence":2.45,"Matter":3.58,"Substance":3.35},
           thermodynamicProperties: {"heat":0.0281,"entropy":0.3115,"reactivity":1.2754,"gregsEnergy":-0.3692,"kalchm":0.0039,"monica":0.3156},
-          substitutions: [{"originalIngredient":"aged basmati rice","substituteOptions":["jasmine rice (shorter grain, different texture)","extra-long grain basmati"]},{"originalIngredient":"neutral oil","substituteOptions":["clarified butter (ghee) for richer flavor","coconut oil"]}]
+          substitutions: [{"originalIngredient":"aged basmati rice","substituteOptions":["jasmine rice (shorter grain, different texture)","extra-long grain basmati"]},{"originalIngredient":"neutral oil","substituteOptions":["clarified butter (ghee) for richer flavor","coconut oil"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":262,"sugarG":0,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Magnesium","Calcium","Manganese","Iron"]}
         },
         {
           name: "Lentil Soup (Shorbat Adas)",
@@ -1154,10 +1833,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["sauteing","simmering","dissolving"]},
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":290,"proteinG":18,"carbsG":42,"fatG":7,"fiberG":10,"sodiumMg":580,"sugarG":4,"vitamins":["Folate","Vitamin B6"],"minerals":["Iron","Potassium"]},
           alchemicalProperties: {"Spirit":3.61,"Essence":4.57,"Matter":4.78,"Substance":4.42},
           thermodynamicProperties: {"heat":0.0616,"entropy":0.3197,"reactivity":2.0808,"gregsEnergy":-0.6036,"kalchm":0.0847,"monica":0.6974},
-          substitutions: [{"originalIngredient":"red lentils","substituteOptions":["yellow split peas (longer cook time)","green lentils (will not dissolve, must be blended)"]},{"originalIngredient":"water","substituteOptions":["vegetable broth for more depth","chicken broth"]}]
+          substitutions: [{"originalIngredient":"red lentils","substituteOptions":["yellow split peas (longer cook time)","green lentils (will not dissolve, must be blended)"]},{"originalIngredient":"water","substituteOptions":["vegetable broth for more depth","chicken broth"]}],
+            nutritionPerServing: {"calories":35,"proteinG":1,"carbsG":6,"fatG":1,"fiberG":1,"sodiumMg":584,"sugarG":3,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin K","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Iron","Calcium","Magnesium"]}
         },
         {
           name: "Harira",
@@ -1168,10 +1847,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","thickening","braising"]},
           elementalProperties: {"Fire":0.25,"Water":0.4,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Jupiter","Moon"],"signs":["sagittarius","cancer"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":340,"proteinG":22,"carbsG":38,"fatG":10,"fiberG":9,"sodiumMg":720,"sugarG":7,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Iron","Zinc"]},
           alchemicalProperties: {"Spirit":4.41,"Essence":5.6,"Matter":5.11,"Substance":4.66},
           thermodynamicProperties: {"heat":0.0751,"entropy":0.3167,"reactivity":2.4856,"gregsEnergy":-0.7121,"kalchm":1.9821,"monica":0.4654},
-          substitutions: [{"originalIngredient":"lamb shoulder","substituteOptions":["beef chuck","chicken thighs","omit for vegan version"]},{"originalIngredient":"all-purpose flour","substituteOptions":["cornstarch slurry (half the amount)","rice flour"]}]
+          substitutions: [{"originalIngredient":"lamb shoulder","substituteOptions":["beef chuck","chicken thighs","omit for vegan version"]},{"originalIngredient":"all-purpose flour","substituteOptions":["cornstarch slurry (half the amount)","rice flour"]}],
+            nutritionPerServing: {"calories":54,"proteinG":3,"carbsG":9,"fatG":1,"fiberG":2,"sodiumMg":10,"sugarG":3,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Magnesium","Calcium"]}
         },
         {
           name: "Dolma",
@@ -1182,10 +1861,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","appetizer","celebration"],"cookingMethods":["stuffing","steaming","simmering"]},
           elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":320,"proteinG":14,"carbsG":42,"fatG":11,"fiberG":4,"sodiumMg":680,"sugarG":4,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Iron","Magnesium"]},
           alchemicalProperties: {"Spirit":3.63,"Essence":5.24,"Matter":4.38,"Substance":3.95},
           thermodynamicProperties: {"heat":0.0635,"entropy":0.2679,"reactivity":2.4681,"gregsEnergy":-0.5978,"kalchm":4.3206,"monica":0.3156},
-          substitutions: [{"originalIngredient":"brined grape leaves","substituteOptions":["blanched Swiss chard leaves","blanched cabbage leaves"]},{"originalIngredient":"ground lamb","substituteOptions":["ground beef","omit and double the rice and herbs for vegan version"]}]
+          substitutions: [{"originalIngredient":"brined grape leaves","substituteOptions":["blanched Swiss chard leaves","blanched cabbage leaves"]},{"originalIngredient":"ground lamb","substituteOptions":["ground beef","omit and double the rice and herbs for vegan version"]}],
+            nutritionPerServing: {"calories":46,"proteinG":3,"carbsG":5,"fatG":2,"fiberG":2,"sodiumMg":9,"sugarG":2,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin folate","Vitamin E"],"minerals":["Calcium","Iron","Zinc","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Shawarma",
@@ -1196,10 +1875,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch","street food"],"cookingMethods":["grilling","marinating","searing"]},
           elementalProperties: {"Fire":0.45,"Water":0.2,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":580,"proteinG":42,"carbsG":38,"fatG":28,"fiberG":3,"sodiumMg":890,"sugarG":4,"vitamins":["Niacin","Vitamin B6"],"minerals":["Zinc","Iron"]},
           alchemicalProperties: {"Spirit":3.86,"Essence":4.38,"Matter":3.62,"Substance":3.52},
           thermodynamicProperties: {"heat":0.1037,"entropy":0.3852,"reactivity":3.1199,"gregsEnergy":-1.0981,"kalchm":13.4131,"monica":0.6887},
-          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}]
+          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}],
+            nutritionPerServing: {"calories":117,"proteinG":16,"carbsG":5,"fatG":3,"fiberG":1,"sodiumMg":40,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin E","Vitamin K","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium","Calcium"]}
         },
         {
           name: "Kofta Kebab",
@@ -1210,10 +1889,10 @@ export const middleEastern: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["grilling","charcoal-grilling"]},
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":5,"fatG":38,"fiberG":1,"sodiumMg":720,"sugarG":2,"vitamins":["Niacin","Vitamin B12"],"minerals":["Zinc","Iron"]},
           alchemicalProperties: {"Spirit":3.49,"Essence":3.52,"Matter":5.0,"Substance":4.84},
           thermodynamicProperties: {"heat":0.0647,"entropy":0.4457,"reactivity":1.7184,"gregsEnergy":-0.7011,"kalchm":0.001,"monica":0.8752},
-          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}]
+          substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}],
+            nutritionPerServing: {"calories":83,"proteinG":9,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Magnesium","Potassium","Manganese","Calcium"]}
         },
     ],
     },

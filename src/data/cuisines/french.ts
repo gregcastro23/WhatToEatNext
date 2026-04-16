@@ -1600,6 +1600,661 @@ export const french: Cuisine = {
       all: [
         {
           "name": "Authentic Coq au Vin",
+          "description": "A timeless French classic consisting of chicken slowly braised in red Burgundy wine with pearl onions, mushrooms, and lardons.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "chicken",
+              "notes": "Cut into 8 pieces"
+            },
+            {
+              "amount": 1,
+              "unit": "bottle",
+              "name": "red wine",
+              "notes": "Burgundy or Pinot Noir"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "slab bacon or lardons",
+              "notes": "Cut into thick strips"
+            },
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "cremini mushrooms",
+              "notes": "Quartered"
+            },
+            {
+              "amount": 20,
+              "unit": "whole",
+              "name": "pearl onions",
+              "notes": "Peeled"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "butter",
+              "notes": "For finishing"
+            },
+            {
+              "amount": 1,
+              "unit": "bouquet",
+              "name": "garni",
+              "notes": "Thyme, bay leaf, parsley"
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Smashed"
+            }
+          ],
+          "instructions": [
+            "Step 1: Marinate the chicken pieces in the red wine with the bouquet garni and garlic overnight.",
+            "Step 2: In a heavy Dutch oven, fry the lardons until crisp. Remove and set aside.",
+            "Step 3: Remove the chicken from the wine, pat dry, and sear in the bacon fat until deeply browned.",
+            "Step 4: Pour the wine marinade over the chicken, bring to a boil, then reduce to a simmer. Cover and braise for 1.5 hours.",
+            "Step 5: While the chicken cooks, sauté the pearl onions and mushrooms in butter until golden.",
+            "Step 6: Add the onions, mushrooms, and lardons to the pot in the last 15 minutes. Thicken the sauce with a beurre manié if needed."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "stew"
+            ],
+            "cookingMethods": [
+              "braising",
+              "sautéing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Jupiter",
+              "Venus"
+            ],
+            "signs": [
+              "Taurus",
+              "Pisces"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 45,
+            "carbsG": 15,
+            "fatG": 38,
+            "fiberG": 3,
+            "sodiumMg": 550,
+            "sugarG": 6,
+            "vitamins": [
+              "Vitamin B12",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 6,
+            "Matter": 5,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.3,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Beef Bourguignon",
+          "description": "The crown jewel of French stews, featuring tender beef chunks simmered slowly in rich red wine, aromatics, and beef stock.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 40,
+            "cookTimeMinutes": 180,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 1.5,
+              "unit": "kg",
+              "name": "beef chuck",
+              "notes": "Cut into 2-inch cubes"
+            },
+            {
+              "amount": 1,
+              "unit": "bottle",
+              "name": "red wine",
+              "notes": "Dry, like Pinot Noir"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "bacon",
+              "notes": "Diced"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "beef stock",
+              "notes": "High quality"
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "carrots",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "flour",
+              "notes": "To coat the beef"
+            },
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "mushrooms",
+              "notes": "For garnish"
+            }
+          ],
+          "instructions": [
+            "Step 1: Fry the bacon in a large casserole until crisp. Remove.",
+            "Step 2: Dry the beef cubes, toss them in flour, and sear them in the hot bacon fat in batches until deeply crusted.",
+            "Step 3: Sauté the carrots and onion in the remaining fat.",
+            "Step 4: Return the beef and bacon to the pot. Pour in the wine and beef stock. Add thyme and bay leaf.",
+            "Step 5: Simmer gently on the stovetop or in a 300°F (150°C) oven for 2.5 to 3 hours until the meat is fork-tender.",
+            "Step 6: Sauté mushrooms separately in butter and stir them into the stew right before serving."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "stew"
+            ],
+            "cookingMethods": [
+              "slow-cooking",
+              "braising"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.4,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Jupiter",
+              "Saturn"
+            ],
+            "signs": [
+              "Capricorn",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Waning Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 720,
+            "proteinG": 55,
+            "carbsG": 20,
+            "fatG": 42,
+            "fiberG": 4,
+            "sodiumMg": 650,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin B12",
+              "Iron"
+            ],
+            "minerals": [
+              "Zinc",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.35,
+            "reactivity": 1.6,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Bouillabaisse",
+          "description": "A complex, rustic Provençal fish stew originating from Marseille, flavored heavily with saffron, fennel, and orange zest.",
+          "details": {
+            "cuisine": "French (Provençal)",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "kg",
+              "name": "mixed firm and flaky fish",
+              "notes": "Monkfish, red snapper, sea bass"
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "shellfish",
+              "notes": "Mussels, clams, or crab"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "fennel bulb",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "tomatoes",
+              "notes": "Peeled and chopped"
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "saffron threads",
+              "notes": "Crucial for flavor and color"
+            },
+            {
+              "amount": 1,
+              "unit": "strip",
+              "name": "orange zest",
+              "notes": "For aromatics"
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "fish stock",
+              "notes": "Rich and clear"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "olive oil",
+              "notes": "High quality"
+            }
+          ],
+          "instructions": [
+            "Step 1: In a large pot, sweat the fennel, onions, and garlic in olive oil until soft.",
+            "Step 2: Add the tomatoes, orange zest, and saffron. Cook for 5 minutes.",
+            "Step 3: Pour in the fish stock and bring to a rolling boil.",
+            "Step 4: Add the firmest fish first and boil aggressively for 5 minutes (the fast boil emulsifies the oil and water).",
+            "Step 5: Add the delicate fish and shellfish, cooking for another 5 minutes until the shells open.",
+            "Step 6: Serve the broth poured over crusty bread smeared with Rouille (garlic saffron mayonnaise), with the fish presented on a separate platter."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "soup"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "poaching"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.5,
+            "Earth": 0.1,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Neptune",
+              "Venus"
+            ],
+            "signs": [
+              "Pisces",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 450,
+            "proteinG": 48,
+            "carbsG": 12,
+            "fatG": 22,
+            "fiberG": 3,
+            "sodiumMg": 750,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin D",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iodine",
+              "Selenium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 7,
+            "Matter": 4,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.25,
+            "reactivity": 1.8,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Cassoulet",
+          "description": "A profoundly rich, slow-baked bean casserole from the South of France, containing confit duck, sausages, and pork.",
+          "details": {
+            "cuisine": "French (Languedoc)",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 300,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "white haricot beans",
+              "notes": "Soaked overnight"
+            },
+            {
+              "amount": 4,
+              "unit": "legs",
+              "name": "duck confit",
+              "notes": "Preserved in fat"
+            },
+            {
+              "amount": 4,
+              "unit": "links",
+              "name": "Toulouse sausage",
+              "notes": "Garlicky pork sausage"
+            },
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "pork belly or shoulder",
+              "notes": "Cubed"
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "bouquet garni",
+              "notes": "Herb bundle"
+            },
+            {
+              "amount": 1,
+              "unit": "head",
+              "name": "garlic",
+              "notes": "Whole"
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "pork or chicken stock",
+              "notes": "Gelatinous"
+            }
+          ],
+          "instructions": [
+            "Step 1: Boil the soaked beans with the pork belly, garlic head, and bouquet garni for 1 hour until tender.",
+            "Step 2: Brown the sausages in a skillet. In the same skillet, gently warm the duck confit to melt the fat.",
+            "Step 3: In a large, deep earthenware pot (a cassole), layer the beans, pork belly, sausages, and duck legs.",
+            "Step 4: Pour the rich stock over the mixture until it barely covers the beans.",
+            "Step 5: Bake at 300°F (150°C) for 3-4 hours. A crust will form on top. Break the crust every hour and let it reform.",
+            "Step 6: Serve bubbling hot straight from the oven."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "casserole"
+            ],
+            "cookingMethods": [
+              "slow-baking",
+              "simmering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.2,
+            "Earth": 0.6,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Earth"
+            ],
+            "signs": [
+              "Taurus",
+              "Capricorn"
+            ],
+            "lunarPhases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 850,
+            "proteinG": 45,
+            "carbsG": 55,
+            "fatG": 48,
+            "fiberG": 18,
+            "sodiumMg": 950,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin B",
+              "Iron"
+            ],
+            "minerals": [
+              "Magnesium",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 5,
+            "Matter": 8,
+            "Substance": 7
+          },
+          "thermodynamicProperties": {
+            "heat": 0.03,
+            "entropy": 0.2,
+            "reactivity": 1.2,
+            "gregsEnergy": -0.6,
+            "kalchm": 0.04,
+            "monica": 0.3
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Quiche Lorraine",
+          "description": "A classic savory tart featuring a buttery, flaky pastry crust filled with a rich custard of cream, eggs, and crisp lardons.",
+          "details": {
+            "cuisine": "French",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "shortcrust pastry",
+              "notes": "Blind baked"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "smoked bacon or lardons",
+              "notes": "Diced"
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Plus 1 egg yolk"
+            },
+            {
+              "amount": 1.5,
+              "unit": "cups",
+              "name": "crème fraîche or heavy cream",
+              "notes": "Essential for texture"
+            },
+            {
+              "amount": 1,
+              "unit": "pinch",
+              "name": "nutmeg",
+              "notes": "Freshly grated"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "salt",
+              "notes": "To taste"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground"
+            }
+          ],
+          "instructions": [
+            "Step 1: Blind bake the pastry crust in a 9-inch tart pan until golden and sealed.",
+            "Step 2: Fry the lardons in a skillet until crisp, then drain on paper towels.",
+            "Step 3: In a bowl, vigorously whisk the eggs, egg yolk, cream, nutmeg, salt, and pepper to create a smooth custard.",
+            "Step 4: Scatter the crisp lardons evenly over the bottom of the baked crust.",
+            "Step 5: Pour the egg and cream custard over the lardons.",
+            "Step 6: Bake at 350°F (175°C) for 30-35 minutes until the custard is set and slightly puffed. Serve warm or at room temperature."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "brunch",
+              "dinner"
+            ],
+            "cookingMethods": [
+              "baking",
+              "whisking"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.3,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 480,
+            "proteinG": 14,
+            "carbsG": 22,
+            "fatG": 38,
+            "fiberG": 1,
+            "sodiumMg": 600,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin D"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.3,
+            "reactivity": 1.4,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.01,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Coq au Vin",
           "description": "A classic rustic French braise from Burgundy. Originally designed to tenderize a tough, old rooster (coq), modern recipes use chicken, relying on a prolonged marination and braising in red Burgundy wine to transform the flesh to a deep purple, infused with the earthy funk of bacon, mushrooms, and pearl onions.",
           "details": {
             "cuisine": "French (Burgundy)",
@@ -2361,11 +3016,11 @@ export const french: Cuisine = {
               classifications: {"mealType":["dinner"],"cookingMethods":["simmering","poaching","straining"]},
               elementalProperties: {"Fire":0.20,"Water":0.50,"Earth":0.20,"Air":0.10},
               astrologicalAffinities: {"planets":["Neptune","Moon"],"signs":["pisces","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-              nutritionPerServing: {"calories":480,"proteinG":55,"carbsG":22,"fatG":18,"fiberG":4,"sodiumMg":1150,"sugarG":6,"vitamins":["Vitamin B12","Vitamin C","Vitamin D"],"minerals":["Selenium","Iodine","Iron","Zinc"]},
 
               alchemicalProperties: {"Spirit":5.0,"Essence":5.7,"Matter":4.18,"Substance":3.83},
               thermodynamicProperties: {"heat":0.1189,"entropy":0.3548,"reactivity":3.777,"gregsEnergy":-1.2213,"kalchm":940.0881,"monica":-0.3001},
-              substitutions: [{"originalIngredient":"Fresh shellfish","substituteOptions":["Frozen mussels (thawed)","Shrimp"]},{"originalIngredient":"Rascasse or bony stock fish","substituteOptions":["Fish stock made from store-bought fish stock base"]}]
+              substitutions: [{"originalIngredient":"Fresh shellfish","substituteOptions":["Frozen mussels (thawed)","Shrimp"]},{"originalIngredient":"Rascasse or bony stock fish","substituteOptions":["Fish stock made from store-bought fish stock base"]}],
+                nutritionPerServing: {"calories":69,"proteinG":2,"carbsG":13,"fatG":2,"fiberG":3,"sodiumMg":9,"sugarG":7,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin K","Vitamin A","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Iron"]}
             },
             {
               name: "Quiche Lorraine",
@@ -2376,11 +3031,11 @@ export const french: Cuisine = {
               classifications: {"mealType":["lunch","dinner","brunch"],"cookingMethods":["baking","blind-baking","whisking"]},
               elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.35,"Air":0.15},
               astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-              nutritionPerServing: {"calories":510,"proteinG":15,"carbsG":24,"fatG":40,"fiberG":1,"sodiumMg":620,"sugarG":2,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Iron","Phosphorus"]},
 
               alchemicalProperties: {"Spirit":2.88,"Essence":3.41,"Matter":3.94,"Substance":3.8},
               thermodynamicProperties: {"heat":0.0578,"entropy":0.3515,"reactivity":1.8762,"gregsEnergy":-0.6018,"kalchm":0.0389,"monica":1.3128},
-              substitutions: [{"originalIngredient":"Smoked bacon lardons","substituteOptions":["Sauteed mushrooms and leeks for a vegetarian version","Ham (cooked, diced)"]},{"originalIngredient":"Creme fraiche","substituteOptions":["Heavy whipping cream","Sour cream mixed with cream"]}]
+              substitutions: [{"originalIngredient":"Smoked bacon lardons","substituteOptions":["Sauteed mushrooms and leeks for a vegetarian version","Ham (cooked, diced)"]},{"originalIngredient":"Creme fraiche","substituteOptions":["Heavy whipping cream","Sour cream mixed with cream"]}],
+                nutritionPerServing: {"calories":1,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":194,"sugarG":0,"vitamins":["Vitamin A"],"minerals":["Manganese","Copper","Magnesium","Iron","Calcium"]}
             },
             {
               "name": "Authentic Ratatouille (Confit Byaldi)",

@@ -1490,6 +1490,639 @@ export const italian: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Spaghetti alla Carbonara",
+          "description": "A Roman classic defining culinary minimalism. The alchemy relies on aggressively emulsifying starchy pasta water, rendered guanciale fat, pecorino cheese, and raw eggs into a thick, glossy sauce.",
+          "details": {
+            "cuisine": "Italian",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "spaghetti",
+              "notes": "High quality durum wheat"
+            },
+            {
+              "amount": 150,
+              "unit": "g",
+              "name": "guanciale",
+              "notes": "Cured pork jowl, cut into strips"
+            },
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "egg yolks",
+              "notes": "Plus 1 whole egg"
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "Pecorino Romano",
+              "notes": "Finely grated, plus extra for serving"
+            },
+            {
+              "amount": 2,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly and coarsely ground"
+            }
+          ],
+          "instructions": [
+            "Step 1: Bring a large pot of water to a boil. Salt it less than usual, as the guanciale and pecorino are very salty.",
+            "Step 2: In a cold skillet, add the guanciale strips. Heat slowly to render the fat until the meat is crispy. Remove from heat.",
+            "Step 3: In a bowl, vigorously whisk the egg yolks, whole egg, grated pecorino, and a heavy amount of black pepper into a thick paste.",
+            "Step 4: Boil the spaghetti until al dente. Reserve 1 cup of starchy pasta water.",
+            "Step 5: Transfer the hot pasta directly into the skillet with the guanciale and its fat. Toss well.",
+            "Step 6: Off the heat, pour the egg and cheese paste over the pasta. Rapidly toss and add splashes of hot pasta water to emulsify the mixture into a creamy sauce. Serve immediately."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch",
+              "pasta"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "emulsifying"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Earth"
+            ],
+            "signs": [
+              "Taurus",
+              "Libra"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 25,
+            "carbsG": 75,
+            "fatG": 28,
+            "fiberG": 3,
+            "sodiumMg": 950,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin B12",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.25,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Lasagna al Forno",
+          "description": "The ultimate expression of Emilia-Romagna comfort. Layers of fresh egg pasta, slow-cooked Bolognese ragù, and creamy béchamel, baked until bubbling and golden.",
+          "details": {
+            "cuisine": "Italian",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 240,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "fresh egg pasta sheets",
+              "notes": "Or dried lasagna noodles"
+            },
+            {
+              "amount": 800,
+              "unit": "g",
+              "name": "Bolognese ragù",
+              "notes": "Rich meat sauce cooked for 3 hours"
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "béchamel sauce",
+              "notes": "Made from butter, flour, milk, and nutmeg"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "Parmigiano-Reggiano",
+              "notes": "Freshly grated"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "butter",
+              "notes": "For greasing the dish"
+            }
+          ],
+          "instructions": [
+            "Step 1: Prepare the Bolognese ragù in advance (beef/pork, soffritto, wine, milk, tomato).",
+            "Step 2: Prepare the béchamel sauce, seasoning it with salt, white pepper, and nutmeg.",
+            "Step 3: Blanch the pasta sheets in boiling salted water for 30 seconds, then shock in ice water and dry on towels.",
+            "Step 4: Butter a 9x13 baking dish. Spread a thin layer of ragù on the bottom.",
+            "Step 5: Layer in order: pasta, ragù, béchamel, and Parmigiano. Repeat to create 4-5 layers, ending with béchamel and a heavy dusting of cheese.",
+            "Step 6: Bake at 375°F (190°C) for 40 minutes until the top is deeply browned and bubbling. Rest for 15 minutes before slicing."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "casserole",
+              "pasta"
+            ],
+            "cookingMethods": [
+              "layering",
+              "baking",
+              "slow-cooking"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.3,
+            "Earth": 0.5,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Jupiter",
+              "Venus"
+            ],
+            "signs": [
+              "Cancer",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 720,
+            "proteinG": 35,
+            "carbsG": 55,
+            "fatG": 38,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin A",
+              "Calcium"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 8,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 1.4,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Osso Buco alla Milanese",
+          "description": "A luxurious Milanese braise of cross-cut veal shanks, where the marrow renders into the wine and broth sauce, finished with a bright, zesty gremolata.",
+          "details": {
+            "cuisine": "Italian (Milanese)",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "pieces",
+              "name": "veal shanks (osso buco)",
+              "notes": "Cut 1.5 inches thick, tied with twine"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "all-purpose flour",
+              "notes": "For dredging"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Finely diced"
+            },
+            {
+              "amount": 1,
+              "unit": "medium",
+              "name": "carrot",
+              "notes": "Finely diced"
+            },
+            {
+              "amount": 1,
+              "unit": "stalk",
+              "name": "celery",
+              "notes": "Finely diced"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "dry white wine",
+              "notes": "Pinot Grigio or similar"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "chicken or veal stock",
+              "notes": "Warm"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "lemon zest",
+              "notes": "For the gremolata"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fresh parsley",
+              "notes": "Finely chopped, for gremolata"
+            },
+            {
+              "amount": 1,
+              "unit": "clove",
+              "name": "garlic",
+              "notes": "Minced, for gremolata"
+            }
+          ],
+          "instructions": [
+            "Step 1: Tie the veal shanks to keep them intact. Season generously with salt and pepper, then dredge lightly in flour.",
+            "Step 2: In a heavy Dutch oven, brown the shanks in butter and olive oil until deeply crusty. Remove.",
+            "Step 3: In the same pot, sauté the onion, carrot, and celery until soft.",
+            "Step 4: Deglaze the pan with white wine, scraping up the browned bits, and reduce by half.",
+            "Step 5: Return the veal, add the stock until it comes halfway up the shanks. Cover and braise at 325°F (160°C) for 2 hours until fork-tender.",
+            "Step 6: Mix lemon zest, parsley, and garlic to make gremolata. Sprinkle over the hot meat just before serving."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "stew"
+            ],
+            "cookingMethods": [
+              "braising",
+              "searing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Jupiter",
+              "Sun"
+            ],
+            "signs": [
+              "Taurus",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 580,
+            "proteinG": 45,
+            "carbsG": 12,
+            "fatG": 35,
+            "fiberG": 2,
+            "sodiumMg": 600,
+            "sugarG": 3,
+            "vitamins": [
+              "Vitamin C",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 6,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.25,
+            "reactivity": 1.6,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Risotto alla Milanese",
+          "description": "The golden jewel of Milan. A creamy, rich, saffron-infused rice dish requiring constant attention, continuous stirring, and a precise finish of butter and cheese (mantecatura).",
+          "details": {
+            "cuisine": "Italian (Milanese)",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 320,
+              "unit": "g",
+              "name": "Carnaroli or Arborio rice",
+              "notes": "High starch, short-grain"
+            },
+            {
+              "amount": 1,
+              "unit": "small",
+              "name": "onion",
+              "notes": "Very finely minced"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "saffron threads",
+              "notes": "Steeped in a little hot broth"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "dry white wine",
+              "notes": "Room temperature"
+            },
+            {
+              "amount": 1.5,
+              "unit": "liters",
+              "name": "beef or chicken broth",
+              "notes": "Kept at a rolling simmer"
+            },
+            {
+              "amount": 60,
+              "unit": "g",
+              "name": "unsalted butter",
+              "notes": "Cold, diced, for mantecatura"
+            },
+            {
+              "amount": 60,
+              "unit": "g",
+              "name": "Parmigiano-Reggiano",
+              "notes": "Freshly grated"
+            }
+          ],
+          "instructions": [
+            "Step 1: Sauté the minced onion in butter until translucent but not browned.",
+            "Step 2: Add the rice and toast it for 2-3 minutes until the edges turn translucent.",
+            "Step 3: Pour in the white wine and stir until completely absorbed.",
+            "Step 4: Begin adding the simmering broth one ladle at a time, stirring constantly. Wait until each ladle is absorbed before adding the next.",
+            "Step 5: Halfway through, pour in the saffron-infused broth. Continue adding broth and stirring until the rice is al dente (about 18 minutes).",
+            "Step 6: Remove from heat. Vigorously beat in the cold butter and Parmigiano (the mantecatura) until the risotto forms a wave ('all'onda'). Serve on a flat plate."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "primo"
+            ],
+            "cookingMethods": [
+              "stirring",
+              "simmering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.4,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Venus"
+            ],
+            "signs": [
+              "Leo",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 450,
+            "proteinG": 12,
+            "carbsG": 65,
+            "fatG": 16,
+            "fiberG": 2,
+            "sodiumMg": 800,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin A",
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 5,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.03,
+            "entropy": 0.2,
+            "reactivity": 1.4,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.01,
+            "monica": 0.3
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Tiramisù",
+          "description": "The quintessential Italian 'pick-me-up' dessert. Layers of espresso-soaked savoiardi (ladyfingers) encased in a rich, airy mascarpone and egg yolk cream, dusted heavily with bitter cocoa.",
+          "details": {
+            "cuisine": "Italian",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Separated into yolks and whites"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "Divided"
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "mascarpone cheese",
+              "notes": "Room temperature"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "strong espresso",
+              "notes": "Cooled"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "Marsala wine or dark rum",
+              "notes": "Optional, mixed into espresso"
+            },
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "savoiardi (ladyfingers)",
+              "notes": "Dry and crisp"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "unsweetened cocoa powder",
+              "notes": "For dusting"
+            }
+          ],
+          "instructions": [
+            "Step 1: Whisk the egg yolks with half the sugar until pale and thick. Gently fold in the mascarpone until smooth.",
+            "Step 2: In a separate clean bowl, whip the egg whites with the remaining sugar until stiff peaks form.",
+            "Step 3: Gently fold the whipped egg whites into the mascarpone mixture to lighten it.",
+            "Step 4: Quickly dip each ladyfinger into the cooled espresso mixture (do not soak or they will disintegrate) and arrange them in a tight layer in a dish.",
+            "Step 5: Spread half the mascarpone cream over the ladyfingers. Repeat with a second layer of dipped ladyfingers and the remaining cream.",
+            "Step 6: Refrigerate for at least 4 hours (preferably overnight). Dust heavily with cocoa powder just before serving."
+          ],
+          "classifications": {
+            "mealType": [
+              "dessert"
+            ],
+            "cookingMethods": [
+              "whipping",
+              "layering",
+              "chilling"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.4
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Neptune"
+            ],
+            "signs": [
+              "Libra",
+              "Pisces"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 410,
+            "proteinG": 8,
+            "carbsG": 35,
+            "fatG": 28,
+            "fiberG": 1,
+            "sodiumMg": 100,
+            "sugarG": 20,
+            "vitamins": [
+              "Vitamin A",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 6,
+            "Matter": 4,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.01,
+            "entropy": 0.35,
+            "reactivity": 1.2,
+            "gregsEnergy": -0.2,
+            "kalchm": 0.01,
+            "monica": 0.2
+          },
+          "substitutions": []
+        },
+        {
           "name": "Authentic Osso Buco alla Milanese",
           "description": "The pinnacle of Northern Italian braising.",
           "details": {
@@ -2605,11 +3238,11 @@ export const italian: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["boiling","sauteing"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.30,"Air":0.20},
           astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","capricorn"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":520,"proteinG":24,"carbsG":72,"fatG":14,"fiberG":3,"sodiumMg":720,"sugarG":2,"vitamins":["Vitamin B12","Vitamin D"],"minerals":["Calcium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":1.81,"Essence":1.82,"Matter":2.4,"Substance":2.42},
           thermodynamicProperties: {"heat":0.0611,"entropy":0.4059,"reactivity":1.7298,"gregsEnergy":-0.6409,"kalchm":0.1254,"monica":0.2598},
-          substitutions: [{"originalIngredient":"Pecorino Romano","substituteOptions":["Parmigiano-Reggiano (milder result)"]},{"originalIngredient":"Tonnarelli","substituteOptions":["Spaghetti","Bucatini"]}]
+          substitutions: [{"originalIngredient":"Pecorino Romano","substituteOptions":["Parmigiano-Reggiano (milder result)"]},{"originalIngredient":"Tonnarelli","substituteOptions":["Spaghetti","Bucatini"]}],
+            nutritionPerServing: {"calories":3,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":582,"sugarG":0,"vitamins":["Vitamin K","Vitamin C","Vitamin A"],"minerals":["Iron","Manganese","Calcium","Magnesium"]}
         },
         {
           name: "Ossobuco alla Milanese",
@@ -2620,11 +3253,11 @@ export const italian: Cuisine = {
           classifications: {"mealType":["dinner"],"cookingMethods":["braising","searing"]},
           elementalProperties: {"Fire":0.30,"Water":0.35,"Earth":0.25,"Air":0.10},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-          nutritionPerServing: {"calories":580,"proteinG":52,"carbsG":12,"fatG":32,"fiberG":2,"sodiumMg":640,"sugarG":4,"vitamins":["Vitamin B12","Vitamin C","Vitamin A"],"minerals":["Iron","Zinc","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":4.19,"Essence":4.93,"Matter":4.66,"Substance":4.2},
           thermodynamicProperties: {"heat":0.084,"entropy":0.3399,"reactivity":2.4773,"gregsEnergy":-0.758,"kalchm":1.952,"monica":0.4842},
-          substitutions: [{"originalIngredient":"Veal shanks","substituteOptions":["Beef ossobuco (longer braise time required)"]},{"originalIngredient":"White wine","substituteOptions":["Dry vermouth","Chicken stock"]}]
+          substitutions: [{"originalIngredient":"Veal shanks","substituteOptions":["Beef ossobuco (longer braise time required)"]},{"originalIngredient":"White wine","substituteOptions":["Dry vermouth","Chicken stock"]}],
+            nutritionPerServing: {"calories":16538,"proteinG":3101,"carbsG":7,"fatG":361,"fiberG":1,"sodiumMg":7406,"sugarG":3,"vitamins":["Vitamin E","Vitamin K","Vitamin C","Vitamin B6","Vitamin folate","Vitamin A","Vitamin niacin","Vitamin B12"],"minerals":["Potassium","Manganese","Selenium","Phosphorus","Zinc","Calcium"]}
         },
         {
           name: "Focaccia Genovese",
@@ -2635,11 +3268,11 @@ export const italian: Cuisine = {
           classifications: {"mealType":["lunch","dinner","snack"],"cookingMethods":["baking"]},
           elementalProperties: {"Fire":0.20,"Water":0.30,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["taurus","libra"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":310,"proteinG":7,"carbsG":48,"fatG":10,"fiberG":2,"sodiumMg":580,"sugarG":1,"vitamins":["Vitamin E","Vitamin B1"],"minerals":["Iron","Magnesium"]},
 
           alchemicalProperties: {"Spirit":1.58,"Essence":2.98,"Matter":4.11,"Substance":3.88},
           thermodynamicProperties: {"heat":0.0183,"entropy":0.294,"reactivity":1.3364,"gregsEnergy":-0.3746,"kalchm":0.0008,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Strong bread flour","substituteOptions":["All-purpose flour (slightly denser result)"]},{"originalIngredient":"Extra virgin olive oil","substituteOptions":["Light olive oil (less flavor)"]}]
+          substitutions: [{"originalIngredient":"Strong bread flour","substituteOptions":["All-purpose flour (slightly denser result)"]},{"originalIngredient":"Extra virgin olive oil","substituteOptions":["Light olive oil (less flavor)"]}],
+            nutritionPerServing: {"calories":893,"proteinG":0,"carbsG":0,"fatG":105,"fiberG":0,"sodiumMg":116,"sugarG":0,"vitamins":["Vitamin E","Vitamin K"],"minerals":["Magnesium","Calcium"]}
         },
       ],
     },
@@ -2654,11 +3287,11 @@ export const italian: Cuisine = {
           classifications: {"mealType":["dessert"],"cookingMethods":["whisking","assembling","chilling"]},
           elementalProperties: {"Fire":0.10,"Water":0.35,"Earth":0.30,"Air":0.25},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","libra"],"lunarPhases":["Waning Gibbous","Full Moon"]},
-          nutritionPerServing: {"calories":430,"proteinG":9,"carbsG":40,"fatG":26,"fiberG":1,"sodiumMg":110,"sugarG":28,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Phosphorus","Iron"]},
 
           alchemicalProperties: {"Spirit":2.2,"Essence":2.68,"Matter":3.29,"Substance":3.28},
           thermodynamicProperties: {"heat":0.0471,"entropy":0.3576,"reactivity":1.7827,"gregsEnergy":-0.5904,"kalchm":0.0321,"monica":0.9844},
-          substitutions: [{"originalIngredient":"Mascarpone cheese","substituteOptions":["Full-fat cream cheese blended with heavy cream (less rich result)"]},{"originalIngredient":"Marsala wine","substituteOptions":["Dark rum","Coffee liqueur","Omit for an alcohol-free version"]},{"originalIngredient":"Egg yolks (raw)","substituteOptions":["Pasteurized liquid egg yolks for food safety"]}]
+          substitutions: [{"originalIngredient":"Mascarpone cheese","substituteOptions":["Full-fat cream cheese blended with heavy cream (less rich result)"]},{"originalIngredient":"Marsala wine","substituteOptions":["Dark rum","Coffee liqueur","Omit for an alcohol-free version"]},{"originalIngredient":"Egg yolks (raw)","substituteOptions":["Pasteurized liquid egg yolks for food safety"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":291,"sugarG":0,"vitamins":[],"minerals":["Magnesium","Calcium"]}
         },
       ],
       summer: [

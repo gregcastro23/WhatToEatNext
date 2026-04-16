@@ -962,6 +962,682 @@ export const greek: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Moussaka",
+          "description": "The iconic Greek casserole consisting of layered roasted eggplant, a rich spiced meat sauce, and a thick, golden béchamel topping.",
+          "details": {
+            "cuisine": "Greek",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "eggplants",
+              "notes": "Sliced into rounds"
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "ground beef or lamb",
+              "notes": "For the meat sauce"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Finely chopped"
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "can (14oz)",
+              "name": "crushed tomatoes",
+              "notes": "For the sauce"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cinnamon",
+              "notes": "Ground, essential for flavor"
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "milk",
+              "notes": "For the béchamel"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "butter",
+              "notes": "For the béchamel"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "flour",
+              "notes": "For the béchamel"
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "egg yolks",
+              "notes": "For enriching the béchamel"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "kefalotyri or parmesan cheese",
+              "notes": "Grated"
+            }
+          ],
+          "instructions": [
+            "Step 1: Salt the eggplant slices and let sit for 30 mins. Rinse, dry, and roast or pan-fry until golden.",
+            "Step 2: Brown the meat with onions and garlic. Add tomatoes, cinnamon, salt, and pepper. Simmer for 30 minutes until thick.",
+            "Step 3: Melt butter in a saucepan, whisk in flour for 1 minute. Gradually add milk, whisking until thickened into a béchamel. Off heat, temper in egg yolks and half the cheese.",
+            "Step 4: Layer the bottom of a 9x13 baking dish with the roasted eggplant slices.",
+            "Step 5: Spread the meat sauce evenly over the eggplant. Top with the béchamel sauce.",
+            "Step 6: Sprinkle with remaining cheese. Bake at 375°F (190°C) for 45 minutes until golden brown."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "casserole"
+            ],
+            "cookingMethods": [
+              "layering",
+              "baking"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.5,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Earth"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 550,
+            "proteinG": 28,
+            "carbsG": 35,
+            "fatG": 36,
+            "fiberG": 8,
+            "sodiumMg": 650,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin A",
+              "Calcium"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.25,
+            "reactivity": 1.3,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Chicken Souvlaki",
+          "description": "Classic Greek street food of tender, lemon-oregano marinated chicken chunks skewered and grilled over an open flame.",
+          "details": {
+            "cuisine": "Greek",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "summer",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "chicken breast or thighs",
+              "notes": "Cut into 1-inch cubes"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "olive oil",
+              "notes": "Extra virgin"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "lemon juice",
+              "notes": "Freshly squeezed"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "dried oregano",
+              "notes": "Greek oregano preferred"
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "salt",
+              "notes": "To taste"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "pita breads",
+              "notes": "For serving"
+            }
+          ],
+          "instructions": [
+            "Step 1: Whisk together the olive oil, lemon juice, oregano, garlic, salt, and pepper in a large bowl.",
+            "Step 2: Add the chicken cubes and toss to coat completely. Marinate in the refrigerator for 1-2 hours.",
+            "Step 3: Thread the marinated chicken tightly onto wooden or metal skewers.",
+            "Step 4: Preheat a grill or grill pan over medium-high heat.",
+            "Step 5: Grill the skewers for 10-12 minutes, turning occasionally, until charred and cooked through.",
+            "Step 6: Serve hot inside warm pita bread with tzatziki, tomatoes, and onions."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cookingMethods": [
+              "grilling",
+              "skewering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 420,
+            "proteinG": 35,
+            "carbsG": 22,
+            "fatG": 20,
+            "fiberG": 2,
+            "sodiumMg": 650,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin C",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 4,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.07,
+            "entropy": 0.35,
+            "reactivity": 1.8,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.03,
+            "monica": 0.6
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Spanakopita",
+          "description": "A savory Greek pastry made of impossibly flaky phyllo dough encasing a rich, herbaceous filling of spinach, feta cheese, and dill.",
+          "details": {
+            "cuisine": "Greek",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
+            "season": [
+              "spring",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "fresh spinach",
+              "notes": "Washed and roughly chopped"
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "scallions",
+              "notes": "Finely chopped"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "fresh dill",
+              "notes": "Chopped"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "feta cheese",
+              "notes": "Crumbled"
+            },
+            {
+              "amount": 3,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Lightly beaten"
+            },
+            {
+              "amount": 1,
+              "unit": "pack",
+              "name": "phyllo dough",
+              "notes": "Thawed"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "olive oil or melted butter",
+              "notes": "For brushing"
+            }
+          ],
+          "instructions": [
+            "Step 1: Sauté the scallions and spinach until wilted. Drain excess liquid thoroughly by squeezing in a towel.",
+            "Step 2: In a large bowl, combine the dry spinach mixture with the feta, dill, and eggs. Mix well.",
+            "Step 3: Brush a 9x13 baking dish with oil. Layer half of the phyllo sheets in the bottom, brushing each individual sheet with oil.",
+            "Step 4: Spread the spinach filling evenly over the phyllo base.",
+            "Step 5: Top with the remaining phyllo sheets, again brushing each layer with oil.",
+            "Step 6: Score the top layers into squares and bake at 350°F (175°C) for 45 minutes until golden and crisp."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "appetizer",
+              "vegetarian"
+            ],
+            "cookingMethods": [
+              "baking",
+              "layering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Moon"
+            ],
+            "signs": [
+              "Taurus",
+              "Virgo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 320,
+            "proteinG": 12,
+            "carbsG": 25,
+            "fatG": 22,
+            "fiberG": 4,
+            "sodiumMg": 450,
+            "sugarG": 3,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.3,
+            "reactivity": 1.4,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Tzatziki",
+          "description": "The classic, refreshing Greek yogurt dip made with grated cucumber, garlic, and fresh herbs.",
+          "details": {
+            "cuisine": "Greek",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "summer",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "Greek yogurt",
+              "notes": "Full fat"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "cucumber",
+              "notes": "Grated"
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "olive oil",
+              "notes": "Extra virgin"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "white vinegar or lemon juice",
+              "notes": "For acidity"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh dill",
+              "notes": "Finely chopped"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "salt",
+              "notes": "To taste"
+            }
+          ],
+          "instructions": [
+            "Step 1: Grate the cucumber and place it in a fine-mesh sieve. Salt lightly and let drain for 15 minutes.",
+            "Step 2: Squeeze the grated cucumber vigorously to remove as much water as possible.",
+            "Step 3: In a medium bowl, combine the strained cucumber with the Greek yogurt, minced garlic, olive oil, vinegar, and dill.",
+            "Step 4: Stir until completely mixed.",
+            "Step 5: Cover and refrigerate for at least 1 hour to allow the garlic flavor to mellow and permeate the yogurt.",
+            "Step 6: Serve chilled as a dip with pita or as a sauce for grilled meats."
+          ],
+          "classifications": {
+            "mealType": [
+              "appetizer",
+              "sauce",
+              "vegetarian"
+            ],
+            "cookingMethods": [
+              "mixing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0,
+            "Water": 0.6,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Venus"
+            ],
+            "signs": [
+              "Cancer",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "New Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 90,
+            "proteinG": 6,
+            "carbsG": 5,
+            "fatG": 6,
+            "fiberG": 1,
+            "sodiumMg": 200,
+            "sugarG": 3,
+            "vitamins": [
+              "Calcium",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 2,
+            "Essence": 6,
+            "Matter": 4,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.01,
+            "entropy": 0.15,
+            "reactivity": 1,
+            "gregsEnergy": -0.2,
+            "kalchm": 0.01,
+            "monica": 0.1
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Gyro (Pork or Chicken)",
+          "description": "Iconic Greek sandwich featuring thinly sliced, heavily seasoned meat roasted on a vertical spit, served in a warm pita.",
+          "details": {
+            "cuisine": "Greek",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 800,
+              "unit": "g",
+              "name": "pork shoulder or chicken thighs",
+              "notes": "Thinly sliced"
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "dried oregano",
+              "notes": "Crushed"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "paprika",
+              "notes": "For color"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cumin",
+              "notes": "Ground"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "olive oil",
+              "notes": "For marinating"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "lemon juice",
+              "notes": "For marinating"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "pita breads",
+              "notes": "For wrapping"
+            }
+          ],
+          "instructions": [
+            "Step 1: In a large bowl, whisk the garlic, oregano, paprika, cumin, olive oil, lemon juice, salt, and pepper.",
+            "Step 2: Add the thinly sliced meat and toss well. Marinate for at least 2 hours.",
+            "Step 3: Preheat oven to 400°F (200°C) or heat a heavy skillet.",
+            "Step 4: If using an oven, thread meat tightly onto skewers and roast until edges are crispy. If using a skillet, sear the meat over high heat until browned and cooked through.",
+            "Step 5: Warm the pita breads on a dry pan.",
+            "Step 6: Assemble the gyro by placing the hot meat on the pita, topping with tzatziki, tomatoes, red onion, and a few French fries."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cookingMethods": [
+              "roasting",
+              "searing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.3,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 40,
+            "carbsG": 45,
+            "fatG": 32,
+            "fiberG": 4,
+            "sodiumMg": 850,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin C",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.06,
+            "entropy": 0.35,
+            "reactivity": 1.7,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
           "name": "Authentic Greek Moussaka",
           "description": "A structurally complex casserole relying on precise layering and moisture control.",
           "details": {
@@ -3075,11 +3751,11 @@ export const greek: Cuisine = {
           classifications: {"mealType":["lunch","dinner","snack","appetizer"],"cookingMethods":["baking","layering"]},
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.5,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Moon","Mercury"],"signs":["taurus","cancer","virgo"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":380,"proteinG":14,"carbsG":32,"fatG":24,"fiberG":4,"sodiumMg":680,"sugarG":2,"vitamins":["Vitamin A","Folate","Vitamin K"],"minerals":["Calcium","Iron","Magnesium"]},
 
           alchemicalProperties: {"Spirit":1.78,"Essence":2.83,"Matter":2.99,"Substance":2.73},
           thermodynamicProperties: {"heat":0.0361,"entropy":0.2509,"reactivity":1.5365,"gregsEnergy":-0.3494,"kalchm":0.1292,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Feta cheese","substituteOptions":["Ricotta plus salt","Goat cheese"]},{"originalIngredient":"Phyllo dough","substituteOptions":["Puff pastry (different texture)"]}]
+          substitutions: [{"originalIngredient":"Feta cheese","substituteOptions":["Ricotta plus salt","Goat cheese"]},{"originalIngredient":"Phyllo dough","substituteOptions":["Puff pastry (different texture)"]}],
+            nutritionPerServing: {"calories":34,"proteinG":0,"carbsG":2,"fatG":3,"fiberG":0,"sodiumMg":1,"sugarG":1,"vitamins":["Vitamin K","Vitamin A","Vitamin C","Vitamin folate","Vitamin B6","Vitamin E"],"minerals":["Iron","Calcium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Dolmades",
@@ -3090,11 +3766,11 @@ export const greek: Cuisine = {
           classifications: {"mealType":["appetizer","lunch","snack"],"cookingMethods":["steaming","simmering"]},
           elementalProperties: {"Fire":0.1,"Water":0.3,"Earth":0.45,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Venus","Jupiter"],"signs":["cancer","taurus","pisces"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":340,"proteinG":6,"carbsG":42,"fatG":18,"fiberG":4,"sodiumMg":480,"sugarG":8,"vitamins":["Vitamin K","Folate","Vitamin C"],"minerals":["Iron","Magnesium","Potassium"]},
 
           alchemicalProperties: {"Spirit":3.06,"Essence":4.25,"Matter":3.56,"Substance":3.23},
           thermodynamicProperties: {"heat":0.0658,"entropy":0.2706,"reactivity":2.362,"gregsEnergy":-0.5734,"kalchm":3.5406,"monica":-0.122},
-          substitutions: [{"originalIngredient":"Brined grape leaves","substituteOptions":["Blanched cabbage leaves","Chard leaves"]},{"originalIngredient":"Currants","substituteOptions":["Raisins","Dried cranberries"]}]
+          substitutions: [{"originalIngredient":"Brined grape leaves","substituteOptions":["Blanched cabbage leaves","Chard leaves"]},{"originalIngredient":"Currants","substituteOptions":["Raisins","Dried cranberries"]}],
+            nutritionPerServing: {"calories":135,"proteinG":11,"carbsG":17,"fatG":6,"fiberG":11,"sodiumMg":21,"sugarG":3,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin folate","Vitamin B6","Vitamin E"],"minerals":["Calcium","Iron","Potassium","Manganese"]}
         },
         {
           name: "Avgolemono",
@@ -3105,11 +3781,11 @@ export const greek: Cuisine = {
           classifications: {"mealType":["lunch","dinner","starter"],"cookingMethods":["simmering","tempering"]},
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Venus","Mercury"],"signs":["cancer","libra","gemini"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":220,"proteinG":18,"carbsG":18,"fatG":8,"fiberG":1,"sodiumMg":720,"sugarG":2,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Potassium","Phosphorus","Selenium"]},
 
           alchemicalProperties: {"Spirit":1.63,"Essence":2.54,"Matter":2.79,"Substance":2.67},
           thermodynamicProperties: {"heat":0.0337,"entropy":0.2656,"reactivity":1.7876,"gregsEnergy":-0.4411,"kalchm":0.0982,"monica":0.0922},
-          substitutions: [{"originalIngredient":"Chicken broth","substituteOptions":["Vegetable broth","Lamb broth"]},{"originalIngredient":"Orzo","substituteOptions":["Short-grain rice","Broken vermicelli"]}]
+          substitutions: [{"originalIngredient":"Chicken broth","substituteOptions":["Vegetable broth","Lamb broth"]},{"originalIngredient":"Orzo","substituteOptions":["Short-grain rice","Broken vermicelli"]}],
+            nutritionPerServing: {"calories":292,"proteinG":54,"carbsG":2,"fatG":6,"fiberG":1,"sodiumMg":129,"sugarG":1,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium"]}
         },
         {
           name: "Kleftiko",
@@ -3120,11 +3796,11 @@ export const greek: Cuisine = {
           classifications: {"mealType":["dinner","celebration"],"cookingMethods":["slow-roasting","braising"]},
           elementalProperties: {"Fire":0.2,"Water":0.2,"Earth":0.5,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Mars","Jupiter"],"signs":["capricorn","aries","sagittarius"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":620,"proteinG":52,"carbsG":28,"fatG":34,"fiberG":4,"sodiumMg":580,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
 
           alchemicalProperties: {"Spirit":3.3,"Essence":4.2,"Matter":3.95,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0691,"entropy":0.3079,"reactivity":2.1107,"gregsEnergy":-0.5809,"kalchm":0.8704,"monica":0.4842},
-          substitutions: [{"originalIngredient":"Lamb shoulder","substituteOptions":["Goat shoulder","Bone-in chicken (reduce time)"]},{"originalIngredient":"Kefalotyri cheese","substituteOptions":["Pecorino Romano","Aged Manchego"]}]
+          substitutions: [{"originalIngredient":"Lamb shoulder","substituteOptions":["Goat shoulder","Bone-in chicken (reduce time)"]},{"originalIngredient":"Kefalotyri cheese","substituteOptions":["Pecorino Romano","Aged Manchego"]}],
+            nutritionPerServing: {"calories":144,"proteinG":13,"carbsG":8,"fatG":7,"fiberG":2,"sodiumMg":33,"sugarG":4,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin folate","Vitamin E","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium","Calcium"]}
         },
         {
           name: "Loukoumades",
@@ -3135,11 +3811,11 @@ export const greek: Cuisine = {
           classifications: {"mealType":["dessert","snack","celebration"],"cookingMethods":["deep-frying","proofing"]},
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.3,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Venus","Sun"],"signs":["sagittarius","taurus","leo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":6,"carbsG":58,"fatG":20,"fiberG":2,"sodiumMg":220,"sugarG":28,"vitamins":["Thiamin","Niacin","Folate"],"minerals":["Iron","Calcium","Magnesium"]},
 
           alchemicalProperties: {"Spirit":2.6,"Essence":2.72,"Matter":2.76,"Substance":2.47},
           thermodynamicProperties: {"heat":0.0931,"entropy":0.3637,"reactivity":2.1834,"gregsEnergy":-0.701,"kalchm":1.186,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Greek thyme honey","substituteOptions":["Maple syrup","Date syrup"]},{"originalIngredient":"Walnuts","substituteOptions":["Pistachios","Almonds"]}]
+          substitutions: [{"originalIngredient":"Greek thyme honey","substituteOptions":["Maple syrup","Date syrup"]},{"originalIngredient":"Walnuts","substituteOptions":["Pistachios","Almonds"]}],
+            nutritionPerServing: {"calories":80,"proteinG":0,"carbsG":0,"fatG":9,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         ],
     },

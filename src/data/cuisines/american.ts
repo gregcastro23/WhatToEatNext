@@ -1969,6 +1969,658 @@ export const american: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Classic American Cheeseburger",
+          "description": "The quintessential American sandwich, featuring a smashed and seared beef patty, melted cheese, and fresh toppings on a toasted bun.",
+          "details": {
+            "cuisine": "American",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "summer",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "ground beef (80/20)",
+              "notes": "Formed into 4 loose balls"
+            },
+            {
+              "amount": 4,
+              "unit": "slices",
+              "name": "American cheese",
+              "notes": "Essential for melting"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "hamburger buns",
+              "notes": "Brioche or potato, buttered and toasted"
+            },
+            {
+              "amount": 4,
+              "unit": "leaves",
+              "name": "iceberg lettuce",
+              "notes": "Crisp"
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "tomato",
+              "notes": "Thickly sliced"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "mayonnaise",
+              "notes": "For spreading"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "To taste"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground"
+            }
+          ],
+          "instructions": [
+            "Step 1: Preheat a cast-iron skillet or griddle over high heat until smoking.",
+            "Step 2: Place the beef balls onto the griddle and immediately smash them flat with a sturdy spatula.",
+            "Step 3: Season generously with salt and pepper. Cook undisturbed for 2-3 minutes to form a dark crust.",
+            "Step 4: Flip the patties, top each with a slice of American cheese, and cook for 1 more minute.",
+            "Step 5: Toast the buns on the griddle until golden.",
+            "Step 6: Assemble the burgers with mayonnaise, lettuce, tomato, and the hot patty."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "bbq"
+            ],
+            "cookingMethods": [
+              "grilling",
+              "searing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Mars"
+            ],
+            "signs": [
+              "Leo",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 550,
+            "proteinG": 32,
+            "carbsG": 28,
+            "fatG": 35,
+            "fiberG": 2,
+            "sodiumMg": 750,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 5,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.06,
+            "entropy": 0.4,
+            "reactivity": 1.8,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Classic New England Clam Chowder",
+          "description": "A thick, creamy, historically rich maritime soup loaded with tender clams, salt pork or bacon, and potatoes.",
+          "details": {
+            "cuisine": "American (New England)",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 40,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "autumn"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "chopped clams",
+              "notes": "With their juice reserved"
+            },
+            {
+              "amount": 4,
+              "unit": "slices",
+              "name": "bacon",
+              "notes": "Diced"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Finely diced"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "all-purpose flour",
+              "notes": "For thickening"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "potatoes",
+              "notes": "Peeled and cubed"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "heavy cream",
+              "notes": "Provides the rich base"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "milk",
+              "notes": "To thin out if necessary"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground"
+            }
+          ],
+          "instructions": [
+            "Step 1: In a large heavy pot, fry the diced bacon until crisp. Remove bacon but leave the fat.",
+            "Step 2: Sauté the onions in the bacon fat until soft and translucent.",
+            "Step 3: Whisk in the flour to create a blonde roux, cooking for 2 minutes.",
+            "Step 4: Gradually whisk in the reserved clam juice to avoid lumps.",
+            "Step 5: Add the potatoes and simmer for 15-20 minutes until tender.",
+            "Step 6: Stir in the clams, heavy cream, milk, and black pepper. Heat gently but do not let it boil. Serve with oyster crackers."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch",
+              "soup"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "sautéing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.6,
+            "Earth": 0.2,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Neptune"
+            ],
+            "signs": [
+              "Cancer",
+              "Pisces"
+            ],
+            "lunarPhases": [
+              "Waxing Gibbous"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 480,
+            "proteinG": 22,
+            "carbsG": 30,
+            "fatG": 32,
+            "fiberG": 3,
+            "sodiumMg": 600,
+            "sugarG": 6,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 6,
+            "Matter": 5,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.03,
+            "entropy": 0.2,
+            "reactivity": 1.1,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.01,
+            "monica": 0.2
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Southern Biscuits and Sausage Gravy",
+          "description": "The pinnacle of Appalachian comfort food. Flaky, buttery buttermilk biscuits drenched in a thick, peppery pork sausage gravy.",
+          "details": {
+            "cuisine": "American (Southern)",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
+            "season": [
+              "winter",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "buttermilk biscuits",
+              "notes": "Freshly baked"
+            },
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "bulk pork breakfast sausage",
+              "notes": "Mild or sage flavored"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "all-purpose flour",
+              "notes": "For the gravy"
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "whole milk",
+              "notes": "Cold"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Heavily applied"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "salt",
+              "notes": "To taste"
+            }
+          ],
+          "instructions": [
+            "Step 1: Crumble the pork sausage into a large cast-iron skillet over medium-high heat.",
+            "Step 2: Cook until thoroughly browned, leaving the rendered fat in the pan.",
+            "Step 3: Sprinkle the flour evenly over the sausage and fat. Stir and cook for 2 minutes to eliminate raw flour taste.",
+            "Step 4: Slowly whisk in the cold milk, stirring constantly to prevent lumps.",
+            "Step 5: Bring the mixture to a simmer, allowing it to thicken into a rich gravy (about 5-8 minutes).",
+            "Step 6: Season heavily with black pepper and salt. Serve immediately over split open biscuits."
+          ],
+          "classifications": {
+            "mealType": [
+              "breakfast",
+              "brunch"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "frying"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.5,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Earth",
+              "Venus"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 20,
+            "carbsG": 45,
+            "fatG": 42,
+            "fiberG": 2,
+            "sodiumMg": 1100,
+            "sugarG": 10,
+            "vitamins": [
+              "Vitamin D",
+              "Calcium"
+            ],
+            "minerals": [
+              "Iron",
+              "Phosphorus"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 2,
+            "Essence": 5,
+            "Matter": 8,
+            "Substance": 7
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.25,
+            "reactivity": 1.3,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.02,
+            "monica": 0.3
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Classic Philadelphia Cheesesteak",
+          "description": "An iconic urban sandwich featuring paper-thin sliced ribeye steak, caramelized onions, and melted cheese on a long hoagie roll.",
+          "details": {
+            "cuisine": "American",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "ribeye steak",
+              "notes": "Thinly shaved"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Thinly sliced"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "hoagie rolls",
+              "notes": "Split"
+            },
+            {
+              "amount": 8,
+              "unit": "slices",
+              "name": "provolone cheese",
+              "notes": "Or Cheez Whiz"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "vegetable oil",
+              "notes": "For the griddle"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "salt",
+              "notes": "To taste"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "To taste"
+            }
+          ],
+          "instructions": [
+            "Step 1: Heat oil on a flat-top griddle or large skillet over medium-high heat.",
+            "Step 2: Add onions and cook until deeply caramelized and sweet.",
+            "Step 3: Push onions aside and add the shaved ribeye, chopping it with spatulas as it cooks.",
+            "Step 4: Season with salt and pepper, then mix the caramelized onions into the cooked meat.",
+            "Step 5: Divide the meat mixture into 4 portions on the griddle. Lay 2 slices of provolone over each portion to melt.",
+            "Step 6: Place a split hoagie roll upside down over the melted cheese and meat. Use a spatula to scoop the entire assembly, flipping it over."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cookingMethods": [
+              "griddling",
+              "searing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 720,
+            "proteinG": 45,
+            "carbsG": 45,
+            "fatG": 38,
+            "fiberG": 3,
+            "sodiumMg": 950,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin B12",
+              "Niacin"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.35,
+            "reactivity": 1.7,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Classic American Apple Pie",
+          "description": "A profound symbol of American baking tradition. A flaky, buttery double crust enveloping tart, cinnamon-spiced apples baked until bubbling and syrupy.",
+          "details": {
+            "cuisine": "American",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
+            "season": [
+              "autumn",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "crusts",
+              "name": "pie dough",
+              "notes": "For top and bottom"
+            },
+            {
+              "amount": 6,
+              "unit": "cups",
+              "name": "Granny Smith apples",
+              "notes": "Peeled, cored, and sliced"
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "granulated sugar",
+              "notes": "For sweetness"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cinnamon",
+              "notes": "Ground"
+            },
+            {
+              "amount": 0.25,
+              "unit": "tsp",
+              "name": "nutmeg",
+              "notes": "Ground"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "all-purpose flour",
+              "notes": "To thicken the juices"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "lemon juice",
+              "notes": "To brighten flavors"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "butter",
+              "notes": "Dotted over filling"
+            }
+          ],
+          "instructions": [
+            "Step 1: Preheat oven to 425°F (220°C).",
+            "Step 2: In a large bowl, toss the sliced apples with sugar, cinnamon, nutmeg, flour, and lemon juice until well coated.",
+            "Step 3: Roll out the bottom pie crust and place it into a 9-inch pie dish.",
+            "Step 4: Pour the apple filling into the crust, mounding it slightly in the center. Dot the top with small pieces of butter.",
+            "Step 5: Cover with the top pie crust. Crimp the edges to seal and cut slits in the top to vent steam.",
+            "Step 6: Bake for 45-60 minutes until the crust is golden brown and the filling is visibly bubbling."
+          ],
+          "classifications": {
+            "mealType": [
+              "dessert"
+            ],
+            "cookingMethods": [
+              "baking"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Sun"
+            ],
+            "signs": [
+              "Libra",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 380,
+            "proteinG": 3,
+            "carbsG": 55,
+            "fatG": 18,
+            "fiberG": 4,
+            "sodiumMg": 220,
+            "sugarG": 30,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Calcium",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 6,
+            "Matter": 4,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.25,
+            "reactivity": 1.4,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.01,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
           "name": "Authentic Southern BBQ Ribs",
           "description": "A masterclass in low-and-slow wood smoking. These ribs rely on the '3-2-1 method': 3 hours of open smoking for bark formation, 2 hours wrapped in foil with liquid for tenderization, and 1 hour unwrapped and basted to caramelize the sauce. The result is a deep, elemental fusion of wood smoke, rendered pork fat, and sweet-tart spices.",
           "details": {

@@ -955,6 +955,669 @@ export const japanese: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Nigiri Sushi (Tuna & Salmon)",
+          "description": "The purest expression of Japanese culinary minimalism. A hand-formed mound of vinegared rice draped with a meticulously sliced, pristine piece of raw fish.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "short-grain sushi rice",
+              "notes": "Washed until water runs clear"
+            },
+            {
+              "amount": 0.33,
+              "unit": "cup",
+              "name": "rice vinegar",
+              "notes": "For the sushi-zu"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "Dissolved in the vinegar"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "salt",
+              "notes": "Dissolved in the vinegar"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "sashimi-grade tuna (Maguro)",
+              "notes": "Cut into 1/4-inch slices"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "sashimi-grade salmon (Sake)",
+              "notes": "Cut into 1/4-inch slices"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "wasabi paste",
+              "notes": "For under the fish"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "soy sauce",
+              "notes": "For dipping"
+            }
+          ],
+          "instructions": [
+            "Step 1: Cook the rice. Once done, transfer to a large wooden tub (hangiri).",
+            "Step 2: Fold the vinegar-sugar-salt mixture into the hot rice using a slicing motion with a paddle, while fanning it to cool and create a glossy sheen.",
+            "Step 3: Wet your hands lightly. Take a small amount of warm rice and form it into a firm but airy oval mound.",
+            "Step 4: Take a slice of fish in your other hand, dab a minuscule amount of wasabi in the center.",
+            "Step 5: Press the rice mound onto the fish. Gently flip it over and use two fingers to press the fish neatly over the sides of the rice.",
+            "Step 6: Serve immediately. The rice should be slightly warm, and the fish cool."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch"
+            ],
+            "cookingMethods": [
+              "steaming",
+              "folding",
+              "slicing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0,
+            "Water": 0.5,
+            "Earth": 0.3,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Neptune"
+            ],
+            "signs": [
+              "Pisces",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "New Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 25,
+            "carbsG": 50,
+            "fatG": 5,
+            "fiberG": 1,
+            "sodiumMg": 600,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin D",
+              "Vitamin B12"
+            ],
+            "minerals": [
+              "Iodine",
+              "Selenium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 6,
+            "Essence": 7,
+            "Matter": 4,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.01,
+            "entropy": 0.15,
+            "reactivity": 1.1,
+            "gregsEnergy": -0.2,
+            "kalchm": 0.01,
+            "monica": 0.1
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Tonkotsu Ramen",
+          "description": "A triumph of patience. A rich, opaque, intensely porky broth created by boiling pork bones for over 12 hours until the marrow, fat, and collagen completely emulsify into a milky soup.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 720,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "kg",
+              "name": "pork leg bones and trotters",
+              "notes": "Split to expose marrow"
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "onion",
+              "notes": "Halved"
+            },
+            {
+              "amount": 1,
+              "unit": "head",
+              "name": "garlic",
+              "notes": "Halved"
+            },
+            {
+              "amount": 4,
+              "unit": "portions",
+              "name": "fresh ramen noodles",
+              "notes": "Alkaline noodles"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "shoyu tare or shio tare",
+              "notes": "The concentrated seasoning base"
+            },
+            {
+              "amount": 4,
+              "unit": "slices",
+              "name": "chashu (braised pork belly)",
+              "notes": "For topping"
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "ajitsuke tamago",
+              "notes": "Soft-boiled marinated eggs, halved"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "scallions",
+              "notes": "Finely chopped"
+            }
+          ],
+          "instructions": [
+            "Step 1: Clean the bones. Boil them rapidly for 10 minutes, then discard the water and wash the bones thoroughly to remove scum.",
+            "Step 2: Place clean bones, onion, and garlic in a large pot. Cover with water and bring to a rolling boil.",
+            "Step 3: Keep the broth at a rapid, rolling boil (not a simmer) for 12 to 14 hours. The violent agitation emulsifies the fat and collagen into the milky Tonkotsu base.",
+            "Step 4: Strain the broth perfectly smooth.",
+            "Step 5: Place 2 tbsp of tare in the bottom of a serving bowl. Boil the noodles separately for 60 seconds.",
+            "Step 6: Pour the boiling hot broth into the bowl, add the noodles, and top with chashu, egg, and scallions."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch",
+              "soup"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "emulsifying"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.5,
+            "Earth": 0.1,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Pluto",
+              "Saturn"
+            ],
+            "signs": [
+              "Scorpio",
+              "Capricorn"
+            ],
+            "lunarPhases": [
+              "Waning Gibbous"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 750,
+            "proteinG": 32,
+            "carbsG": 65,
+            "fatG": 40,
+            "fiberG": 2,
+            "sodiumMg": 1200,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin B12",
+              "Thiamin"
+            ],
+            "minerals": [
+              "Iron",
+              "Calcium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 7,
+            "Matter": 6,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.08,
+            "entropy": 0.45,
+            "reactivity": 2.2,
+            "gregsEnergy": -0.6,
+            "kalchm": 0.05,
+            "monica": 0.6
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Tempura (Shrimp & Vegetables)",
+          "description": "The pinnacle of Japanese deep-frying. A technique focusing on an impossibly light, lacy, and shatteringly crisp batter that steams the pristine ingredient inside.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 12,
+              "unit": "large",
+              "name": "shrimp",
+              "notes": "Peeled, stretched straight"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "mixed vegetables",
+              "notes": "Sweet potato, eggplant, shiso leaves"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "cake flour",
+              "notes": "Low protein flour for less gluten"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "ice water",
+              "notes": "Must be freezing cold"
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "egg yolk",
+              "notes": "For the batter"
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "neutral oil or sesame oil blend",
+              "notes": "For frying"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "tentsuyu",
+              "notes": "Dipping broth made from dashi, soy, and mirin"
+            }
+          ],
+          "instructions": [
+            "Step 1: Prepare the ingredients. Score the belly of the shrimp to prevent curling.",
+            "Step 2: Heat the oil to precisely 340°F (170°C).",
+            "Step 3: Make the batter just before frying. Whisk the egg yolk and ice water together. Gently dump in the flour.",
+            "Step 4: Barely mix the batter with chopsticks. Lumps of flour should remain. Overmixing develops gluten and ruins the texture.",
+            "Step 5: Dust the ingredients lightly in dry flour, dip into the cold batter, and immediately drop into the hot oil.",
+            "Step 6: Fry for 1-2 minutes until crisp but not brown. Serve immediately with warm tentsuyu dipping broth and grated daikon."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "appetizer"
+            ],
+            "cookingMethods": [
+              "deep-frying"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mercury",
+              "Uranus"
+            ],
+            "signs": [
+              "Gemini",
+              "Aquarius"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 450,
+            "proteinG": 18,
+            "carbsG": 35,
+            "fatG": 26,
+            "fiberG": 3,
+            "sodiumMg": 600,
+            "sugarG": 2,
+            "vitamins": [
+              "Vitamin E",
+              "Selenium"
+            ],
+            "minerals": [
+              "Iodine",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 4,
+            "Matter": 3,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.07,
+            "entropy": 0.35,
+            "reactivity": 2,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Okonomiyaki (Osaka Style)",
+          "description": "A savory, highly customizable Japanese cabbage pancake cooked on a teppan (griddle), loaded with pork belly, seafood, and heavily garnished with sauces and bonito flakes.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "all-purpose flour",
+              "notes": "For the batter"
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "dashi broth",
+              "notes": "For the batter"
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "For binding"
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "green cabbage",
+              "notes": "Very finely shredded"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "tenkasu (tempura scraps)",
+              "notes": "For internal crunch"
+            },
+            {
+              "amount": 6,
+              "unit": "slices",
+              "name": "thin pork belly",
+              "notes": "To be cooked into the top"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "okonomiyaki sauce",
+              "notes": "Thick, sweet, and savory"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "Kewpie mayonnaise",
+              "notes": "For the lattice topping"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "katsuobushi (bonito flakes)",
+              "notes": "For garnish"
+            }
+          ],
+          "instructions": [
+            "Step 1: Whisk the flour and dashi broth together, then let rest for 15 minutes.",
+            "Step 2: Add the shredded cabbage, eggs, and tenkasu into the batter. Fold gently so the cabbage retains its airiness.",
+            "Step 3: Heat a griddle or skillet to medium heat. Pour the cabbage mixture into a thick, round pancake shape.",
+            "Step 4: Lay the slices of pork belly evenly across the top of the raw batter.",
+            "Step 5: Cook for 5 minutes, then carefully flip the pancake so the pork belly sears and crisps against the hot griddle for another 5 minutes.",
+            "Step 6: Flip onto a plate. Brush generously with okonomiyaki sauce, drizzle with a lattice of mayonnaise, and top with dancing bonito flakes."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cookingMethods": [
+              "griddling",
+              "pan-frying"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Jupiter",
+              "Venus"
+            ],
+            "signs": [
+              "Taurus",
+              "Sagittarius"
+            ],
+            "lunarPhases": [
+              "Waxing Gibbous"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 580,
+            "proteinG": 22,
+            "carbsG": 50,
+            "fatG": 32,
+            "fiberG": 6,
+            "sodiumMg": 950,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Yakitori (Negima)",
+          "description": "The beloved izakaya staple. Skewered chunks of chicken thigh alternated with sections of scallion, grilled fiercely over binchotan charcoal and glazed with a sweet soy 'tare'.",
+          "details": {
+            "cuisine": "Japanese",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "chicken thighs",
+              "notes": "Boneless, cut into 1-inch bite-sized pieces"
+            },
+            {
+              "amount": 2,
+              "unit": "bunches",
+              "name": "Tokyo negi or thick scallions",
+              "notes": "Cut into 1-inch lengths"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "soy sauce",
+              "notes": "For the tare"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "mirin",
+              "notes": "For the tare"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "sake",
+              "notes": "For the tare"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "For the tare"
+            },
+            {
+              "amount": 8,
+              "unit": "whole",
+              "name": "bamboo skewers",
+              "notes": "Soaked in water for 30 minutes"
+            }
+          ],
+          "instructions": [
+            "Step 1: Make the tare: Combine soy sauce, mirin, sake, and sugar in a small pot. Simmer until it reduces to a thick, glossy syrup.",
+            "Step 2: Thread the chicken pieces and scallion lengths alternately onto the soaked bamboo skewers.",
+            "Step 3: Prepare a charcoal grill, ideally using binchotan (white charcoal) for high heat without smoke.",
+            "Step 4: Grill the skewers directly over the coals until the chicken begins to turn white and the scallions char.",
+            "Step 5: Dip the skewers into the tare sauce or brush it on heavily, then return to the grill for 30 seconds to caramelize.",
+            "Step 6: Dip and grill a second time for a deeply sticky, glossy finish. Serve immediately."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "appetizer",
+              "street food"
+            ],
+            "cookingMethods": [
+              "grilling",
+              "glazing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.6,
+            "Water": 0.1,
+            "Earth": 0.2,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 310,
+            "proteinG": 26,
+            "carbsG": 18,
+            "fatG": 12,
+            "fiberG": 1,
+            "sodiumMg": 850,
+            "sugarG": 14,
+            "vitamins": [
+              "Niacin",
+              "Vitamin B6"
+            ],
+            "minerals": [
+              "Zinc",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.07,
+            "entropy": 0.35,
+            "reactivity": 1.8,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
           "name": "Authentic Sushi Selection",
           "description": "True sushi is not about the fish; it is entirely about the rice (shari).",
           "details": {
@@ -1043,11 +1706,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["breakfast","lunch","dinner","side"],"cookingMethods":["simmering"]},
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":65,"proteinG":5,"carbsG":7,"fatG":2,"fiberG":1,"sodiumMg":620,"sugarG":2,"vitamins":["Vitamin K","Folate"],"minerals":["Manganese","Calcium"]},
 
           alchemicalProperties: {"Spirit":1.23,"Essence":1.69,"Matter":1.53,"Substance":1.42},
           thermodynamicProperties: {"heat":0.0496,"entropy":0.2138,"reactivity":2.0008,"gregsEnergy":-0.3782,"kalchm":0.9929,"monica":-0.0188},
-          substitutions: [{"originalIngredient":"silken tofu","substituteOptions":["abura-age (fried tofu pouches)","nameko mushrooms"]},{"originalIngredient":"wakame seaweed","substituteOptions":["spinach","shredded napa cabbage"]}]
+          substitutions: [{"originalIngredient":"silken tofu","substituteOptions":["abura-age (fried tofu pouches)","nameko mushrooms"]},{"originalIngredient":"wakame seaweed","substituteOptions":["spinach","shredded napa cabbage"]}],
+            nutritionPerServing: {"calories":3,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":1,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
         },
         {
           name: "Yakisoba (Stir-Fried Noodles)",
@@ -1074,11 +1737,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["lunch","dinner","snack"],"cookingMethods":["stir-frying"]},
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Jupiter"],"signs":["aries","sagittarius"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":520,"proteinG":22,"carbsG":58,"fatG":22,"fiberG":4,"sodiumMg":980,"sugarG":9,"vitamins":["Vitamin C","Thiamin"],"minerals":["Iron","Zinc"]},
 
           alchemicalProperties: {"Spirit":2.58,"Essence":3.28,"Matter":3.9,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0524,"entropy":0.3438,"reactivity":1.7892,"gregsEnergy":-0.5628,"kalchm":0.0261,"monica":0.2786},
-          substitutions: [{"originalIngredient":"pork belly","substituteOptions":["chicken thigh","shrimp","firm tofu"]},{"originalIngredient":"yakisoba noodles","substituteOptions":["ramen noodles","udon noodles"]}]
+          substitutions: [{"originalIngredient":"pork belly","substituteOptions":["chicken thigh","shrimp","firm tofu"]},{"originalIngredient":"yakisoba noodles","substituteOptions":["ramen noodles","udon noodles"]}],
+            nutritionPerServing: {"calories":219,"proteinG":19,"carbsG":11,"fatG":11,"fiberG":3,"sodiumMg":60,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin folate","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
         },
         {
           name: "Takoyaki (Octopus Balls)",
@@ -1107,11 +1770,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["snack","appetizer"],"cookingMethods":["pan-frying"]},
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Neptune","Venus"],"signs":["pisces","taurus"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":380,"proteinG":18,"carbsG":42,"fatG":14,"fiberG":2,"sodiumMg":760,"sugarG":6,"vitamins":["Vitamin B12","Choline"],"minerals":["Iodine","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":3.86,"Essence":4.54,"Matter":3.78,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0946,"entropy":0.3585,"reactivity":3.0116,"gregsEnergy":-0.9852,"kalchm":10.7617,"monica":0.4376},
-          substitutions: [{"originalIngredient":"cooked octopus (tako)","substituteOptions":["shrimp","squid","melting cheese (for cheese takoyaki)"]},{"originalIngredient":"tenkasu (tempura scraps)","substituteOptions":["corn","pickled daikon"]}]
+          substitutions: [{"originalIngredient":"cooked octopus (tako)","substituteOptions":["shrimp","squid","melting cheese (for cheese takoyaki)"]},{"originalIngredient":"tenkasu (tempura scraps)","substituteOptions":["corn","pickled daikon"]}],
+            nutritionPerServing: {"calories":26,"proteinG":0,"carbsG":4,"fatG":1,"fiberG":1,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate","Vitamin B6","Vitamin C"],"minerals":["Iron","Manganese","Magnesium","Potassium"]}
         },
         {
           name: "Zaru Soba (Cold Buckwheat Noodles)",
@@ -1135,11 +1798,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["boiling"]},
           elementalProperties: {"Fire":0.05,"Water":0.45,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Mercury","Moon"],"signs":["virgo","cancer"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":62,"fatG":2,"fiberG":4,"sodiumMg":720,"sugarG":5,"vitamins":["Thiamin","Niacin"],"minerals":["Manganese","Magnesium"]},
 
           alchemicalProperties: {"Spirit":2.11,"Essence":2.6,"Matter":2.28,"Substance":2.14},
           thermodynamicProperties: {"heat":0.0701,"entropy":0.2807,"reactivity":2.316,"gregsEnergy":-0.58,"kalchm":1.7378,"monica":-0.0188},
-          substitutions: [{"originalIngredient":"dried soba noodles","substituteOptions":["udon noodles (for zaru udon)","rice noodles"]},{"originalIngredient":"mentsuyu dipping sauce","substituteOptions":["homemade soy sauce, mirin, and dashi blend"]}]
+          substitutions: [{"originalIngredient":"dried soba noodles","substituteOptions":["udon noodles (for zaru udon)","rice noodles"]},{"originalIngredient":"mentsuyu dipping sauce","substituteOptions":["homemade soy sauce, mirin, and dashi blend"]}],
+            nutritionPerServing: {"calories":8,"proteinG":0,"carbsG":2,"fatG":0,"fiberG":1,"sodiumMg":3,"sugarG":1,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
         },
         {
           name: "Gyudon (Beef Rice Bowl)",
@@ -1166,11 +1829,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering"]},
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["taurus","capricorn"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":590,"proteinG":30,"carbsG":68,"fatG":18,"fiberG":2,"sodiumMg":860,"sugarG":10,"vitamins":["Vitamin B12","Niacin"],"minerals":["Iron","Zinc"]},
 
           alchemicalProperties: {"Spirit":3.16,"Essence":3.73,"Matter":4.21,"Substance":3.86},
           thermodynamicProperties: {"heat":0.0631,"entropy":0.334,"reactivity":1.8742,"gregsEnergy":-0.5629,"kalchm":0.0659,"monica":-0.0188},
-          substitutions: [{"originalIngredient":"thinly sliced beef ribeye or chuck","substituteOptions":["pork belly (for butadon)","chicken thigh (for toriniku don)"]},{"originalIngredient":"dashi stock","substituteOptions":["chicken broth","water with kombu"]}]
+          substitutions: [{"originalIngredient":"thinly sliced beef ribeye or chuck","substituteOptions":["pork belly (for butadon)","chicken thigh (for toriniku don)"]},{"originalIngredient":"dashi stock","substituteOptions":["chicken broth","water with kombu"]}],
+            nutritionPerServing: {"calories":348,"proteinG":34,"carbsG":6,"fatG":20,"fiberG":1,"sodiumMg":92,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Ochazuke (Tea Over Rice)",
@@ -1196,11 +1859,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["breakfast","lunch","dinner","snack"],"cookingMethods":["steeping","assembling"]},
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Mercury"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":230,"proteinG":9,"carbsG":38,"fatG":4,"fiberG":1,"sodiumMg":480,"sugarG":1,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Manganese","Selenium"]},
 
           alchemicalProperties: {"Spirit":2.38,"Essence":3.85,"Matter":3.65,"Substance":3.42},
           thermodynamicProperties: {"heat":0.0406,"entropy":0.2523,"reactivity":2.08,"gregsEnergy":-0.4842,"kalchm":0.1869,"monica":0.8752},
-          substitutions: [{"originalIngredient":"hot green tea (sencha or hojicha)","substituteOptions":["hot dashi","hot kombu water"]},{"originalIngredient":"umeboshi (pickled plum)","substituteOptions":["salted cod roe (mentaiko)","pickled daikon"]}]
+          substitutions: [{"originalIngredient":"hot green tea (sencha or hojicha)","substituteOptions":["hot dashi","hot kombu water"]},{"originalIngredient":"umeboshi (pickled plum)","substituteOptions":["salted cod roe (mentaiko)","pickled daikon"]}],
+            nutritionPerServing: {"calories":77,"proteinG":4,"carbsG":11,"fatG":2,"fiberG":1,"sodiumMg":8,"sugarG":10,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin B12","Vitamin D","Vitamin niacin","Vitamin B6","Vitamin pantothenic_acid","Vitamin thiamine"],"minerals":["0","1","Selenium","Phosphorus","Potassium"]}
         },
         {
           name: "Tamago Kake Gohan (Raw Egg Over Rice)",
@@ -1224,11 +1887,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["breakfast"],"cookingMethods":["assembling"]},
           elementalProperties: {"Fire":0.15,"Water":0.3,"Earth":0.45,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["leo","cancer"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":310,"proteinG":14,"carbsG":44,"fatG":8,"fiberG":0,"sodiumMg":380,"sugarG":1,"vitamins":["Choline","Vitamin B12","Vitamin D"],"minerals":["Selenium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":1.91,"Essence":2.67,"Matter":2.83,"Substance":2.5},
           thermodynamicProperties: {"heat":0.0469,"entropy":0.2542,"reactivity":1.5941,"gregsEnergy":-0.3584,"kalchm":0.2524,"monica":0.4376},
-          substitutions: [{"originalIngredient":"egg","substituteOptions":["onsen tamago (slow-poached egg) for a safer alternative"]},{"originalIngredient":"soy sauce","substituteOptions":["tamari","ponzu"]}]
+          substitutions: [{"originalIngredient":"egg","substituteOptions":["onsen tamago (slow-poached egg) for a safer alternative"]},{"originalIngredient":"soy sauce","substituteOptions":["tamari","ponzu"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Nikujaga (Meat and Potato Stew)",
@@ -1257,11 +1920,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["braising","simmering"]},
           elementalProperties: {"Fire":0.15,"Water":0.45,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":440,"proteinG":26,"carbsG":52,"fatG":12,"fiberG":5,"sodiumMg":820,"sugarG":8,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Potassium","Iron"]},
 
           alchemicalProperties: {"Spirit":2.83,"Essence":3.89,"Matter":5.36,"Substance":5.03},
           thermodynamicProperties: {"heat":0.0351,"entropy":0.33,"reactivity":1.4927,"gregsEnergy":-0.4576,"kalchm":0.0001,"monica":0.0278},
-          substitutions: [{"originalIngredient":"thinly sliced beef","substituteOptions":["pork belly (more traditional in Osaka)","chicken thigh"]},{"originalIngredient":"shirataki noodles","substituteOptions":["snap peas","green beans"]}]
+          substitutions: [{"originalIngredient":"thinly sliced beef","substituteOptions":["pork belly (more traditional in Osaka)","chicken thigh"]},{"originalIngredient":"shirataki noodles","substituteOptions":["snap peas","green beans"]}],
+            nutritionPerServing: {"calories":207,"proteinG":17,"carbsG":4,"fatG":13,"fiberG":1,"sodiumMg":50,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
       ],
       winter: [
@@ -1409,11 +2072,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","boiling","braising"]},
           elementalProperties: {"Fire":0.25,"Water":0.5,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":850,"proteinG":35,"carbsG":65,"fatG":45,"fiberG":4,"sodiumMg":1500,"sugarG":5,"vitamins":["Vitamin B12","Niacin"],"minerals":["Iron","Zinc"]},
 
           alchemicalProperties: {"Spirit":1.51,"Essence":2.52,"Matter":2.97,"Substance":2.95},
           thermodynamicProperties: {"heat":0.0277,"entropy":0.2932,"reactivity":1.8137,"gregsEnergy":-0.5041,"kalchm":0.031,"monica":0.009},
-          substitutions: [{"originalIngredient":"Chashu pork","substituteOptions":["Braised tofu","Roasted chicken"]}]
+          substitutions: [{"originalIngredient":"Chashu pork","substituteOptions":["Braised tofu","Roasted chicken"]}],
+            nutritionPerServing: {"calories":825,"proteinG":92,"carbsG":0,"fatG":48,"fiberG":0,"sodiumMg":192,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin K","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
       ],
       summer: [
@@ -1426,11 +2089,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","snack"],"cookingMethods":["grilling"]},
           elementalProperties: {"Fire":0.6,"Water":0.1,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":38,"carbsG":12,"fatG":22,"fiberG":1,"sodiumMg":680,"sugarG":8,"vitamins":["Niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":1.31,"Essence":2.42,"Matter":2.17,"Substance":2.25},
           thermodynamicProperties: {"heat":0.0396,"entropy":0.299,"reactivity":2.3171,"gregsEnergy":-0.6531,"kalchm":0.363,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Pork belly","Shiitake mushrooms"]}]
+          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Pork belly","Shiitake mushrooms"]}],
+            nutritionPerServing: {"calories":139,"proteinG":24,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":62,"sugarG":1,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin K","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Iron","Manganese"]}
         },
         {
           name: "Oyakodon (Chicken and Egg Rice Bowl)",
@@ -1458,11 +2121,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering"]},
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":510,"proteinG":36,"carbsG":52,"fatG":14,"fiberG":2,"sodiumMg":780,"sugarG":7,"vitamins":["Choline","Vitamin B12","Niacin"],"minerals":["Selenium","Phosphorus","Iron"]},
 
           alchemicalProperties: {"Spirit":3.04,"Essence":4.17,"Matter":4.13,"Substance":3.96},
           thermodynamicProperties: {"heat":0.0539,"entropy":0.3047,"reactivity":2.1178,"gregsEnergy":-0.5914,"kalchm":0.139,"monica":-0.0188},
-          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["salmon (for sake don)","ground pork"]},{"originalIngredient":"mitsuba","substituteOptions":["scallions","shiso leaves"]}]
+          substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["salmon (for sake don)","ground pork"]},{"originalIngredient":"mitsuba","substituteOptions":["scallions","shiso leaves"]}],
+            nutritionPerServing: {"calories":270,"proteinG":47,"carbsG":5,"fatG":5,"fiberG":1,"sodiumMg":113,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin K"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
         },
         {
           name: "Okonomiyaki",
@@ -1473,11 +2136,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["griddling","pan-frying"]},
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Jupiter"],"signs":["taurus","sagittarius"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":550,"proteinG":22,"carbsG":45,"fatG":32,"fiberG":5,"sodiumMg":950,"sugarG":12,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Iron"]},
 
           alchemicalProperties: {"Spirit":2.68,"Essence":3.38,"Matter":3.61,"Substance":3.46},
           thermodynamicProperties: {"heat":0.0585,"entropy":0.3389,"reactivity":1.9597,"gregsEnergy":-0.6056,"kalchm":0.1141,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Shrimp","Mochi"]}]
+          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Shrimp","Mochi"]}],
+            nutritionPerServing: {"calories":434,"proteinG":47,"carbsG":5,"fatG":24,"fiberG":2,"sodiumMg":112,"sugarG":3,"vitamins":["Vitamin C","Vitamin K","Vitamin folate","Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin"],"minerals":["Manganese","Potassium","Selenium","Zinc","Phosphorus","Iron"]}
         },
         {
           name: "Tempura",
@@ -1488,11 +2151,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["deep-frying"]},
           elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.1,"Air":0.3},
           astrologicalAffinities: {"planets":["Uranus","Mercury"],"signs":["aquarius","gemini"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":480,"proteinG":20,"carbsG":40,"fatG":28,"fiberG":3,"sodiumMg":520,"sugarG":2,"vitamins":["Vitamin A","Vitamin E"],"minerals":["Iodine","Copper"]},
 
           alchemicalProperties: {"Spirit":1.99,"Essence":3.16,"Matter":2.66,"Substance":2.59},
           thermodynamicProperties: {"heat":0.0518,"entropy":0.2975,"reactivity":2.7527,"gregsEnergy":-0.767,"kalchm":0.9399,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Kabocha squash","Mushroom"]}]
+          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Kabocha squash","Mushroom"]}],
+            nutritionPerServing: {"calories":340,"proteinG":80,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":1168,"sugarG":0,"vitamins":["Vitamin B12","Vitamin niacin"],"minerals":["Selenium","Phosphorus"]}
         },
         {
           name: "Udon Noodle Soup",
@@ -1503,11 +2166,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering","boiling"]},
           elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":380,"proteinG":12,"carbsG":75,"fatG":2,"fiberG":3,"sodiumMg":1100,"sugarG":4,"vitamins":["Folate","Thiamin"],"minerals":["Manganese","Selenium"]},
 
           alchemicalProperties: {"Spirit":1.85,"Essence":2.46,"Matter":2.0,"Substance":1.94},
           thermodynamicProperties: {"heat":0.0655,"entropy":0.2659,"reactivity":2.9487,"gregsEnergy":-0.7186,"kalchm":1.975,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Kamaboko","substituteOptions":["Fried tofu (Abura-age)","Poached egg"]}]
+          substitutions: [{"originalIngredient":"Kamaboko","substituteOptions":["Fried tofu (Abura-age)","Poached egg"]}],
+            nutritionPerServing: {"calories":1,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
         },
         {
           name: "Tonkatsu",
@@ -1518,11 +2181,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["deep-frying","breading"]},
           elementalProperties: {"Fire":0.4,"Water":0.1,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":680,"proteinG":42,"carbsG":45,"fatG":35,"fiberG":4,"sodiumMg":750,"sugarG":8,"vitamins":["Thiamin","Vitamin B6"],"minerals":["Zinc","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":1.98,"Essence":3.2,"Matter":3.35,"Substance":3.05},
           thermodynamicProperties: {"heat":0.0392,"entropy":0.2695,"reactivity":1.6813,"gregsEnergy":-0.4138,"kalchm":0.0929,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Pork loin chops","substituteOptions":["Chicken breast (for Chicken Katsu)","Firm tofu"]}]
+          substitutions: [{"originalIngredient":"Pork loin chops","substituteOptions":["Chicken breast (for Chicken Katsu)","Firm tofu"]}],
+            nutritionPerServing: {"calories":228,"proteinG":24,"carbsG":5,"fatG":12,"fiberG":2,"sodiumMg":64,"sugarG":3,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Chawanmushi",
@@ -1533,11 +2196,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["appetizer","side"],"cookingMethods":["steaming"]},
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.1,"Air":0.3},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":180,"proteinG":18,"carbsG":6,"fatG":9,"fiberG":1,"sodiumMg":650,"sugarG":3,"vitamins":["Choline","Vitamin D"],"minerals":["Selenium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":2.73,"Essence":3.75,"Matter":3.45,"Substance":3.55},
           thermodynamicProperties: {"heat":0.055,"entropy":0.3313,"reactivity":2.735,"gregsEnergy":-0.8511,"kalchm":0.3424,"monica":-0.1032},
-          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Ginkgo nuts","Extra mushrooms"]}]
+          substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Ginkgo nuts","Extra mushrooms"]}],
+            nutritionPerServing: {"calories":250,"proteinG":51,"carbsG":0,"fatG":5,"fiberG":0,"sodiumMg":366,"sugarG":0,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus","Zinc"]}
         },
         {
           name: "Yakitori",
@@ -1548,11 +2211,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","snack"],"cookingMethods":["grilling"]},
           elementalProperties: {"Fire":0.45,"Water":0.1,"Earth":0.25,"Air":0.2},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":350,"proteinG":28,"carbsG":8,"fatG":22,"fiberG":0,"sodiumMg":720,"sugarG":5,"vitamins":["Niacin","Vitamin B6"],"minerals":["Iron","Zinc","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":2.23,"Essence":2.93,"Matter":3.67,"Substance":3.7},
           thermodynamicProperties: {"heat":0.044,"entropy":0.3914,"reactivity":1.7896,"gregsEnergy":-0.6565,"kalchm":0.0093,"monica":0.4376},
-          substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","chicken hearts","chicken skin skewers"]},{"originalIngredient":"bamboo skewers","substituteOptions":["metal skewers"]}]
+          substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","chicken hearts","chicken skin skewers"]},{"originalIngredient":"bamboo skewers","substituteOptions":["metal skewers"]}],
+            nutritionPerServing: {"calories":418,"proteinG":78,"carbsG":1,"fatG":9,"fiberG":0,"sodiumMg":1350,"sugarG":0,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Calcium"]}
         },
         {
           name: "Miso Ramen",
@@ -1563,11 +2226,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["boiling","simmering","braising"]},
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":680,"proteinG":32,"carbsG":65,"fatG":32,"fiberG":4,"sodiumMg":1200,"sugarG":6,"vitamins":["Vitamin B12","Niacin","Folate"],"minerals":["Iron","Zinc","Manganese"]},
 
           alchemicalProperties: {"Spirit":2.56,"Essence":3.56,"Matter":4.1,"Substance":3.75},
           thermodynamicProperties: {"heat":0.0453,"entropy":0.3036,"reactivity":1.771,"gregsEnergy":-0.4924,"kalchm":0.022,"monica":0.009},
-          substitutions: [{"originalIngredient":"pork bones","substituteOptions":["chicken bones (for tori paitan)","vegetable stock with soy milk (for vegan)"]},{"originalIngredient":"chashu pork belly","substituteOptions":["braised chicken thigh","marinated tofu"]}]
+          substitutions: [{"originalIngredient":"pork bones","substituteOptions":["chicken bones (for tori paitan)","vegetable stock with soy milk (for vegan)"]},{"originalIngredient":"chashu pork belly","substituteOptions":["braised chicken thigh","marinated tofu"]}],
+            nutritionPerServing: {"calories":1241,"proteinG":138,"carbsG":1,"fatG":72,"fiberG":0,"sodiumMg":290,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin K","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Katsudon (Breaded Pork Cutlet Rice Bowl)",
@@ -1597,11 +2260,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["deep-frying","simmering","breading"]},
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":820,"proteinG":46,"carbsG":72,"fatG":36,"fiberG":4,"sodiumMg":920,"sugarG":9,"vitamins":["Thiamin","Vitamin B6","Choline"],"minerals":["Zinc","Iron","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":3.76,"Essence":4.95,"Matter":5.36,"Substance":5.01},
           thermodynamicProperties: {"heat":0.0564,"entropy":0.3372,"reactivity":1.9962,"gregsEnergy":-0.6168,"kalchm":0.0154,"monica":0.8564},
-          substitutions: [{"originalIngredient":"pork loin chops","substituteOptions":["chicken breast (for chicken katsudon)","firm tofu (for vegan katsudon)"]},{"originalIngredient":"panko breadcrumbs","substituteOptions":["crushed cornflakes","regular breadcrumbs"]}]
+          substitutions: [{"originalIngredient":"pork loin chops","substituteOptions":["chicken breast (for chicken katsudon)","firm tofu (for vegan katsudon)"]},{"originalIngredient":"panko breadcrumbs","substituteOptions":["crushed cornflakes","regular breadcrumbs"]}],
+            nutritionPerServing: {"calories":228,"proteinG":24,"carbsG":5,"fatG":12,"fiberG":1,"sodiumMg":50,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Gyoza",
@@ -1612,11 +2275,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","appetizer"],"cookingMethods":["pan-frying","steaming"]},
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.3,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","virgo"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":320,"proteinG":18,"carbsG":28,"fatG":16,"fiberG":2,"sodiumMg":680,"sugarG":2,"vitamins":["Vitamin K","Vitamin C","Thiamin"],"minerals":["Iron","Manganese","Selenium"]},
 
           alchemicalProperties: {"Spirit":3.7,"Essence":3.69,"Matter":3.53,"Substance":3.27},
           thermodynamicProperties: {"heat":0.1113,"entropy":0.4116,"reactivity":2.6031,"gregsEnergy":-0.96,"kalchm":3.7884,"monica":0.3344},
-          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp and pork mix"]},{"originalIngredient":"napa cabbage","substituteOptions":["regular green cabbage","bok choy"]}]
+          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp and pork mix"]},{"originalIngredient":"napa cabbage","substituteOptions":["regular green cabbage","bok choy"]}],
+            nutritionPerServing: {"calories":316,"proteinG":30,"carbsG":7,"fatG":18,"fiberG":2,"sodiumMg":77,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium","0","1","2"]}
         },
         {
           name: "Karaage",
@@ -1627,11 +2290,11 @@ export const japanese: Cuisine = {
           classifications: {"mealType":["dinner","snack","lunch"],"cookingMethods":["deep-frying"]},
           elementalProperties: {"Fire":0.45,"Water":0.1,"Earth":0.25,"Air":0.2},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["leo","aries"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":450,"proteinG":32,"carbsG":22,"fatG":26,"fiberG":1,"sodiumMg":780,"sugarG":2,"vitamins":["Niacin","Vitamin B6","Vitamin C"],"minerals":["Zinc","Iron","Selenium"]},
 
           alchemicalProperties: {"Spirit":3.48,"Essence":4.18,"Matter":3.85,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0826,"entropy":0.3635,"reactivity":2.5587,"gregsEnergy":-0.8476,"kalchm":1.5658,"monica":0.4376},
-          substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","firm tofu"]},{"originalIngredient":"potato starch","substituteOptions":["cornstarch","tapioca starch"]}]
+          substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","firm tofu"]},{"originalIngredient":"potato starch","substituteOptions":["cornstarch","tapioca starch"]}],
+            nutritionPerServing: {"calories":440,"proteinG":78,"carbsG":7,"fatG":9,"fiberG":1,"sodiumMg":188,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Potassium","Manganese","Calcium"]}
         },
       ],
     },

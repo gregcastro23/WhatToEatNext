@@ -192,11 +192,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["breakfast","comfort","sick food"],"cookingMethods":["simmering","poaching"]},
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["Waning Crescent","New Moon"]},
-          nutritionPerServing: {"calories":285,"proteinG":18,"carbsG":35,"fatG":8,"fiberG":1,"sodiumMg":820,"sugarG":2,"vitamins":["Niacin","Vitamin B6"],"minerals":["Phosphorus","Potassium","Selenium"]},
 
           alchemicalProperties: {"Spirit":4.13,"Essence":4.61,"Matter":4.23,"Substance":4.14},
           thermodynamicProperties: {"heat":0.0886,"entropy":0.3643,"reactivity":2.7174,"gregsEnergy":-0.9014,"kalchm":2.5103,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["chicken breast, poached and shredded","firm tofu, crumbled (vegetarian)"]},{"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian/vegan)","tamari (gluten-free)"]}]
+          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["chicken breast, poached and shredded","firm tofu, crumbled (vegetarian)"]},{"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian/vegan)","tamari (gluten-free)"]}],
+            nutritionPerServing: {"calories":439,"proteinG":39,"carbsG":22,"fatG":21,"fiberG":3,"sodiumMg":84,"sugarG":6,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium","Calcium"]}
         },
         {
           name: "Patongo with Sangkaya",
@@ -207,11 +207,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["breakfast","snack"],"cookingMethods":["deep-frying","steaming"]},
           elementalProperties: {"Fire":0.35,"Water":0.25,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Jupiter"],"signs":["leo","sagittarius"],"lunarPhases":["Waxing Crescent","Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":10,"carbsG":48,"fatG":22,"fiberG":1,"sodiumMg":380,"sugarG":18,"vitamins":["Riboflavin","Folate"],"minerals":["Manganese","Phosphorus","Iron"]},
 
           alchemicalProperties: {"Spirit":2.04,"Essence":2.74,"Matter":3.89,"Substance":3.18},
           thermodynamicProperties: {"heat":0.0392,"entropy":0.2795,"reactivity":1.2518,"gregsEnergy":-0.3107,"kalchm":0.0087,"monica":0.3344},
-          substitutions: [{"originalIngredient":"palm sugar in custard","substituteOptions":["light brown sugar","coconut sugar"]},{"originalIngredient":"pandan leaves","substituteOptions":["pandan extract (a few drops)","vanilla bean (different flavor profile, but similar aromatic function)"]}]
+          substitutions: [{"originalIngredient":"palm sugar in custard","substituteOptions":["light brown sugar","coconut sugar"]},{"originalIngredient":"pandan leaves","substituteOptions":["pandan extract (a few drops)","vanilla bean (different flavor profile, but similar aromatic function)"]}],
+            nutritionPerServing: {"calories":391,"proteinG":3,"carbsG":8,"fatG":41,"fiberG":3,"sodiumMg":22,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Manganese","Iron","Magnesium","Phosphorus"]}
         },
         {
           name: "Khao Kai Jeow",
@@ -222,11 +222,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["breakfast","lunch","dinner","comfort"],"cookingMethods":["deep-frying","wok cooking"]},
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Mars"],"signs":["aries","leo"],"lunarPhases":["Full Moon","First Quarter"]},
-          nutritionPerServing: {"calories":480,"proteinG":16,"carbsG":45,"fatG":26,"fiberG":1,"sodiumMg":920,"sugarG":2,"vitamins":["Vitamin A","Riboflavin","Vitamin B12"],"minerals":["Selenium","Phosphorus","Choline"]},
 
           alchemicalProperties: {"Spirit":1.68,"Essence":2.24,"Matter":2.17,"Substance":2.04},
           thermodynamicProperties: {"heat":0.06,"entropy":0.2967,"reactivity":2.0016,"gregsEnergy":-0.534,"kalchm":0.6329,"monica":0.7162},
-          substitutions: [{"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a few drops of lime juice (vegetarian)","tamari"]},{"originalIngredient":"vegetable oil","substituteOptions":["lard (more traditional)","pork fat","coconut oil"]}]
+          substitutions: [{"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a few drops of lime juice (vegetarian)","tamari"]},{"originalIngredient":"vegetable oil","substituteOptions":["lard (more traditional)","pork fat","coconut oil"]}],
+            nutritionPerServing: {"calories":54,"proteinG":0,"carbsG":0,"fatG":6,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Khao Tom Moo",
@@ -237,11 +237,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["breakfast","comfort","sick food"],"cookingMethods":["simmering","poaching"]},
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","virgo"],"lunarPhases":["Waning Crescent","New Moon"]},
-          nutritionPerServing: {"calories":310,"proteinG":22,"carbsG":36,"fatG":9,"fiberG":1,"sodiumMg":880,"sugarG":2,"vitamins":["Niacin","Vitamin B6","Thiamin"],"minerals":["Phosphorus","Potassium","Selenium"]},
 
           alchemicalProperties: {"Spirit":4.68,"Essence":5.26,"Matter":5.21,"Substance":5.01},
           thermodynamicProperties: {"heat":0.0817,"entropy":0.3669,"reactivity":2.4699,"gregsEnergy":-0.8245,"kalchm":0.4878,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp (added in last 2 minutes)"]},{"originalIngredient":"chai poh (preserved mustard greens)","substituteOptions":["sliced pickled ginger","finely chopped kimchi"]}]
+          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp (added in last 2 minutes)"]},{"originalIngredient":"chai poh (preserved mustard greens)","substituteOptions":["sliced pickled ginger","finely chopped kimchi"]}],
+            nutritionPerServing: {"calories":504,"proteinG":46,"carbsG":22,"fatG":24,"fiberG":3,"sodiumMg":99,"sugarG":6,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Calcium","Magnesium"]}
         },
       ],
     },
@@ -256,11 +256,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["stir-frying","wok cooking"]},
           elementalProperties: {"Fire":0.5,"Water":0.15,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["Full Moon","First Quarter"]},
-          nutritionPerServing: {"calories":520,"proteinG":32,"carbsG":48,"fatG":22,"fiberG":2,"sodiumMg":1180,"sugarG":6,"vitamins":["Niacin","Vitamin B6","Vitamin K"],"minerals":["Zinc","Iron","Selenium"]},
 
           alchemicalProperties: {"Spirit":3.79,"Essence":5.01,"Matter":3.85,"Substance":3.59},
           thermodynamicProperties: {"heat":0.0871,"entropy":0.3209,"reactivity":3.1312,"gregsEnergy":-0.9175,"kalchm":28.3411,"monica":0.5572},
-          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","firm tofu crumbled (vegetarian)"]},{"originalIngredient":"holy basil (kra pao)","substituteOptions":["Italian basil plus a few Thai sweet basil leaves (approximate substitute)","no perfect substitute - the dish is fundamentally different without it"]}]
+          substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","firm tofu crumbled (vegetarian)"]},{"originalIngredient":"holy basil (kra pao)","substituteOptions":["Italian basil plus a few Thai sweet basil leaves (approximate substitute)","no perfect substitute - the dish is fundamentally different without it"]}],
+            nutritionPerServing: {"calories":143,"proteinG":10,"carbsG":9,"fatG":8,"fiberG":1,"sodiumMg":24,"sugarG":6,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Khao Soi",
@@ -271,11 +271,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["simmering","deep-frying","braising"]},
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
-          nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":58,"fatG":32,"fiberG":4,"sodiumMg":980,"sugarG":10,"vitamins":["Niacin","Vitamin A","Vitamin B6"],"minerals":["Iron","Potassium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":3.25,"Essence":4.37,"Matter":4.76,"Substance":4.55},
           thermodynamicProperties: {"heat":0.052,"entropy":0.3351,"reactivity":2.0153,"gregsEnergy":-0.6232,"kalchm":0.0175,"monica":0.4654},
-          substitutions: [{"originalIngredient":"chicken drumsticks","substituteOptions":["firm tofu (vegetarian)","beef shank slices","shrimp (much shorter cooking time)"]},{"originalIngredient":"egg noodles","substituteOptions":["rice noodles (gluten-free)","ramen noodles"]}]
+          substitutions: [{"originalIngredient":"chicken drumsticks","substituteOptions":["firm tofu (vegetarian)","beef shank slices","shrimp (much shorter cooking time)"]},{"originalIngredient":"egg noodles","substituteOptions":["rice noodles (gluten-free)","ramen noodles"]}],
+            nutritionPerServing: {"calories":55508,"proteinG":547,"carbsG":1300,"fatG":5712,"fiberG":500,"sodiumMg":3711,"sugarG":800,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium"]}
         },
         {
           "name": "Authentic Som Tam",
@@ -373,7 +373,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["soup","dinner","lunch"],"cookingMethods":["simmering","infusing","poaching"]},
           elementalProperties: {"Fire":0.45,"Water":0.35,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Neptune"],"signs":["aries","pisces"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":185,"proteinG":24,"carbsG":9,"fatG":5,"fiberG":2,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Selenium","Iodine"]},
 
           alchemicalProperties: {"Spirit":4.1,"Essence":5.47,"Matter":3.67,"Substance":3.61},
           thermodynamicProperties: {"heat":0.0962,"entropy":0.3268,"reactivity":4.2284,"gregsEnergy":-1.2856,"kalchm":291.2588,"monica":-0.2241},
@@ -381,7 +380,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"shrimp","substituteOptions":["chicken pieces (simmer longer)","squid rings","mixed seafood"]},
             {"originalIngredient":"straw mushrooms","substituteOptions":["oyster mushrooms","shiitake mushrooms"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus nori flakes (vegetarian)"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":315,"proteinG":57,"carbsG":15,"fatG":5,"fiberG":4,"sodiumMg":441,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium","0","1"]}
         },
         {
           name: "Yum Woon Sen",
@@ -392,11 +392,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["salad","lunch","dinner"],"cookingMethods":["boiling","mixing","toasting"]},
           elementalProperties: {"Fire":0.3,"Water":0.35,"Earth":0.2,"Air":0.15},
           astrologicalAffinities: {"planets":["Mercury","Mars"],"signs":["gemini","aries"],"lunarPhases":["Waxing Crescent","First Quarter"]},
-          nutritionPerServing: {"calories":285,"proteinG":22,"carbsG":28,"fatG":9,"fiberG":3,"sodiumMg":980,"sugarG":6,"vitamins":["Vitamin C","Niacin","Vitamin B12"],"minerals":["Selenium","Iodine","Zinc"]},
 
           alchemicalProperties: {"Spirit":3.29,"Essence":5.59,"Matter":4.89,"Substance":4.62},
           thermodynamicProperties: {"heat":0.0437,"entropy":0.2653,"reactivity":2.4568,"gregsEnergy":-0.6082,"kalchm":0.2743,"monica":0.5298},
-          substitutions: [{"originalIngredient":"glass noodles","substituteOptions":["rice vermicelli","shirataki noodles (low-carb)"]},{"originalIngredient":"dried shrimp","substituteOptions":["1 tbsp fish sauce plus toasted sesame seeds","nori flakes for umami (vegetarian)"]}]
+          substitutions: [{"originalIngredient":"glass noodles","substituteOptions":["rice vermicelli","shirataki noodles (low-carb)"]},{"originalIngredient":"dried shrimp","substituteOptions":["1 tbsp fish sauce plus toasted sesame seeds","nori flakes for umami (vegetarian)"]}],
+            nutritionPerServing: {"calories":61,"proteinG":9,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":89,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
       ],
       summer: [
@@ -409,11 +409,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["salad","appetizer","side"],"cookingMethods":["pounding","mixing"]},
           elementalProperties: {"Fire":0.4,"Water":0.3,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","gemini"],"lunarPhases":["New Moon","Waxing Crescent"]},
-          nutritionPerServing: {"calories":175,"proteinG":8,"carbsG":24,"fatG":6,"fiberG":4,"sodiumMg":780,"sugarG":14,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Potassium","Iron","Calcium"]},
 
           alchemicalProperties: {"Spirit":4.08,"Essence":5.49,"Matter":3.7,"Substance":3.38},
           thermodynamicProperties: {"heat":0.0969,"entropy":0.3008,"reactivity":3.8442,"gregsEnergy":-1.0593,"kalchm":458.8395,"monica":0.5486},
-          substitutions: [{"originalIngredient":"green papaya","substituteOptions":["green mango (more sour)","kohlrabi (firm and mild)","cucumber (softer result)"]},{"originalIngredient":"dried shrimp","substituteOptions":["nori flakes plus toasted sesame (vegetarian)","no substitute if omitting - it creates a different dish"]}]
+          substitutions: [{"originalIngredient":"green papaya","substituteOptions":["green mango (more sour)","kohlrabi (firm and mild)","cucumber (softer result)"]},{"originalIngredient":"dried shrimp","substituteOptions":["nori flakes plus toasted sesame (vegetarian)","no substitute if omitting - it creates a different dish"]}],
+            nutritionPerServing: {"calories":171,"proteinG":8,"carbsG":37,"fatG":1,"fiberG":6,"sodiumMg":79,"sugarG":13,"vitamins":["Vitamin C","Vitamin A","Vitamin folate","Vitamin B6","Vitamin K","Vitamin B12","Vitamin niacin","Vitamin B1","Vitamin B3"],"minerals":["Potassium","Manganese","Selenium","Phosphorus","Magnesium","Iron"]}
         },
       ],
       winter: [
@@ -426,11 +426,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch","street food"],"cookingMethods":["braising","simmering"]},
           elementalProperties: {"Fire":0.2,"Water":0.4,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Jupiter"],"signs":["capricorn","taurus"],"lunarPhases":["Waning Gibbous","Full Moon"]},
-          nutritionPerServing: {"calories":620,"proteinG":38,"carbsG":55,"fatG":26,"fiberG":2,"sodiumMg":1080,"sugarG":12,"vitamins":["Niacin","Vitamin B12","Vitamin B6"],"minerals":["Iron","Zinc","Potassium"]},
 
           alchemicalProperties: {"Spirit":4.43,"Essence":5.54,"Matter":5.48,"Substance":4.89},
           thermodynamicProperties: {"heat":0.0704,"entropy":0.3146,"reactivity":2.1899,"gregsEnergy":-0.6185,"kalchm":0.3659,"monica":0.0278},
-          substitutions: [{"originalIngredient":"pork leg","substituteOptions":["pork belly (richer)","chicken thighs (shorter braise, 45 minutes)"]},{"originalIngredient":"palm sugar","substituteOptions":["brown sugar","rock sugar (traditional Chinese substitute)"]}]
+          substitutions: [{"originalIngredient":"pork leg","substituteOptions":["pork belly (richer)","chicken thighs (shorter braise, 45 minutes)"]},{"originalIngredient":"palm sugar","substituteOptions":["brown sugar","rock sugar (traditional Chinese substitute)"]}],
+            nutritionPerServing: {"calories":312,"proteinG":35,"carbsG":1,"fatG":18,"fiberG":0,"sodiumMg":73,"sugarG":1,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Tom Kha Gai",
@@ -462,7 +462,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["soup","dinner","lunch"],"cookingMethods":["simmering","infusing"]},
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":380,"proteinG":26,"carbsG":10,"fatG":28,"fiberG":2,"sodiumMg":820,"sugarG":5,"vitamins":["Vitamin C","Niacin"],"minerals":["Potassium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":4.21,"Essence":5.66,"Matter":4.53,"Substance":4.3},
           thermodynamicProperties: {"heat":0.076,"entropy":0.3058,"reactivity":2.9981,"gregsEnergy":-0.8408,"kalchm":15.6002,"monica":-0.2053},
@@ -470,7 +469,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"chicken thighs","substituteOptions":["tofu (firm, pressed - vegan)","shrimp","mushrooms only (vegetarian)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"full-fat coconut milk","substituteOptions":["light coconut milk (less rich result)"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":55491,"proteinG":548,"carbsG":1315,"fatG":5706,"fiberG":504,"sodiumMg":3713,"sugarG":803,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium","Potassium","Calcium","0","1"]}
         },
         {
           name: "Kuay Teow Reua",
@@ -481,16 +481,705 @@ export const thai: Cuisine = {
           classifications: {"mealType":["lunch","dinner","street food"],"cookingMethods":["simmering","blanching","assembling"]},
           elementalProperties: {"Fire":0.3,"Water":0.45,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Pluto"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous","Dark Moon"]},
-          nutritionPerServing: {"calories":380,"proteinG":28,"carbsG":42,"fatG":12,"fiberG":2,"sodiumMg":1050,"sugarG":8,"vitamins":["Niacin","Vitamin B12","Iron"],"minerals":["Iron","Zinc","Potassium"]},
 
           alchemicalProperties: {"Spirit":3.8,"Essence":5.72,"Matter":6.01,"Substance":5.41},
           thermodynamicProperties: {"heat":0.0457,"entropy":0.2858,"reactivity":1.9895,"gregsEnergy":-0.5229,"kalchm":0.0077,"monica":0.4},
-          substitutions: [{"originalIngredient":"pork blood","substituteOptions":["extra dark soy sauce and a splash of balsamic for color and depth (vegetarian-adjacent)","omit entirely for a cleaner broth"]},{"originalIngredient":"pork","substituteOptions":["beef brisket and beef balls (Thai-Chinese beef boat noodles variant)","chicken"]}]
+          substitutions: [{"originalIngredient":"pork blood","substituteOptions":["extra dark soy sauce and a splash of balsamic for color and depth (vegetarian-adjacent)","omit entirely for a cleaner broth"]},{"originalIngredient":"pork","substituteOptions":["beef brisket and beef balls (Thai-Chinese beef boat noodles variant)","chicken"]}],
+            nutritionPerServing: {"calories":165,"proteinG":18,"carbsG":1,"fatG":9,"fiberG":0,"sodiumMg":39,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Calcium","Magnesium"]}
         },
       ],
     },
     dinner: {
       all: [
+        {
+          "name": "Authentic Pad Thai",
+          "description": "The global ambassador of Thai cuisine. Rice noodles aggressively stir-fried with eggs, tofu, and shrimp, coated in a complex sweet, sour, and salty tamarind sauce.",
+          "details": {
+            "cuisine": "Thai",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild-Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "dried rice stick noodles",
+              "notes": "Soaked in warm water until pliable"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "tamarind paste",
+              "notes": "The crucial sour element"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "palm sugar",
+              "notes": "For sweetness"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fish sauce",
+              "notes": "For saltiness and umami"
+            },
+            {
+              "amount": 100,
+              "unit": "g",
+              "name": "firm tofu",
+              "notes": "Cut into matchsticks"
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Lightly beaten"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "dried shrimp",
+              "notes": "Finely chopped"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "bean sprouts",
+              "notes": "Fresh"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "roasted peanuts",
+              "notes": "Crushed"
+            }
+          ],
+          "instructions": [
+            "Step 1: Make the sauce: Simmer the tamarind paste, palm sugar, and fish sauce until the sugar dissolves and it becomes a syrupy glaze.",
+            "Step 2: Heat a wok over extreme heat. Fry the tofu and dried shrimp until golden.",
+            "Step 3: Push tofu aside and scramble the eggs in the wok until barely set.",
+            "Step 4: Add the soaked, drained noodles and a splash of water. Stir-fry vigorously until noodles soften.",
+            "Step 5: Pour the tamarind sauce over the noodles, tossing rapidly until the noodles absorb the sauce and dry out slightly.",
+            "Step 6: Toss in half the bean sprouts, garlic chives, and peanuts. Serve immediately with a lime wedge and chili flakes."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cookingMethods": [
+              "stir-frying"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.2,
+            "Earth": 0.3,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mercury",
+              "Venus"
+            ],
+            "signs": [
+              "Gemini",
+              "Libra"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 550,
+            "proteinG": 22,
+            "carbsG": 65,
+            "fatG": 24,
+            "fiberG": 4,
+            "sodiumMg": 950,
+            "sugarG": 18,
+            "vitamins": [
+              "Vitamin C",
+              "Folate"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 6,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.08,
+            "entropy": 0.4,
+            "reactivity": 2.1,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.03,
+            "monica": 0.6
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Tom Yum Goong",
+          "description": "A vividly fragrant, explosively sour and spicy shrimp soup powered by a holy trinity of Thai aromatics: lemongrass, galangal, and makrut lime leaves.",
+          "details": {
+            "cuisine": "Thai",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "shrimp or chicken stock",
+              "notes": "High quality"
+            },
+            {
+              "amount": 2,
+              "unit": "stalks",
+              "name": "lemongrass",
+              "notes": "Bruised and cut into chunks"
+            },
+            {
+              "amount": 1,
+              "unit": "inch",
+              "name": "galangal",
+              "notes": "Sliced into coins"
+            },
+            {
+              "amount": 5,
+              "unit": "whole",
+              "name": "makrut lime leaves",
+              "notes": "Torn"
+            },
+            {
+              "amount": 5,
+              "unit": "whole",
+              "name": "bird's eye chilies",
+              "notes": "Bruised"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "nam prik pao (Thai chili jam)",
+              "notes": "For depth and color"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "fish sauce",
+              "notes": "For seasoning"
+            },
+            {
+              "amount": 0.25,
+              "unit": "cup",
+              "name": "lime juice",
+              "notes": "Added off heat"
+            },
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "large shrimp",
+              "notes": "Peeled and deveined, tails on"
+            }
+          ],
+          "instructions": [
+            "Step 1: Bring the stock to a boil. Add the bruised lemongrass, sliced galangal, and torn lime leaves. Simmer for 5 minutes to infuse the aromatics.",
+            "Step 2: Stir in the nam prik pao (chili jam), bruised chilies, and fish sauce.",
+            "Step 3: Add the mushrooms and boil for 2 minutes.",
+            "Step 4: Add the shrimp. Cook just until they turn pink and curl (about 2 minutes). Turn off the heat immediately.",
+            "Step 5: Stir in the fresh lime juice (boiling lime juice ruins its brightness).",
+            "Step 6: Taste and adjust the balance—it should be sharply sour, salty, and spicy. Garnish with cilantro."
+          ],
+          "classifications": {
+            "mealType": [
+              "soup",
+              "dinner"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "infusing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.4,
+            "Earth": 0,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Neptune"
+            ],
+            "signs": [
+              "Aries",
+              "Pisces"
+            ],
+            "lunarPhases": [
+              "Waxing Crescent"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 220,
+            "proteinG": 28,
+            "carbsG": 12,
+            "fatG": 6,
+            "fiberG": 2,
+            "sodiumMg": 1100,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Selenium",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 6,
+            "Essence": 7,
+            "Matter": 3,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.09,
+            "entropy": 0.45,
+            "reactivity": 2.5,
+            "gregsEnergy": -0.6,
+            "kalchm": 0.06,
+            "monica": 0.8
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Green Curry (Gaeng Keow Wan)",
+          "description": "A brilliantly herbaceous, sweet, and spicy curry whose vibrant color comes from pounding fresh green chilies, cilantro roots, and makrut lime leaves into a fiery paste.",
+          "details": {
+            "cuisine": "Thai",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "green curry paste",
+              "notes": "Freshly pounded or high quality store-bought"
+            },
+            {
+              "amount": 1,
+              "unit": "can (14oz)",
+              "name": "coconut milk",
+              "notes": "Do not shake; you want the thick cream on top"
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "chicken thigh",
+              "notes": "Cut into bite-sized pieces"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "Thai eggplants",
+              "notes": "Quartered"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "makrut lime leaves",
+              "notes": "Torn"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fish sauce",
+              "notes": "To taste"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "palm sugar",
+              "notes": "To balance heat"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "Thai basil",
+              "notes": "Fresh leaves"
+            }
+          ],
+          "instructions": [
+            "Step 1: Scoop out the thick coconut cream from the top of the can into a wok or pan over medium-high heat.",
+            "Step 2: 'Crack' the cream by cooking it until the oil separates and glistens.",
+            "Step 3: Fry the green curry paste in the separated coconut oil for 3 minutes until intensely fragrant.",
+            "Step 4: Add the chicken and sauté until it turns white on the outside.",
+            "Step 5: Pour in the remaining thinner coconut milk, fish sauce, palm sugar, torn lime leaves, and eggplants.",
+            "Step 6: Simmer for 10 minutes until chicken is cooked. Turn off heat, stir in Thai basil, and serve with jasmine rice."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner"
+            ],
+            "cookingMethods": [
+              "frying",
+              "simmering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.3,
+            "Earth": 0.2,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Mars"
+            ],
+            "signs": [
+              "Taurus",
+              "Aries"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 520,
+            "proteinG": 32,
+            "carbsG": 18,
+            "fatG": 38,
+            "fiberG": 5,
+            "sodiumMg": 850,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Potassium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 6,
+            "Matter": 5,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.06,
+            "entropy": 0.35,
+            "reactivity": 1.8,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.04,
+            "monica": 0.6
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Som Tum (Green Papaya Salad)",
+          "description": "A brutally sharp, fresh, and funky Isaan salad created by aggressively pounding shredded unripe papaya in a clay mortar with chilies, lime, garlic, and dried shrimp.",
+          "details": {
+            "cuisine": "Thai",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 0,
+            "baseServingSize": 2,
+            "spiceLevel": "Very Hot",
+            "season": [
+              "summer",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "green papaya",
+              "notes": "Shredded or julienned; must be unripe and crunchy"
+            },
+            {
+              "amount": 3,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Peeled"
+            },
+            {
+              "amount": 3,
+              "unit": "whole",
+              "name": "bird's eye chilies",
+              "notes": "Or more, depending on heat tolerance"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "dried shrimp",
+              "notes": "Rinsed"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "roasted peanuts",
+              "notes": "Plus more for garnish"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "cherry tomatoes",
+              "notes": "Halved"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "lime juice",
+              "notes": "Freshly squeezed"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fish sauce",
+              "notes": "Essential"
+            },
+            {
+              "amount": 1.5,
+              "unit": "tbsp",
+              "name": "palm sugar",
+              "notes": "Melted or pounded to dissolve"
+            }
+          ],
+          "instructions": [
+            "Step 1: In a large clay mortar (pok pok), aggressively pound the garlic and chilies with a wooden pestle until crushed into a rough paste.",
+            "Step 2: Add the dried shrimp and roasted peanuts. Pound gently to break them up without turning them to powder.",
+            "Step 3: Add the palm sugar, fish sauce, and lime juice. Use the pestle to dissolve the sugar and mix the dressing.",
+            "Step 4: Add the cherry tomatoes and green beans, bruising them lightly with the pestle to release their juices.",
+            "Step 5: Add the shredded green papaya.",
+            "Step 6: Use a spoon in one hand to turn the salad while using the pestle in the other to lightly pound and bruise the papaya so it absorbs the dressing. Serve immediately."
+          ],
+          "classifications": {
+            "mealType": [
+              "salad",
+              "appetizer"
+            ],
+            "cookingMethods": [
+              "pounding",
+              "bruising"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.2,
+            "Earth": 0.2,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Mercury"
+            ],
+            "signs": [
+              "Aries",
+              "Gemini"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 210,
+            "proteinG": 8,
+            "carbsG": 28,
+            "fatG": 10,
+            "fiberG": 4,
+            "sodiumMg": 900,
+            "sugarG": 15,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Potassium",
+              "Magnesium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 6,
+            "Essence": 5,
+            "Matter": 3,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.08,
+            "entropy": 0.4,
+            "reactivity": 2.2,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.05,
+            "monica": 0.7
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Massaman Curry",
+          "description": "A rich, relatively mild Southern Thai curry with heavy Indian and Persian influences, loaded with toasted dry spices (cardamom, cinnamon), potatoes, and peanuts.",
+          "details": {
+            "cuisine": "Thai",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "Massaman curry paste",
+              "notes": "Heavy on dried spices"
+            },
+            {
+              "amount": 1,
+              "unit": "can (14oz)",
+              "name": "coconut milk",
+              "notes": "Do not shake"
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "beef chuck or chicken thighs",
+              "notes": "Cut into chunks"
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Peeled and cut into large chunks"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Cut into wedges"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "roasted peanuts",
+              "notes": "Whole"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "tamarind paste",
+              "notes": "For tartness"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "palm sugar",
+              "notes": "For sweetness"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fish sauce",
+              "notes": "To taste"
+            }
+          ],
+          "instructions": [
+            "Step 1: If using beef, simmer the chunks in thinned coconut milk or water for 45 minutes until tender before starting.",
+            "Step 2: Scoop the thick coconut cream from the can into a heavy pot. Heat until the oil separates.",
+            "Step 3: Fry the Massaman curry paste in the coconut oil until deeply fragrant (3-4 minutes).",
+            "Step 4: Add the meat (and its cooking liquid if using beef), potatoes, onions, and peanuts.",
+            "Step 5: Pour in remaining coconut milk. Season with tamarind, palm sugar, and fish sauce.",
+            "Step 6: Simmer gently for 20-30 minutes until potatoes are tender and the oil floats to the top in a rich red slick."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "stew"
+            ],
+            "cookingMethods": [
+              "braising",
+              "simmering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Jupiter",
+              "Earth"
+            ],
+            "signs": [
+              "Sagittarius",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 680,
+            "proteinG": 35,
+            "carbsG": 32,
+            "fatG": 48,
+            "fiberG": 6,
+            "sodiumMg": 750,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin B12",
+              "Iron"
+            ],
+            "minerals": [
+              "Zinc",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.3,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
         {
           name: "Pad Thai",
           description: "The definitive Thai stir-fried rice noodle dish, a masterwork of wok hei and rapid assembly. Flat sen lek noodles are soaked until pliable, then subjected to violent, high-heat stir-frying with shrimp, firm tofu, and egg, bound in a deeply savory and slightly sweet tamarind-based sauce, finished with crisp bean sprouts and crushed peanuts.",
@@ -524,7 +1213,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["stir-frying","wok cooking"]},
           elementalProperties: {"Fire":0.4,"Water":0.15,"Earth":0.3,"Air":0.15},
           astrologicalAffinities: {"planets":["Mercury","Mars"],"signs":["gemini","aries"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":560,"proteinG":28,"carbsG":72,"fatG":18,"fiberG":4,"sodiumMg":1350,"sugarG":10,"vitamins":["Vitamin B12","Niacin"],"minerals":["Selenium","Zinc"]},
 
           alchemicalProperties: {"Spirit":4.54,"Essence":6.14,"Matter":4.98,"Substance":4.78},
           thermodynamicProperties: {"heat":0.0763,"entropy":0.326,"reactivity":2.9186,"gregsEnergy":-0.8752,"kalchm":12.6625,"monica":0.5572},
@@ -532,7 +1220,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"shrimp","substituteOptions":["chicken breast (sliced thin)","extra tofu (vegan)","pork tenderloin"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a pinch of salt (vegetarian)"]},
             {"originalIngredient":"tamarind paste","substituteOptions":["lime juice mixed with a small amount of rice vinegar (less depth)"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":222,"proteinG":22,"carbsG":31,"fatG":3,"fiberG":4,"sodiumMg":304,"sugarG":21,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B1","Vitamin B3","Vitamin C","Vitamin B6","Vitamin folate","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Potassium","Magnesium","Iron","Manganese","0","1"]}
         },
         {
           name: "Pad Krapow Moo",
@@ -543,11 +1232,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["stir-frying","pounding"]},
           elementalProperties: {"Fire":0.55,"Water":0.05,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","gemini"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":520,"proteinG":32,"carbsG":8,"fatG":38,"fiberG":1,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin B6","Niacin"],"minerals":["Zinc","Iron"]},
 
           alchemicalProperties: {"Spirit":3.29,"Essence":4.2,"Matter":3.2,"Substance":2.97},
           thermodynamicProperties: {"heat":0.095,"entropy":0.3368,"reactivity":3.1601,"gregsEnergy":-0.9693,"kalchm":19.8909,"monica":0.7162},
-          substitutions: [{"originalIngredient":"Holy basil","substituteOptions":["Thai sweet basil (though structurally incorrect, it is common)"]}]
+          substitutions: [{"originalIngredient":"Holy basil","substituteOptions":["Thai sweet basil (though structurally incorrect, it is common)"]}],
+            nutritionPerServing: {"calories":136,"proteinG":13,"carbsG":8,"fatG":6,"fiberG":1,"sodiumMg":29,"sugarG":5,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Pla Neung Manao",
@@ -558,11 +1247,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","celebration"],"cookingMethods":["steaming"]},
           elementalProperties: {"Fire":0.3,"Water":0.5,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Neptune","Mercury"],"signs":["pisces","virgo"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":280,"proteinG":45,"carbsG":12,"fatG":4,"fiberG":1,"sodiumMg":1500,"sugarG":8,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Selenium","Potassium"]},
 
           alchemicalProperties: {"Spirit":4.03,"Essence":3.6,"Matter":2.18,"Substance":1.99},
           thermodynamicProperties: {"heat":0.2276,"entropy":0.4987,"reactivity":6.4464,"gregsEnergy":-2.9875,"kalchm":1286.8134,"monica":-0.1032},
-          substitutions: [{"originalIngredient":"Whole fish","substituteOptions":["Fish fillets (reduce steaming time)"]}]
+          substitutions: [{"originalIngredient":"Whole fish","substituteOptions":["Fish fillets (reduce steaming time)"]}],
+            nutritionPerServing: {"calories":93,"proteinG":4,"carbsG":24,"fatG":0,"fiberG":3,"sodiumMg":12,"sugarG":12,"vitamins":["Vitamin C","Vitamin folate","Vitamin B6"],"minerals":["Potassium","Calcium","Manganese","Selenium"]}
         },
         {
           name: "Gaeng Keow Wan Gai",
@@ -592,7 +1281,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","stir-frying","paste frying"]},
           elementalProperties: {"Fire":0.4,"Water":0.3,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","gemini"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":420,"proteinG":28,"carbsG":12,"fatG":30,"fiberG":4,"sodiumMg":880,"sugarG":7,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Potassium","Iron"]},
 
           alchemicalProperties: {"Spirit":3.55,"Essence":4.77,"Matter":3.89,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0768,"entropy":0.3093,"reactivity":2.9168,"gregsEnergy":-0.8253,"kalchm":7.2858,"monica":0.6974},
@@ -600,7 +1288,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"chicken thighs","substituteOptions":["shrimp (reduce cook time)","firm tofu (vegan)","beef sirloin strips"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"Thai eggplant","substituteOptions":["zucchini","bamboo shoots","baby corn"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":55543,"proteinG":558,"carbsG":1307,"fatG":5707,"fiberG":503,"sodiumMg":3738,"sugarG":801,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin B1","Vitamin K","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium","Copper","0","1"]}
         },
         {
           name: "Gaeng Daeng Moo",
@@ -630,7 +1319,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","paste frying","stir-frying"]},
           elementalProperties: {"Fire":0.35,"Water":0.3,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":440,"proteinG":30,"carbsG":10,"fatG":32,"fiberG":3,"sodiumMg":920,"sugarG":6,"vitamins":["Vitamin B12","Niacin"],"minerals":["Zinc","Potassium"]},
 
           alchemicalProperties: {"Spirit":4.0,"Essence":4.74,"Matter":3.71,"Substance":3.59},
           thermodynamicProperties: {"heat":0.1001,"entropy":0.3583,"reactivity":3.2891,"gregsEnergy":-1.0783,"kalchm":32.0821,"monica":0.6974},
@@ -638,7 +1326,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"pork tenderloin","substituteOptions":["chicken breast","duck breast","firm tofu (vegan)"]},
             {"originalIngredient":"bamboo shoots","substituteOptions":["hearts of palm","Thai eggplant","zucchini"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":55577,"proteinG":548,"carbsG":1307,"fatG":5717,"fiberG":502,"sodiumMg":3705,"sugarG":801,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium","0","1"]}
         },
         {
           name: "Larb Gai",
@@ -667,7 +1356,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch","salad"],"cookingMethods":["stir-frying","toasting","mixing"]},
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.25,"Air":0.15},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","virgo"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":310,"proteinG":36,"carbsG":14,"fatG":12,"fiberG":2,"sodiumMg":980,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Iron","Zinc"]},
 
           alchemicalProperties: {"Spirit":2.51,"Essence":4.46,"Matter":3.88,"Substance":3.51},
           thermodynamicProperties: {"heat":0.0417,"entropy":0.2434,"reactivity":2.2709,"gregsEnergy":-0.511,"kalchm":0.5018,"monica":0.8272},
@@ -675,7 +1363,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"ground chicken","substituteOptions":["ground pork","ground turkey","minced mushrooms (vegan)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"toasted rice powder","substituteOptions":["panko breadcrumbs, toasted (different texture but similar function)"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":400,"proteinG":68,"carbsG":11,"fatG":8,"fiberG":2,"sodiumMg":163,"sugarG":5,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese"]}
         },
         {
           name: "Chicken Satay with Peanut Sauce",
@@ -707,7 +1396,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch","appetizer"],"cookingMethods":["grilling","marinating","simmering"]},
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Sun","Jupiter"],"signs":["leo","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":480,"proteinG":34,"carbsG":22,"fatG":30,"fiberG":4,"sodiumMg":760,"sugarG":10,"vitamins":["Niacin","Vitamin B6"],"minerals":["Zinc","Magnesium"]},
 
           alchemicalProperties: {"Spirit":4.34,"Essence":5.08,"Matter":4.78,"Substance":4.59},
           thermodynamicProperties: {"heat":0.0831,"entropy":0.3694,"reactivity":2.5034,"gregsEnergy":-0.8417,"kalchm":1.1671,"monica":0.2323},
@@ -715,7 +1403,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"chicken thighs","substituteOptions":["pork loin strips","beef sirloin","king oyster mushroom strips (vegan)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"roasted peanuts","substituteOptions":["cashews (nut allergy note)","sunflower seed butter (nut-free)"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":27962,"proteinG":298,"carbsG":661,"fatG":2864,"fiberG":252,"sodiumMg":1920,"sugarG":407,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin K","Vitamin B1","Vitamin B3"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium","Iron","Manganese","Magnesium"]}
         },
         {
           name: "Pad See Ew",
@@ -745,7 +1434,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["stir-frying","wok cooking","searing"]},
           elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["aries","leo"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":590,"proteinG":32,"carbsG":65,"fatG":20,"fiberG":3,"sodiumMg":1450,"sugarG":8,"vitamins":["Vitamin C","Iron","Vitamin B12"],"minerals":["Zinc","Selenium"]},
 
           alchemicalProperties: {"Spirit":3.25,"Essence":4.25,"Matter":4.03,"Substance":3.76},
           thermodynamicProperties: {"heat":0.0679,"entropy":0.3269,"reactivity":2.2933,"gregsEnergy":-0.6817,"kalchm":0.5397,"monica":0.9948},
@@ -753,7 +1441,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"pork tenderloin","substituteOptions":["chicken breast sliced thin","shrimp","extra-firm tofu (vegan)"]},
             {"originalIngredient":"Chinese broccoli","substituteOptions":["broccolini","bok choy","regular broccoli florets"]},
             {"originalIngredient":"fresh wide rice noodles","substituteOptions":["dried wide rice noodles, soaked"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":267,"proteinG":26,"carbsG":9,"fatG":14,"fiberG":2,"sodiumMg":76,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Khao Pad Kra Pao Moo",
@@ -784,7 +1473,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["stir-frying","wok cooking","frying"]},
           elementalProperties: {"Fire":0.5,"Water":0.1,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Sun"],"signs":["scorpio","aries"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":545,"proteinG":30,"carbsG":52,"fatG":24,"fiberG":2,"sodiumMg":1200,"sugarG":4,"vitamins":["Vitamin B6","Niacin"],"minerals":["Iron","Zinc"]},
 
           alchemicalProperties: {"Spirit":4.04,"Essence":5.23,"Matter":4.4,"Substance":4.14},
           thermodynamicProperties: {"heat":0.0814,"entropy":0.3352,"reactivity":2.7652,"gregsEnergy":-0.8455,"kalchm":6.637,"monica":0.9948},
@@ -792,7 +1480,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","crumbled extra-firm tofu (vegan)"]},
             {"originalIngredient":"holy basil","substituteOptions":["Thai sweet basil (less peppery result)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":317,"proteinG":30,"carbsG":8,"fatG":18,"fiberG":1,"sodiumMg":65,"sugarG":5,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Suea Rong Hai",
@@ -823,7 +1512,6 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner"],"cookingMethods":["grilling","marinating"]},
           elementalProperties: {"Fire":0.45,"Water":0.15,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["aries","capricorn"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":45,"carbsG":8,"fatG":22,"fiberG":1,"sodiumMg":1050,"sugarG":5,"vitamins":["Vitamin B12","Niacin","Iron"],"minerals":["Zinc","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":4.21,"Essence":5.41,"Matter":4.8,"Substance":4.4},
           thermodynamicProperties: {"heat":0.078,"entropy":0.3282,"reactivity":2.5601,"gregsEnergy":-0.7622,"kalchm":3.1166,"monica":0.2511},
@@ -831,7 +1519,8 @@ export const thai: Cuisine = {
             {"originalIngredient":"beef sirloin","substituteOptions":["pork shoulder steak","lamb leg steak","portobello mushrooms (vegetarian)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"tamarind paste","substituteOptions":["lime juice plus a touch of brown sugar"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":602,"proteinG":57,"carbsG":17,"fatG":33,"fiberG":3,"sodiumMg":157,"sugarG":10,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin B1","Vitamin B3","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Calcium","Potassium"]}
         },
       ],
       summer: [
@@ -844,11 +1533,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dessert","snack","beverage"],"cookingMethods":["shaving ice","assembling"]},
           elementalProperties: {"Fire":0,"Water":0.7,"Earth":0.15,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":250,"proteinG":4,"carbsG":55,"fatG":4,"fiberG":2,"sodiumMg":80,"sugarG":45,"vitamins":["Calcium"],"minerals":["Phosphorus"]},
 
           alchemicalProperties: {"Spirit":0.96,"Essence":1.67,"Matter":1.64,"Substance":1.53},
           thermodynamicProperties: {"heat":0.027,"entropy":0.1898,"reactivity":2.0486,"gregsEnergy":-0.3618,"kalchm":0.5248,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
+          substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Yum Woon Sen",
@@ -859,11 +1548,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["appetizer","lunch"],"cookingMethods":["blanching","mixing"]},
           elementalProperties: {"Fire":0.35,"Water":0.4,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mercury","Uranus"],"signs":["gemini","aquarius"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":320,"proteinG":22,"carbsG":45,"fatG":8,"fiberG":2,"sodiumMg":1200,"sugarG":12,"vitamins":["Vitamin C","Niacin"],"minerals":["Selenium","Zinc"]},
 
           alchemicalProperties: {"Spirit":2.64,"Essence":3.71,"Matter":3.46,"Substance":3.19},
           thermodynamicProperties: {"heat":0.0585,"entropy":0.2899,"reactivity":2.3943,"gregsEnergy":-0.6356,"kalchm":0.5664,"monica":0.0922},
-          substitutions: [{"originalIngredient":"Minced pork","substituteOptions":["Minced chicken","More seafood"]}]
+          substitutions: [{"originalIngredient":"Minced pork","substituteOptions":["Minced chicken","More seafood"]}],
+            nutritionPerServing: {"calories":61,"proteinG":9,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":89,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
       ],
       winter: [
@@ -876,11 +1565,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["braising","paste frying"]},
           elementalProperties: {"Fire":0.2,"Water":0.25,"Earth":0.45,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":650,"proteinG":38,"carbsG":28,"fatG":45,"fiberG":5,"sodiumMg":950,"sugarG":14,"vitamins":["Iron","Vitamin B12"],"minerals":["Zinc","Potassium"]},
 
           alchemicalProperties: {"Spirit":2.59,"Essence":3.53,"Matter":4.71,"Substance":4.15},
           thermodynamicProperties: {"heat":0.0388,"entropy":0.3,"reactivity":1.371,"gregsEnergy":-0.3726,"kalchm":0.0019,"monica":0.4842},
-          substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Chicken thighs (reduce braise time)"]}]
+          substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Chicken thighs (reduce braise time)"]}],
+            nutritionPerServing: {"calories":399,"proteinG":11,"carbsG":18,"fatG":33,"fiberG":4,"sodiumMg":45,"sugarG":13,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin B1","Vitamin B3"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Potassium"]}
         },
         {
           name: "Tom Yum Goong Nam Khon",
@@ -891,11 +1580,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["soup","dinner"],"cookingMethods":["infusing","boiling","poaching"]},
           elementalProperties: {"Fire":0.4,"Water":0.4,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Neptune"],"signs":["aries","pisces"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":280,"proteinG":24,"carbsG":12,"fatG":14,"fiberG":2,"sodiumMg":1400,"sugarG":6,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Selenium","Iodine"]},
 
           alchemicalProperties: {"Spirit":3.81,"Essence":5.26,"Matter":3.07,"Substance":2.86},
           thermodynamicProperties: {"heat":0.1056,"entropy":0.2933,"reactivity":5.0447,"gregsEnergy":-1.3739,"kalchm":1603.1993,"monica":-0.2241},
-          substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Coconut milk (for a different variation)"]}]
+          substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Coconut milk (for a different variation)"]}],
+            nutritionPerServing: {"calories":217,"proteinG":37,"carbsG":23,"fatG":2,"fiberG":6,"sodiumMg":515,"sugarG":4,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin C","Vitamin folate","Vitamin B6","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Potassium","Calcium","0","1"]}
         },
         {
           name: "Gaeng Panang Neua",
@@ -906,11 +1595,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Gaeng Panang Neua","substituteOptions":["Alternate protein or vegetable"]}]
+          substitutions: [{"originalIngredient":"Foundation of Gaeng Panang Neua","substituteOptions":["Alternate protein or vegetable"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Khao Soi Gai",
@@ -921,11 +1610,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Khao Soi Gai","substituteOptions":["Alternate protein or vegetable"]}]
+          substitutions: [{"originalIngredient":"Foundation of Khao Soi Gai","substituteOptions":["Alternate protein or vegetable"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
       ],
     },
@@ -954,14 +1643,14 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dessert"],"cookingMethods":["steaming","simmering"]},
           elementalProperties: {"Fire":0.05,"Water":0.45,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":5,"carbsG":72,"fatG":14,"fiberG":3,"sodiumMg":280,"sugarG":28,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Potassium","Magnesium"]},
 
           alchemicalProperties: {"Spirit":2.21,"Essence":2.86,"Matter":3.36,"Substance":3.19},
           thermodynamicProperties: {"heat":0.0455,"entropy":0.3015,"reactivity":1.659,"gregsEnergy":-0.4547,"kalchm":0.0491,"monica":-0.122},
           substitutions: [
             {"originalIngredient":"ripe mangoes","substituteOptions":["ripe peaches (summer)","ripe jackfruit","durian (for a richer result)"]},
             {"originalIngredient":"toasted mung beans","substituteOptions":["toasted sesame seeds","crispy fried shallots"]}
-          ]
+          ],
+            nutritionPerServing: {"calories":55250,"proteinG":501,"carbsG":1313,"fatG":5700,"fiberG":501,"sodiumMg":4182,"sugarG":812,"vitamins":["Vitamin C","Vitamin A","Vitamin folate","Vitamin B6","Vitamin E"],"minerals":["Manganese","Iron","Magnesium","Phosphorus","Calcium","Copper","Potassium"]}
         },
         {
           name: "Tub Tim Grob",
@@ -972,11 +1661,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Tub Tim Grob","substituteOptions":["Alternate protein or vegetable"]}]
+          substitutions: [{"originalIngredient":"Foundation of Tub Tim Grob","substituteOptions":["Alternate protein or vegetable"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Bua Loi",
@@ -987,11 +1676,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Bua Loi","substituteOptions":["Alternate protein or vegetable"]}]
+          substitutions: [{"originalIngredient":"Foundation of Bua Loi","substituteOptions":["Alternate protein or vegetable"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Sangkaya Fak Thong",
@@ -1002,11 +1691,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Sangkaya Fak Thong","substituteOptions":["Alternate protein or vegetable"]}]
+          substitutions: [{"originalIngredient":"Foundation of Sangkaya Fak Thong","substituteOptions":["Alternate protein or vegetable"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
       ],
       summer: [
@@ -1019,11 +1708,11 @@ export const thai: Cuisine = {
           classifications: {"mealType":["dessert","snack","beverage"],"cookingMethods":["shaving ice","assembling"]},
           elementalProperties: {"Fire":0,"Water":0.7,"Earth":0.15,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":250,"proteinG":4,"carbsG":55,"fatG":4,"fiberG":2,"sodiumMg":80,"sugarG":45,"vitamins":["Calcium"],"minerals":["Phosphorus"]},
 
           alchemicalProperties: {"Spirit":0.96,"Essence":1.67,"Matter":1.64,"Substance":1.53},
           thermodynamicProperties: {"heat":0.027,"entropy":0.1898,"reactivity":2.0486,"gregsEnergy":-0.3618,"kalchm":0.5248,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}]
+          substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
       ],
     },

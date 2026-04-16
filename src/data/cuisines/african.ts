@@ -1949,6 +1949,639 @@ export const african: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic South African Bunny Chow",
+          "description": "A uniquely South African street food consisting of a hollowed-out loaf of white bread filled with a heavily spiced, aromatic curry.",
+          "details": {
+            "cuisine": "South African",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 60,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium-Hot",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 1,
+              "unit": "loaf",
+              "name": "unsliced white bread",
+              "notes": "Hollowed out"
+            },
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "lamb or mutton",
+              "notes": "Diced"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "curry powder",
+              "notes": "Durban masala preferred"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Finely chopped"
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "ginger",
+              "notes": "Minced"
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Cubed"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "tomatoes",
+              "notes": "Crushed"
+            }
+          ],
+          "instructions": [
+            "Step 1: Sauté the onions in oil until soft, then add garlic and ginger.",
+            "Step 2: Stir in the curry powder and toast for 1 minute.",
+            "Step 3: Add the lamb and brown on all sides.",
+            "Step 4: Pour in crushed tomatoes and simmer for 30 minutes.",
+            "Step 5: Add potatoes and enough water to cover, simmering until tender.",
+            "Step 6: Hollow out the loaf of bread and ladle the hot curry inside."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner",
+              "street food"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "sautéing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.3,
+            "Water": 0.2,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Earth"
+            ],
+            "signs": [
+              "Aries",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 550,
+            "proteinG": 30,
+            "carbsG": 60,
+            "fatG": 22,
+            "fiberG": 5,
+            "sodiumMg": 600,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 2.1,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.02,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Moroccan Lamb Tagine",
+          "description": "A slow-cooked savory stew named after the traditional clay pot it is cooked in, featuring tender lamb, warm spices, and sweet dried fruits.",
+          "details": {
+            "cuisine": "North African (Morocco)",
+            "prepTimeMinutes": 25,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
+            "season": [
+              "winter",
+              "autumn"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 800,
+              "unit": "g",
+              "name": "lamb shoulder",
+              "notes": "Cut into chunks"
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "onions",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "ginger",
+              "notes": "Ground"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cinnamon",
+              "notes": "Ground"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "saffron",
+              "notes": "Threads"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "dried apricots or prunes",
+              "notes": "Pitted"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "almonds",
+              "notes": "Toasted"
+            }
+          ],
+          "instructions": [
+            "Step 1: Toss lamb with ginger, cinnamon, and a pinch of saffron. Marinate for 1 hour.",
+            "Step 2: Sauté onions and garlic in a tagine or heavy pot until translucent.",
+            "Step 3: Add the lamb and sear until browned.",
+            "Step 4: Add enough water to barely cover the meat. Cover and simmer on low for 1.5 hours.",
+            "Step 5: Add the dried fruits and simmer for another 30 minutes until lamb is tender.",
+            "Step 6: Garnish with toasted almonds and serve with couscous."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner"
+            ],
+            "cookingMethods": [
+              "slow-cooking",
+              "braising"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Jupiter",
+              "Venus"
+            ],
+            "signs": [
+              "Sagittarius",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 600,
+            "proteinG": 45,
+            "carbsG": 30,
+            "fatG": 35,
+            "fiberG": 6,
+            "sodiumMg": 450,
+            "sugarG": 20,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin B6"
+            ],
+            "minerals": [
+              "Iron",
+              "Zinc"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 4,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.35,
+            "reactivity": 1.8,
+            "gregsEnergy": -0.6,
+            "kalchm": 0.04,
+            "monica": 0.6
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Tanzanian Ugali and Sukuma Wiki",
+          "description": "The staple East African dish consisting of a dense maize flour porridge served with savory, garlicky collard greens.",
+          "details": {
+            "cuisine": "East African",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 4,
+            "spiceLevel": "Mild",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "white cornmeal (maize flour)",
+              "notes": "Finely ground"
+            },
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "water",
+              "notes": "For boiling"
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "collard greens",
+              "notes": "Chopped"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Diced"
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "tomatoes",
+              "notes": "Diced"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "vegetable oil",
+              "notes": "For sautéing"
+            }
+          ],
+          "instructions": [
+            "Step 1: Bring the water to a boil in a heavy pot.",
+            "Step 2: Slowly pour in the cornmeal while stirring continuously to prevent lumps.",
+            "Step 3: Continue to cook and stir vigorously until the mixture pulls away from the sides of the pot and forms a thick, dense mass. Set aside.",
+            "Step 4: Heat oil in a pan, sauté onions until soft, then add tomatoes.",
+            "Step 5: Add the chopped collard greens and cook until wilted and tender.",
+            "Step 6: Serve the greens alongside a molded portion of the warm Ugali."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch",
+              "vegan"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "sautéing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.2,
+            "Earth": 0.6,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Moon"
+            ],
+            "signs": [
+              "Capricorn",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "New Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 8,
+            "carbsG": 65,
+            "fatG": 8,
+            "fiberG": 8,
+            "sodiumMg": 150,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin K",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 2,
+            "Essence": 3,
+            "Matter": 8,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.02,
+            "entropy": 0.2,
+            "reactivity": 1.2,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.01,
+            "monica": 0.3
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Malian Peanut Stew (Tigadèguèna)",
+          "description": "A profoundly rich, creamy West African stew powered by a ground peanut base, simmered with root vegetables and hearty proteins.",
+          "details": {
+            "cuisine": "West African",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "chicken or beef",
+              "notes": "Cut into pieces"
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "unsweetened peanut butter",
+              "notes": "Smooth"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "For color and acidity"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Chopped"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "sweet potatoes",
+              "notes": "Cubed"
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "chicken broth",
+              "notes": "Base liquid"
+            }
+          ],
+          "instructions": [
+            "Step 1: Sear the chicken or beef in a large pot until browned, then remove.",
+            "Step 2: In the same pot, sauté the onion until translucent.",
+            "Step 3: Stir in tomato paste and cook for 2 minutes.",
+            "Step 4: Whisk the peanut butter with a cup of warm broth until smooth, then add to the pot along with remaining broth.",
+            "Step 5: Return the meat and add the sweet potatoes.",
+            "Step 6: Simmer on low for 30-40 minutes until the oil separates to the top and meat is tender."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "stew"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "stewing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Earth",
+              "Jupiter"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 580,
+            "proteinG": 35,
+            "carbsG": 30,
+            "fatG": 38,
+            "fiberG": 6,
+            "sodiumMg": 450,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin E"
+            ],
+            "minerals": [
+              "Magnesium",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Ghanaian Kelewele",
+          "description": "A beloved street food made from deep-fried, fiercely spiced ripe plantains, balancing intense sweetness with aggressive heat.",
+          "details": {
+            "cuisine": "West African",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "ripe plantains",
+              "notes": "Skin should be mostly black, flesh sweet"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "fresh ginger",
+              "notes": "Grated"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "cayenne pepper",
+              "notes": "Or minced habanero"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "nutmeg",
+              "notes": "Ground"
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "salt",
+              "notes": "To taste"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "vegetable oil",
+              "notes": "For deep frying"
+            }
+          ],
+          "instructions": [
+            "Step 1: Peel the plantains and cut them into bite-sized cubes.",
+            "Step 2: In a blender or mortar, combine ginger, cayenne, nutmeg, salt, and a splash of water to form a paste.",
+            "Step 3: Toss the plantain cubes in the spice paste until evenly coated.",
+            "Step 4: Heat the oil in a deep pan to 350°F (175°C).",
+            "Step 5: Fry the plantains in batches for 3-4 minutes until deeply caramelized and dark golden brown.",
+            "Step 6: Drain on paper towels and serve immediately."
+          ],
+          "classifications": {
+            "mealType": [
+              "snack",
+              "side",
+              "street food",
+              "vegan"
+            ],
+            "cookingMethods": [
+              "deep-frying",
+              "marinating"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.1,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Leo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 320,
+            "proteinG": 2,
+            "carbsG": 60,
+            "fatG": 12,
+            "fiberG": 5,
+            "sodiumMg": 300,
+            "sugarG": 28,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin A"
+            ],
+            "minerals": [
+              "Potassium",
+              "Magnesium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 4,
+            "Matter": 4,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.08,
+            "entropy": 0.4,
+            "reactivity": 2.2,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.05,
+            "monica": 0.7
+          },
+          "substitutions": []
+        },
+        {
           "name": "Authentic South African Bobotie",
           "description": "A structurally unique, sweet-and-savory Cape Malay meat pie. The alchemy relies on a deeply spiced, fruit-studded minced meat base that is baked beneath a savory egg-and-milk custard topping (similar to a moussaka without the vegetables).",
           "details": {

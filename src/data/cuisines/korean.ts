@@ -18,11 +18,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["breakfast","comfort"],"cookingMethods":["frying","mixing"]},
           elementalProperties: {"Fire":0.15,"Water":0.15,"Earth":0.5,"Air":0.2},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["taurus","cancer"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":450,"proteinG":12,"carbsG":45,"fatG":24,"fiberG":1,"sodiumMg":950,"sugarG":1,"vitamins":["Choline","Vitamin B12"],"minerals":["Iron","Selenium"]},
 
           alchemicalProperties: {"Spirit":2.01,"Essence":3.02,"Matter":3.49,"Substance":2.9},
           thermodynamicProperties: {"heat":0.0386,"entropy":0.2441,"reactivity":1.3603,"gregsEnergy":-0.2934,"kalchm":0.0666,"monica":0.5486},
-          substitutions: [{"originalIngredient":"Butter","substituteOptions":["Gochujang (for heat)","Omit for traditional"]}]
+          substitutions: [{"originalIngredient":"Butter","substituteOptions":["Gochujang (for heat)","Omit for traditional"]}],
+            nutritionPerServing: {"calories":18,"proteinG":0,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["0","1","2"]}
         },
         {
           name: "Juk",
@@ -33,11 +33,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["breakfast","comfort","dinner"],"cookingMethods":["simmering"]},
           elementalProperties: {"Fire":0.1,"Water":0.6,"Earth":0.25,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":280,"proteinG":6,"carbsG":42,"fatG":9,"fiberG":2,"sodiumMg":450,"sugarG":3,"vitamins":["Vitamin A","Vitamin K"],"minerals":["Manganese","Magnesium"]},
 
           alchemicalProperties: {"Spirit":2.15,"Essence":2.88,"Matter":2.82,"Substance":2.44},
           thermodynamicProperties: {"heat":0.0567,"entropy":0.2468,"reactivity":2.0417,"gregsEnergy":-0.4472,"kalchm":0.6651,"monica":-0.0188},
-          substitutions: [{"originalIngredient":"Minced vegetables","substituteOptions":["Abalone (for Jeonbokjuk)","Minced beef"]}]
+          substitutions: [{"originalIngredient":"Minced vegetables","substituteOptions":["Abalone (for Jeonbokjuk)","Minced beef"]}],
+            nutritionPerServing: {"calories":339,"proteinG":62,"carbsG":0,"fatG":8,"fiberG":0,"sodiumMg":148,"sugarG":0,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Phosphorus","Zinc","0","1","2"]}
         },
       ],
       summer: [
@@ -50,11 +50,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["breakfast","lunch"],"cookingMethods":["boiling","blending"]},
           elementalProperties: {"Fire":0.05,"Water":0.55,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":420,"proteinG":22,"carbsG":58,"fatG":10,"fiberG":8,"sodiumMg":420,"sugarG":4,"vitamins":["Vitamin K","Folate"],"minerals":["Calcium","Magnesium"]},
 
           alchemicalProperties: {"Spirit":1.2,"Essence":2.32,"Matter":3.01,"Substance":2.43},
           thermodynamicProperties: {"heat":0.019,"entropy":0.1926,"reactivity":1.1904,"gregsEnergy":-0.2103,"kalchm":0.0368,"monica":0.0922},
-          substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Rice noodles"]},{"originalIngredient":"Soybeans","substituteOptions":["Black soybeans for a grey broth"]}]
+          substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Rice noodles"]},{"originalIngredient":"Soybeans","substituteOptions":["Black soybeans for a grey broth"]}],
+            nutritionPerServing: {"calories":2,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
       ],
     },
@@ -137,11 +137,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["stewing","boiling","sautéing"]},
           elementalProperties: {"Fire":0.55,"Water":0.25,"Earth":0.15,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["aries","scorpio"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":480,"proteinG":22,"carbsG":14,"fatG":38,"fiberG":4,"sodiumMg":1200,"sugarG":4,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Iron","Calcium"]},
 
           alchemicalProperties: {"Spirit":2.59,"Essence":3.73,"Matter":3.28,"Substance":2.99},
           thermodynamicProperties: {"heat":0.0642,"entropy":0.2905,"reactivity":2.5439,"gregsEnergy":-0.6749,"kalchm":1.2263,"monica":0.3064},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Canned tuna","More tofu (vegan)"]}]
+          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Canned tuna","More tofu (vegan)"]}],
+            nutritionPerServing: {"calories":70,"proteinG":7,"carbsG":4,"fatG":3,"fiberG":1,"sodiumMg":16,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin K","Vitamin folate","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
       ],
       summer: [
@@ -154,11 +154,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["boiling","simmering"]},
           elementalProperties: {"Fire":0.1,"Water":0.55,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":450,"proteinG":28,"carbsG":62,"fatG":8,"fiberG":5,"sodiumMg":900,"sugarG":3,"vitamins":["Vitamin B12","Vitamin K"],"minerals":["Iron","Zinc"]},
 
           alchemicalProperties: {"Spirit":2.06,"Essence":2.98,"Matter":4.11,"Substance":4.03},
           thermodynamicProperties: {"heat":0.0294,"entropy":0.3294,"reactivity":1.5617,"gregsEnergy":-0.485,"kalchm":0.0013,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken breast","Tofu for vegetarian"]},{"originalIngredient":"Dongchimi brine","substituteOptions":["Diluted apple cider vinegar with a pinch of sugar"]}]
+          substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken breast","Tofu for vegetarian"]},{"originalIngredient":"Dongchimi brine","substituteOptions":["Diluted apple cider vinegar with a pinch of sugar"]}],
+            nutritionPerServing: {"calories":539,"proteinG":55,"carbsG":1,"fatG":33,"fiberG":0,"sodiumMg":150,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
         },
       ],
       winter: [
@@ -171,16 +171,708 @@ export const korean: Cuisine = {
           classifications: {"mealType":["lunch","dinner","breakfast"],"cookingMethods":["simmering","boiling"]},
           elementalProperties: {"Fire":0.15,"Water":0.5,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["capricorn","cancer"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":390,"proteinG":22,"carbsG":52,"fatG":10,"fiberG":2,"sodiumMg":820,"sugarG":2,"vitamins":["Vitamin B12","Choline"],"minerals":["Iron","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":2.42,"Essence":3.51,"Matter":4.12,"Substance":3.83},
           thermodynamicProperties: {"heat":0.0388,"entropy":0.2892,"reactivity":1.6953,"gregsEnergy":-0.4515,"kalchm":0.0119,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken for a lighter broth","Omit for vegetarian with kelp-only stock"]},{"originalIngredient":"Garaetteok","substituteOptions":["Mandu (dumplings) for Tteok-mandu-guk"]}]
+          substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken for a lighter broth","Omit for vegetarian with kelp-only stock"]},{"originalIngredient":"Garaetteok","substituteOptions":["Mandu (dumplings) for Tteok-mandu-guk"]}],
+            nutritionPerServing: {"calories":379,"proteinG":36,"carbsG":1,"fatG":25,"fiberG":0,"sodiumMg":99,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin K","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","0","1","2"]}
         },
       ],
     },
     dinner: {
       all: [
+        {
+          "name": "Authentic Bibimbap (Dolsot)",
+          "description": "The definitive Korean mixed rice bowl. Served in a sizzling hot stone pot (dolsot), it features perfectly arranged namul (sautéed vegetables), marinated beef, and a raw egg yolk that cooks as you aggressively mix it with gochujang.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "Medium",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "cups",
+              "name": "short-grain rice",
+              "notes": "Cooked"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "beef ribeye",
+              "notes": "Thinly sliced, marinated in soy/sugar/sesame"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "spinach",
+              "notes": "Blanched, seasoned with sesame oil"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "bean sprouts",
+              "notes": "Blanched, seasoned"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "carrots",
+              "notes": "Julienned, lightly sautéed"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "shiitake mushrooms",
+              "notes": "Sliced and sautéed"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "egg yolks",
+              "notes": "Or sunny-side up eggs"
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "gochujang",
+              "notes": "Korean chili paste, for serving"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sesame oil",
+              "notes": "For coating the stone pots"
+            }
+          ],
+          "instructions": [
+            "Step 1: Prepare all the namul (vegetables) separately by blanching or sautéing them, seasoning each with garlic, soy sauce, and sesame oil.",
+            "Step 2: Sauté the marinated beef over high heat until cooked.",
+            "Step 3: Coat the inside of stone pots (dolsot) generously with sesame oil. Heat on the stove until smoking.",
+            "Step 4: Press 1 cup of cooked rice into the bottom of each pot. Let it crackle and toast for 5 minutes to form a crust (nurungji).",
+            "Step 5: Artfully arrange the beef and vegetables on top of the rice in distinct sections.",
+            "Step 6: Drop the egg yolk in the center. Serve immediately while sizzling, with gochujang on the side for the diner to mix in vigorously."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "dinner"
+            ],
+            "cookingMethods": [
+              "sautéing",
+              "toasting"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Earth"
+            ],
+            "signs": [
+              "Leo",
+              "Virgo"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 580,
+            "proteinG": 22,
+            "carbsG": 75,
+            "fatG": 18,
+            "fiberG": 6,
+            "sodiumMg": 850,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin C"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 5,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.06,
+            "entropy": 0.4,
+            "reactivity": 1.8,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.04,
+            "monica": 0.6
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Kimchi Jjigae",
+          "description": "A fiercely bubbling, fiercely sour, and fiercely spicy stew built on aged, over-fermented kimchi, fatty pork belly, and tofu.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
+            "season": [
+              "winter",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "aged sour kimchi",
+              "notes": "Must be old and pungent, chopped"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "pork belly",
+              "notes": "Cut into bite-sized strips"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "kimchi juice",
+              "notes": "Essential for depth"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "gochugaru (Korean chili flakes)",
+              "notes": "For heat and color"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "gochujang",
+              "notes": "For body"
+            },
+            {
+              "amount": 1,
+              "unit": "block",
+              "name": "firm tofu",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "anchovy-kelp stock or water",
+              "notes": "For the broth"
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "scallions",
+              "notes": "Chopped"
+            }
+          ],
+          "instructions": [
+            "Step 1: In a heavy pot (ttukbaegi preferred), sear the pork belly until its fat begins to render.",
+            "Step 2: Add the sour kimchi and sauté in the pork fat for 5 minutes to mellow its bite.",
+            "Step 3: Stir in the gochugaru, gochujang, and kimchi juice.",
+            "Step 4: Pour in the stock. Bring to a boil, then cover and vigorously boil/simmer for 15 minutes to marry the flavors.",
+            "Step 5: Fan the sliced tofu over the top of the stew and cook for another 5 minutes.",
+            "Step 6: Garnish with scallions and serve boiling hot alongside a bowl of plain white rice."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "stew",
+              "soup"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "simmering"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.6,
+            "Water": 0.3,
+            "Earth": 0.1,
+            "Air": 0
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Pluto"
+            ],
+            "signs": [
+              "Aries",
+              "Scorpio"
+            ],
+            "lunarPhases": [
+              "Waning Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 18,
+            "carbsG": 15,
+            "fatG": 24,
+            "fiberG": 4,
+            "sodiumMg": 1100,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin C",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 6,
+            "Essence": 5,
+            "Matter": 4,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.08,
+            "entropy": 0.45,
+            "reactivity": 2.2,
+            "gregsEnergy": -0.6,
+            "kalchm": 0.05,
+            "monica": 0.7
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Beef Bulgogi",
+          "description": "Korea's most famous barbecue export. Wafer-thin slices of beef marinated in a sweet, savory blend of soy, sesame, and Asian pear (which tenderizes the meat), quickly grilled over an open flame.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "beef ribeye or sirloin",
+              "notes": "Sliced paper-thin"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "soy sauce",
+              "notes": "For marinade"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "brown sugar or honey",
+              "notes": "For caramelization"
+            },
+            {
+              "amount": 0.5,
+              "unit": "whole",
+              "name": "Asian pear",
+              "notes": "Grated; contains tenderizing enzymes"
+            },
+            {
+              "amount": 1,
+              "unit": "small",
+              "name": "onion",
+              "notes": "Grated"
+            },
+            {
+              "amount": 4,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Minced"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sesame oil",
+              "notes": "Toasted"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "toasted sesame seeds",
+              "notes": "For garnish"
+            }
+          ],
+          "instructions": [
+            "Step 1: In a large bowl, whisk together the soy sauce, sugar, grated pear, grated onion, garlic, and sesame oil.",
+            "Step 2: Add the thinly sliced beef. Massage the marinade into the meat with your hands.",
+            "Step 3: Cover and refrigerate for 1-2 hours (do not exceed 4 hours or the pear will turn the meat to mush).",
+            "Step 4: Heat a grill pan or cast-iron skillet over maximum heat until smoking.",
+            "Step 5: Flash-fry the beef in small batches for 1-2 minutes per side until deeply caramelized and slightly charred.",
+            "Step 6: Sprinkle with sesame seeds and serve with lettuce leaves (ssam), rice, and ssamjang."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "bbq"
+            ],
+            "cookingMethods": [
+              "marinating",
+              "grilling"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.4,
+            "Water": 0.1,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Sun",
+              "Venus"
+            ],
+            "signs": [
+              "Leo",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 420,
+            "proteinG": 32,
+            "carbsG": 18,
+            "fatG": 22,
+            "fiberG": 1,
+            "sodiumMg": 950,
+            "sugarG": 14,
+            "vitamins": [
+              "Vitamin B12",
+              "Niacin"
+            ],
+            "minerals": [
+              "Zinc",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.05,
+            "entropy": 0.3,
+            "reactivity": 1.6,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Tteokbokki",
+          "description": "The undisputed king of Korean street food. Chewy, dense rice cakes simmering in a thick, fiery red, and remarkably sweet gochujang sauce with fish cakes.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "Hot",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 400,
+              "unit": "g",
+              "name": "garaetteok (cylinder rice cakes)",
+              "notes": "Soaked if hard"
+            },
+            {
+              "amount": 3,
+              "unit": "sheets",
+              "name": "eomuk (fish cakes)",
+              "notes": "Cut into triangles"
+            },
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "anchovy-kelp stock",
+              "notes": "Essential umami base"
+            },
+            {
+              "amount": 3,
+              "unit": "tbsp",
+              "name": "gochujang",
+              "notes": "Korean chili paste"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "gochugaru",
+              "notes": "Korean chili flakes"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sugar or corn syrup",
+              "notes": "Crucial for the glossy glaze"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "soy sauce",
+              "notes": "For saltiness"
+            },
+            {
+              "amount": 2,
+              "unit": "whole",
+              "name": "hard-boiled eggs",
+              "notes": "Peeled"
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "scallions",
+              "notes": "Cut into 2-inch pieces"
+            }
+          ],
+          "instructions": [
+            "Step 1: In a wide, shallow pan, combine the stock, gochujang, gochugaru, sugar, and soy sauce. Bring to a boil.",
+            "Step 2: Add the rice cakes to the bubbling sauce.",
+            "Step 3: Simmer vigorously for 10-15 minutes, stirring frequently so the rice cakes don't stick to the bottom, until the sauce thickens into a thick glaze.",
+            "Step 4: Stir in the fish cake triangles and hard-boiled eggs.",
+            "Step 5: Cook for another 3 minutes until the fish cakes puff up and absorb the sauce.",
+            "Step 6: Toss in the scallions right at the end. Serve piping hot."
+          ],
+          "classifications": {
+            "mealType": [
+              "snack",
+              "street food"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "reducing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.5,
+            "Water": 0.2,
+            "Earth": 0.2,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Mars",
+              "Sun"
+            ],
+            "signs": [
+              "Aries",
+              "Gemini"
+            ],
+            "lunarPhases": [
+              "First Quarter"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 380,
+            "proteinG": 12,
+            "carbsG": 65,
+            "fatG": 4,
+            "fiberG": 2,
+            "sodiumMg": 850,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin A",
+              "Calcium"
+            ],
+            "minerals": [
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 5,
+            "Matter": 4,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.06,
+            "entropy": 0.35,
+            "reactivity": 1.8,
+            "gregsEnergy": -0.5,
+            "kalchm": 0.03,
+            "monica": 0.6
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Japchae",
+          "description": "A celebratory dish of bouncy sweet potato glass noodles stir-fried with an array of individually prepared vegetables and beef, yielding a harmoniously sweet and savory sesame-rich finish.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 40,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "dangmyeon (sweet potato starch noodles)",
+              "notes": "Boiled until chewy and transparent"
+            },
+            {
+              "amount": 150,
+              "unit": "g",
+              "name": "beef sirloin",
+              "notes": "Thinly sliced"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "spinach",
+              "notes": "Blanched"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "carrots",
+              "notes": "Julienned"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "onion",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "shiitake mushrooms",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 4,
+              "unit": "tbsp",
+              "name": "soy sauce",
+              "notes": "For the sauce"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "For the sauce"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sesame oil",
+              "notes": "For the sauce"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "toasted sesame seeds",
+              "notes": "For garnish"
+            }
+          ],
+          "instructions": [
+            "Step 1: Boil the dangmyeon for 6 minutes until chewy. Rinse in cold water, drain, cut into 6-inch lengths, and toss with a little sesame oil so they don't stick.",
+            "Step 2: Mix the soy sauce, sugar, and sesame oil to create the master seasoning sauce.",
+            "Step 3: Blanch the spinach, squeeze out all water, and season lightly with salt and sesame oil.",
+            "Step 4: In a skillet, separately stir-fry the onions, carrots, and mushrooms. Set each aside.",
+            "Step 5: Stir-fry the beef until just cooked.",
+            "Step 6: In a very large bowl, combine the noodles, all the vegetables, the beef, and the master seasoning sauce. Toss everything aggressively by hand. Garnish with sesame seeds."
+          ],
+          "classifications": {
+            "mealType": [
+              "lunch",
+              "side",
+              "celebration"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "stir-frying",
+              "tossing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.1,
+            "Earth": 0.5,
+            "Air": 0.2
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Mercury"
+            ],
+            "signs": [
+              "Libra",
+              "Taurus"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 12,
+            "carbsG": 55,
+            "fatG": 10,
+            "fiberG": 4,
+            "sodiumMg": 750,
+            "sugarG": 10,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 4
+          },
+          "thermodynamicProperties": {
+            "heat": 0.03,
+            "entropy": 0.25,
+            "reactivity": 1.4,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.01,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
         {
           name: "Samgyeopsal-gui",
           description: "The communal and tactile experience of Korean BBQ. Unmarinated, thick-cut pork belly is grilled at the table, crisped in its own rendered fat, and eaten wrapped in fresh lettuce with pungent aromatics and fermented pastes.",
@@ -190,11 +882,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","social"],"cookingMethods":["grilling"]},
           elementalProperties: {"Fire":0.5,"Water":0.05,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Venus"],"signs":["taurus","aries"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":850,"proteinG":35,"carbsG":12,"fatG":72,"fiberG":3,"sodiumMg":850,"sugarG":4,"vitamins":["Vitamin K","Thiamin"],"minerals":["Zinc","Selenium"]},
 
           alchemicalProperties: {"Spirit":2.65,"Essence":2.58,"Matter":2.67,"Substance":2.53},
           thermodynamicProperties: {"heat":0.1061,"entropy":0.4286,"reactivity":2.2304,"gregsEnergy":-0.85,"kalchm":1.059,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Beef short ribs (Galbi)","Thick-cut mushrooms"]}]
+          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Beef short ribs (Galbi)","Thick-cut mushrooms"]}],
+            nutritionPerServing: {"calories":147,"proteinG":13,"carbsG":6,"fatG":8,"fiberG":0,"sodiumMg":28,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","0","1","2"]}
         },
         {
           name: "Sundubu Jjigae",
@@ -205,11 +897,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["boiling","stewing"]},
           elementalProperties: {"Fire":0.6,"Water":0.3,"Earth":0.05,"Air":0.05},
           astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":350,"proteinG":28,"carbsG":12,"fatG":22,"fiberG":3,"sodiumMg":1100,"sugarG":3,"vitamins":["Vitamin A","Vitamin B12"],"minerals":["Iron","Calcium"]},
 
           alchemicalProperties: {"Spirit":2.98,"Essence":3.38,"Matter":3.39,"Substance":3.01},
           thermodynamicProperties: {"heat":0.0892,"entropy":0.361,"reactivity":2.5197,"gregsEnergy":-0.8206,"kalchm":0.9184,"monica":0.0278},
-          substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Pork belly","Enoki mushrooms"]}]
+          substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Pork belly","Enoki mushrooms"]}],
+            nutritionPerServing: {"calories":44,"proteinG":1,"carbsG":6,"fatG":2,"fiberG":0,"sodiumMg":4,"sugarG":4,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin C","Vitamin B6"],"minerals":["0","1","2","Manganese","Selenium"]}
         },
         {
           "name": "Authentic Korean Bulgogi",
@@ -286,11 +978,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","social"],"cookingMethods":["stir-frying"]},
           elementalProperties: {"Fire":0.55,"Water":0.1,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Jupiter"],"signs":["aries","sagittarius"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":65,"fatG":12,"fiberG":8,"sodiumMg":1250,"sugarG":14,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Iron"]},
 
           alchemicalProperties: {"Spirit":2.11,"Essence":3.27,"Matter":3.75,"Substance":3.65},
           thermodynamicProperties: {"heat":0.0385,"entropy":0.333,"reactivity":1.7994,"gregsEnergy":-0.5607,"kalchm":0.0145,"monica":0.2786},
-          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Spicy pork","Extra tofu and mushrooms"]}]
+          substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Spicy pork","Extra tofu and mushrooms"]}],
+            nutritionPerServing: {"calories":105,"proteinG":17,"carbsG":5,"fatG":2,"fiberG":2,"sodiumMg":53,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin K","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium"]}
         },
         {
           name: "Haemul Pajeon",
@@ -301,11 +993,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter"],"signs":["sagittarius"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":450,"proteinG":20,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":600,"sugarG":4,"vitamins":["Vitamin D"],"minerals":["Zinc"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Core element of Haemul Pajeon","substituteOptions":["Alternative element"]}]
+          substitutions: [{"originalIngredient":"Core element of Haemul Pajeon","substituteOptions":["Alternative element"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Gamjatang",
@@ -316,11 +1008,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","boiling"]},
           elementalProperties: {"Fire":0.45,"Water":0.35,"Earth":0.15,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":580,"proteinG":42,"carbsG":28,"fatG":32,"fiberG":4,"sodiumMg":980,"sugarG":3,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Iron","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":3.61,"Essence":4.35,"Matter":4.5,"Substance":4.2},
           thermodynamicProperties: {"heat":0.0716,"entropy":0.3532,"reactivity":2.3088,"gregsEnergy":-0.7439,"kalchm":0.171,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Pork neck bones","substituteOptions":["Pork ribs","Beef neck bones"]},{"originalIngredient":"Perilla leaves","substituteOptions":["Fresh basil","Sesame leaves"]}]
+          substitutions: [{"originalIngredient":"Pork neck bones","substituteOptions":["Pork ribs","Beef neck bones"]},{"originalIngredient":"Perilla leaves","substituteOptions":["Fresh basil","Sesame leaves"]}],
+            nutritionPerServing: {"calories":175,"proteinG":18,"carbsG":4,"fatG":10,"fiberG":0,"sodiumMg":39,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin K","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","0","1","2"]}
         },
         {
           name: "Bossam",
@@ -331,11 +1023,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","social"],"cookingMethods":["boiling","simmering"]},
           elementalProperties: {"Fire":0.2,"Water":0.45,"Earth":0.3,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["taurus","cancer"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":620,"proteinG":38,"carbsG":12,"fatG":48,"fiberG":3,"sodiumMg":1050,"sugarG":4,"vitamins":["Vitamin B1","Vitamin B6"],"minerals":["Zinc","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":3.65,"Essence":3.83,"Matter":3.55,"Substance":3.4},
           thermodynamicProperties: {"heat":0.0996,"entropy":0.3771,"reactivity":2.6849,"gregsEnergy":-0.9128,"kalchm":3.3549,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Pork shoulder for leaner version","Beef brisket"]},{"originalIngredient":"Fresh oysters","substituteOptions":["Omit for a simpler version"]}]
+          substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Pork shoulder for leaner version","Beef brisket"]},{"originalIngredient":"Fresh oysters","substituteOptions":["Omit for a simpler version"]}],
+            nutritionPerServing: {"calories":185,"proteinG":19,"carbsG":13,"fatG":6,"fiberG":2,"sodiumMg":120,"sugarG":5,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate","Vitamin K"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
         },
             {
               "name": "Authentic Jeonju Bibimbap",
@@ -765,11 +1457,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["snack","lunch","dinner"],"cookingMethods":["simmering","boiling"]},
           elementalProperties: {"Fire":0.5,"Water":0.25,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["aries","scorpio"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":16,"carbsG":72,"fatG":8,"fiberG":3,"sodiumMg":1100,"sugarG":18,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Iron","Calcium"]},
 
           alchemicalProperties: {"Spirit":2.69,"Essence":3.57,"Matter":3.33,"Substance":3.21},
           thermodynamicProperties: {"heat":0.0665,"entropy":0.3294,"reactivity":2.4557,"gregsEnergy":-0.7423,"kalchm":0.58,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Eomuk fish cakes","substituteOptions":["Tofu puffs","Sliced mushrooms"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock","Water with a pinch of dashi powder"]}]
+          substitutions: [{"originalIngredient":"Eomuk fish cakes","substituteOptions":["Tofu puffs","Sliced mushrooms"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock","Water with a pinch of dashi powder"]}],
+            nutritionPerServing: {"calories":5,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
         },
         {
           name: "Kimbap",
@@ -780,11 +1472,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["lunch","snack","breakfast"],"cookingMethods":["boiling","stir-frying","rolling"]},
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.5,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Mercury"],"signs":["cancer","virgo"],"lunarPhases":["Waxing Crescent"]},
-          nutritionPerServing: {"calories":480,"proteinG":22,"carbsG":68,"fatG":14,"fiberG":4,"sodiumMg":820,"sugarG":5,"vitamins":["Vitamin A","Vitamin K"],"minerals":["Iron","Manganese"]},
 
           alchemicalProperties: {"Spirit":2.77,"Essence":2.9,"Matter":3.5,"Substance":3.14},
           thermodynamicProperties: {"heat":0.0713,"entropy":0.3487,"reactivity":1.6267,"gregsEnergy":-0.4959,"kalchm":0.1265,"monica":0.6974},
-          substitutions: [{"originalIngredient":"Beef bulgogi","substituteOptions":["Tuna with mayonnaise","Imitation crab sticks"]},{"originalIngredient":"Danmuji","substituteOptions":["Regular pickle strips"]}]
+          substitutions: [{"originalIngredient":"Beef bulgogi","substituteOptions":["Tuna with mayonnaise","Imitation crab sticks"]},{"originalIngredient":"Danmuji","substituteOptions":["Regular pickle strips"]}],
+            nutritionPerServing: {"calories":45,"proteinG":3,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":16,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin K","Vitamin A","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Calcium","Potassium","Manganese","0","1","2"]}
         },
         {
           name: "Mandu",
@@ -795,11 +1487,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch","snack"],"cookingMethods":["pan-frying","steaming","boiling"]},
           elementalProperties: {"Fire":0.2,"Water":0.3,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","taurus"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":360,"proteinG":20,"carbsG":42,"fatG":12,"fiberG":3,"sodiumMg":680,"sugarG":2,"vitamins":["Vitamin B6","Vitamin K"],"minerals":["Iron","Zinc"]},
 
           alchemicalProperties: {"Spirit":3.86,"Essence":4.0,"Matter":4.38,"Substance":4.05},
           thermodynamicProperties: {"heat":0.0854,"entropy":0.3803,"reactivity":2.0764,"gregsEnergy":-0.7042,"kalchm":0.2527,"monica":0.3156},
-          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground chicken","Mushroom and tofu for vegetarian"]},{"originalIngredient":"Mandu wrappers","substituteOptions":["Gyoza wrappers","Homemade flour wrappers"]}]
+          substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground chicken","Mushroom and tofu for vegetarian"]},{"originalIngredient":"Mandu wrappers","substituteOptions":["Gyoza wrappers","Homemade flour wrappers"]}],
+            nutritionPerServing: {"calories":57,"proteinG":4,"carbsG":6,"fatG":2,"fiberG":2,"sodiumMg":18,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","0","1","2"]}
         },
         {
           name: "Doenjang Jjigae",
@@ -810,11 +1502,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","boiling"]},
           elementalProperties: {"Fire":0.2,"Water":0.5,"Earth":0.25,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":280,"proteinG":18,"carbsG":28,"fatG":9,"fiberG":6,"sodiumMg":1050,"sugarG":5,"vitamins":["Vitamin C","Vitamin B2"],"minerals":["Calcium","Iron"]},
 
           alchemicalProperties: {"Spirit":3.23,"Essence":3.51,"Matter":3.99,"Substance":3.68},
           thermodynamicProperties: {"heat":0.073,"entropy":0.3529,"reactivity":2.0352,"gregsEnergy":-0.6452,"kalchm":0.1198,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Doenjang","substituteOptions":["Japanese miso (milder result)","Red miso"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock for vegetarian"]}]
+          substitutions: [{"originalIngredient":"Doenjang","substituteOptions":["Japanese miso (milder result)","Red miso"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock for vegetarian"]}],
+            nutritionPerServing: {"calories":28,"proteinG":1,"carbsG":5,"fatG":0,"fiberG":0,"sodiumMg":3,"sugarG":3,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3","Vitamin 4","Vitamin C","Vitamin B6"],"minerals":["0","1","2","Manganese","Selenium"]}
         },
         {
           name: "Galbijjim",
@@ -825,11 +1517,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","special occasion"],"cookingMethods":["braising","simmering"]},
           elementalProperties: {"Fire":0.25,"Water":0.35,"Earth":0.35,"Air":0.05},
           astrologicalAffinities: {"planets":["Saturn","Jupiter"],"signs":["capricorn","sagittarius"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":680,"proteinG":45,"carbsG":38,"fatG":38,"fiberG":4,"sodiumMg":1200,"sugarG":22,"vitamins":["Vitamin B12","Vitamin A"],"minerals":["Iron","Zinc"]},
 
           alchemicalProperties: {"Spirit":3.81,"Essence":4.82,"Matter":4.8,"Substance":4.31},
           thermodynamicProperties: {"heat":0.0676,"entropy":0.3113,"reactivity":2.1307,"gregsEnergy":-0.5957,"kalchm":0.317,"monica":0.0278},
-          substitutions: [{"originalIngredient":"Asian pear","substituteOptions":["Kiwi fruit","Grated apple"]},{"originalIngredient":"Chestnuts","substituteOptions":["Water chestnuts","Omit"]}]
+          substitutions: [{"originalIngredient":"Asian pear","substituteOptions":["Kiwi fruit","Grated apple"]},{"originalIngredient":"Chestnuts","substituteOptions":["Water chestnuts","Omit"]}],
+            nutritionPerServing: {"calories":369,"proteinG":19,"carbsG":53,"fatG":10,"fiberG":6,"sodiumMg":57,"sugarG":40,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin 0","Vitamin 1","Vitamin C","Vitamin 2","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","0","1","Manganese","Potassium","2","Copper"]}
         },
         {
           name: "Seolleongtang",
@@ -840,11 +1532,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["breakfast","dinner","lunch"],"cookingMethods":["boiling","simmering"]},
           elementalProperties: {"Fire":0.15,"Water":0.6,"Earth":0.2,"Air":0.05},
           astrologicalAffinities: {"planets":["Moon","Saturn"],"signs":["cancer","capricorn"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":320,"proteinG":28,"carbsG":22,"fatG":14,"fiberG":1,"sodiumMg":680,"sugarG":1,"vitamins":["Vitamin B12","Choline"],"minerals":["Calcium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":2.52,"Essence":2.76,"Matter":3.6,"Substance":3.5},
           thermodynamicProperties: {"heat":0.0556,"entropy":0.3633,"reactivity":1.8423,"gregsEnergy":-0.6138,"kalchm":0.021,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Ox leg bones","substituteOptions":["Pork neck bones","Chicken carcasses for a lighter version"]},{"originalIngredient":"Somyeon noodles","substituteOptions":["Rice cakes","Udon noodles"]}]
+          substitutions: [{"originalIngredient":"Ox leg bones","substituteOptions":["Pork neck bones","Chicken carcasses for a lighter version"]},{"originalIngredient":"Somyeon noodles","substituteOptions":["Rice cakes","Udon noodles"]}],
+            nutritionPerServing: {"calories":29,"proteinG":2,"carbsG":3,"fatG":1,"fiberG":1,"sodiumMg":7,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin K","Vitamin folate","Vitamin C","Vitamin A"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Calcium","Potassium"]}
         },
         {
           name: "Jjimdak",
@@ -855,11 +1547,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["braising","simmering"]},
           elementalProperties: {"Fire":0.25,"Water":0.35,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":520,"proteinG":38,"carbsG":52,"fatG":18,"fiberG":4,"sodiumMg":1150,"sugarG":12,"vitamins":["Vitamin B6","Vitamin A"],"minerals":["Potassium","Iron"]},
 
           alchemicalProperties: {"Spirit":3.09,"Essence":4.08,"Matter":5.06,"Substance":4.74},
           thermodynamicProperties: {"heat":0.0449,"entropy":0.3348,"reactivity":1.7006,"gregsEnergy":-0.5244,"kalchm":0.0017,"monica":0.0278},
-          substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Bone-in thighs only","Duck pieces"]},{"originalIngredient":"Oyster sauce","substituteOptions":["Additional soy sauce with a pinch of sugar"]}]
+          substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Bone-in thighs only","Duck pieces"]},{"originalIngredient":"Oyster sauce","substituteOptions":["Additional soy sauce with a pinch of sugar"]}],
+            nutritionPerServing: {"calories":76,"proteinG":9,"carbsG":6,"fatG":2,"fiberG":1,"sodiumMg":29,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin A","Vitamin K","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","0","1","2","Potassium","Manganese"]}
         },
         {
           name: "Bibim Guksu",
@@ -870,11 +1562,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["lunch","dinner"],"cookingMethods":["boiling","mixing"]},
           elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Mercury"],"signs":["aries","gemini"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":380,"proteinG":16,"carbsG":62,"fatG":8,"fiberG":5,"sodiumMg":950,"sugarG":14,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Iron","Manganese"]},
 
           alchemicalProperties: {"Spirit":3.34,"Essence":4.03,"Matter":4.09,"Substance":3.96},
           thermodynamicProperties: {"heat":0.0712,"entropy":0.3683,"reactivity":2.413,"gregsEnergy":-0.8175,"kalchm":0.2089,"monica":0.0922},
-          substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Udon noodles"]},{"originalIngredient":"Gochujang","substituteOptions":["Sambal oelek mixed with miso"]}]
+          substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Udon noodles"]},{"originalIngredient":"Gochujang","substituteOptions":["Sambal oelek mixed with miso"]}],
+            nutritionPerServing: {"calories":37,"proteinG":1,"carbsG":6,"fatG":1,"fiberG":3,"sodiumMg":16,"sugarG":3,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin C","Vitamin K","Vitamin folate"],"minerals":["0","1","2","Manganese","Potassium"]}
         },
         {
           name: "Haemul Dubu Jorim",
@@ -885,11 +1577,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["pan-frying","braising","stir-frying"]},
           elementalProperties: {"Fire":0.5,"Water":0.3,"Earth":0.15,"Air":0.05},
           astrologicalAffinities: {"planets":["Mars","Pluto"],"signs":["scorpio","aries"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":380,"proteinG":32,"carbsG":18,"fatG":22,"fiberG":4,"sodiumMg":1100,"sugarG":6,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Iron","Calcium"]},
 
           alchemicalProperties: {"Spirit":3.96,"Essence":4.25,"Matter":3.76,"Substance":3.56},
           thermodynamicProperties: {"heat":0.1094,"entropy":0.3997,"reactivity":3.0586,"gregsEnergy":-1.1132,"kalchm":8.1594,"monica":0.7628},
-          substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Additional tofu","Chicken pieces"]},{"originalIngredient":"Anchovy stock","substituteOptions":["Vegetable stock","Water with dashi"]}]
+          substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Additional tofu","Chicken pieces"]},{"originalIngredient":"Anchovy stock","substituteOptions":["Vegetable stock","Water with dashi"]}],
+            nutritionPerServing: {"calories":40,"proteinG":2,"carbsG":7,"fatG":1,"fiberG":1,"sodiumMg":6,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin K","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Manganese","Selenium","Iron","0","1","2"]}
         }
         ],
       winter: [
@@ -902,11 +1594,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner"],"cookingMethods":["boiling","simmering"]},
           elementalProperties: {"Fire":0.45,"Water":0.3,"Earth":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Jupiter"],"signs":["aries","sagittarius"],"lunarPhases":["Waxing Gibbous"]},
-          nutritionPerServing: {"calories":550,"proteinG":22,"carbsG":48,"fatG":30,"fiberG":5,"sodiumMg":1400,"sugarG":8,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Iron","Sodium"]},
 
           alchemicalProperties: {"Spirit":2.46,"Essence":3.11,"Matter":3.35,"Substance":3.23},
           thermodynamicProperties: {"heat":0.0596,"entropy":0.3497,"reactivity":2.1599,"gregsEnergy":-0.6957,"kalchm":0.1232,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Spam","substituteOptions":["Turkey Spam","Sliced ham"]},{"originalIngredient":"Hot dogs","substituteOptions":["Smoked sausage","Tofu puffs"]}]
+          substitutions: [{"originalIngredient":"Spam","substituteOptions":["Turkey Spam","Sliced ham"]},{"originalIngredient":"Hot dogs","substituteOptions":["Smoked sausage","Tofu puffs"]}],
+            nutritionPerServing: {"calories":5,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
         },
       ],
       summer: [
@@ -919,11 +1611,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","boiling"]},
           elementalProperties: {"Water":0.45,"Earth":0.3,"Fire":0.15,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Jupiter"],"signs":["cancer","sagittarius"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":680,"proteinG":45,"carbsG":35,"fatG":38,"fiberG":2,"sodiumMg":320,"sugarG":4,"vitamins":["Vitamin B6","Vitamin C"],"minerals":["Iron","Potassium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":1.86,"Essence":2.83,"Matter":3.4,"Substance":3.11},
           thermodynamicProperties: {"heat":0.0335,"entropy":0.2702,"reactivity":1.5614,"gregsEnergy":-0.3884,"kalchm":0.0276,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Fresh ginseng","substituteOptions":["Dried ginseng slices","Ginseng tea bags"]},{"originalIngredient":"Ginkgo nuts","substituteOptions":["Pine nuts","Chestnuts"]}]
+          substitutions: [{"originalIngredient":"Fresh ginseng","substituteOptions":["Dried ginseng slices","Ginseng tea bags"]},{"originalIngredient":"Ginkgo nuts","substituteOptions":["Pine nuts","Chestnuts"]}],
+            nutritionPerServing: {"calories":269,"proteinG":36,"carbsG":24,"fatG":4,"fiberG":2,"sodiumMg":90,"sugarG":16,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","Manganese"]}
         },
       ],
     },
@@ -938,11 +1630,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dessert","snack"],"cookingMethods":["freezing","assembling"]},
           elementalProperties: {"Water":0.5,"Air":0.3,"Earth":0.15,"Fire":0.05},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":320,"proteinG":6,"carbsG":62,"fatG":8,"fiberG":3,"sodiumMg":85,"sugarG":42,"vitamins":["Vitamin C","Vitamin A"],"minerals":["Calcium","Iron"]},
 
           alchemicalProperties: {"Spirit":0.93,"Essence":1.99,"Matter":2.16,"Substance":2.07},
           thermodynamicProperties: {"heat":0.0169,"entropy":0.2275,"reactivity":1.7714,"gregsEnergy":-0.3862,"kalchm":0.1545,"monica":0.5468},
-          substitutions: [{"originalIngredient":"Milk ice","substituteOptions":["Plain shaved ice with evaporated milk"]},{"originalIngredient":"Mochi","substituteOptions":["Chewy tteok pieces","Jelly cubes"]}]
+          substitutions: [{"originalIngredient":"Milk ice","substituteOptions":["Plain shaved ice with evaporated milk"]},{"originalIngredient":"Mochi","substituteOptions":["Chewy tteok pieces","Jelly cubes"]}],
+            nutritionPerServing: {"calories":23,"proteinG":1,"carbsG":5,"fatG":0,"fiberG":0,"sodiumMg":1,"sugarG":4,"vitamins":["Vitamin B1","Vitamin B6"],"minerals":["Iron","Potassium","Magnesium"]}
         },
       ],
       winter: [
@@ -955,11 +1647,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4188},
-          substitutions: [{"originalIngredient":"Primary ingredient for Hotteok","substituteOptions":["Elemental equivalent"]}]
+          substitutions: [{"originalIngredient":"Primary ingredient for Hotteok","substituteOptions":["Elemental equivalent"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
       ],
       all: [
@@ -972,11 +1664,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4188},
-          substitutions: [{"originalIngredient":"Primary ingredient for Songpyeon","substituteOptions":["Elemental equivalent"]}]
+          substitutions: [{"originalIngredient":"Primary ingredient for Songpyeon","substituteOptions":["Elemental equivalent"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Japchae",
@@ -987,11 +1679,11 @@ export const korean: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","frying"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":500,"proteinG":25,"carbsG":50,"fatG":20,"fiberG":5,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron","Calcium"]},
 
           alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
           thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4188},
-          substitutions: [{"originalIngredient":"Primary ingredient for Japchae","substituteOptions":["Elemental equivalent"]}]
+          substitutions: [{"originalIngredient":"Primary ingredient for Japchae","substituteOptions":["Elemental equivalent"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
       ],
     },

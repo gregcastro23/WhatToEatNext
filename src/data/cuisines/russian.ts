@@ -184,11 +184,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["breakfast","side","comfort"],"cookingMethods":["toasting","steaming","simmering"]},
           elementalProperties: {"Fire":0.15,"Water":0.2,"Earth":0.55,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
-          nutritionPerServing: {"calories":290,"proteinG":8,"carbsG":38,"fatG":12,"fiberG":5,"sodiumMg":480,"sugarG":1,"vitamins":["Niacin","Riboflavin","Thiamin"],"minerals":["Magnesium","Zinc","Iron"]},
 
           alchemicalProperties: {"Spirit":0.6,"Essence":1.33,"Matter":2.49,"Substance":2.06},
           thermodynamicProperties: {"heat":0.0084,"entropy":0.222,"reactivity":0.6974,"gregsEnergy":-0.1464,"kalchm":0.025,"monica":0.3156},
-          substitutions: [{"originalIngredient":"roasted buckwheat groats","substituteOptions":["millet","whole oats","brown rice (longer cook time)"]},{"originalIngredient":"butter","substituteOptions":["ghee","cold-pressed sunflower oil (traditional vegan)"]}]
+          substitutions: [{"originalIngredient":"roasted buckwheat groats","substituteOptions":["millet","whole oats","brown rice (longer cook time)"]},{"originalIngredient":"butter","substituteOptions":["ghee","cold-pressed sunflower oil (traditional vegan)"]}],
+            nutritionPerServing: {"calories":107,"proteinG":11,"carbsG":0,"fatG":7,"fiberG":0,"sodiumMg":310,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
         },
         {
           name: "Blini",
@@ -218,11 +218,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["breakfast","celebration","appetizer"],"cookingMethods":["fermenting","griddling","folding"]},
           elementalProperties: {"Fire":0.25,"Water":0.2,"Earth":0.3,"Air":0.25},
           astrologicalAffinities: {"planets":["Sun","Venus"],"signs":["leo","taurus"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-          nutritionPerServing: {"calories":340,"proteinG":13,"carbsG":44,"fatG":13,"fiberG":3,"sodiumMg":460,"sugarG":5,"vitamins":["Thiamin","Riboflavin","Vitamin D"],"minerals":["Manganese","Selenium","Calcium"]},
 
           alchemicalProperties: {"Spirit":2.28,"Essence":4.39,"Matter":4.72,"Substance":4.44},
           thermodynamicProperties: {"heat":0.0257,"entropy":0.2711,"reactivity":1.7599,"gregsEnergy":-0.4514,"kalchm":0.0038,"monica":0.5952},
-          substitutions: [{"originalIngredient":"buckwheat flour","substituteOptions":["all-purpose flour only (for white blini)","oat flour"]},{"originalIngredient":"smoked salmon","substituteOptions":["smetana and jam (sweet version)","mushroom pate (vegetarian)"]}]
+          substitutions: [{"originalIngredient":"buckwheat flour","substituteOptions":["all-purpose flour only (for white blini)","oat flour"]},{"originalIngredient":"smoked salmon","substituteOptions":["smetana and jam (sweet version)","mushroom pate (vegetarian)"]}],
+            nutritionPerServing: {"calories":34,"proteinG":4,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":195,"sugarG":0,"vitamins":["Vitamin B12","Vitamin D","Vitamin niacin","Vitamin B6","Vitamin pantothenic_acid","Vitamin thiamine"],"minerals":["Selenium","Phosphorus","Potassium"]}
         },
         {
           name: "Oladi",
@@ -233,11 +233,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["breakfast","snack"],"cookingMethods":["shallow frying","chemical leavening"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.15,"Air":0.35},
           astrologicalAffinities: {"planets":["Moon","Uranus"],"signs":["cancer","aquarius"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":350,"proteinG":10,"carbsG":48,"fatG":12,"fiberG":2,"sodiumMg":600,"sugarG":8,"vitamins":["Vitamin D","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":1.79,"Essence":2.38,"Matter":3.09,"Substance":2.59},
           thermodynamicProperties: {"heat":0.0421,"entropy":0.293,"reactivity":1.5074,"gregsEnergy":-0.3996,"kalchm":0.0581,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Kefir","substituteOptions":["Buttermilk","Plain yogurt thinned with water"]}]
+          substitutions: [{"originalIngredient":"Kefir","substituteOptions":["Buttermilk","Plain yogurt thinned with water"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
       ],
     },
@@ -277,11 +277,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["simmering","sauteing","braising"]},
           elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":310,"proteinG":20,"carbsG":26,"fatG":14,"fiberG":6,"sodiumMg":980,"sugarG":8,"vitamins":["Vitamin C","Vitamin A","Folate"],"minerals":["Iron","Potassium","Manganese"]},
 
           alchemicalProperties: {"Spirit":5.92,"Essence":6.77,"Matter":7.53,"Substance":6.83},
           thermodynamicProperties: {"heat":0.0722,"entropy":0.3584,"reactivity":2.0845,"gregsEnergy":-0.6748,"kalchm":0.0078,"monica":0.3064},
-          substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["pork ribs","smoked sausage (for a lighter weekday version)"]}]
+          substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["pork ribs","smoked sausage (for a lighter weekday version)"]}],
+            nutritionPerServing: {"calories":421,"proteinG":42,"carbsG":5,"fatG":24,"fiberG":1,"sodiumMg":119,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese","Calcium"]}
         },
         {
           name: "Pelmeni",
@@ -292,11 +292,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["kneading","boiling","stuffing"]},
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":580,"proteinG":28,"carbsG":65,"fatG":22,"fiberG":3,"sodiumMg":850,"sugarG":2,"vitamins":["Iron","Thiamin"],"minerals":["Selenium","Zinc"]},
 
           alchemicalProperties: {"Spirit":1.43,"Essence":3.12,"Matter":3.67,"Substance":3.08},
           thermodynamicProperties: {"heat":0.018,"entropy":0.2034,"reactivity":1.3278,"gregsEnergy":-0.2521,"kalchm":0.0154,"monica":0.5298},
-          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}]
+          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}],
+            nutritionPerServing: {"calories":63,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":15,"sugarG":1,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Magnesium","Manganese"]}
         },
         {
           name: "Shchi",
@@ -307,11 +307,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["simmering","sautéing"]},
           elementalProperties: {"Fire":0.15,"Water":0.5,"Earth":0.25,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Saturn"],"signs":["scorpio","capricorn"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":350,"proteinG":25,"carbsG":22,"fatG":16,"fiberG":6,"sodiumMg":1100,"sugarG":5,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Iron","Potassium"]},
 
           alchemicalProperties: {"Spirit":2.47,"Essence":2.75,"Matter":3.75,"Substance":3.44},
           thermodynamicProperties: {"heat":0.0526,"entropy":0.3418,"reactivity":1.6112,"gregsEnergy":-0.4982,"kalchm":0.0151,"monica":0.2598},
-          substitutions: [{"originalIngredient":"Sauerkraut","substituteOptions":["Fresh cabbage (for Shchi iz svezhey kapusty)"]}]
+          substitutions: [{"originalIngredient":"Sauerkraut","substituteOptions":["Fresh cabbage (for Shchi iz svezhey kapusty)"]}],
+            nutritionPerServing: {"calories":66,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":19,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin A","Vitamin K","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Ukha",
@@ -322,11 +322,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","lunch"],"cookingMethods":["simmering","poaching"]},
           elementalProperties: {"Fire":0.1,"Water":0.7,"Earth":0.1,"Air":0.1},
           astrologicalAffinities: {"planets":["Neptune","Moon"],"signs":["pisces","cancer"],"lunarPhases":["New Moon"]},
-          nutritionPerServing: {"calories":320,"proteinG":35,"carbsG":25,"fatG":8,"fiberG":3,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin D","Vitamin B12"],"minerals":["Iodine","Selenium"]},
 
           alchemicalProperties: {"Spirit":2.36,"Essence":2.42,"Matter":3.03,"Substance":2.84},
           thermodynamicProperties: {"heat":0.0661,"entropy":0.3496,"reactivity":2.0416,"gregsEnergy":-0.6476,"kalchm":0.1155,"monica":-0.0376},
-          substitutions: [{"originalIngredient":"Prized fish","substituteOptions":["Cod","Halibut"]}]
+          substitutions: [{"originalIngredient":"Prized fish","substituteOptions":["Cod","Halibut"]}],
+            nutritionPerServing: {"calories":17,"proteinG":0,"carbsG":4,"fatG":0,"fiberG":1,"sodiumMg":5,"sugarG":2,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin A","Vitamin K"],"minerals":["Potassium","Manganese"]}
         },
       ],
       winter: [
@@ -339,16 +339,684 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["simmering","sautéing"]},
           elementalProperties: {"Fire":0.3,"Water":0.4,"Earth":0.2,"Air":0.1},
           astrologicalAffinities: {"planets":["Pluto","Mars"],"signs":["scorpio","aries"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":480,"proteinG":25,"carbsG":12,"fatG":36,"fiberG":3,"sodiumMg":1800,"sugarG":4,"vitamins":["Vitamin C","Niacin"],"minerals":["Sodium","Iron"]},
 
           alchemicalProperties: {"Spirit":3.17,"Essence":3.29,"Matter":3.1,"Substance":2.98},
           thermodynamicProperties: {"heat":0.1,"entropy":0.3895,"reactivity":2.7561,"gregsEnergy":-0.9734,"kalchm":2.2571,"monica":0.2598},
-          substitutions: [{"originalIngredient":"Mixed cured meats","substituteOptions":["Mixed fish (for Fish Solyanka)","Wild mushrooms (for Mushroom Solyanka)"]}]
+          substitutions: [{"originalIngredient":"Mixed cured meats","substituteOptions":["Mixed fish (for Fish Solyanka)","Wild mushrooms (for Mushroom Solyanka)"]}],
+            nutritionPerServing: {"calories":217,"proteinG":22,"carbsG":1,"fatG":13,"fiberG":0,"sodiumMg":60,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese","Calcium"]}
         },
       ],
     },
     dinner: {
       all: [
+        {
+          "name": "Authentic Borscht",
+          "description": "The iconic, deeply crimson Eastern European soup. A complex, sweet-and-sour broth built on beef stock, earthy beets, cabbage, and finished with a dollop of sour cream (smetana).",
+          "details": {
+            "cuisine": "Russian",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 120,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 500,
+              "unit": "g",
+              "name": "beef chuck or short rib",
+              "notes": "For the broth"
+            },
+            {
+              "amount": 3,
+              "unit": "medium",
+              "name": "beets",
+              "notes": "Peeled and julienned"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "green cabbage",
+              "notes": "Finely shredded"
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Cubed"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "carrot",
+              "notes": "Grated"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Finely chopped"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "tomato paste",
+              "notes": "For depth"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "white vinegar",
+              "notes": "Crucial for sourness and keeping beets red"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "sour cream (smetana)",
+              "notes": "For serving"
+            }
+          ],
+          "instructions": [
+            "Step 1: Simmer the beef in 8 cups of water for 1.5 hours. Remove beef, chop it, and return to the strained broth.",
+            "Step 2: Sauté the beets, carrots, and onions in oil until soft.",
+            "Step 3: Add tomato paste and vinegar to the vegetables, cooking for 2 minutes to concentrate the color.",
+            "Step 4: Add the cabbage and potatoes to the simmering beef broth. Cook for 15 minutes.",
+            "Step 5: Stir the beet mixture into the soup. Simmer for another 10 minutes (do not over-boil or the red color turns brown).",
+            "Step 6: Stir in fresh dill and garlic off the heat. Serve hot with a heavy dollop of sour cream."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "soup"
+            ],
+            "cookingMethods": [
+              "simmering",
+              "sautéing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.5,
+            "Earth": 0.3,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Pluto",
+              "Moon"
+            ],
+            "signs": [
+              "Scorpio",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 350,
+            "proteinG": 22,
+            "carbsG": 25,
+            "fatG": 18,
+            "fiberG": 6,
+            "sodiumMg": 650,
+            "sugarG": 12,
+            "vitamins": [
+              "Vitamin C",
+              "Folate"
+            ],
+            "minerals": [
+              "Iron",
+              "Potassium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 4,
+            "Essence": 6,
+            "Matter": 5,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.03,
+            "entropy": 0.3,
+            "reactivity": 1.4,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.02,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Beef Stroganoff",
+          "description": "A 19th-century Russian aristocrat classic. Quickly sautéed strips of tender beef folded into a rich, slightly tangy sour cream and mustard sauce.",
+          "details": {
+            "cuisine": "Russian",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 600,
+              "unit": "g",
+              "name": "beef tenderloin or sirloin",
+              "notes": "Cut into thin strips against the grain"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Thinly sliced"
+            },
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "mushrooms",
+              "notes": "Sliced"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "butter",
+              "notes": "For sautéing"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "sour cream (smetana)",
+              "notes": "Full fat, room temperature"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Dijon mustard",
+              "notes": "For a slight tang"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "beef broth",
+              "notes": "High quality"
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "flour",
+              "notes": "For thickening"
+            }
+          ],
+          "instructions": [
+            "Step 1: Season the beef strips. Quickly sear them in hot butter in batches so they brown but remain rare inside. Remove from pan.",
+            "Step 2: In the same pan, sauté the onions and mushrooms until deeply browned.",
+            "Step 3: Sprinkle flour over the vegetables and stir for 1 minute.",
+            "Step 4: Gradually whisk in the beef broth, scraping the fond from the bottom. Simmer until thickened (5 mins).",
+            "Step 5: Turn off the heat entirely. Whisk in the sour cream and mustard.",
+            "Step 6: Return the beef and its juices to the sauce to gently warm through. Serve immediately over egg noodles or mashed potatoes."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner"
+            ],
+            "cookingMethods": [
+              "sautéing",
+              "whisking"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.3,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Venus",
+              "Jupiter"
+            ],
+            "signs": [
+              "Taurus",
+              "Sagittarius"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 550,
+            "proteinG": 40,
+            "carbsG": 12,
+            "fatG": 38,
+            "fiberG": 2,
+            "sodiumMg": 500,
+            "sugarG": 4,
+            "vitamins": [
+              "Vitamin B12",
+              "Riboflavin"
+            ],
+            "minerals": [
+              "Zinc",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 5,
+            "Matter": 6,
+            "Substance": 5
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.25,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.3,
+            "kalchm": 0.02,
+            "monica": 0.4
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Pelmeni",
+          "description": "Siberian comfort food. Tiny, ear-shaped dumplings filled with a savory mixture of minced meat and heavy black pepper, boiled and served swimming in butter or sour cream.",
+          "details": {
+            "cuisine": "Russian",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "winter"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 3,
+              "unit": "cups",
+              "name": "all-purpose flour",
+              "notes": "For dough"
+            },
+            {
+              "amount": 1,
+              "unit": "whole",
+              "name": "egg",
+              "notes": "For dough"
+            },
+            {
+              "amount": 0.75,
+              "unit": "cup",
+              "name": "water",
+              "notes": "For dough"
+            },
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "ground beef",
+              "notes": "Mixed meat is traditional"
+            },
+            {
+              "amount": 250,
+              "unit": "g",
+              "name": "ground pork",
+              "notes": "Adds fat and flavor"
+            },
+            {
+              "amount": 1,
+              "unit": "large",
+              "name": "onion",
+              "notes": "Very finely minced or grated"
+            },
+            {
+              "amount": 2,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly ground, generously"
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "sour cream (smetana)",
+              "notes": "For serving"
+            }
+          ],
+          "instructions": [
+            "Step 1: Knead the flour, egg, water, and a pinch of salt into a stiff dough. Rest for 30 minutes.",
+            "Step 2: Mix the ground beef, ground pork, grated onion, salt, and heavy black pepper vigorously. Add a splash of ice water to make the filling juicy.",
+            "Step 3: Roll the dough out thinly and cut out 2-inch circles.",
+            "Step 4: Place a small marble of meat in the center of each circle. Fold into a half-moon and pinch the edges tightly.",
+            "Step 5: Bring the two corners of the half-moon together to form the traditional 'ear' shape.",
+            "Step 6: Boil in heavily salted water or broth for 5-7 minutes. Drain and toss immediately with copious amounts of butter and dill."
+          ],
+          "classifications": {
+            "mealType": [
+              "dinner",
+              "lunch"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "folding"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.1,
+            "Water": 0.4,
+            "Earth": 0.4,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Moon"
+            ],
+            "signs": [
+              "Capricorn",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Waning Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 650,
+            "proteinG": 32,
+            "carbsG": 65,
+            "fatG": 28,
+            "fiberG": 3,
+            "sodiumMg": 700,
+            "sugarG": 2,
+            "vitamins": [
+              "B Vitamins"
+            ],
+            "minerals": [
+              "Iron",
+              "Selenium"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 3,
+            "Essence": 4,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.03,
+            "entropy": 0.2,
+            "reactivity": 1.2,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.01,
+            "monica": 0.3
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Blini",
+          "description": "Paper-thin, yeast-leavened Russian pancakes with a distinct tang, traditionally served in stacks and rolled around smoked salmon, caviar, or jam.",
+          "details": {
+            "cuisine": "Russian",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": [
+              "spring",
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "milk",
+              "notes": "Warm"
+            },
+            {
+              "amount": 1,
+              "unit": "tsp",
+              "name": "active dry yeast",
+              "notes": "For the authentic tang and bubbles"
+            },
+            {
+              "amount": 2,
+              "unit": "cups",
+              "name": "all-purpose flour",
+              "notes": "Or half buckwheat flour"
+            },
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "eggs",
+              "notes": "Separated"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "sugar",
+              "notes": "For slight sweetness"
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "melted butter",
+              "notes": "Plus more for greasing"
+            },
+            {
+              "amount": 200,
+              "unit": "g",
+              "name": "smoked salmon or caviar",
+              "notes": "For serving"
+            }
+          ],
+          "instructions": [
+            "Step 1: Dissolve yeast and sugar in the warm milk. Whisk in the flour and egg yolks. Cover and let rise in a warm place for 1 hour until bubbly.",
+            "Step 2: Stir the melted butter and salt into the risen batter.",
+            "Step 3: Whip the egg whites until stiff peaks form.",
+            "Step 4: Gently fold the whipped egg whites into the batter to keep it light and airy.",
+            "Step 5: Heat a buttered crepe pan or skillet. Pour a thin layer of batter, tilting the pan to spread it evenly.",
+            "Step 6: Cook for 1 minute until bubbles form, flip, and cook 30 seconds. Serve warm, smeared with sour cream and topped with smoked salmon."
+          ],
+          "classifications": {
+            "mealType": [
+              "breakfast",
+              "appetizer",
+              "celebration"
+            ],
+            "cookingMethods": [
+              "frying",
+              "fermenting"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.2,
+            "Water": 0.2,
+            "Earth": 0.2,
+            "Air": 0.4
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Uranus",
+              "Moon"
+            ],
+            "signs": [
+              "Aquarius",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "New Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 380,
+            "proteinG": 18,
+            "carbsG": 45,
+            "fatG": 15,
+            "fiberG": 2,
+            "sodiumMg": 500,
+            "sugarG": 8,
+            "vitamins": [
+              "Vitamin D",
+              "B12"
+            ],
+            "minerals": [
+              "Calcium",
+              "Phosphorus"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 5,
+            "Essence": 5,
+            "Matter": 4,
+            "Substance": 3
+          },
+          "thermodynamicProperties": {
+            "heat": 0.04,
+            "entropy": 0.35,
+            "reactivity": 1.5,
+            "gregsEnergy": -0.2,
+            "kalchm": 0.03,
+            "monica": 0.5
+          },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Olivier Salad",
+          "description": "The classic Russian New Year's Eve salad. A dense, creamy, meticulously cubed mixture of potatoes, carrots, pickles, boiled eggs, and bologna, bound in mayonnaise.",
+          "details": {
+            "cuisine": "Russian",
+            "prepTimeMinutes": 30,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 6,
+            "spiceLevel": "None",
+            "season": [
+              "winter",
+              "celebration"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 4,
+              "unit": "medium",
+              "name": "potatoes",
+              "notes": "Boiled in jackets, then peeled and cubed"
+            },
+            {
+              "amount": 2,
+              "unit": "medium",
+              "name": "carrots",
+              "notes": "Boiled and cubed"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "hard-boiled eggs",
+              "notes": "Cubed"
+            },
+            {
+              "amount": 300,
+              "unit": "g",
+              "name": "Doktorskaya kolbasa (bologna) or boiled chicken",
+              "notes": "Cubed"
+            },
+            {
+              "amount": 4,
+              "unit": "whole",
+              "name": "dill pickles",
+              "notes": "Cubed"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "canned sweet peas",
+              "notes": "Drained"
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "mayonnaise",
+              "notes": "High quality, for binding"
+            },
+            {
+              "amount": 1,
+              "unit": "bunch",
+              "name": "fresh dill",
+              "notes": "Finely chopped"
+            }
+          ],
+          "instructions": [
+            "Step 1: Boil the potatoes and carrots whole until knife-tender. Cool completely before peeling to maintain shape.",
+            "Step 2: Dice the potatoes, carrots, eggs, bologna, and pickles into perfectly uniform, small 1/4-inch cubes.",
+            "Step 3: Place all the diced ingredients into a large mixing bowl.",
+            "Step 4: Add the drained sweet peas and chopped dill.",
+            "Step 5: Add the mayonnaise and fold gently but thoroughly until every cube is coated.",
+            "Step 6: Cover and refrigerate for at least 2 hours to let the flavors meld before serving."
+          ],
+          "classifications": {
+            "mealType": [
+              "appetizer",
+              "side",
+              "celebration"
+            ],
+            "cookingMethods": [
+              "boiling",
+              "mixing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0,
+            "Water": 0.4,
+            "Earth": 0.5,
+            "Air": 0.1
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Saturn",
+              "Moon"
+            ],
+            "signs": [
+              "Capricorn",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 420,
+            "proteinG": 12,
+            "carbsG": 25,
+            "fatG": 32,
+            "fiberG": 4,
+            "sodiumMg": 750,
+            "sugarG": 5,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Potassium",
+              "Iron"
+            ]
+          },
+          "alchemicalProperties": {
+            "Spirit": 2,
+            "Essence": 4,
+            "Matter": 7,
+            "Substance": 6
+          },
+          "thermodynamicProperties": {
+            "heat": 0.01,
+            "entropy": 0.2,
+            "reactivity": 1.1,
+            "gregsEnergy": -0.4,
+            "kalchm": 0.01,
+            "monica": 0.2
+          },
+          "substitutions": []
+        },
         {
           name: "Beef Stroganoff",
           description: "The aristocratic classic. Thin strips of tender beef are flash-seared at extreme temperatures, then folded into a rich, complex sauce built entirely on the emulsion of sour cream, mustard, and heavily caramelized onions.",
@@ -358,11 +1026,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["searing","emulsifying"]},
           elementalProperties: {"Fire":0.4,"Water":0.2,"Earth":0.3,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Mars"],"signs":["taurus","leo"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":550,"proteinG":42,"carbsG":10,"fatG":38,"fiberG":2,"sodiumMg":650,"sugarG":4,"vitamins":["Vitamin B12","Riboflavin"],"minerals":["Zinc","Iron"]},
 
           alchemicalProperties: {"Spirit":2.17,"Essence":3.4,"Matter":4.56,"Substance":3.97},
           thermodynamicProperties: {"heat":0.031,"entropy":0.2884,"reactivity":1.365,"gregsEnergy":-0.3626,"kalchm":0.0014,"monica":0.8752},
-          substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Portobello mushrooms (vegetarian)"]}]
+          substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Portobello mushrooms (vegetarian)"]}],
+            nutritionPerServing: {"calories":219,"proteinG":22,"carbsG":3,"fatG":13,"fiberG":0,"sodiumMg":60,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Golubtsy",
@@ -373,11 +1041,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["blanching","stuffing","braising"]},
           elementalProperties: {"Fire":0.2,"Water":0.35,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Moon","Ceres"],"signs":["cancer","virgo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":22,"carbsG":28,"fatG":25,"fiberG":5,"sodiumMg":700,"sugarG":8,"vitamins":["Vitamin C","Vitamin K"],"minerals":["Potassium","Iron"]},
 
           alchemicalProperties: {"Spirit":1.6,"Essence":3.23,"Matter":4.02,"Substance":3.57},
           thermodynamicProperties: {"heat":0.0193,"entropy":0.2429,"reactivity":1.3568,"gregsEnergy":-0.3104,"kalchm":0.0037,"monica":0.4654},
-          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushrooms and buckwheat (vegetarian)"]}]
+          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushrooms and buckwheat (vegetarian)"]}],
+            nutritionPerServing: {"calories":126,"proteinG":12,"carbsG":5,"fatG":7,"fiberG":1,"sodiumMg":36,"sugarG":3,"vitamins":["Vitamin C","Vitamin K","Vitamin folate","Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin A"],"minerals":["Manganese","Potassium","Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
         },
         {
           name: "Kotlety",
@@ -388,11 +1056,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["mixing","pan-frying"]},
           elementalProperties: {"Fire":0.35,"Water":0.2,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Mars","Venus"],"signs":["taurus","aries"],"lunarPhases":["First Quarter"]},
-          nutritionPerServing: {"calories":480,"proteinG":28,"carbsG":18,"fatG":32,"fiberG":1,"sodiumMg":650,"sugarG":3,"vitamins":["Iron","Vitamin B12"],"minerals":["Zinc","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":1.66,"Essence":2.89,"Matter":3.57,"Substance":3.06},
           thermodynamicProperties: {"heat":0.0278,"entropy":0.2493,"reactivity":1.3434,"gregsEnergy":-0.3071,"kalchm":0.0173,"monica":0.5486},
-          substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Ground chicken","Ground turkey"]}]
+          substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Ground chicken","Ground turkey"]}],
+            nutritionPerServing: {"calories":64,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":16,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Olivier Salad",
@@ -403,11 +1071,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["appetizer","side","celebration"],"cookingMethods":["boiling","chopping","mixing"]},
           elementalProperties: {"Fire":0.05,"Water":0.3,"Earth":0.5,"Air":0.15},
           astrologicalAffinities: {"planets":["Venus","Saturn"],"signs":["taurus","virgo"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":420,"proteinG":14,"carbsG":25,"fatG":28,"fiberG":4,"sodiumMg":850,"sugarG":5,"vitamins":["Vitamin A","Vitamin C"],"minerals":["Potassium","Iron"]},
 
           alchemicalProperties: {"Spirit":2.01,"Essence":2.37,"Matter":2.94,"Substance":2.94},
           thermodynamicProperties: {"heat":0.0478,"entropy":0.3404,"reactivity":1.5562,"gregsEnergy":-0.482,"kalchm":0.0554,"monica":0.5298},
-          substitutions: [{"originalIngredient":"Doctor's sausage","substituteOptions":["Boiled beef","Vegetarian sausage"]}]
+          substitutions: [{"originalIngredient":"Doctor's sausage","substituteOptions":["Boiled beef","Vegetarian sausage"]}],
+            nutritionPerServing: {"calories":6,"proteinG":0,"carbsG":2,"fatG":0,"fiberG":0,"sodiumMg":4,"sugarG":1,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin B6"],"minerals":["Potassium","Manganese"]}
         },
             {
               "name": "Authentic Ukrainian Borscht",
@@ -521,11 +1189,11 @@ export const russian: Cuisine = {
               classifications: {"mealType":["appetizer","side","lunch"],"cookingMethods":["boiling","mixing"]},
               elementalProperties: {"Fire":0.05,"Water":0.3,"Earth":0.55,"Air":0.1},
               astrologicalAffinities: {"planets":["Saturn","Venus"],"signs":["capricorn","virgo"],"lunarPhases":["Waning Crescent"]},
-              nutritionPerServing: {"calories":195,"proteinG":5,"carbsG":32,"fatG":7,"fiberG":7,"sodiumMg":620,"sugarG":9,"vitamins":["Vitamin C","Folate","Vitamin K"],"minerals":["Potassium","Manganese","Iron"]},
 
               alchemicalProperties: {"Spirit":3.67,"Essence":3.11,"Matter":3.68,"Substance":3.55},
               thermodynamicProperties: {"heat":0.1057,"entropy":0.4469,"reactivity":2.0034,"gregsEnergy":-0.7896,"kalchm":0.3708,"monica":0.0922},
-              substitutions: [{"originalIngredient":"sauerkraut","substituteOptions":["fresh shredded cabbage marinated in vinegar","pickled red cabbage"]},{"originalIngredient":"sunflower oil","substituteOptions":["light olive oil","rapeseed oil"]}]
+              substitutions: [{"originalIngredient":"sauerkraut","substituteOptions":["fresh shredded cabbage marinated in vinegar","pickled red cabbage"]},{"originalIngredient":"sunflower oil","substituteOptions":["light olive oil","rapeseed oil"]}],
+                nutritionPerServing: {"calories":25,"proteinG":0,"carbsG":4,"fatG":1,"fiberG":1,"sodiumMg":6,"sugarG":2,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin B6","Vitamin folate","Vitamin 0"],"minerals":["Potassium","Manganese","Iron","Calcium"]}
             },
             {
               name: "Pirozhki",
@@ -557,11 +1225,11 @@ export const russian: Cuisine = {
               classifications: {"mealType":["lunch","snack","dinner"],"cookingMethods":["baking","deep-frying","yeasting","kneading"]},
               elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
               astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["First Quarter","Waxing Gibbous"]},
-              nutritionPerServing: {"calories":450,"proteinG":20,"carbsG":50,"fatG":19,"fiberG":3,"sodiumMg":680,"sugarG":4,"vitamins":["Vitamin B12","Niacin"],"minerals":["Zinc","Iron","Selenium"]},
 
               alchemicalProperties: {"Spirit":3.37,"Essence":5.32,"Matter":6.07,"Substance":5.25},
               thermodynamicProperties: {"heat":0.0381,"entropy":0.2714,"reactivity":1.6092,"gregsEnergy":-0.3987,"kalchm":0.0013,"monica":1.4238},
-              substitutions: [{"originalIngredient":"ground beef","substituteOptions":["braised cabbage with hard-boiled egg (vegetarian)","mashed potato and cheese","sauteed mushrooms with onion"]},{"originalIngredient":"all-purpose flour","substituteOptions":["half whole wheat flour for a nuttier dough"]}]
+              substitutions: [{"originalIngredient":"ground beef","substituteOptions":["braised cabbage with hard-boiled egg (vegetarian)","mashed potato and cheese","sauteed mushrooms with onion"]},{"originalIngredient":"all-purpose flour","substituteOptions":["half whole wheat flour for a nuttier dough"]}],
+                nutritionPerServing: {"calories":34,"proteinG":3,"carbsG":2,"fatG":2,"fiberG":0,"sodiumMg":8,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
             },
             {
               name: "Medovik",
@@ -590,11 +1258,11 @@ export const russian: Cuisine = {
               classifications: {"mealType":["dessert","celebration"],"cookingMethods":["baking","layering","double boiler"]},
               elementalProperties: {"Fire":0.2,"Water":0.25,"Earth":0.45,"Air":0.1},
               astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-              nutritionPerServing: {"calories":560,"proteinG":9,"carbsG":72,"fatG":28,"fiberG":1,"sodiumMg":210,"sugarG":48,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
 
               alchemicalProperties: {"Spirit":2.51,"Essence":2.88,"Matter":3.49,"Substance":3.09},
               thermodynamicProperties: {"heat":0.0602,"entropy":0.3181,"reactivity":1.5625,"gregsEnergy":-0.4367,"kalchm":0.0828,"monica":1.3128},
-              substitutions: [{"originalIngredient":"smetana","substituteOptions":["creme fraiche","heavy whipped cream sweetened with sugar","mascarpone mixed with sour cream"]},{"originalIngredient":"dark honey","substituteOptions":["maple syrup (different flavor profile but works)"]}]
+              substitutions: [{"originalIngredient":"smetana","substituteOptions":["creme fraiche","heavy whipped cream sweetened with sugar","mascarpone mixed with sour cream"]},{"originalIngredient":"dark honey","substituteOptions":["maple syrup (different flavor profile but works)"]}],
+                nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
             },
             {
               name: "Okroshka",
@@ -624,11 +1292,11 @@ export const russian: Cuisine = {
               classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["boiling","assembling","chilling"]},
               elementalProperties: {"Fire":0.05,"Water":0.55,"Earth":0.3,"Air":0.1},
               astrologicalAffinities: {"planets":["Moon","Neptune"],"signs":["cancer","pisces"],"lunarPhases":["Waning Crescent","New Moon"]},
-              nutritionPerServing: {"calories":285,"proteinG":18,"carbsG":28,"fatG":11,"fiberG":4,"sodiumMg":720,"sugarG":6,"vitamins":["Vitamin C","Vitamin B12","Folate"],"minerals":["Potassium","Iron","Phosphorus"]},
 
               alchemicalProperties: {"Spirit":2.77,"Essence":3.84,"Matter":5.55,"Substance":4.76},
               thermodynamicProperties: {"heat":0.0337,"entropy":0.2894,"reactivity":1.3264,"gregsEnergy":-0.3501,"kalchm":0.0001,"monica":0.528},
-              substitutions: [{"originalIngredient":"kvas","substituteOptions":["kefir thinned with water and lemon juice","sparkling mineral water with sour cream base only"]},{"originalIngredient":"boiled beef","substituteOptions":["cooked chicken breast","smoked salmon"]}]
+              substitutions: [{"originalIngredient":"kvas","substituteOptions":["kefir thinned with water and lemon juice","sparkling mineral water with sour cream base only"]},{"originalIngredient":"boiled beef","substituteOptions":["cooked chicken breast","smoked salmon"]}],
+                nutritionPerServing: {"calories":39,"proteinG":1,"carbsG":9,"fatG":0,"fiberG":2,"sodiumMg":3,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate"],"minerals":["Potassium","Manganese"]}
             },
             {
               name: "Rassolnik",
@@ -660,11 +1328,11 @@ export const russian: Cuisine = {
               classifications: {"mealType":["lunch","dinner","soup"],"cookingMethods":["simmering","sauteing","braising"]},
               elementalProperties: {"Fire":0.1,"Water":0.5,"Earth":0.3,"Air":0.1},
               astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","scorpio"],"lunarPhases":["Waning Gibbous","Last Quarter"]},
-              nutritionPerServing: {"calories":340,"proteinG":22,"carbsG":32,"fatG":14,"fiberG":5,"sodiumMg":1100,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C"],"minerals":["Iron","Selenium","Potassium"]},
 
               alchemicalProperties: {"Spirit":3.17,"Essence":4.76,"Matter":5.55,"Substance":4.93},
               thermodynamicProperties: {"heat":0.0386,"entropy":0.2785,"reactivity":1.6738,"gregsEnergy":-0.4275,"kalchm":0.0019,"monica":0.3064},
-              substitutions: [{"originalIngredient":"beef kidney","substituteOptions":["beef chuck (milder)","chicken thighs","pork ribs"]},{"originalIngredient":"pearl barley","substituteOptions":["brown rice","whole wheat berries"]}]
+              substitutions: [{"originalIngredient":"beef kidney","substituteOptions":["beef chuck (milder)","chicken thighs","pork ribs"]},{"originalIngredient":"pearl barley","substituteOptions":["brown rice","whole wheat berries"]}],
+                nutritionPerServing: {"calories":63,"proteinG":4,"carbsG":7,"fatG":2,"fiberG":2,"sodiumMg":16,"sugarG":4,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin 0","Vitamin 1","Vitamin C","Vitamin folate","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","0","1","Potassium","Manganese"]}
             },
             {
               name: "Plov",
@@ -697,11 +1365,11 @@ export const russian: Cuisine = {
               classifications: {"mealType":["dinner","lunch","celebration"],"cookingMethods":["searing","sauteing","steaming","braising"]},
               elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
               astrologicalAffinities: {"planets":["Jupiter","Mars","Saturn"],"signs":["sagittarius","aries","capricorn"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-              nutritionPerServing: {"calories":680,"proteinG":38,"carbsG":58,"fatG":32,"fiberG":5,"sodiumMg":820,"sugarG":7,"vitamins":["Niacin","Vitamin B12","Vitamin C"],"minerals":["Iron","Zinc","Potassium"]},
 
               alchemicalProperties: {"Spirit":4.41,"Essence":4.24,"Matter":4.77,"Substance":4.25},
               thermodynamicProperties: {"heat":0.1003,"entropy":0.4073,"reactivity":2.0812,"gregsEnergy":-0.7473,"kalchm":0.3934,"monica":0.6596},
-              substitutions: [{"originalIngredient":"bone-in lamb","substituteOptions":["beef chuck","chicken thighs (shorter cook time)"]},{"originalIngredient":"devzira or basmati rice","substituteOptions":["jasmine rice"]}]
+              substitutions: [{"originalIngredient":"bone-in lamb","substituteOptions":["beef chuck","chicken thighs (shorter cook time)"]},{"originalIngredient":"devzira or basmati rice","substituteOptions":["jasmine rice"]}],
+                nutritionPerServing: {"calories":368,"proteinG":46,"carbsG":10,"fatG":15,"fiberG":2,"sodiumMg":120,"sugarG":4,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin A","Vitamin K","Vitamin C","Vitamin folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Calcium"]}
             }
         ],
       winter: [
@@ -714,11 +1382,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["searing","braising","roasting"]},
           elementalProperties: {"Fire":0.2,"Water":0.3,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Mars"],"signs":["capricorn","aries"],"lunarPhases":["Waning Gibbous"]},
-          nutritionPerServing: {"calories":480,"proteinG":32,"carbsG":35,"fatG":22,"fiberG":5,"sodiumMg":680,"sugarG":6,"vitamins":["Vitamin A","Vitamin C","Niacin"],"minerals":["Iron","Potassium","Zinc"]},
 
           alchemicalProperties: {"Spirit":3.39,"Essence":3.77,"Matter":4.81,"Substance":4.4},
           thermodynamicProperties: {"heat":0.0607,"entropy":0.3588,"reactivity":1.6654,"gregsEnergy":-0.5369,"kalchm":0.0072,"monica":0.9218},
-          substitutions: [{"originalIngredient":"beef chuck or pork shoulder","substituteOptions":["lamb shoulder","venison stew meat"]},{"originalIngredient":"tomato paste","substituteOptions":["fresh tomatoes, diced","adjika (Georgian chili paste) for a spicier version"]}]
+          substitutions: [{"originalIngredient":"beef chuck or pork shoulder","substituteOptions":["lamb shoulder","venison stew meat"]},{"originalIngredient":"tomato paste","substituteOptions":["fresh tomatoes, diced","adjika (Georgian chili paste) for a spicier version"]}],
+            nutritionPerServing: {"calories":242,"proteinG":21,"carbsG":11,"fatG":13,"fiberG":2,"sodiumMg":64,"sugarG":5,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin A","Vitamin K","Vitamin C","Vitamin folate","Vitamin 0"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
       ],
     },
@@ -733,11 +1401,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dessert"],"cookingMethods":["pressing","mixing","chilling"]},
           elementalProperties: {"Fire":0.15,"Water":0.25,"Earth":0.4,"Air":0.2},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","cancer"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-          nutritionPerServing: {"calories":350,"proteinG":12,"carbsG":38,"fatG":18,"fiberG":1,"sodiumMg":120,"sugarG":28,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":1.51,"Essence":2.62,"Matter":3.98,"Substance":3.68},
           thermodynamicProperties: {"heat":0.0186,"entropy":0.3022,"reactivity":1.1891,"gregsEnergy":-0.3408,"kalchm":0.0008,"monica":0.3312},
-          substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta cheese (strained overnight)","cream cheese mixed with strained cottage cheese"]},{"originalIngredient":"heavy cream","substituteOptions":["mascarpone cheese","coconut cream (dairy-free)"]}]
+          substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta cheese (strained overnight)","cream cheese mixed with strained cottage cheese"]},{"originalIngredient":"heavy cream","substituteOptions":["mascarpone cheese","coconut cream (dairy-free)"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":140,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Sochnik",
@@ -748,11 +1416,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["snack","breakfast","dessert"],"cookingMethods":["baking","mixing"]},
           elementalProperties: {"Fire":0.3,"Water":0.2,"Earth":0.4,"Air":0.1},
           astrologicalAffinities: {"planets":["Venus","Moon"],"signs":["taurus","virgo"],"lunarPhases":["Waxing Crescent","Full Moon"]},
-          nutritionPerServing: {"calories":165,"proteinG":5,"carbsG":18,"fatG":8,"fiberG":0.5,"sodiumMg":95,"sugarG":6,"vitamins":["Riboflavin","Vitamin A"],"minerals":["Calcium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":2.55,"Essence":3.73,"Matter":4.24,"Substance":3.66},
           thermodynamicProperties: {"heat":0.0434,"entropy":0.2723,"reactivity":1.5769,"gregsEnergy":-0.386,"kalchm":0.028,"monica":0.5486},
-          substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta (strained overnight)","cream cheese softened to room temperature"]},{"originalIngredient":"sour cream in dough","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}]
+          substitutions: [{"originalIngredient":"tvorog (farmers cheese)","substituteOptions":["dry ricotta (strained overnight)","cream cheese softened to room temperature"]},{"originalIngredient":"sour cream in dough","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Vareniki s Vishney",
@@ -763,11 +1431,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dessert","snack"],"cookingMethods":["boiling","kneading"]},
           elementalProperties: {"Fire":0.15,"Water":0.35,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Moon","Venus"],"signs":["cancer","libra"],"lunarPhases":["Full Moon","Waxing Gibbous"]},
-          nutritionPerServing: {"calories":380,"proteinG":9,"carbsG":68,"fatG":9,"fiberG":3,"sodiumMg":210,"sugarG":22,"vitamins":["Vitamin C","Folate"],"minerals":["Iron","Potassium"]},
 
           alchemicalProperties: {"Spirit":1.4,"Essence":2.64,"Matter":3.27,"Substance":2.56},
           thermodynamicProperties: {"heat":0.0228,"entropy":0.1959,"reactivity":1.1943,"gregsEnergy":-0.2111,"kalchm":0.0389,"monica":0.0922},
-          substitutions: [{"originalIngredient":"sour cherries","substituteOptions":["fresh blueberries","tart plums, pitted and diced","sweetened tvorog with raisins (a different but classic filling)"]},{"originalIngredient":"smetana","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}]
+          substitutions: [{"originalIngredient":"sour cherries","substituteOptions":["fresh blueberries","tart plums, pitted and diced","sweetened tvorog with raisins (a different but classic filling)"]},{"originalIngredient":"smetana","substituteOptions":["full-fat Greek yogurt","creme fraiche"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Pryaniki",
@@ -778,11 +1446,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dessert","snack"],"cookingMethods":["baking","mixing"]},
           elementalProperties: {"Fire":0.35,"Water":0.15,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
-          nutritionPerServing: {"calories":120,"proteinG":2,"carbsG":22,"fatG":3,"fiberG":0.5,"sodiumMg":55,"sugarG":14,"vitamins":["Thiamin","Riboflavin"],"minerals":["Iron","Manganese"]},
 
           alchemicalProperties: {"Spirit":3.78,"Essence":4.29,"Matter":3.98,"Substance":3.55},
           thermodynamicProperties: {"heat":0.0927,"entropy":0.3515,"reactivity":2.4248,"gregsEnergy":-0.7597,"kalchm":3.5918,"monica":0.5486},
-          substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}]
+          substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin C","Vitamin K","Vitamin A"],"minerals":["Manganese","Iron","Magnesium","Calcium"]}
         },
       ],
       winter: [
@@ -795,11 +1463,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dessert","snack"],"cookingMethods":["baking","mixing"]},
           elementalProperties: {"Fire":0.35,"Water":0.15,"Earth":0.35,"Air":0.15},
           astrologicalAffinities: {"planets":["Jupiter","Saturn"],"signs":["sagittarius","capricorn"],"lunarPhases":["Waxing Gibbous","Full Moon"]},
-          nutritionPerServing: {"calories":120,"proteinG":2,"carbsG":22,"fatG":3,"fiberG":0.5,"sodiumMg":55,"sugarG":14,"vitamins":["Thiamin","Riboflavin"],"minerals":["Iron","Manganese"]},
 
           alchemicalProperties: {"Spirit":3.78,"Essence":4.29,"Matter":3.98,"Substance":3.55},
           thermodynamicProperties: {"heat":0.0927,"entropy":0.3515,"reactivity":2.4248,"gregsEnergy":-0.7597,"kalchm":3.5918,"monica":0.5486},
-          substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}]
+          substitutions: [{"originalIngredient":"buckwheat honey","substituteOptions":["dark maple syrup","molasses mixed with light honey"]},{"originalIngredient":"butter","substituteOptions":["coconut oil (dairy-free)","vegetable shortening"]}],
+            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin C","Vitamin K","Vitamin A"],"minerals":["Manganese","Iron","Magnesium","Calcium"]}
         },
 
         {
@@ -811,11 +1479,11 @@ export const russian: Cuisine = {
           classifications: {"mealType":["dinner","comfort"],"cookingMethods":["kneading","boiling","stuffing"]},
           elementalProperties: {"Fire":0.15,"Water":0.4,"Earth":0.35,"Air":0.1},
           astrologicalAffinities: {"planets":["Saturn","Moon"],"signs":["capricorn","cancer"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":580,"proteinG":28,"carbsG":65,"fatG":22,"fiberG":3,"sodiumMg":850,"sugarG":2,"vitamins":["Iron","Thiamin"],"minerals":["Selenium","Zinc"]},
 
           alchemicalProperties: {"Spirit":1.43,"Essence":3.12,"Matter":3.67,"Substance":3.08},
           thermodynamicProperties: {"heat":0.018,"entropy":0.2034,"reactivity":1.3278,"gregsEnergy":-0.2521,"kalchm":0.0154,"monica":0.5298},
-          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}]
+          substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}],
+            nutritionPerServing: {"calories":63,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":15,"sugarG":1,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Magnesium","Manganese"]}
         },
       ],
     },
