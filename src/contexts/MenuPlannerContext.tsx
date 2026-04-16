@@ -82,6 +82,21 @@ export type FlavorPreference = "spicy" | "sweet" | "savory" | "bitter" | "sour" 
 /**
  * Generation preferences for meal recommendation customization
  */
+/**
+ * Daily nutritional targets for meal generation.
+ * When set, recommendations will prioritize recipes that fill nutritional gaps.
+ * null values mean "use default RDA targets".
+ */
+export interface NutritionalTargets {
+  dailyCalories: number | null;
+  dailyProteinG: number | null;
+  dailyCarbsG: number | null;
+  dailyFatG: number | null;
+  dailyFiberG: number | null;
+  prioritizeProtein: boolean;
+  prioritizeFiber: boolean;
+}
+
 export interface GenerationPreferences {
   preferredCuisines: string[];
   dietaryRestrictions: string[];
@@ -90,9 +105,20 @@ export interface GenerationPreferences {
   preferredCookingMethods: string[];
   flavorPreferences: FlavorPreference[];
   maxPrepTimeMinutes: number | null; // null = no limit
+  nutritionalTargets: NutritionalTargets;
 }
 
 const GENERATION_PREFS_STORAGE_KEY = "alchm-generation-preferences";
+
+const DEFAULT_NUTRITIONAL_TARGETS: NutritionalTargets = {
+  dailyCalories: null,
+  dailyProteinG: null,
+  dailyCarbsG: null,
+  dailyFatG: null,
+  dailyFiberG: null,
+  prioritizeProtein: false,
+  prioritizeFiber: false,
+};
 
 const DEFAULT_GENERATION_PREFERENCES: GenerationPreferences = {
   preferredCuisines: [],
@@ -102,6 +128,7 @@ const DEFAULT_GENERATION_PREFERENCES: GenerationPreferences = {
   preferredCookingMethods: [],
   flavorPreferences: [],
   maxPrepTimeMinutes: null,
+  nutritionalTargets: DEFAULT_NUTRITIONAL_TARGETS,
 };
 
 /**
@@ -1444,6 +1471,52 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           ? weeklyBudget / Math.max(21, totalPlannedMeals)
           : undefined;
 
+        // Build nutritional gap context from targets and current day's planned meals
+        const nutTargets = generationPreferences.nutritionalTargets;
+        const hasNutritionalTargets = nutTargets.dailyCalories !== null
+          || nutTargets.dailyProteinG !== null
+          || nutTargets.prioritizeProtein
+          || nutTargets.prioritizeFiber;
+
+        let nutritionalContext: {
+          remainingCalories?: number;
+          remainingProteinG?: number;
+          remainingCarbsG?: number;
+          remainingFatG?: number;
+          remainingFiberG?: number;
+          prioritizeProtein?: boolean;
+          prioritizeFiber?: boolean;
+        } | undefined;
+
+        if (hasNutritionalTargets) {
+          // Sum nutrition already planned for this day
+          const dayMeals = currentMenu.meals.filter(
+            (m) => m.dayOfWeek === dayOfWeek && m.recipe,
+          );
+          let plannedCals = 0, plannedProtein = 0, plannedCarbs = 0, plannedFat = 0, plannedFiber = 0;
+          for (const m of dayMeals) {
+            const n = m.recipe?.nutrition as Record<string, number | undefined> | undefined;
+            const s = m.servings || 1;
+            if (n) {
+              plannedCals += (n.calories ?? 0) * s;
+              plannedProtein += (n.protein ?? 0) * s;
+              plannedCarbs += (n.carbs ?? 0) * s;
+              plannedFat += (n.fat ?? 0) * s;
+              plannedFiber += (n.fiber ?? 0) * s;
+            }
+          }
+
+          nutritionalContext = {
+            remainingCalories: nutTargets.dailyCalories ? Math.max(0, nutTargets.dailyCalories - plannedCals) : undefined,
+            remainingProteinG: nutTargets.dailyProteinG ? Math.max(0, nutTargets.dailyProteinG - plannedProtein) : undefined,
+            remainingCarbsG: nutTargets.dailyCarbsG ? Math.max(0, nutTargets.dailyCarbsG - plannedCarbs) : undefined,
+            remainingFatG: nutTargets.dailyFatG ? Math.max(0, nutTargets.dailyFatG - plannedFat) : undefined,
+            remainingFiberG: nutTargets.dailyFiberG ? Math.max(0, nutTargets.dailyFiberG - plannedFiber) : undefined,
+            prioritizeProtein: nutTargets.prioritizeProtein,
+            prioritizeFiber: nutTargets.prioritizeFiber,
+          };
+        }
+
         // Generate recommendations using planetary intelligence + user personalization
         const recommendations = await generateDayRecommendations(
           dayOfWeek,
@@ -1462,6 +1535,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             userContext,
             existingMeals,
             budgetPerMeal: budgetPerMealValue,
+            nutritionalContext,
           },
         );
 

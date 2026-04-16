@@ -490,7 +490,8 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
   const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length || 0;
 
-  // Count active generation preferences
+  // Count active generation preferences (including nutritional targets)
+  const nutTargets = generationPreferences.nutritionalTargets;
   const prefsActiveCount =
     generationPreferences.preferredCuisines.length +
     generationPreferences.dietaryRestrictions.length +
@@ -498,7 +499,14 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     generationPreferences.flavorPreferences.length +
     generationPreferences.excludeIngredients.length +
     generationPreferences.requiredIngredients.length +
-    (generationPreferences.maxPrepTimeMinutes !== null ? 1 : 0);
+    (generationPreferences.maxPrepTimeMinutes !== null ? 1 : 0) +
+    (nutTargets.dailyCalories !== null ? 1 : 0) +
+    (nutTargets.dailyProteinG !== null ? 1 : 0) +
+    (nutTargets.dailyCarbsG !== null ? 1 : 0) +
+    (nutTargets.dailyFatG !== null ? 1 : 0) +
+    (nutTargets.dailyFiberG !== null ? 1 : 0) +
+    (nutTargets.prioritizeProtein ? 1 : 0) +
+    (nutTargets.prioritizeFiber ? 1 : 0);
 
   const isAnyLoading = isGenerating || isBalancing || isDiversifying;
   const loadingMessage = isGenerating
@@ -699,6 +707,16 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             {generationPreferences.flavorPreferences.length > 0 && (
               <span className="px-2 py-0.5 bg-pink-50 text-pink-700 rounded-full">
                 {generationPreferences.flavorPreferences.join(", ")}
+              </span>
+            )}
+            {nutTargets.dailyCalories !== null && (
+              <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-full">
+                {nutTargets.dailyCalories} cal
+              </span>
+            )}
+            {(nutTargets.dailyProteinG !== null || nutTargets.prioritizeProtein) && (
+              <span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full">
+                {nutTargets.dailyProteinG !== null ? `${nutTargets.dailyProteinG}g protein` : "Hi-protein"}
               </span>
             )}
           </div>

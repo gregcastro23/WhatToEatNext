@@ -98,7 +98,11 @@ function MenuPlannerContent() {
   const { queueSize } = useRecipeQueue();
 
   // Real-time nutrition tracking - recalculates whenever menu changes
-  const weeklyNutrition = useNutritionTracking(currentMenu);
+  // Passes user's custom nutritional targets so compliance reflects their goals
+  const weeklyNutrition = useNutritionTracking(
+    currentMenu,
+    menuPlannerActions.generationPreferences.nutritionalTargets,
+  );
 
   const [showGroceryList, setShowGroceryList] = useState(false);
   const [showNutritionDashboard, setShowNutritionDashboard] = useState(false);
