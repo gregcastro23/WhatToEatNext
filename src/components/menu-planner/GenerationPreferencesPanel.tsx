@@ -39,7 +39,7 @@ const COOKING_METHODS = [
   "Slow Cook", "Saute", "Poach", "Raw/No-Cook", "Ferment", "Smoke",
 ] as const;
 
-const FLAVOR_OPTIONS: { id: FlavorPreference; label: string }[] = [
+const FLAVOR_OPTIONS: Array<{ id: FlavorPreference; label: string }> = [
   { id: "spicy", label: "Spicy" },
   { id: "sweet", label: "Sweet" },
   { id: "savory", label: "Savory" },
@@ -252,9 +252,9 @@ export default function GenerationPreferencesPanel({
 
               {/* Calorie Target */}
               <div className="mb-3">
-                <label className="text-[11px] font-semibold text-emerald-700 mb-1.5 block">
+                <span className="text-[11px] font-semibold text-emerald-700 mb-1.5 block">
                   Daily Calories
-                </label>
+                </span>
                 <div className="flex flex-wrap gap-1.5">
                   {CALORIE_PRESETS.map((preset) => {
                     const isSelected = preset.value !== null

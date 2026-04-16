@@ -13,7 +13,6 @@
 
 import { UnifiedIngredientService } from "@/services/UnifiedIngredientService";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
-
 import type { NormalizedRecipeNutrition } from "./recipeNutrition";
 import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
 
@@ -51,11 +50,11 @@ export function parseServingSizeGrams(
   return null;
 }
 
-type IngredientLike = {
+interface IngredientLike {
   nutritionalProfile?: unknown;
-};
+}
 
-type NutritionalMacros = {
+interface NutritionalMacros {
   protein?: number;
   carbs?: number;
   fat?: number;
@@ -63,9 +62,9 @@ type NutritionalMacros = {
   sugar?: number;
   sodium?: number;
   saturatedFat?: number;
-};
+}
 
-type NutritionalProfileShape = {
+interface NutritionalProfileShape {
   calories?: number;
   macros?: NutritionalMacros;
   protein?: number;
@@ -77,7 +76,7 @@ type NutritionalProfileShape = {
   vitamins?: Record<string, number> | string[];
   minerals?: Record<string, number> | string[];
   serving_size?: string;
-};
+}
 
 function readNum(value: unknown): number {
   const n = typeof value === "number" ? value : Number(value);
@@ -114,7 +113,7 @@ function addNutrition(
   if (b.saturatedFat != null) {
     a.saturatedFat = (a.saturatedFat ?? 0) + b.saturatedFat;
   }
-  const microKeys: (keyof NormalizedRecipeNutrition)[] = [
+  const microKeys: Array<keyof NormalizedRecipeNutrition> = [
     "vitaminA",
     "vitaminC",
     "vitaminD",
@@ -162,7 +161,7 @@ function scaleNutrition(
   };
   if (n.saturatedFat != null) out.saturatedFat = n.saturatedFat * factor;
 
-  const microKeys: (keyof NormalizedRecipeNutrition)[] = [
+  const microKeys: Array<keyof NormalizedRecipeNutrition> = [
     "vitaminA",
     "vitaminC",
     "vitaminD",
@@ -227,7 +226,7 @@ function profileToNutrition(
 
   // Copy numeric vitamin/mineral records when present.
   if (profile.vitamins && !Array.isArray(profile.vitamins)) {
-    const vits = profile.vitamins as Record<string, number>;
+    const vits = profile.vitamins;
     const pick = (
       target: keyof NormalizedRecipeNutrition,
       ...keys: string[]
@@ -252,7 +251,7 @@ function profileToNutrition(
     pick("niacin", "B3", "b3", "niacin");
   }
   if (profile.minerals && !Array.isArray(profile.minerals)) {
-    const min = profile.minerals as Record<string, number>;
+    const min = profile.minerals;
     for (const key of [
       "calcium",
       "iron",
@@ -330,7 +329,7 @@ export function computeRecipeNutritionFromIngredients(
   const total = emptyNutrition();
   let resolved = 0;
 
-  for (const ing of ingredients as RecipeIngredient[]) {
+  for (const ing of ingredients) {
     if (!ing?.name) continue;
     const found = service.getIngredientByName(ing.name);
     if (!found) continue;

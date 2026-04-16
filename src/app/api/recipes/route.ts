@@ -39,7 +39,7 @@ export async function GET(request: Request) {
           let max = -1;
           for (const k of ["Fire", "Water", "Earth", "Air"]) {
             if (typeof ep[k] === "number" && ep[k] > max) {
-              max = ep[k] as number;
+              max = ep[k];
               dom = k.toLowerCase();
             }
           }

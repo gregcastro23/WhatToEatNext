@@ -4,7 +4,6 @@
  */
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import { executeQuery } from "@/lib/database/connection";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Recipe } from "@/types/recipe";

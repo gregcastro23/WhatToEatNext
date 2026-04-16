@@ -12,13 +12,11 @@ import {
   getServerRecipeIndex,
   getServerRecipes,
 } from "@/actions/recipes";
-import type { IndexedRecipe } from "@/types/indexedRecipe";
 import type { AlchemicalProfile } from "@/contexts/UserContext";
-import {
-    type MonicaOptimizedRecipe,
-} from "@/data/unified/recipeBuilding";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { ChartComparison } from "@/services/ChartComparisonService";
 import type { LunarPhase } from "@/types/celestial";
+import type { IndexedRecipe } from "@/types/indexedRecipe";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { NatalChart } from "@/types/natalChart";
 import type { ElementalProperties, Recipe } from "@/types/recipe";
@@ -650,24 +648,6 @@ function containsExcludedIngredient(
     const name = (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase();
     return excluded.has(name) || [...excluded].some((e) => name.includes(e));
   });
-}
-
-/**
- * Check if a recipe matches the current season.
- */
-function matchesSeason(recipe: Recipe, currentSeason: string): boolean {
-  if (!recipe.season) return true; // No season info = all-season
-  const seasons = Array.isArray(recipe.season)
-    ? recipe.season.map((s) => s.toLowerCase())
-    : [recipe.season.toLowerCase()];
-  if (seasons.length === 0) return true;
-  // "all" means any season
-  if (seasons.includes("all")) return true;
-  // Match "autumn" or "fall" interchangeably
-  if (currentSeason === "autumn") {
-    return seasons.includes("autumn") || seasons.includes("fall");
-  }
-  return seasons.includes(currentSeason);
 }
 
 /**
