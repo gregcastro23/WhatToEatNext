@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { IngredientDrawer } from "@/components/recipes/IngredientDrawer";
+import { InteractiveInstruction } from "@/components/recipes/InteractiveInstruction";
+import { NutritionVisualization } from "@/components/recipes/NutritionVisualization";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
+import { TechniqueModal } from "@/components/recipes/TechniqueModal";
 import type { Recipe } from "@/types/recipe";
 
 // ===== Constants =====
@@ -650,31 +654,6 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
   );
 }
 
-function NutritionGrid({ nutrition }: { nutrition: NormalizedNutrition }) {
-  const macros = [
-    { label: "Calories", value: nutrition.calories, unit: "", color: "text-amber-400" },
-    { label: "Protein", value: nutrition.protein, unit: "g", color: "text-emerald-400" },
-    { label: "Carbs", value: nutrition.carbs, unit: "g", color: "text-blue-400" },
-    { label: "Fat", value: nutrition.fat, unit: "g", color: "text-orange-400" },
-    { label: "Fiber", value: nutrition.fiber, unit: "g", color: "text-green-400" },
-    { label: "Sodium", value: nutrition.sodium, unit: "mg", color: "text-purple-400" },
-    { label: "Sugar", value: nutrition.sugar, unit: "g", color: "text-pink-400" },
-  ].filter((m) => m.value != null && m.value !== 0);
-
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-      {macros.map((m) => (
-        <div key={m.label} className="glass-card-premium rounded-xl border border-white/8 p-3 text-center">
-          <div className={`text-xl font-bold ${m.color}`}>
-            {m.value}{m.unit}
-          </div>
-          <div className="text-xs text-white/60 mt-1">{m.label}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 // ===== Main Component =====
 
 interface RecipePageProps {
@@ -689,6 +668,8 @@ export default function RecipePage({ params }: RecipePageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [servings, setServings] = useState(1);
   const [copied, setCopied] = useState(false);
+  const [selectedIngredientIndex, setSelectedIngredientIndex] = useState<number | null>(null);
+  const [selectedTechnique, setSelectedTechnique] = useState<string | null>(null);
 
   useEffect(() => {
     params.then(p => setRecipeId(p.recipeId)).catch(console.error);
@@ -937,24 +918,38 @@ export default function RecipePage({ params }: RecipePageProps) {
                   Scaled from {baseServings} to {servings} servings
                 </p>
               )}
-              <ul className="space-y-3">
+              <p className="text-xs text-white/40 mb-3">
+                Click any ingredient to explore its profile, pairings, and related recipes.
+              </p>
+              <ul className="space-y-1">
                 {recipe.ingredients.map((ing, index) => {
                   const scaledAmount = ing.amount ? Math.round(ing.amount * scale * 100) / 100 : null;
                   return (
-                    <li key={index} className="flex items-start gap-3 group">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2.5 shrink-0 group-hover:bg-amber-300 transition-colors" />
-                      <div>
-                        <span className="text-white">
-                          {scaledAmount != null && (
-                            <span className="text-amber-300 font-semibold">{scaledAmount} </span>
+                    <li key={index}>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedIngredientIndex(index)}
+                        className="w-full flex items-start gap-3 group text-left px-3 py-2 -mx-3 rounded-lg hover:bg-amber-500/5 border border-transparent hover:border-amber-500/20 transition-colors"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2.5 shrink-0 group-hover:bg-amber-300 group-hover:scale-125 transition-transform" />
+                        <div className="flex-1 min-w-0">
+                          <span className="text-white">
+                            {scaledAmount != null && (
+                              <span className="text-amber-300 font-semibold">{scaledAmount} </span>
+                            )}
+                            {ing.unit && <span className="text-white/80">{ing.unit} </span>}
+                            <span className="group-hover:text-amber-200 transition-colors underline decoration-dotted decoration-white/20 underline-offset-4 group-hover:decoration-amber-400/60">
+                              {ing.name}
+                            </span>
+                          </span>
+                          {ing.notes && (
+                            <span className="text-sm text-white/60 ml-2 italic">({ing.notes})</span>
                           )}
-                          {ing.unit && <span className="text-white/80">{ing.unit} </span>}
-                          {ing.name}
+                        </div>
+                        <span className="text-white/20 group-hover:text-amber-400 transition-colors text-sm shrink-0 mt-1" aria-hidden="true">
+                          &#x2192;
                         </span>
-                        {ing.notes && (
-                          <span className="text-sm text-white/60 ml-2 italic">({ing.notes})</span>
-                        )}
-                      </div>
+                      </button>
                     </li>
                   );
                 })}
@@ -963,13 +958,21 @@ export default function RecipePage({ params }: RecipePageProps) {
 
             {/* Instructions */}
             <SectionCard title="Instructions" icon="&#x1F4DD;">
+              <p className="text-xs text-white/40 mb-4">
+                Highlighted <span className="text-orange-300 underline decoration-dotted decoration-orange-400/50 underline-offset-4">techniques</span> open a deep-dive. Time phrases include a built-in timer.
+              </p>
               <ol className="space-y-5">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index} className="flex gap-4">
                     <span className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex items-center justify-center text-sm font-bold text-amber-300">
                       {index + 1}
                     </span>
-                    <p className="text-white/80 leading-relaxed pt-1">{instruction}</p>
+                    <p className="text-white/80 leading-relaxed pt-1">
+                      <InteractiveInstruction
+                        text={instruction}
+                        onTechniqueClick={setSelectedTechnique}
+                      />
+                    </p>
                   </li>
                 ))}
               </ol>
@@ -1176,31 +1179,7 @@ export default function RecipePage({ params }: RecipePageProps) {
             {/* Nutrition */}
             {nutrition && (
               <SectionCard title="Nutrition Per Serving" icon="&#x1F4CA;">
-                <NutritionGrid nutrition={nutrition} />
-                {(nutrition.vitamins?.length && nutrition.vitamins.length > 0) || (nutrition.minerals?.length && nutrition.minerals.length > 0) ? (
-                  <div className="mt-4 space-y-3">
-                    {nutrition.vitamins?.length && nutrition.vitamins.length > 0 && (
-                      <div>
-                        <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-1.5">Vitamins</h3>
-                        <div className="flex flex-wrap gap-1.5">
-                          {nutrition.vitamins.map((v: string) => (
-                            <span key={v} className="px-2 py-0.5 bg-emerald-500/10 rounded text-xs text-emerald-400">{v}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {nutrition.minerals?.length && nutrition.minerals.length > 0 && (
-                      <div>
-                        <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-1.5">Minerals</h3>
-                        <div className="flex flex-wrap gap-1.5">
-                          {nutrition.minerals.map((m: string) => (
-                            <span key={m} className="px-2 py-0.5 bg-sky-500/10 rounded text-xs text-sky-400">{m}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ) : null}
+                <NutritionVisualization nutrition={nutrition} />
               </SectionCard>
             )}
 
@@ -1356,6 +1335,28 @@ export default function RecipePage({ params }: RecipePageProps) {
             )}
           </div>
         </div>
+
+        {/* ===== Ingredient Drawer ===== */}
+        {(() => {
+          const sel = selectedIngredientIndex != null ? recipe.ingredients[selectedIngredientIndex] : null;
+          const scaledAmount = sel && sel.amount ? Math.round(sel.amount * scale * 100) / 100 : undefined;
+          return (
+            <IngredientDrawer
+              ingredientName={sel?.name ?? null}
+              recipeAmount={scaledAmount}
+              recipeUnit={sel?.unit}
+              recipeNotes={sel?.notes}
+              currentRecipeId={recipe.id as string}
+              onClose={() => setSelectedIngredientIndex(null)}
+            />
+          );
+        })()}
+
+        {/* ===== Technique Modal ===== */}
+        <TechniqueModal
+          techniqueName={selectedTechnique}
+          onClose={() => setSelectedTechnique(null)}
+        />
 
         {/* ===== Similar Recipes ===== */}
         {recommendedRecipes.length > 0 && (
