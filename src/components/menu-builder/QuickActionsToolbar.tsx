@@ -224,7 +224,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     if (!currentMenu) return;
 
     try {
-      const rawRecipes = (await getServerRecipes()) as unknown as Recipe[];
+      const rawRecipes = await getServerRecipes();
 
       if (!rawRecipes || rawRecipes.length === 0) {
         logger.info("No recipes available from UnifiedRecipeService");
@@ -280,7 +280,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     if (!currentMenu) return;
 
     try {
-      const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
+      const allRecipes = await getServerRecipes();
 
       if (!allRecipes || allRecipes.length === 0) {
         logger.info("No recipes available from UnifiedRecipeService");
@@ -339,7 +339,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     setIsBalancing(true);
 
     try {
-      const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
+      const allRecipes = await getServerRecipes();
 
       if (!allRecipes || allRecipes.length === 0) {
         logger.info("No recipes available for balancing");
@@ -406,7 +406,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     setIsDiversifying(true);
 
     try {
-      const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
+      const allRecipes = await getServerRecipes();
 
       if (!allRecipes || allRecipes.length === 0) {
         setIsDiversifying(false);

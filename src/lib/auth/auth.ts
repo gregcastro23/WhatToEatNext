@@ -14,8 +14,11 @@
  */
 
 import NextAuth from "next-auth";
+import { createLogger } from "@/utils/logger";
 import { authConfig } from "./auth.config";
 import { UserRole } from "./roles";
+
+const logger = createLogger("auth");
 
 /** Admin emails that automatically get ADMIN role and full premium access */
 const ADMIN_EMAILS = [
@@ -93,22 +96,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     ...authConfig.callbacks,
 
     async signIn({ user, account }) {
-      console.log(`[auth] signIn callback started for ${user.email}`);
+      logger.info(`signIn callback started for ${user.email}`);
       if (!user.email || !account) {
-        console.warn("[auth] signIn failed: Missing email or account");
+        logger.warn("signIn failed: Missing email or account");
         return true;
       }
 
       try {
         let dbUser = await getCachedUser(user.email);
         const isNewUser = !dbUser;
-        console.log(`[auth] User lookup complete. isNewUser: ${isNewUser}`);
+        logger.info(`User lookup complete. isNewUser: ${isNewUser}`);
 
         const isAdmin = isAdminEmail(user.email);
 
         if (!dbUser) {
           const { userDatabase } = await import("@/services/userDatabaseService");
-          console.log(`[auth] Creating new user. isAdmin: ${isAdmin}`);
+          logger.info(`Creating new user. isAdmin: ${isAdmin}`);
 
           // Add a timeout to createUser to prevent total hang
           dbUser = await Promise.race([
@@ -127,7 +130,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         } else if (isAdmin && !dbUser.roles.includes(UserRole.ADMIN)) {
           // Promote existing user to admin if they are in the admin list but don't have the role yet
-          console.log(`[auth] Promoting existing user ${user.email} to ADMIN`);
+          logger.info(`Promoting existing user ${user.email} to ADMIN`);
           const { userDatabase } = await import("@/services/userDatabaseService");
           await userDatabase.updateUserRole(dbUser.id, UserRole.ADMIN);
           // Refresh cache
@@ -139,13 +142,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         void (async () => {
           try {
             if (!dbUser) return;
-            console.log(`[auth] Starting background tasks for ${user.email}`);
+            logger.info(`Starting background tasks for ${user.email}`);
             
             // 0. Calculate and synchronize natal chart if birth data is present but not computed
             const profile = (dbUser)?.profile || {};
             if (profile.birthData && (!profile.natalChart || !profile.onboardingComplete)) {
               try {
-                console.log(`[auth] Calculating missing natal chart for ${user.email}`);
+                logger.info(`Calculating missing natal chart for ${user.email}`);
                 const { calculateNatalChart } = await import("@/services/natalChartService");
                 const { userDatabase } = await import("@/services/userDatabaseService");
                 const { commensalDatabase } = await import("@/services/commensalDatabaseService");
@@ -170,12 +173,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     });
                   }
                 } catch (e) {
-                   console.error("[auth] Failed to sync cosmic identity to commensal db:", e);
+                   logger.error("Failed to sync cosmic identity to commensal db:", e);
                 }
-                
-                console.log(`[auth] Successfully generated missing natal chart for ${user.email}`);
+
+                logger.info(`Successfully generated missing natal chart for ${user.email}`);
               } catch (chartErr) {
-                console.error(`[auth] Failed to generate chart in background for ${user.email}:`, chartErr);
+                logger.error(`Failed to generate chart in background for ${user.email}:`, chartErr);
               }
             } else if (profile.natalChart) {
               // Ensure they have it registered in their saved charts even if profile already had it
@@ -210,7 +213,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   currentPeriodStart: now.toISOString(),
                   currentPeriodEnd: yearFromNow.toISOString(),
                 });
-                console.log(`[auth] Auto-provisioned premium for ${user.email}`);
+                logger.info(`Auto-provisioned premium for ${user.email}`);
               }
             }
 
@@ -226,7 +229,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 emailPromises.push(emailService.sendWelcomeEmail(user.email!, userName!));
               }
               await Promise.allSettled(emailPromises);
-              console.log(`[auth] Background emails sent for ${user.email}`);
+              logger.info(`Background emails sent for ${user.email}`);
             }
 
 
@@ -275,10 +278,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 }).catch(() => {});
               }
             } catch (notifError) {
-              console.error("[auth] Notification creation failed (non-blocking):", notifError);
+              logger.error("Notification creation failed (non-blocking):", notifError);
             }
           } catch (bgError) {
-            console.error("[auth] Background task error:", bgError);
+            logger.error("Background task error:", bgError);
           }
         })();
       } catch (error) {
@@ -286,10 +289,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Do NOT throw here — throwing inside the NextAuth signIn callback causes
         // the "Configuration" error page. Instead log the error and return true
         // so the user can still sign in. The JWT callback will handle missing data.
-        console.error(`[auth] DB error during signIn for ${user.email} (non-blocking):`, error);
+        logger.error(`DB error during signIn for ${user.email} (non-blocking):`, error);
       }
 
-      console.log(`[auth] signIn callback completed for ${user.email}`);
+      logger.info(`signIn callback completed for ${user.email}`);
       return true;
     },
 

@@ -1,7 +1,6 @@
-// @ts-nocheck
 'use client';
 
-import { 
+import {
   ChevronDown, ChevronUp
 } from 'lucide-react';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
@@ -12,21 +11,35 @@ import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { useCurrentChart as _useCurrentChart } from '@/hooks/useCurrentChart';
-import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties, LunarPhase } from '@/types/alchemy';
 import { _COOKING_METHOD_THERMODYNAMICS as COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-// @ts-expect-error - Auto-fixed by script
 import { _staticAlchemize as staticAlchemize } from '@/utils/alchemyInitializer';
 import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
+import { _getLunarMultiplier as getLunarMultiplier } from '@/utils/lunarMultiplier';
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 import styles from './CookingMethods.module.css';
 
 // Implement the alchemize function using staticAlchemize
+type AstroStateShape = {
+  planetaryPositions?: Record<string, { sign?: string; degree?: number }>;
+  [key: string]: unknown;
+};
+
+type ThermodynamicsInput = {
+  heat?: number;
+  entropy?: number;
+  reactivity?: number;
+  energy?: number;
+};
+
 const alchemize = async (
   elements: ElementalProperties | Record<string, number>,
   astroState: unknown,
   thermodynamics: unknown
-): Promise<any> => {
+): Promise<Record<string, unknown>> => {
+  const thermo = (thermodynamics ?? {}) as ThermodynamicsInput;
+  const elementsRecord = elements as Record<string, number>;
+
   try {
     // Create a simplified birthInfo object
     const birthInfo = {
@@ -40,18 +53,16 @@ const alchemize = async (
     // Create a simplified horoscope object
     const horoscopeDict = {
       tropical: {
-        CelestialBodies: {},
+        CelestialBodies: {} as Record<string, unknown>,
         Ascendant: {},
         Aspects: {}
       }
     };
 
     // If astroState contains planetary positions, add them to the horoscope
-    // @ts-expect-error - Auto-fixed by script
-    if (astroState && astroState.planetaryPositions) {
-      // Convert astroState planetary positions to the format expected by the alchemizer
-      // @ts-expect-error - Auto-fixed by script
-      Object.entries(astroState.planetaryPositions).forEach(([planet, position]: [string, any]) => {
+    const astro = astroState as AstroStateShape | null | undefined;
+    if (astro && astro.planetaryPositions) {
+      Object.entries(astro.planetaryPositions).forEach(([planet, position]) => {
         if (position && position.sign) {
           horoscopeDict.tropical.CelestialBodies[planet] = {
             Sign: { label: position.sign },
@@ -65,27 +76,24 @@ const alchemize = async (
       });
     }
 
-    // Use the static alchemize function to get the full result
+    // Use the static alchemize function to get the full result.
+    // staticAlchemize returns ThermodynamicMetrics (heat/entropy/reactivity/…),
+    // not elemental balance — the elemental values pass through from `elements`.
     const alchemicalResult = staticAlchemize(birthInfo, horoscopeDict);
 
-    // Combine the result with the input elements and thermodynamics
     return {
       ...alchemicalResult,
       elementalProperties: elements,
       transformedElementalProperties: {
-        Fire: alchemicalResult.elementalBalance?.fire || 0,
-        Water: alchemicalResult.elementalBalance?.water || 0,
-        Earth: alchemicalResult.elementalBalance?.earth || 0,
-        Air: alchemicalResult.elementalBalance?.air || 0
+        Fire: elementsRecord.Fire || 0,
+        Water: elementsRecord.Water || 0,
+        Earth: elementsRecord.Earth || 0,
+        Air: elementsRecord.Air || 0
       },
-      // @ts-expect-error - Auto-fixed by script
-      heat: thermodynamics?.heat || alchemicalResult.heat || 0.5,
-      // @ts-expect-error - Auto-fixed by script
-      entropy: thermodynamics?.entropy || alchemicalResult.entropy || 0.5,
-      // @ts-expect-error - Auto-fixed by script
-      reactivity: thermodynamics?.reactivity || alchemicalResult.reactivity || 0.5,
-      // @ts-expect-error - Auto-fixed by script
-      energy: thermodynamics?.energy || alchemicalResult.energy || 0.5
+      heat: thermo.heat ?? alchemicalResult.heat ?? 0.5,
+      entropy: thermo.entropy ?? alchemicalResult.entropy ?? 0.5,
+      reactivity: thermo.reactivity ?? alchemicalResult.reactivity ?? 0.5,
+      energy: thermo.energy ?? alchemicalResult.gregsEnergy ?? 0.5
     };
   } catch (error) {
     console.error('Error in alchemize function:', error);
@@ -94,12 +102,9 @@ const alchemize = async (
       ...elements,
       alchemicalProperties: {},
       transformedElementalProperties: elements,
-      // @ts-expect-error - Auto-fixed by script
-      heat: thermodynamics?.heat || 0.5,
-      // @ts-expect-error - Auto-fixed by script
-      entropy: thermodynamics?.entropy || 0.5,
-      // @ts-expect-error - Auto-fixed by script
-      reactivity: thermodynamics?.reactivity || 0.5,
+      heat: thermo.heat ?? 0.5,
+      entropy: thermo.entropy ?? 0.5,
+      reactivity: thermo.reactivity ?? 0.5,
       energy: 0.5
     };
   }
@@ -107,15 +112,13 @@ const alchemize = async (
 
 const calculateMatchScore = (elements: unknown): number => {
   if (!elements) return 0;
-  
+
   // More sophisticated calculation that weights the properties differently
   // Heat and reactivity are positive factors, while high entropy is generally a negative factor
-  // @ts-expect-error - Auto-fixed by script
-  const heatScore = elements.heat || 0;
-  // @ts-expect-error - Auto-fixed by script
-  const entropyScore = 1 - (elements.entropy || 0); // Invert entropy so lower is better
-  // @ts-expect-error - Auto-fixed by script
-  const reactivityScore = elements.reactivity || 0;
+  const e = elements as { heat?: number; entropy?: number; reactivity?: number };
+  const heatScore = e.heat || 0;
+  const entropyScore = 1 - (e.entropy || 0); // Invert entropy so lower is better
+  const reactivityScore = e.reactivity || 0;
   
   // Calculate weighted average with more weight on heat and reactivity
   const rawScore = (heatScore * 0.4) + (entropyScore * 0.3) + (reactivityScore * 0.3);
@@ -146,6 +149,7 @@ interface AstrologicalInfluence {
 
 // Extend the AlchemicalItem interface to include astrologicalInfluences and culturalOrigin
 interface ExtendedAlchemicalItem extends AlchemicalItem {
+  description?: string;
   astrologicalInfluences?: AstrologicalInfluence;
   culturalOrigin?: string;
   bestFor?: string[];
@@ -172,9 +176,9 @@ interface MolecularGastronomyDetails {
 // Add these methods if they're missing from your COOKING_METHOD_THERMODYNAMICS constant
 const _ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
   .reduce((acc, [methodName, methodData]) => {
-    if (methodData && methodData.thermodynamicProperties) {
-      // @ts-expect-error - Auto-fixed by script
-      acc[methodName] = methodData.thermodynamicProperties;
+    const thermo = (methodData as unknown as { thermodynamicProperties?: ThermodynamicProperties })?.thermodynamicProperties;
+    if (thermo) {
+      acc[methodName] = thermo;
     }
     return acc;
   }, {} as Record<string, ThermodynamicProperties>);
@@ -293,82 +297,6 @@ const DEFAULT_TAROT_DATA = {
   }
 };
 
-// First, let's add a utility function to convert between the different lunar phase formats
-// Add this near the top of your file, after the imports
-
-// Map between title case format and uppercase underscore format
-// Important: The values should match the LunarPhase type from constants/lunarPhases.ts
-const LUNAR_PHASE_MAP: Record<string, LunarPhase> = {
-  'FULL_MOON': 'FULL_MOON',
-  'NEW_MOON': 'NEW_MOON',
-  'WAXING_CRESCENT': 'WAXING_CRESCENT',
-  'FIRST_QUARTER': 'FIRST_QUARTER',
-  'WAXING_GIBBOUS': 'WAXING_GIBBOUS',
-  'WANING_GIBBOUS': 'WANING_GIBBOUS',
-  'LAST_QUARTER': 'LAST_QUARTER',
-  'WANING_CRESCENT': 'WANING_CRESCENT'
-};
-
-// For display purposes
-const LUNAR_PHASE_DISPLAY: Record<LunarPhase, string> = {
-  'FULL_MOON': 'Full Moon',
-  'NEW_MOON': 'New Moon',
-  'WAXING_CRESCENT': 'Waxing Crescent',
-  'FIRST_QUARTER': 'First Quarter',
-  'WAXING_GIBBOUS': 'Waxing Gibbous', 
-  'WANING_GIBBOUS': 'Waning Gibbous',
-  'LAST_QUARTER': 'Last Quarter',
-  'WANING_CRESCENT': 'Waning Crescent'
-};
-
-// Function to safely convert any lunar phase string to the correct type
-const _normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | undefined => {
-  if (!phase) return undefined;
-  
-  // If it's already a valid LunarPhase, return it
-  if (Object.keys(LUNAR_PHASE_MAP).includes(phase)) {
-    return phase as LunarPhase;
-  }
-  
-  // Try to convert by looking for matching patterns
-  const phaseLower = phase.toLowerCase();
-  
-  if (phaseLower.includes('full') && phaseLower.includes('moon')) {
-    return 'FULL_MOON';
-  }
-  if (phaseLower.includes('new') && phaseLower.includes('moon')) {
-    return 'NEW_MOON';
-  }
-  if (phaseLower.includes('waxing') && phaseLower.includes('crescent')) {
-    return 'WAXING_CRESCENT';
-  }
-  if (phaseLower.includes('first') && phaseLower.includes('quarter')) {
-    return 'FIRST_QUARTER';
-  }
-  if (phaseLower.includes('waxing') && phaseLower.includes('gibbous')) {
-    return 'WAXING_GIBBOUS';
-  }
-  if (phaseLower.includes('waning') && phaseLower.includes('gibbous')) {
-    return 'WANING_GIBBOUS';
-  }
-  if (phaseLower.includes('last') && phaseLower.includes('quarter')) {
-    return 'LAST_QUARTER';
-  }
-  if (phaseLower.includes('waning') && phaseLower.includes('crescent')) {
-    return 'WANING_CRESCENT';
-  }
-  
-  return undefined;
-};
-
-// Helper for adapting between LunarPhase types
-const _adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
-  if (!phase) return undefined;
-  // Convert from our uppercase format to the format expected by the API
-  // This part needs to be adjusted based on what the external functions expect
-  return LUNAR_PHASE_DISPLAY[phase]?.toLowerCase();
-};
-
 export default function CookingMethods() {
   // Add renderCount ref for debugging
   const renderCount = useRef(0);
@@ -410,45 +338,43 @@ export default function CookingMethods() {
     };
   }, [activePlanets, currentPlanetaryAlignment, currentZodiac, isDaytime, lunarPhase]);
   
-  const methodToThermodynamics = (method: unknown): BasicThermodynamicProperties => {
-    // @ts-expect-error - Auto-fixed by script
-    const methodName = method.name.toLowerCase();
-    
+  type ThermoTuple = { heat: number; entropy: number; reactivity: number };
+
+  const methodToThermodynamics = (method: unknown): ThermoTuple => {
+    const m = (method ?? {}) as {
+      name?: string;
+      heat?: number;
+      entropy?: number;
+      reactivity?: number;
+    };
+    const methodName = (m.name || '').toLowerCase();
+
     // Check if the method has direct thermodynamic properties
-    // @ts-expect-error - Auto-fixed by script
-    if ('heat' in method && 'entropy' in method && 'reactivity' in method) {
+    if (typeof m.heat === 'number' && typeof m.entropy === 'number' && typeof m.reactivity === 'number') {
       return {
-        // @ts-expect-error - Auto-fixed by script
-        heat: method.heat || 0.5,
-        // @ts-expect-error - Auto-fixed by script
-        entropy: method.entropy || 0.5,
-        // @ts-expect-error - Auto-fixed by script
-        reactivity: method.reactivity || 0.5
+        heat: m.heat || 0.5,
+        entropy: m.entropy || 0.5,
+        reactivity: m.reactivity || 0.5
       };
     }
-    
+
     // Look for the method in the COOKING_METHOD_THERMODYNAMICS constant
-    for (const knownMethod of Object.keys(COOKING_METHOD_THERMODYNAMICS)) {
+    const thermoMap = COOKING_METHOD_THERMODYNAMICS as Record<string, ThermoTuple>;
+    for (const knownMethod of Object.keys(thermoMap)) {
       if (methodName.includes(knownMethod)) {
-        // @ts-expect-error - Auto-fixed by script
-        return COOKING_METHOD_THERMODYNAMICS[knownMethod as CookingMethod];
+        return thermoMap[knownMethod];
       }
     }
-    
+
     // Fallback values based on method characteristics
     if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('fry')) {
-      // @ts-expect-error - Auto-fixed by script
       return { heat: 0.8, entropy: 0.6, reactivity: 0.7 }; // High heat methods
     } else if (methodName.includes('steam') || methodName.includes('simmer') || methodName.includes('poach')) {
-      // @ts-expect-error - Auto-fixed by script
       return { heat: 0.4, entropy: 0.3, reactivity: 0.5 }; // Medium heat methods
     } else if (methodName.includes('raw') || methodName.includes('ferment') || methodName.includes('pickle')) {
-      // @ts-expect-error - Auto-fixed by script
       return { heat: 0.1, entropy: 0.5, reactivity: 0.4 }; // No/low heat methods
     }
-    
-    // Default values
-    // @ts-expect-error - Auto-fixed by script
+
     return { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
   };
 
@@ -485,15 +411,15 @@ export default function CookingMethods() {
         // Create basic compatibility score based on elemental properties
         // This is a simplified version - you would use your actual compatibility calculation
         let compatibilityScore = 0.5; // Default medium compatibility
-        
+
         // Check if ingredient is in the method's suitable_for list
-        // @ts-expect-error - Auto-fixed by script
-        if (method.suitable_for && method.suitable_for.some(item => 
+        const suitableFor = (method as { suitable_for?: string[] }).suitable_for;
+        if (suitableFor && suitableFor.some(item =>
           item.toLowerCase().includes(ingredient.toLowerCase())
         )) {
           compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
         }
-        
+
         // Store the compatibility score
         compatibilityMap[method.id || method.name] = Math.min(1.0, compatibilityScore);
       }
@@ -621,10 +547,10 @@ export default function CookingMethods() {
     }
     
     // Check COOKING_METHOD_THERMODYNAMICS constant
-    // @ts-expect-error - Auto-fixed by script
-    const methodName = method.name.toLowerCase() as CookingMethod;
-    if (COOKING_METHOD_THERMODYNAMICS && COOKING_METHOD_THERMODYNAMICS[methodName]) {
-      return COOKING_METHOD_THERMODYNAMICS[methodName][property as keyof BasicThermodynamicProperties] || 0;
+    const methodName = method.name.toLowerCase();
+    const thermoMap = COOKING_METHOD_THERMODYNAMICS as Record<string, BasicThermodynamicProperties>;
+    if (thermoMap && thermoMap[methodName]) {
+      return thermoMap[methodName][property as keyof BasicThermodynamicProperties] || 0;
     }
     
     // Generate values based on method name keywords if no explicit values found
@@ -716,11 +642,12 @@ export default function CookingMethods() {
 
   // Add this function to extract additional properties from source data
   const _getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
-    // @ts-expect-error - Auto-fixed by script
-    if (method.id && cookingMethods[method.id as CookingMethod]) {
-      // @ts-expect-error - Auto-fixed by script
-      const sourceData = cookingMethods[method.id as CookingMethod];
-      
+    const cookingMethodsMap = cookingMethods as Record<string, Record<string, unknown>>;
+    const molecularMethodsMap = molecularCookingMethods as Record<string, Record<string, unknown>>;
+
+    if (method.id && cookingMethodsMap[method.id]) {
+      const sourceData = cookingMethodsMap[method.id];
+
       return {
         benefits: sourceData?.benefits || [],
         chemicalChanges: sourceData?.chemicalChanges || {},
@@ -730,24 +657,22 @@ export default function CookingMethods() {
         astrologicalInfluences: sourceData?.astrologicalInfluences || {}
       };
     }
-    
+
     // Check if it's a molecular method
     const methodName = method.name.toLowerCase();
     if (
-      methodName.includes('spher') || 
-      methodName.includes('gel') || 
-      methodName.includes('emuls') || 
+      methodName.includes('spher') ||
+      methodName.includes('gel') ||
+      methodName.includes('emuls') ||
       methodName.includes('cryo')
     ) {
       // Try to find in molecular methods
-      const molecularKey = Object.keys(molecularCookingMethods).find(
+      const molecularKey = Object.keys(molecularMethodsMap).find(
         key => key.toLowerCase().includes(methodName.split(' ')[0].toLowerCase())
       );
-      
-      // @ts-expect-error - Auto-fixed by script
-      if (molecularKey && molecularCookingMethods[molecularKey as CookingMethod]) {
-        // @ts-expect-error - Auto-fixed by script
-        const sourceData = molecularCookingMethods[molecularKey as CookingMethod];
+
+      if (molecularKey && molecularMethodsMap[molecularKey]) {
+        const sourceData = molecularMethodsMap[molecularKey];
         return {
           benefits: sourceData?.benefits || [],
           chemicalChanges: sourceData?.chemicalChanges || {},
@@ -756,7 +681,7 @@ export default function CookingMethods() {
         };
       }
     }
-    
+
     return null;
   }
 
@@ -769,16 +694,20 @@ export default function CookingMethods() {
     let fullDefinition = method.description || "";
     
     // Check if we have data from the source first
-    // @ts-expect-error - Auto-fixed by script
-    if (method.id && cookingMethods[method.id as CookingMethod]) {
-      // @ts-expect-error - Auto-fixed by script
-      const sourceMethod = cookingMethods[method.id as CookingMethod];
+    const cookingMethodsMap = cookingMethods as Record<string, {
+      description?: string;
+      suitable_for?: string[];
+    }>;
+    if (method.id && cookingMethodsMap[method.id]) {
+      const sourceMethod = cookingMethodsMap[method.id];
       // Expand definition if needed
-      // @ts-expect-error - Auto-fixed by script
-      if (sourceMethod?.description && sourceMethod.description.length > method.description?.length) {
+      if (
+        sourceMethod?.description &&
+        sourceMethod.description.length > (method.description?.length ?? 0)
+      ) {
         fullDefinition = sourceMethod.description;
       }
-      
+
       // Use existing suitable_for as examples if available
       if (sourceMethod?.suitable_for && sourceMethod.suitable_for.length > 0) {
         examples = sourceMethod.suitable_for.map(item => {
@@ -792,7 +721,6 @@ export default function CookingMethods() {
           if (item === "legumes") return "Legumes (beans, lentils, chickpeas)";
           return item.charAt(0).toUpperCase() + item.slice(1);
         });
-        // @ts-expect-error - Auto-fixed by script
         return { examples, fullDefinition };
       }
     }
@@ -1126,11 +1054,9 @@ export default function CookingMethods() {
       
       default:
         // For methods not explicitly covered, return basic information
-        // @ts-expect-error - Auto-fixed by script
-        examples = getIdealIngredients(method).map(ingredient => `${ingredient}`);
+        examples = [];
     }
-    
-    // @ts-expect-error - Auto-fixed by script
+
     return { examples, fullDefinition };
   };
 
@@ -1424,11 +1350,9 @@ export default function CookingMethods() {
     // If the method has higher Fire/Air values, it's likely Cardinal
     // If it has higher Earth/Water values, it's likely Fixed
     // If it has balanced elements, it's likely Mutable
-    const elementalEffect = method.elementalEffect || {};
-    
-    // @ts-expect-error - Auto-fixed by script
+    const elementalEffect = (method.elementalEffect || {}) as Partial<ElementalProperties>;
+
     const fireAirSum = (elementalEffect.Fire || 0) + (elementalEffect.Air || 0);
-    // @ts-expect-error - Auto-fixed by script
     const earthWaterSum = (elementalEffect.Earth || 0) + (elementalEffect.Water || 0);
     
     if (fireAirSum > earthWaterSum + 0.2) {
@@ -1485,48 +1409,61 @@ export default function CookingMethods() {
           };
           
           try {
+            const methodWithElementals = method as typeof method & {
+              elementalProperties?: ElementalProperties;
+              astrologicalInfluences?: {
+                favorableZodiac?: ZodiacSign[];
+                unfavorableZodiac?: ZodiacSign[];
+                dominantPlanets?: string[];
+              };
+            };
             // Calculate transformed alchemical properties
             const alchemized = await alchemize(
-              // @ts-expect-error - Auto-fixed by script
-              method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              methodWithElementals.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
               astroState,
               thermodynamics
-            );
-            
+            ) as Record<string, unknown>;
+
             // Calculate match score with enhanced algorithm for better differentiation
             const baseScore = calculateMatchScore(alchemized);
-            
+
             // Add additional factors to differentiate scores
             let adjustedScore = baseScore;
-            
-            // Add zodiac sign affinity bonus/penalty - larger bonus for better differentiation
-            // @ts-expect-error - Auto-fixed by script
-            if (astroState.zodiacSign && method.astrologicalInfluences?.favorableZodiac?.includes(astroState.zodiacSign)) {
+
+            // Add zodiac sign affinity bonus/penalty - larger bonus for better differentiation.
+            // The astro state exposes the zodiac under `currentZodiac` from useAstrologicalState.
+            const activeZodiac = astroState.currentZodiac as ZodiacSign | undefined;
+            const favorableZodiac = methodWithElementals.astrologicalInfluences?.favorableZodiac;
+            const unfavorableZodiac = methodWithElementals.astrologicalInfluences?.unfavorableZodiac;
+            if (activeZodiac && favorableZodiac?.includes(activeZodiac)) {
               adjustedScore += 0.2; // Increased from 0.15 for better differentiation
-            // @ts-expect-error - Auto-fixed by script
-            } else if (astroState.zodiacSign && method.astrologicalInfluences?.unfavorableZodiac?.includes(astroState.zodiacSign)) {
+            } else if (activeZodiac && unfavorableZodiac?.includes(activeZodiac)) {
               adjustedScore -= 0.15; // Made penalty stronger
             }
-            
+
             // Add lunar phase adjustment with stronger effect
             if (astroState.lunarPhase) {
-              const lunarMultiplier = getLunarMultiplier(astroState.lunarPhase);
+              const lunarMultiplier = getLunarMultiplier(astroState.lunarPhase as LunarPhase);
               // Apply a more significant adjustment
               adjustedScore = adjustedScore * (0.8 + (lunarMultiplier * 0.4)); // More impactful adjustment
             }
-            
+
             // Add random variation to break up methods that would otherwise get the same score
             // But only during initial calculation, not on re-renders
             const jitter = Math.random() * 0.05; // Small random factor - will be saved in methodScores state
             adjustedScore += jitter;
-            
+
             // Cap the score at 1.0 maximum and minimum of 0.1
             const finalScore = Math.min(1.0, Math.max(0.1, adjustedScore));
-            
-            // Generate a reason for the match
-            // @ts-expect-error - Auto-fixed by script
-            const matchReason = determineMatchReason(methodWithThermodynamics, astroState.zodiacSign, astroState.lunarPhase);
-            
+
+            // The display cycles through a hardcoded match-reason list (see render),
+            // so the per-method reason is informational only.
+            const matchReason = activeZodiac && favorableZodiac?.includes(activeZodiac)
+              ? `Favorable for ${activeZodiac}`
+              : astroState.lunarPhase
+                ? `Aligned with ${astroState.lunarPhase}`
+                : 'No specific cosmic alignment';
+
             return {
               ...methodWithThermodynamics,
               alchemicalProperties: alchemized.alchemicalProperties,
@@ -1555,26 +1492,29 @@ export default function CookingMethods() {
       
       // Only update state if component is still mounted
       if (isMountedRef.current) {
-        // @ts-expect-error - Auto-fixed by script
-        setRecommendedMethods(sortedMethods);
-        
+        setRecommendedMethods(sortedMethods as unknown as ExtendedAlchemicalItem[]);
+
         // Also set planetary cooking methods
         const planetaryCookingMethodsMap: Record<string, string[]> = {};
-        // @ts-expect-error - Auto-fixed by script
-        planets.forEach(planet => {
+        const allPlanets: string[] = [
+          'Sun', 'Moon', 'Mercury', 'Venus', 'Mars',
+          'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'
+        ];
+        allPlanets.forEach(planet => {
           const methodsForPlanet = sortedMethods
-            .filter(method => 
-              method.astrologicalInfluences?.dominantPlanets?.includes(planet)
-            )
+            .filter(method => {
+              const influences = (method as { astrologicalInfluences?: { dominantPlanets?: string[] } }).astrologicalInfluences;
+              return influences?.dominantPlanets?.includes(planet);
+            })
             .map(method => method.name);
-          
+
           if (methodsForPlanet.length > 0) {
             planetaryCookingMethodsMap[planet] = methodsForPlanet;
           }
         });
-        
+
         setPlanetaryCookingMethods(planetaryCookingMethodsMap);
-        
+
         // Store the initial scores in our state AFTER sorting the methods
         // Use method.id or name as a more reliable key instead of index
         const scoreMap: Record<string, number> = {};
@@ -1797,11 +1737,9 @@ export default function CookingMethods() {
                     </div>
                     
                     <div className={styles.methodDescription}>
-                      // @ts-expect-error - Auto-fixed by script
-                      {isExpanded ? 
-                        method.description : 
-                        // @ts-expect-error - Auto-fixed by script
-                        `${method.description?.substring(0, 120)}${method.description?.length > 120 ? '...' : ''}`
+                      {isExpanded
+                        ? method.description
+                        : `${method.description?.substring(0, 120) ?? ''}${(method.description?.length ?? 0) > 120 ? '...' : ''}`
                       }
                     </div>
                     
@@ -1940,35 +1878,15 @@ export default function CookingMethods() {
         <h4 style={{ margin: '0 0 8px' }}>Debug Info</h4>
         <div>Mounted: {isMounted.toString()}</div>
         <div>Renders: {renderCount.current}</div>
-        // @ts-expect-error - Auto-fixed by script
-        <div>Current Sign: {planetaryPositions?.sun?.sign || 'unknown'}</div>
-        // @ts-expect-error - Auto-fixed by script
-        <div>Planetary Hour: {currentPlanetaryHour || 'Unknown'}</div>
+        <div>Current Sign: {currentZodiac || 'unknown'}</div>
+        <div>Daytime: {String(isDaytime)}</div>
         <div>Lunar Phase: {lunarPhase || 'Unknown'}</div>
         <div>
-          <div>Alchemical Tokens:</div>
+          <div>Active Planets:</div>
           <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
-            // @ts-expect-error - Auto-fixed by script
-            <li>⦿ Spirit: {(currentChart.alchemicalTokens?.spirit || 0).toFixed(4)}</li>
-            // @ts-expect-error - Auto-fixed by script
-            <li>⦿ Essence: {(currentChart.alchemicalTokens?.essence || 0).toFixed(4)}</li>
-            // @ts-expect-error - Auto-fixed by script
-            <li>⦿ Matter: {(currentChart.alchemicalTokens?.matter || 0).toFixed(4)}</li>
-            // @ts-expect-error - Auto-fixed by script
-            <li>⦿ Substance: {(currentChart.alchemicalTokens?.substance || 0).toFixed(4)}</li>
-          </ul>
-        </div>
-        <div>
-          <div>Elemental Balance:</div>
-          <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
-            // @ts-expect-error - Auto-fixed by script
-            <li>Fire: {Math.round((currentChart.elementalProfile?.Fire || 0) * 100)}%</li>
-            // @ts-expect-error - Auto-fixed by script
-            <li>Water: {Math.round((currentChart.elementalProfile?.Water || 0) * 100)}%</li>
-            // @ts-expect-error - Auto-fixed by script
-            <li>Earth: {Math.round((currentChart.elementalProfile?.Earth || 0) * 100)}%</li>
-            // @ts-expect-error - Auto-fixed by script
-            <li>Air: {Math.round((currentChart.elementalProfile?.Air || 0) * 100)}%</li>
+            {(activePlanets || []).map(planet => (
+              <li key={planet}>⦿ {planet}</li>
+            ))}
           </ul>
         </div>
       </div>

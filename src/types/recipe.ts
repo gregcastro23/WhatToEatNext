@@ -593,30 +593,18 @@ export interface RecipePlanetaryInfluences {
   unfavorable: string[];
   neutral?: string[];
 }
-export interface EnhancedRecipe {
-  id: string;
+export interface EnhancedRecipe extends Recipe {
+  // Display title (separate from the canonical `name`)
   title: string;
-  name?: string;
-  description?: string; // Optional
-  // CRITICAL: Defining these as arrays prevents the .join() crash
-  ingredients: string[];
-  instructions: string[];
-  tags: string[];
-  // 6-Metric SMES Grid
-  spirit?: number;
-  essence?: number;
-  matter?: number;
-  substance?: number;
-  // This matches the structure you are actually receiving
+  // Thermodynamic snapshot attached at the recipe level.
+  // Note: distinct from the unified EnhancedRecipe in src/data/unified/recipes.ts,
+  // which stores a richer `alchemicalProperties` shape.
   alchemicalProperties?: {
     heat?: number;
     entropy?: number;
     reactivity?: number;
     stability?: number;
   };
-  // Elemental properties used by circuit calculations, nutrition, and grocery list
-  elementalProperties?: ElementalProperties;
-  // Nutritional profile used by menu planner
   nutritionalProfile?: {
     calories?: number;
     protein?: number;
@@ -624,31 +612,7 @@ export interface EnhancedRecipe {
     fat?: number;
     fiber?: number;
   };
-  // Nutrition data used by menu planner components (alias for nutritionalProfile)
-  nutrition?: {
-    calories?: number;
-    protein?: number;
-    carbs?: number;
-    fat?: number;
-    fiber?: number;
-    sodium?: number;
-  };
-  // Your internal mapped properties (optional, if you calculate them later)
   mappedAlchemy?: AlchemicalProperties;
   imageUrl?: string;
-  cookTime?: number;
-  prepTime?: number;
   servings?: number;
-  cuisine?: string;
-  cookingMethod?: string | string[];
-  season?: string | string[];
-  mealType?: string | string[];
-  timeToMake?: string;
-  numberOfServings?: number;
-  isVegetarian?: boolean;
-  isVegan?: boolean;
-  isGlutenFree?: boolean;
-  isDairyFree?: boolean;
-  astrologicalInfluences?: string[];
-  substitutions?: Array<{ original: string; alternatives: string[] }>;
 }
