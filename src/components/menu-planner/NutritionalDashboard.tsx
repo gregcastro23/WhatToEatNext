@@ -369,11 +369,7 @@ export default function NutritionalDashboard({
     currentMenu.meals.forEach((meal) => {
       if (meal.recipe?.ingredients) {
         meal.recipe.ingredients.forEach((ing) => {
-          uniqueIngredients.add(
-            typeof ing === "string"
-              ? ing.toLowerCase()
-              : ((ing as any).name?.toLowerCase() ?? ""),
-          );
+          uniqueIngredients.add(ing.name?.toLowerCase() ?? "");
         });
       }
     });

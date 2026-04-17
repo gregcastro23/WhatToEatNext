@@ -389,7 +389,7 @@ export default function TodaysMealsWidget({
     setCollisionState((s) => ({ ...s, isOpen: false }));
     setIsGeneratingNext(true);
     try {
-      addToQueue(sourceSlot.recipe as unknown as Recipe, {
+      addToQueue(sourceSlot.recipe, {
         suggestedMealTypes: [targetMealType],
         suggestedDays: [targetDay],
       });

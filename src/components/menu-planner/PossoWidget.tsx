@@ -55,7 +55,7 @@ export default function PossoWidget({
 
       setLoading(true);
       try {
-        const allRecipes = (await getServerRecipes()) as unknown as Recipe[];
+        const allRecipes = await getServerRecipes();
 
         const scored = allRecipes.map((recipe: any) => {
           const ingredients = recipe.ingredients || [];

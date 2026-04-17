@@ -652,8 +652,7 @@ export default function FocusedDayView({
 
       try {
         const service = UnifiedRecipeService.getInstance();
-        const allRecipes =
-          (await service.getAllRecipes()) as unknown as Recipe[];
+        const allRecipes = await service.getAllRecipes();
 
         // Search for recipes matching this meal type and day
         const results = searchRecipes(allRecipes, {

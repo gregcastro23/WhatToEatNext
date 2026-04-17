@@ -126,7 +126,7 @@ export default function RecipeBrowserPanel({
       try {
         setIsLoading(true);
         const recipes = await getServerRecipes();
-        setAllRecipes(recipes as unknown as Recipe[]);
+        setAllRecipes(recipes);
         logger.info(`Loaded ${recipes.length} recipes for browser`);
       } catch (error) {
         logger.error("Failed to load recipes:", error);

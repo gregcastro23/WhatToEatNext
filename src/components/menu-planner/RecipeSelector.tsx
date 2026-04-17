@@ -231,7 +231,7 @@ export default function RecipeSelector({
         if (recipes.length === 0) {
           logger.warn("RecipeSelector: No recipes returned from service");
         }
-        setAllRecipes(recipes as unknown as Recipe[]);
+        setAllRecipes(recipes);
       } catch (error) {
         logger.error("RecipeSelector: Failed to load recipes:", error);
       } finally {
