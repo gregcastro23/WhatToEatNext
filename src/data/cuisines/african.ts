@@ -1949,6 +1949,1254 @@ export const african: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Ghanaian Waakye",
+          "description": "A harmonious blend of stewed rice and beans, Waakye transcends mundane earthly meals, delivering a profound nutrient convergence that balances the elements. It reflects the ancient culinary artistry of West Africa, steeped in the traditions of communal warmth and hearty sustenance.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "rice",
+                              "notes": "preferably jasmine or basmati"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "dried black-eyed peas",
+                              "notes": "alternative to local Waakye leaves"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "coconut oil",
+                              "notes": "aromatic richness"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "cayenne pepper",
+                              "notes": "optional for heat"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "baking soda",
+                              "notes": "enhances legumes' softening"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Soak the black-eyed peas in water for about 30 minutes.",
+                    "Step 2: In a pot, bring the soaked beans with fresh water and baking soda to a boil.",
+                    "Step 3: Once boiling, reduce heat and simmer until the beans are tender.",
+                    "Step 4: Add rice, coconut oil, salt, and cayenne pepper to the beans.",
+                    "Step 5: Cover and cook on low heat until the rice is cooked and fluffy.",
+                    "Step 6: Serve garnished with a slice of boiled egg or avocado."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Pisces"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 9,
+                    "carbsG": 64,
+                    "fatG": 8,
+                    "fiberG": 6,
+                    "sodiumMg": 400,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 25,
+                    "Essence": 40,
+                    "Matter": 65,
+                    "Substance": 70
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.45,
+                    "reactivity": 2.1,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.8,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Moroccan Harira",
+          "description": "Harira is an exquisite Moroccan soup, renowned for its rich array of spices and invigorating lentil-tomato broth. It is a culinary symphony that signifies communal concord and the nurturing essence of Moroccan hospitality.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 90,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "lentils",
+                              "notes": "green or brown"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "chickpeas",
+                              "notes": "soaked overnight"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "olive oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "chopped celery"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "onion",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "",
+                              "name": "garlic cloves",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "tomatoes",
+                              "notes": "peeled and diced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "teaspoons",
+                              "name": "ground cumin"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "ground cinnamon"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "vegetable stock"
+                    },
+                    {
+                              "amount": 0.25,
+                              "unit": "cup",
+                              "name": "vermicelli"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "fresh cilantro",
+                              "notes": "chopped for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large pot, heat olive oil over medium heat. Add the chopped onions and garlic, saut\u00e9 until golden brown.",
+                    "Step 2: Stir in the celery, lentils, and chickpeas, allowing them to mix and absorb flavors.",
+                    "Step 3: Add the tomatoes, cumin, and cinnamon, cooking until the tomatoes soften.",
+                    "Step 4: Pour in the vegetable stock, bring the soup to a slow boil, then reduce to a simmer.",
+                    "Step 5: Cook for about 60 minutes, occasionally stirring, until the lentils and chickpeas are tender.",
+                    "Step 6: Add vermicelli, season with salt and pepper, and cook for another 10 minutes.",
+                    "Step 7: Serve hot, garnished with fresh cilantro."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering",
+                              "boiling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.5,
+                    "Earth": 0.15,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Libra",
+                              "Pisces"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 12,
+                    "carbsG": 40,
+                    "fatG": 8,
+                    "fiberG": 8,
+                    "sodiumMg": 350,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 30,
+                    "Essence": 50,
+                    "Matter": 70,
+                    "Substance": 40
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.35,
+                    "reactivity": 1.7,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 1.0,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Cape Malay Bobotie",
+          "description": "Bobotie blends the rich, earthy flavors of spiced Cape Malay cuisine with a sweet custard topping, introducing a magical transformation during baking that unites aroma with taste, embodying a fragrant culinary spirit distinctive to South African gastronomy.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 25,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "grams",
+                              "name": "ground beef",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "butter",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "slices",
+                              "name": "white bread",
+                              "notes": "soaked in milk"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "curry powder",
+                              "notes": "mild"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "turmeric"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "fruit chutney"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "grams",
+                              "name": "raisins",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "",
+                              "name": "bay leaves",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "",
+                              "name": "eggs",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "ml",
+                              "name": "milk",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat your oven to 180\u00b0C (350\u00b0F).",
+                    "Step 2: In a pan, melt butter and saut\u00e9 onions until soft.",
+                    "Step 3: Add the ground beef, curry powder, turmeric, and cook until browned.",
+                    "Step 4: Stir in the soaked bread, chutney, and raisins. Season with salt and pepper.",
+                    "Step 5: Transfer the mixture to a baking dish, layering bay leaves on top.",
+                    "Step 6: In a bowl, beat eggs with milk, pour over the beef mixture.",
+                    "Step 7: Bake for 30-40 minutes until the custard is golden and set."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.25,
+                    "Water": 0.45,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 480,
+                    "proteinG": 30,
+                    "carbsG": 30,
+                    "fatG": 26,
+                    "fiberG": 3,
+                    "sodiumMg": 620,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 35,
+                    "Essence": 45,
+                    "Matter": 55,
+                    "Substance": 60
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.4,
+                    "reactivity": 2.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.9,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Algerian Chorba Frik",
+          "description": "Chorba Frik is a hearty Algerian soup that blends the earth's grains with the fire's spices into a healing potion imbued with the soul of the Maghreb. The striking flavors of lamb and tomatoes weave a revitalizing silk-like broth.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 120,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "grams",
+                              "name": "lamb",
+                              "notes": "cubed or small pieces"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "olive oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 250,
+                              "unit": "grams",
+                              "name": "tomatoes",
+                              "notes": "pureed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "crushed wheat (frik)",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "tomato paste",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "harissa",
+                              "notes": "spicy chili paste"
+                    },
+                    {
+                              "amount": 8,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "ground coriander"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "ground cumin"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "fresh cilantro",
+                              "notes": "chopped for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat olive oil in a large pot, brown the lamb pieces.",
+                    "Step 2: Add onions, saut\u00e9 until soft, then stir in the tomato puree and paste.",
+                    "Step 3: Incorporate harissa, water, spices, and bring to a boil.",
+                    "Step 4: Reduce the heat to simmer, cover, and cook for 90 minutes until lamb is tender.",
+                    "Step 5: Add the frik, continue cooking for 30 more minutes.",
+                    "Step 6: Adjust salt and pepper to taste; garnish with fresh cilantro before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.5,
+                    "Earth": 0.15,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Virgo"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 420,
+                    "proteinG": 28,
+                    "carbsG": 35,
+                    "fatG": 20,
+                    "fiberG": 6,
+                    "sodiumMg": 700,
+                    "sugarG": 10,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 40,
+                    "Essence": 50,
+                    "Matter": 60,
+                    "Substance": 65
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.4,
+                    "reactivity": 2.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.9,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Somali Bariis",
+          "description": "Bariis, a revered dish in Somali cuisine, masterfully balances aromatics with rice, conjuring a captivating culinary mosaic that exudes warmth and community. Rooted in tradition, it mirrors the harmonious blend of cultural influences and local elements.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "basmati rice",
+                              "notes": "soaked in water for 20 minutes"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "vegetable oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "",
+                              "name": "cardamom pods",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "cinnamon stick",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "tomato",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "teaspoon",
+                              "name": "ground turmeric",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "mixed vegetables",
+                              "notes": "frozen or fresh"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat oil in a pot, saut\u00e9 onions until translucent.",
+                    "Step 2: Add cardamom pods and cinnamon stick, stir for a few minutes.",
+                    "Step 3: Add diced tomatoes, cook until they soften.",
+                    "Step 4: Drain the soaked rice and add it to the pot, stir gently.",
+                    "Step 5: Pour in water, add turmeric, salt, and mixed vegetables.",
+                    "Step 6: Bring to boil; reduce heat, cover, and simmer until water is absorbed and rice is cooked.",
+                    "Step 7: Fluff rice before serving, removing cardamom pods and cinnamon stick."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 300,
+                    "proteinG": 6,
+                    "carbsG": 60,
+                    "fatG": 5,
+                    "fiberG": 4,
+                    "sodiumMg": 350,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 30,
+                    "Essence": 45,
+                    "Matter": 55,
+                    "Substance": 50
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.35,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Tunisian Brik",
+          "description": "Brik is a culinary beacon of Tunisian heritage, characterized by a delicate, crispy wrap encasing a harmonious fusion of spice-infused fillings. The attributes of crispness and tender balance in its alchemical essence epitomize the contrast between complex textures.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "",
+                              "name": "brick pastry sheets",
+                              "notes": "or phyllo dough"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "tuna",
+                              "notes": "canned, drained"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "egg",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "capers",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "harissa paste",
+                              "notes": "spicy"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "lemon",
+                              "notes": "zest only"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "parsley",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "teaspoon",
+                              "name": "black pepper",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Mix tuna, egg, capers, harissa, lemon zest, parsley, and pepper in a bowl.",
+                    "Step 2: Lay one pastry sheet on a work surface, place a quarter of the filling in the center.",
+                    "Step 3: Fold the sheet into a triangle, sealing the edges with a dab of water.",
+                    "Step 4: Heat oil in a pan over medium heat, fry each brik until golden and crispy.",
+                    "Step 5: Drain on paper towels and serve hot with lemon wedges."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "deep-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.3,
+                    "Earth": 0.15,
+                    "Air": 0.15
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Three-quarter Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 600,
+                    "proteinG": 20,
+                    "carbsG": 40,
+                    "fatG": 40,
+                    "fiberG": 3,
+                    "sodiumMg": 500,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 50,
+                    "Essence": 60,
+                    "Matter": 65,
+                    "Substance": 70
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.3,
+                    "reactivity": 3.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 1.5,
+                    "monica": 0.8
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Kenyan Nyama Choma",
+          "description": "Nyama Choma captures the primal spirit of roasted meat, entrancing the olfactory senses with the aroma of slow-grilled delicacies. It is a celebration of lively gatherings, steeped in the allure of communal fireside cooking.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "kilogram",
+                              "name": "beef",
+                              "notes": "rib-eye, sirloin or fillet, cut into pieces"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "",
+                              "name": "lemons",
+                              "notes": "zest and juice"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "black pepper",
+                              "notes": "ground"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, combine lemon zest, juice, oil, salt, and pepper.",
+                    "Step 2: Coat the beef pieces in the marinade, let sit for 10 minutes.",
+                    "Step 3: Preheat a grill to medium heat.",
+                    "Step 4: Grill the beef for about 15 minutes on each side or until desired doneness.",
+                    "Step 5: Rest for 5 minutes before slicing and serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "grilling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.5,
+                    "Water": 0.3,
+                    "Earth": 0.1,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Sun"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 420,
+                    "proteinG": 32,
+                    "carbsG": 2,
+                    "fatG": 30,
+                    "fiberG": 0,
+                    "sodiumMg": 450,
+                    "sugarG": 0,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 35,
+                    "Essence": 55,
+                    "Matter": 75,
+                    "Substance": 80
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.4,
+                    "reactivity": 2.8,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 1.2,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Mozambican Peri-Peri Shrimp",
+          "description": "This dish brings the ocean's vitality onto the plate, casting vibrant peri-peri heat that fuses with garlic and citrus. It illustrates an exquisite coastal symphony where fiery shells yield tender, savory morsels.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 4,
+                    "spiceLevel": "High",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "grams",
+                              "name": "shrimp",
+                              "notes": "deveined, shell-on"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "peri-peri sauce",
+                              "notes": "hot or mild"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "lemon",
+                              "notes": "zest and juice"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "black pepper",
+                              "notes": "ground"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, mix peri-peri sauce, garlic, olive oil, lemon zest, and juice.",
+                    "Step 2: Add shrimp, tossing well to coat, and marinate for 15 minutes.",
+                    "Step 3: Heat a grill pan over medium-high heat.",
+                    "Step 4: Grill shrimp for 2-3 minutes per side until opaque.",
+                    "Step 5: Serve immediately with crusty bread or rice."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "grilling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.5,
+                    "Water": 0.3,
+                    "Earth": 0.15,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Neptune",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Leo"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 20,
+                    "carbsG": 6,
+                    "fatG": 15,
+                    "fiberG": 1,
+                    "sodiumMg": 600,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 40,
+                    "Essence": 60,
+                    "Matter": 70,
+                    "Substance": 65
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.25,
+                    "reactivity": 3.0,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 1.3,
+                    "monica": 0.9
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Nigerian Ogbono Soup",
+          "description": "Ogbono Soup creates a nexus of earth's bounty and cultural lineage, encapsulating the greasy, slick harmony of wild mango seeds with vibrant vegetables, offering a sensual journey with every spoonful.",
+          "details": {
+                    "cuisine": "African",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 25,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "ogbono seeds",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "grams",
+                              "name": "beef shank",
+                              "notes": "cut into pieces"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cubes",
+                              "name": "beef bouillon",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "spinach",
+                              "notes": "washed and chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "palm oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "ground crayfish",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "ground pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Boil beef with stock cubes in water until tender.",
+                    "Step 2: In another pot, heat palm oil and add ground ogbono, stirring to prevent lumps.",
+                    "Step 3: Mix the softened ogbono with the meat broth, using moderate heat.",
+                    "Step 4: Simmer while stirring frequently until smooth and well-blended.",
+                    "Step 5: Add ground crayfish, pepper, and spinach.",
+                    "Step 6: Cook until spinach wilts, then serve with fufu or rice."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.35,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 440,
+                    "proteinG": 25,
+                    "carbsG": 18,
+                    "fatG": 30,
+                    "fiberG": 4,
+                    "sodiumMg": 550,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 35,
+                    "Essence": 55,
+                    "Matter": 70,
+                    "Substance": 70
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.4,
+                    "reactivity": 1.9,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 1.0,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic South African Bunny Chow",
           "description": "A uniquely South African street food consisting of a hollowed-out loaf of white bread filled with a heavily spiced, aromatic curry.",
           "details": {

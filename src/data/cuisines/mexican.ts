@@ -445,6 +445,1147 @@ export const mexican = {
     dinner: {
       all: [
         {
+          "name": "Authentic Tlayudas",
+          "description": "Tlayudas, the Oaxacan pizza, is a harmonious blend of fire-roasted flavors and robust masa base, reflecting the inner alchemy of Mexican street cuisine.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "large",
+                              "name": "tlayudas",
+                              "notes": "large Oaxacan tortillas"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "cooked black beans",
+                              "notes": "mashed"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "Oaxaca cheese",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 250,
+                              "unit": "g",
+                              "name": "chorizo",
+                              "notes": "cooked and crumbled"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "cabbage",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "avocado",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "lard",
+                              "notes": "or vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Warm the tlayudas on a comal over medium heat until pliable.",
+                    "Step 2: Spread a thin layer of mashed black beans onto each tlayuda.",
+                    "Step 3: Sprinkle the crumbled chorizo over the beans.",
+                    "Step 4: Distribute shredded Oaxaca cheese evenly on top.",
+                    "Step 5: Heat until the cheese melts, then top with cabbage and avocado.",
+                    "Step 6: Fold the tlayuda in half and serve warm."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "griddling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 600,
+                    "proteinG": 20,
+                    "carbsG": 50,
+                    "fatG": 40,
+                    "fiberG": 10,
+                    "sodiumMg": 1200,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.6,
+                    "Essence": 0.7,
+                    "Matter": 0.8,
+                    "Substance": 0.5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.3,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Sopes",
+          "description": "Sopes offer a quintessential journey into Mexico's culinary landscapes, showcasing the tactile interplay between masa and richly spiced toppings.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 25,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "masa harina",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1.5,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": "warm"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "refried black beans",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "queso fresco",
+                              "notes": "crumbled"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "lettuce",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tomatoes",
+                              "name": "Roma",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "avocado",
+                              "name": "Hass",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "salsa roja",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Mix masa harina with warm water and salt, kneading to form a smooth dough.",
+                    "Step 2: Divide the dough into small balls, flatten them into discs with slightly raised edges.",
+                    "Step 3: Cook on a hot griddle until slightly crisped.",
+                    "Step 4: Spread refried beans on each sope.",
+                    "Step 5: Top with lettuce, diced tomatoes, queso fresco, and avocado.",
+                    "Step 6: Drizzle with salsa roja and serve."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "griddling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 10,
+                    "carbsG": 60,
+                    "fatG": 15,
+                    "fiberG": 8,
+                    "sodiumMg": 600,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.4,
+                    "Essence": 0.5,
+                    "Matter": 0.6,
+                    "Substance": 0.3
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.25,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.7,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Nopales Salad",
+          "description": "Embark on a verdant journey through the cactus fields of Mexico with this vibrant salad, where nopales add a unique, earthy texture meeting the alchemical balance with fresh vegetables and tangy dressing.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 5,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "nopales",
+                              "notes": "cleaned and diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "tomato",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "small",
+                              "name": "onion",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "fresh cilantro",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "lime juice",
+                              "notes": "fresh"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Boil the diced nopales in salted water for 3-5 minutes until tender; drain and rinse with cold water.",
+                    "Step 2: In a bowl, combine the cooked nopales, tomato, onion, and cilantro.",
+                    "Step 3: Dress with lime juice, salt, and olive oil; mix thoroughly.",
+                    "Step 4: Chill for at least 10 minutes before serving to meld flavors."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "mixing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.5,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Neptune"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 80,
+                    "proteinG": 2,
+                    "carbsG": 10,
+                    "fatG": 3,
+                    "fiberG": 5,
+                    "sodiumMg": 300,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.3,
+                    "Essence": 0.4,
+                    "Matter": 0.5,
+                    "Substance": 0.2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.12,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.1,
+                    "kalchm": 0.3,
+                    "monica": 0.2
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Elote",
+          "description": "Elote, a street food icon, embodies the fiery spirit of Mexican markets through its charred, sweet corn nucleus dressed in a creamy, tangy cloak.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "summer",
+                              "fall"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "ears",
+                              "name": "corn",
+                              "notes": "husks removed"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "mayonnaise",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "cotija cheese",
+                              "notes": "crumbled"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "chile powder",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "lime juice",
+                              "notes": "fresh"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Grill the corn on a hot grill until charred on all sides.",
+                    "Step 2: Spread mayonnaise evenly over each cob.",
+                    "Step 3: Sprinkle generously with cotija cheese.",
+                    "Step 4: Dust with chile powder and squeeze lime juice over the top.",
+                    "Step 5: Serve immediately with a sprinkle of salt."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "grilling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Sun",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 6,
+                    "carbsG": 30,
+                    "fatG": 12,
+                    "fiberG": 4,
+                    "sodiumMg": 450,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.6,
+                    "Matter": 0.7,
+                    "Substance": 0.4
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.25,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.7,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Caldo de Res",
+          "description": "Caldo de Res is a soul-warming broth, aligning the elements through slow-simmered richness and earthy vitality with bones, vegetables, and love.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 120,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "lbs",
+                              "name": "beef shank",
+                              "notes": "bone-in"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "carrots",
+                              "name": "",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "ears",
+                              "name": "corn",
+                              "notes": "halved"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "potatoes",
+                              "name": "",
+                              "notes": "quartered"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "onion",
+                              "name": "",
+                              "notes": "quartered"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bunch",
+                              "name": "cilantro",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large pot, submerge beef shank in water and bring to a boil.",
+                    "Step 2: Skim off any foam, then add salt and pepper.",
+                    "Step 3: Simmer for 1.5 hours, adding carrots, corn, potatoes, and onion.",
+                    "Step 4: Cook for an additional 30 minutes until vegetables are tender.",
+                    "Step 5: Add cilantro before serving hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.5,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waning"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 25,
+                    "carbsG": 40,
+                    "fatG": 15,
+                    "fiberG": 6,
+                    "sodiumMg": 600,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.6,
+                    "Matter": 0.8,
+                    "Substance": 0.7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.04,
+                    "entropy": 0.15,
+                    "reactivity": 0.8,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.4,
+                    "monica": 0.2
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Ceviche de Pescado",
+          "description": "A refreshing portal to Mexican coastal allure, this ceviche captures the aqueous essence of the ocean combined with citrus vitality and a hint of spice.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "summer"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "lb",
+                              "name": "white fish fillets",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "lime juice",
+                              "notes": "fresh"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "medium",
+                              "name": "tomatoes",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "red",
+                              "name": "onion",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "cilantro",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "jalape\u00f1o",
+                              "name": "pepper",
+                              "notes": "seeded and minced"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Place fish in a glass bowl; pour lime juice over and let marinate for 30 minutes until opaque.",
+                    "Step 2: Stir in tomatoes, onion, cilantro, jalape\u00f1o, and salt.",
+                    "Step 3: Chill for an additional 15 minutes before serving to allow flavors to meld."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "marinating"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.6,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Neptune"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 210,
+                    "proteinG": 20,
+                    "carbsG": 8,
+                    "fatG": 10,
+                    "fiberG": 2,
+                    "sodiumMg": 300,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.7,
+                    "Essence": 0.9,
+                    "Matter": 0.5,
+                    "Substance": 0.4
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.01,
+                    "entropy": 0.2,
+                    "reactivity": 1.3,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.5,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Gorditas",
+          "description": "Gorditas invite you to explore a world of filled masa pockets where the alchemical dance of heat and spicing crafts a deeply satisfying experience.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "masa harina",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1.5,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": "warm"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "pork carnitas",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "queso fresco",
+                              "notes": "crumbled"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "sour cream",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "lettuce",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "vegetable oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Combine masa harina, water, and salt to make dough.",
+                    "Step 2: Divide dough into balls; shape each into a thick, small disc.",
+                    "Step 3: Cook on a griddle with a bit of oil until each side is golden.",
+                    "Step 4: Slice them open and fill with carnitas, cheese, lettuce, and sour cream."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "griddling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 15,
+                    "carbsG": 55,
+                    "fatG": 20,
+                    "fiberG": 5,
+                    "sodiumMg": 800,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.6,
+                    "Matter": 0.8,
+                    "Substance": 0.3
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.3,
+                    "reactivity": 1.4,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.8,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Cochinita Pibil",
+          "description": "Cochinita Pibil encapsulates the depth of Yucat\u00e1n's culinary soul, with pork marinated in citrusy achiote, slow-cooked in banana leaves, unraveling an alchemy of flavors.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 240,
+                    "baseServingSize": 8,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "kg",
+                              "name": "pork shoulder",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "achiote paste",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "orange juice",
+                              "notes": "fresh"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "lime",
+                              "name": "juice",
+                              "notes": "fresh"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 6,
+                              "unit": "banana leaves",
+                              "name": "",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a blender, combine achiote paste, orange juice, lime juice, garlic, and salt.",
+                    "Step 2: Marinate pork in the mixture for at least 4 hours, preferably overnight.",
+                    "Step 3: Preheat oven to 325\u00b0F (160\u00b0C).",
+                    "Step 4: Wrap the marinated pork in banana leaves and place in a covered roasting pan.",
+                    "Step 5: Roast for 4 hours until tender, then shred and serve."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "roasting"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 600,
+                    "proteinG": 35,
+                    "carbsG": 20,
+                    "fatG": 45,
+                    "fiberG": 3,
+                    "sodiumMg": 900,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin D"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.7,
+                    "Essence": 0.8,
+                    "Matter": 1.0,
+                    "Substance": 0.9
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.35,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.9,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Sopa de Fideo",
+          "description": "A staple in Mexican family kitchens, Sopa de Fideo harmonizes the lightness of angel hair pasta with the depth of tomato broth.",
+          "details": {
+                    "cuisine": "Mexican",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "fideo pasta",
+                              "notes": "angel hair or thin spaghetti"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cups",
+                              "name": "chicken broth",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "medium",
+                              "name": "tomatoes",
+                              "notes": "pureed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "small",
+                              "name": "onion",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "vegetable oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "tsp",
+                              "name": "cumin",
+                              "notes": "ground"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat oil in a pan over medium heat; fry the fideo until golden brown.",
+                    "Step 2: Add diced onions and saut\u00e9 until translucent.",
+                    "Step 3: Pour in tomato puree and cook for another 5 minutes.",
+                    "Step 4: Add chicken broth, salt, and cumin; bring to a boil.",
+                    "Step 5: Reduce heat and simmer for 10 minutes until pasta is tender."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 7,
+                    "carbsG": 40,
+                    "fatG": 8,
+                    "fiberG": 3,
+                    "sodiumMg": 600,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.6,
+                    "Matter": 0.8,
+                    "Substance": 0.3
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.2,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.6,
+                    "monica": 0.2
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Tacos al Pastor",
           "description": "The crown jewel of Mexican street food. Deeply marinated pork layered onto a vertical trompo (spit), roasted over fire, and sliced thinly onto corn tortillas with pineapple.",
           "details": {

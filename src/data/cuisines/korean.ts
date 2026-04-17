@@ -182,6 +182,486 @@ export const korean: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Bibimbap",
+          "description": "The quintessential Korean 'mixed rice' bowl, representing the five cardinal colors and elements of traditional Korean philosophy. A colorful array of individually seasoned vegetables (namul), marinated beef, and a fried egg are arranged over a bed of short-grain rice, intended to be unified by a fierce mixing with savory gochujang paste.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 45,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "Medium",
+            "season": ["all"]
+          },
+          "ingredients": [
+            { "amount": 2, "unit": "cups", "name": "short-grain white rice", "notes": "Cooked and warm." },
+            { "amount": 150, "unit": "g", "name": "beef ribeye", "notes": "Thinly sliced, marinated in soy, sugar, and sesame oil." },
+            { "amount": 1, "unit": "bunch", "name": "spinach", "notes": "Blanched and seasoned with sesame oil and salt." },
+            { "amount": 1, "unit": "cup", "name": "soybean sprouts", "notes": "Blanched and seasoned." },
+            { "amount": 1, "unit": "medium", "name": "carrot", "notes": "Julienned and lightly sautéed." },
+            { "amount": 1, "unit": "medium", "name": "zucchini", "notes": "Sliced into half-moons and sautéed." },
+            { "amount": 4, "unit": "whole", "name": "shiitake mushrooms", "notes": "Sliced and sautéed." },
+            { "amount": 2, "unit": "large", "name": "eggs", "notes": "Fried sunny-side up." },
+            { "amount": 2, "unit": "tbsp", "name": "gochujang", "notes": "The primary flavor binder." }
+          ],
+          "instructions": [
+            "Step 1: Prepare each vegetable (namul) individually. Blanch the spinach and sprouts; squeeze dry and season. Sauté the carrots, zucchini, and mushrooms with a pinch of salt.",
+            "Step 2: Sauté the marinated beef over high heat until browned and caramelized.",
+            "Step 3: Place a generous serving of rice in a deep bowl.",
+            "Step 4: Arrange the beef and prepared vegetables in distinct radial sections on top of the rice, following the cardinal color patterns.",
+            "Step 5: Place the fried egg in the center. Serve with gochujang and a drizzle of sesame oil.",
+            "Step 6: To eat, add the gochujang and mix everything vigorously until the rice is uniformly coated and the flavors are unified."
+          ],
+          "classifications": {
+            "mealType": ["dinner", "lunch"],
+            "cookingMethods": ["sautéing", "blanching", "mixing"]
+          },
+          "elementalProperties": { "Fire": 0.2, "Water": 0.2, "Earth": 0.4, "Air": 0.2 },
+          "astrologicalAffinities": {
+            "planets": ["Sun", "Earth"],
+            "signs": ["Virgo", "Leo"],
+            "lunarPhases": ["Full Moon"]
+          },
+          "nutritionPerServing": {
+            "calories": 580, "proteinG": 28, "carbsG": 75, "fatG": 18, "fiberG": 8, "sodiumMg": 850, "sugarG": 12,
+            "vitamins": ["Vitamin A", "Vitamin C", "Vitamin K"],
+            "minerals": ["Iron", "Manganese", "Potassium"]
+          },
+          "alchemicalProperties": { "Spirit": 5, "Essence": 7, "Matter": 8, "Substance": 6 },
+          "thermodynamicProperties": { "heat": 0.04, "entropy": 0.35, "reactivity": 1.8, "gregsEnergy": -0.5, "kalchm": 0.8, "monica": 0.6 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Kimchi Jjigae",
+          "description": "A deeply soul-satisfying, fiercely bubbling Korean stew. This dish transforms aged, sour kimchi into a complex, fiery broth enriched by the fatty rendering of pork belly and the silky texture of tofu. It is the definitive comfort food of the Korean peninsula.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 30,
+            "baseServingSize": 2,
+            "spiceLevel": "High",
+            "season": ["all", "winter"]
+          },
+          "ingredients": [
+            { "amount": 2, "unit": "cups", "name": "aged sour kimchi", "notes": "Must be at least 2-3 weeks old." },
+            { "amount": 200, "unit": "g", "name": "pork belly", "notes": "Sliced into bite-sized strips." },
+            { "amount": 0.5, "unit": "block", "name": "firm tofu", "notes": "Sliced into rectangles." },
+            { "amount": 2, "unit": "tbsp", "name": "gochugaru", "notes": "Korean red chili flakes." },
+            { "amount": 1, "unit": "tbsp", "name": "soup soy sauce", "notes": "For deep umami." },
+            { "amount": 2, "unit": "stalks", "name": "scallions", "notes": "Sliced diagonally." },
+            { "amount": 1, "unit": "tsp", "name": "sugar", "notes": "To balance the acidity of the kimchi." },
+            { "amount": 3, "unit": "cups", "name": "anchovy-kelp stock", "notes": "The traditional broth base." }
+          ],
+          "instructions": [
+            "Step 1: Sauté the pork belly in a heavy pot (preferably earthenware) until the fat renders and meat starts to brown.",
+            "Step 2: Add the sour kimchi and sauté in the pork fat for 5-7 minutes until softened.",
+            "Step 3: Stir in the gochugaru, sugar, and soy sauce, ensuring the kimchi is well-coated.",
+            "Step 4: Pour in the anchovy-kelp stock. Bring to a vigorous boil, then reduce heat and simmer for 20 minutes.",
+            "Step 5: Lay the tofu slices and scallions on top. Simmer for another 5 minutes.",
+            "Step 6: Serve bubbling hot with plain steamed rice. The broth should be rich, sour, and spicy."
+          ],
+          "classifications": {
+            "mealType": ["dinner"],
+            "cookingMethods": ["stewing", "sautéing"]
+          },
+          "elementalProperties": { "Fire": 0.6, "Water": 0.25, "Earth": 0.1, "Air": 0.05 },
+          "astrologicalAffinities": {
+            "planets": ["Mars", "Pluto"],
+            "signs": ["Aries", "Scorpio"],
+            "lunarPhases": ["Waning Gibbous"]
+          },
+          "nutritionPerServing": {
+            "calories": 420, "proteinG": 22, "carbsG": 18, "fatG": 28, "fiberG": 4, "sodiumMg": 1200, "sugarG": 6,
+            "vitamins": ["Vitamin C", "Vitamin K", "Vitamin B12"],
+            "minerals": ["Calcium", "Iron", "Selenium"]
+          },
+          "alchemicalProperties": { "Spirit": 6, "Essence": 8, "Matter": 7, "Substance": 5 },
+          "thermodynamicProperties": { "heat": 0.09, "entropy": 0.45, "reactivity": 2.5, "gregsEnergy": -0.7, "kalchm": 1.2, "monica": 0.8 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Bulgogi",
+          "description": "Thinly sliced, premium beef marinated in a sweet and savory emulsion of soy sauce, toasted sesame oil, and Asian pear. The pear contains natural enzymes that tenderize the meat, while the high-heat grilling creates a charred, lacquered finish that is the hallmark of Korean barbecue.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 60,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": ["all"]
+          },
+          "ingredients": [
+            { "amount": 600, "unit": "g", "name": "beef ribeye or sirloin", "notes": "Sliced paper-thin." },
+            { "amount": 0.5, "unit": "cup", "name": "soy sauce", "notes": "The savory core." },
+            { "amount": 3, "unit": "tbsp", "name": "brown sugar", "notes": "For caramelization." },
+            { "amount": 0.5, "unit": "whole", "name": "Asian pear", "notes": "Grated for tenderization." },
+            { "amount": 2, "unit": "tbsp", "name": "toasted sesame oil", "notes": "For the signature aroma." },
+            { "amount": 4, "unit": "cloves", "name": "garlic", "notes": "Minced." },
+            { "amount": 1, "unit": "tbsp", "name": "toasted sesame seeds", "notes": "For garnish." },
+            { "amount": 2, "unit": "stalks", "name": "scallions", "notes": "Finely chopped." }
+          ],
+          "instructions": [
+            "Step 1: Whisk together soy sauce, sugar, grated pear, sesame oil, garlic, and scallions to create the marinade.",
+            "Step 2: Add the thinly sliced beef and massage the marinade into each piece. Refrigerate for at least 1 hour.",
+            "Step 3: Heat a heavy cast-iron skillet or grill pan until smoking hot.",
+            "Step 4: Grill the beef in batches to avoid crowding. Cook for 1-2 minutes per side until charred and caramelized.",
+            "Step 5: Garnish with toasted sesame seeds.",
+            "Step 6: Serve with lettuce leaves (ssam), rice, and ssamjang for the full experience."
+          ],
+          "classifications": {
+            "mealType": ["dinner"],
+            "cookingMethods": ["marinating", "grilling"]
+          },
+          "elementalProperties": { "Fire": 0.4, "Water": 0.1, "Earth": 0.4, "Air": 0.1 },
+          "astrologicalAffinities": {
+            "planets": ["Sun", "Venus"],
+            "signs": ["Leo", "Taurus"],
+            "lunarPhases": ["Full Moon"]
+          },
+          "nutritionPerServing": {
+            "calories": 450, "proteinG": 35, "carbsG": 18, "fatG": 24, "fiberG": 1, "sodiumMg": 950, "sugarG": 14,
+            "vitamins": ["Vitamin B12", "Niacin"],
+            "minerals": ["Zinc", "Iron", "Selenium"]
+          },
+          "alchemicalProperties": { "Spirit": 4, "Essence": 6, "Matter": 7, "Substance": 5 },
+          "thermodynamicProperties": { "heat": 0.05, "entropy": 0.3, "reactivity": 1.7, "gregsEnergy": -0.4, "kalchm": 0.9, "monica": 0.5 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Japchae",
+          "description": "A festive, highly elastic stir-fry of translucent sweet potato starch noodles (dangmyeon). Each component—beef, spinach, carrots, and mushrooms—is individually prepared to preserve its unique color and texture before being unified in a dark, glossy sesame-soy glaze.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 40,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": ["all"]
+          },
+          "ingredients": [
+            { "amount": 250, "unit": "g", "name": "dangmyeon", "notes": "Sweet potato glass noodles." },
+            { "amount": 150, "unit": "g", "name": "beef sirloin", "notes": "Thinly sliced into strips." },
+            { "amount": 2, "unit": "cups", "name": "spinach", "notes": "Blanched and seasoned." },
+            { "amount": 1, "unit": "medium", "name": "carrot", "notes": "Julienned." },
+            { "amount": 1, "unit": "small", "name": "onion", "notes": "Sliced." },
+            { "amount": 4, "unit": "whole", "name": "shiitake mushrooms", "notes": "Sliced." },
+            { "amount": 4, "unit": "tbsp", "name": "soy sauce", "notes": "For the final toss." },
+            { "amount": 2, "unit": "tbsp", "name": "sesame oil", "notes": "Essential for the characteristic gloss." },
+            { "amount": 1, "unit": "tbsp", "name": "sugar", "notes": "For savory-sweet balance." }
+          ],
+          "instructions": [
+            "Step 1: Boil the glass noodles for 7 minutes until chewy and translucent. Rinse in cold water and cut into shorter lengths.",
+            "Step 2: Individually sauté the onions, carrots, and mushrooms with a pinch of salt until tender.",
+            "Step 3: Blanch the spinach, squeeze dry, and season with sesame oil and salt.",
+            "Step 4: Stir-fry the beef strips until cooked through.",
+            "Step 5: Combine all ingredients in a large bowl. Add soy sauce, sugar, and sesame oil.",
+            "Step 6: Mix aggressively by hand (using gloves) to ensure every noodle is lacquered in the sauce. Garnish with sesame seeds."
+          ],
+          "classifications": {
+            "mealType": ["dinner", "side"],
+            "cookingMethods": ["boiling", "stir-frying", "tossing"]
+          },
+          "elementalProperties": { "Fire": 0.1, "Water": 0.2, "Earth": 0.5, "Air": 0.2 },
+          "astrologicalAffinities": {
+            "planets": ["Venus", "Mercury"],
+            "signs": ["Libra", "Taurus"],
+            "lunarPhases": ["First Quarter"]
+          },
+          "nutritionPerServing": {
+            "calories": 380, "proteinG": 12, "carbsG": 65, "fatG": 10, "fiberG": 4, "sodiumMg": 780, "sugarG": 10,
+            "vitamins": ["Vitamin A", "Vitamin K", "Vitamin B6"],
+            "minerals": ["Iron", "Potassium", "Manganese"]
+          },
+          "alchemicalProperties": { "Spirit": 5, "Essence": 6, "Matter": 7, "Substance": 4 },
+          "thermodynamicProperties": { "heat": 0.03, "entropy": 0.2, "reactivity": 1.4, "gregsEnergy": -0.3, "kalchm": 0.7, "monica": 0.4 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Galbi-gui",
+          "description": "The crown jewel of Korean barbecue: beef short ribs butterfly-cut across the bone and marinated in a rich, complex syrup. The high heat of the grill melts the heavy marbling and connective tissue, resulting in a meat that is both tender and intensely flavorful, with a smoky, caramelized exterior.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 120,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 4,
+            "spiceLevel": "None",
+            "season": ["all"]
+          },
+          "ingredients": [
+            { "amount": 1, "unit": "kg", "name": "beef short ribs", "notes": "LA-style cut (across the bone) or butterfly cut." },
+            { "amount": 0.5, "unit": "cup", "name": "soy sauce", "notes": "The foundation of the marinade." },
+            { "amount": 0.5, "unit": "whole", "name": "Asian pear", "notes": "Grated for enzyme action." },
+            { "amount": 3, "unit": "tbsp", "name": "honey", "notes": "For a deep, natural sweetness." },
+            { "amount": 2, "unit": "tbsp", "name": "mirin", "notes": "For acidity and shine." },
+            { "amount": 1, "unit": "tbsp", "name": "fresh ginger", "notes": "Grated." },
+            { "amount": 4, "unit": "cloves", "name": "garlic", "notes": "Minced." },
+            { "amount": 2, "unit": "tbsp", "name": "toasted sesame oil", "notes": "For the finishing aroma." }
+          ],
+          "instructions": [
+            "Step 1: Soak the short ribs in cold water for 1 hour to remove excess blood, then pat dry.",
+            "Step 2: Combine soy sauce, pear, honey, mirin, ginger, garlic, and sesame oil in a blender and pulse until smooth.",
+            "Step 3: Marinate the ribs for at least 4 hours, ideally overnight, in the refrigerator.",
+            "Step 4: Grill over high-heat charcoal or a very hot grill pan.",
+            "Step 5: Sear quickly to achieve a dark char without overcooking the center. Flip only once if possible.",
+            "Step 6: Cut into bite-sized pieces with kitchen scissors and serve immediately with ssam set."
+          ],
+          "classifications": {
+            "mealType": ["dinner"],
+            "cookingMethods": ["marinating", "grilling"]
+          },
+          "elementalProperties": { "Fire": 0.5, "Water": 0.1, "Earth": 0.3, "Air": 0.1 },
+          "astrologicalAffinities": {
+            "planets": ["Mars", "Sun"],
+            "signs": ["Aries", "Leo"],
+            "lunarPhases": ["Full Moon"]
+          },
+          "nutritionPerServing": {
+            "calories": 620, "proteinG": 42, "carbsG": 24, "fatG": 38, "fiberG": 1, "sodiumMg": 1150, "sugarG": 18,
+            "vitamins": ["Vitamin B12", "Niacin", "B6"],
+            "minerals": ["Zinc", "Iron", "Selenium", "Phosphorus"]
+          },
+          "alchemicalProperties": { "Spirit": 6, "Essence": 9, "Matter": 8, "Substance": 7 },
+          "thermodynamicProperties": { "heat": 0.08, "entropy": 0.4, "reactivity": 2.2, "gregsEnergy": -0.6, "kalchm": 1.5, "monica": 0.9 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Haemul Pajeon",
+          "description": "A grand, oil-fried pancake dominated by whole stalks of sweet scallions and a bounty of fresh seafood. The batter is kept light to emphasize the crispy, lattice-like structure that forms when the seafood juices emulsify with the hot oil on a griddle.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
+            "season": ["all", "rainy days"]
+          },
+          "ingredients": [
+            { "amount": 1, "unit": "bunch", "name": "green onions", "notes": "Left whole and trimmed." },
+            { "amount": 200, "unit": "g", "name": "mixed seafood", "notes": "Shrimp, squid, and clams, chopped." },
+            { "amount": 1, "unit": "cup", "name": "Korean pancake mix", "notes": "A blend of wheat and rice flour." },
+            { "amount": 0.75, "unit": "cup", "name": "ice cold water", "notes": "Crucial for a crispy result." },
+            { "amount": 1, "unit": "large", "name": "egg", "notes": "Poured over the top." },
+            { "amount": 1, "unit": "tbsp", "name": "red chili pepper", "notes": "Sliced thinly for visual contrast." },
+            { "amount": 0.25, "unit": "cup", "name": "vegetable oil", "notes": "For a semi-fry." }
+          ],
+          "instructions": [
+            "Step 1: Whisk the pancake mix with ice-cold water until just combined; do not overmix.",
+            "Step 2: Heat a large amount of oil in a wide pan over medium-high heat.",
+            "Step 3: Lay the whole scallions flat in a single layer in the pan.",
+            "Step 4: Pour the batter evenly over the scallions, then press the chopped seafood into the wet batter.",
+            "Step 5: Crack the egg over the center and spread it slightly. Top with red chili slices.",
+            "Step 6: Flip when the bottom is golden and crispy. Press down with a spatula to ensure the seafood sears. Serve with a soy-vinegar dipping sauce."
+          ],
+          "classifications": {
+            "mealType": ["dinner", "snack"],
+            "cookingMethods": ["shallow frying"]
+          },
+          "elementalProperties": { "Fire": 0.4, "Water": 0.2, "Earth": 0.2, "Air": 0.2 },
+          "astrologicalAffinities": {
+            "planets": ["Moon", "Venus"],
+            "signs": ["Cancer", "Libra"],
+            "lunarPhases": ["Last Quarter"]
+          },
+          "nutritionPerServing": {
+            "calories": 480, "proteinG": 24, "carbsG": 52, "fatG": 22, "fiberG": 3, "sodiumMg": 820, "sugarG": 4,
+            "vitamins": ["Vitamin C", "Vitamin K", "Vitamin B12"],
+            "minerals": ["Iron", "Calcium", "Zinc"]
+          },
+          "alchemicalProperties": { "Spirit": 5, "Essence": 7, "Matter": 6, "Substance": 5 },
+          "thermodynamicProperties": { "heat": 0.07, "entropy": 0.3, "reactivity": 2.1, "gregsEnergy": -0.5, "kalchm": 1.1, "monica": 0.7 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Tteokbokki",
+          "description": "The quintessential street food of Seoul. Chewy, cylindrical rice cakes (tteok) are simmered in a thick, vibrant red, sweet-spicy gochujang sauce. As the sauce reduces, it transforms into a glossy, concentrated glaze that perfectly coats the elastic rice cakes and yielding fish cakes.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 10,
+            "cookTimeMinutes": 20,
+            "baseServingSize": 2,
+            "spiceLevel": "Hot",
+            "season": ["all"]
+          },
+          "ingredients": [
+            { "amount": 400, "unit": "g", "name": "garaetteok", "notes": "Short, thick rice cakes." },
+            { "amount": 2, "unit": "sheets", "name": "fish cakes (eomuk)", "notes": "Cut into triangles." },
+            { "amount": 3, "unit": "tbsp", "name": "gochujang", "notes": "Korean chili paste." },
+            { "amount": 1, "unit": "tbsp", "name": "gochugaru", "notes": "Korean chili flakes." },
+            { "amount": 2, "unit": "tbsp", "name": "sugar", "notes": "Crucial for the glossy reduction." },
+            { "amount": 2, "unit": "cups", "name": "anchovy-kelp stock", "notes": "The flavor base." },
+            { "amount": 2, "unit": "stalks", "name": "scallions", "notes": "Cut into 2-inch pieces." },
+            { "amount": 2, "unit": "whole", "name": "hard-boiled eggs", "notes": "Traditional accompaniment." }
+          ],
+          "instructions": [
+            "Step 1: In a shallow pan, combine the stock, gochujang, gochugaru, and sugar. Bring to a rolling boil.",
+            "Step 2: Add the rice cakes to the bubbling liquid.",
+            "Step 3: Simmer over medium-high heat for 10-12 minutes, stirring constantly to prevent the rice cakes from sticking.",
+            "Step 4: Once the sauce starts to thicken and turn glossy, add the fish cakes and hard-boiled eggs.",
+            "Step 5: Continue to simmer for 3-5 minutes until the sauce has a syrupy consistency.",
+            "Step 6: Toss in the scallions right at the end. Serve piping hot, ideally with a side of fried mandu."
+          ],
+          "classifications": {
+            "mealType": ["snack", "dinner"],
+            "cookingMethods": ["simmering", "reducing"]
+          },
+          "elementalProperties": { "Fire": 0.6, "Water": 0.1, "Earth": 0.2, "Air": 0.1 },
+          "astrologicalAffinities": {
+            "planets": ["Mars", "Pluto"],
+            "signs": ["Aries", "Scorpio"],
+            "lunarPhases": ["Full Moon"]
+          },
+          "nutritionPerServing": {
+            "calories": 420, "proteinG": 14, "carbsG": 82, "fatG": 5, "fiberG": 3, "sodiumMg": 920, "sugarG": 15,
+            "vitamins": ["Vitamin A", "Vitamin C"],
+            "minerals": ["Calcium", "Iron"]
+          },
+          "alchemicalProperties": { "Spirit": 5, "Essence": 6, "Matter": 8, "Substance": 7 },
+          "thermodynamicProperties": { "heat": 0.08, "entropy": 0.4, "reactivity": 2.0, "gregsEnergy": -0.6, "kalchm": 0.9, "monica": 0.8 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Sundubu Jjigae",
+          "description": "A violent, bubbling cauldron of extra-soft tofu, characterized by its intense chili oil base and delicate, custard-like texture. This stew is built by toasting chili flakes in sesame oil before adding an oceanic stock, creating a complex, layered heat that is finished with a raw egg cracked into the boiling center.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 15,
+            "baseServingSize": 1,
+            "spiceLevel": "High",
+            "season": ["all", "winter"]
+          },
+          "ingredients": [
+            { "amount": 1, "unit": "tube", "name": "extra-soft tofu", "notes": "Sundubu." },
+            { "amount": 0.5, "unit": "cup", "name": "clams or mixed seafood", "notes": "For briney depth." },
+            { "amount": 2, "unit": "tbsp", "name": "gochugaru", "notes": "For the chili oil base." },
+            { "amount": 1, "unit": "tbsp", "name": "toasted sesame oil", "notes": "To bloom the chili." },
+            { "amount": 1, "unit": "cup", "name": "anchovy-kelp stock", "notes": "The broth foundation." },
+            { "amount": 1, "unit": "large", "name": "egg", "notes": "To be cracked in at the end." },
+            { "amount": 2, "unit": "stalks", "name": "scallions", "notes": "Finely chopped." },
+            { "amount": 3, "unit": "cloves", "name": "garlic", "notes": "Minced." }
+          ],
+          "instructions": [
+            "Step 1: In a traditional earthenware pot (ttukbaegi), heat sesame oil over medium-low heat. Add garlic and gochugaru, stirring for 1 minute to create a bright red chili oil.",
+            "Step 2: Pour in the anchovy-kelp stock and bring to a rolling boil.",
+            "Step 3: Add the mixed seafood and cook until the clams open.",
+            "Step 4: Slice the tofu tube and slide the soft chunks into the boiling broth. Do not break them up too much.",
+            "Step 5: Boil for 3-5 minutes, allowing the tofu to absorb the spicy oil.",
+            "Step 6: Remove from heat while still bubbling fiercely. Immediately crack the raw egg into the center and top with scallions. Serve with rice."
+          ],
+          "classifications": {
+            "mealType": ["dinner"],
+            "cookingMethods": ["boiling", "blooming"]
+          },
+          "elementalProperties": { "Fire": 0.7, "Water": 0.2, "Earth": 0.05, "Air": 0.05 },
+          "astrologicalAffinities": {
+            "planets": ["Pluto", "Mars"],
+            "signs": ["Scorpio", "Aries"],
+            "lunarPhases": ["New Moon"]
+          },
+          "nutritionPerServing": {
+            "calories": 320, "proteinG": 24, "carbsG": 12, "fatG": 20, "fiberG": 2, "sodiumMg": 1100, "sugarG": 4,
+            "vitamins": ["Vitamin D", "Vitamin B12", "C"],
+            "minerals": ["Iodine", "Zinc", "Calcium", "Iron"]
+          },
+          "alchemicalProperties": { "Spirit": 8, "Essence": 7, "Matter": 6, "Substance": 8 },
+          "thermodynamicProperties": { "heat": 0.1, "entropy": 0.5, "reactivity": 2.8, "gregsEnergy": -0.8, "kalchm": 1.3, "monica": 0.5 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Jajangmyeon",
+          "description": "The definitive Korean-Chinese comfort dish. Thick, hand-pulled wheat noodles are submerged in a dark, rich, and slightly sweet sauce made from fried black bean paste (chunjang). The sauce is a dense reduction of pork, onions, and cabbage, yielding a savory intensity that is both nostalgic and profoundly satisfying.",
+          "details": {
+            "cuisine": "Korean-Chinese",
+            "prepTimeMinutes": 20,
+            "cookTimeMinutes": 25,
+            "baseServingSize": 2,
+            "spiceLevel": "None",
+            "season": ["all"]
+          },
+          "ingredients": [
+            { "amount": 400, "unit": "g", "name": "jajangmyeon noodles", "notes": "Thick, fresh wheat noodles." },
+            { "amount": 0.5, "unit": "cup", "name": "chunjang", "notes": "Korean black bean paste." },
+            { "amount": 200, "unit": "g", "name": "pork shoulder", "notes": "Cubed small." },
+            { "amount": 2, "unit": "cups", "name": "onions", "notes": "Diced large; they provide the sweetness." },
+            { "amount": 1, "unit": "cup", "name": "cabbage", "notes": "Diced." },
+            { "amount": 1, "unit": "tbsp", "name": "sugar", "notes": "To balance the paste's bitterness." },
+            { "amount": 2, "unit": "tbsp", "name": "cornstarch slurry", "notes": "To thicken the sauce." },
+            { "amount": 0.5, "unit": "cup", "name": "cucumber", "notes": "Julienned for fresh garnish." }
+          ],
+          "instructions": [
+            "Step 1: Fry the black bean paste (chunjang) in 0.25 cup of oil for 3 minutes over medium heat to remove its bitter edge. Drain and set paste aside.",
+            "Step 2: In a wok, sauté the pork until browned. Add the onions and cabbage, cooking until the onions are translucent and slightly caramelized.",
+            "Step 3: Stir the fried paste back into the pork and vegetables.",
+            "Step 4: Pour in 1 cup of water and the sugar. Simmer for 10 minutes.",
+            "Step 5: Stir in the slurry until the sauce is thick, dark, and glossy.",
+            "Step 6: Boil the noodles, drain, and place in large bowls. Ladle the thick black sauce over the noodles and top with fresh cucumber. Mix well before eating."
+          ],
+          "classifications": {
+            "mealType": ["dinner", "lunch"],
+            "cookingMethods": ["frying", "simmering", "reduction"]
+          },
+          "elementalProperties": { "Earth": 0.6, "Water": 0.2, "Fire": 0.1, "Air": 0.1 },
+          "astrologicalAffinities": {
+            "planets": ["Saturn", "Jupiter"],
+            "signs": ["Capricorn", "Taurus"],
+            "lunarPhases": ["Full Moon"]
+          },
+          "nutritionPerServing": {
+            "calories": 650, "proteinG": 28, "carbsG": 95, "fatG": 18, "fiberG": 6, "sodiumMg": 1050, "sugarG": 12,
+            "vitamins": ["Vitamin B1", "B6", "A"],
+            "minerals": ["Iron", "Phosphorus", "Potassium"]
+          },
+          "alchemicalProperties": { "Spirit": 4, "Essence": 5, "Matter": 9, "Substance": 8 },
+          "thermodynamicProperties": { "heat": 0.04, "entropy": 0.3, "reactivity": 1.5, "gregsEnergy": -0.4, "kalchm": 0.6, "monica": 0.8 },
+          "substitutions": []
+        },
+        {
+          "name": "Authentic Samgyeopsal",
+          "description": "The quintessential social dining experience of Korea. Thick-cut strips of high-quality pork belly are grilled unmarinated at the table, allowing the fat to render and crisp the meat. It is a tactile, communal meal centered around the 'ssam'—fresh lettuce wraps containing the hot pork, fermented soybean paste, and sharp aromatics.",
+          "details": {
+            "cuisine": "Korean",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 10,
+            "baseServingSize": 2,
+            "spiceLevel": "Mild",
+            "season": ["all"]
+          },
+          "ingredients": [
+            { "amount": 500, "unit": "g", "name": "pork belly", "notes": "Thick slices, skin-on preferred." },
+            { "amount": 1, "unit": "head", "name": "red leaf lettuce", "notes": "For wrapping." },
+            { "amount": 0.25, "unit": "cup", "name": "ssamjang", "notes": "Spicy bean paste." },
+            { "amount": 4, "unit": "cloves", "name": "garlic", "notes": "Sliced thinly for raw consumption." },
+            { "amount": 2, "unit": "whole", "name": "green chilies", "notes": "Sliced." },
+            { "amount": 1, "unit": "cup", "name": "aged kimchi", "notes": "To be grilled in the pork fat." },
+            { "amount": 2, "unit": "tbsp", "name": "toasted sesame oil", "notes": "With salt and pepper for dipping." }
+          ],
+          "instructions": [
+            "Step 1: Arrange the raw pork, lettuce, ssamjang, and aromatics on the table around a central grill.",
+            "Step 2: Heat the grill until smoking. Lay the pork belly strips flat. Do not season; let the meat speak for itself.",
+            "Step 3: Grill until the bottom is deeply browned and crispy. Flip only once.",
+            "Step 4: Use kitchen scissors to cut the long strips into bite-sized pieces directly on the grill. Move the aged kimchi to the edge of the grill to fry in the rendering pork fat.",
+            "Step 5: Dip a piece of hot pork into the salted sesame oil.",
+            "Step 6: Place the meat in a lettuce leaf, add a smear of ssamjang, a slice of garlic, and a piece of grilled kimchi. Wrap tightly and eat in one bite."
+          ],
+          "classifications": {
+            "mealType": ["dinner", "social"],
+            "cookingMethods": ["grilling", "rendering"]
+          },
+          "elementalProperties": { "Fire": 0.5, "Water": 0.05, "Earth": 0.35, "Air": 0.1 },
+          "astrologicalAffinities": {
+            "planets": ["Mars", "Venus"],
+            "signs": ["Taurus", "Aries"],
+            "lunarPhases": ["Waxing Gibbous"]
+          },
+          "nutritionPerServing": {
+            "calories": 520, "proteinG": 28, "carbsG": 8, "fatG": 42, "fiberG": 2, "sodiumMg": 650, "sugarG": 2,
+            "vitamins": ["Vitamin B1", "B12", "D"],
+            "minerals": ["Selenium", "Zinc", "Iron", "Potassium"]
+          },
+          "alchemicalProperties": { "Spirit": 5, "Essence": 4, "Matter": 6, "Substance": 5 },
+          "thermodynamicProperties": { "heat": 0.09, "entropy": 0.4, "reactivity": 2.2, "gregsEnergy": -0.7, "kalchm": 1.4, "monica": 0.8 },
+          "substitutions": []
+        },
+        {
           "name": "Authentic Bibimbap (Dolsot)",
           "description": "The definitive Korean mixed rice bowl. Served in a sizzling hot stone pot (dolsot), it features perfectly arranged namul (sautéed vegetables), marinated beef, and a raw egg yolk that cooks as you aggressively mix it with gochujang.",
           "details": {
