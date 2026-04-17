@@ -614,6 +614,1234 @@ export const vietnamese: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic B\u00e1nh X\u00e8o",
+          "description": "A sizzling Vietnamese pancake that embodies the harmonious fusion of crispy textures and umami richness, demonstrating a delicate balance of alchemical processes and cultural tradition.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 250,
+                              "unit": "g",
+                              "name": "rice flour",
+                              "notes": "preferably Vietnamese brand"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "ml",
+                              "name": "coconut milk"
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "ml",
+                              "name": "water"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "turmeric powder"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 250,
+                              "unit": "g",
+                              "name": "shrimp",
+                              "notes": "small, deveined"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "pork belly",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "bean sprouts"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "lettuce",
+                              "notes": "butter or romaine"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "fresh herbs",
+                              "notes": "mint, cilantro"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large bowl, mix rice flour, coconut milk, water, turmeric, and fish sauce until smooth. Let batter rest for 30 minutes.",
+                    "Step 2: Heat a non-stick pan with a small amount of vegetable oil over medium-high heat.",
+                    "Step 3: Add a few slices of pork belly and shrimp. Saut\u00e9 until they start to turn color.",
+                    "Step 4: Stir the batter again. Pour a ladle of batter over the shrimp and pork, swirling to cover the pan thinly.",
+                    "Step 5: Cover the pan and let cook for about 3 minutes until edges are crisp.",
+                    "Step 6: Add a handful of bean sprouts, cover again for another 2 minutes.",
+                    "Step 7: Fold the pancake in half and serve hot with lettuce and fresh herbs."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Libra",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 520,
+                    "proteinG": 25,
+                    "carbsG": 45,
+                    "fatG": 28,
+                    "fiberG": 3,
+                    "sodiumMg": 1050,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 60,
+                    "Essence": 20,
+                    "Matter": 10,
+                    "Substance": 10
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.3,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 1.0,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Ch\u1ea3 Gi\u00f2 (Vietnamese Spring Rolls)",
+          "description": "These crispy Vietnamese spring rolls are a testament to the art of alchemy, transforming simple ingredients into profound flavors that enrobe the senses in a symphony of crunch and savory delight.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 45,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "ground pork"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "shrimp",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "g",
+                              "name": "dried ear mushrooms",
+                              "notes": "reconstituted and chopped"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "glass noodles",
+                              "notes": "soaked and chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "medium",
+                              "name": "carrots",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tsp",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper"
+                    },
+                    {
+                              "amount": 16,
+                              "unit": "sheets",
+                              "name": "rice paper"
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "ml",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, mix the ground pork, shrimp, mushrooms, noodles, carrots, garlic, fish sauce, sugar, and pepper until evenly combined.",
+                    "Step 2: Dip each rice paper sheet in warm water briefly and lay flat on a surface.",
+                    "Step 3: Spoon about 1 tablespoon of filling onto the lower third of the rice paper, fold the sides over the filling, and roll tightly.",
+                    "Step 4: Heat the vegetable oil in a deep pan to 350\u00b0F (175\u00b0C).",
+                    "Step 5: Fry the rolls in batches, turning occasionally, until golden brown and crispy.",
+                    "Step 6: Drain on paper towels and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "deep-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.1,
+                    "Earth": 0.3,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 610,
+                    "proteinG": 28,
+                    "carbsG": 53,
+                    "fatG": 31,
+                    "fiberG": 4,
+                    "sodiumMg": 980,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 70,
+                    "Essence": 15,
+                    "Matter": 10,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.45,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 1.2,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic C\u00e0 Ri G\u00e0 (Vietnamese Chicken Curry)",
+          "description": "A rich and fragrant Vietnamese chicken curry, C\u00e0 Ri G\u00e0 is an exquisite manifestation of elemental balance and culinary alchemy, where spices melt into a hearty dance over tender poultry.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 800,
+                              "unit": "g",
+                              "name": "chicken thighs",
+                              "notes": "bone-in, skin-on"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "curry powder",
+                              "notes": "Vietnamese style"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "turmeric powder"
+                    },
+                    {
+                              "amount": 400,
+                              "unit": "ml",
+                              "name": "coconut milk"
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "potato",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "carrot",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sugar"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat vegetable oil in a pot over medium heat. Add onions and garlic, saut\u00e9ing until fragrant.",
+                    "Step 2: Add the chicken thighs, browning slightly. Stir in curry powder and turmeric, cooking for 2 minutes.",
+                    "Step 3: Pour in coconut milk and add in potatoes and carrots. Bring to a boil.",
+                    "Step 4: Reduce heat to a simmer, cover, and cook until chicken is tender, around 25 minutes.",
+                    "Step 5: Stir in fish sauce and sugar. Adjust seasoning to taste and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.5,
+                    "Water": 0.3,
+                    "Earth": 0.15,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 680,
+                    "proteinG": 41,
+                    "carbsG": 32,
+                    "fatG": 40,
+                    "fiberG": 5,
+                    "sodiumMg": 1260,
+                    "sugarG": 7,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 50,
+                    "Essence": 30,
+                    "Matter": 15,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.25,
+                    "reactivity": 0.9,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 1.1,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic G\u1ecfi G\u00e0 B\u1eafp C\u1ea3i (Vietnamese Chicken and Cabbage Salad)",
+          "description": "A refreshing salad balanced with the alchemical wonders of textures and flavors, combining tender chicken with crispy cabbage, enhanced by a zesty dressing that incarnates the culinary essence of Vietnamese finesse.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "g",
+                              "name": "chicken breast",
+                              "notes": "poached and shredded"
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "cabbage",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "carrot",
+                              "notes": "julienned"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "fresh mint leaves"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "fresh cilantro"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "lime juice"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "chili garlic paste",
+                              "notes": "optional for spice"
+                    },
+                    {
+                              "amount": 40,
+                              "unit": "g",
+                              "name": "fried shallots",
+                              "notes": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large bowl, combine shredded chicken, cabbage, carrot, mint, and cilantro.",
+                    "Step 2: In a small bowl, whisk together lime juice, fish sauce, sugar, and chili garlic paste.",
+                    "Step 3: Pour the dressing over the salad and toss gently to combine.",
+                    "Step 4: Garnish with fried shallots and serve immediately."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "no-cook"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.4,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Libra",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 320,
+                    "proteinG": 35,
+                    "carbsG": 20,
+                    "fatG": 10,
+                    "fiberG": 4,
+                    "sodiumMg": 1000,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 40,
+                    "Essence": 40,
+                    "Matter": 10,
+                    "Substance": 10
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.03,
+                    "entropy": 0.2,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 0.9,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic B\u00e1nh Canh Cua (Vietnamese Crab Tapioca Noodles)",
+          "description": "A soothing and hearty noodle soup, B\u00e1nh Canh Cua encapsulates an alchemical balance of oceanic and terrestrial richness, capturing the ephemeral essence of Vietnamese coastal cuisine with its silky strands and lavish crab bisque.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 25,
+                    "cookTimeMinutes": 25,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "tapioca noodles",
+                              "notes": "fresh or dried"
+                    },
+                    {
+                              "amount": 400,
+                              "unit": "g",
+                              "name": "crab meat"
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "ml",
+                              "name": "chicken stock"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "bean sprouts"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "scallions",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "fresh cilantro",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "vegetable oil"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Cook tapioca noodles according to package instructions. Drain and set aside.",
+                    "Step 2: In a pot, heat vegetable oil over medium heat. Saut\u00e9 crab meat until cooked.",
+                    "Step 3: Pour in chicken stock, fish sauce, and sugar. Bring to a boil.",
+                    "Step 4: Add noodles, reduce heat to simmer for 5 minutes.",
+                    "Step 5: Stir in bean sprouts and cook for another minute.",
+                    "Step 6: Garnish with scallions, black pepper, and cilantro before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Neptune",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Third Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 29,
+                    "carbsG": 40,
+                    "fatG": 9,
+                    "fiberG": 2,
+                    "sodiumMg": 800,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 30,
+                    "Essence": 50,
+                    "Matter": 10,
+                    "Substance": 10
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.04,
+                    "entropy": 0.22,
+                    "reactivity": 0.8,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 1.0,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic B\u00f2 Kho (Vietnamese Beef Stew)",
+          "description": "B\u00f2 Kho, a succulent Vietnamese beef stew, orchestrates a symphony of spices and tender meat, embodying the alchemical transformation of elemental rawness into deep, nourishing warmth.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 120,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 900,
+                              "unit": "g",
+                              "name": "beef brisket",
+                              "notes": "cut into chunks"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "curry powder",
+                              "notes": "Vietnamese"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "five-spice powder"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "tomato paste"
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "ml",
+                              "name": "beef stock"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "large",
+                              "name": "carrots",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sugar"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat the oil in a large pot over medium heat. Add the onions and garlic, cooking until fragrant.",
+                    "Step 2: Stir in curry powder and five-spice powder, cooking until toasted.",
+                    "Step 3: Add the beef chunks, browning on all sides.",
+                    "Step 4: Add tomato paste and stir. Pour in beef stock, bringing to a boil.",
+                    "Step 5: Simmer on low heat for 90 minutes until beef is tender.",
+                    "Step 6: Add carrots, fish sauce, and sugar. Simmer for additional 30 minutes.",
+                    "Step 7: Adjust seasoning to taste and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering",
+                              "stewing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 520,
+                    "proteinG": 37,
+                    "carbsG": 20,
+                    "fatG": 31,
+                    "fiberG": 3,
+                    "sodiumMg": 950,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 25,
+                    "Essence": 40,
+                    "Matter": 20,
+                    "Substance": 15
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.28,
+                    "reactivity": 1.4,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.8,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Ch\u00e8 B\u1eafp (Vietnamese Sweet Corn Pudding)",
+          "description": "An exquisite Vietnamese dessert, Ch\u00e8 B\u1eafp employs the alchemy of corn\u2019s natural sweetness with coconut\u2019s rich creaminess, forming a luscious pudding that soothes and delights.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "sweet corn kernels"
+                    },
+                    {
+                              "amount": 400,
+                              "unit": "ml",
+                              "name": "coconut milk"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "tapioca pearls",
+                              "notes": "small"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "vanilla extract"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Soak tapioca pearls in water for 15 minutes, then drain.",
+                    "Step 2: In a pot, cook corn kernels in coconut milk over medium heat until boiling.",
+                    "Step 3: Add soaked tapioca pearls, sugar, and salt to the pot, stirring well.",
+                    "Step 4: Continue simmering until the tapioca is translucent and cooked through, about 15 minutes.",
+                    "Step 5: Stir in vanilla extract, remove from heat, and serve warm or chilled."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 410,
+                    "proteinG": 4,
+                    "carbsG": 68,
+                    "fatG": 20,
+                    "fiberG": 2,
+                    "sodiumMg": 300,
+                    "sugarG": 32,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 35,
+                    "Essence": 50,
+                    "Matter": 5,
+                    "Substance": 10
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.35,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 0.7,
+                    "monica": 0.2
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic G\u00e0 R\u00f4ti (Vietnamese Roasted Chicken)",
+          "description": "An epitome of Vietnamese culinary mastery, G\u00e0 R\u00f4ti transforms simple poultry through the nuanced alchemical application of spice and heat to deliver profound gustatory pleasure.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 90,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1.5,
+                              "unit": "kg",
+                              "name": "whole chicken",
+                              "notes": "cleaned"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "crushed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "honey"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "vegetable oil"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, mix soy sauce, fish sauce, sugar, garlic, pepper, honey, and oil to form a marinade.",
+                    "Step 2: Rub the marinade thoroughly over the chicken, ensuring even coating.",
+                    "Step 3: Marinate the chicken for at least 2 hours or overnight in the refrigerator.",
+                    "Step 4: Preheat the oven to 375\u00b0F (190\u00b0C).",
+                    "Step 5: Place the chicken on a roasting pan and roast for 90 minutes, basting occasionally with the marinade.",
+                    "Step 6: Check for doneness, let rest for 10 minutes before carving and serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "roasting"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.25,
+                    "Air": 0.15
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Sun"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 590,
+                    "proteinG": 46,
+                    "carbsG": 14,
+                    "fatG": 39,
+                    "fiberG": 1,
+                    "sodiumMg": 1480,
+                    "sugarG": 10,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 20,
+                    "Essence": 30,
+                    "Matter": 30,
+                    "Substance": 20
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.4,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.45,
+                    "kalchm": 0.95,
+                    "monica": 0.65
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Nem R\u00e1n H\u00e0 N\u1ed9i (Hanoi Fried Spring Rolls)",
+          "description": "Exalting the art of frying, Nem R\u00e1n H\u00e0 N\u1ed9i represents a delicate alchemical fusion of savory fillings encased in a light and crispy wrap, showcasing the quintessence of Hanoi\u2019s sophisticated palate.",
+          "details": {
+                    "cuisine": "Vietnamese",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "ground pork"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "crab meat",
+                              "notes": "picked over"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "medium",
+                              "name": "carrots",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "g",
+                              "name": "glass noodles",
+                              "notes": "soaked and chopped"
+                    },
+                    {
+                              "amount": 40,
+                              "unit": "g",
+                              "name": "dried ear mushrooms",
+                              "notes": "reconstituted and chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 12,
+                              "unit": "sheets",
+                              "name": "rice paper"
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "ml",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large bowl, combine pork, crab meat, carrots, garlic, noodles, mushrooms, fish sauce, and sugar.",
+                    "Step 2: Work one wrapper at a time, dipping each rice paper sheet in warm water to soften.",
+                    "Step 3: Place a spoonful of filling on the softened rice paper and roll tightly.",
+                    "Step 4: Heat oil in a deep pan to 350\u00b0F (175\u00b0C).",
+                    "Step 5: Fry rolls in small batches, turning occasionally, until golden brown and crispy.",
+                    "Step 6: Drain on paper towels and serve hot with dipping sauce."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "deep-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.35,
+                    "Water": 0.1,
+                    "Earth": 0.3,
+                    "Air": 0.25
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Virgo",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 630,
+                    "proteinG": 32,
+                    "carbsG": 54,
+                    "fatG": 33,
+                    "fiberG": 4,
+                    "sodiumMg": 1100,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 55,
+                    "Essence": 25,
+                    "Matter": 15,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.32,
+                    "reactivity": 1.9,
+                    "gregsEnergy": -0.55,
+                    "kalchm": 1.25,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Pho Bo (Beef Noodle Soup)",
           "description": "The definitive Vietnamese soup. A painstakingly clear, deeply aromatic beef bone broth steeped with charred ginger, onion, and toasted star anise, ladled boiling hot over rice noodles and raw beef.",
           "details": {

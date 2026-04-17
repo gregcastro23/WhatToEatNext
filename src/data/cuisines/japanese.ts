@@ -955,6 +955,1254 @@ export const japanese: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Katsudon",
+          "description": "A perfect union of texture and flavor, Katsudon is a beloved Japanese dish where alchemy transforms simple ingredients into a bowl of comfort. Juicy fried pork cutlet meets a savory-sweet dashi broth, absorbing the essence of umami and fire to create a mouthwatering experience.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 25,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "pieces",
+                              "name": "boneless pork loin chops"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "all-purpose flour"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "pieces",
+                              "name": "eggs",
+                              "notes": "beaten for breading"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "panko breadcrumbs"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "rice",
+                              "notes": "short-grain, steamed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "dashi stock"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "mirin"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "pieces",
+                              "name": "eggs",
+                              "notes": "for topping"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "piece",
+                              "name": "onion",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Coat the pork chops in flour, dip in beaten egg, and then cover with panko breadcrumbs.",
+                    "Step 2: Heat vegetable oil in a pan over medium heat and fry the breaded pork until golden brown.",
+                    "Step 3: Mix dashi stock, soy sauce, mirin, and sugar in a pan. Add sliced onion and cook until translucent.",
+                    "Step 4: Slice the fried pork cutlet and add it to the pan. Pour beaten eggs over the pork and cover, allowing the eggs to cook gently.",
+                    "Step 5: Serve the pork and eggs over steamed rice."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 600,
+                    "proteinG": 30,
+                    "carbsG": 75,
+                    "fatG": 20,
+                    "fiberG": 4,
+                    "sodiumMg": 800,
+                    "sugarG": 12,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 5,
+                    "Essence": 8,
+                    "Matter": 7,
+                    "Substance": 6
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.2,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.9,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Takikomi Gohan (Seasoned Rice)",
+          "description": "Takikomi Gohan harnesses the power of elements to infuse rice with a medley of savory ingredients. With vegetables and protein adding depth, this dish transforms the ordinary into an extraordinary symphony of flavors.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 35,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "Japanese short-grain rice",
+                              "notes": "rinsed and drained"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "dashi stock"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "sake"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "mirin"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "piece",
+                              "name": "carrot",
+                              "notes": "julienned"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "chicken thigh",
+                              "notes": "cut into small pieces"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "grams",
+                              "name": "shiitake mushrooms",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "vegetable oil"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat vegetable oil in a pan and saut\u00e9 chicken, carrots, and mushrooms briefly.",
+                    "Step 2: Add rinsed rice to a rice cooker.",
+                    "Step 3: In a separate bowl, combine dashi stock, soy sauce, sake, and mirin, then pour over the rice.",
+                    "Step 4: Add the saut\u00e9ed mixture into the rice cooker and start cooking.",
+                    "Step 5: Once cooked, gently mix the contents and serve warm."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "saut\u00e9ing",
+                              "steaming"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.4,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Virgo",
+                              "Pisces"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 15,
+                    "carbsG": 70,
+                    "fatG": 10,
+                    "fiberG": 5,
+                    "sodiumMg": 700,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Potassium",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 6,
+                    "Essence": 9,
+                    "Matter": 8,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.04,
+                    "entropy": 0.25,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.7,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Nikujaga (Meat and Potato Stew)",
+          "description": "Nikujaga is a soul-warming dish that encapsulates the comforting embrace of meat and potatoes stewed together. Utilizing the gentle heat of a simmer, this dish represents the perfect balance of water and earth elements.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 45,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "thinly sliced beef"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "pieces",
+                              "name": "potatoes",
+                              "notes": "peeled and quartered"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "piece",
+                              "name": "onion",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "sake"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "dashi stock"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "vegetable oil"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat vegetable oil in a pot and saut\u00e9 the onions until they become translucent.",
+                    "Step 2: Add the beef into the pot and cook until browned.",
+                    "Step 3: Combine dashi stock, soy sauce, sake, and sugar in the pot.",
+                    "Step 4: Add the potatoes and simmer for approximately 30-40 minutes until potatoes are tender.",
+                    "Step 5: Serve hot and enjoy the comforting flavors."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "saut\u00e9ing",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.4,
+                    "Earth": 0.25,
+                    "Air": 0.15
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 380,
+                    "proteinG": 20,
+                    "carbsG": 55,
+                    "fatG": 9,
+                    "fiberG": 6,
+                    "sodiumMg": 850,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 4,
+                    "Essence": 7,
+                    "Matter": 9,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.3,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Chawanmushi (Savory Egg Custard)",
+          "description": "Chawanmushi is a delicate balance of umami and silkiness. An exquisite representation of the thermal and aqueous alchemy, turning eggs into a custard that suspends umami-rich ingredients in a luxurious embrace.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 5,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "pieces",
+                              "name": "eggs"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "dashi stock"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "mirin"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "chicken thigh",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 8,
+                              "unit": "pieces",
+                              "name": "shiitake mushrooms",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 8,
+                              "unit": "pieces",
+                              "name": "cooked shrimp"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "ginkgo nuts",
+                              "optional": "aesthetic garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Mix eggs, dashi stock, soy sauce, and mirin in a bowl without creating bubbles.",
+                    "Step 2: Place chicken, mushrooms, shrimp, and any garnish at the bottom of cups or bowls.",
+                    "Step 3: Pour the egg mixture over gently to cover the ingredients.",
+                    "Step 4: Steam for about 15 minutes until the custard sets but is still silky.",
+                    "Step 5: Serve warm and enjoy."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "steaming"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.15,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.15
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Neptune",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Third Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 210,
+                    "proteinG": 15,
+                    "carbsG": 5,
+                    "fatG": 14,
+                    "fiberG": 2,
+                    "sodiumMg": 600,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin D",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Zinc",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 8,
+                    "Essence": 6,
+                    "Matter": 4,
+                    "Substance": 7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.15,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.5,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Yaki Onigiri (Grilled Rice Balls)",
+          "description": "Yaki Onigiri showcases the beauty of transformation through fire and earth. The Maillard reaction crisps and caramelizes the rice's exterior, while a glaze of soy conjoins the elements, bringing together flavors of umami and nostalgia.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 3,
+                              "unit": "cups",
+                              "name": "cooked Japanese rice",
+                              "notes": "warm"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "mirin"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "katsuobushi",
+                              "optional": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Shape warm rice into balls or triangles.",
+                    "Step 2: Heat a grill pan and lightly oil it.",
+                    "Step 3: Grill the rice balls until crispy and golden on both sides.",
+                    "Step 4: Mix soy sauce and mirin; brush onto the rice balls during the final minute of grilling.",
+                    "Step 5: Optional, garnish with katsuobushi and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "grilling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.25,
+                    "Water": 0.25,
+                    "Earth": 0.25,
+                    "Air": 0.25
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Sun",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 330,
+                    "proteinG": 8,
+                    "carbsG": 70,
+                    "fatG": 1,
+                    "fiberG": 3,
+                    "sodiumMg": 800,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin E",
+                              "Vitamin B"
+                    ],
+                    "minerals": [
+                              "Manganese",
+                              "Copper"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 6,
+                    "Essence": 5,
+                    "Matter": 6,
+                    "Substance": 7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.28,
+                    "reactivity": 1.7,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.6,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Tonkatsu (Japanese Fried Pork Cutlet)",
+          "description": "Tonkatsu epitomizes the power of heat and oil transforming simple pork into a luscious cutlet. The succinct balance of crispy panko exterior and juicy interior manifests a satisfying harmony of fire and earth.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "pieces",
+                              "name": "pork loin chops"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cups",
+                              "name": "panko breadcrumbs"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "pieces",
+                              "name": "eggs",
+                              "notes": "beaten for breading"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "all-purpose flour"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "teaspoon",
+                              "name": "black pepper"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Season pork with salt and pepper.",
+                    "Step 2: Coat pork in flour, dip in beaten egg, and cover with panko.",
+                    "Step 3: Heat oil in a frying pan over medium heat.",
+                    "Step 4: Fry pork until golden brown and cooked through.",
+                    "Step 5: Drain on a paper towel and serve with tonkatsu sauce."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.35,
+                    "Water": 0.1,
+                    "Earth": 0.4,
+                    "Air": 0.15
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 500,
+                    "proteinG": 25,
+                    "carbsG": 45,
+                    "fatG": 25,
+                    "fiberG": 2,
+                    "sodiumMg": 1200,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Selenium",
+                              "Zinc"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 7,
+                    "Essence": 6,
+                    "Matter": 8,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.45,
+                    "reactivity": 2.8,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 1.2,
+                    "monica": 0.9
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Zaru Soba (Cold Buckwheat Noodles)",
+          "description": "Zaru Soba invites you to experience the cool embrace of water and the nourishment of earth. This dish features chilled buckwheat noodles with a tangy dipping sauce, offering balance and rejuvenation.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 5,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "grams",
+                              "name": "dried soba noodles"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "tsuyu (noodle sauce)"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bunch",
+                              "name": "green onions",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "wasabi",
+                              "optional": "for dipping"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "toasted nori",
+                              "notes": "sliced"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Cook the soba noodles according to package instructions.",
+                    "Step 2: Rinse and cool the noodles under cold running water.",
+                    "Step 3: Serve the noodles on a bamboo mat or plate.",
+                    "Step 4: Serve with a side of tsuyu sauce and garnishes of sliced nori and green onions.",
+                    "Step 5: Dip noodle servings into tsuyu with optional wasabi."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.5,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Neptune"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Pisces"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 10,
+                    "carbsG": 45,
+                    "fatG": 2,
+                    "fiberG": 5,
+                    "sodiumMg": 600,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin B1",
+                              "Vitamin B2"
+                    ],
+                    "minerals": [
+                              "Magnesium",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 5,
+                    "Essence": 6,
+                    "Matter": 5,
+                    "Substance": 6
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.03,
+                    "entropy": 0.2,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.1,
+                    "kalchm": 0.4,
+                    "monica": 0.2
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Oyakodon (Chicken and Egg Bowl)",
+          "description": "Oyakodon is a heartwarming dish, seamlessly blending through husband's love of both chicken and egg into unity. With soft simmering, this dish evokes the comforting power of mother earth and renewal through warmth.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "grams",
+                              "name": "chicken thighs",
+                              "notes": "cut into pieces"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "pieces",
+                              "name": "eggs"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "piece",
+                              "name": "onion",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "mirin"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "dashi stock"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "steamed rice"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "green onions",
+                              "notes": "chopped, for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat dashi, soy sauce, mirin, and sugar in a pan over medium heat.",
+                    "Step 2: Add onion and simmer until tender.",
+                    "Step 3: Add chicken and simmer until cooked through.",
+                    "Step 4: Lightly beat the eggs and pour over the chicken and onions.",
+                    "Step 5: Cover and cook until eggs are just set.",
+                    "Step 6: Serve over bowls of steamed rice, garnished with green onions."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.15,
+                    "Water": 0.45,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 25,
+                    "carbsG": 55,
+                    "fatG": 10,
+                    "fiberG": 3,
+                    "sodiumMg": 850,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin B12",
+                              "Vitamin D"
+                    ],
+                    "minerals": [
+                              "Zinc",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 7,
+                    "Essence": 4,
+                    "Matter": 9,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.25,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.8,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Yakisoba (Japanese Stir-Fried Noodles)",
+          "description": "Yakisoba sizzles with an alchemy of fire and earth, combining noodles and vegetables in a medley of teriyaki-soaked delight. The heat evokes transformation, enriching each ingredient with layers of intertwining flavors and textures.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "grams",
+                              "name": "yakisoba noodles"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "pork belly",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "cabbage",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "piece",
+                              "name": "carrot",
+                              "notes": "julienned"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "yakisoba sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "green onions",
+                              "notes": "chopped, for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat vegetable oil in a large pan or wok over medium heat.",
+                    "Step 2: Add pork belly slices and cook until slightly crispy.",
+                    "Step 3: Add shaved cabbage and carrot, stir until vegetables begin to soften.",
+                    "Step 4: Add yakisoba noodles and yakisoba sauce, tossing to coat.",
+                    "Step 5: Transfer to a serving plate and top with green onions."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 15,
+                    "carbsG": 60,
+                    "fatG": 20,
+                    "fiberG": 5,
+                    "sodiumMg": 750,
+                    "sugarG": 7,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Potassium",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 5,
+                    "Essence": 7,
+                    "Matter": 6,
+                    "Substance": 8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.3,
+                    "reactivity": 2.2,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 1.0,
+                    "monica": 0.75
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Gyudon (Beef Bowl)",
+          "description": "Gyudon, meaning beef bowl, represents an equilibrium of fire and earth. Thin slices of beef delicately simmered in sweet-savory sauce create a comforting, balanced dish that is both nourishing and satisfying.",
+          "details": {
+                    "cuisine": "Japanese",
+                    "prepTimeMinutes": 5,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "grams",
+                              "name": "thinly sliced beef"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "piece",
+                              "name": "onion",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "dashi stock"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "mirin"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "sake"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "steamed Japanese rice"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "pickled red ginger",
+                              "notes": "beni shoga"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a saucepan, heat dashi stock, soy sauce, mirin, sake, and sugar until boiling.",
+                    "Step 2: Add sliced onion and cook until translucent.",
+                    "Step 3: Add beef slices, simmer gently until beef is cooked through.",
+                    "Step 4: Serve over bowls of hot steamed rice topped with pickled red ginger."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.25,
+                    "Water": 0.35,
+                    "Earth": 0.25,
+                    "Air": 0.15
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Sun"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Leo"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 470,
+                    "proteinG": 25,
+                    "carbsG": 50,
+                    "fatG": 15,
+                    "fiberG": 2,
+                    "sodiumMg": 950,
+                    "sugarG": 10,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 7,
+                    "Essence": 5,
+                    "Matter": 8,
+                    "Substance": 7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.35,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.9,
+                    "monica": 0.8
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Nigiri Sushi (Tuna & Salmon)",
           "description": "The purest expression of Japanese culinary minimalism. A hand-formed mound of vinegared rice draped with a meticulously sliced, pristine piece of raw fish.",
           "details": {

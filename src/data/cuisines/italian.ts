@@ -1490,6 +1490,1190 @@ export const italian: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Pesto alla Genovese",
+          "description": "This emerald green emulsion captures the fresh aromas of Liguria, blending the fiery essence of garlic with the cool aquatic nature of basil, resulting in a harmonious balance reminiscent of the Earth and lifting with a breath of Air.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "basil leaves",
+                              "notes": "fresh"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "Parmigiano-Reggiano",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "g",
+                              "name": "Pecorino Romano",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "clove",
+                              "name": "garlic"
+                    },
+                    {
+                              "amount": 15,
+                              "unit": "g",
+                              "name": "pine nuts"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "ml",
+                              "name": "extra virgin olive oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Place the basil leaves, pine nuts, and garlic cloves in a mortar.",
+                    "Step 2: Gently pound them until a smooth paste is formed.",
+                    "Step 3: Gradually add the grated cheeses, mixing well with the basil paste.",
+                    "Step 4: Slowly drizzle in the olive oil while continuing to mix until emulsified.",
+                    "Step 5: Season with salt to taste."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "raw",
+                              "emulsifying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.3,
+                    "Earth": 0.5,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Virgo"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 416,
+                    "proteinG": 8,
+                    "carbsG": 3,
+                    "fatG": 41,
+                    "fiberG": 1,
+                    "sodiumMg": 240,
+                    "sugarG": 0,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.7,
+                    "Essence": 0.9,
+                    "Matter": 0.8,
+                    "Substance": 0.7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.0,
+                    "entropy": 0.3,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.5,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Arancini di Riso",
+          "description": "Golden, crunchy spheres that hold within them a heart of molten cheese and savory rag\u00f9, exemplifying the transformative power of heat, fusing solid elements into a delectable harmony.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "g",
+                              "name": "risotto rice",
+                              "notes": "Carnaroli or Arborio"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "mozzarella",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "ml",
+                              "name": "tomato sauce",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "peas",
+                              "notes": "cooked"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "ground beef",
+                              "notes": "cooked"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "breadcrumbs",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "unit",
+                              "name": "eggs",
+                              "notes": "beaten"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "flour",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "ml",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Prepare the risotto by cooking rice until al dente.",
+                    "Step 2: Mix in tomato sauce, peas, and ground beef; let cool.",
+                    "Step 3: Take a small amount of risotto and enclose a mozzarella cube inside, forming a ball.",
+                    "Step 4: Roll the ball in flour, then in egg, and finally in breadcrumbs.",
+                    "Step 5: Heat the oil in a deep frying pan at 180\u00b0C.",
+                    "Step 6: Fry the arancini until golden brown and crispy."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying",
+                              "combining"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.6,
+                    "Water": 0.2,
+                    "Earth": 0.1,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 540,
+                    "proteinG": 19,
+                    "carbsG": 57,
+                    "fatG": 25,
+                    "fiberG": 3,
+                    "sodiumMg": 500,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.8,
+                    "Essence": 0.7,
+                    "Matter": 0.9,
+                    "Substance": 0.6
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.5,
+                    "reactivity": 2.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.9,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Focaccia Barese",
+          "description": "A testament to the interplay of heat and moisture, this focaccia uses the power of steam within a blistering oven to create a crisp exterior while retaining a soft, olive-perfumed interior that embodies the quintessential balance of Italy's elemental forces.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 120,
+                    "cookTimeMinutes": 25,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "bread flour",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "ml",
+                              "name": "water",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 15,
+                              "unit": "g",
+                              "name": "fresh yeast",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 60,
+                              "unit": "ml",
+                              "name": "extra virgin olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "cherry tomatoes",
+                              "notes": "halved"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "olives",
+                              "notes": "pitted"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "potato",
+                              "notes": "boiled and mashed"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Dissolve yeast in warm water and let it activate.",
+                    "Step 2: Combine flour, salt, mashed potato, yeast-water mixture, and half the olive oil to form a dough.",
+                    "Step 3: Knead the dough until smooth and elastic.",
+                    "Step 4: Cover and let it rise until doubled in size.",
+                    "Step 5: Spread dough on a greased baking sheet, dimple its surface.",
+                    "Step 6: Top with cherry tomatoes, olives, and drizzle with olive oil.",
+                    "Step 7: Bake in a preheated oven at 220\u00b0C for about 25 minutes."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking",
+                              "fermenting"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 300,
+                    "proteinG": 6,
+                    "carbsG": 48,
+                    "fatG": 8,
+                    "fiberG": 2,
+                    "sodiumMg": 400,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin E",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.6,
+                    "Essence": 0.7,
+                    "Matter": 0.8,
+                    "Substance": 0.5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.4,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 0.8,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Pici Cacio e Pepe",
+          "description": "A rustic and comforting Tuscan dish that uses the transformative properties of heat to meld sharp pecorino and expressive black pepper into a silky coating for the thick spaghetti, embodying the spirit of elemental simplicity.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "g",
+                              "name": "pici pasta",
+                              "notes": "or thick spaghetti"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "g",
+                              "name": "Pecorino Romano",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "black pepper",
+                              "notes": "freshly ground"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Cook the pici pasta until al dente.",
+                    "Step 2: Reserve some pasta cooking water and drain the pasta.",
+                    "Step 3: Heat olive oil in a pan and add black pepper to toast slightly.",
+                    "Step 4: Add the pasta and some cooking water to the pan.",
+                    "Step 5: Remove from heat and stir in grated Pecorino until a creamy sauce forms.",
+                    "Step 6: Adjust seasoning with salt and serve immediately."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "tossing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.3,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 510,
+                    "proteinG": 19,
+                    "carbsG": 65,
+                    "fatG": 18,
+                    "fiberG": 3,
+                    "sodiumMg": 700,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin B1",
+                              "Vitamin B2"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Phosphorous"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.6,
+                    "Matter": 0.7,
+                    "Substance": 0.8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.35,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.4,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Caponata",
+          "description": "A Sicilian symphony where sweet, sour, and salty triangulate into this eggplant-based delight, showcasing alchemical harmony through elemental balance.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "unit",
+                              "name": "eggplants",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "stalk",
+                              "name": "celery",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "capers",
+                              "notes": "rinsed"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 40,
+                              "unit": "g",
+                              "name": "green olives",
+                              "notes": "pitted"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "ml",
+                              "name": "red wine vinegar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "sugar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "tomatoes",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Fry eggplant cubes in batches until golden and set aside.",
+                    "Step 2: In the same pan, saute onions and celery until soft.",
+                    "Step 3: Stir in tomatoes, capers, olives, vinegar, and sugar.",
+                    "Step 4: Simmer for 15 minutes until the sauce thickens.",
+                    "Step 5: Return eggplant to the pan, mix well, and season with salt.",
+                    "Step 6: Allow flavors to meld by cooling to room temperature before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Libra",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 180,
+                    "proteinG": 2,
+                    "carbsG": 18,
+                    "fatG": 12,
+                    "fiberG": 4,
+                    "sodiumMg": 300,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Potassium",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.6,
+                    "Essence": 0.8,
+                    "Matter": 0.7,
+                    "Substance": 0.5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.4,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.6,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Pollo alla Cacciatora",
+          "description": "This rich, hearty stew fuses the warmth of Fire with the fluidity of Water, balancing earthy vegetables and aromatic herbs in a transformative cooking process that heightens their inherent flavors.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 75,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1.5,
+                              "unit": "kg",
+                              "name": "chicken",
+                              "notes": "cut into pieces"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "clove",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "stalk",
+                              "name": "celery",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "ml",
+                              "name": "red wine",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 400,
+                              "unit": "g",
+                              "name": "tomato passata",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "carrot",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "vinegar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat olive oil in a large pan and brown the chicken pieces.",
+                    "Step 2: Remove chicken and set aside.",
+                    "Step 3: In the same pan, saut\u00e9 onion, garlic, celery, and carrot until soft.",
+                    "Step 4: Deglaze the pan with red wine and vinegar, simmering for 5 minutes.",
+                    "Step 5: Add tomato passata and stir well.",
+                    "Step 6: Return chicken to the pan, cover, and simmer for 1 hour.",
+                    "Step 7: Season with salt and pepper, adjusting to taste before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "braising",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.4,
+                    "Earth": 0.1,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Scorpio",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 510,
+                    "proteinG": 45,
+                    "carbsG": 7,
+                    "fatG": 30,
+                    "fiberG": 2,
+                    "sodiumMg": 520,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.7,
+                    "Essence": 0.6,
+                    "Matter": 0.8,
+                    "Substance": 0.7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.4,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.8,
+                    "kalchm": 0.4,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Cannoli Siciliani",
+          "description": "Sweet, crunchy shells filled with creamy ricotta and adorned with chocolate chips or candied fruit\u2014an alchemical dichotomy of textures and flavors symbolized by an earthly exterior cradling airy, sweet cream.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 12,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "flour",
+                              "notes": "all-purpose"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "g",
+                              "name": "sugar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "egg",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "cinnamon",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "ml",
+                              "name": "marsala wine",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 250,
+                              "unit": "g",
+                              "name": "ricotta cheese",
+                              "notes": "smooth"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "chocolate chips",
+                              "notes": "optional"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "candied fruit",
+                              "notes": "optional"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "ml",
+                              "name": "oil for frying",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Mix flour, sugar, cinnamon, and salt in a bowl.",
+                    "Step 2: Add egg and marsala wine, knead into a smooth dough.",
+                    "Step 3: Rest dough for 30 minutes, then roll thinly.",
+                    "Step 4: Cut into circles, wrap each around a metal cannoli tube.",
+                    "Step 5: Fry shells in hot oil until golden, then remove from tubes.",
+                    "Step 6: Whip ricotta with sugar; fold in chocolate chips or candied fruit.",
+                    "Step 7: Fill cooled shells with ricotta mixture just before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying",
+                              "shaping"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.1,
+                    "Earth": 0.5,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 5,
+                    "carbsG": 26,
+                    "fatG": 14,
+                    "fiberG": 1,
+                    "sodiumMg": 80,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.6,
+                    "Essence": 0.5,
+                    "Matter": 0.7,
+                    "Substance": 0.7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.3,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 1.0,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Puntarelle alla Romana",
+          "description": "A verdant symphony of chicory hearts robed in a classic anchovy and garlic dressing, this dish harnesses the celestial movements to balance the earthy bitterness and fiery undertones of its components.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 5,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "g",
+                              "name": "puntarelle",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "fillet",
+                              "name": "anchovies",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "clove",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "ml",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "white vinegar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Trim and slice puntarelle into thin strips.",
+                    "Step 2: Soak in iced water until crisp, then drain.",
+                    "Step 3: Prepare dressing by combining anchovies, garlic, olive oil, and vinegar.",
+                    "Step 4: Mix puntarelle with dressing, allowing flavors to meld.",
+                    "Step 5: Season with salt and pepper before serving chilled."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "salad preparation",
+                              "marinating"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.4,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Virgo"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 150,
+                    "proteinG": 3,
+                    "carbsG": 4,
+                    "fatG": 14,
+                    "fiberG": 2,
+                    "sodiumMg": 200,
+                    "sugarG": 0,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.7,
+                    "Essence": 0.6,
+                    "Matter": 0.8,
+                    "Substance": 0.5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.2,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.6,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Polenta Taragna",
+          "description": "This hearty porridge-like dish from the Lombardy mountains transcends its humble ingredients with the warming embrace of butter and cheese, embodying an earthy warmth that sustains and comforts.",
+          "details": {
+                    "cuisine": "Italian",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "buckwheat flour",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "corn flour",
+                              "notes": "coarse"
+                    },
+                    {
+                              "amount": 1000,
+                              "unit": "ml",
+                              "name": "water",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "butter",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "Taleggio cheese",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Boil water in a large pot with a pinch of salt.",
+                    "Step 2: Gradually add buckwheat and corn flour, stirring constantly.",
+                    "Step 3: Lower heat and cook for 30-40 minutes, stirring continuously.",
+                    "Step 4: Stir in the butter and cubed Taleggio until melted and smooth.",
+                    "Step 5: Season with additional salt if necessary and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "stirring"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 550,
+                    "proteinG": 14,
+                    "carbsG": 80,
+                    "fatG": 20,
+                    "fiberG": 6,
+                    "sodiumMg": 400,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.6,
+                    "Essence": 0.7,
+                    "Matter": 0.6,
+                    "Substance": 0.8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.4,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.9,
+                    "kalchm": 0.5,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Spaghetti alla Carbonara",
           "description": "A Roman classic defining culinary minimalism. The alchemy relies on aggressively emulsifying starchy pasta water, rendered guanciale fat, pecorino cheese, and raw eggs into a thick, glossy sauce.",
           "details": {

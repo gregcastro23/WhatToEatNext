@@ -258,6 +258,1395 @@ export const middleEastern: Cuisine = {
     lunch: {
       all: [
         {
+          "name": "Authentic Koshari",
+          "description": "A symphony of carbohydrates, Koshari invites you to a realm where varied grains and pasta gracefully collide, creating an equilibrium of texture and taste, attuned to the alchemical balance of Fire and Earth.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "lentils",
+                              "notes": "brown or green"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "rice",
+                              "notes": "short-grain"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "macaroni",
+                              "notes": "small pasta"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "",
+                              "name": "onions",
+                              "notes": "large, sliced thinly"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "can",
+                              "name": "chickpeas",
+                              "notes": "drained"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "white vinegar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "can",
+                              "name": "crushed tomatoes",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "ground cumin",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "coriander",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "chili powder",
+                              "notes": "adjust to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "kosher salt",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Cook lentils in water until half-cooked, about 15 minutes. Drain and set aside.",
+                    "Step 2: Cook the rice separately until tender, then set aside.",
+                    "Step 3: Cook macaroni until al dente, then drain and set aside.",
+                    "Step 4: In a pan, fry onions in oil until deeply brown and crispy. Drain on paper towels.",
+                    "Step 5: In the same pan, saut\u00e9 garlic until fragrant, add crushed tomatoes, vinegar, cumin, coriander, and chili powder. Cook until thickened.",
+                    "Step 6: Assemble the dish by layering rice, lentils, macaroni, chickpeas, and tomato sauce. Top with crispy onions."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Virgo"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 490,
+                    "proteinG": 15,
+                    "carbsG": 82,
+                    "fatG": 10,
+                    "fiberG": 16,
+                    "sodiumMg": 500,
+                    "sugarG": 9,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.4,
+                    "Essence": 0.5,
+                    "Matter": 0.6,
+                    "Substance": 0.7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.3,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.8,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Mansaf",
+          "description": "A regal meal signifying communal gathering, Mansaf's essence lies in yogurt's taurine properties, imparting heat and tenderness to meat while uniting dietary Earth elements.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 50,
+                    "cookTimeMinutes": 180,
+                    "baseServingSize": 8,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "kg",
+                              "name": "lamb",
+                              "notes": "bone-in"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "kg",
+                              "name": "labneh",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "rice",
+                              "notes": "long-grain"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "ghee",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "pine nuts",
+                              "notes": "or almonds"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "pieces",
+                              "name": "laurel leaves",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "turmeric",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "cumin",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large pot, boil lamb with laurel leaves until tender. Remove, strain, and reserve broth.",
+                    "Step 2: In another pot, mix labneh with reserved broth, turmeric, cumin, and salt. Simmer gently.",
+                    "Step 3: Return lamb to the pot with labneh sauce and simmer for an additional hour.",
+                    "Step 4: Cook rice in a separate pot with ghee and additional broth until fluffy.",
+                    "Step 5: Toast pine nuts in ghee until golden.",
+                    "Step 6: Serve lamb and sauce over rice, garnished with toasted nuts."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.5,
+                    "Water": 0.25,
+                    "Earth": 0.2,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 800,
+                    "proteinG": 40,
+                    "carbsG": 95,
+                    "fatG": 25,
+                    "fiberG": 5,
+                    "sodiumMg": 900,
+                    "sugarG": 7,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.8,
+                    "Essence": 0.4,
+                    "Matter": 0.5,
+                    "Substance": 0.9
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.25,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.9,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Fattoush",
+          "description": "This vibrant dish dances with the elements of Air and Earth, with every vegetable whispering vitality and the bread connection grounding the eater in centuries-old traditions.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 0,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "pieces",
+                              "name": "pita bread",
+                              "notes": "toasted and torn"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "",
+                              "name": "tomatoes",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "cucumber",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "green bell pepper",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "pieces",
+                              "name": "radishes",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bunch",
+                              "name": "parsley",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bunch",
+                              "name": "mint",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "lettuce",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": "extra virgin"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sumac",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "lemon juice",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Toast pita bread until crisp. Break into bite-sized pieces.",
+                    "Step 2: In a large bowl, combine tomatoes, cucumber, bell pepper, radishes, parsley, mint, and lettuce.",
+                    "Step 3: In a small bowl, whisk together olive oil, lemon juice, and sumac.",
+                    "Step 4: Pour dressing over salad and toss well.",
+                    "Step 5: Add toasted pita pieces and gently toss again before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "tossing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.3,
+                    "Earth": 0.4,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Libra",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 6,
+                    "carbsG": 32,
+                    "fatG": 12,
+                    "fiberG": 8,
+                    "sodiumMg": 300,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.2,
+                    "Essence": 0.6,
+                    "Matter": 0.4,
+                    "Substance": 0.5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.35,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.8,
+                    "kalchm": 1.1,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Kofta Kebab",
+          "description": "Sizzling with the fervor of a charcoal grill, Kofta Kebabs are infused with the dynamic Fire element, capturing the fervent spirit of shared enthusiasm through succulent, well-spiced meats.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "ground lamb",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "piece",
+                              "name": "onion",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "parsley",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "coriander",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "cumin",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "paprika",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "pine nuts",
+                              "notes": "toasted"
+                    },
+                    {
+                              "amount": "",
+                              "unit": "",
+                              "name": "flatbreads",
+                              "notes": "to serve"
+                    },
+                    {
+                              "amount": "",
+                              "unit": "",
+                              "name": "yogurt",
+                              "notes": "to garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, combine lamb, grated onion, garlic, parsley, coriander, cumin, paprika, and salt.",
+                    "Step 2: Mix well and shape into elongated patties on skewers.",
+                    "Step 3: Grill over medium-high heat, turning occasionally, for 8-10 minutes until fully cooked.",
+                    "Step 4: Serve hot with flatbreads, garnished with pine nuts and yogurt."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "grilling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.5,
+                    "Water": 0.2,
+                    "Earth": 0.25,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 30,
+                    "carbsG": 6,
+                    "fatG": 29,
+                    "fiberG": 1,
+                    "sodiumMg": 600,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Zinc"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.6,
+                    "Essence": 0.7,
+                    "Matter": 0.5,
+                    "Substance": 0.8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.4,
+                    "reactivity": 1.9,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.7,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Tabbouleh",
+          "description": "This celebrated dish embodies the vibrant resonance of Water and Earth, as fresh parsley mingles in a verdant dance with tomatoes and bulgur, binding the palate to the very heart of nature.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 0,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "bunch",
+                              "name": "parsley",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bunch",
+                              "name": "mint",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "",
+                              "name": "tomatoes",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "bulgur",
+                              "notes": "fine grain"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "",
+                              "name": "green onions",
+                              "notes": "finely sliced"
+                    },
+                    {
+                              "amount": 0.25,
+                              "unit": "cup",
+                              "name": "lemon juice",
+                              "notes": "freshly squeezed"
+                    },
+                    {
+                              "amount": 0.25,
+                              "unit": "cup",
+                              "name": "olive oil",
+                              "notes": "extra virgin"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Rinse bulgur and soak in hot water for about 10 minutes until softened. Drain well.",
+                    "Step 2: In a large bowl, combine parsley, mint, tomatoes, and green onions.",
+                    "Step 3: Add softened bulgur to the bowl.",
+                    "Step 4: In a small bowl, whisk together lemon juice, olive oil, and salt.",
+                    "Step 5: Pour dressing over salad and toss to combine."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "tossing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.45,
+                    "Earth": 0.35,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 180,
+                    "proteinG": 3,
+                    "carbsG": 22,
+                    "fatG": 10,
+                    "fiberG": 7,
+                    "sodiumMg": 400,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.1,
+                    "Essence": 0.9,
+                    "Matter": 0.2,
+                    "Substance": 0.6
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.03,
+                    "entropy": 0.38,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 1.0,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Karniyarik",
+          "description": "An intriguing interplay of Fire and Water, this dish infuses eggplant with the intense heat of culinary passion, creating a vessel of sustenance that's both bold and soul-soothing.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 25,
+                    "cookTimeMinutes": 45,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "",
+                              "name": "eggplants",
+                              "notes": "medium size"
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "ground beef",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "",
+                              "name": "tomatoes",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "tomato paste",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 180\u00b0C (350\u00b0F).",
+                    "Step 2: Slice eggplants in half lengthwise and scoop out some of the flesh to create a shell.",
+                    "Step 3: Heat olive oil in a pan and saut\u00e9 onion and garlic until soft.",
+                    "Step 4: Add ground beef and cook until browned.",
+                    "Step 5: Stir in tomatoes, tomato paste, salt, and pepper. Cook for 10 minutes.",
+                    "Step 6: Fill eggplant shells with the beef mixture and place in a baking dish.",
+                    "Step 7: Cover with foil and bake for 45 minutes. Serve warm."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.35,
+                    "Earth": 0.2,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 20,
+                    "carbsG": 25,
+                    "fatG": 20,
+                    "fiberG": 8,
+                    "sodiumMg": 700,
+                    "sugarG": 10,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin E"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.4,
+                    "Matter": 0.3,
+                    "Substance": 0.6
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.32,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.85,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Molokhia",
+          "description": "Green with the promise of vitality, Molokhia leaves blend with meats, carrying an infusion of Water's nurturing spirit bonded with Earth, suggesting an undeniable foundational balance.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "molokhia leaves",
+                              "notes": "fresh or frozen"
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "chicken",
+                              "notes": "cuts with bone"
+                    },
+                    {
+                              "amount": 6,
+                              "unit": "cups",
+                              "name": "chicken broth",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "coriander",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Boil chicken in chicken broth until fully cooked. Remove the chicken and shred.",
+                    "Step 2: Saut\u00e9 onions and garlic in olive oil until fragrant.",
+                    "Step 3: Add molokhia leaves, coriander, salt, pepper, and chicken broth to the onions and garlic.",
+                    "Step 4: Stir and bring to a simmer for 20 minutes.",
+                    "Step 5: Add the shredded chicken back into the pot. Cook for another 15 minutes.",
+                    "Step 6: Serve hot, paired with rice."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.25,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Aquarius"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 290,
+                    "proteinG": 25,
+                    "carbsG": 12,
+                    "fatG": 18,
+                    "fiberG": 5,
+                    "sodiumMg": 800,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.3,
+                    "Essence": 0.7,
+                    "Matter": 0.6,
+                    "Substance": 0.5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.28,
+                    "reactivity": 1.6,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.78,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Labneh",
+          "description": "Transcending simplicity, Labneh embodies Earth\u2019s richness and Water\u2019s fluidity, as fermented yogurt's magic delivers a creamy delight of subtile alchemical transformation.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 0,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "Greek yogurt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "za'atar",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Mix Greek yogurt with salt.",
+                    "Step 2: Place mixture into a cheesecloth-lined sieve over a bowl.",
+                    "Step 3: Refrigerate and let drain for 24-48 hours until thickened.",
+                    "Step 4: Transfer to a serving dish and drizzle with olive oil.",
+                    "Step 5: Sprinkle with za'atar before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "none"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.05,
+                    "Water": 0.3,
+                    "Earth": 0.6,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 110,
+                    "proteinG": 10,
+                    "carbsG": 5,
+                    "fatG": 6,
+                    "fiberG": 0,
+                    "sodiumMg": 450,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin B2",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.2,
+                    "Essence": 0.5,
+                    "Matter": 0.4,
+                    "Substance": 0.8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.15,
+                    "reactivity": 0.7,
+                    "gregsEnergy": -0.9,
+                    "kalchm": 0.6,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Moussaka",
+          "description": "Moussaka unites ingredients in an intricate dance of Fire and Earth, where layers of eggplant graciously cradle meat and sauce, echoing the gastronomic alchemy of time and heat.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 45,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 3,
+                              "unit": "",
+                              "name": "eggplants",
+                              "notes": "medium, sliced"
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "ground beef",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "",
+                              "name": "onions",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "tomato",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "tomato paste",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "allspice",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "cinnamon",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "b\u00e9chamel sauce",
+                              "notes": "prepared"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 180\u00b0C (350\u00b0F).",
+                    "Step 2: Fry eggplant slices until golden and set aside.",
+                    "Step 3: In a pan, saut\u00e9 onions, then add ground beef and cook until browned.",
+                    "Step 4: Add chopped tomato, tomato paste, allspice, cinnamon, salt, and pepper. Simmer for 15 minutes.",
+                    "Step 5: In a baking dish, layer eggplants and beef mixture. Top with b\u00e9chamel sauce.",
+                    "Step 6: Bake for 45 minutes until the top is golden. Serve warm."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking",
+                              "frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.35,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 540,
+                    "proteinG": 28,
+                    "carbsG": 38,
+                    "fatG": 28,
+                    "fiberG": 8,
+                    "sodiumMg": 950,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.7,
+                    "Essence": 0.6,
+                    "Matter": 0.5,
+                    "Substance": 0.9
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.34,
+                    "reactivity": 2.1,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.88,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Maqluba",
+          "description": "An intricate balance of elements, this meal is a nuanced inversion of Earth\u2019s bounty and Fire's warmth, presenting a harmonious confluence through a backdrop of culinary delight.",
+          "details": {
+                    "cuisine": "Middle-eastern",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 90,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 600,
+                              "unit": "g",
+                              "name": "lamb or chicken",
+                              "notes": "bone-in"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "",
+                              "name": "eggplants",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "",
+                              "name": "potatoes",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "",
+                              "name": "tomatoes",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cups",
+                              "name": "rice",
+                              "notes": "long-grain"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "chicken broth",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "baharat",
+                              "notes": "spice blend"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "",
+                              "name": "onion",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Boil lamb or chicken in chicken broth with a teaspoon of salt until tender. Remove meat and keep broth.",
+                    "Step 2: Fry eggplant and potato slices until golden brown, then drain on paper towels.",
+                    "Step 3: In a pot, layer cooked meat, potato slices, eggplant, and tomato slices.",
+                    "Step 4: Top with rice and pour reserved broth and baharat spice over.",
+                    "Step 5: Cover and cook on low heat until rice is fully cooked.",
+                    "Step 6: Turn pot upside down onto a serving dish to achieve 'Maqluba' effect. Serve with yogurt."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "steam"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.3,
+                    "Earth": 0.35,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 700,
+                    "proteinG": 45,
+                    "carbsG": 70,
+                    "fatG": 22,
+                    "fiberG": 6,
+                    "sodiumMg": 750,
+                    "sugarG": 7,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin B"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.4,
+                    "Essence": 0.7,
+                    "Matter": 0.6,
+                    "Substance": 0.8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.3,
+                    "reactivity": 1.7,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.82,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Falafel",
           "description": "The iconic Levantine street food. Crispy, deeply herb-flecked fritters made from raw (not cooked) soaked chickpeas ground with fresh parsley, cilantro, and cumin.",
           "details": {

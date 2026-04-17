@@ -492,6 +492,1037 @@ export const thai: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Pad Krapow Moo (Stir-Fried Basil Pork)",
+          "description": "This invigorating dish, featuring aromatic holy basil, embodies the dynamic interplay of heat and flavor, yielding a satisfying stir-fry that awakens the senses.",
+          "details": {
+                    "cuisine": "Thai",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 2,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "ground pork"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "fresh holy basil leaves"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "fresh",
+                              "name": "bird's eye chilies",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "eggs",
+                              "name": "fried eggs",
+                              "notes": "for serving"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat vegetable oil in a wok over medium-high heat.",
+                    "Step 2: Add minced garlic and sliced bird's eye chilies, stir-frying until fragrant.",
+                    "Step 3: Increase heat and add the ground pork, stirring until cooked through.",
+                    "Step 4: Add fish sauce, soy sauce, and sugar, mixing well to combine.",
+                    "Step 5: Finally, stir in the holy basil leaves just before serving.",
+                    "Step 6: Serve hot over rice, topped with a crispy fried egg."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.2,
+                    "Air": 0.3
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waxing"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 470,
+                    "proteinG": 35,
+                    "carbsG": 5,
+                    "fatG": 35,
+                    "fiberG": 2,
+                    "sodiumMg": 980,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.3,
+                    "Essence": 0.4,
+                    "Matter": 0.2,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.3,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.3,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Larb Moo (Spicy Minced Pork Salad)",
+          "description": "Larb Moo, a burst of flavors with minced pork and roasted rice powder, harmonizes the warmth of spices and freshness of herbs, transcending the ordinary meal experience.",
+          "details": {
+                    "cuisine": "Thai",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "g",
+                              "name": "ground pork"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "lime juice"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "roasted rice powder"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "chili flakes"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "fresh mint leaves"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "fresh cilantro leaves"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "shallots",
+                              "name": "finely sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "fresh",
+                              "name": "lime wedges",
+                              "notes": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a pan, cook the ground pork over medium heat until fully cooked.",
+                    "Step 2: Transfer the cooked pork to a mixing bowl.",
+                    "Step 3: Add fish sauce, lime juice, roasted rice powder, chili flakes, sliced shallots, mint, and cilantro.",
+                    "Step 4: Toss ingredients together while mashing slightly to combine well.",
+                    "Step 5: Serve warm or at room temperature, garnished with lime wedges."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "salad"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "mixing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Waning"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 30,
+                    "carbsG": 15,
+                    "fatG": 20,
+                    "fiberG": 3,
+                    "sodiumMg": 850,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.3,
+                    "Matter": 0.1,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.04,
+                    "entropy": 0.2,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.7,
+                    "monica": 0.9
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Gaeng Panang (Panang Curry)",
+          "description": "Rich and creamy, this curry combines the essence of coconut milk with fragrant spices, creating an interplay of warmth and comfort that embodies the essence of Thai culinary magic.",
+          "details": {
+                    "cuisine": "Thai",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "chicken thigh",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "coconut milk"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "Panang curry paste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "palm sugar"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "kaffir lime leaves",
+                              "name": "torn"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "Thai basil leaves"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat vegetable oil in a pot over medium heat.",
+                    "Step 2: Add Panang curry paste and stir-fry until fragrant.",
+                    "Step 3: Add sliced chicken and stir until browned.",
+                    "Step 4: Pour in coconut milk, add fish sauce, sugar, and kaffir lime leaves.",
+                    "Step 5: Simmer for about 20 minutes until the chicken is cooked through.",
+                    "Step 6: Stir in Thai basil leaves and serve with jasmine rice."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering",
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waxing"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 490,
+                    "proteinG": 25,
+                    "carbsG": 15,
+                    "fatG": 35,
+                    "fiberG": 3,
+                    "sodiumMg": 900,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.4,
+                    "Essence": 0.4,
+                    "Matter": 0.1,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.25,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.4,
+                    "monica": 0.2
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Tom Kha Gai (Coconut Chicken Soup)",
+          "description": "This exquisite soup, infused with coconut milk and lemongrass, invites a soothing warmth that resonates with the gentle curves of culinary alchemy.",
+          "details": {
+                    "cuisine": "Thai",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "chicken breast",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "can",
+                              "name": "coconut milk"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "chicken broth"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "stalks",
+                              "name": "lemongrass",
+                              "notes": "smashed"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "slices",
+                              "name": "galangal"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "leaves",
+                              "name": "kaffir lime leaves",
+                              "notes": "torn"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "lime juice"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "fresh",
+                              "name": "bird's eye chili",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "fresh cilantro",
+                              "notes": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a pot, combine chicken broth, lemongrass, and galangal; simmer for 10 minutes.",
+                    "Step 2: Add coconut milk and chicken slices, cooking until chicken is done.",
+                    "Step 3: Stir in kaffir lime leaves, fish sauce, lime juice, and fresh chili.",
+                    "Step 4: Serve hot, garnished with fresh cilantro."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "soup"
+                    ],
+                    "cookingMethods": [
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.15,
+                    "Water": 0.55,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "Waning"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 360,
+                    "proteinG": 28,
+                    "carbsG": 15,
+                    "fatG": 22,
+                    "fiberG": 1,
+                    "sodiumMg": 950,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Sodium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.3,
+                    "Matter": 0.1,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.03,
+                    "entropy": 0.15,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.1,
+                    "kalchm": 0.4,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Khao Soi (Curry Noodle Soup)",
+          "description": "A rich medley of textures and flavors, Khao Soi encapsulates the heart of Northern Thai influences, where crispy noodles dance atop a creamy coconut curry broth.",
+          "details": {
+                    "cuisine": "Thai",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "g",
+                              "name": "chicken drumsticks"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "can",
+                              "name": "coconut milk"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "red curry paste"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "chicken broth"
+                    },
+                    {
+                              "amount": 250,
+                              "unit": "g",
+                              "name": "egg noodles"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "lime juice"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "fried shallots"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "pickled mustard greens",
+                              "notes": "for garnish"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "cilantro",
+                              "notes": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Boil chicken drumsticks in chicken broth until cooked, about 20 minutes.",
+                    "Step 2: Add coconut milk and red curry paste to the pot, stir well.",
+                    "Step 3: Cook egg noodles according to package instructions and drain.",
+                    "Step 4: Serve by placing noodles in a bowl, ladling soup over the top, and garnishing with fried shallots, pickled mustard greens, and cilantro."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "Waxing"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 540,
+                    "proteinG": 36,
+                    "carbsG": 44,
+                    "fatG": 22,
+                    "fiberG": 2,
+                    "sodiumMg": 890,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin B1",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.4,
+                    "Essence": 0.4,
+                    "Matter": 0.1,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.25,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.6,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Thai Green Curry Fried Rice",
+          "description": "Elevating the familiar, this vibrant fried rice intermingles the complexities of green curry paste with the savory simplicity of day-old rice, evoking a comforting journey through Thai flavors.",
+          "details": {
+                    "cuisine": "Thai",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 2,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "day-old jasmine rice"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "chicken breast",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "green curry paste"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "mixed vegetables",
+                              "notes": "carrots, peas"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "eggs",
+                              "name": "beaten"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "fresh cilantro",
+                              "notes": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat oil in a wok over medium heat, and scramble the eggs until just set.",
+                    "Step 2: Add diced chicken and cook for a few minutes until browned.",
+                    "Step 3: Stir in green curry paste, followed by the rice and mixed vegetables, mixing thoroughly.",
+                    "Step 4: Season with fish sauce and sugar, frying until hot.",
+                    "Step 5: Remove from heat and garnish with fresh cilantro before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner",
+                              "lunch"
+                    ],
+                    "cookingMethods": [
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.25,
+                    "Water": 0.3,
+                    "Earth": 0.25,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Virgo",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "Waning"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 480,
+                    "proteinG": 28,
+                    "carbsG": 50,
+                    "fatG": 18,
+                    "fiberG": 3,
+                    "sodiumMg": 830,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.35,
+                    "Essence": 0.5,
+                    "Matter": 0.1,
+                    "Substance": 0.05
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.2,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.5,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Thai Mango Sticky Rice",
+          "description": "A sublime dessert that harmonizes sweet glutinous rice with the lusciousness of ripe mango, enhancing moments of tranquility with its delicate craftsmanship.",
+          "details": {
+                    "cuisine": "Thai",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "summer"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "glutinous jasmine rice",
+                              "notes": "soaked overnight"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "can",
+                              "name": "coconut milk"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "ripe",
+                              "name": "mangoes",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "sesame seeds",
+                              "notes": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Rinse the soaked rice until the water runs clear, then steam over boiling water for about 30 minutes.",
+                    "Step 2: In a saucepan, heat coconut milk, sugar, and salt until warm but not boiling.",
+                    "Step 3: Once the rice is cooked, combine it with most of the coconut milk mixture, folding gently.",
+                    "Step 4: Serve the sticky rice on plates, topped with sliced mango and drizzled with remaining coconut milk.",
+                    "Step 5: Sprinkle with sesame seeds before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dessert"
+                    ],
+                    "cookingMethods": [
+                              "steaming",
+                              "mixing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.6,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waxing"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 320,
+                    "proteinG": 4,
+                    "carbsG": 65,
+                    "fatG": 9,
+                    "fiberG": 2,
+                    "sodiumMg": 10,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin A",
+                              "B vitamins"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.2,
+                    "Essence": 0.5,
+                    "Matter": 0.2,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.1,
+                    "reactivity": 0.5,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.4,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Thai Spicy Grilled Chicken (Gai Yang)",
+          "description": "This celebrated dish radiates happiness through its smoky richness and vibrant marinade, representing the joy of gathering and sharing food in Thai culture.",
+          "details": {
+                    "cuisine": "Thai",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "kg",
+                              "name": "chicken",
+                              "notes": "spatchcocked"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "fish sauce"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "lime juice"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "oil"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "black pepper"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "coriander leaves",
+                              "notes": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Combine fish sauce, lime juice, oil, garlic, soy sauce, sugar, and black pepper to create a marinade.",
+                    "Step 2: Marinate the chicken in this mixture for at least 1 hour (or overnight for deeper flavor).",
+                    "Step 3: Preheat a grill over medium heat and cook the chicken until golden and cooked through, about 25-30 minutes.",
+                    "Step 4: Let rest for a few minutes before serving, garnished with fresh coriander leaves."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "grilling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "Waxing"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 40,
+                    "carbsG": 5,
+                    "fatG": 30,
+                    "fiberG": 1,
+                    "sodiumMg": 1000,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Sodium",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.3,
+                    "Matter": 0.1,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.3,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.7,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Pad Thai",
           "description": "The global ambassador of Thai cuisine. Rice noodles aggressively stir-fried with eggs, tofu, and shrimp, coated in a complex sweet, sour, and salty tamarind sauce.",
           "details": {

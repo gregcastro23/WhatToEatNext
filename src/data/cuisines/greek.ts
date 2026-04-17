@@ -962,6 +962,1348 @@ export const greek: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Greek Tiropita",
+          "description": "Tiropita is a golden, flaky pastry filled with a creamy blend of Greek cheeses. The alchemy of crispy phyllo and the thermodynamics of melting cheese make it an iconic Greek appetizer, offering a balance of warmth and richness.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 45,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "phyllo dough",
+                              "notes": "thawed if frozen"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "feta cheese",
+                              "notes": "crumbled"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "g",
+                              "name": "ricotta cheese"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "kefalotyri cheese",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "whole",
+                              "name": "eggs",
+                              "notes": "beaten"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "butter",
+                              "notes": "melted"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat the oven to 180\u00b0C (355\u00b0F).",
+                    "Step 2: Mix feta, ricotta, kefalotyri, eggs, and pepper in a bowl until well combined.",
+                    "Step 3: Grease a baking dish with melted butter.",
+                    "Step 4: Layer phyllo sheets in the dish, brushing each with butter, using half of the phyllo.",
+                    "Step 5: Spread the cheese mixture over the phyllo layers.",
+                    "Step 6: Top with the remaining phyllo sheets, brushing each with butter.",
+                    "Step 7: Score the top layers of phyllo to form squares.",
+                    "Step 8: Bake for 45 minutes or until golden brown.",
+                    "Step 9: Let cool slightly before cutting and serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "lunch",
+                              "appetizer"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 12,
+                    "carbsG": 34,
+                    "fatG": 20,
+                    "fiberG": 2,
+                    "sodiumMg": 600,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin D"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 60,
+                    "Essence": 70,
+                    "Matter": 140,
+                    "Substance": 110
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.4,
+                    "reactivity": 0.8,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.7,
+                    "monica": 0.5
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "kefalotyri cheese",
+                              "substitute": "parmesan cheese"
+                    },
+                    {
+                              "ingredient": "butter",
+                              "substitute": "olive oil"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Kleftiko",
+          "description": "Once a meal of rebels, Kleftiko is a slow-cooked lamb dish imbued with deep flavors and rich history. Slow cooking allows the heat to permeate the juicy lamb, unlocking its full alchemical potential.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 240,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1.5,
+                              "unit": "kg",
+                              "name": "lamb shoulder",
+                              "notes": "bone-in"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "dried oregano"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "whole",
+                              "name": "lemons",
+                              "notes": "juiced"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "ml",
+                              "name": "olive oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sea salt"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "whole",
+                              "name": "bay leaves"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat the oven to 160\u00b0C (320\u00b0F).",
+                    "Step 2: In a bowl, mix olive oil, lemon juice, garlic, oregano, salt, and pepper.",
+                    "Step 3: Place lamb in a baking dish and rub with the marinade.",
+                    "Step 4: Add bay leaves to the dish.",
+                    "Step 5: Cover with foil and bake for 3.5 hours, basting occasionally.",
+                    "Step 6: Remove foil, increase the temperature to 200\u00b0C (390\u00b0F), and roast for another 30 minutes until the meat is brown and tender.",
+                    "Step 7: Let the meat rest before carving and serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "roasting",
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.5,
+                    "Water": 0.3,
+                    "Earth": 0.1,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 570,
+                    "proteinG": 45,
+                    "carbsG": 3,
+                    "fatG": 42,
+                    "fiberG": 1,
+                    "sodiumMg": 800,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Zinc",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 80,
+                    "Essence": 100,
+                    "Matter": 180,
+                    "Substance": 140
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.3,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.5,
+                    "monica": 0.6
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "lamb shoulder",
+                              "substitute": "beef chuck"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Greek Fakes (Lentil Soup)",
+          "description": "Fakes is a rustic blend of lentils, vegetables, and herbs, a humble yet satisfying staple of Greek cuisine. The interplay of heat softening the lentils adds a warming earthiness to this nutritious dish.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 50,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 250,
+                              "unit": "g",
+                              "name": "brown lentils"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "carrot",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "tomato paste"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "extra virgin olive oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "red wine vinegar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "dried oregano"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "l",
+                              "name": "vegetable broth"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "fine sea salt"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Rinse the lentils thoroughly in cold water.",
+                    "Step 2: In a large pot, heat olive oil over medium heat.",
+                    "Step 3: Saut\u00e9 onion and garlic until soft and fragrant.",
+                    "Step 4: Stir in the carrots and cook for another 5 minutes.",
+                    "Step 5: Add tomato paste, vinegar, oregano, and cook for 2 minutes.",
+                    "Step 6: Add lentils, vegetable broth, and salt; bring to a boil.",
+                    "Step 7: Reduce heat to a simmer, cover, and cook for 40 minutes or until lentils are tender.",
+                    "Step 8: Adjust seasoning and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "lunch",
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Virgo",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 230,
+                    "proteinG": 13,
+                    "carbsG": 34,
+                    "fatG": 5,
+                    "fiberG": 15,
+                    "sodiumMg": 600,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 70,
+                    "Essence": 90,
+                    "Matter": 130,
+                    "Substance": 110
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.03,
+                    "entropy": 0.3,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.8,
+                    "kalchm": 0.6,
+                    "monica": 0.4
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "vegetable broth",
+                              "substitute": "chicken broth"
+                    },
+                    {
+                              "ingredient": "red wine vinegar",
+                              "substitute": "balsamic vinegar"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Greek Baklava",
+          "description": "Baklava is an exquisite pastry layered with nuts and sweetness, a culinary alchemy that offers a symphony of crunchy and tender textures enveloped in an aromatic spice profile.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 24,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "phyllo dough",
+                              "notes": "thawed if frozen"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "walnuts",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "pistachios",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "butter",
+                              "notes": "melted"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "sugar",
+                              "notes": "granulated"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tsp",
+                              "name": "ground cinnamon"
+                    },
+                    {
+                              "amount": 250,
+                              "unit": "ml",
+                              "name": "honey"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "ml",
+                              "name": "water"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "whole",
+                              "name": "cloves"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "strip",
+                              "name": "lemon peel"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 180\u00b0C (355\u00b0F).",
+                    "Step 2: Combine nuts, sugar, and cinnamon in a bowl.",
+                    "Step 3: Brush a baking dish with melted butter.",
+                    "Step 4: Layer half of the phyllo sheets, brushing each with butter.",
+                    "Step 5: Spread nut mixture evenly over phyllo layers.",
+                    "Step 6: Layer remaining phyllo sheets, brushing each with butter.",
+                    "Step 7: Score the top layers of phyllo to form diamond shapes.",
+                    "Step 8: Bake for 60 minutes until golden.",
+                    "Step 9: Boil honey, water, cloves, and lemon peel for syrup; remove cloves and peel.",
+                    "Step 10: Pour hot syrup over warm baklava and let cool before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dessert"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 290,
+                    "proteinG": 4,
+                    "carbsG": 30,
+                    "fatG": 18,
+                    "fiberG": 3,
+                    "sodiumMg": 100,
+                    "sugarG": 18,
+                    "vitamins": [
+                              "Vitamin E",
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Copper",
+                              "Zinc"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 50,
+                    "Essence": 80,
+                    "Matter": 120,
+                    "Substance": 110
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.4,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.7,
+                    "monica": 0.5
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "pistachios",
+                              "substitute": "almonds"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Greek Saganaki",
+          "description": "Saganaki, the dramatic pan-fried cheese, is a Greek appetizer that illustrates the transformation of solid into a melty delight under the alchemical influence of heat.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 5,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "kefalograviera cheese",
+                              "notes": "or kasseri"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "all-purpose flour"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "olive oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "slice",
+                              "name": "lemon",
+                              "notes": "for serving"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Cut the cheese into 1 cm thick slices.",
+                    "Step 2: Heat olive oil in a frying pan over medium-high heat.",
+                    "Step 3: Dredge cheese slices in flour, shaking off excess.",
+                    "Step 4: Fry until golden brown on both sides, about 3-4 minutes per side.",
+                    "Step 5: Remove from pan, serve immediately with a squeeze of lemon."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "appetizer"
+                    ],
+                    "cookingMethods": [
+                              "frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.5,
+                    "Water": 0.1,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 220,
+                    "proteinG": 12,
+                    "carbsG": 8,
+                    "fatG": 16,
+                    "fiberG": 0,
+                    "sodiumMg": 500,
+                    "sugarG": 0,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Calcium"
+                    ],
+                    "minerals": [
+                              "Phosphorus",
+                              "Sodium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 45,
+                    "Essence": 60,
+                    "Matter": 110,
+                    "Substance": 85
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.3,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.6,
+                    "monica": 0.5
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "kefalograviera cheese",
+                              "substitute": "halloumi cheese"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Greek Stifado",
+          "description": "Stifado is a rich, aromatic beef stew slowly crafted with onions and a marriage of spices, illustrating the Greek mastery of melding bold and subtle flavors under a patient heat.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 150,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "autumn",
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "kg",
+                              "name": "beef chuck",
+                              "notes": "cut into chunks"
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "baby onions",
+                              "notes": "peeled"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "tomato paste"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "ml",
+                              "name": "red wine"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "ground cinnamon"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "whole",
+                              "name": "bay leaves"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "red wine vinegar"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "tbsp",
+                              "name": "olive oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "sea salt"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat olive oil in a large pot over medium heat. Brown beef chunks on all sides, then remove and set aside.",
+                    "Step 2: Add onions and saut\u00e9 until golden. Add garlic and cook for another minute.",
+                    "Step 3: Stir in tomato paste, vinegar, cinnamon, salt, and pepper.",
+                    "Step 4: Return beef to the pot, adding wine and bay leaves.",
+                    "Step 5: Cover with water, bring to simmer, and reduce heat. Stew gently for 2-2.5 hours until meat is tender.",
+                    "Step 6: Adjust seasoning before serving hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering",
+                              "stewing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.3,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 30,
+                    "carbsG": 15,
+                    "fatG": 30,
+                    "fiberG": 3,
+                    "sodiumMg": 800,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 85,
+                    "Essence": 100,
+                    "Matter": 160,
+                    "Substance": 130
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.4,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "beef chuck",
+                              "substitute": "lamb leg"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Greek Kourabiedes",
+          "description": "Kourabiedes are festive shortbread cookies showered with powdered sugar, embodying a harmonious balance of sweetness and almond-infused richness, perfected with a gentle baking warmth.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 24,
+                    "spiceLevel": "None",
+                    "season": [
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 250,
+                              "unit": "g",
+                              "name": "butter",
+                              "notes": "softened"
+                    },
+                    {
+                              "amount": 60,
+                              "unit": "g",
+                              "name": "caster sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "vanilla extract"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "almonds",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "all-purpose flour"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "powdered sugar",
+                              "notes": "for dusting"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat the oven to 180\u00b0C (355\u00b0F).",
+                    "Step 2: Cream butter and caster sugar together until light and fluffy.",
+                    "Step 3: Stir in vanilla and chopped almonds.",
+                    "Step 4: Fold in the flour gradually, mixing until a dough forms.",
+                    "Step 5: Shape dough into small balls and flatten slightly.",
+                    "Step 6: Place on a lined baking tray and bake for 15-20 minutes until light golden.",
+                    "Step 7: Cool briefly, then coat generously with powdered sugar."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dessert"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.1,
+                    "Earth": 0.6,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 150,
+                    "proteinG": 2,
+                    "carbsG": 18,
+                    "fatG": 8,
+                    "fiberG": 1,
+                    "sodiumMg": 50,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin E",
+                              "Vitamin D"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 45,
+                    "Essence": 75,
+                    "Matter": 130,
+                    "Substance": 95
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.04,
+                    "entropy": 0.3,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.7,
+                    "monica": 0.5
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "almonds",
+                              "substitute": "walnuts"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Greek Avgolemono Soup",
+          "description": "Avgolemono, a velvety chicken soup enriched with eggs and lemon, demonstrates the Greek culinary craft of transforming simple ingredients into a glossy, warming elixir of nourishment.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 45,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "l",
+                              "name": "chicken broth"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "g",
+                              "name": "orzo pasta"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "whole",
+                              "name": "eggs"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "whole",
+                              "name": "lemons",
+                              "notes": "juiced"
+                    },
+                    {
+                              "amount": 250,
+                              "unit": "g",
+                              "name": "cooked chicken",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "sea salt"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Bring the chicken broth to boil and add orzo; cook until al dente.",
+                    "Step 2: In a bowl, beat the eggs and add lemon juice gradually while whisking.",
+                    "Step 3: Temper the egg mixture by adding a ladle of hot broth slowly while stirring.",
+                    "Step 4: Pour the tempered eggs into the pot and stir to thicken without boiling.",
+                    "Step 5: Add shredded chicken, salt, and pepper; simmer gently for 10 minutes.",
+                    "Step 6: Serve hot, garnished with lemon slices if desired."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "lunch",
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 200,
+                    "proteinG": 18,
+                    "carbsG": 20,
+                    "fatG": 7,
+                    "fiberG": 1,
+                    "sodiumMg": 700,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 65,
+                    "Essence": 85,
+                    "Matter": 125,
+                    "Substance": 105
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.03,
+                    "entropy": 0.35,
+                    "reactivity": 0.9,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 0.6,
+                    "monica": 0.4
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "orzo pasta",
+                              "substitute": "rice"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Greek Bakaliaros Skordalia",
+          "description": "This dish pairs crispy fried salted cod with a pungent garlic dip, a classic Greek juxtaposition of texture and flavor that represents a balance in gustatory alchemy.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "spring"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "salt cod",
+                              "notes": "soaked overnight"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "g",
+                              "name": "all-purpose flour"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "whole",
+                              "name": "eggs",
+                              "notes": "beaten"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "ml",
+                              "name": "olive oil",
+                              "notes": "for frying"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "ml",
+                              "name": "extra virgin olive oil"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "ml",
+                              "name": "whole milk"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "slices",
+                              "name": "stale bread",
+                              "notes": "soaked in water and squeezed dry"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "red wine vinegar"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Pat cod dry, dredge in flour, then dip in beaten eggs.",
+                    "Step 2: Heat olive oil in a pan and fry cod pieces until golden brown on both sides.",
+                    "Step 3: To make Skordalia, blend garlic with bread, slowly adding olive oil, milk, and vinegar until smooth.",
+                    "Step 4: Serve fried cod with Skordalia on the side."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner",
+                              "appetizer"
+                    ],
+                    "cookingMethods": [
+                              "frying",
+                              "blending"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Neptune",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 25,
+                    "carbsG": 28,
+                    "fatG": 16,
+                    "fiberG": 2,
+                    "sodiumMg": 900,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin D",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 60,
+                    "Essence": 90,
+                    "Matter": 140,
+                    "Substance": 110
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.3,
+                    "reactivity": 1.4,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.75,
+                    "monica": 0.55
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "salt cod",
+                              "substitute": "fresh cod"
+                    },
+                    {
+                              "ingredient": "red wine vinegar",
+                              "substitute": "apple cider vinegar"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Greek Galatopita",
+          "description": "Galatopita is a rustic milk pie, a comforting custard creation that highlights the transformative processes of gentle heat melding dairy and grains into a velvety confection.",
+          "details": {
+                    "cuisine": "Greek",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 50,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "spring",
+                              "summer"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "l",
+                              "name": "whole milk"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "fine semolina"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "g",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "whole",
+                              "name": "eggs",
+                              "notes": "lightly beaten"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "vanilla extract"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "butter",
+                              "notes": "melted"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "ground cinnamon",
+                              "notes": "for dusting"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat the oven to 180\u00b0C (355\u00b0F).",
+                    "Step 2: In a pot, heat milk and sugar until steaming.",
+                    "Step 3: Gradually whisk in semolina; keep stirring until thickened.",
+                    "Step 4: Remove from heat, stir in vanilla and eggs.",
+                    "Step 5: Pour the mixture into a greased baking dish.",
+                    "Step 6: Bake for 40 minutes until set and golden.",
+                    "Step 7: Allow to cool slightly; dust with cinnamon before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dessert"
+                    ],
+                    "cookingMethods": [
+                              "baking",
+                              "stove"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 220,
+                    "proteinG": 6,
+                    "carbsG": 36,
+                    "fatG": 7,
+                    "fiberG": 1,
+                    "sodiumMg": 60,
+                    "sugarG": 22,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B2"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 65,
+                    "Essence": 75,
+                    "Matter": 120,
+                    "Substance": 95
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.4,
+                    "reactivity": 0.9,
+                    "gregsEnergy": -0.8,
+                    "kalchm": 0.6,
+                    "monica": 0.5
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "whole milk",
+                              "substitute": "evaporated milk"
+                    }
+          ]
+},
+        {
           "name": "Authentic Moussaka",
           "description": "The iconic Greek casserole consisting of layered roasted eggplant, a rich spiced meat sauce, and a thick, golden béchamel topping.",
           "details": {

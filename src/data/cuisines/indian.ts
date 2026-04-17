@@ -955,6 +955,1433 @@ export const indian = {
     dinner: {
       all: [
         {
+          "name": "Authentic Bhel Puri",
+          "description": "A spicy, tangy, and crunchy street food delicacy, Bhel Puri brings together the elemental balance of raw and cooked ingredients, merging the thermal dynamics of puffed rice and the fluidity of tamarind chutney.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 5,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "puffed rice",
+                              "notes": "also known as murmura"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "sev",
+                              "notes": "fried chickpea noodles"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "onion",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "tomato",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "g",
+                              "name": "boiled potatoes",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "coriander leaves",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "tamarind chutney",
+                              "notes": "spicy-sweet chutney"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "mint chutney",
+                              "notes": "green chutney"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "chaat masala"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "ml",
+                              "name": "lemon juice"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "red chili powder"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large mixing bowl, combine puffed rice, sev, onions, tomatoes, and boiled potatoes.",
+                    "Step 2: Add tamarind chutney, mint chutney, chaat masala, red chili powder, and lemon juice.",
+                    "Step 3: Mix all ingredients well to ensure an even coating of flavors.",
+                    "Step 4: Garnish with freshly chopped coriander leaves before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "snack"
+                    ],
+                    "cookingMethods": [
+                              "mixing",
+                              "tossing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 180,
+                    "proteinG": 4,
+                    "carbsG": 30,
+                    "fatG": 7,
+                    "fiberG": 3,
+                    "sodiumMg": 400,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.3,
+                    "Essence": 0.2,
+                    "Matter": 0.3,
+                    "Substance": 0.2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.4,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Rajasthani Laal Maas",
+          "description": "An iconic dish of Rajasthan, Laal Maas is a rich blend of fiery red chilies and tender mutton, simmered to perfection to extract its deep, fiery essence while maintaining its succulent texture.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 90,
+                    "baseServingSize": 4,
+                    "spiceLevel": "High",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "g",
+                              "name": "mutton",
+                              "notes": "preferably with bones"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "yogurt",
+                              "notes": "fresh, plain"
+                    },
+                    {
+                              "amount": 80,
+                              "unit": "g",
+                              "name": "onions",
+                              "notes": "finely sliced"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "red chilies",
+                              "notes": "soaked and ground"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "g",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "ginger",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "coriander powder"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "cumin seeds"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "turmeric powder"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "mustard oil"
+                    },
+                    {
+                              "amount": 500,
+                              "unit": "ml",
+                              "name": "water",
+                              "notes": "as needed"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "salt",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat mustard oil in a heavy-bottom pan, add cumin seeds until they crackle.",
+                    "Step 2: Add sliced onions, fry until golden brown.",
+                    "Step 3: Stir in the minced garlic and grated ginger; saut\u00e9 for 2 minutes.",
+                    "Step 4: Add the ground red chilies and coriander powder, followed by turmeric and salt.",
+                    "Step 5: Mix in mutton pieces and cook until browned.",
+                    "Step 6: Pour in yogurt, simmer until oil separates from the masala.",
+                    "Step 7: Add water, cover, and cook until mutton is tender.",
+                    "Step 8: Serve hot, garnished with fried red chilies and coriander leaves."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "saut\u00e9ing",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.6,
+                    "Water": 0.1,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 35,
+                    "carbsG": 10,
+                    "fatG": 30,
+                    "fiberG": 3,
+                    "sodiumMg": 600,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin B12",
+                              "Vitamin D"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Zinc"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.1,
+                    "Essence": 0.5,
+                    "Matter": 0.2,
+                    "Substance": 0.2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.3,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.9,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Pesarattu",
+          "description": "A perfect fusion of biology and alchemy, Pesarattu harnesses the transformative powers of whole green gram, transforming simple lentils into a crispy, nutritious delicacy.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "whole green gram (moong dal)",
+                              "notes": "soaked overnight"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "rice",
+                              "notes": "raw, for binding"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "onion",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "ginger",
+                              "notes": "freshly grated"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "green chilies",
+                              "notes": "chop into small pieces"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "cumin seeds"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "cooking oil",
+                              "notes": "for frying"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "coriander leaves",
+                              "notes": "chopped, for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Blend soaked moong dal and rice into a smooth batter with water.",
+                    "Step 2: Mix cumin seeds, chopped onions, green chilies, and salt into the batter.",
+                    "Step 3: Heat a non-stick pan, pour a ladleful of batter, and spread evenly.",
+                    "Step 4: Drizzle with oil, cook until the base turns golden brown.",
+                    "Step 5: Flip and cook the other side till crispy.",
+                    "Step 6: Garnish with coriander leaves and serve with chutney."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying",
+                              "blending"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 200,
+                    "proteinG": 8,
+                    "carbsG": 27,
+                    "fatG": 5,
+                    "fiberG": 7,
+                    "sodiumMg": 300,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.4,
+                    "Essence": 0.3,
+                    "Matter": 0.2,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.35,
+                    "reactivity": 1.1,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.7,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Dhokla",
+          "description": "Dhokla is a culinary triumph, capturing both the lightness of steam and the earthiness of gram flour. Its essence lies in its spongy texture and tangy flavor, an alchemical miracle of the balance between heat and fermentation.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "besan (gram flour)"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "ml",
+                              "name": "water"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "lemon juice"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "ginger paste"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "green chili paste"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "turmeric powder"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "oil",
+                              "notes": "for greasing"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "fruit salt (Eno)"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "mustard seeds",
+                              "notes": "for tempering"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "curry leaves",
+                              "notes": "for tempering"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "coriander leaves",
+                              "notes": "for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a mixing bowl, combine besan, water, lemon juice, ginger paste, green chili paste, salt, turmeric, and sugar to form a batter.",
+                    "Step 2: Add fruit salt to the batter and stir briskly.",
+                    "Step 3: Immediately pour the batter into a greased steaming tray.",
+                    "Step 4: Steam for 20-25 minutes until the dhokla is cooked through.",
+                    "Step 5: For tempering, heat oil in a pan, add mustard seeds and curry leaves until they crackle.",
+                    "Step 6: Pour the tempering over the dhokla, garnish with coriander leaves and serve."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "breakfast",
+                              "snack"
+                    ],
+                    "cookingMethods": [
+                              "steaming",
+                              "tempering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 150,
+                    "proteinG": 6,
+                    "carbsG": 25,
+                    "fatG": 2,
+                    "fiberG": 5,
+                    "sodiumMg": 400,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.35,
+                    "Essence": 0.3,
+                    "Matter": 0.2,
+                    "Substance": 0.15
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.4,
+                    "reactivity": 1.3,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.6,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Malabar Parotta",
+          "description": "A flaky, multi-layered bread originating from the Malabar region, the Parotta epitomizes the perfect intersection of craft and chemistry, utilizing the gluten-forming capacity of refined flour to create waves of airy textures.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 45,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "all-purpose flour"
+                    },
+                    {
+                              "amount": 15,
+                              "unit": "g",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "salt"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "vegetable oil",
+                              "notes": "for dough and cooking"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "ml",
+                              "name": "water",
+                              "notes": "as needed"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a mixing bowl, combine flour, sugar, salt, and 1 tablespoon of oil. Mix well.",
+                    "Step 2: Gradually add water while kneading to form a soft, pliable dough.",
+                    "Step 3: Let the dough rest for at least 30 minutes.",
+                    "Step 4: Divide the dough into equal portions, roll each into a small disc.",
+                    "Step 5: Roll each portion thinly, apply oil, and pleat like a fan.",
+                    "Step 6: Coil the pleated dough, flatten, and roll gently into a circle.",
+                    "Step 7: Heat a non-stick pan, cook parottas until golden brown on both sides, applying oil as necessary."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "pan frying",
+                              "kneading"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.2,
+                    "Earth": 0.5,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Libra",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 6,
+                    "carbsG": 40,
+                    "fatG": 8,
+                    "fiberG": 2,
+                    "sodiumMg": 300,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin B1",
+                              "Vitamin B2"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.2,
+                    "Essence": 0.3,
+                    "Matter": 0.3,
+                    "Substance": 0.2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.04,
+                    "entropy": 0.2,
+                    "reactivity": 1.9,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.9,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Kadai Paneer",
+          "description": "Kadai Paneer enthralls with its vivid melange of bell peppers and spices, showcasing the subtle transmogrification of paneer in a concentrated bath of vibrant masalas within a scorching vessel, enhancing its intrinsic zest.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 25,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "paneer (Indian cottage cheese)",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "bell peppers",
+                              "notes": "cut into cubes"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "onions",
+                              "notes": "cut into cubes"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "g",
+                              "name": "tomato puree"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "ginger-garlic paste"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "coriander seeds",
+                              "notes": "coarsely ground"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "red chili powder"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "garam masala"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "ghee",
+                              "notes": "or vegetable oil"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "kasuri methi",
+                              "notes": "dried fenugreek leaves"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat ghee in a kadai or deep pan, add ginger-garlic paste, saut\u00e9 until golden.",
+                    "Step 2: Add onions and bell peppers, cook until they soften slightly.",
+                    "Step 3: Stir in the tomato puree, cook until oil separates.",
+                    "Step 4: Add paneer cubes and mix well with the spices.",
+                    "Step 5: Season with salt, red chili powder, garam masala, and kasuri methi.",
+                    "Step 6: Cook on low heat until flavors meld together.",
+                    "Step 7: Garnish with coriander leaves and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "saut\u00e9ing",
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.2,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 20,
+                    "carbsG": 15,
+                    "fatG": 25,
+                    "fiberG": 3,
+                    "sodiumMg": 500,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.25,
+                    "Essence": 0.35,
+                    "Matter": 0.2,
+                    "Substance": 0.2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.25,
+                    "reactivity": 1.6,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 1.0,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Nihari",
+          "description": "Nihari is an epitome of slow culinary transformation, bringing forth the richness of slow-cooked meat in an aromatic blend of spices, uniting time and heat to coax the robust flavors inherent in its constituents.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 300,
+                    "baseServingSize": 6,
+                    "spiceLevel": "High",
+                    "season": [
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "kg",
+                              "name": "beef shank",
+                              "notes": "cut into pieces"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "L",
+                              "name": "water"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "onion",
+                              "notes": "thinly sliced"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "ginger-garlic paste"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "g",
+                              "name": "nihari masala"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "red chili powder"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "turmeric powder"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "ghee"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "attap flour",
+                              "notes": "for thickening"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "ml",
+                              "name": "lemon juice",
+                              "notes": "for garnishing"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "coriander leaves",
+                              "notes": "freshly chopped"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat ghee in a large pot, add sliced onions and saut\u00e9 until golden brown.",
+                    "Step 2: Mix in ginger-garlic paste, cook for 2-3 minutes.",
+                    "Step 3: Add beef shank pieces and sear to lock in the juices.",
+                    "Step 4: Incorporate nihari masala, red chili powder, turmeric powder, and salt, saut\u00e9 briefly.",
+                    "Step 5: Pour in water, bring to a boil, and then reduce to a simmer.",
+                    "Step 6: Cover and cook on low heat for 4-5 hours until the meat is tender.",
+                    "Step 7: Dissolve attap flour in water, add to the pot as a thickener.",
+                    "Step 8: Let cook for an additional 15 minutes.",
+                    "Step 9: Garnish with lemon juice and coriander leaves before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "slow cooking",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 600,
+                    "proteinG": 50,
+                    "carbsG": 10,
+                    "fatG": 40,
+                    "fiberG": 2,
+                    "sodiumMg": 700,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin B12",
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Zinc"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.15,
+                    "Essence": 0.4,
+                    "Matter": 0.25,
+                    "Substance": 0.2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.5,
+                    "reactivity": 2.2,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 1.1,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Madras Lamb Curry",
+          "description": "A symphony of spices and succulent lamb, Madras Lamb Curry is characterized by its fiery heat and vibrant color, transforming raw elements through the alchemy of spice into a dish of profound depth.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 90,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Very High",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "kg",
+                              "name": "lamb",
+                              "notes": "boneless, cut into chunks"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "ml",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "g",
+                              "name": "onions",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "curry leaves"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "ginger-garlic paste"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "mustard seeds"
+                    },
+                    {
+                              "amount": 15,
+                              "unit": "g",
+                              "name": "fennel seeds"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "red chili powder",
+                              "notes": "Madras specific"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "turmeric powder"
+                    },
+                    {
+                              "amount": 15,
+                              "unit": "g",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 30,
+                              "unit": "ml",
+                              "name": "lemon juice"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "coriander leaves",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "ml",
+                              "name": "coconut milk"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat oil in a large saucepan; add mustard seeds and fennel seeds until they crackle.",
+                    "Step 2: Add ginger-garlic paste and saut\u00e9 with onions until golden brown.",
+                    "Step 3: Throw in curry leaves and red chili powder, stirring continuously.",
+                    "Step 4: Add the lamb chunks, season with turmeric and salt, cook until sealed.",
+                    "Step 5: Pour coconut milk into the pan and simmer for 1 hour.",
+                    "Step 6: Finish with lemon juice and garnish with coriander leaves."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "saut\u00e9ing",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.6,
+                    "Water": 0.1,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Scorpio",
+                              "Virgo"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 550,
+                    "proteinG": 40,
+                    "carbsG": 15,
+                    "fatG": 40,
+                    "fiberG": 3,
+                    "sodiumMg": 600,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Zinc"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.1,
+                    "Essence": 0.4,
+                    "Matter": 0.2,
+                    "Substance": 0.3
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.4,
+                    "reactivity": 2.5,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 1.2,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Aloo Gobi",
+          "description": "A quintessential dish of Northern India, Aloo Gobi manifests the harmonization of earthy potatoes and cruciferous cauliflower, infusing each component with a medley of spices, transforming humble vegetables into a savory symphony.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 25,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "potatoes",
+                              "notes": "peeled and cubed"
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "g",
+                              "name": "cauliflower",
+                              "notes": "cut into florets"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "ml",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "onions",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "ginger-garlic paste"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "cumin seeds"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "turmeric powder"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "coriander powder"
+                    },
+                    {
+                              "amount": 5,
+                              "unit": "g",
+                              "name": "red chili powder"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "coriander leaves",
+                              "notes": "chopped, for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat oil in a pan, add cumin seeds and let them sizzle.",
+                    "Step 2: Add chopped onions and ginger-garlic paste, saut\u00e9 until golden.",
+                    "Step 3: Add turmeric powder, coriander powder, and red chili powder; fry for a minute.",
+                    "Step 4: Add potatoes and cauliflower; mix well with the spices.",
+                    "Step 5: Season with salt and cover the pan, reduce heat.",
+                    "Step 6: Cook for 15-20 minutes until vegetables are tender.",
+                    "Step 7: Garnish with coriander leaves before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "lunch",
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "saut\u00e9ing",
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 200,
+                    "proteinG": 5,
+                    "carbsG": 30,
+                    "fatG": 8,
+                    "fiberG": 7,
+                    "sodiumMg": 600,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Potassium",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.2,
+                    "Essence": 0.3,
+                    "Matter": 0.4,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.3,
+                    "reactivity": 1.4,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Kheer",
+          "description": "A timeless dessert that's ethereal in character, Kheer is the alchemical bonding of milk and rice, simmered to a luscious ambrosia, invoking the soothing power of sweetness, aroma, and creamy textures.",
+          "details": {
+                    "cuisine": "Indian",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 100,
+                              "unit": "g",
+                              "name": "basmati rice",
+                              "notes": "washed and drained"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "L",
+                              "name": "whole milk"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "g",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "green cardamom",
+                              "notes": "seeds crushed"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "almonds",
+                              "notes": "blanched and sliced"
+                    },
+                    {
+                              "amount": 20,
+                              "unit": "g",
+                              "name": "cashews",
+                              "notes": "halved"
+                    },
+                    {
+                              "amount": 10,
+                              "unit": "g",
+                              "name": "saffron strands",
+                              "notes": "soaked in warm milk"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a heavy-bottomed saucepan, bring milk to a boil.",
+                    "Step 2: Stir in the rice and let it simmer, stirring occasionally.",
+                    "Step 3: Add the sugar and continue to cook until the rice is soft and the milk has thickened.",
+                    "Step 4: Stir in cardamom, almonds, cashews, and saffron.",
+                    "Step 5: Simmer for an additional 10 minutes, stirring gently.",
+                    "Step 6: Serve warm or chilled, garnished with extra nuts if desired."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dessert"
+                    ],
+                    "cookingMethods": [
+                              "simmering",
+                              "boiling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 8,
+                    "carbsG": 35,
+                    "fatG": 10,
+                    "fiberG": 1,
+                    "sodiumMg": 80,
+                    "sugarG": 20,
+                    "vitamins": [
+                              "Vitamin D",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.3,
+                    "Essence": 0.4,
+                    "Matter": 0.2,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.02,
+                    "entropy": 0.2,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.5,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Murgh Makhani (Butter Chicken)",
           "description": "A profoundly rich, creamy North Indian curry featuring tender, yogurt-marinated tandoori chicken simmered in a spiced tomato and butter sauce.",
           "details": {

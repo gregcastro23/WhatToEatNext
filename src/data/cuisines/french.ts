@@ -1599,6 +1599,1427 @@ export const french: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Ratatouille",
+          "description": "A symphony of summer vegetables, perfectly balanced in sweetness and acidity, showcasing the alchemical transformation of humble vegetables into a harmonious blend of textures and flavors.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "summer"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "eggplant",
+                              "notes": "cut into cubes"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "zucchini",
+                              "notes": "sliced into rounds"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "red bell pepper",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "yellow bell pepper",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "large",
+                              "name": "tomatoes",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "herbes de Provence",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large skillet, heat olive oil over medium heat.",
+                    "Step 2: Add eggplant and cook until soft, about 5 minutes.",
+                    "Step 3: Add zucchini and peppers, saut\u00e9 for 5-7 minutes until softened.",
+                    "Step 4: Stir in garlic, tomatoes, herbes de Provence, salt, and pepper.",
+                    "Step 5: Cook uncovered, stirring occasionally, until vegetables are tender, about 15-20 minutes."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "saut\u00e9ing",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.5,
+                    "Earth": 0.15,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Leo"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 180,
+                    "proteinG": 3,
+                    "carbsG": 25,
+                    "fatG": 8,
+                    "fiberG": 5,
+                    "sodiumMg": 300,
+                    "sugarG": 10,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 8,
+                    "Essence": 6,
+                    "Matter": 5,
+                    "Substance": 7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.2,
+                    "reactivity": 0.7,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.8,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Escargots de Bourgogne",
+          "description": "A quintessential delicacy from the bounty of Burgundy, transforming the humble snail into a garlicky, herbaceous marvel of texture and flavor contrasts, illustrating the pinnacle of alchemical metamorphosis through French culinary tradition.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "dozen",
+                              "name": "escargots",
+                              "notes": "shelled"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "butter",
+                              "notes": "softened"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "parsley",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "shallots",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat the oven to 375\u00b0F (190\u00b0C).",
+                    "Step 2: In a bowl, combine butter, garlic, parsley, shallots, salt, and pepper.",
+                    "Step 3: Fill each shell with a little of the butter mixture, place an escargot, and seal with more butter.",
+                    "Step 4: Place the escargots in the oven and bake for 10-15 minutes until the butter is bubbling.",
+                    "Step 5: Serve warm and enjoy with crusty bread."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "starter"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.4,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 200,
+                    "proteinG": 8,
+                    "carbsG": 2,
+                    "fatG": 18,
+                    "fiberG": 0,
+                    "sodiumMg": 150,
+                    "sugarG": 0,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 5,
+                    "Essence": 6,
+                    "Matter": 4,
+                    "Substance": 9
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.03,
+                    "entropy": 0.25,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.9,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Duck \u00e0 l'Orange",
+          "description": "An aristocratic symphony of citrus and savory notes, embodying the perfect marriage of sweet and sour elements, which transcend into a harmonious gastronomy narrative of seasons through alchemical essences.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 90,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "whole",
+                              "name": "duck",
+                              "notes": "cleaned and prepared"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "orange juice",
+                              "notes": "freshly squeezed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "orange zest",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "chicken stock",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "sugar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "white wine vinegar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "butter",
+                              "notes": "cold"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 375\u00b0F (190\u00b0C).",
+                    "Step 2: Poke the duck skin with a fork, season with salt and pepper.",
+                    "Step 3: Roast duck in oven for 1 to 1.5 hours until golden and crispy.",
+                    "Step 4: In a saucepan, combine sugar and vinegar, heat until caramelized.",
+                    "Step 5: Add orange juice, zest, and stock to the caramel and simmer.",
+                    "Step 6: Stir in cold butter until sauce is smooth, adjust seasoning.",
+                    "Step 7: Serve duck with the orange sauce drizzled over."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "roasting",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Sun",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 750,
+                    "proteinG": 35,
+                    "carbsG": 30,
+                    "fatG": 55,
+                    "fiberG": 1,
+                    "sodiumMg": 500,
+                    "sugarG": 20,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Zinc"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 7,
+                    "Essence": 8,
+                    "Matter": 9,
+                    "Substance": 6
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.28,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 1.0,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Boeuf Bourguignon",
+          "description": "An immortal icon of French culinary mastery, where the robustness of beef melds with the deep, rich earthiness of red wine and aromatic herbs, slowly transformed into an alchemical fusion of taste and warmth.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 180,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "kilogram",
+                              "name": "beef chuck",
+                              "notes": "cut into cubes"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "bacon",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "red wine",
+                              "notes": "Burgundy or Pinot Noir"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "beef stock",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "large",
+                              "name": "carrots",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "all-purpose flour",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "butter",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "tomato paste",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bouquet",
+                              "name": "garni",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 300,
+                              "unit": "grams",
+                              "name": "button mushrooms",
+                              "notes": "halved"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 325\u00b0F (160\u00b0C).",
+                    "Step 2: In a Dutch oven, cook bacon over medium heat, remove and set aside.",
+                    "Step 3: Brown beef in batches, remove and set aside.",
+                    "Step 4: In the same pot, add butter, onion, and carrots, cook until softened.",
+                    "Step 5: Stir in flour, cook for 1 minute, then add tomato paste, cook for another minute.",
+                    "Step 6: Add wine and stock, bring to a simmer.",
+                    "Step 7: Return beef and bacon, add bouquet garni, cover and place in oven.",
+                    "Step 8: Cook for 2 hours, then add mushrooms, cook for another hour.",
+                    "Step 9: Adjust seasoning and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "braising",
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.35,
+                    "Water": 0.3,
+                    "Earth": 0.25,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Scorpio",
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 600,
+                    "proteinG": 40,
+                    "carbsG": 15,
+                    "fatG": 40,
+                    "fiberG": 3,
+                    "sodiumMg": 900,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin D"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 8,
+                    "Essence": 9,
+                    "Matter": 7,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.35,
+                    "reactivity": 2.5,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 1.2,
+                    "monica": 0.85
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Salade Ni\u00e7oise",
+          "description": "A vibrant and refreshing expression of the Mediterranean landscape, combining the salinity of the sea with the fertility of Provence, creating a nutritional balance through the vibrant hues representing the alchemical quintessence.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 10,
+                    "baseServingSize": 2,
+                    "spiceLevel": "None",
+                    "season": [
+                              "summer"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "green beans",
+                              "notes": "trimmed"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "grams",
+                              "name": "cherry tomatoes",
+                              "notes": "halved"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "red bell pepper",
+                              "notes": "julienned"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "cucumber",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "Ni\u00e7oise olives",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "large",
+                              "name": "eggs",
+                              "notes": "hard-boiled and quartered"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "canned tuna",
+                              "notes": "drained"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "boiled potatoes",
+                              "notes": "cut into disks"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "red wine vinegar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "Dijon mustard",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "capers",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Blanch green beans in boiling water for 2 minutes, then transfer to ice water.",
+                    "Step 2: In a salad bowl, combine tomatoes, pepper, cucumber, olives, eggs, tuna, and potatoes.",
+                    "Step 3: In a small bowl, whisk together olive oil, vinegar, mustard, capers, salt, and pepper.",
+                    "Step 4: Drizzle dressing over salad and gently toss to combine.",
+                    "Step 5: Serve chilled or at room temperature."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "lunch",
+                              "starter"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "whisking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.6,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Virgo",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 25,
+                    "carbsG": 30,
+                    "fatG": 22,
+                    "fiberG": 5,
+                    "sodiumMg": 800,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 6,
+                    "Essence": 7,
+                    "Matter": 5,
+                    "Substance": 8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.03,
+                    "entropy": 0.3,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 1.1,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Tarte Frangipane",
+          "description": "A lustrous manifestation of the French patisserie, where the delicate sweetness of almond flour meets the graceful embrace of sugar and butter, creating an ethereal, golden-brown harmony capturing the quintessence of French baking artistry.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 25,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "disk",
+                              "name": "sweet pastry dough",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "grams",
+                              "name": "unsalted butter",
+                              "notes": "softened"
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "grams",
+                              "name": "caster sugar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 150,
+                              "unit": "grams",
+                              "name": "ground almonds",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "large",
+                              "name": "eggs",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "almond extract",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "apricot jam",
+                              "notes": "optional for glaze"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat the oven to 350\u00b0F (175\u00b0C). Roll out the pastry dough and line a tart pan.",
+                    "Step 2: In a mixing bowl, cream butter and sugar until light and fluffy.",
+                    "Step 3: Add eggs one at a time, beating well after each addition.",
+                    "Step 4: Stir in the ground almonds, almond extract, and salt until combined.",
+                    "Step 5: Pour the frangipane mixture into the prepared tart shell.",
+                    "Step 6: Bake for 30 minutes or until golden brown. If desired, brush with apricot jam while warm.",
+                    "Step 7: Allow to cool before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dessert"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.1,
+                    "Earth": 0.5,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 8,
+                    "carbsG": 50,
+                    "fatG": 25,
+                    "fiberG": 2,
+                    "sodiumMg": 150,
+                    "sugarG": 25,
+                    "vitamins": [
+                              "Vitamin E"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 7,
+                    "Essence": 8,
+                    "Matter": 6,
+                    "Substance": 5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.35,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.95,
+                    "monica": 0.65
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Sole Meuni\u00e8re",
+          "description": "A delicate dance of Dover sole with butter and lemon, quintessentially representing the finesse and refinement of French gastronomy, where minimalism meets elegance in a culinary alchemical transformation.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 2,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "fillets",
+                              "name": "Dover sole",
+                              "notes": "scaled and skin removed"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "tablespoons",
+                              "name": "unsalted butter",
+                              "notes": "divided"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "all-purpose flour",
+                              "notes": "for dredging"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "lemon",
+                              "name": "lemon",
+                              "notes": "juiced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "fresh parsley",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Season the sole fillets with salt and pepper and dredge in flour.",
+                    "Step 2: Heat 2 tablespoons of butter in a skillet over medium-high heat.",
+                    "Step 3: Add fillets and cook for 3 minutes per side until golden brown.",
+                    "Step 4: Remove fish and keep warm, add remaining butter to skillet.",
+                    "Step 5: Once butter browns, add lemon juice, swirl and pour over fish.",
+                    "Step 6: Garnish with fresh parsley and serve immediately."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "saut\u00e9ing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Neptune",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 25,
+                    "carbsG": 8,
+                    "fatG": 35,
+                    "fiberG": 1,
+                    "sodiumMg": 300,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin B12",
+                              "Vitamin D"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 6,
+                    "Essence": 8,
+                    "Matter": 7,
+                    "Substance": 4
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.3,
+                    "reactivity": 0.8,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.85,
+                    "monica": 0.55
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Gratin Dauphinois",
+          "description": "A creamy, harmonious melody of sliced potatoes baked in a rich dance of cream and garlic, slowly infusing and transforming into a golden, tender alchemical symphony synonymous with comfort and tradition.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 70,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1.5,
+                              "unit": "kilograms",
+                              "name": "potatoes",
+                              "notes": "peeled and thinly sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "heavy cream",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "whole milk",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "crushed"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "grams",
+                              "name": "butter",
+                              "notes": "for greasing"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "nutmeg",
+                              "notes": "freshly grated"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 375\u00b0F (190\u00b0C). Grease a baking dish with butter.",
+                    "Step 2: In a saucepan, heat cream, milk, garlic, nutmeg, salt, and pepper, then let cool.",
+                    "Step 3: Place a layer of potato slices in the dish, season, and repeat until all are used.",
+                    "Step 4: Pour the cream mixture over the potatoes, cover with foil.",
+                    "Step 5: Bake in oven for 45 minutes, remove foil and bake for additional 20 minutes until golden."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "side"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.15,
+                    "Water": 0.4,
+                    "Earth": 0.35,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Virgo",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 8,
+                    "carbsG": 50,
+                    "fatG": 25,
+                    "fiberG": 5,
+                    "sodiumMg": 350,
+                    "sugarG": 5,
+                    "vitamins": [
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Potassium",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 6,
+                    "Essence": 8,
+                    "Matter": 10,
+                    "Substance": 7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.04,
+                    "entropy": 0.4,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.9,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Choucroute Garnie",
+          "description": "An Alsatian classic with its roots in the earth, this dish combines fermented cabbage with cured meats, offering an alchemical dance between savory pork notes and the tang of pickled ingredients, harmonizing the five elements.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 120,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "kilograms",
+                              "name": "sauerkraut",
+                              "notes": "rinsed and drained"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "white wine",
+                              "notes": "dry"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "bacon",
+                              "notes": "thick-cut"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "kilogram",
+                              "name": "sausages",
+                              "notes": "Frankfurter or Bratwurst"
+                    },
+                    {
+                              "amount": 600,
+                              "unit": "grams",
+                              "name": "pork shoulder",
+                              "notes": "cut into chunks"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "large",
+                              "name": "onions",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bouquet",
+                              "name": "garni",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "juniper berries",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "duck fat",
+                              "notes": "or pork fat"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 325\u00b0F (160\u00b0C).",
+                    "Step 2: Heat duck fat in large Dutch oven, brown bacon and pork shoulder.",
+                    "Step 3: Add onions and garlic, cook until softened.",
+                    "Step 4: Add sauerkraut, wine, bouquet garni, and juniper berries.",
+                    "Step 5: Nestle sausages into pot, cover, and place in oven.",
+                    "Step 6: Bake for 2 hours, adjusting seasoning to taste, and serve."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "braising"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 750,
+                    "proteinG": 45,
+                    "carbsG": 30,
+                    "fatG": 50,
+                    "fiberG": 8,
+                    "sodiumMg": 1400,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin K"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Zinc"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 9,
+                    "Essence": 5,
+                    "Matter": 10,
+                    "Substance": 7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.32,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 1.2,
+                    "monica": 0.8
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Pot-au-Feu",
+          "description": "The soul of French cooking, a rustic cauldron of simmered beef, root vegetables, and aromatic herbs, exemplifying the transformation of base matter into a nourishing and alchemically balanced ambrosia of simplicity and depth.",
+          "details": {
+                    "cuisine": "French",
+                    "prepTimeMinutes": 25,
+                    "cookTimeMinutes": 150,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1.5,
+                              "unit": "kilograms",
+                              "name": "beef brisket",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bone",
+                              "name": "marrow bone",
+                              "notes": "for broth"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "large",
+                              "name": "carrots",
+                              "notes": "chunked"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "large",
+                              "name": "potatoes",
+                              "notes": "chunked"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "leek",
+                              "notes": "cut into lengths"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "sticks",
+                              "name": "celery",
+                              "notes": "chunked"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "large",
+                              "name": "onions",
+                              "notes": "peel and leave whole"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "crushed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "bouquet",
+                              "name": "garni",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "black peppercorns",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pinch",
+                              "name": "salt",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large pot, cover beef and marrow bones with water, bring to a boil, skimming impurities.",
+                    "Step 2: Reduce to simmer, add bouquet garni, black peppercorns, and salt.",
+                    "Step 3: Cover and simmer for 1.5 hours.",
+                    "Step 4: Add vegetables and continue to simmer until tender, about 1 hour.",
+                    "Step 5: Adjust seasoning and serve meat and vegetables with broth."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.25,
+                    "Water": 0.4,
+                    "Earth": 0.3,
+                    "Air": 0.05
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 800,
+                    "proteinG": 55,
+                    "carbsG": 45,
+                    "fatG": 45,
+                    "fiberG": 10,
+                    "sodiumMg": 1000,
+                    "sugarG": 10,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 10,
+                    "Essence": 6,
+                    "Matter": 6,
+                    "Substance": 8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.05,
+                    "entropy": 0.36,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 1.5,
+                    "monica": 0.9
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Coq au Vin",
           "description": "A timeless French classic consisting of chicken slowly braised in red Burgundy wine with pearl onions, mushrooms, and lardons.",
           "details": {

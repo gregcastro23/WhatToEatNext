@@ -350,6 +350,1172 @@ export const russian: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Shchi (Cabbage Soup)",
+          "description": "Shchi proudly embodies the heart of Russian culinary tradition, simmering cabbage, meat, and root vegetables into a comforting elixir. This age-old recipe combines the Earth's bounty with nourishing broth, achieving a harmonious balance of flavors that resonates with warmth and home.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 90,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "vegetable oil",
+                              "notes": "for saut\u00e9ing"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "carrot",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "potato",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "cabbage",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 6,
+                              "unit": "cups",
+                              "name": "chicken broth",
+                              "notes": "or beef broth"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "dill",
+                              "notes": "fresh or dried"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "cooked meat",
+                              "notes": "shredded or diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large pot, heat the vegetable oil over medium heat.",
+                    "Step 2: Add the chopped onion and grated carrot, saut\u00e9 until softened, about 5 minutes.",
+                    "Step 3: Stir in the shredded cabbage and cubed potato, cooking for another 10 minutes.",
+                    "Step 4: Pour in the chicken broth, add the meat, and bring to a boil.",
+                    "Step 5: Reduce heat to low, season with dill, salt, and pepper, and simmer for 60 minutes.",
+                    "Step 6: Adjust seasonings as needed and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering",
+                              "saut\u00e9ing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.4,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 200,
+                    "proteinG": 15,
+                    "carbsG": 25,
+                    "fatG": 5,
+                    "fiberG": 4,
+                    "sodiumMg": 500,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.3,
+                    "Essence": 0.6,
+                    "Matter": 0.1,
+                    "Substance": 0.0
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.3,
+                    "reactivity": 0.2,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.5,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Vareniki (Dumplings)",
+          "description": "Vareniki, a delightful pocket of history, combine flour, potatoes, and sometimes cherries, creating a culinary art that offers warmth and nostalgia. This dish transforms simple ingredients into a tapestry of flavors, often served with a dollop of sour cream, evoking cherished memories of family gatherings.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "all-purpose flour",
+                              "notes": "plus more for dusting"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "egg",
+                              "notes": "beaten"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "water",
+                              "notes": "as needed"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "large",
+                              "name": "potatoes",
+                              "notes": "boiled and mashed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "small",
+                              "name": "onion",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "butter",
+                              "notes": "for flavor"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sour cream",
+                              "notes": "for serving"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, mix the flour and salt, then make a well in the center.",
+                    "Step 2: Add the beaten egg and gradually incorporate water until a soft dough forms.",
+                    "Step 3: Knead the dough on a floured surface for 5-10 minutes until smooth.",
+                    "Step 4: For the filling, saut\u00e9 the onion in butter and mix with the mashed potatoes.",
+                    "Step 5: Roll out the dough, cut circles, and place a spoonful of filling in the center.",
+                    "Step 6: Fold over and seal edges, ensuring they are tightly closed.",
+                    "Step 7: Boil in salted water until they float to the top, about 5-7 minutes.",
+                    "Step 8: Serve hot with sour cream."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.4,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 350,
+                    "proteinG": 9,
+                    "carbsG": 60,
+                    "fatG": 8,
+                    "fiberG": 4,
+                    "sodiumMg": 250,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Potassium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.4,
+                    "Essence": 0.4,
+                    "Matter": 0.1,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.3,
+                    "reactivity": 0.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.6,
+                    "monica": 0.1
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Golubtsy (Stuffed Cabbage Rolls)",
+          "description": "Golubtsy is a celebration of flavors, neatly tucking seasoned meat and rice into cabbage leaves. This dish symbolizes nurturing and hospitality, allowing ingredients to meld beautifully through the warmth of the oven, communicating love and care in every bite.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 90,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "cabbage",
+                              "notes": "whole head"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "rice",
+                              "notes": "uncooked"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "lb",
+                              "name": "ground beef",
+                              "notes": "or pork"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "carrot",
+                              "notes": "grated"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "tomato paste",
+                              "notes": "for sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 350\u00b0F (175\u00b0C).",
+                    "Step 2: Bring a large pot of water to a boil and blanch the cabbage leaves for 2-3 minutes until softened.",
+                    "Step 3: In a skillet, saut\u00e9 the onion and grated carrot until softened.",
+                    "Step 4: In a bowl, mix ground meat, rice, saut\u00e9ed vegetables, salt, and pepper.",
+                    "Step 5: Place a portion of the filling in each cabbage leaf and roll tightly.",
+                    "Step 6: Arrange the rolls in a baking dish, spread tomato paste over, and pour in water to cover.",
+                    "Step 7: Cover with foil and bake for 60 minutes, uncovering in the last 15 minutes."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking",
+                              "boiling",
+                              "saut\u00e9ing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 25,
+                    "carbsG": 30,
+                    "fatG": 15,
+                    "fiberG": 5,
+                    "sodiumMg": 300,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.3,
+                    "Essence": 0.4,
+                    "Matter": 0.2,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.2,
+                    "entropy": 0.4,
+                    "reactivity": 0.5,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.6,
+                    "monica": 0.2
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Kasha (Buckwheat Groats)",
+          "description": "Kasha is a time-honored staple that captivates with its nutty flavor and hearty texture. Perfectly cooked, it embodies the essence of simplicity, serving as a nourishing accompaniment or serving as the centerpiece, connecting generations with its wholesome profile and versatility.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "buckwheat groats",
+                              "notes": "toasted"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": "or broth"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "butter",
+                              "notes": "for flavor"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Rinse the buckwheat groats under cold water until the water runs clear.",
+                    "Step 2: In a pot, bring water or broth to a boil and add salt.",
+                    "Step 3: Add the rinsed buckwheat; reduce to a simmer and cover.",
+                    "Step 4: Cook for 15-20 minutes until all liquid is absorbed and the grain is tender.",
+                    "Step 5: Remove from heat, stir in butter, and let sit covered for 5 minutes before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.5,
+                    "Earth": 0.4,
+                    "Air": 0.0
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 220,
+                    "proteinG": 8,
+                    "carbsG": 47,
+                    "fatG": 4,
+                    "fiberG": 5,
+                    "sodiumMg": 10,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin B6",
+                              "Niacin"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Magnesium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.1,
+                    "Essence": 0.3,
+                    "Matter": 0.5,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.2,
+                    "reactivity": 0.1,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.5,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Pirozhki (Stuffed Pastries)",
+          "description": "Pirozhki are the delightful hand-held pastries that encapsulate Russian hospitality. These delightful bites can be filled with a variety of fillings from savory to sweet, representing the resourcefulness of Russian cuisine while providing a portable way to enjoy familial warmth.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 12,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 3,
+                              "unit": "cups",
+                              "name": "all-purpose flour",
+                              "notes": "plus more for dusting"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "milk",
+                              "notes": "warm"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "active dry yeast",
+                              "notes": "or instant yeast"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "egg",
+                              "notes": "beaten"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "sugar",
+                              "notes": "for sweetness"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "filling",
+                              "notes": "poppy seeds, jam, or meat"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "butter",
+                              "notes": "melted for brushing"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, mix warm milk and yeast; let stand for 5 minutes.",
+                    "Step 2: In a large bowl, combine flour, sugar, and salt.",
+                    "Step 3: Add the yeast mixture and beaten egg; mix to form a dough.",
+                    "Step 4: Knead the dough on a floured surface for about 10 minutes.",
+                    "Step 5: Let the dough rise in a warm place until doubled, about 1 hour.",
+                    "Step 6: Divide dough into 12 pieces; flatten and fill with desired filling.",
+                    "Step 7: Pinch closed and place on a baking sheet; allow to rise for another 15 minutes.",
+                    "Step 8: Preheat the oven to 375\u00b0F (190\u00b0C) and bake for 20-25 minutes, brushing with melted butter before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking",
+                              "frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Virgo",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 280,
+                    "proteinG": 6,
+                    "carbsG": 45,
+                    "fatG": 10,
+                    "fiberG": 2,
+                    "sodiumMg": 300,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin B1",
+                              "Vitamin B2"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.2,
+                    "Essence": 0.5,
+                    "Matter": 0.2,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.3,
+                    "entropy": 0.4,
+                    "reactivity": 0.5,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.6,
+                    "monica": 0.1
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Vischanka (Kulich or Easter Bread)",
+          "description": "Vischanka, a traditional holiday loaf, emerges as a vibrant symbol of spring and renewal, graced with flavors of citrus and spices. This lofty, sweet bread is a testament to the joy of baking, filling homes with fragrance and celebrating the art of togetherness during festive occasions.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 10,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "spring"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "all-purpose flour",
+                              "notes": "plus for dusting"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "milk",
+                              "notes": "warm"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "sugar",
+                              "notes": "adjust to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "active dry yeast",
+                              "notes": "or instant yeast"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "large",
+                              "name": "eggs",
+                              "notes": "beaten"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "butter",
+                              "notes": "melted"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "currants",
+                              "notes": "or raisins"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "vanilla extract",
+                              "notes": "or citrus zest"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, combine warm milk and yeast; let stand until foamy, about 5 minutes.",
+                    "Step 2: In a large mixing bowl, combine flour, sugar, and salt.",
+                    "Step 3: Add the eggs, melted butter, yeast mixture, and mix well until a dough is formed.",
+                    "Step 4: Knead on a floured surface until smooth, about 10 minutes.",
+                    "Step 5: Add the currants and knead until incorporated.",
+                    "Step 6: Place dough in a greased bowl, cover, and let rise until doubled, about 1 hour.",
+                    "Step 7: Punch down, shape into a round loaf, and place in a prepared pan.",
+                    "Step 8: Let rise again until doubled, about 30 minutes.",
+                    "Step 9: Preheat the oven to 350\u00b0F (175\u00b0C) and bake for 45-60 minutes until golden brown."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "snack",
+                              "dessert"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Sun",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 320,
+                    "proteinG": 7,
+                    "carbsG": 55,
+                    "fatG": 10,
+                    "fiberG": 1,
+                    "sodiumMg": 200,
+                    "sugarG": 7,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B1"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.4,
+                    "Essence": 0.3,
+                    "Matter": 0.2,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.2,
+                    "entropy": 0.5,
+                    "reactivity": 0.3,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.5,
+                    "monica": 0.1
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Kholodets (Jellied Meat)",
+          "description": "Kholodets is a remarkable dish exemplifying the art of preservation and the transformation of flavors, showcasing tender meat suspended in a fragrant jelly. This unique centerpiece is often served cold, appealing to the senses with its soothing texture and rich, savory taste, making it perfect for festive occasions.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 300,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "winter"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "lb",
+                              "name": "pork or beef",
+                              "notes": "with bones for broth"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "quartered"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "carrots",
+                              "notes": "cut in chunks"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "bay leaves",
+                              "notes": "for flavor"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "black peppercorns",
+                              "notes": "whole"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "gelatin",
+                              "notes": "as per package instructions"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "water",
+                              "notes": "for gelatin"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large pot, add the meat, onion, carrots, bay leaves, peppercorns, and salt to cover with water.",
+                    "Step 2: Bring to a boil, skimming off any foam, then reduce heat and simmer for 5 hours.",
+                    "Step 3: Strain the broth into another pot, discarding solids, then chill until fat rises to the top.",
+                    "Step 4: Prepare gelatin as per package instructions using cold water.",
+                    "Step 5: Mix gelatin into the chilled broth until dissolved completely.",
+                    "Step 6: Pour the mixture into a mold, layer with meat, and chill until set, at least 4-6 hours in the refrigerator."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner",
+                              "appetizer"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "chilling"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.0,
+                    "Water": 0.5,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 180,
+                    "proteinG": 25,
+                    "carbsG": 1,
+                    "fatG": 8,
+                    "fiberG": 0,
+                    "sodiumMg": 700,
+                    "sugarG": 0,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.1,
+                    "Essence": 0.3,
+                    "Matter": 0.4,
+                    "Substance": 0.2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.0,
+                    "entropy": 0.3,
+                    "reactivity": 0.5,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.1,
+                    "monica": 0.0
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Blinchiki (Thin Crepes)",
+          "description": "Blinchiki, thin and delicate, offer an exquisite canvas for sweet or savory fillings. These versatile crepes are steeped in tradition and delight the palate, symbolizing the arrival of spring and serving elegantly on celebratory tables, filled with treasures from both sweet and savory realms.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "all-purpose flour",
+                              "notes": "sifted"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "milk",
+                              "notes": "room temperature"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "large",
+                              "name": "eggs",
+                              "notes": "beaten"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sugar",
+                              "notes": "for sweetness"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "butter",
+                              "notes": "melted"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a bowl, whisk together flour, milk, eggs, sugar, and salt until smooth.",
+                    "Step 2: Heat a non-stick skillet over medium heat and brush with melted butter.",
+                    "Step 3: Pour a ladleful of batter into the skillet, swirling to cover the surface.",
+                    "Step 4: Cook until the edges lift and the bottom is golden brown, about 1-2 minutes.",
+                    "Step 5: Flip and cook for another 1-2 minutes on the other side.",
+                    "Step 6: Repeat with remaining batter; keep warm until serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "breakfast",
+                              "snack"
+                    ],
+                    "cookingMethods": [
+                              "pan-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.4,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Libra",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 190,
+                    "proteinG": 6,
+                    "carbsG": 26,
+                    "fatG": 6,
+                    "fiberG": 1,
+                    "sodiumMg": 250,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B2"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.2,
+                    "Essence": 0.4,
+                    "Matter": 0.3,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.2,
+                    "entropy": 0.3,
+                    "reactivity": 0.4,
+                    "gregsEnergy": -0.1,
+                    "kalchm": 0.6,
+                    "monica": 0.1
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Rassolnik (Pickled Cucumber Soup)",
+          "description": "Rassolnik is a unique and tangy soup combining rich beef broth with the brightness of pickled cucumbers and hearty grains. This dish showcases the ingenuity of Russian cuisine, transforming humble ingredients into a flavorful experience that celebrates both richness and refreshing zest.",
+          "details": {
+                    "cuisine": "Russian",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "beef broth",
+                              "notes": "or vegetable broth"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "medium",
+                              "name": "potatoes",
+                              "notes": "cubed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "carrot",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "pickled cucumbers",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "barley",
+                              "notes": "rinsed"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": "to taste"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: In a large pot, bring the beef broth to a boil.",
+                    "Step 2: Add chopped onion, cubed potatoes, and sliced carrot; simmer for 15 minutes.",
+                    "Step 3: Stir in rinsed barley and continue cooking for another 30 minutes until grains are tender.",
+                    "Step 4: Add chopped pickled cucumbers and season soup with salt and pepper.",
+                    "Step 5: Remove from heat and let stand for 5 minutes before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.5,
+                    "Earth": 0.4,
+                    "Air": 0.0
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 230,
+                    "proteinG": 11,
+                    "carbsG": 32,
+                    "fatG": 5,
+                    "fiberG": 4,
+                    "sodiumMg": 600,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin C",
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Phosphorus"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.2,
+                    "Essence": 0.4,
+                    "Matter": 0.3,
+                    "Substance": 0.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.4,
+                    "reactivity": 0.2,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.7,
+                    "monica": 0.1
+          },
+          "substitutions": []
+},
+        {
           "name": "Authentic Borscht",
           "description": "The iconic, deeply crimson Eastern European soup. A complex, sweet-and-sour broth built on beef stock, earthy beets, cabbage, and finished with a dollop of sour cream (smetana).",
           "details": {

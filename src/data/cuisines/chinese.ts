@@ -1647,6 +1647,1392 @@ export const chinese = {
     dinner: {
       all: [
         {
+          "name": "Authentic Kung Pao Shrimp",
+          "description": "A fiery masterpiece of tender shrimp enveloped in a colorful blend of spices and peanuts, Kung Pao Shrimp exhibits an intricate balance of fire and finesse. A dish where flavor undergoes a transformative dance, releasing an avalanche of taste with every bite.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 500,
+                              "unit": "grams",
+                              "name": "shrimp",
+                              "notes": "peeled and deveined"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "Shaoxing wine"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "cornstarch"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "drops",
+                              "name": "sesame oil"
+                    },
+                    {
+                              "amount": 8,
+                              "unit": "pieces",
+                              "name": "dried red chilies",
+                              "notes": "cut into sections"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "Sichuan peppercorns"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "black vinegar"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "teaspoons",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "green bell pepper",
+                              "notes": "cut into chunks"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "red bell pepper",
+                              "notes": "cut into chunks"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "roasted peanuts"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Marinate the shrimp with soy sauce, Shaoxing wine, and cornstarch for 10 minutes.",
+                    "Step 2: Heat vegetable oil in a wok over medium-high heat. Add sesame oil, dried chilies, and Sichuan peppercorns. Stir-fry for 1 minute.",
+                    "Step 3: Add minced garlic and bell peppers to the wok. Stir-fry until fragrant.",
+                    "Step 4: Incorporate the marinated shrimp into the wok. Stir-fry until the shrimp turn pink.",
+                    "Step 5: Add the black vinegar and sugar. Stir until the sauce thickens and coats the shrimp.",
+                    "Step 6: Toss in roasted peanuts, mix evenly, and serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.2
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 300,
+                    "proteinG": 30,
+                    "carbsG": 15,
+                    "fatG": 15,
+                    "fiberG": 3,
+                    "sodiumMg": 800,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.6,
+                    "Essence": 0.8,
+                    "Matter": 1.2,
+                    "Substance": 0.9
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.25,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.9,
+                    "monica": 0.5
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "peanuts",
+                              "substitute": "cashews",
+                              "notes": "for a different nutty flavor"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Hot and Sour Soup",
+          "description": "This soup thrives on the dynamic interplay between heat and tang. With its tantalizingly bold profile, Hot and Sour Soup invigorates the senses and embraces both shadowy depths and bright acidity.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 8,
+                              "unit": "cups",
+                              "name": "chicken stock"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "pork tenderloin",
+                              "notes": "sliced thin"
+                    },
+                    {
+                              "amount": 200,
+                              "unit": "grams",
+                              "name": "firm tofu",
+                              "notes": "cut into strips"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "bamboo shoots",
+                              "notes": "julienned"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "shiitake mushrooms",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "white pepper"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "rice vinegar"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "cornstarch",
+                              "notes": "dissolved in 1/4 cup water"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "egg",
+                              "notes": "beaten"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "chili paste",
+                              "notes": "adjust to taste"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "sesame oil"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "sprigs",
+                              "name": "scallions",
+                              "notes": "sliced for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat chicken stock in a pot and bring it to a gentle simmer.",
+                    "Step 2: Add pork slices and tofu. Simmer until the pork is cooked through.",
+                    "Step 3: Incorporate bamboo shoots and mushrooms, cooking for 5 minutes.",
+                    "Step 4: Add white pepper, rice vinegar, soy sauce, and chili paste.",
+                    "Step 5: Stir in the cornstarch slurry to thicken the soup.",
+                    "Step 6: Drizzle in the beaten egg while stirring the soup to create silky strands.",
+                    "Step 7: Finish with sesame oil and garnish with sliced scallions."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.4,
+                    "Earth": 0.1,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 250,
+                    "proteinG": 18,
+                    "carbsG": 10,
+                    "fatG": 15,
+                    "fiberG": 2,
+                    "sodiumMg": 1100,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.7,
+                    "Essence": 0.9,
+                    "Matter": 0.6,
+                    "Substance": 0.8
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.3,
+                    "reactivity": 2.5,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 1.0,
+                    "monica": 0.3
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "pork tenderloin",
+                              "substitute": "chicken breast",
+                              "notes": "for a lighter option"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Black Pepper Beef",
+          "description": "Savory, spicy, and succulent, this dish harmonizes tender beef with the alchemical prowess of black pepper, unveiling layers of umami and heat that transmute into a gastronomical wonder.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 25,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 400,
+                              "unit": "grams",
+                              "name": "beef sirloin",
+                              "notes": "sliced thin"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "oyster sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "teaspoons",
+                              "name": "cornstarch"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "teaspoons",
+                              "name": "black pepper",
+                              "notes": "freshly cracked"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "onion",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "green bell pepper",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "teaspoons",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "sesame oil"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Marinate beef slices with soy sauce, oyster sauce, and cornstarch for 15 minutes.",
+                    "Step 2: Heat a wok and add vegetable oil. Stir-fry the onion, bell pepper, and garlic until fragrant.",
+                    "Step 3: Add marinated beef and spread evenly in the wok, allowing it to sear properly.",
+                    "Step 4: Stir everything up until the beef is cooked to medium.",
+                    "Step 5: Sprinkle freshly cracked black pepper and sugar. Toss well.",
+                    "Step 6: Drizzle sesame oil before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.3,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Capricorn",
+                              "Leo"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 320,
+                    "proteinG": 25,
+                    "carbsG": 10,
+                    "fatG": 20,
+                    "fiberG": 2,
+                    "sodiumMg": 600,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 1.1,
+                    "Essence": 0.7,
+                    "Matter": 1.0,
+                    "Substance": 0.5
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.08,
+                    "entropy": 0.4,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.75,
+                    "monica": 0.65
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "beef sirloin",
+                              "substitute": "chicken breast",
+                              "notes": "to lighten the dish"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Yu Xiang Eggplant",
+          "description": "Yu Xiang Eggplant is a testimony to the arts of flavor layering with its beautiful play of umami, pungency, and sweetness. Crafted meticulously, it binds the senses with its aroma and quenches the soul with every bite.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 25,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "units",
+                              "name": "eggplants",
+                              "notes": "cut into strips"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "ginger",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "Doubanjiang",
+                              "notes": "broad bean chili paste"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "black vinegar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "water"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "stems",
+                              "name": "scallions",
+                              "notes": "chopped for garnish"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat vegetable oil in a wok. Fry eggplant strips until golden and soft. Drain and set aside.",
+                    "Step 2: In the same wok, saut\u00e9 garlic and ginger until aromatic.",
+                    "Step 3: Add Doubanjiang, stir-frying briefly until the oil turns red.",
+                    "Step 4: Return eggplant to the wok. Combine with soy sauce, black vinegar, sugar, and water. Toss thoroughly to coat.",
+                    "Step 5: Cook until the eggplant absorbs the sauce.",
+                    "Step 6: Garnish with scallions before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "stir-frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.35,
+                    "Water": 0.3,
+                    "Earth": 0.2,
+                    "Air": 0.15
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Pisces",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 180,
+                    "proteinG": 3,
+                    "carbsG": 20,
+                    "fatG": 10,
+                    "fiberG": 5,
+                    "sodiumMg": 800,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.75,
+                    "Essence": 0.6,
+                    "Matter": 0.9,
+                    "Substance": 0.7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.06,
+                    "entropy": 0.35,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "eggplants",
+                              "substitute": "zucchini",
+                              "notes": "for a milder flavor"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Braised Pork Belly (Hong Shao Rou)",
+          "description": "Hong Shao Rou is a rich and savory alchemical transformation of pork belly, where slow-braising cultivates a deep symphony of caramelized notes that harmonize exquisitely with hints of anise and the earthiness of soy.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 120,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "kg",
+                              "name": "pork belly",
+                              "notes": "cut into square chunks"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "water"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "slices",
+                              "name": "ginger"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "scallions",
+                              "notes": "tied in a knot"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "star",
+                              "name": "anise"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cinnamon stick"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Blanch the pork belly chunks in boiling water for 5 minutes. Drain and set aside.",
+                    "Step 2: Heat a wok and add vegetable oil and sugar. Cook until the sugar caramelizes.",
+                    "Step 3: Add ginger, scallions, star anise, and cinnamon. Stir until fragrant.",
+                    "Step 4: Incorporate pork and stir-fry until evenly colored.",
+                    "Step 5: Add soy sauce and water, ensuring the pork is mostly covered.",
+                    "Step 6: Cover and simmer on low heat for 90-120 minutes, or until the pork is tender and sauce has thickened.",
+                    "Step 7: Serve hot with rice."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "braising"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.25,
+                    "Water": 0.3,
+                    "Earth": 0.35,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Virgo"
+                    ],
+                    "lunarPhases": [
+                              "Third Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 600,
+                    "proteinG": 15,
+                    "carbsG": 20,
+                    "fatG": 50,
+                    "fiberG": 0,
+                    "sodiumMg": 900,
+                    "sugarG": 10,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Calcium",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.9,
+                    "Essence": 0.7,
+                    "Matter": 1.3,
+                    "Substance": 1.1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.4,
+                    "reactivity": 0.8,
+                    "gregsEnergy": -0.7,
+                    "kalchm": 0.9,
+                    "monica": 0.2
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "pork belly",
+                              "substitute": "beef brisket",
+                              "notes": "for a different texture"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Red-Cooked Chicken (Hong Shao Ji)",
+          "description": "Infusing tender chicken with the potent alchemy of red-cooking, this dish transforms simple ingredients into a luxurious, complex medley that tantalizes with its umami richness and gentle aromatic warmth.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 60,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "kg",
+                              "name": "chicken",
+                              "notes": "cut into pieces"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "water"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "Shaoxing wine"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "slices",
+                              "name": "ginger"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "star",
+                              "name": "anise"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cinnamon stick"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "scallions",
+                              "notes": "tied in a knot"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat oil in a large pot. Add sugar, stirring until it caramelizes.",
+                    "Step 2: Add ginger, star anise, cinnamon, and scallions. Stir fragrant.",
+                    "Step 3: Add chicken pieces into the pot, stirring until browned.",
+                    "Step 4: Add soy sauce, Shaoxing wine, and water, bringing to a boil.",
+                    "Step 5: Reduce heat and simmer for 60 minutes, or until the chicken is tender and flavorful.",
+                    "Step 6: Serve with steamed rice."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "braising"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Leo"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 25,
+                    "carbsG": 15,
+                    "fatG": 25,
+                    "fiberG": 0,
+                    "sodiumMg": 1000,
+                    "sugarG": 9,
+                    "vitamins": [
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 1.0,
+                    "Essence": 0.7,
+                    "Matter": 0.8,
+                    "Substance": 0.9
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.3,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.5,
+                    "kalchm": 0.7,
+                    "monica": 0.3
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "chicken",
+                              "substitute": "pork shoulder",
+                              "notes": "for a different protein texture"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Chinese Lamb Skewers (Yang Rou Chuan)",
+          "description": "Roasting lamb with a fiery blend of cumin, chili, and coriander, Yang Rou Chuan proclaims rustic flavors that bind Earth and Fire, producing succulent morsels that resonate with primal energy.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "High",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 600,
+                              "unit": "grams",
+                              "name": "lamb",
+                              "notes": "cut into 1-inch cubes"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "cumin seeds",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "coriander seeds",
+                              "notes": "ground"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "chili powder"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "salt"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "soy sauce"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Marinate lamb cubes with ground cumin, coriander, chili powder, salt, vegetable oil, and soy sauce for at least 1 hour.",
+                    "Step 2: Thread marinated lamb onto skewers.",
+                    "Step 3: Grill over high heat, turning occasionally, until cooked through and slightly charred.",
+                    "Step 4: Serve hot."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "grilling",
+                              "roasting"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Aries"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 500,
+                    "proteinG": 35,
+                    "carbsG": 5,
+                    "fatG": 35,
+                    "fiberG": 2,
+                    "sodiumMg": 900,
+                    "sugarG": 0,
+                    "vitamins": [
+                              "Vitamin B6"
+                    ],
+                    "minerals": [
+                              "Zinc",
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 1.2,
+                    "Essence": 0.8,
+                    "Matter": 1.0,
+                    "Substance": 0.6
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.27,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.8,
+                    "kalchm": 1.2,
+                    "monica": 0.7
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "lamb",
+                              "substitute": "beef",
+                              "notes": "for a widely-accepted alternative"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Steamed Fish with Ginger and Scallions",
+          "description": "Harnessing the gentle dance of steam to preserve its purity, this dish embodies simplicity and reverence for natural flavors. Each filament of fish, infused with the warmth of ginger and scallions, endows a delicate aroma to this act of alchemical balance.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "unit",
+                              "name": "whole white fish",
+                              "notes": "cleaned and scaled"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "slices",
+                              "name": "ginger"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "stalks",
+                              "name": "scallions",
+                              "notes": "cut into strips"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Prepare the fish by making three diagonal cuts on each side.",
+                    "Step 2: Insert ginger slices into the slits.",
+                    "Step 3: Place fish on a heatproof dish and drizzle with soy sauce.",
+                    "Step 4: Steam fish over boiling water for 15-20 minutes until cooked.",
+                    "Step 5: Heat vegetable oil until smoking hot and pour over cooked fish.",
+                    "Step 6: Garnish with scallion strips before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "steaming"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.1,
+                    "Air": 0.4
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Pisces"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 280,
+                    "proteinG": 28,
+                    "carbsG": 3,
+                    "fatG": 18,
+                    "fiberG": 0,
+                    "sodiumMg": 400,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin D"
+                    ],
+                    "minerals": [
+                              "Selenium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.5,
+                    "Essence": 0.6,
+                    "Matter": 0.7,
+                    "Substance": 1.2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.2,
+                    "reactivity": 1.3,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.4,
+                    "monica": 0.2
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "whole white fish",
+                              "substitute": "fillet of salmon",
+                              "notes": "for ease of preparation"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Chinese Egg Foo Young",
+          "description": "Egg Foo Young represents a golden melding of fluffy eggs and ingredients, achieved through delicate frying, that creates a light yet deeply satisfying and multigrained texture enveloped in earthy, aromatic flavors.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 6,
+                              "unit": "units",
+                              "name": "eggs"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "bean sprouts"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "grams",
+                              "name": "green peas"
+                    },
+                    {
+                              "amount": 50,
+                              "unit": "grams",
+                              "name": "carrots",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 100,
+                              "unit": "grams",
+                              "name": "pork",
+                              "notes": "cooked and shredded"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "tablespoons",
+                              "name": "vegetable oil"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "teaspoons",
+                              "name": "cornstarch",
+                              "notes": "dissolved in 1/4 cup water"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Beat eggs in a bowl. Add bean sprouts, peas, carrots, and cooked pork. Mix well.",
+                    "Step 2: Heat oil in a frying pan on medium heat.",
+                    "Step 3: Pour egg mixture into the pan, allowing it to spread evenly. Cook until bottom is set.",
+                    "Step 4: Carefully flip and cook until the omelet is golden on both sides.",
+                    "Step 5: In a separate pan, stir soy sauce and cornstarch slurry until thickened to make sauce.",
+                    "Step 6: Serve omelets with sauce drizzled over the top."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.3,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Sun",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Virgo"
+                    ],
+                    "lunarPhases": [
+                              "Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 300,
+                    "proteinG": 20,
+                    "carbsG": 10,
+                    "fatG": 22,
+                    "fiberG": 2,
+                    "sodiumMg": 600,
+                    "sugarG": 3,
+                    "vitamins": [
+                              "Vitamin A",
+                              "Vitamin B12"
+                    ],
+                    "minerals": [
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.65,
+                    "Essence": 0.7,
+                    "Matter": 0.5,
+                    "Substance": 0.9
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.09,
+                    "entropy": 0.19,
+                    "reactivity": 1.6,
+                    "gregsEnergy": -0.6,
+                    "kalchm": 0.7,
+                    "monica": 0.3
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "pork",
+                              "substitute": "chicken",
+                              "notes": "for a leaner option"
+                    }
+          ]
+},
+        {
+          "name": "Authentic Tea Eggs (Cha Ye Dan)",
+          "description": "Infusing the earthy, umami notes of tea and spices into the soul of each egg, Cha Ye Dan exemplifies the graceful art of transformation, where textured contrasts meet the deep and tempered tones of flavor.",
+          "details": {
+                    "cuisine": "Chinese",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 8,
+                              "unit": "units",
+                              "name": "eggs"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tablespoons",
+                              "name": "soy sauce"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tablespoons",
+                              "name": "black tea leaves"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "stick",
+                              "name": "cinnamon"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "star",
+                              "name": "anise"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "slice",
+                              "name": "ginger"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tablespoon",
+                              "name": "sugar"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "teaspoon",
+                              "name": "salt"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Place eggs in a pot of water and bring to a boil. Simmer for 7 minutes.",
+                    "Step 2: Remove eggs, lightly crack shells with a spoon but keep shells intact.",
+                    "Step 3: Return eggs to the pot. Add soy sauce, tea leaves, cinnamon, star anise, ginger, sugar, and salt.",
+                    "Step 4: Simmer for another 30 minutes, ensuring eggs are submerged.",
+                    "Step 5: Allow eggs to steep in the liquid for several hours or overnight for a deeper flavor.",
+                    "Step 6: Peel and serve."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "steeping"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.3,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mercury",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Gemini",
+                              "Cancer"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 150,
+                    "proteinG": 12,
+                    "carbsG": 1,
+                    "fatG": 10,
+                    "fiberG": 0,
+                    "sodiumMg": 200,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 0.6,
+                    "Essence": 0.5,
+                    "Matter": 0.8,
+                    "Substance": 0.7
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.07,
+                    "entropy": 0.25,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 0.5,
+                    "monica": 0.3
+          },
+          "substitutions": [
+                    {
+                              "ingredient": "black tea leaves",
+                              "substitute": "green tea leaves",
+                              "notes": "for a lighter flavor"
+                    }
+          ]
+},
+        {
           "name": "Authentic Peking Duck",
           "description": "A world-renowned dish from Beijing featuring duck with thin, crisp skin, served with pancakes, scallions, and hoisin sauce.",
           "details": {

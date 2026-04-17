@@ -1969,6 +1969,1349 @@ export const american: Cuisine = {
     dinner: {
       all: [
         {
+          "name": "Authentic Boston Baked Beans",
+          "description": "Evoking the deep historical roots of American cooking, these beans simmer in a crockery pot, transforming dark molasses and salt pork into a warm and comforting embrace, a testament to the alchemy of time and heat.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 240,
+                    "baseServingSize": 6,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "pound",
+                              "name": "dried navy beans",
+                              "notes": "soaked overnight"
+                    },
+                    {
+                              "amount": 6,
+                              "unit": "oz",
+                              "name": "salt pork",
+                              "notes": "cut into cubes"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "onion",
+                              "notes": "finely chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "molasses",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "dry mustard",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "kosher salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": "freshly ground"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": "or as needed to cover"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Rinse the soaked navy beans and place in a large ovenproof pot.",
+                    "Step 2: Add the salt pork, onion, molasses, dry mustard, salt, and pepper.",
+                    "Step 3: Cover with water and bring to a simmer over medium heat.",
+                    "Step 4: Transfer the pot to a preheated oven at 300\u00b0F (150\u00b0C).",
+                    "Step 5: Bake for about 4 hours, checking occasionally, adding water if necessary, until beans are tender."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.3,
+                    "Air": 0.0
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Saturn",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Virgo",
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 320,
+                    "proteinG": 15,
+                    "carbsG": 58,
+                    "fatG": 8,
+                    "fiberG": 12,
+                    "sodiumMg": 740,
+                    "sugarG": 20,
+                    "vitamins": [
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron",
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 3,
+                    "Essence": 2,
+                    "Matter": 8,
+                    "Substance": 1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.3,
+                    "entropy": 0.3,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Chicken Fried Steak",
+          "description": "A fusion of European techniques adapted to the American frontier, this dish transforms inexpensive cuts of beef into a crispy, golden treasure, exemplifying the art of breading and frying.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 4,
+                              "unit": "pieces",
+                              "name": "cube steak",
+                              "notes": "about 4 oz each"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "flour",
+                              "notes": "for dredging"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "buttermilk",
+                              "notes": "for soaking"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "black pepper",
+                              "notes": "freshly ground"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "vegetable oil",
+                              "notes": "for frying"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Soak cube steaks in buttermilk for at least 1 hour.",
+                    "Step 2: Season flour with salt and pepper.",
+                    "Step 3: Dredge soaked steaks in the seasoned flour until well coated.",
+                    "Step 4: Heat oil in a skillet over medium-high heat.",
+                    "Step 5: Fry steaks until golden brown on both sides, about 3-4 minutes per side.",
+                    "Step 6: Remove steaks and drain on paper towels before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "frying"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.4,
+                    "Water": 0.2,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Libra"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 600,
+                    "proteinG": 35,
+                    "carbsG": 50,
+                    "fatG": 25,
+                    "fiberG": 3,
+                    "sodiumMg": 900,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 4,
+                    "Essence": 3,
+                    "Matter": 7,
+                    "Substance": 4
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.6,
+                    "entropy": 0.4,
+                    "reactivity": 2.3,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 1.2,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Jambalaya",
+          "description": "An emblem of creole fusion, this vibrant dish synthesizes the flavors of sausages, shrimp, and fragrant spices through the magical unification of ingredients within a single pot.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 35,
+                    "baseServingSize": 6,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "lb",
+                              "name": "smoked andouille sausage",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "lb",
+                              "name": "shrimp",
+                              "notes": "peeled and deveined"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "bell pepper",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "onion",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "celery stalk",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "long-grain white rice",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "chicken broth",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tsp",
+                              "name": "creole seasoning",
+                              "notes": "to taste"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "thyme",
+                              "notes": "dried"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "can",
+                              "name": "diced tomatoes",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat olive oil in a large pot over medium heat. Add sausage, brown for 5 minutes.",
+                    "Step 2: Add bell pepper, onion, and celery; saut\u00e9 until softened.",
+                    "Step 3: Stir in rice, tomatoes, seasoning, and thyme; cook for another 2 minutes.",
+                    "Step 4: Pour in chicken broth. Bring to a boil, reduce heat, cover and simmer for 20 minutes.",
+                    "Step 5: Stir in shrimp and cook until pink and cooked through, about 5\u20138 minutes."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "stewing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 30,
+                    "carbsG": 60,
+                    "fatG": 15,
+                    "fiberG": 4,
+                    "sodiumMg": 1200,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 3,
+                    "Essence": 2,
+                    "Matter": 6,
+                    "Substance": 2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.5,
+                    "entropy": 0.4,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 1.0,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Cornbread",
+          "description": "This simple yet profound creation harnesses the transformative power of baking to turn cornmeal, a fundamental grain of the Americas, into a golden, sustaining delight.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 25,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "cornmeal",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "whole milk",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "all-purpose flour",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "baking powder",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "egg",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "sugar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "unsalted butter",
+                              "notes": "melted"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 400\u00b0F (205\u00b0C) and grease a 9-inch round cake pan.",
+                    "Step 2: In a bowl, whisk together cornmeal, flour, baking powder, and salt.",
+                    "Step 3: In a separate bowl, beat the egg with sugar, then stir in milk and melted butter.",
+                    "Step 4: Combine wet and dry ingredients, pour the batter into the prepared pan.",
+                    "Step 5: Bake for 25 minutes or until golden and a toothpick inserted comes out clean."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.3,
+                    "Earth": 0.3,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Sun",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Leo",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "New Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 220,
+                    "proteinG": 4,
+                    "carbsG": 35,
+                    "fatG": 8,
+                    "fiberG": 1,
+                    "sodiumMg": 320,
+                    "sugarG": 12,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 2,
+                    "Essence": 2,
+                    "Matter": 5,
+                    "Substance": 1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.2,
+                    "entropy": 0.2,
+                    "reactivity": 1.2,
+                    "gregsEnergy": -0.1,
+                    "kalchm": 0.8,
+                    "monica": 0.4
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Gumbo",
+          "description": "Originating from the multicultural tapestry of Louisiana, this stew celebrates the symphony of flavors created by an exotically spiced roux, shrimp, chicken, and the holy trinity of vegetables.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 30,
+                    "cookTimeMinutes": 120,
+                    "baseServingSize": 8,
+                    "spiceLevel": "Medium",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "vegetable oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "flour",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "large",
+                              "name": "onion",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "medium",
+                              "name": "bell pepper",
+                              "notes": "diced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "lbs",
+                              "name": "chicken thighs",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "lb",
+                              "name": "andouille sausage",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "okra",
+                              "notes": "sliced"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "chicken stock",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "lb",
+                              "name": "shrimp",
+                              "notes": "peeled and deveined"
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "tbsp",
+                              "name": "creole seasoning",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "cayenne pepper",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "rice",
+                              "notes": "cooked"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Heat oil in a large pot over medium heat. Add flour slowly, stirring constantly to make a roux.",
+                    "Step 2: Once roux is a rich brown, add onion, bell pepper, and garlic; saut\u00e9 until vegetables are soft.",
+                    "Step 3: Stir in chicken pieces, followed by sausage and okra.",
+                    "Step 4: Add chicken stock, seasoning, and cayenne pepper; bring to a boil.",
+                    "Step 5: Reduce heat to low and simmer for 1.5 hours, stirring occasionally.",
+                    "Step 6: Add shrimp and cook for an additional 5\u201310 minutes until shrimp are cooked through.",
+                    "Step 7: Serve over cooked rice."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "stewing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Jupiter",
+                              "Mars"
+                    ],
+                    "signs": [
+                              "Sagittarius",
+                              "Scorpio"
+                    ],
+                    "lunarPhases": [
+                              "First Quarter"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 500,
+                    "proteinG": 35,
+                    "carbsG": 45,
+                    "fatG": 20,
+                    "fiberG": 5,
+                    "sodiumMg": 1500,
+                    "sugarG": 6,
+                    "vitamins": [
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 4,
+                    "Essence": 3,
+                    "Matter": 7,
+                    "Substance": 3
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.5,
+                    "entropy": 0.3,
+                    "reactivity": 2.2,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 1.1,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Key Lime Pie",
+          "description": "Native to the Florida Keys, this pie distills the essence of tart and sweet into a creamy custard, enveloped by a buttery, crumbly crust, celebrating the alchemical balance of citric zest and creamy textures.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "summer"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1.5,
+                              "unit": "cups",
+                              "name": "graham cracker crumbs",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 6,
+                              "unit": "tbsp",
+                              "name": "unsalted butter",
+                              "notes": "melted"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "can",
+                              "name": "sweetened condensed milk",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "key lime juice",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "large",
+                              "name": "egg yolks",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "lime zest",
+                              "notes": "freshly grated"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "heavy cream",
+                              "notes": "whipped for topping"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat the oven to 350\u00b0F (175\u00b0C).",
+                    "Step 2: Mix graham cracker crumbs with melted butter. Press mixture onto the bottom of a pie pan.",
+                    "Step 3: Bake crust for 10 minutes, then remove and cool.",
+                    "Step 4: Beat egg yolks and lime zest in a bowl until creamy.",
+                    "Step 5: Gradually add condensed milk, continuing to beat until smooth.",
+                    "Step 6: Stir in lime juice, then pour mixture into the baked crust.",
+                    "Step 7: Bake for 15 minutes. Let cool completely, then refrigerate until cold.",
+                    "Step 8: Garnish with whipped cream before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dessert"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.1,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.3
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Moon"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Taurus"
+                    ],
+                    "lunarPhases": [
+                              "Waxing Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 6,
+                    "carbsG": 55,
+                    "fatG": 23,
+                    "fiberG": 2,
+                    "sodiumMg": 300,
+                    "sugarG": 40,
+                    "vitamins": [
+                              "Vitamin C"
+                    ],
+                    "minerals": [
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 2,
+                    "Essence": 1,
+                    "Matter": 5,
+                    "Substance": 2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.1,
+                    "entropy": 0.2,
+                    "reactivity": 1.0,
+                    "gregsEnergy": -0.1,
+                    "kalchm": 0.9,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic NY Buffalo Wings",
+          "description": "These iconic wings capture the fiery essence of a bustling New York bar, combining high heat with a tangy, buttery sauce to compose a culinary symphony of crispy intensity.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 10,
+                    "cookTimeMinutes": 20,
+                    "baseServingSize": 6,
+                    "spiceLevel": "High",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 2,
+                              "unit": "lbs",
+                              "name": "chicken wings",
+                              "notes": "separated into drums and flats"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "hot sauce",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "unsalted butter",
+                              "notes": "melted"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "white vinegar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "Worcestershire sauce",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "cornstarch",
+                              "notes": "for dusting"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "garlic powder",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Preheat oven to 400\u00b0F (205\u00b0C) and line a baking sheet with parchment paper.",
+                    "Step 2: Dust the wings with cornstarch and garlic powder evenly.",
+                    "Step 3: Arrange wings on the prepared baking sheet and bake for 20 minutes until crispy.",
+                    "Step 4: Melt butter in a saucepan, add hot sauce, vinegar, and Worcestershire sauce; simmer.",
+                    "Step 5: Toss baked wings in the hot sauce mixture before serving."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "appetizer"
+                    ],
+                    "cookingMethods": [
+                              "baking",
+                              "simmering"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.5,
+                    "Water": 0.2,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Mercury"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Gemini"
+                    ],
+                    "lunarPhases": [
+                              "Waning Crescent"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 400,
+                    "proteinG": 22,
+                    "carbsG": 5,
+                    "fatG": 35,
+                    "fiberG": 1,
+                    "sodiumMg": 1200,
+                    "sugarG": 2,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 2,
+                    "Essence": 3,
+                    "Matter": 4,
+                    "Substance": 1
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.6,
+                    "entropy": 0.3,
+                    "reactivity": 2.5,
+                    "gregsEnergy": -0.4,
+                    "kalchm": 1.3,
+                    "monica": 0.6
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Philly Soft Pretzels",
+          "description": "A handheld marvel of alchemy, these pretzels undergo a transformative dance of boiling and baking, achieving a tender-yet-chewy interior encased in a deeply browned, salted crust.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 15,
+                    "baseServingSize": 8,
+                    "spiceLevel": "None",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1.5,
+                              "unit": "cups",
+                              "name": "warm water",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "packet",
+                              "name": "active dry yeast",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tbsp",
+                              "name": "sugar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cups",
+                              "name": "all-purpose flour",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "baking soda",
+                              "notes": "for boiling"
+                    },
+                    {
+                              "amount": 8,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": "for boiling"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "coarse sea salt",
+                              "notes": "for topping"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Dissolve yeast and sugar in warm water; set aside until foamy.",
+                    "Step 2: Mix flour and salt in a bowl; add yeast mixture and knead until dough is smooth.",
+                    "Step 3: Let dough rise covered in a greased bowl until doubled, about 1 hour.",
+                    "Step 4: Preheat oven to 450\u00b0F (230\u00b0C). Boil water and baking soda in a large pot.",
+                    "Step 5: Divide dough into 8 pieces, shape each into a pretzel.",
+                    "Step 6: Boil each pretzel for 30 seconds, place on a baking sheet.",
+                    "Step 7: Sprinkle with coarse salt and bake for 12\u201315 minutes until golden brown."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "snack"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.2,
+                    "Water": 0.5,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Venus",
+                              "Saturn"
+                    ],
+                    "signs": [
+                              "Taurus",
+                              "Capricorn"
+                    ],
+                    "lunarPhases": [
+                              "Waning Gibbous"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 200,
+                    "proteinG": 6,
+                    "carbsG": 40,
+                    "fatG": 1,
+                    "fiberG": 2,
+                    "sodiumMg": 700,
+                    "sugarG": 4,
+                    "vitamins": [
+                              "Vitamin B"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 3,
+                    "Essence": 1,
+                    "Matter": 6,
+                    "Substance": 2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.3,
+                    "entropy": 0.2,
+                    "reactivity": 1.5,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.7,
+                    "monica": 0.3
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Chicago Deep-Dish Pizza",
+          "description": "This culinary icon elevates the humble pie into a towering bake of molten cheese and chunky tomato sauce, invoking the primal joy of earth and fire in a doughy fortress.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 20,
+                    "cookTimeMinutes": 40,
+                    "baseServingSize": 8,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "packet",
+                              "name": "active dry yeast",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1.25,
+                              "unit": "cups",
+                              "name": "warm water",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "sugar",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cups",
+                              "name": "all-purpose flour",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "cornmeal",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "olive oil",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "salt",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "cups",
+                              "name": "shredded mozzarella cheese",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "Italian sausage",
+                              "notes": "cooked and crumbled"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "can",
+                              "name": "crushed tomatoes",
+                              "notes": "15 oz"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "dried oregano",
+                              "notes": ""
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Dissolve yeast and sugar in warm water; set aside until foamy.",
+                    "Step 2: Combine flour, cornmeal, olive oil, salt, and yeast mixture; knead into a dough.",
+                    "Step 3: Let dough rise in a greased bowl until doubled, about 1 hour.",
+                    "Step 4: Preheat oven to 425\u00b0F (220\u00b0C). Roll dough into a 12-inch circle.",
+                    "Step 5: Press dough into a deep-dish pizza pan, forming a crust.",
+                    "Step 6: Layer cheese, sausage, and crushed tomatoes on top.",
+                    "Step 7: Sprinkle with oregano and bake for 30\u201340 minutes until crust is golden."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "baking"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.2,
+                    "Earth": 0.4,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Mars",
+                              "Jupiter"
+                    ],
+                    "signs": [
+                              "Aries",
+                              "Sagittarius"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 500,
+                    "proteinG": 25,
+                    "carbsG": 55,
+                    "fatG": 22,
+                    "fiberG": 5,
+                    "sodiumMg": 900,
+                    "sugarG": 8,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Calcium"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 5,
+                    "Essence": 4,
+                    "Matter": 6,
+                    "Substance": 3
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.4,
+                    "entropy": 0.3,
+                    "reactivity": 1.8,
+                    "gregsEnergy": -0.3,
+                    "kalchm": 0.9,
+                    "monica": 0.5
+          },
+          "substitutions": []
+},
+        {
+          "name": "Authentic Southern Shrimp and Grits",
+          "description": "Harnessing the marine bounty and earth's humble corn, this dish is a testament to Southern ingenuity, where succulent shrimp meets creamy grits in a flavorful harmony.",
+          "details": {
+                    "cuisine": "American",
+                    "prepTimeMinutes": 15,
+                    "cookTimeMinutes": 30,
+                    "baseServingSize": 4,
+                    "spiceLevel": "Mild",
+                    "season": [
+                              "all"
+                    ]
+          },
+          "ingredients": [
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "stone-ground grits",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 3,
+                              "unit": "cups",
+                              "name": "water",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "cup",
+                              "name": "sharp cheddar cheese",
+                              "notes": "shredded"
+                    },
+                    {
+                              "amount": 0.5,
+                              "unit": "cup",
+                              "name": "unsalted butter",
+                              "notes": "divided"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "pound",
+                              "name": "large shrimp",
+                              "notes": "peeled and deveined"
+                    },
+                    {
+                              "amount": 1,
+                              "unit": "tsp",
+                              "name": "hot sauce",
+                              "notes": ""
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "slices",
+                              "name": "bacon",
+                              "notes": "chopped"
+                    },
+                    {
+                              "amount": 2,
+                              "unit": "tbsp",
+                              "name": "lemon juice",
+                              "notes": "fresh squeezed"
+                    },
+                    {
+                              "amount": 4,
+                              "unit": "cloves",
+                              "name": "garlic",
+                              "notes": "minced"
+                    }
+          ],
+          "instructions": [
+                    "Step 1: Boil water in a pot, then stir in grits and a pinch of salt. Cook until thickened.",
+                    "Step 2: Stir in 0.25 cup butter and cheese, cover, and keep warm.",
+                    "Step 3: In a skillet, cook bacon until crispy, remove and set aside.",
+                    "Step 4: In the bacon fat, cook shrimp until pink. Stir in garlic, cooked bacon, and lemon juice.",
+                    "Step 5: Add remaining butter and hot sauce to shrimp.",
+                    "Step 6: Serve shrimp mixture over creamy grits."
+          ],
+          "classifications": {
+                    "mealType": [
+                              "dinner"
+                    ],
+                    "cookingMethods": [
+                              "boiling",
+                              "saut\u00e9ing"
+                    ]
+          },
+          "elementalProperties": {
+                    "Fire": 0.3,
+                    "Water": 0.4,
+                    "Earth": 0.2,
+                    "Air": 0.1
+          },
+          "astrologicalAffinities": {
+                    "planets": [
+                              "Moon",
+                              "Venus"
+                    ],
+                    "signs": [
+                              "Cancer",
+                              "Pisces"
+                    ],
+                    "lunarPhases": [
+                              "Full Moon"
+                    ]
+          },
+          "nutritionPerServing": {
+                    "calories": 450,
+                    "proteinG": 25,
+                    "carbsG": 30,
+                    "fatG": 30,
+                    "fiberG": 2,
+                    "sodiumMg": 750,
+                    "sugarG": 1,
+                    "vitamins": [
+                              "Vitamin A"
+                    ],
+                    "minerals": [
+                              "Iron"
+                    ]
+          },
+          "alchemicalProperties": {
+                    "Spirit": 4,
+                    "Essence": 3,
+                    "Matter": 6,
+                    "Substance": 2
+          },
+          "thermodynamicProperties": {
+                    "heat": 0.4,
+                    "entropy": 0.3,
+                    "reactivity": 2.0,
+                    "gregsEnergy": -0.2,
+                    "kalchm": 0.6,
+                    "monica": 0.7
+          },
+          "substitutions": []
+},
+        {
           "name": "Classic American Cheeseburger",
           "description": "The quintessential American sandwich, featuring a smashed and seared beef patty, melted cheese, and fresh toppings on a toasted bun.",
           "details": {
