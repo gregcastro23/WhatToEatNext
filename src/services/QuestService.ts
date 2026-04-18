@@ -16,7 +16,7 @@ import type {
 } from "@/types/economy";
 import { TOKEN_TYPES } from "@/types/economy";
 import { tokenEconomy } from "./TokenEconomyService";
-import { notificationDatabaseService } from "./notificationDatabaseService";
+import { notificationDatabase } from "./notificationDatabaseService";
 
 // ─── DB Bootstrapping ─────────────────────────────────────────────────
 
@@ -54,6 +54,7 @@ function rowToQuestDef(row: any): QuestDefinition {
     triggerEvent: row.trigger_event,
     triggerThreshold: row.trigger_threshold || 1,
     isActive: row.is_active !== false,
+    sortOrder: typeof row.sort_order === "number" ? row.sort_order : 0,
   };
 }
 
@@ -295,17 +296,19 @@ class QuestService {
     if (isNowComplete) {
       // Notify the user they can claim their reward
       try {
-        await notificationDatabaseService.createNotification({
+        await notificationDatabase.createNotification(
           userId,
-          type: "quest_completed",
-          title: "Sanctum Task Completed!",
-          message: `You completed "${quest.title}". Claim your ${quest.tokenRewardAmount} ${quest.tokenRewardType} tokens!`,
-          metadata: {
-            questSlug: quest.slug,
-            tokenType: quest.tokenRewardType,
-            tokenAmount: quest.tokenRewardAmount,
-          }
-        });
+          "quest_completed",
+          "Sanctum Task Completed!",
+          `You completed "${quest.title}". Claim your ${quest.tokenRewardAmount} ${quest.tokenRewardType} tokens!`,
+          {
+            metadata: {
+              questSlug: quest.slug,
+              tokenType: quest.tokenRewardType,
+              tokenAmount: quest.tokenRewardAmount,
+            },
+          },
+        );
       } catch (err) {
         _logger.error("[QuestService] Failed to create quest completion notification", err as any);
       }
