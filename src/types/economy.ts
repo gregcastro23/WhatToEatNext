@@ -123,6 +123,7 @@ export interface QuestDefinition {
   triggerEvent: string;
   triggerThreshold: number;
   isActive: boolean;
+  sortOrder?: number;
 }
 
 /** User's progress on a specific quest */

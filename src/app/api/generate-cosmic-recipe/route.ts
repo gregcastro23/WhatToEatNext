@@ -90,7 +90,10 @@ export async function POST(request: Request) {
   } catch (error) {
     console.warn("[generate-cosmic-recipe] Failed to increment usage", error);
   }
-  await reportQuestEventBestEffort(userId, "generate_cosmic_recipe");
+  // Cosmic recipes count toward both the generic "Culinary Explorer" tiers
+  // and the one-shot "Cosmic Chef" premium quest.
+  await reportQuestEventBestEffort(userId, "generate_recipe");
+  await reportQuestEventBestEffort(userId, "generate_premium_recipe");
 
   const body = await request.json();
   const {

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { HeroSection } from "@/components/home/HeroSection";
 import type { Variants } from "framer-motion";
 
@@ -76,13 +77,28 @@ export default function Home() {
           </div>
         </motion.section>
 
-        <motion.section 
+        <motion.section
           id="ingredients"
           variants={fadeInItem}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
         >
+          <div className="mx-6 mb-3 flex items-center justify-between flex-wrap gap-2">
+            <p className="text-sm text-gray-600">
+              Tap{" "}
+              <span className="inline-block bg-amber-100 text-amber-800 text-xs font-semibold px-2 py-0.5 rounded">
+                + Pantry
+              </span>{" "}
+              on any card to track it in your kitchen.
+            </p>
+            <Link
+              href="/pantry"
+              className="text-sm font-medium text-emerald-700 hover:text-emerald-900 underline"
+            >
+              View my pantry →
+            </Link>
+          </div>
           <EnhancedIngredientRecommender />
         </motion.section>
 
