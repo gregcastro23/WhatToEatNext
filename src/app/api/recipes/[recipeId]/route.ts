@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { RecipeSchema } from "@/lib/validation/apiSchemas";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 
 export const dynamic = "force-dynamic";
 
@@ -26,8 +25,9 @@ export async function GET(_request: Request, props: { params: Promise<{ recipeId
   try {
     const { recipeId } = await props.params;
 
-    const recipeService = UnifiedRecipeService.getInstance();
-    const rawRecipe = await recipeService.getRecipeById(recipeId);
+    // Use LocalRecipeService to fetch from database (matches /api/recipes listing)
+    const { LocalRecipeService } = await import("@/services/LocalRecipeService");
+    const rawRecipe = await LocalRecipeService.getRecipeById(recipeId);
 
     if (!rawRecipe) {
       return NextResponse.json({ success: false, error: "Recipe not found" }, { status: 404 });
@@ -58,7 +58,7 @@ export async function GET(_request: Request, props: { params: Promise<{ recipeId
       cookingMethod: cookingMethods[0],
     });
 
-    const allRecipes = await recipeService.getAllRecipes();
+    const allRecipes = await LocalRecipeService.getAllRecipes();
     const recommendedRecipes = await _recipeRecommender.recommendSimilarRecipes(
       rawRecipe,
       allRecipes,
