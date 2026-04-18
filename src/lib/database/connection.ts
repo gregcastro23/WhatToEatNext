@@ -1,5 +1,5 @@
 import 'server-only';
-import { Pool, types, neonConfig } from "@neondatabase/serverless";
+import { Pool, types } from "@neondatabase/serverless";
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
 import type { PoolClient, QueryResult } from "@neondatabase/serverless";
@@ -106,13 +106,10 @@ export function initializeDatabase(): Pool {
       config.user = url.username;
       config.password = url.password;
       config.ssl = false; // Hyperdrive handles the secure connection to Neon internally
-      
-      neonConfig.fetchConnectionCache = false; // Disable serverless cache when using Hyperdrive TCP
     }
-  } else {
-    // Standard Neon Serverless behavior
-    neonConfig.fetchConnectionCache = true;
   }
+  // Note: neonConfig.fetchConnectionCache was removed — the option is deprecated
+  // and always true in current @neondatabase/serverless.
 
   pool = new Pool(config);
   // Connection event handlers

@@ -30,7 +30,6 @@ import {
   getPlanetaryDayCharacteristics,
   formatDateForDisplay,
 } from "@/types/menuPlanner";
-import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
 import { searchRecipes, type ScoredRecipe } from "@/utils/recipeSearchEngine";
 

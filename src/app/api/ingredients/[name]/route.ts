@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
+import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
@@ -96,7 +96,7 @@ export async function GET(
       );
       if (match) {
         relatedRecipes.push({
-          id: recipe.id as string,
+          id: recipe.id,
           name: recipe.name,
           cuisine: recipe.cuisine,
           description: recipe.description,

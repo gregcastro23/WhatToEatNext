@@ -1101,6 +1101,36 @@ export default function RecipeGeneratorPage() {
   const planetaryDayInfo = useMemo(() => getPlanetaryDayCharacteristics(currentDay), [currentDay]);
   const isPersonalized = !!currentUser?.natalChart;
 
+  // Riff-seed injector: when user arrives from a recipe page via "Riff on this",
+  // preload the builder with that recipe's cuisine + flavor hints.
+  const riffSeedApplied = useRef(false);
+  useEffect(() => {
+    if (riffSeedApplied.current) return;
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const seedCuisine = params.get("seedCuisine");
+    const seedFlavorRaw = params.get("seedFlavors");
+    const seedFromName = params.get("seedFrom");
+    if (!seedCuisine && !seedFlavorRaw) return;
+
+    riffSeedApplied.current = true;
+
+    if (seedCuisine && !builder.hasCuisine(seedCuisine)) {
+      builder.addCuisine(seedCuisine);
+    }
+    if (seedFlavorRaw) {
+      const known = ["spicy", "sweet", "savory", "bitter", "sour", "umami"] as const;
+      type Known = (typeof known)[number];
+      seedFlavorRaw.split(",").forEach((f) => {
+        const flavor = f.trim().toLowerCase() as Known;
+        if ((known as readonly string[]).includes(flavor)) builder.addFlavor(flavor);
+      });
+    }
+    if (seedFromName) {
+      setToast(`Riffing on "${seedFromName}" — seeded builder with its signature.`);
+    }
+  }, [builder]);
+
   // Astrological state
   const convertedAstroState: AstrologicalState = useMemo(
     () => ({
@@ -1211,12 +1241,40 @@ export default function RecipeGeneratorPage() {
     void generateRecipes(mealTypes);
   }, [builder.mealType, generateRecipes]);
 
+  const isAuthed = !!currentUser?.userId;
   const handleSave = useCallback(
     (recipe: any) => {
       saveRecipeToStore(recipe);
-      setToast(`Saved: ${recipe.name}`);
+      if (!isAuthed) {
+        setToast(`Saved "${recipe.name}" locally. Sign in to sync.`);
+        return;
+      }
+      setToast(`Saving "${recipe.name}"…`);
+      void (async () => {
+        try {
+          const res = await fetch("/api/users/me/recipes/custom", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: recipe.name ?? "Untitled",
+              cuisine: recipe.cuisine ?? recipe.cuisineType ?? undefined,
+              source: "generator",
+              sourceRecipeId: recipe.id ?? undefined,
+              payload: recipe,
+            }),
+          });
+          if (!res.ok) {
+            setToast(`Saved "${recipe.name}" locally (sync failed).`);
+            return;
+          }
+          setToast(`Saved "${recipe.name}" to your cookbook.`);
+        } catch (error) {
+          logger.error("Save to cookbook failed", error);
+          setToast(`Saved "${recipe.name}" locally (sync failed).`);
+        }
+      })();
     },
-    [],
+    [isAuthed],
   );
 
   const handleAddedToPlanner = useCallback(

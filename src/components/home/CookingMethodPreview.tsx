@@ -226,31 +226,29 @@ export default function CookingMethodPreview() {
 
   // Update planetary positions from context
   useEffect(() => {
-    if (contextPlanetaryPositions) {
-      const normalized = normalizePlanetaryPositions(
-        contextPlanetaryPositions,
-      );
+    if (contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0) {
+      const normalized = normalizePlanetaryPositions(contextPlanetaryPositions);
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
     }
+  }, [contextPlanetaryPositions]);
 
-    // Also try to refresh positions from backend
-    if (refreshPlanetaryPositions) {
-      refreshPlanetaryPositions()
-        .then((positions) => {
-          if (positions && Object.keys(positions).length > 0) {
-            const normalized = normalizePlanetaryPositions(
-              positions,
-            );
-            setPlanetaryPositions(normalized);
-            setPositionsSource("real");
-          }
-        })
-        .catch(() => {
-          console.warn("[CookingMethodPreview] Failed to refresh planetary positions, using defaults");
-        });
-    }
-  }, [contextPlanetaryPositions, refreshPlanetaryPositions]);
+  // Refresh once on mount; the provider polls every 30 min so we don't need
+  // to call /api/astrologize on every context change.
+  useEffect(() => {
+    if (!refreshPlanetaryPositions) return;
+    refreshPlanetaryPositions()
+      .then((positions) => {
+        if (positions && Object.keys(positions).length > 0) {
+          setPlanetaryPositions(normalizePlanetaryPositions(positions));
+          setPositionsSource("real");
+        }
+      })
+      .catch(() => {
+        console.warn("[CookingMethodPreview] Failed to refresh planetary positions, using defaults");
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Get current elemental properties from alchemical context
   const currentElementals = useMemo(() => {

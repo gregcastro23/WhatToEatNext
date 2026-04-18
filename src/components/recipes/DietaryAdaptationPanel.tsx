@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import type { Recipe } from "@/types/recipe";
 import {
   adaptRecipe,
@@ -19,10 +19,55 @@ const MODES: Array<{ key: DietaryMode; label: string; icon: string }> = [
   { key: "low-carb", label: "Low-Carb", icon: "\u{1F366}" },
 ];
 
-interface Props {
-  recipe: Recipe;
-  activeMode: DietaryMode | null;
-  onModeChange: (mode: DietaryMode | null) => void;
+const PREFERENCES_KEY = "userFoodPreferences";
+const DISMISSED_KEY = "alchm:dietary-suggestion-dismissed:v1";
+
+/** Map a free-form preference string to a DietaryMode. Permissive. */
+function matchPreferenceToMode(pref: string): DietaryMode | null {
+  const p = pref.toLowerCase().trim();
+  if (p === "vegan") return "vegan";
+  if (p === "vegetarian" || p === "veg") return "vegetarian";
+  if (p.includes("gluten")) return "gluten-free";
+  if (p.includes("dairy") || p === "lactose-free") return "dairy-free";
+  if (p === "keto" || p === "ketogenic") return "keto";
+  if (p.includes("low carb") || p.includes("low-carb")) return "low-carb";
+  return null;
+}
+
+interface StoredPrefs {
+  dietaryRestrictions?: string[];
+}
+
+function readStoredPreferredMode(): DietaryMode | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(PREFERENCES_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as StoredPrefs;
+    const list = Array.isArray(parsed.dietaryRestrictions) ? parsed.dietaryRestrictions : [];
+    for (const r of list) {
+      const m = matchPreferenceToMode(r);
+      if (m) return m;
+    }
+  } catch {
+    // ignore
+  }
+  return null;
+}
+
+function savePreferredMode(mode: DietaryMode) {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = window.localStorage.getItem(PREFERENCES_KEY);
+    const parsed: StoredPrefs & Record<string, unknown> = raw ? JSON.parse(raw) : {};
+    const existing = Array.isArray(parsed.dietaryRestrictions) ? parsed.dietaryRestrictions : [];
+    // Drop any existing entries that map to a dietary mode (one active mode at a time)
+    const withoutModes = existing.filter((r) => matchPreferenceToMode(r) === null);
+    parsed.dietaryRestrictions = [...withoutModes, mode];
+    window.localStorage.setItem(PREFERENCES_KEY, JSON.stringify(parsed));
+  } catch (err) {
+    console.warn("preference save failed:", err);
+  }
 }
 
 function formatDelta(n: number, unit = "", digits = 0): string {
@@ -31,11 +76,57 @@ function formatDelta(n: number, unit = "", digits = 0): string {
   return `${sign}${n.toFixed(digits)}${unit}`;
 }
 
+interface Props {
+  recipe: Recipe;
+  activeMode: DietaryMode | null;
+  onModeChange: (mode: DietaryMode | null) => void;
+}
+
 export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Props) {
+  const [preferredMode, setPreferredMode] = useState<DietaryMode | null>(null);
+  const [suggestionDismissed, setSuggestionDismissed] = useState(false);
+  const [savedRecently, setSavedRecently] = useState<DietaryMode | null>(null);
+
+  useEffect(() => {
+    setPreferredMode(readStoredPreferredMode());
+    try {
+      const dismissed = window.localStorage.getItem(DISMISSED_KEY);
+      setSuggestionDismissed(dismissed === "1");
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const showSuggestion = useMemo(() => {
+    if (!preferredMode) return false;
+    if (suggestionDismissed) return false;
+    if (activeMode) return false;
+    if (isAlreadyCompatible(recipe, preferredMode)) return false;
+    return needsAdaptation(recipe, preferredMode);
+  }, [preferredMode, suggestionDismissed, activeMode, recipe]);
+
   const adaptation: AdaptationResult | null = useMemo(() => {
     if (!activeMode) return null;
     return adaptRecipe(recipe, activeMode);
   }, [recipe, activeMode]);
+
+  const handleDismissSuggestion = useCallback(() => {
+    setSuggestionDismissed(true);
+    try {
+      window.localStorage.setItem(DISMISSED_KEY, "1");
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const handleSaveAsPreference = useCallback((mode: DietaryMode) => {
+    savePreferredMode(mode);
+    setPreferredMode(mode);
+    setSavedRecently(mode);
+    window.setTimeout(() => setSavedRecently(null), 2500);
+  }, []);
+
+  const showSaveToggle = activeMode !== null && activeMode !== preferredMode;
 
   return (
     <div className="glass-card-premium rounded-2xl border border-white/8 p-5 md:p-6">
@@ -60,11 +151,39 @@ export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Pro
         )}
       </div>
 
+      {showSuggestion && preferredMode && (
+        <div className="mb-4 p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-start justify-between gap-3 flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <p className="text-sm text-indigo-200">
+              <span className="font-semibold">Based on your profile ({preferredMode})</span>, here&apos;s how to adapt this dish.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => onModeChange(preferredMode)}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-500/30 border border-indigo-400/50 text-indigo-100 hover:bg-indigo-500/40"
+            >
+              Apply {preferredMode}
+            </button>
+            <button
+              type="button"
+              onClick={handleDismissSuggestion}
+              aria-label="Dismiss suggestion"
+              className="text-indigo-300/60 hover:text-indigo-200 text-sm"
+            >
+              &#x2715;
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-2">
         {MODES.map(({ key, label, icon }) => {
           const compatible = isAlreadyCompatible(recipe, key);
           const wouldSwap = !compatible && needsAdaptation(recipe, key);
           const isActive = activeMode === key;
+          const isPreferred = preferredMode === key;
           const disabled = compatible;
 
           return (
@@ -73,34 +192,60 @@ export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Pro
               type="button"
               disabled={disabled}
               onClick={() => onModeChange(isActive ? null : key)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors flex items-center gap-1.5 relative ${
                 disabled
                   ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300 cursor-default"
                   : isActive
                     ? "bg-amber-500/20 border-amber-500/50 text-amber-200"
-                    : wouldSwap
-                      ? "bg-white/5 border-white/10 text-white/80 hover:bg-amber-500/10 hover:border-amber-500/30 hover:text-amber-200"
-                      : "bg-white/5 border-white/10 text-white/40 hover:text-white/60"
+                    : isPreferred
+                      ? "bg-indigo-500/10 border-indigo-400/40 text-indigo-100 hover:bg-indigo-500/20"
+                      : wouldSwap
+                        ? "bg-white/5 border-white/10 text-white/80 hover:bg-amber-500/10 hover:border-amber-500/30 hover:text-amber-200"
+                        : "bg-white/5 border-white/10 text-white/40 hover:text-white/60"
               }`}
               title={
                 disabled
                   ? `Already ${label.toLowerCase()}-compatible`
-                  : wouldSwap
-                    ? `Adapt to ${label.toLowerCase()}`
-                    : `No swap rules triggered for ${label.toLowerCase()}`
+                  : isPreferred
+                    ? `Your saved preference`
+                    : wouldSwap
+                      ? `Adapt to ${label.toLowerCase()}`
+                      : `No swap rules triggered for ${label.toLowerCase()}`
               }
             >
               <span className="not-italic">{icon}</span>
               {label}
               {disabled && <span className="ml-0.5 text-emerald-300">&#x2713;</span>}
+              {isPreferred && !disabled && (
+                <span className="ml-0.5 text-[10px] text-indigo-300" aria-label="Preferred">
+                  {"\u2605"}
+                </span>
+              )}
             </button>
           );
         })}
       </div>
 
-      {adaptation && (
-        <AdaptationBanner adaptation={adaptation} />
+      {showSaveToggle && (
+        <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
+          <span className="text-xs text-white/60">
+            {savedRecently === activeMode
+              ? `Saved — future recipes will auto-suggest ${activeMode}.`
+              : `Make ${activeMode} your default across the app?`}
+          </span>
+          {savedRecently !== activeMode && (
+            <button
+              type="button"
+              onClick={() => handleSaveAsPreference(activeMode)}
+              className="text-xs px-3 py-1 rounded-md bg-indigo-500/15 border border-indigo-400/30 text-indigo-200 hover:bg-indigo-500/25"
+            >
+              Save as my preference
+            </button>
+          )}
+        </div>
       )}
+
+      {adaptation && <AdaptationBanner adaptation={adaptation} />}
     </div>
   );
 }
