@@ -2,12 +2,20 @@
 
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
+import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
+import { DiscoverySection } from "@/components/recipes/DiscoverySection";
+import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
 import { IngredientDrawer } from "@/components/recipes/IngredientDrawer";
 import { InteractiveInstruction } from "@/components/recipes/InteractiveInstruction";
 import { NutritionVisualization } from "@/components/recipes/NutritionVisualization";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
+import { SocialSection } from "@/components/recipes/SocialSection";
 import { TechniqueModal } from "@/components/recipes/TechniqueModal";
+import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import type { Recipe } from "@/types/recipe";
+import { adaptRecipe, type DietaryMode } from "@/utils/dietaryAdaptation";
+import { analyzeTimeShortcuts, type TimeBudget } from "@/utils/timeShortcuts";
 
 // ===== Constants =====
 
@@ -670,6 +678,24 @@ export default function RecipePage({ params }: RecipePageProps) {
   const [copied, setCopied] = useState(false);
   const [selectedIngredientIndex, setSelectedIngredientIndex] = useState<number | null>(null);
   const [selectedTechnique, setSelectedTechnique] = useState<string | null>(null);
+  const [dietaryMode, setDietaryMode] = useState<DietaryMode | null>(null);
+  const [timeBudget, setTimeBudget] = useState<TimeBudget | null>(null);
+
+  // Reset interactive modes whenever a new recipe loads
+  useEffect(() => {
+    setDietaryMode(null);
+    setTimeBudget(null);
+  }, [recipeId]);
+
+  const adaptation = useMemo(() => {
+    if (!recipe || !dietaryMode) return null;
+    return adaptRecipe(recipe, dietaryMode);
+  }, [recipe, dietaryMode]);
+
+  const timeAnalysis = useMemo(() => {
+    if (!recipe || !timeBudget) return null;
+    return analyzeTimeShortcuts(recipe, timeBudget);
+  }, [recipe, timeBudget]);
 
   useEffect(() => {
     params.then(p => setRecipeId(p.recipeId)).catch(console.error);
@@ -880,6 +906,8 @@ export default function RecipePage({ params }: RecipePageProps) {
               )}
             </div>
 
+            <AddToMealPlanButton recipe={recipe} servings={servings} />
+
             <button
               onClick={() => {
                 void handleCopyRecipe();
@@ -911,6 +939,19 @@ export default function RecipePage({ params }: RecipePageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* ===== Left Column: Ingredients + Instructions ===== */}
           <div className="lg:col-span-2 space-y-8">
+            {/* Adapt & Tune — dietary / flavor / time */}
+            <DietaryAdaptationPanel
+              recipe={recipe}
+              activeMode={dietaryMode}
+              onModeChange={setDietaryMode}
+            />
+            <FlavorTuningPanel />
+            <TimeShortcutsPanel
+              recipe={recipe}
+              activeBudget={timeBudget}
+              onBudgetChange={setTimeBudget}
+            />
+
             {/* Ingredients */}
             <SectionCard title="Ingredients" icon="&#x1F9C2;">
               {servings !== baseServings && (
@@ -923,26 +964,53 @@ export default function RecipePage({ params }: RecipePageProps) {
               </p>
               <ul className="space-y-1">
                 {recipe.ingredients.map((ing, index) => {
-                  const scaledAmount = ing.amount ? Math.round(ing.amount * scale * 100) / 100 : null;
+                  const swap = adaptation?.swaps.find((s) => s.index === index) ?? null;
+                  const displayIng = swap ? swap.to : ing;
+                  const scaledAmount = displayIng.amount ? Math.round(displayIng.amount * scale * 100) / 100 : null;
+                  const originalScaled = swap && ing.amount ? Math.round(ing.amount * scale * 100) / 100 : null;
                   return (
                     <li key={index}>
                       <button
                         type="button"
                         onClick={() => setSelectedIngredientIndex(index)}
-                        className="w-full flex items-start gap-3 group text-left px-3 py-2 -mx-3 rounded-lg hover:bg-amber-500/5 border border-transparent hover:border-amber-500/20 transition-colors"
+                        className={`w-full flex items-start gap-3 group text-left px-3 py-2 -mx-3 rounded-lg border transition-colors ${
+                          swap
+                            ? "bg-amber-500/5 border-amber-500/20 hover:bg-amber-500/10"
+                            : "hover:bg-amber-500/5 border-transparent hover:border-amber-500/20"
+                        }`}
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2.5 shrink-0 group-hover:bg-amber-300 group-hover:scale-125 transition-transform" />
+                        <span className={`w-1.5 h-1.5 rounded-full mt-2.5 shrink-0 transition-transform ${swap ? "bg-orange-400 group-hover:scale-125" : "bg-amber-400 group-hover:bg-amber-300 group-hover:scale-125"}`} />
                         <div className="flex-1 min-w-0">
-                          <span className="text-white">
-                            {scaledAmount != null && (
-                              <span className="text-amber-300 font-semibold">{scaledAmount} </span>
-                            )}
-                            {ing.unit && <span className="text-white/80">{ing.unit} </span>}
-                            <span className="group-hover:text-amber-200 transition-colors underline decoration-dotted decoration-white/20 underline-offset-4 group-hover:decoration-amber-400/60">
-                              {ing.name}
+                          {swap ? (
+                            <>
+                              <div className="text-white/40 line-through text-sm">
+                                {originalScaled != null && <span>{originalScaled} </span>}
+                                {ing.unit && <span>{ing.unit} </span>}
+                                <span>{ing.name}</span>
+                              </div>
+                              <div className="text-white mt-0.5">
+                                {scaledAmount != null && (
+                                  <span className="text-orange-300 font-semibold">{scaledAmount} </span>
+                                )}
+                                {displayIng.unit && <span className="text-white/80">{displayIng.unit} </span>}
+                                <span className="group-hover:text-amber-200 transition-colors underline decoration-dotted decoration-orange-400/50 underline-offset-4">
+                                  {displayIng.name}
+                                </span>
+                                <span className="ml-2 text-xs text-orange-300/80 italic">({swap.reason})</span>
+                              </div>
+                            </>
+                          ) : (
+                            <span className="text-white">
+                              {scaledAmount != null && (
+                                <span className="text-amber-300 font-semibold">{scaledAmount} </span>
+                              )}
+                              {displayIng.unit && <span className="text-white/80">{displayIng.unit} </span>}
+                              <span className="group-hover:text-amber-200 transition-colors underline decoration-dotted decoration-white/20 underline-offset-4 group-hover:decoration-amber-400/60">
+                                {displayIng.name}
+                              </span>
                             </span>
-                          </span>
-                          {ing.notes && (
+                          )}
+                          {ing.notes && !swap && (
                             <span className="text-sm text-white/60 ml-2 italic">({ing.notes})</span>
                           )}
                         </div>
@@ -962,19 +1030,42 @@ export default function RecipePage({ params }: RecipePageProps) {
                 Highlighted <span className="text-orange-300 underline decoration-dotted decoration-orange-400/50 underline-offset-4">techniques</span> open a deep-dive. Time phrases include a built-in timer.
               </p>
               <ol className="space-y-5">
-                {recipe.instructions.map((instruction, index) => (
-                  <li key={index} className="flex gap-4">
-                    <span className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex items-center justify-center text-sm font-bold text-amber-300">
-                      {index + 1}
-                    </span>
-                    <p className="text-white/80 leading-relaxed pt-1">
-                      <InteractiveInstruction
-                        text={instruction}
-                        onTechniqueClick={setSelectedTechnique}
-                      />
-                    </p>
-                  </li>
-                ))}
+                {recipe.instructions.map((instruction, index) => {
+                  const analysis = timeAnalysis?.stepAnalyses[index];
+                  const highlight = analysis && (analysis.skippable || analysis.parallelizable || analysis.timeConsuming);
+                  const badge = analysis?.timeConsuming
+                    ? { label: "Long idle", cls: "bg-orange-500/15 text-orange-300 border-orange-500/30" }
+                    : analysis?.parallelizable
+                      ? { label: "Parallelize", cls: "bg-sky-500/15 text-sky-300 border-sky-500/30" }
+                      : analysis?.skippable
+                        ? { label: "Optional", cls: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30" }
+                        : null;
+                  return (
+                    <li key={index} className={`flex gap-4 rounded-lg transition-colors ${highlight ? "bg-amber-500/5 border border-amber-500/20 p-3 -m-3" : ""}`}>
+                      <span className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex items-center justify-center text-sm font-bold text-amber-300">
+                        {index + 1}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        {badge && (
+                          <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                            <span className={`text-xs font-medium px-2 py-0.5 rounded border ${badge.cls}`}>
+                              {badge.label}
+                            </span>
+                            {analysis?.reason && (
+                              <span className="text-xs text-white/50 italic">{analysis.reason}</span>
+                            )}
+                          </div>
+                        )}
+                        <p className="text-white/80 leading-relaxed pt-0.5">
+                          <InteractiveInstruction
+                            text={instruction}
+                            onTechniqueClick={setSelectedTechnique}
+                          />
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ol>
             </SectionCard>
 
@@ -1333,6 +1424,9 @@ export default function RecipePage({ params }: RecipePageProps) {
                 </div>
               </SectionCard>
             )}
+
+            {/* Community (local-only shell) */}
+            <SocialSection recipeId={recipe.id} />
           </div>
         </div>
 
@@ -1346,7 +1440,7 @@ export default function RecipePage({ params }: RecipePageProps) {
               recipeAmount={scaledAmount}
               recipeUnit={sel?.unit}
               recipeNotes={sel?.notes}
-              currentRecipeId={recipe.id as string}
+              currentRecipeId={recipe.id}
               onClose={() => setSelectedIngredientIndex(null)}
             />
           );
@@ -1358,11 +1452,16 @@ export default function RecipePage({ params }: RecipePageProps) {
           onClose={() => setSelectedTechnique(null)}
         />
 
-        {/* ===== Similar Recipes ===== */}
+        {/* ===== Discovery (elemental / alchemical / cuisine) ===== */}
+        <div className="pt-8">
+          <DiscoverySection recipeId={recipe.id} />
+        </div>
+
+        {/* ===== Similar Recipes (service-recommended fallback) ===== */}
         {recommendedRecipes.length > 0 && (
           <div className="pt-8">
             <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
-              Similar Recipes
+              Also Recommended
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recommendedRecipes.map((rec) => (
