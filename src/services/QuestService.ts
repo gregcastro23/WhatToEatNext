@@ -16,6 +16,7 @@ import type {
 } from "@/types/economy";
 import { TOKEN_TYPES } from "@/types/economy";
 import { tokenEconomy } from "./TokenEconomyService";
+import { notificationDatabaseService } from "./notificationDatabaseService";
 
 // ─── DB Bootstrapping ─────────────────────────────────────────────────
 
@@ -37,7 +38,7 @@ const getDbModule = async () => {
 // ─── In-Memory Fallback ───────────────────────────────────────────────
 
 const memoryQuests: QuestDefinition[] = [];
-const memoryProgress = new Map<string, { progress: number; completedAt: string | null }>();
+const memoryProgress = new Map<string, { progress: number; completedAt: string | null; claimedAt: string | null }>();
 
 // ─── Row Converters ───────────────────────────────────────────────────
 
@@ -130,6 +131,7 @@ class QuestService {
         quest,
         progress: progress.progress,
         completedAt: progress.completedAt,
+        claimedAt: progress.claimedAt,
         periodStart: progress.periodStart,
       };
 
@@ -155,7 +157,7 @@ class QuestService {
   async getUserQuestProgress(
     userId: string,
     quest: QuestDefinition,
-  ): Promise<{ progress: number; completedAt: string | null; periodStart: string | null }> {
+  ): Promise<{ progress: number; completedAt: string | null; claimedAt: string | null; periodStart: string | null }> {
     const periodStart = getPeriodStartForType(quest.questType);
     const db = await getDbModule();
 
@@ -169,7 +171,7 @@ class QuestService {
           : [userId, quest.id];
 
         const result = await db.executeQuery(
-          `SELECT progress, completed_at, period_start
+          `SELECT progress, completed_at, claimed_at, period_start
            FROM user_quest_progress
            WHERE user_id = $1 AND quest_id = $2
              ${periodCondition}
@@ -181,6 +183,7 @@ class QuestService {
           return {
             progress: result.rows[0].progress || 0,
             completedAt: result.rows[0].completed_at?.toISOString?.() || result.rows[0].completed_at || null,
+            claimedAt: result.rows[0].claimed_at?.toISOString?.() || result.rows[0].claimed_at || null,
             periodStart: result.rows[0].period_start || null,
           };
         }
@@ -195,6 +198,7 @@ class QuestService {
     return {
       progress: mem?.progress || 0,
       completedAt: mem?.completedAt || null,
+      claimedAt: mem?.claimedAt || null,
       periodStart,
     };
   }
@@ -237,7 +241,7 @@ class QuestService {
   }
 
   /**
-   * Increment progress on a quest and award tokens if threshold met.
+   * Increment progress on a quest and send a notification if threshold met.
    */
   private async incrementProgress(
     userId: string,
@@ -284,14 +288,99 @@ class QuestService {
     memoryProgress.set(key, {
       progress: newProgress,
       completedAt: isNowComplete ? new Date().toISOString() : null,
+      claimedAt: null,
     });
 
     // Award tokens on completion
     if (isNowComplete) {
-      return this.awardQuestReward(userId, quest);
+      // Notify the user they can claim their reward
+      try {
+        await notificationDatabaseService.createNotification({
+          userId,
+          type: "quest_completed",
+          title: "Sanctum Task Completed!",
+          message: `You completed "${quest.title}". Claim your ${quest.tokenRewardAmount} ${quest.tokenRewardType} tokens!`,
+          metadata: {
+            questSlug: quest.slug,
+            tokenType: quest.tokenRewardType,
+            tokenAmount: quest.tokenRewardAmount,
+          }
+        });
+      } catch (err) {
+        _logger.error("[QuestService] Failed to create quest completion notification", err as any);
+      }
+
+      return {
+        questSlug: quest.slug,
+        tokensAwarded: quest.tokenRewardAmount,
+        tokenType: quest.tokenRewardType,
+      };
     }
 
     return null;
+  }
+
+  /**
+   * Claim the reward for a completed quest.
+   */
+  async claimQuestReward(
+    userId: string,
+    questSlug: string,
+    periodStartStr?: string | null
+  ): Promise<{ success: boolean; tokensAwarded: number; tokenType: string; message: string }> {
+    const db = await getDbModule();
+    const quests = await this.getActiveQuests();
+    const quest = quests.find(q => q.slug === questSlug);
+    if (!quest) {
+      return { success: false, tokensAwarded: 0, tokenType: "", message: "Quest not found" };
+    }
+
+    const current = await this.getUserQuestProgress(userId, quest);
+    if (!current.completedAt) {
+      return { success: false, tokensAwarded: 0, tokenType: "", message: "Quest not yet completed" };
+    }
+    if (current.claimedAt) {
+      return { success: false, tokensAwarded: 0, tokenType: "", message: "Reward already claimed" };
+    }
+
+    const periodStart = periodStartStr !== undefined ? periodStartStr : getPeriodStartForType(quest.questType);
+
+    if (db) {
+      try {
+        const periodCondition = periodStart !== null
+          ? `AND period_start = $3`
+          : `AND period_start IS NULL`;
+        const params = periodStart !== null
+          ? [new Date().toISOString(), userId, quest.id, periodStart]
+          : [new Date().toISOString(), userId, quest.id];
+
+        await db.executeQuery(
+          `UPDATE user_quest_progress
+           SET claimed_at = $1
+           WHERE user_id = $2 AND quest_id = $3
+             ${periodCondition}`,
+          params,
+        );
+      } catch (error) {
+        _logger.error("[QuestService] claimQuestReward DB failed:", error as any);
+        return { success: false, tokensAwarded: 0, tokenType: "", message: "Database error" };
+      }
+    }
+
+    // In-memory fallback
+    const key = `${userId}:${quest.id}:${periodStart || "all"}`;
+    const mem = memoryProgress.get(key);
+    if (mem) {
+      memoryProgress.set(key, { ...mem, claimedAt: new Date().toISOString() });
+    }
+
+    const reward = await this.awardQuestReward(userId, quest);
+    return {
+      success: true,
+      tokensAwarded: reward.tokensAwarded,
+      tokenType: reward.tokenType,
+      message: "Reward claimed successfully!"
+    };
   }
 
   /**
@@ -302,7 +391,7 @@ class QuestService {
     quest: QuestDefinition,
   ): Promise<{ questSlug: string; tokensAwarded: number; tokenType: string }> {
     const todayStr = new Date().toISOString().slice(0, 10);
-    const idemKey = `quest:${userId}:${quest.slug}:${todayStr}`;
+    const idemKey = `quest_claim:${userId}:${quest.slug}:${todayStr}`;
 
     if (quest.tokenRewardType === "all") {
       // Split evenly across all 4 token types

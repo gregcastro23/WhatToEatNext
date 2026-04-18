@@ -1,46 +1,16 @@
 -- ==========================================
--- DEV-OPS QUESTS + BUG REPORTS
--- Migration 18: "Help Us Build" quest definitions and bug_reports table
--- Created: April 2026 for gamified site development
+-- DEV-OPS QUESTS REFACTOR
+-- Migration 18: "Help Us Build" quest definitions (ESMS aligned)
 -- ==========================================
 
--- ─── Bug Reports Table ───────────────────────────────────────────────
--- Backs the "Alchemist's Eye" quest. Every submitted report awards Spirit
--- tokens via questService.reportEvent('report_bug', ...).
-
-CREATE TABLE IF NOT EXISTS bug_reports (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    page_url TEXT,
-    user_agent TEXT,
-    status VARCHAR(20) NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'triaged', 'in_progress', 'resolved', 'wont_fix')),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-COMMENT ON TABLE bug_reports IS 'User-submitted bug reports from the "Alchemist''s Eye" quest. Each submission awards Spirit tokens.';
-
-CREATE INDEX IF NOT EXISTS idx_bug_reports_user ON bug_reports(user_id);
-CREATE INDEX IF NOT EXISTS idx_bug_reports_status ON bug_reports(status);
-CREATE INDEX IF NOT EXISTS idx_bug_reports_created ON bug_reports(created_at DESC);
+DROP TABLE IF EXISTS bug_reports;
+DELETE FROM quest_definitions WHERE slug = 'achieve-alchemists-eye';
 
 -- ─── Dev-Ops Quest Definitions ───────────────────────────────────────
--- These quests reward users for helping us build and tune the site.
 
 INSERT INTO quest_definitions (slug, title, description, quest_type, token_reward_type, token_reward_amount, trigger_event, trigger_threshold, sort_order)
 VALUES
-    (
-        'achieve-alchemists-eye',
-        'The Alchemist''s Eye',
-        'Report a bug you''ve discovered — help us perfect the Sanctum. Reward: 15 Spirit.',
-        'achievement',
-        'Spirit',
-        15,
-        'report_bug',
-        1,
-        30
-    ),
+    -- Legacy tasks kept (if applicable)
     (
         'weekly-recipe-harmonizer',
         'Recipe Harmonizer',
@@ -62,5 +32,50 @@ VALUES
         'preferences_complete',
         1,
         31
-    )
-ON CONFLICT (slug) DO NOTHING;
+    ),
+    (
+        'masters-pantry',
+        'The Master''s Pantry',
+        'Classify an unknown ingredient''s elemental properties to earn Matter.',
+        'achievement',
+        'Matter',
+        2,
+        'classify_ingredient',
+        1,
+        32
+    ),
+
+    -- SPIRIT
+    ('spirit-add-cooking-method', 'Favorite Cooking Method', 'Add a Favorite Cooking Method. Reward: 10 Spirit.', 'achievement', 'Spirit', 10, 'add_cooking_method', 1, 40),
+    ('spirit-add-favorite-cuisine', 'Favorite Cuisine', 'Select a Favorite Cuisine. Reward: 10 Spirit.', 'achievement', 'Spirit', 10, 'add_favorite_cuisine', 1, 41),
+    ('spirit-add-food-preference', 'Nutritional Preference', 'Add a Food/Nutritional Preference. Reward: 10 Spirit.', 'achievement', 'Spirit', 10, 'add_food_preference', 1, 42),
+
+    -- ESSENCE
+    ('essence-generate-recipes-10', 'Culinary Explorer I', 'Generate 10 Recipes. Reward: 15 Essence.', 'achievement', 'Essence', 15, 'generate_recipe', 10, 50),
+    ('essence-generate-recipes-25', 'Culinary Explorer II', 'Generate 25 Recipes. Reward: 30 Essence.', 'achievement', 'Essence', 30, 'generate_recipe', 25, 51),
+    ('essence-generate-recipes-50', 'Culinary Explorer III', 'Generate 50 Recipes. Reward: 50 Essence.', 'achievement', 'Essence', 50, 'generate_recipe', 50, 52),
+    ('essence-generate-premium', 'Cosmic Chef', 'Generate a Premium Cosmic Recipe. Reward: 20 Essence.', 'achievement', 'Essence', 20, 'generate_premium_recipe', 1, 53),
+    ('essence-generate-meal-plan', 'Master Planner', 'Generate a full Weekly Meal Plan. Reward: 25 Essence.', 'achievement', 'Essence', 25, 'generate_meal_plan', 1, 54),
+
+    -- SUBSTANCE
+    ('substance-first-purchase', 'First Exchange', 'Spend other coins (First Purchase). Reward: 20 Substance.', 'achievement', 'Substance', 20, 'spend_coins', 1, 60),
+    ('substance-premium-signup', 'Premium Initiation', 'Sign up for Premium. Reward: 50 Substance.', 'achievement', 'Substance', 50, 'premium_signup', 1, 61),
+    ('substance-add-favorite-restaurant', 'Local Patron', 'Add a Favorite Restaurant to profile. Reward: 15 Substance.', 'achievement', 'Substance', 15, 'add_favorite_restaurant', 1, 62),
+    ('substance-add-restaurant-dish', 'Dish Discovery', 'Add a Favorite Dish to a Restaurant Profile. Reward: 15 Substance.', 'achievement', 'Substance', 15, 'add_restaurant_dish', 1, 63),
+    ('substance-complete-nutritional-plan', 'Nutritional Alignment', 'Complete a Nutritional Plan. Reward: 20 Substance.', 'achievement', 'Substance', 20, 'complete_nutritional_plan', 1, 64),
+
+    -- MATTER
+    ('matter-instacart-order', 'Real World Harvest', 'Successfully complete an Instacart order. Reward: 30 Matter.', 'achievement', 'Matter', 30, 'instacart_order_success', 1, 70),
+    ('matter-add-pantry-items', 'Stocking the Pantry', 'Add items to the Pantry. Reward: 10 Matter.', 'achievement', 'Matter', 10, 'add_pantry_items', 1, 71),
+    ('matter-use-posso', 'Posso Interaction', 'Use the Posso component. Reward: 10 Matter.', 'achievement', 'Matter', 10, 'use_posso', 1, 72),
+    ('matter-send-commensal', 'Dining Companion', 'Send a Commensal request. Reward: 15 Matter.', 'achievement', 'Matter', 15, 'send_commensal_request', 1, 73),
+    ('matter-refer-user', 'Network Expansion', 'Refer a new user to sign up. Reward: 40 Matter.', 'achievement', 'Matter', 40, 'refer_user', 1, 74)
+ON CONFLICT (slug) DO UPDATE SET
+    title = EXCLUDED.title,
+    description = EXCLUDED.description,
+    quest_type = EXCLUDED.quest_type,
+    token_reward_type = EXCLUDED.token_reward_type,
+    token_reward_amount = EXCLUDED.token_reward_amount,
+    trigger_event = EXCLUDED.trigger_event,
+    trigger_threshold = EXCLUDED.trigger_threshold,
+    sort_order = EXCLUDED.sort_order;

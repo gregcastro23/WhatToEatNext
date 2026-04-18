@@ -130,6 +130,7 @@ export interface QuestProgress {
   quest: QuestDefinition;
   progress: number;
   completedAt: string | null;
+  claimedAt: string | null;
   periodStart: string | null;
 }
 

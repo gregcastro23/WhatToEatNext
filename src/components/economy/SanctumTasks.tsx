@@ -3,15 +3,8 @@
 /**
  * Sanctum Tasks
  *
- * The "Help Us Build" section of the Profile page. Surfaces three dev-ops
- * quests that reward users for contributing to the site:
- *
- *   1. The Alchemist's Eye       — report a bug (opens BugReportModal)
- *   2. Recipe Harmonizer          — rate 3 recipes (deep-links to /recipes)
- *   3. Temporal Anchor            — complete 100% of profile preferences
- *
- * Progress is read from `/api/quests`. The quest definitions are seeded in
- * migration 18 (`database/init/18-dev-ops-quests.sql`).
+ * The "Help Us Build" section of the Profile page. Surveys the dev-ops
+ * quests (ESMS aligned) that reward users for contributing to the site.
  *
  * @file src/components/economy/SanctumTasks.tsx
  */
@@ -21,55 +14,147 @@ import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
 import type { QuestPanelData, QuestProgress } from '@/types/economy';
-import { BugReportModal } from './BugReportModal';
 import { PantryModal } from './PantryModal';
 
-// ─── Quest slugs (must match migration 18) ───────────────────────────
+// ─── Quest Action Mappings ────────────────────────────────────────────
 
-const QUEST_SLUGS = {
-  alchemistsEye: 'achieve-alchemists-eye',
-  recipeHarmonizer: 'weekly-recipe-harmonizer',
-  temporalAnchor: 'achieve-temporal-anchor',
-  mastersPantry: 'masters-pantry',
-} as const;
+const QUEST_ACTIONS: Record<string, { label: string; href?: string }> = {
+  'weekly-recipe-harmonizer': { label: 'Rate Recipes', href: '/recipes?rate=true' },
+  'achieve-temporal-anchor': { label: 'Complete Profile' /* handled by props */ },
+  'masters-pantry': { label: 'Classify' /* handled by modal */ },
+  'spirit-add-cooking-method': { label: 'Preferences', href: '/profile?tab=preferences' },
+  'spirit-add-favorite-cuisine': { label: 'Preferences', href: '/profile?tab=preferences' },
+  'spirit-add-food-preference': { label: 'Preferences', href: '/profile?tab=preferences' },
+  'essence-generate-recipes-10': { label: 'Generate', href: '/recipes' },
+  'essence-generate-recipes-25': { label: 'Generate', href: '/recipes' },
+  'essence-generate-recipes-50': { label: 'Generate', href: '/recipes' },
+  'essence-generate-premium': { label: 'Go Premium', href: '/premium' },
+  'essence-generate-meal-plan': { label: 'Meal Planner', href: '/planner' },
+  'substance-first-purchase': { label: 'Shop', href: '/shop' },
+  'substance-premium-signup': { label: 'Upgrade', href: '/premium' },
+  'substance-add-favorite-restaurant': { label: 'Restaurants', href: '/restaurants' },
+  'substance-add-restaurant-dish': { label: 'Restaurants', href: '/restaurants' },
+  'substance-complete-nutritional-plan': { label: 'Nutrition', href: '/profile?tab=nutrition' },
+  'matter-instacart-order': { label: 'Shop Instacart', href: '/pantry' },
+  'matter-add-pantry-items': { label: 'My Pantry', href: '/pantry' },
+  'matter-use-posso': { label: 'Ask Posso', href: '/posso' },
+  'matter-send-commensal': { label: 'Social', href: '/commensal' },
+  'matter-refer-user': { label: 'Refer a Friend', href: '/profile?tab=referrals' },
+};
+
+const SANCTUM_QUEST_SLUGS = Object.keys(QUEST_ACTIONS);
 
 // ─── Helpers ──────────────────────────────────────────────────────────
 
-function findQuest(data: QuestPanelData | null, slug: string): QuestProgress | null {
-  if (!data) return null;
-  const all = [...data.daily, ...data.weekly, ...data.achievements];
-  return all.find((q) => q.quest.slug === slug) || null;
-}
-
-function formatReward(quest: QuestProgress | null): string {
-  if (!quest) return '';
+function formatReward(quest: QuestProgress): string {
   const type = quest.quest.tokenRewardType;
   const amt = quest.quest.tokenRewardAmount;
-  return type === 'all' ? `+${amt} all tokens` : `+${amt} ${type}`;
+  return type === 'all' ? `+${amt} All` : `+${amt} ${type}`;
 }
+
+const TOKEN_COLORS: Record<string, string> = {
+  Spirit: 'amber',
+  Essence: 'blue',
+  Substance: 'purple',
+  Matter: 'emerald',
+  all: 'white',
+};
 
 // ─── Quest Row ────────────────────────────────────────────────────────
 
 function TaskRow({
-  title,
-  description,
-  reward,
+  quest,
   progress,
   total,
   completed,
-  accent,
-  action,
+  onOpenSettings,
+  onOpenPantry,
+  onClaimed,
 }: {
-  title: string;
-  description: string;
-  reward: string;
+  quest: QuestProgress;
   progress: number;
   total: number;
   completed: boolean;
-  accent: string; // tailwind color name (e.g., 'amber')
-  action: React.ReactNode;
+  onOpenSettings?: () => void;
+  onOpenPantry?: () => void;
+  onClaimed?: () => void;
 }) {
+  const [claiming, setClaiming] = useState(false);
+  const qDef = quest.quest;
+  const claimed = !!quest.claimedAt;
   const pct = total > 0 ? Math.min(100, (progress / total) * 100) : 0;
+  const accent = TOKEN_COLORS[qDef.tokenRewardType] || 'emerald';
+  const reward = formatReward(quest);
+
+  const actionMap = QUEST_ACTIONS[qDef.slug];
+  const label = completed ? (claimed ? 'Completed' : 'Claim Reward') : (actionMap?.label || 'Start');
+
+  // Handle specific onClick actions
+  const handleAction = async () => {
+    if (completed && claimed) return;
+    
+    if (completed && !claimed) {
+      // Handle claiming
+      setClaiming(true);
+      try {
+        const res = await fetch('/api/quests/claim', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ questSlug: qDef.slug, periodStart: quest.periodStart })
+        });
+        const data = await res.json();
+        if (data.success) {
+          // Emit event to update balances globally
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new Event(TOKEN_ECONOMY_EVENT));
+          }
+          if (onClaimed) onClaimed();
+        }
+      } catch (err) {
+        console.error('Failed to claim reward', err);
+      } finally {
+        setClaiming(false);
+      }
+      return;
+    }
+
+    if (qDef.slug === 'achieve-temporal-anchor') {
+      onOpenSettings?.();
+    } else if (qDef.slug === 'masters-pantry') {
+      onOpenPantry?.();
+    }
+  };
+
+  const actionNode = (completed && claimed) ? (
+    <button
+      disabled
+      className={`px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-${accent}-500/5 text-${accent}-400/40 border border-${accent}-500/10 cursor-not-allowed`}
+    >
+      {label}
+    </button>
+  ) : (completed && !claimed) ? (
+    <button
+      onClick={() => void handleAction()}
+      disabled={claiming}
+      className={`px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-gradient-to-r from-${accent}-500 to-${accent}-600 text-white shadow-[0_0_15px_rgba(251,191,36,0.3)] hover:shadow-[0_0_25px_rgba(251,191,36,0.5)] transition-all disabled:opacity-50`}
+    >
+      {claiming ? 'Claiming...' : label}
+    </button>
+  ) : actionMap?.href ? (
+    <Link
+      href={actionMap.href}
+      className={`inline-block px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-${accent}-500/10 text-${accent}-400 border border-${accent}-500/30 hover:bg-${accent}-500/20 transition-all`}
+    >
+      {label}
+    </Link>
+  ) : (
+    <button
+      onClick={() => void handleAction()}
+      className={`px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-${accent}-500/10 text-${accent}-400 border border-${accent}-500/30 hover:bg-${accent}-500/20 transition-all`}
+    >
+      {label}
+    </button>
+  );
 
   return (
     <motion.div
@@ -78,8 +163,10 @@ function TaskRow({
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 26 }}
       className={`relative rounded-2xl p-5 border transition-all duration-300 ${
-        completed
+        (completed && claimed)
           ? 'bg-white/[0.02] border-white/5 opacity-60'
+          : (completed && !claimed)
+          ? `bg-${accent}-500/10 border-${accent}-500/30 shadow-[0_0_20px_rgba(251,191,36,0.1)]`
           : 'bg-white/[0.04] border-white/10 hover:border-white/15 hover:bg-white/[0.06]'
       }`}
     >
@@ -97,10 +184,10 @@ function TaskRow({
             )}
             <h4
               className={`text-xs font-black uppercase tracking-[0.2em] ${
-                completed ? 'text-white/40 line-through' : 'text-white/85'
+                (completed && claimed) ? 'text-white/40 line-through' : 'text-white/85'
               }`}
             >
-              {title}
+              {qDef.title}
             </h4>
             <span
               className={`text-[9px] font-bold px-2 py-0.5 rounded-full border text-${accent}-400 border-${accent}-500/20 bg-${accent}-500/5`}
@@ -108,10 +195,10 @@ function TaskRow({
               {reward}
             </span>
           </div>
-          <p className="text-[11px] text-white/35 leading-relaxed">{description}</p>
+          <p className="text-[11px] text-white/35 leading-relaxed">{qDef.description}</p>
 
           {/* Progress bar — only for multi-step quests */}
-          {!completed && total > 1 && (
+          {(!completed) && total > 1 && (
             <div className="mt-3">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[9px] text-white/25 font-mono">
@@ -132,7 +219,7 @@ function TaskRow({
             </div>
           )}
         </div>
-        <div className="flex-shrink-0">{action}</div>
+        <div className="flex-shrink-0">{actionNode}</div>
       </div>
     </motion.div>
   );
@@ -142,14 +229,12 @@ function TaskRow({
 
 interface SanctumTasksProps {
   className?: string;
-  /** Called when user clicks the "Complete Profile" CTA (Temporal Anchor). */
   onOpenSettings?: () => void;
 }
 
 export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksProps) {
   const [questData, setQuestData] = useState<QuestPanelData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [bugModalOpen, setBugModalOpen] = useState(false);
   const [pantryModalOpen, setPantryModalOpen] = useState(false);
 
   const fetchQuests = useCallback(async () => {
@@ -169,7 +254,7 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
     void fetchQuests();
   }, [fetchQuests]);
 
-  // Refresh quest progress whenever the economy updates (e.g., after submission).
+  // Refresh quest progress whenever the economy updates
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const handler = () => {
@@ -179,10 +264,28 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
     return () => window.removeEventListener(TOKEN_ECONOMY_EVENT, handler);
   }, [fetchQuests]);
 
-  const alchemistsEye = findQuest(questData, QUEST_SLUGS.alchemistsEye);
-  const recipeHarmonizer = findQuest(questData, QUEST_SLUGS.recipeHarmonizer);
-  const temporalAnchor = findQuest(questData, QUEST_SLUGS.temporalAnchor);
-  const mastersPantry = findQuest(questData, QUEST_SLUGS.mastersPantry);
+  // Filter & Group
+  const allTasks = questData 
+    ? [...questData.weekly, ...questData.achievements]
+        .filter(q => SANCTUM_QUEST_SLUGS.includes(q.quest.slug))
+        .sort((a, b) => (a.quest.sortOrder ?? 0) - (b.quest.sortOrder ?? 0))
+    : [];
+  
+  // Group logic
+  const tasksByToken: Record<string, QuestProgress[]> = {
+    All: [],
+    Spirit: [],
+    Essence: [],
+    Substance: [],
+    Matter: [],
+  };
+
+  allTasks.forEach(q => {
+    const tokenType = q.quest.tokenRewardType === 'all' ? 'All' : q.quest.tokenRewardType;
+    if (tasksByToken[tokenType]) {
+      tasksByToken[tokenType].push(q);
+    }
+  });
 
   return (
     <>
@@ -196,11 +299,11 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
               </span>
             </div>
             <h2 className="text-xl font-black text-white tracking-tight">
-              Help Us Build the Sanctum
+              Alchemical Alignments
             </h2>
             <p className="text-[11px] text-white/30 mt-1 max-w-lg leading-relaxed">
-              Earn ESMS tokens by helping us refine the site. These dev-ops
-              quests reward real contributions.
+              Earn ESMS tokens by performing actions that drive your personalized 
+              culinary journey and help tune the alchemical algorithms.
             </p>
           </div>
         </div>
@@ -212,89 +315,50 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
             ))}
           </div>
         ) : (
-          <div className="space-y-3">
-            {/* 1. The Alchemist's Eye — bug report */}
-            <TaskRow
-              title="The Alchemist's Eye"
-              description="Report a bug you've discovered. Every confirmed report earns Spirit tokens and helps us polish the Sanctum."
-              reward={alchemistsEye ? formatReward(alchemistsEye) : '+15 Spirit'}
-              progress={alchemistsEye?.progress ?? 0}
-              total={alchemistsEye?.quest.triggerThreshold ?? 1}
-              completed={!!alchemistsEye?.completedAt}
-              accent="amber"
-              action={
-                <button
-                  onClick={() => setBugModalOpen(true)}
-                  disabled={!!alchemistsEye?.completedAt}
-                  className="px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  {alchemistsEye?.completedAt ? 'Completed' : 'Report a Bug'}
-                </button>
-              }
-            />
+          <div className="space-y-8">
+            {Object.entries(tasksByToken).map(([tokenType, quests]) => {
+              if (quests.length === 0) return null;
+              
+              // We can add a subtitle for each token block
+              let focusText = '';
+              if (tokenType === 'Spirit') focusText = 'Focus: Onboarding & Preference Tuning';
+              if (tokenType === 'Essence') focusText = 'Focus: Platform Engagement & Recipe Generation';
+              if (tokenType === 'Substance') focusText = 'Focus: Economy, Premium, & External Data';
+              if (tokenType === 'Matter') focusText = 'Focus: Real-World Action & Social Expansion';
+              if (tokenType === 'All') focusText = 'Universal Alignments';
 
-            {/* 2. Recipe Harmonizer — rate 3 recipes */}
-            <TaskRow
-              title="Recipe Harmonizer"
-              description="Rate 3 recipes you've tried. Your ratings tune the alchemical weights for everyone."
-              reward={recipeHarmonizer ? formatReward(recipeHarmonizer) : '+20 Essence'}
-              progress={recipeHarmonizer?.progress ?? 0}
-              total={recipeHarmonizer?.quest.triggerThreshold ?? 3}
-              completed={!!recipeHarmonizer?.completedAt}
-              accent="blue"
-              action={
-                <Link
-                  href="/recipes?rate=true"
-                  className="inline-block px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/20 transition-all"
-                >
-                  Rate Recipes
-                </Link>
-              }
-            />
-
-            {/* 3. Temporal Anchor — finish preferences */}
-            <TaskRow
-              title="Temporal Anchor"
-              description="Complete 100% of your profile preferences. A full natal signal unlocks the most accurate daily yields."
-              reward={temporalAnchor ? formatReward(temporalAnchor) : '+25 all tokens'}
-              progress={temporalAnchor?.progress ?? 0}
-              total={temporalAnchor?.quest.triggerThreshold ?? 1}
-              completed={!!temporalAnchor?.completedAt}
-              accent="emerald"
-              action={
-                <button
-                  onClick={() => onOpenSettings?.()}
-                  disabled={!!temporalAnchor?.completedAt}
-                  className="px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  {temporalAnchor?.completedAt ? 'Completed' : 'Complete Profile'}
-                </button>
-              }
-            />
-
-            {/* 4. The Master's Pantry — classify ingredient */}
-            <TaskRow
-              title="The Master's Pantry"
-              description="Classify an unknown ingredient's elemental properties to earn Matter (🝙) tokens."
-              reward={mastersPantry ? formatReward(mastersPantry) : '+2 Matter'}
-              progress={mastersPantry?.progress ?? 0}
-              total={mastersPantry?.quest.triggerThreshold ?? 1}
-              completed={false}
-              accent="emerald"
-              action={
-                <button
-                  onClick={() => setPantryModalOpen(true)}
-                  className="px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all"
-                >
-                  Classify
-                </button>
-              }
-            />
+              return (
+                <div key={tokenType} className="space-y-3">
+                  <div className="flex items-center gap-2 mb-4 pl-1">
+                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/60">
+                      {tokenType}
+                    </h3>
+                    {focusText && (
+                      <span className="text-[10px] text-white/30 italic">
+                        — {focusText}
+                      </span>
+                    )}
+                  </div>
+                  <div className="space-y-3">
+                    {quests.map((q) => (
+                      <TaskRow
+                        key={q.quest.slug}
+                        quest={q}
+                        progress={q.progress}
+                        total={q.quest.triggerThreshold}
+                        completed={!!q.completedAt}
+                        onOpenSettings={onOpenSettings}
+                        onOpenPantry={() => setPantryModalOpen(true)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
 
-      <BugReportModal open={bugModalOpen} onClose={() => setBugModalOpen(false)} />
       <PantryModal open={pantryModalOpen} onClose={() => setPantryModalOpen(false)} />
     </>
   );

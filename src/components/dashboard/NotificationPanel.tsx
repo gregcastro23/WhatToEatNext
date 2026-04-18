@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { formatNotificationTimeAgo, useNotifications } from '@/hooks/useNotifications';
 import { NOTIFICATION_STYLES } from '@/types/notification';
 import type { UserNotification } from '@/types/notification';
+import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
 
 type NotificationFilter = 'all' | 'unread';
 
@@ -68,6 +69,35 @@ export function NotificationPanel() {
         action === 'accept' ? 'Companion request accepted.' : 'Companion request declined.',
       );
       await fetchNotifications();
+    }
+
+    setBusyNotificationId(null);
+  };
+
+  const handleClaimQuest = async (notification: UserNotification) => {
+    if (!notification.metadata?.questSlug) return;
+    
+    setBusyNotificationId(notification.id);
+    setStatusMessage(null);
+
+    try {
+      const res = await fetch('/api/quests/claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ questSlug: notification.metadata.questSlug })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatusMessage(data.message || 'Reward claimed!');
+        void markAsRead(notification.id);
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new Event(TOKEN_ECONOMY_EVENT));
+        }
+      } else {
+        setStatusMessage(data.message || 'Failed to claim reward.');
+      }
+    } catch (err) {
+      setStatusMessage('Error claiming reward.');
     }
 
     setBusyNotificationId(null);
@@ -159,6 +189,7 @@ export function NotificationPanel() {
             const style = NOTIFICATION_STYLES[n.type] || NOTIFICATION_STYLES.welcome;
             const isDailyInsight = n.type === 'daily_insight';
             const isCommensalRequest = n.type === 'commensal_request';
+            const isQuestCompleted = n.type === 'quest_completed';
             const canRespondToCommensal =
               isCommensalRequest &&
               !n.isRead &&
@@ -243,6 +274,21 @@ export function NotificationPanel() {
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white border border-rose-500/20 transition-all disabled:opacity-30"
                         >
                           Decline
+                        </button>
+                      </div>
+                    )}
+                    
+                    {isQuestCompleted && !n.isRead && (
+                      <div className="mt-5 flex gap-3">
+                        <button
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            void handleClaimQuest(n);
+                          }}
+                          disabled={busyNotificationId === n.id}
+                          className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-amber-500/20 text-amber-400 hover:bg-amber-500 hover:text-white border border-amber-500/20 transition-all disabled:opacity-30"
+                        >
+                          Claim Reward
                         </button>
                       </div>
                     )}

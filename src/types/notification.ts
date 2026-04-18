@@ -11,13 +11,17 @@ export type NotificationType =
   | 'login_greeting'
   | 'daily_insight'
   | 'commensal_request'
-  | 'commensal_accepted';
+  | 'commensal_accepted'
+  | 'quest_completed';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
   overallHarmony?: number;
   dominantElement?: string;
   favorableElements?: string[];
+  questSlug?: string;
+  tokenType?: string;
+  tokenAmount?: number;
   [key: string]: unknown;
 }
 
@@ -49,4 +53,5 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   daily_insight:      { bg: '#E8EAF6', border: '#7986CB', icon: '🔮' },
   commensal_request:  { bg: '#FCE4EC', border: '#F48FB1', icon: '🍽️' },
   commensal_accepted: { bg: '#F3E5F5', border: '#CE93D8', icon: '🎉' },
+  quest_completed:    { bg: '#E0F7FA', border: '#7986CB', icon: '🏆' },
 };

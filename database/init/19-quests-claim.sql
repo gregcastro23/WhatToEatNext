@@ -1,0 +1,1 @@
+ALTER TABLE user_quest_progress ADD COLUMN IF NOT EXISTS claimed_at TIMESTAMPTZ;

@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { formatNotificationTimeAgo, useNotifications } from '@/hooks/useNotifications';
 import { NOTIFICATION_STYLES } from '@/types/notification';
 
@@ -11,6 +12,7 @@ import { NOTIFICATION_STYLES } from '@/types/notification';
  */
 export default function NotificationBell() {
   const { status } = useSession();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { notifications, unreadCount, loading, error, fetchNotifications, markAsRead, markAllRead } =
@@ -107,6 +109,13 @@ export default function NotificationBell() {
                     onClick={() => {
                       if (!n.isRead) {
                         void markAsRead(n.id);
+                      }
+                      if (n.type === 'quest_completed') {
+                        setOpen(false);
+                        router.push('/profile?tab=quests');
+                      } else {
+                        setOpen(false);
+                        router.push('/dashboard');
                       }
                     }}
                     className="w-full text-left p-3 rounded-lg transition-all duration-150 hover:scale-[1.01]"
