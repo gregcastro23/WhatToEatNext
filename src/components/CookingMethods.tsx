@@ -11,7 +11,7 @@ import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties, LunarPhase } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign, BasicThermodynamicProperties, LunarPhase } from '@/types/alchemy';
 import { _COOKING_METHOD_THERMODYNAMICS as COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { _staticAlchemize as staticAlchemize } from '@/utils/alchemyInitializer';
 import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
@@ -20,17 +20,17 @@ import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 import styles from './CookingMethods.module.css';
 
 // Implement the alchemize function using staticAlchemize
-type AstroStateShape = {
+interface AstroStateShape {
   planetaryPositions?: Record<string, { sign?: string; degree?: number }>;
   [key: string]: unknown;
-};
+}
 
-type ThermodynamicsInput = {
+interface ThermodynamicsInput {
   heat?: number;
   entropy?: number;
   reactivity?: number;
   energy?: number;
-};
+}
 
 const alchemize = async (
   elements: ElementalProperties | Record<string, number>,
@@ -338,9 +338,9 @@ export default function CookingMethods() {
     };
   }, [activePlanets, currentPlanetaryAlignment, currentZodiac, isDaytime, lunarPhase]);
   
-  type ThermoTuple = { heat: number; entropy: number; reactivity: number };
+  interface ThermoTuple { heat: number; entropy: number; reactivity: number }
 
-  const methodToThermodynamics = (method: unknown): ThermoTuple => {
+  const methodToThermodynamics = useCallback((method: unknown): ThermoTuple => {
     const m = (method ?? {}) as {
       name?: string;
       heat?: number;
@@ -376,7 +376,7 @@ export default function CookingMethods() {
     }
 
     return { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
-  };
+  }, []);
 
   const [loading, setLoading] = useState(true);
   const [recommendedMethods, setRecommendedMethods] = useState<ExtendedAlchemicalItem[]>([]);
@@ -1422,7 +1422,7 @@ export default function CookingMethods() {
               methodWithElementals.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
               astroState,
               thermodynamics
-            ) as Record<string, unknown>;
+            );
 
             // Calculate match score with enhanced algorithm for better differentiation
             const baseScore = calculateMatchScore(alchemized);
@@ -1533,7 +1533,7 @@ export default function CookingMethods() {
         setLoading(false);
       }
     }
-  }, [normalizeAstroState]);
+  }, [normalizeAstroState, methodToThermodynamics]);
 
   // Set mounted state when component mounts
   useEffect(() => {

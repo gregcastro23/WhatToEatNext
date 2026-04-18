@@ -364,24 +364,30 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   const refreshPlanetaryPositions = alchemicalContext?.refreshPlanetaryPositions;
 
   useEffect(() => {
-    if (contextPlanetaryPositions) {
+    if (contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0) {
       const normalized = normalizePlanetaryPositions(contextPlanetaryPositions);
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
     }
-    if (refreshPlanetaryPositions) {
-      refreshPlanetaryPositions()
-        .then((positions) => {
-          if (positions && Object.keys(positions).length > 0) {
-            setPlanetaryPositions(normalizePlanetaryPositions(positions));
-            setPositionsSource("real");
-          }
-        })
-        .catch(() => {
-          console.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions");
-        });
-    }
-  }, [contextPlanetaryPositions, refreshPlanetaryPositions]);
+  }, [contextPlanetaryPositions]);
+
+  // Kick off one refresh on mount only. The provider already polls every 30
+  // minutes, so we don't need to re-fetch on every context change (which was
+  // previously thrashing /api/astrologize).
+  useEffect(() => {
+    if (!refreshPlanetaryPositions) return;
+    refreshPlanetaryPositions()
+      .then((positions) => {
+        if (positions && Object.keys(positions).length > 0) {
+          setPlanetaryPositions(normalizePlanetaryPositions(positions));
+          setPositionsSource("real");
+        }
+      })
+      .catch(() => {
+        console.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions");
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ── Compute all methods with full metrics + Harmony Index ──
   const currentMethods = useMemo(() => {

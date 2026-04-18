@@ -64,7 +64,7 @@ function buildMatches(text: string): Match[] {
 
   // Techniques
   for (const { pattern, canonical } of TECHNIQUE_TERMS) {
-    const g = new RegExp(pattern.source, pattern.flags.includes("g") ? pattern.flags : pattern.flags + "g");
+    const g = new RegExp(pattern.source, pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`);
     let m: RegExpExecArray | null;
     while ((m = g.exec(text)) !== null) {
       matches.push({

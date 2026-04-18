@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { defaultState, _AlchemicalContext } from "./context";
 import type {
     // AlchemicalAction,
@@ -212,6 +212,11 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const [planetaryPositions, setPlanetaryPositions] = useState<any>({});
   const [historicalPositions, setHistoricalPositions] = useState<any>({});
   const [normalizedPositions, setNormalizedPositions] = useState<any>({});
+  // Mirror planetaryPositions into a ref so refresh callbacks can return the
+  // latest value without adding state to their deps (which would cause the
+  // callback to rebuild on every render and trigger consumer useEffect loops).
+  const planetaryPositionsRef = React.useRef<any>({});
+  planetaryPositionsRef.current = planetaryPositions;
   // Update seasonal values
   useEffect(() => {
     const now = new Date();
@@ -317,11 +322,16 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     return hour >= 6 && hour < 18;
   })();
   // Stub methods for full interface compatibility
-  const updatePlanetaryPositionsDirectly = (positions: Record<string, unknown>) => {
-    setPlanetaryPositions(positions);
-    setNormalizedPositions(positions);
-  };
-  const refreshPlanetaryPositionsAsync = async (): Promise<Record<string, unknown>> => {
+  const updatePlanetaryPositionsDirectly = useCallback(
+    (positions: Record<string, unknown>) => {
+      setPlanetaryPositions(positions);
+      setNormalizedPositions(positions);
+    },
+    [],
+  );
+  // Stable reference so consumer `useEffect`s that depend on it don't thrash
+  // the astrologize endpoint on every provider re-render.
+  const refreshPlanetaryPositionsAsync = useCallback(async (): Promise<Record<string, unknown>> => {
     try {
       setIsLoading(true);
       const response = await fetch("/api/astrologize", {
@@ -355,15 +365,15 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
           return positions;
         }
       }
-      return planetaryPositions;
+      return planetaryPositionsRef.current;
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Refresh failed";
       setError(msg);
-      return planetaryPositions;
+      return planetaryPositionsRef.current;
     } finally {
       if (isMountedRef.current) setIsLoading(false);
     }
-  };
+  }, []);
   const contextValue: AlchemicalContextType = {
     state,
     dispatch,

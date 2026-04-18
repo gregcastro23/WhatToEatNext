@@ -10,6 +10,7 @@ import { IngredientDrawer } from "@/components/recipes/IngredientDrawer";
 import { InteractiveInstruction } from "@/components/recipes/InteractiveInstruction";
 import { NutritionVisualization } from "@/components/recipes/NutritionVisualization";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
+import { RiffOnThisLink } from "@/components/recipes/RiffOnThisLink";
 import { SocialSection } from "@/components/recipes/SocialSection";
 import { TechniqueModal } from "@/components/recipes/TechniqueModal";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
@@ -907,6 +908,8 @@ export default function RecipePage({ params }: RecipePageProps) {
             </div>
 
             <AddToMealPlanButton recipe={recipe} servings={servings} />
+
+            <RiffOnThisLink recipe={recipe} />
 
             <button
               onClick={() => {

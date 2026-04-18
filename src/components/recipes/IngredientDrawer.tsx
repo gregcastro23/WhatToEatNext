@@ -327,9 +327,9 @@ export function IngredientDrawer({
       0;
 
   const taste =
-    ingredient?.sensoryProfile?.taste ?? (ingredient?.flavorProfile as Record<string, number> | undefined);
+    ingredient?.sensoryProfile?.taste ?? ingredient?.flavorProfile;
   const tasteEntries = taste
-    ? Object.entries(taste).filter(([, v]) => typeof v === "number" && (v as number) > 0)
+    ? Object.entries(taste).filter(([, v]) => typeof v === "number" && v > 0)
     : [];
 
   const nut = ingredient?.nutritionalProfile;
@@ -536,7 +536,7 @@ export function IngredientDrawer({
                     <Bar
                       key={k}
                       label={k}
-                      value={v as number}
+                      value={v}
                       max={1}
                       barClass="bg-gradient-to-r from-amber-500 to-orange-500"
                     />

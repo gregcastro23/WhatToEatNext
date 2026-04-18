@@ -12,9 +12,9 @@
 // report a misleadingly low total.
 
 import { UnifiedIngredientService } from "@/services/UnifiedIngredientService";
-import type { Recipe, RecipeIngredient } from "@/types/recipe";
-import type { NormalizedRecipeNutrition } from "./recipeNutrition";
+import type { Recipe } from "@/types/recipe";
 import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
+import type { NormalizedRecipeNutrition } from "./recipeNutrition";
 
 const DEFAULT_SERVING_GRAMS = 100;
 const DEFAULT_RECIPE_SERVINGS = 4;

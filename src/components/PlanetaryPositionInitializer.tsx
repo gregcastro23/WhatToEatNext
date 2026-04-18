@@ -1,7 +1,7 @@
 'use client';
 
 import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import type { CelestialPosition} from '@/types/celestial';
 import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
@@ -48,13 +48,21 @@ const PlanetaryPositionInitializer: React.FC = () => {
   const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
   const [updateError, setUpdateError] = useState<string | null>(null);
 
+  // Mirror retryStatus into a ref so attemptPositionUpdate can read the
+  // latest values without listing them in its useCallback deps (which was
+  // causing the callback to rebuild on every state change and re-fire
+  // consumer useEffects — the source of /api/astrologize spam).
+  const retryStatusRef = useRef(retryStatus);
+  retryStatusRef.current = retryStatus;
+
   // Function to update positions with comprehensive retry logic
   const attemptPositionUpdate = useCallback(async (force = false): Promise<boolean> => {
-    if (retryStatus.isRetrying && !force) return false;
-    
+    const currentStatus = retryStatusRef.current;
+    if (currentStatus.isRetrying && !force) return false;
+
     try {
       setRetryStatus(prev => ({ ...prev, isRetrying: true }));
-      logger.info(`Attempt #${retryStatus.count + 1} to refresh planetary positions`);
+      logger.info(`Attempt #${currentStatus.count + 1} to refresh planetary positions`);
       
       const positions = await refreshPlanetaryPositions();
       
@@ -93,9 +101,9 @@ const PlanetaryPositionInitializer: React.FC = () => {
         ? error.message 
         : 'Unknown error fetching planetary positions';
       
-      logger.error(`Attempt #${retryStatus.count + 1} failed:`, {
+      logger.error(`Attempt #${currentStatus.count + 1} failed:`, {
         error: errorMessage,
-        retryCount: retryStatus.count + 1,
+        retryCount: currentStatus.count + 1,
         timestamp: new Date().toISOString()
       });
       
@@ -118,7 +126,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
       
       return false;
     }
-  }, [refreshPlanetaryPositions, retryStatus.count, retryStatus.isRetrying]);
+  }, [refreshPlanetaryPositions]);
 
   // Function to apply fallback positions
   const applyFallbackPositions = useCallback((): void => {
@@ -186,27 +194,27 @@ const PlanetaryPositionInitializer: React.FC = () => {
     
     // Set up regular refresh interval (every 15 minutes)
     const refreshInterval = setInterval(() => {
-      if (!retryStatus.isRetrying) {
+      if (!retryStatusRef.current.isRetrying) {
         void attemptPositionUpdate();
       }
     }, 15 * 60 * 1000);
     
-    // Set up exponential backoff retry for failures
+    // Set up exponential backoff retry for failures. Read retryStatus via
+    // the ref so the effect can safely have stable deps (mounting once, not
+    // rerunning whenever retryStatus changes).
     const retryInterval = setInterval(() => {
-      if (retryStatus.usingFallback && !retryStatus.isRetrying) {
-        // Only retry if we're in fallback mode and not currently retrying
-        if (retryStatus.count < 5) {
-          // Only try 5 times with increasing delays
-          const minsSinceLastAttempt = (Date.now() - retryStatus.lastAttempt) / (60 * 1000);
-          const waitMinutes = Math.min(2 ** retryStatus.count, 30);
-          
+      const s = retryStatusRef.current;
+      if (s.usingFallback && !s.isRetrying) {
+        if (s.count < 5) {
+          const minsSinceLastAttempt = (Date.now() - s.lastAttempt) / (60 * 1000);
+          const waitMinutes = Math.min(2 ** s.count, 30);
+
           if (minsSinceLastAttempt >= waitMinutes) {
-            logger.debug(`Initiating retry #${retryStatus.count + 1} after ${minsSinceLastAttempt.toFixed(1)} minutes`);
+            logger.debug(`Initiating retry #${s.count + 1} after ${minsSinceLastAttempt.toFixed(1)} minutes`);
             void attemptPositionUpdate();
           }
-        } else if (retryStatus.count === 5) {
-          // Final retry after a longer wait
-          const hoursSinceLastAttempt = (Date.now() - retryStatus.lastAttempt) / (60 * 60 * 1000);
+        } else if (s.count === 5) {
+          const hoursSinceLastAttempt = (Date.now() - s.lastAttempt) / (60 * 60 * 1000);
           if (hoursSinceLastAttempt >= 1) {
             logger.debug('Initiating final retry attempt after 1 hour');
             void attemptPositionUpdate();
@@ -214,19 +222,12 @@ const PlanetaryPositionInitializer: React.FC = () => {
         }
       }
     }, 60 * 1000); // Check every minute if we should retry
-    
+
     return () => {
       clearInterval(refreshInterval);
       clearInterval(retryInterval);
     };
-  }, [
-    applyFallbackPositions,
-    attemptPositionUpdate,
-    retryStatus.count,
-    retryStatus.isRetrying,
-    retryStatus.lastAttempt,
-    retryStatus.usingFallback,
-  ]);
+  }, [applyFallbackPositions, attemptPositionUpdate]);
 
   // Also handle the fallback positions when needed
   useEffect(() => {
