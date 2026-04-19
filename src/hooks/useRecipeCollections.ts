@@ -169,8 +169,12 @@ export function useRecipeCollections() {
   // Ratings
   const setRecipeRating = useCallback((recipeId: string, rating: number) => {
     setRatings((prev) => {
+      const hadPriorRating = (prev[recipeId] ?? 0) > 0;
       const next = { ...prev, [recipeId]: rating };
       saveToStorage(STORAGE_KEYS.recipeRatings, next);
+      // Only fire the quest event on the first rating for this recipe,
+      // so users can't farm the quest by toggling stars.
+      if (!hadPriorRating && rating > 0) reportQuestEvent('rate_recipe');
       return next;
     });
   }, []);

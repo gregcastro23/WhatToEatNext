@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { usePantry } from "@/hooks/usePantry";
 import { IngredientService } from "@/services/IngredientService";
 import type { ElementalProperties } from "@/types/alchemy";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
@@ -449,6 +450,31 @@ export const EnhancedIngredientRecommender: React.FC<
   // Hooks
   const alchemicalContext = useAlchemical();
   const ingredientService = useMemo(() => IngredientService.getInstance(), []);
+  const pantry = usePantry();
+  const [pantryFeedback, setPantryFeedback] = useState<string | null>(null);
+
+  const handleAddToPantry = (
+    name: string,
+    category: string | undefined,
+    e: React.MouseEvent,
+  ) => {
+    e.stopPropagation();
+    const normalizedName = formatIngredientName(name);
+    if (pantry.hasItem(name)) {
+      setPantryFeedback(`${normalizedName} is already in your pantry`);
+    } else {
+      const added = pantry.addItem({
+        name,
+        category: category || "other",
+        quantity: 1,
+        unit: "item",
+      });
+      setPantryFeedback(
+        added ? `✓ Added ${normalizedName} to pantry` : "Could not add to pantry",
+      );
+    }
+    setTimeout(() => setPantryFeedback(null), 2200);
+  };
 
   // Load ingredients
   useEffect(() => {
@@ -791,6 +817,28 @@ export const EnhancedIngredientRecommender: React.FC<
               />
               {ingredient.dominantElement}
             </div>
+            <button
+              type="button"
+              onClick={(e) =>
+                handleAddToPantry(
+                  ingredient.name,
+                  ingredient.category as string | undefined,
+                  e,
+                )
+              }
+              className={`text-xs font-medium px-2 py-1 rounded-md border transition-colors ${
+                pantry.hasItem(ingredient.name)
+                  ? "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+                  : "bg-amber-50 border-amber-200 text-amber-800 hover:bg-amber-100"
+              }`}
+              title={
+                pantry.hasItem(ingredient.name)
+                  ? "Already in your pantry"
+                  : "Add this ingredient to your pantry"
+              }
+            >
+              {pantry.hasItem(ingredient.name) ? "✓ In Pantry" : "+ Pantry"}
+            </button>
           </div>
         </div>
 
@@ -1760,7 +1808,16 @@ export const EnhancedIngredientRecommender: React.FC<
 
   // Main render
   return (
-    <div className="p-6">
+    <div className="p-6 relative">
+      {pantryFeedback && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 right-6 z-50 bg-gray-900 text-white text-sm px-4 py-2 rounded-lg shadow-lg"
+        >
+          {pantryFeedback}
+        </div>
+      )}
       {renderCategoryGrid()}
       {renderSearchBar()}
 

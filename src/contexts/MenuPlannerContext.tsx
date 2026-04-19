@@ -22,6 +22,7 @@ import React, {
 import { useUser } from "@/contexts/UserContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import { reportQuestEvent } from "@/lib/questReporter";
 import ChartComparisonService, {
   type ChartComparison,
 } from "@/services/ChartComparisonService";
@@ -1573,6 +1574,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
                 recommendation.recipe,
                 score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
               );
+              reportQuestEvent("generate_recipe");
             }
           }
         } else {
