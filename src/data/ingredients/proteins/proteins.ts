@@ -4,6 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Proteins ingredients extracted from cuisine files
 const rawProteins: Record<string, Partial<IngredientMapping>> = {
   eggs: {
+      description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening in a single package. Yolks carry fat, lecithin (an emulsifier), and most of the flavor; whites are primarily water and coagulable proteins (ovalbumin, ovotransferrin) that unfold and bond when heated or whipped. Fresh eggs peel poorly when hard-boiled; slightly older eggs shed shells cleanly. Store pointed-end-down at 35–40°F.",
     name: "eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -29,8 +30,13 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 0.19, D: 0.11, riboflavin: 0.15, A: 0.08, B6: 0.04 },
       minerals: { selenium: 0.28, phosphorus: 0.1, iron: 0.05, zinc: 0.05 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   ground_beef: {
+      description: "A protein-rich ingredient, ground beef provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "ground beef",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "hearty", "savory"],
@@ -56,8 +62,13 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 1.04, niacin: 0.28, B6: 0.18, riboflavin: 0.09 },
       minerals: { zinc: 0.39, selenium: 0.27, phosphorus: 0.17, iron: 0.14 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   grilled_chicken: {
+      description: "A protein-rich ingredient, grilled chicken provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "grilled chicken",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "versatile", "high-protein"],
@@ -83,8 +94,13 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B6: 0.46, niacin: 0.59, B12: 0.13 },
       minerals: { selenium: 0.37, phosphorus: 0.17, zinc: 0.06 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   hard_boiled_eggs: {
+      description: "A protein-rich ingredient, hard boiled eggs provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "hard-boiled eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -106,9 +122,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.6,
         sodium: 62,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   pork_ribs: {
+      description: "A protein-rich ingredient, pork ribs provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "pork ribs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -129,9 +152,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 80,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   chicken_pieces: {
+      description: "A protein-rich ingredient, chicken pieces provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "chicken pieces",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -152,9 +182,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 70,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   salmon_fillet: {
+      description: "A protein-rich ingredient, salmon fillet provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "salmon fillet",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["omega-rich", "flaky", "nutritious"],
@@ -180,8 +217,13 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       vitamins: { D: 0.66, B12: 1.17, niacin: 0.5, B6: 0.38 },
       minerals: { selenium: 0.46, phosphorus: 0.22 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   beef_chuck_roast: {
+      description: "A protein-rich ingredient, beef chuck roast provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "beef chuck roast",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -202,9 +244,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 60,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   soybeans: {
+      description: "A protein-rich ingredient, soybeans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "soybeans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -225,9 +274,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 1.5,
         sodium: 1,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   soft_tofu: {
+      description: "A protein-rich ingredient, soft tofu provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "soft tofu",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["mild", "plant-based", "versatile"],
@@ -259,8 +315,13 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         phosphorus: 0.1,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   har_gow__shrimp_dumplings_: {
+      description: "A protein-rich ingredient, har gow  shrimp dumplings  provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "har gow (shrimp dumplings)",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -281,9 +342,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 120,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   siu_mai__pork_dumplings_: {
+      description: "A protein-rich ingredient, siu mai  pork dumplings  provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "siu mai (pork dumplings)",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -304,9 +372,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 150,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   fresh_eggs: {
+      description: "A protein-rich ingredient, fresh eggs provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "fresh eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -327,9 +402,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.2,
         sodium: 71,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   vanilla_bean: {
+      description: "A protein-rich ingredient, vanilla bean provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "vanilla bean",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["aromatic", "sweet", "flavorful"],
@@ -350,9 +432,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 1,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   oil_packed_tuna: {
+      description: "A protein-rich ingredient, oil packed tuna provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "oil-packed tuna",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -373,9 +462,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 300,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   beef_stock: {
+      description: "A protein-rich ingredient, beef stock provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "beef stock",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["flavorful", "base", "nourishing"],
@@ -396,9 +492,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 800,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   chicken: {
+      description: "A globally ubiquitous poultry (*Gallus gallus domesticus*) prized for its mild flavor and versatility. Its culinary behavior depends on the cut: lean, fast-cooking breast meat dries out easily, while fat- and collagen-rich thighs and drumsticks become unctuous and tender with slow braising or high-heat roasting.",
     name: "chicken",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -419,9 +522,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 70,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   beef_chuck: {
+      description: "A protein-rich ingredient, beef chuck provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "beef chuck",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -442,9 +552,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 60,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   egg_yolks: {
+      description: "A protein-rich ingredient, egg yolks provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "egg yolks",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "emulsifying", "nutritious"],
@@ -465,9 +582,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.1,
         sodium: 8,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   pork: {
+      description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.",
     name: "pork",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "flavorful", "versatile"],
@@ -488,9 +612,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 80,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   white_beans: {
+      description: "A protein-rich ingredient, white beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "white beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "fiber-rich"],
@@ -512,9 +643,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 1,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   yellow_lentils: {
+      description: "Hulled and split lentils (*Lens culinaris*), often referred to as Moong Dal when derived from mung beans or Chana Dal when derived from chickpeas. Without their seed coats, they disintegrate completely when boiled, creating a remarkably thick, creamy, and mildly sweet puree essential for Indian dals.",
     name: "yellow lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "quick-cooking"],
@@ -536,9 +674,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 1.8,
         sodium: 2,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   black_lentils: {
+      description: "A protein-rich ingredient, black lentils provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "black lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "earthy"],
@@ -560,9 +705,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 1.8,
         sodium: 2,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   kidney_beans: {
+      description: "A protein-rich ingredient, kidney beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "kidney beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "robust"],
@@ -584,9 +736,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.3,
         sodium: 1,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   egg: {
+      description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening. The yolk carries fat, lecithin (an emulsifier), and most of the flavor; the white is water plus coagulable proteins that unfold and bond when heated or whipped. Temperature control matters: yolks coagulate ~149°F, whites ~145°F, so gentle heat and timing dictate whether you get a silky custard or a rubbery scramble.",
     name: "egg",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -607,9 +766,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.2,
         sodium: 71,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   parmigiano_reggiano: {
+      description: "A protein-rich ingredient, parmigiano reggiano provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "Parmigiano-Reggiano",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "savory", "nutritious"],
@@ -630,9 +796,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 450,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   chicken_thigh: {
+      description: "A protein-rich ingredient, chicken thigh provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "chicken thigh",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["flavorful", "juicy", "protein-rich"],
@@ -653,9 +826,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 80,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   pork_belly: {
+      description: "A protein-rich ingredient, pork belly provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "pork belly",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "fatty", "flavorful"],
@@ -676,9 +856,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 30,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   beef_sirloin: {
+      description: "A protein-rich ingredient, beef sirloin provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "beef sirloin",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "protein-rich", "savory"],
@@ -699,9 +886,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 50,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   pork_spine: {
+      description: "A protein-rich ingredient, pork spine provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "pork spine",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["base", "flavorful", "sustaining"],
@@ -722,9 +916,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 60,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   bean_sprouts: {
+      description: "A protein-rich ingredient, bean sprouts provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "bean sprouts",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["crunchy", "fresh", "light"],
@@ -745,9 +946,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 4,
         sodium: 6,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   fava_beans: {
+      description: "A protein-rich ingredient, fava beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "fava beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -769,9 +977,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 1.5,
         sodium: 6,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   brown_lentils: {
+      description: "Small, lens-shaped legumes (*Lens culinaris*) that are left whole with their seed coat intact. They offer an incredibly mild, earthy flavor and hold their shape moderately well during cooking, making them a highly versatile, quick-cooking base for warm salads, vegetarian shepherd's pies, and hearty soups.",
     name: "brown lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "earthy"],
@@ -793,9 +1008,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 1.8,
         sodium: 2,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   buckwheat_groats: {
+      description: "A protein-rich ingredient, buckwheat groats provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "buckwheat groats",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -816,9 +1038,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 2,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   white_fish: {
+      description: "A protein-rich ingredient, white fish provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "white fish",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "protein-rich", "versatile"],
@@ -840,9 +1069,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 60,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   long_beans: {
+      description: "A protein-rich ingredient, long beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "long beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["crunchy", "fresh", "light"],
@@ -863,9 +1099,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 1,
         sodium: 4,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   red_beans: {
+      description: "A protein-rich ingredient, red beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "red beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -887,9 +1130,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.3,
         sodium: 1,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   beef_bones: {
+      description: "A protein-rich ingredient, beef bones provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "beef bones",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "base", "nourishing"],
@@ -910,9 +1160,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 50,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   ground_pork: {
+      description: "A protein-rich ingredient, ground pork provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "ground pork",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "savory", "versatile"],
@@ -933,9 +1190,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 60,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   fish_sauce: {
+      description: "An amber-colored liquid condiment derived from fish (usually anchovies) that have been coated in salt and fermented for up to two years. It provides an intense, pungent burst of pure umami (glutamate) and salt that mellows and adds incredible savory depth when cooked into Southeast Asian curries and stir-fries.",
     name: "fish sauce",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["umami", "pungent", "savory"],
@@ -956,9 +1220,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.7,
         sodium: 1400,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   beef_shank: {
+      description: "A protein-rich ingredient, beef shank provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "beef shank",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["tough", "flavorful", "sustaining"],
@@ -979,9 +1250,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 50,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   pork_knuckles: {
+      description: "A protein-rich ingredient, pork knuckles provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "pork knuckles",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["collagen-rich", "flavorful", "tough"],
@@ -1002,9 +1280,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 60,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   pork_chops: {
+      description: "A protein-rich ingredient, pork chops provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "pork chops",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["versatile", "protein-rich", "savory"],
@@ -1025,9 +1310,16 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 80,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
   mung_beans: {
+      description: "A protein-rich ingredient, mung beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
     name: "mung beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "cooling", "nutritious"],
@@ -1049,8 +1341,14 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         sugar: 2,
         sodium: 2,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
+      pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
+      storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
+},
 };
 
 // Export processed ingredients

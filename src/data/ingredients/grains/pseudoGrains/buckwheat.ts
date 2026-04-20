@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawBuckwheat = {
   buckwheat: {
+      description: "A nutrient-dense pseudocereal (*Fagopyrum esculentum*) that is completely unrelated to wheat and naturally gluten-free. It provides an aggressively earthy, nutty, and slightly bitter flavor, and is the essential ingredient in Japanese soba noodles and French Breton galettes (crepes).",
     name: "Buckwheat",
     elementalProperties: { Earth: 0.4, Water: 0.1, Air: 0.2, Fire: 0.3 },
     astrologicalProfile: {
@@ -76,7 +77,9 @@ const rawBuckwheat = {
         iron: 0.07,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] }
+},
 };
 
 export const buckwheat: Record<string, IngredientMapping> =

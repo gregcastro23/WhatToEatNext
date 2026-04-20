@@ -157,7 +157,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Aries", "Scorpio", "Sagittarius"],
       seasonalAffinity: ["winter", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   cinnamon: {
     name: "cinnamon",
@@ -301,7 +302,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Leo", "Sagittarius", "Aries"],
       seasonalAffinity: ["winter", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   cumin: {
     name: "cumin",
@@ -447,7 +449,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Aries", "Capricorn", "Scorpio"],
       seasonalAffinity: ["fall", "winter"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   turmeric: {
     name: "turmeric",
@@ -590,7 +593,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Leo", "Aries", "Sagittarius"],
       seasonalAffinity: ["winter", "spring"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   ginger: {
     name: "ginger",
@@ -736,7 +740,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Aries", "Leo", "Sagittarius"],
       seasonalAffinity: ["winter", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   paprika: {
     name: "paprika",
@@ -871,7 +876,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Aries", "Leo", "Taurus"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   cardamom: {
     name: "cardamom",
@@ -1013,7 +1019,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Libra", "Gemini", "Taurus"],
       seasonalAffinity: ["winter", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   coriander: {
     name: "coriander",
@@ -1156,7 +1163,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Gemini", "Aries", "Virgo"],
       seasonalAffinity: ["spring", "summer"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   nutmeg: {
     name: "nutmeg",
@@ -1298,7 +1306,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Sagittarius", "Leo", "Pisces"],
       seasonalAffinity: ["winter", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   chili_powder: {
     name: "chili powder",
@@ -1434,7 +1443,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Aries", "Scorpio", "Sagittarius"],
       seasonalAffinity: ["winter", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 
   saffron: {
     name: "saffron",
@@ -1577,7 +1587,8 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Leo", "Sagittarius", "Pisces"],
       seasonalAffinity: ["fall", "winter"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] }
+},
 };
 
 // Export processed ingredients

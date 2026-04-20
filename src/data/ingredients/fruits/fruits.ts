@@ -4,6 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Fruits ingredients extracted from cuisine files
 const rawFruits: Record<string, Partial<IngredientMapping>> = {
   avocado: {
+      description: "A unique fruit (*Persea americana*) characterized by its extraordinarily high fat content (mostly monounsaturated oleic acid) and creamy, buttery texture. Its mild, slightly nutty flavor acts as a perfect canvas for acids and salts, making it a staple in both savory dishes and vegan baking.",
     name: "avocado",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
     qualities: ["creamy", "rich", "nutritious", "versatile"],
@@ -34,8 +35,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
         manganese: 0.07,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   lemon_juice: {
+      description: "A sweet edible plant product, lemon juice delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "lemon juice",
     elementalProperties: { Fire: 0.3, Water: 0.45, Earth: 0.05, Air: 0.2 },
     qualities: ["acidic", "bright", "refreshing", "versatile"],
@@ -61,8 +67,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.06 },
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   banana: {
+      description: "A tropical, starch-rich berry (*Musa spp.*) that converts its starches to easily digestible sugars as it ripens, indicated by its skin turning from green to yellow to spotted brown. This enzymatic transformation drastically alters its culinary use, moving from a firm snack to a sweet, mushy base for baking.",
     name: "banana",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["sweet", "creamy", "nutritious", "energizing"],
@@ -88,8 +99,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B6: 0.25, C: 0.17, manganese: 0.13 },
       minerals: { potassium: 0.12, magnesium: 0.08, copper: 0.05 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   orange_zest: {
+      description: "A sweet edible plant product, orange zest delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "orange zest",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.1, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "bright", "versatile"],
@@ -115,8 +131,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.04 },
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   lemon_zest: {
+      description: "A sweet edible plant product, lemon zest delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "lemon zest",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.1, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "bright", "versatile"],
@@ -142,8 +163,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.05 },
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   lemon: {
+      description: "An intensely sour, acidic citrus fruit (*Citrus limon*) that serves as a fundamental culinary brightener. Its juice provides citric acid to balance rich fats and tenderize proteins, while its zest (the yellow outer skin) contains essential oils that deliver pure floral-citrus aroma without the tartness.",
     name: "lemon",
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.05, Air: 0.25 },
     qualities: ["sour", "bright", "refreshing", "cleansing"],
@@ -169,8 +195,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.51, B6: 0.02 },
       minerals: { potassium: 0.02 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   apples: {
+      description: "A sweet edible plant product, apples delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "apples",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     qualities: ["sweet", "crisp", "juicy", "versatile"],
@@ -196,8 +227,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.14, K: 0.05 },
       minerals: { potassium: 0.06, manganese: 0.03 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   ripe_mangoes: {
+      description: "A sweet edible plant product, ripe mangoes delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "ripe mangoes",
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.1, Air: 0.2 },
     qualities: ["sweet", "tropical", "juicy", "aromatic"],
@@ -223,8 +259,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.76, A: 0.18, folate: 0.18, B6: 0.09, E: 0.06 },
       minerals: { copper: 0.06, potassium: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   strawberry_preserves: {
+      description: "A sweet edible plant product, strawberry preserves delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "strawberry preserves",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
     qualities: ["sweet", "fruity", "spreadable"],
@@ -250,8 +291,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   ni_oise_olives: {
+      description: "A sweet edible plant product, ni oise olives delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Niçoise olives",
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.35, Air: 0.2 },
     qualities: ["briny", "savory", "Mediterranean"],
@@ -277,8 +323,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { E: 0.05 },
       minerals: { iron: 0.05, copper: 0.04 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   olive_oil: {
+      description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
     name: "olive oil",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 },
     qualities: ["rich", "fruity", "versatile", "healthy"],
@@ -304,8 +355,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { E: 0.13, K: 0.1 },
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   grape_leaves: {
+      description: "A sweet edible plant product, grape leaves delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "grape leaves",
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.3, Air: 0.25 },
     qualities: ["tangy", "tender", "Mediterranean"],
@@ -331,9 +387,14 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { A: 0.13, K: 0.09, C: 0.02 },
       minerals: { calcium: 0.05, iron: 0.03 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   // lemons removed — duplicate of lemon above
   coconut_chutney: {
+      description: "A sweet edible plant product, coconut chutney delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "coconut chutney",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.25, Air: 0.2 },
     qualities: ["creamy", "tangy", "aromatic", "Indian"],
@@ -359,8 +420,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.02 },
       minerals: { manganese: 0.05, iron: 0.03 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   lime_juice: {
+      description: "A sweet edible plant product, lime juice delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "lime juice",
     elementalProperties: { Fire: 0.3, Water: 0.45, Earth: 0.05, Air: 0.2 },
     qualities: ["acidic", "bright", "refreshing", "tropical"],
@@ -386,8 +452,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.05 },
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   coconut_milk: {
+      description: "A sweet edible plant product, coconut milk delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "coconut milk",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["creamy", "rich", "tropical", "versatile"],
@@ -418,8 +489,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
         phosphorus: 0.24,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   ripe_bananas: {
+      description: "A sweet edible plant product, ripe bananas delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "ripe bananas",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["sweet", "soft", "nutritious", "energizing"],
@@ -445,8 +521,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B6: 0.25, C: 0.17 },
       minerals: { potassium: 0.12, magnesium: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   lime: {
+      description: "A highly acidic, tropical citrus fruit (*Citrus × aurantiifolia*) whose juice provides a sharper, more floral acidity than lemon. It is essential in cuisines around the equator (Latin American, Southeast Asian) as its bright acidity 'cooks' raw fish in ceviche and balances intense chili heat.",
     name: "lime",
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.05, Air: 0.25 },
     qualities: ["sour", "bright", "refreshing", "tropical"],
@@ -472,8 +553,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.32 },
       minerals: { potassium: 0.02 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   lemongrass: {
+      description: "A tall, fibrous tropical grass (*Cymbopogon citratus*) with a tough outer stalk and a tender, highly aromatic inner core. It provides a complex, bright, and floral citrus flavor without the sharp acidity of lemon juice, making it indispensable in Southeast Asian curries and soups.",
     name: "lemongrass",
     elementalProperties: { Fire: 0.3, Water: 0.25, Earth: 0.15, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "tropical", "fragrant"],
@@ -499,8 +585,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.01 },
       minerals: { iron: 0.02, manganese: 0.04 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   banana_flower: {
+      description: "The massive, tear-shaped, purplish-red blossom that hangs at the end of a cluster of bananas. Commonly used in Southeast Asian and Indian cuisines, its tender inner bracts provide a crunchy, flaky texture and a mild, slightly bitter, and highly astringent flavor that mimics the texture of artichoke hearts or fish.",
     name: "banana flower",
     elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
     qualities: ["tender", "mild", "nutritious", "tropical"],
@@ -531,7 +622,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
         phosphorus: 0.05,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
 };
 
 // Export processed ingredients

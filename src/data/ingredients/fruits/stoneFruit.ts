@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawStoneFruit = {
   peach: {
+      description: "A velvety stone fruit (*Prunus persica*) known for its juicy, fragrant, and profoundly sweet flesh balanced by a subtle acidity. When cooked, its natural sugars caramelize beautifully, making it an ideal candidate for both rustic baked cobblers and grilling to pair with savory meats.",
     name: "Peach",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
@@ -56,8 +57,11 @@ const rawStoneFruit = {
       ripening: "room temperature",
       notes: "Refrigerate when ripe",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+},
   plum: {
+      description: "A smooth-skinned stone fruit (*Prunus domestica*) that comes in a wide variety of colors and sizes. The skin provides a sharp, tannic tartness that perfectly balances the incredibly sweet, jammy interior, making it excellent for reductions, sauces, and raw eating.",
     name: "Plum",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
@@ -111,8 +115,11 @@ const rawStoneFruit = {
       ripening: "room temperature",
       notes: "Refrigerate when ripe",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+},
   apricot: {
+      description: "A small, golden-orange stone fruit (*Prunus armeniaca*) with a velvety skin and a delicate, sweet-tart flavor profile. Because fresh apricots have a very short shelf life and subtle flavor, they are frequently dried, which concentrates their natural sugars and bright acidity, making them a staple in Middle Eastern tagines and baking.",
     name: "Apricot",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
@@ -159,8 +166,11 @@ const rawStoneFruit = {
       ripening: "room temperature",
       notes: "Very perishable when ripe",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+},
   cherry: {
+      description: "A small, fleshy drupe (*Prunus avium*) that ranges from bright red and tart to dark mahogany and intensely sweet. Because they retain their structure well when heated, they are versatile in both sweet applications (pies, jams) and savory reductions (pairing classically with duck or pork).",
     name: "Cherry",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
@@ -207,8 +217,11 @@ const rawStoneFruit = {
       humidity: "moderate",
       notes: "Store unwashed until ready to use",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+},
   nectarine: {
+      description: "A smooth-skinned, genetic mutation of the peach (*Prunus persica var. nucipersica*). Lacking the fuzzy trichomes of a peach, nectarines often have a slightly firmer texture and a sharper, more pronounced acidity, making them excellent candidates for raw slicing, salads, or high-heat grilling.",
     name: "Nectarine",
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
@@ -255,8 +268,11 @@ const rawStoneFruit = {
       ripening: "room temperature",
       notes: "Refrigerate when ripe",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+},
   greengage: {
+      description: "A cultivar of plum (*Prunus domestica subsp. italica*) featuring a pale, green-yellow skin even when fully ripe. They are widely considered to be the finest dessert plum in the world, boasting an unimaginably rich, honeyed sweetness and a dense, jammy texture.",
     name: "Greengage",
     elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 },
     alchemicalProperties: {
@@ -303,8 +319,11 @@ const rawStoneFruit = {
       ripening: "room temperature",
       notes: "Refrigerate when fully ripe",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+},
   damson: {
+      description: "A small, oval plum (*Prunus insititia*) with dark blue-black skin and yellow-green flesh. Because it is highly astringent and tart when raw, it is almost exclusively cooked down into intensely flavored, deeply colored jams, jellies, and traditional fruit cheeses.",
     name: "Damson",
     elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 },
     alchemicalProperties: {
@@ -351,7 +370,9 @@ const rawStoneFruit = {
       humidity: "moderate",
       notes: "Ideal for preserving and cooking",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

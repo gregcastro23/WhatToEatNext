@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "noEmit": true,
+    "incremental": false,
+    "target": "ES2022",
+    "esModuleInterop": true
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  },
+  "include": ["./**/*.ts", "../src/**/*.ts", "../src/**/*.tsx"]
+}

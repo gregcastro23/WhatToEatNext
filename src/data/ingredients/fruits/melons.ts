@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawMelons = {
   watermelon: {
+      description: "A massive, vining fruit (*Citrullus lanatus*) that is roughly 92% water, known for its crisp, refreshing, and subtly sweet pink or red flesh. Its extremely high water content and delicate flavor make it best suited for raw applications, from fruit salads to chilled soups like gazpacho.",
     name: "Watermelon",
     elementalProperties: {
       Water: 0.8,
@@ -188,8 +189,11 @@ const rawMelons = {
       "Southern US": "Eaten at summer picnics and gatherings",
       "Southeast Asian": "Used in spicy fruit salads with savory elements",
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   cantaloupe: {
+      description: "A highly aromatic, orange-fleshed melon (*Cucumis melo var. cantalupensis*) characterized by its rough, webbed rind. Its high water content and sweet, slightly musky floral flavor make it a refreshing raw snack, pairing classically with salty cured meats like prosciutto.",
     name: "Cantaloupe",
     elementalProperties: {
       Water: 0.6,
@@ -338,8 +342,11 @@ const rawMelons = {
       American: "Breakfast fruit or light dessert",
       Mediterranean: "Paired with soft cheeses and herbs",
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   honeydew: {
+      description: "A smooth-skinned, pale green melon (*Cucumis melo inodorus*) with a crisp texture and a mild, exceptionally sweet flavor. While less aggressively aromatic than cantaloupe, its clean, honey-like sweetness makes it a versatile base for chilled soups and fruit salads.",
     name: "Honeydew",
     elementalProperties: {
       Water: 0.7,
@@ -496,8 +503,11 @@ const rawMelons = {
       European: "Paired with cured meats and aperitifs",
       Mexican: "Used in aguas frescas and fruit drinks",
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   casaba: {
+      description: "A sweet edible plant product, casaba delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Casaba",
     elementalProperties: {
       Water: 0.6,
@@ -632,8 +642,11 @@ const rawMelons = {
       "Latin American": "Eaten with lime juice and salt or chili powder",
       American: "Primarily used in fruit salads or as light dessert",
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   crenshaw: {
+      description: "A sweet edible plant product, crenshaw delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Crenshaw",
     elementalProperties: {
       Water: 0.5,
@@ -759,8 +772,11 @@ const rawMelons = {
       French: "Paired with dessert wines and cream",
       California: "Where most commercial production occurs",
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   persian_melon: {
+      description: "A large, ancient variety of melon (*Cucumis melo*) closely related to the cantaloupe, featuring a dark green, un-netted rind. It offers an intensely sweet, dense, and floral orange flesh that is profoundly fragrant, requiring no accompaniment beyond a squeeze of fresh lime juice.",
     name: "Persian Melon",
     elementalProperties: {
       Water: 0.6,
@@ -895,8 +911,11 @@ const rawMelons = {
       Mediterranean: "Paired with soft cheese and herbs",
       Western: "Typically treated similar to cantaloupe",
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   winter_melon: {
+      description: "A massive, vine-grown fruit (*Benincasa hispida*) covered in a waxy, chalky coating that allows it to be stored for many months. While technically a fruit, it is treated strictly as a vegetable in Asian cooking, featuring a dense, stark-white flesh that absorbs profound amounts of broth in long-simmering soups.",
     name: "Winter Melon",
     elementalProperties: {
       Water: 0.6,
@@ -1041,8 +1060,11 @@ const rawMelons = {
       "Traditional Medicine":
         "Valued for cooling properties and health benefits",
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
   galia: {
+      description: "A sweet edible plant product, galia delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Galia Melon",
     elementalProperties: {
       Water: 0.6,
@@ -1173,7 +1195,9 @@ const rawMelons = {
       European: "Considered a gourmet melon variety",
       "Modern Cuisine": "Featured in upscale restaurants and cocktail programs",
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
+},
 };
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility

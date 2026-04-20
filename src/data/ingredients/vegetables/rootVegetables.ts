@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawRootVegetables = {
   "sweet potato": {
+      description: "A fresh plant food, sweet potato offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
     name: "Sweet potato",
 
     // Base elemental properties (unscaled)
@@ -43,6 +44,7 @@ const rawRootVegetables = {
       calories: 103,
       carbs_g: 24,
       fiber_g: 4,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       washing: true,
@@ -55,9 +57,12 @@ const rawRootVegetables = {
       duration: "3-5 weeks",
       notes: "Do not refrigerate raw",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
 
   parsnip: {
+      description: "A pale, cream-colored root vegetable (*Pastinaca sativa*) closely related to the carrot. It is profoundly starchy and packs an intense, woody sweetness with distinct notes of nutmeg and spiced cider, making it ideal for roasting until deeply caramelized.",
     name: "Parsnip",
     elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
@@ -78,6 +83,7 @@ const rawRootVegetables = {
       calories: 75,
       carbs_g: 18,
       fiber_g: 5,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       washing: true,
@@ -91,9 +97,12 @@ const rawRootVegetables = {
       humidity: "high",
       notes: "Store in plastic bag with holes",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
 
   beet: {
+      description: "An earthy, vividly colored root vegetable (*Beta vulgaris*) rich in natural sugars and betalains, the antioxidant pigments responsible for its deep red-purple hue. Its earthy flavor is due to geosmin, an organic compound that pairs exceptionally well with bright acids and rich dairy.",
     name: "Beet",
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
@@ -115,6 +124,7 @@ const rawRootVegetables = {
       carbs_g: 10,
       fiber_g: 2.8,
       antioxidants: ["betalains", "nitrates"],
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       washing: true,
@@ -128,9 +138,12 @@ const rawRootVegetables = {
       humidity: "high",
       notes: "Remove greens, store separately",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
 
   turnip: {
+      description: "A round, white root vegetable with a purple top (*Brassica rapa*) belonging to the mustard family. It has a crisp texture and a mild, slightly peppery, cabbage-like flavor that sweetens when cooked, making it an excellent, low-starch alternative to potatoes in purees and stews.",
     name: "Turnip",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -151,6 +164,7 @@ const rawRootVegetables = {
       calories: 28,
       carbs_g: 6,
       fiber_g: 2,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       washing: true,
@@ -164,7 +178,9 @@ const rawRootVegetables = {
       humidity: "high",
       notes: "Store in plastic bag with holes",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

@@ -5,6 +5,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
 const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   garam_masala: {
+      description: "A deeply warming, complex spice blend originating from the Indian subcontinent, translating roughly to 'hot spices' (referring to metabolic heat, not chili spice). It typically contains heavily aromatic, sweet spices like cardamom, cinnamon, clove, cumin, and nutmeg, and is usually added near the end of cooking to preserve its aromatics.",
     name: "Garam Masala",
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
 
@@ -108,6 +109,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Digestive aid", "Anti-inflammatory"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     storage: {
@@ -117,9 +120,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     },
 
     varieties: {},
-  },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] }
+},
 
   ras_el_hanout: {
+      description: "A highly complex, profoundly aromatic spice blend originating from North Africa (meaning 'head of the shop'). There is no set recipe, but it often contains over a dozen premium spices—including cardamom, clove, cinnamon, coriander, cumin, mace, and rose petals—providing incredible savory and sweet depth to Moroccan tagines.",
     name: "Ras El Hanout",
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
 
@@ -218,6 +223,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Digestive aid", "Anti-inflammatory"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     storage: {
@@ -227,9 +234,11 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     },
 
     varieties: {},
-  },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] }
+},
 
   herbes_de_provence: {
+      description: "A classic French herb blend representing the flavors of the Provence region. It typically includes savory, marjoram, rosemary, thyme, and oregano, and in the North American market, culinary lavender is often added, providing a highly aromatic, floral, and woody profile perfect for roasting whole chickens.",
     name: "Herbes De Provence",
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["aromatic", "Mediterranean", "savory"],
@@ -311,6 +320,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Digestive aid", "Anti-inflammatory"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     storage: {
@@ -326,9 +337,12 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Gemini", "Sagittarius", "Virgo"],
       seasonalAffinity: ["all"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] }
+},
 
   chinese_five_spice: {
+      description: "A potent, highly aromatic spice blend encompassing all five tastes (sweet, sour, bitter, salty, and umami). The classic formulation includes star anise, cloves, Chinese cinnamon, Sichuan peppercorns, and fennel seeds, providing a complex, licorice-heavy warmth crucial for roasted meats like Char Siu.",
     name: "Chinese Five Spice",
     elementalProperties: { Fire: 0.58, Water: 0.14, Earth: 0.14, Air: 0.14 },
     astrologicalProfile: {
@@ -409,6 +423,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Digestive aid", "Anti-inflammatory"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     storage: {
@@ -418,9 +434,12 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     },
 
     varieties: {},
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] }
+},
 
   za_atar: {
+      description: "A vibrant, aromatic Middle Eastern spice blend featuring a base of dried wild thyme or oregano mixed with toasted sesame seeds, salt, and the defining tart, citrusy zing of sumac. It provides a profoundly earthy, nutty, and bright flavor profile perfect for dusting over hummus, flatbreads, or roasted chicken.",
     name: "Za Atar",
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["earthy", "tangy", "aromatic"],
@@ -473,6 +492,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Digestive support", "Antioxidant rich"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -480,9 +501,15 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
     // Removed nested content
     // Removed nested content
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
 
   curry_powder: {
+      description: "A Western commercial spice blend designed to approximate the complex flavors of Indian cuisine. It typically features a brightly colored base of turmeric, rounded out with sweet and earthy spices like coriander, cumin, fenugreek, and varying amounts of chili pepper for heat.",
     name: "Curry Powder",
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["warming", "complex", "pungent"],
@@ -532,6 +559,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Anti-inflammatory", "Digestive aid"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -539,9 +568,15 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
     // Removed nested content
     // Removed nested content
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
 
   berbere: {
+      description: "A fiery, complex, and highly aromatic spice blend that forms the foundational flavor profile of Ethiopian and Eritrean cuisines. It is a deeply red, textured mix typically containing chili peppers, garlic, ginger, basil, korarima, rue, ajwain or radhuni, nigella, and fenugreek, offering immense savory depth and sustained heat.",
     name: "Berbere",
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     qualities: ["hot", "complex", "earthy"],
@@ -586,6 +621,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Anti-inflammatory", "Metabolic support"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -593,9 +630,15 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
     // Removed nested content
     // Removed nested content
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
 
   dukkah: {
+      description: "A traditional Egyptian condiment consisting of a coarse mixture of roasted nuts (usually hazelnuts), sesame seeds, coriander, cumin, and salt. It provides an immediate, incredibly satisfying, crunchy, and savory-spicy burst of flavor, traditionally eaten by dipping bread in olive oil and then into the mixture.",
     name: "Dukkah",
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["nutty", "aromatic", "crunchy"],
@@ -640,6 +683,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Healthy fats", "Protein source"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -647,9 +692,15 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
     // Removed nested content
     // Removed nested content
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
 
   shichimi_togarashi: {
+      description: "A traditional Japanese seven-spice blend designed to add bright, complex heat and texture to noodles and soups. While recipes vary, it almost universally includes coarsely ground red chili pepper, sansho (Japanese pepper), roasted orange peel, black and white sesame seeds, hemp seed, ginger, and nori (seaweed).",
     name: "Shichimi Togarashi",
     elementalProperties: { Fire: 0.61, Water: 0.13, Earth: 0.13, Air: 0.13 },
     qualities: ["spicy", "citrusy", "nutty"],
@@ -695,6 +746,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Metabolic boost", "Antioxidant rich"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -702,9 +755,15 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
     // Removed nested content
     // Removed nested content
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
 
   baharat: {
+      description: "A dried aromatic spice, baharat carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
     name: "Baharat",
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["warming", "aromatic", "complex"],
@@ -749,6 +808,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Digestive aid", "Anti-inflammatory"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -756,9 +817,15 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
     // Removed nested content
     // Removed nested content
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
 
   jerk_seasoning: {
+      description: "A highly assertive, intensely spicy, and aromatic dry rub or wet marinade originating in Jamaica. It is fundamentally defined by the fiery heat of Scotch bonnet peppers paired with the warm, sweet, and woodsy depth of allspice (pimento), thyme, and scallions, creating a deeply complex crust on grilled meats.",
     name: "Jerk Seasoning",
     elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ["hot", "pungent", "aromatic"],
@@ -806,6 +873,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       healthBenefits: ["Metabolic boost", "Anti-inflammatory"],
       source: "USDA FoodData Central estimate",
+        vitamins: {},
+        minerals: {}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -813,7 +882,12 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     // Removed nested content
     // Removed nested content
     // Removed nested content
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

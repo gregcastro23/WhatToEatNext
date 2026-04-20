@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawChia: Record<string, Partial<IngredientMapping>> = {
   chia: {
+      description: "A cereal or pseudo-cereal product, chia contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
     name: "Chia Seeds",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -82,7 +83,9 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
         copper: 0.03,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] }
+},
 };
 
 export const chia: Record<string, IngredientMapping> =
