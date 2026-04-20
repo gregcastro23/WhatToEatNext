@@ -5,6 +5,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
 const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_basil: {
+      description: "The dehydrated leaves of the sweet basil plant (*Ocimum basilicum*). Unlike oregano or thyme, basil loses almost all of its complex, sweet, and anise-like volatile oils during the drying process, leaving behind a muted, slightly minty flavor that requires long simmering in tomato sauces to rehydrate and extract.",
     name: "Dried Basil",
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     alchemicalProperties: { Spirit: 0.60, Essence: 0.35, Matter: 0.15, Substance: 0.18 },
@@ -26,6 +27,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["calcium", "iron"],
       antioxidants: ["flavonoids", "anthocyanins"],
       volatileoils: ["eugenol", "linalool"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "just before use",
@@ -39,9 +42,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Crush to test freshness - should be aromatic",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_oregano: {
+      description: "The dehydrated leaves of *Origanum vulgare*. It is one of the few herbs that is generally considered superior when dried rather than fresh; the drying process tames its aggressive bitterness and concentrates its pungent, earthy, and peppery flavor, making it the defining herb of Mediterranean pizza and pasta sauces.",
     name: "Dried Oregano",
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.72, Essence: 0.30, Matter: 0.15, Substance: 0.20 },
@@ -68,6 +74,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "manganese"],
       antioxidants: ["rosmarinic acid", "thymol"],
       volatileoils: ["carvacrol", "thymol"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "release oils before use",
@@ -81,9 +89,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Maintains flavor well when dried",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_thyme: {
+      description: "The dehydrated leaves of *Thymus vulgaris*. Because thyme is a woody, resinous herb, it dries exceptionally well, concentrating its sharp, earthy, and distinctly floral/minty flavor. It is a workhorse pantry staple, providing the aromatic backbone for countless stocks, stews, and roasted meats.",
     name: "Dried Thyme",
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.70, Essence: 0.32, Matter: 0.15, Substance: 0.18 },
@@ -104,6 +115,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "manganese"],
       antioxidants: ["thymol", "carvacrol"],
       volatileoils: ["thymol", "linalool"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       removing: "from stems if whole",
@@ -117,9 +130,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Whole leaves last longer than ground",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_rosemary: {
+      description: "The dehydrated, needle-like leaves of *Salvia rosmarinus*. Because the leaves are tough and resinous, they retain their powerful pine, wood, and citrus flavor flawlessly when dried. Due to their sharp, brittle texture, they should be minced finely or crushed in a mortar before being added to roasted meats or breads.",
     name: "Dried Rosemary",
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.75, Essence: 0.30, Matter: 0.18, Substance: 0.22 },
@@ -140,6 +156,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["calcium", "iron"],
       antioxidants: ["carnosic acid", "rosmarinic acid"],
       volatileoils: ["pinene", "camphor"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       grinding: "recommended - leaves are tough",
@@ -153,9 +171,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Whole needles last longer than ground",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_sage: {
+      description: "The dehydrated leaves of *Salvia officinalis*. Drying significantly amplifies its already assertive, earthy, slightly astringent, and musky flavor profile. It is incredibly potent and must be used with a light hand, acting as the foundational seasoning for Thanksgiving stuffing and heavy pork sausages.",
     name: "Dried Sage",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.65, Essence: 0.28, Matter: 0.20, Substance: 0.22 },
@@ -176,6 +197,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "calcium"],
       antioxidants: ["rosmarinic acid", "carnosic acid"],
       volatileoils: ["thujone", "camphor"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       rubbing: "crumble between fingers",
@@ -193,9 +216,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ["tea", "infusion"],
       cautions: ["avoid therapeutic doses during pregnancy"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_bay_leaves: {
+      description: "The dehydrated leaves of the sweet bay tree (*Laurus nobilis*). While fresh bay leaves can be overwhelmingly astringent and menthol-heavy, drying them mellows their bite and concentrates their complex, woody, and floral notes, which release slowly during long braises and stews.",
     name: "Dried Bay Leaves",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.68, Essence: 0.25, Matter: 0.22, Substance: 0.25 },
@@ -216,6 +242,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "manganese"],
       antioxidants: ["linalool", "eugenol"],
       volatileoils: ["cineole", "eugenol"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       whole: "use whole and remove before serving",
@@ -229,9 +257,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Whole leaves maintain flavor longer",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_marjoram: {
+      description: "The dehydrated leaves of *Origanum majorana*. It is closely related to oregano but is significantly sweeter, more floral, and less aggressive. Drying concentrates its mild, pine-and-citrus flavor, making it a staple in traditional German sausages and delicate poultry seasonings.",
     name: "Dried Marjoram",
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.65, Essence: 0.32, Matter: 0.14, Substance: 0.18 },
@@ -252,6 +283,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "calcium"],
       antioxidants: ["rosmarinic acid", "ursolic acid"],
       volatileoils: ["sabinene", "terpinene"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "gently before use",
@@ -264,9 +297,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Replace when aroma fades",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_savory: {
+      description: "The dehydrated leaves of the *Satureja* plant, specifically Winter Savory or Summer Savory. It offers a highly pungent, peppery, and robust flavor profile—somewhere between thyme and mint—and is historically famous for its ability to flavor and aid in the digestion of heavy bean stews.",
     name: "Dried Savory",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.60, Essence: 0.30, Matter: 0.18, Substance: 0.20 },
@@ -287,6 +323,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "manganese"],
       antioxidants: ["rosmarinic acid", "thymol"],
       volatileoils: ["carvacrol", "thymol"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "before use",
@@ -299,9 +337,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Maintains strength well when dried",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_chervil: {
+      description: "The dried version of the delicate spring herb (*Anthriscus cerefolium*). Because its subtle parsley-anise flavor is extremely fragile, it survives the drying process poorly; it is best used in large quantities in light, cream-based sauces where it won't be overpowered by other ingredients.",
     name: "Dried Chervil",
     elementalProperties: { Air: 0.5, Earth: 0.2, Water: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.55, Essence: 0.35, Matter: 0.10, Substance: 0.14 },
@@ -322,6 +363,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["potassium", "calcium"],
       antioxidants: ["flavonoids", "carotenoids"],
       volatileoils: ["methyl chavicol", "limonene"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "very gently",
@@ -334,9 +377,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Loses flavor quickly when dried",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_tarragon: {
+      description: "The dehydrated leaves of *Artemisia dracunculus*. While it loses some of the bright, fresh nuance of the raw herb, it retains its distinct, sweet anise and licorice flavor reasonably well, making it a convenient pantry staple for classic French cream sauces and chicken salads.",
     name: "Dried Tarragon",
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.70, Essence: 0.32, Matter: 0.12, Substance: 0.16 },
@@ -357,6 +403,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["calcium", "potassium"],
       antioxidants: ["quercetin", "rutin"],
       volatileoils: ["estragole", "ocimene"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "gently to release oils",
@@ -369,9 +417,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Replace when aroma weakens",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_dill: {
+      description: "The dehydrated, feathery fronds of *Anethum graveolens*. It retains its signature sweet, grassy, and slightly anise-like flavor reasonably well when dried, making it a reliable addition to long-simmering fish chowders, yogurt sauces, and potato salads.",
     name: "Dried Dill",
     elementalProperties: { Air: 0.5, Water: 0.2, Earth: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.62, Essence: 0.35, Matter: 0.10, Substance: 0.14 },
@@ -392,6 +443,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["manganese", "iron"],
       antioxidants: ["flavonoids", "monoterpenes"],
       volatileoils: ["carvone", "limonene"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "before use",
@@ -404,9 +457,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Protect from light to maintain color",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_mint: {
+      description: "The dehydrated leaves of various *Mentha* species, most commonly spearmint. While it loses the sharp, cooling 'freshness' of raw mint, it develops a deeper, sweeter, and more earthy profile that is absolutely essential for traditional Middle Eastern lamb meatballs (kofta) and yogurt sauces.",
     name: "Dried Mint",
     elementalProperties: { Air: 0.5, Water: 0.2, Fire: 0.2, Earth: 0.1 },
     alchemicalProperties: { Spirit: 0.78, Essence: 0.38, Matter: 0.08, Substance: 0.12 },
@@ -427,6 +483,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "manganese"],
       antioxidants: ["rosmarinic acid", "flavonoids"],
       volatileoils: ["menthol", "menthone"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "to release oils",
@@ -444,9 +502,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ["tea", "infusion"],
       cautions: ["may affect iron absorption"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_fennel: {
+      description: "The dehydrated fronds (leaves) of the fennel plant (*Foeniculum vulgare*), not to be confused with fennel seeds. They offer a very mild, sweet licorice/anise flavor that is exceptionally delicate, typically used to lightly season fish broths or delicate pork dishes.",
     name: "Dried Fennel",
     elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
     alchemicalProperties: { Spirit: 0.65, Essence: 0.30, Matter: 0.18, Substance: 0.20 },
@@ -467,6 +528,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["calcium", "iron"],
       antioxidants: ["flavonoids", "anethole"],
       volatileoils: ["anethole", "fenchone"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       grinding: "just before use if whole",
@@ -484,9 +547,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ["tea", "powder"],
       cautions: ["may interact with estrogen"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_parsley: {
+      description: "The dehydrated leaves of *Petroselinum crispum*. Much like dried basil or cilantro, parsley loses almost all of its bright, fresh, and mineral-heavy flavor during the drying process, functioning primarily as a mild, slightly grassy visual garnish.",
     name: "Dried Parsley",
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.45, Essence: 0.30, Matter: 0.15, Substance: 0.18 },
@@ -507,6 +573,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "calcium"],
       antioxidants: ["flavonoids", "luteolin"],
       volatileoils: ["myristicin", "apiol"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "gently before use",
@@ -519,9 +587,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Color may fade but flavor remains",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_cilantro: {
+      description: "The dehydrated leaves of the coriander plant (*Coriandrum sativum*). The drying process almost completely destroys the bright, citrusy, and pungent volatile oils that define fresh cilantro, leaving a very subtle, grassy herb that functions mostly as a visual garnish rather than a primary flavoring agent.",
     name: "Dried Cilantro",
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.58, Essence: 0.28, Matter: 0.12, Substance: 0.15 },
@@ -542,6 +613,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["potassium", "manganese"],
       antioxidants: ["quercetin", "kaempferol"],
       volatileoils: ["linalool", "decanal"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "before use",
@@ -554,9 +627,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Best in cooked dishes",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_chives: {
+      description: "The dehydrated hollow stalks of the smallest onion species (*Allium schoenoprasum*). Drying preserves their distinctively mild, sweet onion flavor surprisingly well, making them a convenient stir-in for sour cream dips, baked potatoes, and savory scones.",
     name: "Dried Chives",
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     alchemicalProperties: { Spirit: 0.50, Essence: 0.32, Matter: 0.10, Substance: 0.14 },
@@ -577,6 +653,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["calcium", "iron"],
       antioxidants: ["allicin", "quercetin"],
       volatileoils: ["allyl sulfides"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       rehydrating: "soak in warm water briefly",
@@ -589,9 +667,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Protect from moisture",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_lemon_balm: {
+      description: "The dehydrated leaves of *Melissa officinalis*, a member of the mint family. It retains a bright, distinctively sweet lemon aroma and a mild minty undertone, making it a soothing, aromatic addition to herbal teas, delicate fruit salads, and light chicken marinades.",
     name: "Dried Lemon Balm",
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     alchemicalProperties: { Spirit: 0.65, Essence: 0.40, Matter: 0.08, Substance: 0.12 },
@@ -612,6 +693,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["calcium", "potassium"],
       antioxidants: ["rosmarinic acid", "flavonoids"],
       volatileoils: ["citral", "citronellal"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "lightly before use",
@@ -629,9 +712,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ["tea", "tincture"],
       cautions: ["may cause drowsiness"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_lavender: {
+      description: "The dehydrated, highly aromatic flowers of the *Lavandula* plant, most commonly *Lavandula angustifolia* (English lavender) for culinary use. It imparts a profoundly strong, perfumed, and sweet floral flavor that must be used incredibly sparingly to avoid making food taste like soap.",
     name: "Dried Lavender",
     elementalProperties: { Air: 0.5, Fire: 0.2, Earth: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.80, Essence: 0.42, Matter: 0.08, Substance: 0.10 },
@@ -652,6 +738,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["calcium", "iron"],
       antioxidants: ["rosmarinic acid", "ursolic acid"],
       volatileoils: ["linalool", "linalyl acetate"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "gently before use",
@@ -669,9 +757,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ["tea", "sachet"],
       cautions: ["may cause drowsiness"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_summer_savory: {
+      description: "An aromatic culinary herb, dried summer savory contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
     name: "Dried Summer Savory",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.58, Essence: 0.30, Matter: 0.18, Substance: 0.20 },
@@ -692,6 +783,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "manganese"],
       antioxidants: ["rosmarinic acid", "carvacrol"],
       volatileoils: ["thymol", "carvacrol"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "before use",
@@ -704,9 +797,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Replace when aroma fades",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   dried_lovage: {
+      description: "The dehydrated leaves of *Levisticum officinale*, an herb that tastes like an intense, highly concentrated cross between celery and parsley. Because its flavor is so robust and meaty, it survives the drying process exceptionally well and is a powerhouse addition to beef stews and heavy broths.",
     name: "Dried Lovage",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.11, Essence: 0.19, Matter: 0.39, Substance: 0.31 },
@@ -727,6 +823,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ["iron", "magnesium"],
       antioxidants: ["quercetin", "kaempferol"],
       volatileoils: ["phthalides", "terpenes"],
+        calories: 100,
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       crushing: "before use",
@@ -739,9 +837,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: "airtight, dark",
       notes: "Replace when aroma weakens",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+},
 
   chervil: {
+      description: "A delicate, highly perishable spring herb (*Anthriscus cerefolium*) featuring lacy, fern-like leaves. It is a cornerstone of the classic French *fines herbes* blend, offering a subtle, refined flavor profile combining parsley and faint anise, which must be added at the absolute last second to avoid destroying its volatile oils.",
     name: "Chervil",
     elementalProperties: {
       Air: 0.4,
@@ -765,9 +866,15 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       fiber_g: 0,
       vitamins: [],
       minerals: [],
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+},
   bay_leaf: {
+      description: "The aromatic leaf of the sweet bay tree (*Laurus nobilis*), typically used dried. When simmered in liquid for an extended period, it releases complex, woodsy, floral, and slightly menthol notes that add essential savory depth to soups, stews, and braises.",
     name: "Bay Leaf",
     elementalProperties: {
       Air: 0.4,
@@ -791,10 +898,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       fiber_g: 0,
       vitamins: [],
       minerals: [],
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+},
 
   anise: {
+      description: "The seed of the *Pimpinella anisum* plant, yielding a distinctively sweet, highly aromatic, and slightly spicy licorice flavor. It shares the volatile compound anethole with fennel and star anise, making it a foundational flavoring for classic Mediterranean spirits like Ouzo, Sambuca, and Absinthe.",
     name: "Anise",
     elementalProperties: {
       Air: 0.4,
@@ -818,8 +931,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       fiber_g: 0,
       vitamins: [],
       minerals: [],
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

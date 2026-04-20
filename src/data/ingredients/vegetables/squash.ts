@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawSquash = {
   "butternut squash": {
+      description: "A fresh plant food, butternut squash offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
     name: "Butternut squash",
     elementalProperties: {
       Earth: 0.4,
@@ -55,6 +56,7 @@ const rawSquash = {
       antioxidants: ["beta-carotene"],
       glycemic_index: 51,
       notes: "High in beta-carotene and vitamin A",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       peeling: "required",
@@ -66,8 +68,11 @@ const rawSquash = {
       duration: "2-3 months",
       notes: "Once cut, refrigerate",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
   zucchini: {
+      description: "A fast-growing summer squash (*Cucurbita pepo*) with a thin, edible dark green skin and high water content. Its mild, slightly sweet flavor makes it highly versatile, suitable for raw ribbons in salads, quick sautéing, or baking into moist breads.",
     name: "zucchini",
     elementalProperties: {
       Fire: 0.4204917086683852,
@@ -91,6 +96,7 @@ const rawSquash = {
       protein_g: 1.21,
       vitamins: ["a", "c", "k", "b6", "folate"],
       minerals: ["potassium", "manganese", "magnesium"],
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     season: ["summer"],
     cookingMethods: ["saute", "roast", "grill", "raw", "steam", "bake"],
@@ -117,8 +123,12 @@ const rawSquash = {
         pairings: ["pasta sauce", "pesto", "olive oil", "lemon"],
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
   pumpkin: {
+      description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.",
     name: "Pumpkin",
     elementalProperties: {
       Earth: 0.5,
@@ -171,6 +181,7 @@ const rawSquash = {
       antioxidants: ["beta-carotene", "lutein", "zeaxanthin"],
       glycemic_index: 75,
       notes: "Excellent source of vitamin A and beta-carotene",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       cutting: "quarter, remove seeds",
@@ -182,8 +193,11 @@ const rawSquash = {
       duration: "2-3 months whole",
       notes: "Cooked purée freezes well",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
   "acorn squash": {
+      description: "A fresh plant food, acorn squash offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
     name: "Acorn squash",
     elementalProperties: {
       Earth: 0.4,
@@ -236,6 +250,7 @@ const rawSquash = {
       sugar_g: 0,
       glycemic_index: 40,
       notes: "Good source of vitamin C and potassium",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       washing: true,
@@ -247,7 +262,9 @@ const rawSquash = {
       duration: "1-2 months",
       notes: "Store away from apples / (pears || 1)",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

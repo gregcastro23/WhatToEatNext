@@ -4,6 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Misc ingredients extracted from cuisine files
 const rawMisc: Record<string, Partial<IngredientMapping>> = {
   sugar: {
+      description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
     name: "sugar",
     // Refined sweetener: Earth (crystalline structure), Fire (quick energy), minimal Water/Air
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
@@ -22,8 +23,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   maple_syrup: {
+      description: "A complex, earthy sweetener created by boiling down the sap of sugar maple trees (*Acer saccharum*). As the sap reduces, intense caramelization occurs, creating a rich flavor profile featuring notes of vanilla, caramel, and wood that pairs perfectly with both sweet breakfast foods and savory glazed meats.",
     name: "maple syrup",
     // Tree sap liquid sweetener: Water (liquid), Earth (from trees), Fire (sweet energy)
     elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.25, Air: 0.05 },
@@ -42,8 +48,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.33, zinc: 0.03, calcium: 0.02, potassium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   baking_powder: {
+      description: "A complete chemical leavening agent containing both a base (sodium bicarbonate) and a weak acid. \"Double-acting\" baking powder reacts twice: first when it dissolves in liquid, and again when exposed to heat, providing a reliable, sustained lift to cakes and quick breads.",
     name: "baking powder",
     elementalProperties: { Fire: 0.24, Water: 0.14, Earth: 0.33, Air: 0.29 },
     qualities: ["versatile", "culinary"],
@@ -61,8 +72,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.04, sodium: 0.19 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   microgreens: {
+      description: "A pantry staple, microgreens fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "microgreens",
     elementalProperties: { Fire: 0.18, Water: 0.32, Earth: 0.18, Air: 0.32 },
     qualities: ["versatile", "culinary"],
@@ -80,8 +96,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03, potassium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   fresh_herbs: {
+      description: "A pantry staple, fresh herbs fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "fresh herbs",
     elementalProperties: { Fire: 0.18, Water: 0.32, Earth: 0.18, Air: 0.32 },
     qualities: ["aromatic", "fresh"],
@@ -99,8 +120,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   mixed_berries: {
+      description: "A pantry staple, mixed berries fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "mixed berries",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "tart"],
@@ -118,8 +144,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.18 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   honey: {
+      description: "A viscous, supersaturated sugar solution produced by bees from floral nectar. In addition to sweetness, it provides complex floral notes, humectant properties (retaining moisture in baked goods), and promotes rapid browning due to its high fructose and glucose content.",
     name: "honey",
     // Thick liquid sweetener from bees: Water (liquid), Earth (thick/grounding), Fire (energy)
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.3, Air: 0.05 },
@@ -138,8 +169,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.01, potassium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   granola: {
+      description: "A pantry staple, granola fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "granola",
     elementalProperties: { Fire: 0.2, Water: 0.05, Earth: 0.5, Air: 0.25 },
     qualities: ["crunchy", "sweet"],
@@ -157,8 +193,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.1, manganese: 0.45, phosphorus: 0.15 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pumpkin_puree: {
+      description: "A pantry staple, pumpkin puree fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pumpkin puree",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.4, Air: 0.05 },
     qualities: ["smooth", "earthy"],
@@ -176,8 +217,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.19, potassium: 0.15 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pecans: {
+      description: "A pantry staple, pecans fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pecans",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["rich", "buttery"],
@@ -195,8 +241,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.56, copper: 0.17 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   cranberries: {
+      description: "A pantry staple, cranberries fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "cranberries",
     elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.15, Air: 0.15 },
     qualities: ["tart", "acidic"],
@@ -214,8 +265,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.18 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   walnuts: {
+      description: "A pantry staple, walnuts fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "walnuts",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["rich", "earthy"],
@@ -233,8 +289,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.48, copper: 0.22, phosphorus: 0.1 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   hamburger_buns: {
+      description: "A pantry staple, hamburger buns fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "hamburger buns",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["soft", "starchy"],
@@ -252,8 +313,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.1, selenium: 0.14 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   ketchup: {
+      description: "A globally beloved table condiment characterized by a delicate balance of sweetness (sugar), acidity (vinegar), and umami (concentrated tomatoes). Its high viscosity and complex flavor profile make it a powerful base for barbecue sauces, glazes, and meatloaf.",
     name: "ketchup",
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "tangy"],
@@ -271,8 +337,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.07 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   mustard: {
+      description: "A pantry staple, mustard fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "mustard",
     elementalProperties: { Fire: 0.4, Water: 0.25, Earth: 0.2, Air: 0.15 },
     qualities: ["pungent", "sharp"],
@@ -290,8 +361,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.04, sodium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   bacon: {
+      description: "Salt-cured pork belly that is typically smoked, resulting in an incredibly savory, salty, and richly flavored ingredient. As it cooks, its high fat content renders out, crisping the meat while providing a highly flavorful cooking fat (lard) that can be used to fry eggs or sauté vegetables.",
     name: "bacon",
     elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.3, Air: 0.1 },
     qualities: ["smoky", "salty"],
@@ -309,8 +385,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.24, phosphorus: 0.1, sodium: 0.28 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   clams: {
+      description: "A pantry staple, clams fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "clams",
     elementalProperties: { Fire: 0.1, Water: 0.55, Earth: 0.25, Air: 0.1 },
     qualities: ["briny", "tender"],
@@ -328,8 +409,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 1.32, manganese: 0.43, selenium: 0.36 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   puff_pastry: {
+      description: "A pantry staple, puff pastry fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "puff pastry",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.3, Air: 0.35 },
     qualities: ["flaky", "buttery"],
@@ -347,8 +433,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.12, sodium: 0.12 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   lobster_meat: {
+      description: "A pantry staple, lobster meat fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "lobster meat",
     elementalProperties: { Fire: 0.15, Water: 0.5, Earth: 0.25, Air: 0.1 },
     qualities: ["sweet", "luxurious"],
@@ -366,8 +457,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.53, zinc: 0.18, copper: 0.88 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   mayonnaise: {
+      description: "A thick, creamy culinary emulsion created by slowly suspending droplets of oil in water (usually lemon juice or vinegar) utilizing the natural emulsifier lecithin found in egg yolks. It adds rich moisture to sandwiches, binds salads together, and promotes exceptional browning when spread on bread before grilling.",
     name: "mayonnaise",
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.3, Air: 0.25 },
     qualities: ["creamy", "rich"],
@@ -385,8 +481,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   split_top_buns: {
+      description: "A pantry staple, split top buns fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "split-top buns",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["soft", "starchy"],
@@ -404,8 +505,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.1, selenium: 0.14 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   sliced_turkey: {
+      description: "A pantry staple, sliced turkey fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "sliced turkey",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.35, Air: 0.15 },
     qualities: ["lean", "mild"],
@@ -423,8 +529,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.2, sodium: 0.2 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   cranberry_sauce: {
+      description: "A pantry staple, cranberry sauce fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "cranberry sauce",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "tart"],
@@ -442,8 +553,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   stuffing: {
+      description: "A pantry staple, stuffing fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "stuffing",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["savory", "herbed"],
@@ -461,8 +577,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.24, iron: 0.07 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   bbq_sauce: {
+      description: "A thick, highly complex condiment built on a foundation of sweetness (molasses or brown sugar), acidity (vinegar), umami (ketchup or tomato paste), and often liquid smoke. Its high sugar content makes it an exceptional glazing agent that caramelizes beautifully over indirect heat, though it will scorch quickly over open flames.",
     name: "BBQ sauce",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["smoky", "sweet"],
@@ -480,8 +601,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.13 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   brown_sugar: {
+      description: "Granulated white sugar that has had molasses reintroduced to it (or left in during refining). The molasses provides a deeper, caramel-like flavor, slight acidity, and additional moisture (making baked goods softer and chewier), but it also causes the sugar to pack tightly together.",
     name: "brown sugar",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "caramel"],
@@ -499,8 +625,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.01, potassium: 0.01, iron: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   lamb_chops: {
+      description: "A pantry staple, lamb chops fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "lamb chops",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "tender"],
@@ -518,8 +649,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { zinc: 0.27, selenium: 0.23 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   cedar_plank: {
+      description: "A pantry staple, cedar plank fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "cedar plank",
     elementalProperties: { Fire: 0.3, Water: 0.05, Earth: 0.5, Air: 0.15 },
     qualities: ["aromatic", "smoky"],
@@ -537,8 +673,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "Non-food cooking implement",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   whole_turkey: {
+      description: "A pantry staple, whole turkey fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "whole turkey",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.35, Air: 0.15 },
     qualities: ["hearty", "lean"],
@@ -556,8 +697,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.37, phosphorus: 0.18, zinc: 0.17 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   white_sugar: {
+      description: "Highly refined sucrose extracted from sugarcane or sugar beets. Its pure, neutral sweetness makes it a structural cornerstone in baking, where it aerates fats (creaming), stabilizes egg foams (meringues), and undergoes caramelization at high temperatures to build flavor and color.",
     name: "white sugar",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "pure"],
@@ -575,8 +721,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   chocolate_chips: {
+      description: "A pantry staple, chocolate chips fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "chocolate chips",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.4, Air: 0.15 },
     qualities: ["sweet", "rich"],
@@ -594,8 +745,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.04, copper: 0.05 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   graham_crackers: {
+      description: "A pantry staple, graham crackers fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "graham crackers",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.4, Air: 0.3 },
     qualities: ["sweet", "crunchy"],
@@ -613,8 +769,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.06, sodium: 0.07 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   vanilla_extract: {
+      description: "A potent liquid flavoring created by macerating vanilla beans in a solution of ethanol and water, which extracts the complex vanillin compounds. It serves as a universal flavor enhancer in baking, adding perceived sweetness and floral depth to cookies, cakes, and custards.",
     name: "vanilla extract",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.25, Air: 0.2 },
     qualities: ["aromatic", "sweet"],
@@ -632,8 +793,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   fresh_strawberries: {
+      description: "A pantry staple, fresh strawberries fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "fresh strawberries",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "juicy"],
@@ -651,8 +817,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.19, potassium: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   marshmallows: {
+      description: "A pantry staple, marshmallows fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "marshmallows",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 },
     qualities: ["sweet", "fluffy"],
@@ -670,8 +841,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   chocolate_sauce: {
+      description: "A pantry staple, chocolate sauce fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "chocolate sauce",
     elementalProperties: { Fire: 0.25, Water: 0.3, Earth: 0.3, Air: 0.15 },
     qualities: ["sweet", "rich"],
@@ -689,8 +865,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03, copper: 0.05 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   sea_salt: {
+      description: "A broad category of salt obtained directly through the evaporation of seawater, rather than mined from subterranean rock deposits. While it is chemically mostly sodium chloride, it retains trace oceanic minerals (like magnesium and calcium) that provide a slightly more complex, 'briny' flavor profile than highly refined table salt.",
     name: "sea salt",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
     qualities: ["mineral", "briny"],
@@ -708,8 +889,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.24 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pie_crust: {
+      description: "A pantry staple, pie crust fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pie crust",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["flaky", "buttery"],
@@ -727,8 +913,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.04, sodium: 0.05 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   molasses: {
+      description: "The dark, viscous byproduct of the sugar refining process, containing concentrated sugars, minerals, and complex Maillard reaction products. Light molasses is sweeter and used in baking (like gingerbread), while blackstrap molasses is intensely bitter, salty, and best used sparingly in savory barbecue sauces or baked beans.",
     name: "molasses",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.35, Air: 0.05 },
     qualities: ["sweet", "bitter"],
@@ -746,8 +937,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.05, calcium: 0.04, potassium: 0.1, manganese: 0.13 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   salt: {
+      description: "A crystalline mineral composed primarily of sodium chloride (NaCl). It is the single most important ingredient in cooking, as it suppresses bitterness, enhances sweetness, and drastically amplifies volatile aromatic compounds, making food taste more like itself.",
     name: "salt",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 },
     qualities: ["mineral", "essential"],
@@ -765,8 +961,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.25 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   char_siu_bao: {
+      description: "A pantry staple, char siu bao fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "char siu bao",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.35, Air: 0.15 },
     qualities: ["savory", "sweet"],
@@ -784,8 +985,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.06, sodium: 0.15 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   spring_rolls: {
+      description: "A pantry staple, spring rolls fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "spring rolls",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.3, Air: 0.2 },
     qualities: ["crispy", "savory"],
@@ -803,8 +1009,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.15, iron: 0.05 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   whole_duck: {
+      description: "A pantry staple, whole duck fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "whole duck",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "fatty"],
@@ -822,8 +1033,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.2, iron: 0.14, zinc: 0.12 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pastry_dough: {
+      description: "A pantry staple, pastry dough fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pastry dough",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.35, Air: 0.25 },
     qualities: ["buttery", "malleable"],
@@ -841,8 +1057,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.04, iron: 0.03 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   dried_fruits: {
+      description: "A pantry staple, dried fruits fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "dried fruits",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.4, Air: 0.25 },
     qualities: ["sweet", "chewy"],
@@ -860,8 +1081,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.08, iron: 0.05 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   nuts: {
+      description: "A pantry staple, nuts fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "nuts",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["crunchy", "rich"],
@@ -879,8 +1105,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { magnesium: 0.12, copper: 0.15 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   cr_me_fra_che: {
+      description: "A pantry staple, cr me fra che fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "crème fraîche",
     elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
     qualities: ["creamy", "tangy"],
@@ -898,8 +1129,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   fine_herbs: {
+      description: "A pantry staple, fine herbs fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "fine herbs",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["delicate", "aromatic"],
@@ -917,8 +1153,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   brioche: {
+      description: "A pantry staple, brioche fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "brioche",
     elementalProperties: { Fire: 0.25, Water: 0.2, Earth: 0.3, Air: 0.25 },
     qualities: ["buttery", "rich"],
@@ -936,8 +1177,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.1, iron: 0.06 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   granulated_sugar: {
+      description: "A pantry staple, granulated sugar fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "granulated sugar",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "pure"],
@@ -955,8 +1201,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   white_ham: {
+      description: "A pantry staple, white ham fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "white ham",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.35, Air: 0.15 },
     qualities: ["savory", "mild"],
@@ -974,8 +1225,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.24, selenium: 0.15 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   bechamel_sauce: {
+      description: "A pantry staple, bechamel sauce fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "béchamel sauce",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["creamy", "smooth"],
@@ -993,8 +1249,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.06, sodium: 0.05 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   anchovies: {
+      description: "Small, oily forage fish (*Engraulis encrasicolus*) primarily preserved through heavy salt-curing and packing in oil. While aggressively fishy and salty on their own, they dissolve completely when heated, acting as a secret, umami-rich backbone for Caesar dressings, tomato sauces, and braises.",
     name: "anchovies",
     elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1 },
     qualities: ["salty", "umami"],
@@ -1012,8 +1273,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.1, iron: 0.09, calcium: 0.05, sodium: 0.3 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   vinaigrette: {
+      description: "A pantry staple, vinaigrette fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "vinaigrette",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.15, Air: 0.3 },
     qualities: ["tangy", "light"],
@@ -1031,8 +1297,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.06 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   baguette: {
+      description: "A pantry staple, baguette fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "baguette",
     elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.35, Air: 0.25 },
     qualities: ["crusty", "chewy"],
@@ -1050,8 +1321,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.17, iron: 0.1 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   lardons: {
+      description: "A pantry staple, lardons fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "lardons",
     elementalProperties: { Fire: 0.4, Water: 0.15, Earth: 0.35, Air: 0.1 },
     qualities: ["salty", "smoky"],
@@ -1069,8 +1345,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.15, selenium: 0.06 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   bouquet_garni: {
+      description: "A pantry staple, bouquet garni fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "bouquet garni",
     elementalProperties: { Fire: 0.2, Water: 0.25, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "herbal"],
@@ -1088,8 +1369,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   cognac: {
+      description: "A pantry staple, cognac fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "cognac",
     elementalProperties: { Fire: 0.5, Water: 0.25, Earth: 0.15, Air: 0.1 },
     qualities: ["warm", "complex"],
@@ -1107,8 +1393,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   sole_fillets: {
+      description: "A pantry staple, sole fillets fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "sole fillets",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.25, Air: 0.15 },
     qualities: ["delicate", "mild"],
@@ -1126,8 +1417,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { selenium: 0.32, phosphorus: 0.14 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   bacon_or_pancetta: {
+      description: "A pantry staple, bacon or pancetta fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "bacon or pancetta",
     elementalProperties: { Fire: 0.4, Water: 0.15, Earth: 0.35, Air: 0.1 },
     qualities: ["salty", "smoky"],
@@ -1145,8 +1441,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.2, selenium: 0.1 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   sugar_for_caramelizing: {
+      description: "A pantry staple, sugar for caramelizing fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "sugar for caramelizing",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "transformative"],
@@ -1164,8 +1465,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   shortcrust_pastry: {
+      description: "A pantry staple, shortcrust pastry fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "shortcrust pastry",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["crumbly", "buttery"],
@@ -1183,8 +1489,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.04, sodium: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   choux_pastry: {
+      description: "A pantry staple, choux pastry fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "choux pastry",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.2, Air: 0.3 },
     qualities: ["light", "eggy"],
@@ -1202,8 +1513,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.03 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   dark_chocolate: {
+      description: "A rich confection made from cocoa mass (cocoa solids and cocoa butter) and sugar, with no milk added. Higher percentages (70% and above) indicate more cocoa mass and less sugar, resulting in an intensely bitter, complex, and astringent flavor profile that balances exceptionally sweet baked goods.",
     name: "dark chocolate",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.4, Air: 0.15 },
     qualities: ["bitter", "rich"],
@@ -1221,8 +1537,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.19, copper: 0.25, magnesium: 0.16, manganese: 0.27 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   phyllo_dough: {
+      description: "A pantry staple, phyllo dough fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "phyllo dough",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.3, Air: 0.4 },
     qualities: ["paper-thin", "crispy"],
@@ -1240,8 +1561,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.05, sodium: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   semolina: {
+      description: "A coarse, pale-yellow flour milled from hard durum wheat (*Triticum durum*). Its extraordinarily high protein content and coarse grind make it the international standard for creating structured, resilient dried pasta, and it provides a gritty, satisfying crunch when dusted on pizza peels.",
     name: "semolina",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["coarse", "hearty"],
@@ -1259,8 +1585,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.12, selenium: 0.37 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   almonds: {
+      description: "The edible seeds of the *Prunus dulcis* tree, highly valued for their subtle sweetness, firm crunch, and woody flavor. Blanched almonds (skins removed) are often ground into fine flours for delicate pastries like macarons, while skin-on, roasted almonds provide robust texture and bitterness to savory dishes.",
     name: "almonds",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["crunchy", "nutty"],
@@ -1278,8 +1609,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.27, magnesium: 0.19, copper: 0.14 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   urad_dal: {
+      description: "A pantry staple, urad dal fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "urad dal",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.45, Air: 0.15 },
     qualities: ["earthy", "creamy"],
@@ -1297,8 +1633,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.18, magnesium: 0.15, phosphorus: 0.15 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   toor_dal: {
+      description: "A pantry staple, toor dal fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "toor dal",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.45, Air: 0.15 },
     qualities: ["earthy", "mild"],
@@ -1316,8 +1657,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.15, potassium: 0.12, phosphorus: 0.14 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   sambar_powder: {
+      description: "A pantry staple, sambar powder fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "sambar powder",
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 },
     qualities: ["spicy", "complex"],
@@ -1335,8 +1681,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   vegetables: {
+      description: "Any edible plant material — leaves, roots, stems, tubers, flowers, fruits used as savory ingredients — delivering fiber, vitamins, phytochemicals, and the flavor backbone of non-meat-forward cooking. Treat by structural group: hard roots (carrots, beets) need more heat and time; leafy greens cook in seconds; fungi need dry heat to develop depth; brassicas reward high heat for caramelization and charring. Freshness matters more than variety — a peak-season common vegetable beats an out-of-season rare one.",
     name: "vegetables",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.3, Air: 0.2 },
     qualities: ["fresh", "wholesome"],
@@ -1354,8 +1705,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.08 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   puri_shells: {
+      description: "A pantry staple, puri shells fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "puri shells",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.35, Air: 0.25 },
     qualities: ["crispy", "hollow"],
@@ -1373,8 +1729,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   tamarind: {
+      description: "The sticky, highly acidic pulp extracted from the seed pods of the *Tamarindus indica* tree. It provides a profoundly complex, fruity, and intensely tart flavor profile that acts as the primary souring agent in Pad Thai, Indian chutneys, and Worcestershire sauce.",
     name: "tamarind",
     elementalProperties: { Fire: 0.25, Water: 0.35, Earth: 0.25, Air: 0.15 },
     qualities: ["sour", "tangy"],
@@ -1392,8 +1753,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.04, iron: 0.02, magnesium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   black_salt: {
+      description: "A pantry staple, black salt fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "black salt",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.55, Air: 0.1 },
     qualities: ["sulfurous", "pungent"],
@@ -1411,8 +1777,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.2, iron: 0.03 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   sprouted_moong: {
+      description: "A pantry staple, sprouted moong fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "sprouted moong",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["crunchy", "fresh"],
@@ -1430,8 +1801,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.05, potassium: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pistachios: {
+      description: "A pantry staple, pistachios fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pistachios",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["nutty", "slightly sweet"],
@@ -1449,8 +1825,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { copper: 0.18, manganese: 0.15, phosphorus: 0.1 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   almond_granita: {
+      description: "A pantry staple, almond granita fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "almond granita",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     qualities: ["icy", "sweet"],
@@ -1468,8 +1849,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   mascarpone: {
+      description: "An Italian cream cheese coagulated through the addition of an acidic substance (like lemon juice or citric acid) rather than rennet. It boasts an exceptionally high butterfat content (up to 75%), yielding an unimaginably rich, velvety texture and a sweet, milky flavor crucial for tiramisu.",
     name: "mascarpone",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.35, Air: 0.2 },
     qualities: ["creamy", "rich"],
@@ -1487,8 +1873,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   natto: {
+      description: "A pantry staple, natto fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "natto",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.35, Air: 0.15 },
     qualities: ["fermented", "pungent"],
@@ -1506,8 +1897,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.43, manganese: 0.67, zinc: 0.18 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   umeboshi: {
+      description: "A pantry staple, umeboshi fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "umeboshi",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["sour", "salty"],
@@ -1525,8 +1921,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.06, iron: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   dashi: {
+      description: "A pantry staple, dashi fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "dashi",
     elementalProperties: { Fire: 0.1, Water: 0.55, Earth: 0.2, Air: 0.15 },
     qualities: ["umami", "delicate"],
@@ -1544,8 +1945,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.1 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   gyoza_wrappers: {
+      description: "A pantry staple, gyoza wrappers fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "gyoza wrappers",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.4, Air: 0.25 },
     qualities: ["thin", "pliable"],
@@ -1563,8 +1969,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.05, sodium: 0.06 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   soy_sauce: {
+      description: "An essential East Asian liquid condiment produced by fermenting soybeans, roasted wheat, water, and salt with the mold *Aspergillus oryzae*. This long fermentation breaks down proteins into free amino acids (especially glutamate), creating a profoundly complex, salty, and umami-rich liquid.",
     name: "soy sauce",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["salty", "umami"],
@@ -1582,8 +1993,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.38, iron: 0.02, manganese: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   sake: {
+      description: "A Japanese alcoholic beverage made by fermenting rice that has been polished to remove the bran. In cooking, it functions similarly to white wine, providing subtle acidity, tenderizing meats, and dissolving flavor compounds that are soluble only in alcohol.",
     name: "sake",
     elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.15, Air: 0.15 },
     qualities: ["clean", "delicate"],
@@ -1601,8 +2017,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   aged_kimchi: {
+      description: "A pantry staple, aged kimchi fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "aged kimchi",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["fermented", "pungent"],
@@ -1620,8 +2041,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.24, iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   perilla_leaves: {
+      description: "A pantry staple, perilla leaves fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "perilla leaves",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "minty"],
@@ -1639,8 +2065,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.02, iron: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   ssamjang: {
+      description: "A pantry staple, ssamjang fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "ssamjang",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.25, Air: 0.15 },
     qualities: ["savory", "spicy"],
@@ -1658,8 +2089,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.14 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   kimchi: {
+      description: "A traditional Korean side dish (banchan) of salted and fermented vegetables, most commonly napa cabbage and Korean radishes. It is fermented by lactic acid bacteria in a paste of gochugaru, garlic, ginger, and salted seafood, resulting in a profoundly complex, sour, spicy, and umami-rich flavor.",
     name: "kimchi",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["fermented", "spicy"],
@@ -1677,8 +2113,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.24, iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   gochugaru: {
+      description: "A coarsely ground Korean chili powder made from sun-dried peppers (*Capsicum annuum*). It possesses a unique flavor profile that is simultaneously spicy, sweet, and slightly smoky, providing the essential flavor base and vibrant red color for kimchi and gochujang.",
     name: "gochugaru",
     elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.25, Air: 0.15 },
     qualities: ["spicy", "smoky"],
@@ -1696,8 +2137,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   gochujang: {
+      description: "A savory, sweet, and spicy fermented Korean condiment made from gochugaru (chili powder), glutinous rice, meju (fermented soybean) powder, and salt. Its long fermentation process creates an incredibly thick, sticky paste that acts as the foundational flavor base for tteokbokki and bibimbap.",
     name: "gochujang",
     elementalProperties: { Fire: 0.4, Water: 0.25, Earth: 0.2, Air: 0.15 },
     qualities: ["spicy", "sweet"],
@@ -1715,8 +2161,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.15, iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   saeujeot: {
+      description: "A pantry staple, saeujeot fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "saeujeot",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["salty", "umami"],
@@ -1734,8 +2185,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.12 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   shaved_ice: {
+      description: "A pantry staple, shaved ice fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "shaved ice",
     elementalProperties: { Fire: 0.0, Water: 0.8, Earth: 0.1, Air: 0.1 },
     qualities: ["cold", "refreshing"],
@@ -1753,8 +2209,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   sesame_seeds: {
+      description: "A pantry staple, sesame seeds fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "sesame seeds",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["nutty", "crunchy"],
@@ -1772,8 +2233,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { copper: 0.11, manganese: 0.1, calcium: 0.09, iron: 0.07 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pine_needles: {
+      description: "A pantry staple, pine needles fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pine needles",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.3, Air: 0.35 },
     qualities: ["aromatic", "resinous"],
@@ -1791,8 +2257,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   mixed_fruits: {
+      description: "A pantry staple, mixed fruits fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "mixed fruits",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "refreshing"],
@@ -1810,8 +2281,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.06 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   dried_hominy: {
+      description: "A pantry staple, dried hominy fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "dried hominy",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.5, Air: 0.2 },
     qualities: ["starchy", "hearty"],
@@ -1829,8 +2305,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.06, phosphorus: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   mixed_dried_chiles: {
+      description: "A pantry staple, mixed dried chiles fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "mixed dried chiles",
     elementalProperties: { Fire: 0.5, Water: 0.05, Earth: 0.3, Air: 0.15 },
     qualities: ["spicy", "smoky"],
@@ -1848,8 +2329,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   chocolate: {
+      description: "A pantry staple, chocolate fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "chocolate",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.35, Air: 0.15 },
     qualities: ["sweet", "rich"],
@@ -1867,8 +2353,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.04, copper: 0.08 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   poblano_chiles: {
+      description: "A pantry staple, poblano chiles fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "poblano chiles",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["mild", "earthy"],
@@ -1886,8 +2377,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.05 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   masa_harina: {
+      description: "A traditional Mexican flour made by drying and grinding corn that has undergone nixtamalization (soaking in an alkaline solution, usually calcium hydroxide). This process unlocks the corn's nutritional value, vastly improves its flavor, and allows the dough to bind together to form tortillas and tamales.",
     name: "masa harina",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.5, Air: 0.2 },
     qualities: ["starchy", "earthy"],
@@ -1905,8 +2401,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.06, calcium: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   fresh_fruit: {
+      description: "A pantry staple, fresh fruit fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "fresh fruit",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "juicy"],
@@ -1924,8 +2425,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.06 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   lamb_shoulder: {
+      description: "A pantry staple, lamb shoulder fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "lamb shoulder",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "succulent"],
@@ -1943,8 +2449,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { zinc: 0.3, selenium: 0.2 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   jameed: {
+      description: "A pantry staple, jameed fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "jameed",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.5, Air: 0.15 },
     qualities: ["tangy", "salty"],
@@ -1962,8 +2473,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.1, sodium: 0.15 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pine_nuts: {
+      description: "A pantry staple, pine nuts fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pine nuts",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["buttery", "delicate"],
@@ -1981,8 +2497,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 1.22, copper: 0.18, zinc: 0.12 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   kataifi_dough: {
+      description: "A pantry staple, kataifi dough fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "kataifi dough",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.3, Air: 0.4 },
     qualities: ["shredded", "crispy"],
@@ -2000,8 +2521,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.04, sodium: 0.03 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pickles: {
+      description: "A pantry staple, pickles fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pickles",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.2, Air: 0.2 },
     qualities: ["sour", "crunchy"],
@@ -2019,8 +2545,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.12 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   green_papaya: {
+      description: "A pantry staple, green papaya fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "green papaya",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["crunchy", "mild"],
@@ -2038,8 +2569,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.05 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   red_syrup: {
+      description: "A pantry staple, red syrup fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "red syrup",
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "vibrant"],
@@ -2057,8 +2593,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   green_syrup: {
+      description: "A pantry staple, green syrup fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "green syrup",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.2, Air: 0.25 },
     qualities: ["sweet", "herbal"],
@@ -2076,8 +2617,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   palm_seeds: {
+      description: "A pantry staple, palm seeds fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "palm seeds",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["translucent", "chewy"],
@@ -2095,8 +2641,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   grass_jelly: {
+      description: "A pantry staple, grass jelly fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "grass jelly",
     elementalProperties: { Fire: 0.05, Water: 0.5, Earth: 0.25, Air: 0.2 },
     qualities: ["cooling", "herbal"],
@@ -2114,8 +2665,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   red_food_coloring: {
+      description: "A pantry staple, red food coloring fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "red food coloring",
     elementalProperties: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
     qualities: ["vibrant", "decorative"],
@@ -2133,8 +2689,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   palm_sugar: {
+      description: "A pantry staple, palm sugar fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "palm sugar",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "caramel"],
@@ -2152,8 +2713,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.02, iron: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   jackfruit: {
+      description: "The largest tree-borne fruit in the world (*Artocarpus heterophyllus*). When ripe, the golden bulbs are intensely sweet and taste like a blend of mango, banana, and pineapple; when unripe (green), the flesh is neutral, stringy, and fibrous, acting as an incredibly popular vegan substitute for pulled pork or braised chicken.",
     name: "jackfruit",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["sweet", "meaty"],
@@ -2171,8 +2737,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.14, magnesium: 0.07 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   crushed_ice: {
+      description: "A pantry staple, crushed ice fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "crushed ice",
     elementalProperties: { Fire: 0.0, Water: 0.8, Earth: 0.1, Air: 0.1 },
     qualities: ["cold", "refreshing"],
@@ -2190,8 +2761,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pandan_extract: {
+      description: "A pantry staple, pandan extract fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pandan extract",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.2, Air: 0.35 },
     qualities: ["fragrant", "floral"],
@@ -2209,8 +2785,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   kabocha_pumpkin: {
+      description: "A pantry staple, kabocha pumpkin fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "kabocha pumpkin",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "starchy"],
@@ -2228,8 +2809,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.1, iron: 0.04 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pandan_leaves: {
+      description: "A pantry staple, pandan leaves fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pandan leaves",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.2, Air: 0.4 },
     qualities: ["fragrant", "grassy"],
@@ -2247,8 +2833,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   tapioca_starch: {
+      description: "A pantry staple, tapioca starch fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "tapioca starch",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.55, Air: 0.15 },
     qualities: ["starchy", "thickening"],
@@ -2266,8 +2857,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   herbs_mix: {
+      description: "A pantry staple, herbs mix fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "herbs mix",
     elementalProperties: { Fire: 0.2, Water: 0.25, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "savory"],
@@ -2285,8 +2881,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   annatto_seeds: {
+      description: "The small, deeply red, triangular seeds of the achiote tree (*Bixa orellana*), native to the tropical Americas. While they offer a very mild, slightly peppery, and earthy flavor, their primary culinary function is to impart a brilliant yellow-orange dye to dishes like Mexican cochinita pibil and cheddar cheese.",
     name: "annatto seeds",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 },
     qualities: ["earthy", "colorful"],
@@ -2304,8 +2905,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { calcium: 0.01, iron: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   vietnamese_herbs: {
+      description: "A pantry staple, vietnamese herbs fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "Vietnamese herbs",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["fresh", "aromatic"],
@@ -2323,8 +2929,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pickled_vegetables: {
+      description: "A pantry staple, pickled vegetables fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pickled vegetables",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["tangy", "crunchy"],
@@ -2342,8 +2953,13 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.1 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
   pandan_jelly: {
+      description: "A pantry staple, pandan jelly fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
     name: "pandan jelly",
     elementalProperties: { Fire: 0.05, Water: 0.45, Earth: 0.25, Air: 0.25 },
     qualities: ["fragrant", "refreshing"],
@@ -2361,7 +2977,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
+      pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
+      storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
+},
 };
 
 // Export processed ingredients

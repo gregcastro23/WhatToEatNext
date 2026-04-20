@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawMedicinalHerbs = {
   echinacea: {
+      description: "A genus of herbaceous flowering plants in the daisy family, traditionally used by Native Americans for its purported immune-boosting properties. When brewed as a tea or tincture, it provides an earthy, slightly floral, and numbing sensation on the tongue due to its high concentration of alkamides.",
     name: "Echinacea",
     elementalProperties: { Earth: 0.3, Fire: 0.4, Air: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.32, Essence: 0.21, Matter: 0.24, Substance: 0.23 },
@@ -321,9 +322,14 @@ const rawMedicinalHerbs = {
         respiratory_relief: "Works well with thyme and elecampane",
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+},
 
   elderberry: {
+      description: "The tiny, dark purple-black berries of the *Sambucus* tree. They are mildly toxic when raw and must be cooked, which transforms their astringent, earthy flavor into a deeply complex, floral, and rich syrup utilized in cordials, jams, and medicinal tinctures.",
     name: "Elderberry",
     elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.27, Air: 0.27 },
     alchemicalProperties: { Spirit: 0.16, Essence: 0.26, Matter: 0.29, Substance: 0.29 },
@@ -353,9 +359,15 @@ const rawMedicinalHerbs = {
       immune_support: "increases cytokine production",
       antioxidant: "high in flavonoids",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+},
 
   chamomile: {
+      description: "The delicate, daisy-like flowers of the *Matricaria* family, most commonly dried and consumed as a tisane (herbal tea). They impart a remarkably gentle, floral, and distinctively apple-like sweetness that infuses beautifully into light custards, panna cottas, and clear broths.",
     name: "Chamomile",
     elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.18, Air: 0.36 },
     alchemicalProperties: { Spirit: 0.20, Essence: 0.29, Matter: 0.25, Substance: 0.26 },
@@ -385,7 +397,12 @@ const rawMedicinalHerbs = {
       anti_inflammatory: "soothes digestive tract",
       sleep_aid: "promotes restful sleep",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

@@ -6,6 +6,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
 const rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
+      description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
     name: "Olive Oil",
     category: "oils",
     subCategory: "cooking",
@@ -25,6 +26,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ["e", "k"],
       antioxidants: ["oleocanthal", "oleuropein", "hydroxytyrosol"],
       notes: "Rich in monounsaturated fats and antioxidants",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -61,8 +64,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "coconut oil": {
+      description: "A foundational seasoning, coconut oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "coconut oil",
     category: "oils",
     elementalProperties: {
@@ -88,6 +95,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 0.8,
       vitamins: [],
       notes: "High in medium-chain triglycerides (MCTs)",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -102,8 +111,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Solidifies below room temperature",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   sesame_oil: {
+      description: "An incredibly potent oil pressed from sesame seeds (*Sesamum indicum*). Toasted sesame oil (dark brown) provides a massive burst of savory, nutty pyrazines and should be used exclusively as a finishing oil, while plain sesame oil (pale yellow) is neutral and suitable for cooking.",
     name: "Sesame Oil",
     category: "oils",
     subCategory: "finishing",
@@ -124,6 +138,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       minerals: ["calcium", "iron", "zinc"],
       antioxidants: ["sesamol", "sesamin", "sesamolin"],
       notes: "Distinctive nutty flavor, common in Asian cuisine",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       fresh: {
@@ -160,8 +175,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   ghee: {
+      description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
     name: "Ghee",
     category: "oils",
     subCategory: "cooking",
@@ -185,6 +204,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 3.7,
       vitamins: ["a", "d", "e", "k"],
       notes: "Clarified butter with high smoke point",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -199,8 +220,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "No refrigeration needed",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   avocado_oil: {
+      description: "An oil pressed from the fleshy pulp of avocados. It boasts the highest smoke point of any common culinary oil (up to 520°F / 271°C) and a very mild, buttery flavor, making it a premium choice for aggressive high-heat searing, grilling, and broiling.",
     name: "Avocado Oil",
     category: "oils",
     subCategory: "cooking",
@@ -225,6 +250,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ["e"],
       antioxidants: ["lutein"],
       notes: "High smoke point and neutral flavor",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -239,8 +266,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store away from direct light and heat",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "peanut oil": {
+      description: "A foundational seasoning, peanut oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "peanut oil",
     category: "oils",
     elementalProperties: {
@@ -266,6 +297,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 6.2,
       vitamins: ["e"],
       notes: "High smoke point, good for frying",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -280,8 +313,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store away from heat and light",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "mustard oil": {
+      description: "A foundational seasoning, mustard oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "mustard oil",
     category: "oils",
     elementalProperties: {
@@ -309,8 +347,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Keep tightly sealed",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "walnut oil": {
+      description: "A foundational seasoning, walnut oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "walnut oil",
     category: "oils",
     elementalProperties: {
@@ -336,6 +380,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 3.1,
       vitamins: ["e", "k"],
       notes: "Excellent omega-3 to omega-6 ratio, rich nutty flavor",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -350,8 +396,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Goes rancid quickly if not refrigerated",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "rice bran oil": {
+      description: "A foundational seasoning, rice bran oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "rice bran oil",
     category: "oils",
     elementalProperties: {
@@ -379,8 +430,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store in a cool, dark place",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "chili oil": {
+      description: "A foundational seasoning, chili oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "chili oil",
     category: "oils",
     elementalProperties: {
@@ -408,8 +465,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Keep away from direct sunlight",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "perilla oil": {
+      description: "A foundational seasoning, perilla oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "perilla oil",
     category: "oils",
     elementalProperties: {
@@ -437,8 +500,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Keep refrigerated to prevent rancidity",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "camellia oil": {
+      description: "A foundational seasoning, camellia oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "camellia oil",
     category: "oils",
     elementalProperties: {
@@ -466,8 +535,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store in a cool, dark place",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "grapeseed oil": {
+      description: "A foundational seasoning, grapeseed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "grapeseed oil",
     category: "oils",
     elementalProperties: {
@@ -494,6 +569,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ["e"],
       antioxidants: ["proanthocyanidins"],
       notes: "Light flavor and high smoke point",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -508,8 +585,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Can go rancid quickly if not stored properly",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "macadamia oil": {
+      description: "A foundational seasoning, macadamia oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "macadamia oil",
     category: "oils",
     elementalProperties: {
@@ -537,8 +619,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store in a cool, dark place",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "palm oil": {
+      description: "A foundational seasoning, palm oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "palm oil",
     category: "oils",
     elementalProperties: {
@@ -566,8 +654,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Solid at room temperature",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "tea seed oil": {
+      description: "A foundational seasoning, tea seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "tea seed oil",
     category: "oils",
     elementalProperties: {
@@ -595,8 +689,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Keep away from direct light",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "shiso oil": {
+      description: "A foundational seasoning, shiso oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "shiso oil",
     category: "oils",
     elementalProperties: {
@@ -624,8 +724,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Best used fresh, store cold",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "argan oil": {
+      description: "A foundational seasoning, argan oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "argan oil",
     category: "oils",
     elementalProperties: {
@@ -653,8 +759,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Keep tightly sealed in dark place",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "hazelnut oil": {
+      description: "A foundational seasoning, hazelnut oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "hazelnut oil",
     category: "oils",
     elementalProperties: {
@@ -682,8 +794,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Keep refrigerated to prevent rancidity",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "pistachio oil": {
+      description: "A foundational seasoning, pistachio oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "pistachio oil",
     category: "oils",
     elementalProperties: {
@@ -711,8 +829,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Store in refrigerator after opening",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "hemp seed oil": {
+      description: "A foundational seasoning, hemp seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "hemp seed oil",
     category: "oils",
     elementalProperties: {
@@ -740,8 +864,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Very sensitive to heat and light",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "black seed oil": {
+      description: "A foundational seasoning, black seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "black seed oil",
     category: "oils",
     elementalProperties: {
@@ -769,8 +899,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Keep tightly sealed in dark place",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "almond oil": {
+      description: "A foundational seasoning, almond oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "almond oil",
     category: "oils",
     elementalProperties: {
@@ -797,6 +933,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ["e"],
       minerals: ["magnesium", "phosphorus"],
       notes: "Rich in vitamin E and monounsaturated fats",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
     },
     preparation: {
       fresh: {
@@ -811,8 +948,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Keep refrigerated after opening",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "sunflower oil": {
+      description: "A foundational seasoning, sunflower oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "sunflower oil",
     category: "oils",
     elementalProperties: {
@@ -838,6 +980,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 2.7,
       vitamins: ["e"],
       notes: "High in vitamin E and polyunsaturated fats",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -852,8 +996,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store in a cool, dark place",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "safflower oil": {
+      description: "A foundational seasoning, safflower oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "safflower oil",
     category: "oils",
     elementalProperties: {
@@ -884,8 +1033,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store away from direct light",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "white truffle oil": {
+      description: "A foundational seasoning, white truffle oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "white truffle oil",
     category: "oils",
     elementalProperties: {
@@ -913,8 +1068,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Use within 6 months of opening",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "flaxseed oil": {
+      description: "A foundational seasoning, flaxseed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "flaxseed oil",
     category: "oils",
     elementalProperties: {
@@ -940,6 +1101,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 2.5,
       vitamins: ["e", "k"],
       notes: "Highest plant source of omega-3 fatty acids, never heat this oil",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -954,8 +1117,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Highly perishable, keep refrigerated",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "red palm oil": {
+      description: "A foundational seasoning, red palm oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "red palm oil",
     category: "oils",
     elementalProperties: {
@@ -983,8 +1151,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "May solidify at cooler temperatures",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "roasted pumpkin seed oil": {
+      description: "A foundational seasoning, roasted pumpkin seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "roasted pumpkin seed oil",
     category: "oils",
     elementalProperties: {
@@ -1016,8 +1190,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "refrigerated",
       notes: "Keep refrigerated after opening",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "mustard seed oil": {
+      description: "A foundational seasoning, mustard seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "mustard seed oil",
     category: "oils",
     elementalProperties: {
@@ -1049,8 +1229,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store in a cool, dark place",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "babassu oil": {
+      description: "A foundational seasoning, babassu oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "babassu oil",
     category: "oils",
     elementalProperties: {
@@ -1082,8 +1268,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Solid at room temperature",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "apricot kernel oil": {
+      description: "A foundational seasoning, apricot kernel oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "apricot kernel oil",
     category: "oils",
     elementalProperties: {
@@ -1111,8 +1303,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Keep away from direct light",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   "grape seed oil": {
+      description: "A foundational seasoning, grape seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
     name: "grape seed oil",
     category: "oils",
     elementalProperties: {
@@ -1139,6 +1337,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ["e"],
       antioxidants: ["proanthocyanidins"],
       notes: "Light flavor and high smoke point",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -1157,8 +1357,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: "room temperature",
       notes: "Store in a cool, dark place",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   canola_oil: {
+      description: "A highly refined, neutral-tasting vegetable oil extracted from a specific, low-erucic acid variety of the rapeseed plant. Its high smoke point (400°F / 204°C) and lack of flavor make it a ubiquitous, all-purpose oil for deep-frying, baking, and emulsifying mild mayonnaises.",
     name: "Canola Oil",
     category: "oils",
     subCategory: "cooking",
@@ -1177,6 +1382,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       omega_9_g: 8.8,
       vitamins: ["e", "k"],
       notes: "Low in saturated fats, good source of omega-3 fatty acids",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -1213,8 +1420,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
   mct_oil: {
+      description: "A highly refined supplement oil composed exclusively of Medium-Chain Triglycerides, typically extracted from coconut or palm kernel oil. Because these specific fats are metabolized rapidly by the liver rather than stored, it is extremely popular in ketogenic diets and 'bulletproof' coffee, possessing a completely neutral, flavorless profile.",
     name: "MCT Oil",
     category: "oils",
     subCategory: "specialty",
@@ -1231,6 +1442,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       medium_chain_triglycerides_g: 14,
       notes:
         "Contains only medium-chain triglycerides, rapidly metabolized by the body",
+        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
+        vitamins: {},
+        minerals: {}
     },
     preparation: {
       fresh: {
@@ -1271,7 +1485,10 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

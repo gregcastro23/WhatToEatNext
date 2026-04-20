@@ -26,6 +26,8 @@
     "build:cloudflare": "opennextjs-cloudflare build",
     "build:size-check": "next build && node scripts/check-route-sizes.cjs",
     "check-route-sizes": "node scripts/check-route-sizes.cjs",
+    "audit:ingredients": "TS_NODE_PROJECT=scripts/tsconfig.json node --loader ts-node/esm --no-warnings --max-old-space-size=4096 scripts/auditIngredients.ts",
+    "build:ingredient-recipe-index": "TS_NODE_PROJECT=scripts/tsconfig.json node --loader ts-node/esm --no-warnings --max-old-space-size=4096 scripts/buildIngredientRecipeIndex.ts",
     "types:api": "bash scripts/generate-api-types.sh",
     "generate-types": "bash scripts/generate-api-types.sh",
     "predev": "node scripts/check-node-version.cjs",

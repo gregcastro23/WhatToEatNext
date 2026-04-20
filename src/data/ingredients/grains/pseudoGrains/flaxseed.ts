@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawFlaxseed = {
   flaxseed: {
+      description: "A small, flat, teardrop-shaped seed (*Linum usitatissimum*) known for its high concentration of alpha-linolenic acid (an omega-3) and mucilaginous fiber. When ground and mixed with water, it forms a thick, gel-like paste that is heavily utilized as a vegan egg substitute in baking.",
     name: "Flaxseed",
     elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },
     astrologicalProfile: {
@@ -86,7 +87,9 @@ const rawFlaxseed = {
         selenium: 0.04,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] }
+},
 };
 
 export const flaxseed: Record<string, IngredientMapping> =

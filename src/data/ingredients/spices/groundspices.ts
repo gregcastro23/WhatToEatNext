@@ -4,6 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
   ground_cinnamon: {
+      description: "A warm, sweet spice derived from the inner bark of trees (*Cinnamomum*) that has been milled into a fine powder. It provides an immediate, profound aromatic warmth that rapidly integrates into batters, doughs, and complex savory spice blends like Garam Masala.",
     name: "Ground Cinnamon",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
@@ -93,7 +94,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: "as needed",
       notes: "Store in cool, dark place",
     },
-  },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

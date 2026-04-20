@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawBerries: Record<string, Partial<IngredientMapping>> = {
   blueberry: {
+      description: "Small, indigo-colored berries (*Vaccinium sect. Cyanococcus*) revered for their high levels of anthocyanins, a powerful antioxidant that gives them their color. Their high pectin content allows them to naturally thicken jams and sauces when heated, bursting to release a tart-sweet, jammy interior.",
     name: "Blueberry",
 
     // Base elemental properties (unscaled)
@@ -156,6 +157,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   raspberry: {
+      description: "A delicate, aggregate fruit (*Rubus idaeus*) composed of tightly packed drupelets around a hollow core. They are highly aromatic and naturally tart, meaning their bright flavor holds up beautifully against intense, rich counterparts like dark chocolate or heavy cream.",
     name: "Raspberry",
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
@@ -231,6 +233,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   strawberry: {
+      description: "A fragrant, deeply red accessory fruit (*Fragaria × ananassa*) bearing its seeds on the outside. Known for a perfect balance of malic acid and natural sugars, they soften quickly when cooked and release their vibrant juices, making them ideal for macerating, purees, and delicate desserts.",
     name: "Strawberry",
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
@@ -307,6 +310,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   blackberry: {
+      description: "An aggregate fruit (*Rubus*) composed of many tiny, juice-filled drupelets. They provide a complex, earthy, and slightly tart flavor with a noticeable seed crunch, cooking down beautifully into rich, dark jams and reductions that pair surprisingly well with game meats.",
     name: "Blackberry",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -377,6 +381,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   cranberry: {
+      description: "A small, exceptionally tart, and astringent berry (*Vaccinium macrocarpon*) native to North American bogs. Because of their intense acidity and low sugar content, they are rarely eaten raw; instead, they are cooked with sugar to create brightly colored, pectin-rich sauces that cut through rich holiday roasts.",
     name: "Cranberry",
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
@@ -447,6 +452,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   gooseberry: {
+      description: "A small, tart berry (*Ribes uva-crispa*) with translucent skin, often green or pale red, featuring faint vertical striping. Their sharp acidity makes them a classic ingredient in traditional British baking (like fools and crumbles) and a sharp, pectin-rich pairing for fatty fish like mackerel.",
     name: "Gooseberry",
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
@@ -510,6 +516,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   elderberry: {
+      description: "The tiny, dark purple-black berries of the *Sambucus* tree. They are mildly toxic when raw and must be cooked, which transforms their astringent, earthy flavor into a deeply complex, floral, and rich syrup utilized in cordials, jams, and medicinal tinctures.",
     name: "Elderberry",
     elementalProperties: { Water: 0.3, Air: 0.3, Earth: 0.3, Fire: 0.1 },
     astrologicalProfile: {
@@ -573,6 +580,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   mulberry: {
+      description: "A highly perishable, elongated berry (*Morus*) resembling an elongated blackberry. They offer an intensely sweet, earthy, and slightly woodsy flavor without the sharp tartness of other berries, though their delicate structure makes them difficult to transport commercially.",
     name: "Mulberry",
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -636,6 +644,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   goji_berry: {
+      description: "The bright red-orange fruit of the *Lycium barbarum* shrub, typically sold dried. They possess a complex, slightly sour, and earthy sweetness (reminiscent of a cross between a cranberry and a cherry tomato), commonly steeped in Chinese healing broths or used as a nutrient-dense topping for oatmeal.",
     name: "Goji Berry",
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     astrologicalProfile: {
@@ -706,6 +715,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   acai_berry: {
+      description: "A small, dark purple fruit (*Euterpe oleracea*) native to the Amazon rainforest. Highly perishable when fresh, it is usually sold as a frozen puree or freeze-dried powder, providing an earthy, unsweetened flavor profile with deep notes of blackberry and dark, unsweetened chocolate.",
     name: "Acai Berry",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -776,6 +786,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   currant_red: {
+      description: "A sweet edible plant product, currant red delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Red Currant",
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
@@ -839,6 +850,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   currant_black: {
+      description: "A sweet edible plant product, currant black delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Black Currant",
     elementalProperties: { Water: 0.3, Earth: 0.4, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
