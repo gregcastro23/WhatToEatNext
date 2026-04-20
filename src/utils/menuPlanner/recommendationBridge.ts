@@ -918,7 +918,7 @@ async function searchRecipesForDay(
         );
         costPerServing = estimate.costPerServing;
 
-        const budgetRatio = costPerServing / (budget as number);
+        const budgetRatio = costPerServing / (budget);
 
         if (budgetRatio > 1.5) {
           // Way over budget → heavy penalty

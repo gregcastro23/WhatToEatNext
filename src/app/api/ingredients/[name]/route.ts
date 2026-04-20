@@ -1,30 +1,11 @@
 import { NextResponse } from "next/server";
+import { getRecipesForIngredient, getRecipeCountForIngredient, getRecipesByCuisineForIngredient } from "@/data/ingredientRecipeIndex";
+import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
-import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { Recipe } from "@/types/recipe";
-import { getRecipesForIngredient, getRecipeCountForIngredient, getRecipesByCuisineForIngredient } from "@/data/ingredientRecipeIndex";
 
 export const dynamic = "force-dynamic";
-
-function normalizeName(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/**
- * Tokenized match: does `candidate` contain `target` as a word/substring?
- * We normalize both sides so "Basil, fresh" matches "basil".
- */
-function ingredientMatches(candidate: string, target: string): boolean {
-  const c = normalizeName(candidate);
-  const t = normalizeName(target);
-  if (!c || !t) return false;
-  return c.includes(t) || t.includes(c);
-}
 
 interface RelatedRecipe {
   id: string;
@@ -104,7 +85,7 @@ export async function GET(
       const recipe = recipeMap.get(match.recipeId);
       if (recipe) {
         relatedRecipes.push({
-          id: recipe.id as string,
+          id: recipe.id,
           name: recipe.name,
           cuisine: recipe.cuisine,
           description: recipe.description,

@@ -634,9 +634,6 @@ const rawEggs: Record<string, Partial<IngredientMapping>> = {
   },
 };
 
-export const eggs = fixIngredientMappings(rawEggs) as Record<
-  string,
-  IngredientMapping
->;
+export const eggs = fixIngredientMappings(rawEggs);
 
 export default eggs;

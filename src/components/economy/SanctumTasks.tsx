@@ -273,7 +273,6 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
 
   // Completion & reward summary
   const totalCount = allTasks.length;
-  const completedCount = allTasks.filter(q => !!q.completedAt).length;
   const claimableCount = allTasks.filter(q => !!q.completedAt && !q.claimedAt).length;
   const earnedCount = allTasks.filter(q => !!q.claimedAt).length;
   const claimableTokens = allTasks

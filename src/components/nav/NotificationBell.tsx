@@ -1,8 +1,8 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { formatNotificationTimeAgo, useNotifications } from '@/hooks/useNotifications';
 import { NOTIFICATION_STYLES } from '@/types/notification';
 

@@ -77,7 +77,8 @@ export default function PantryPage() {
             {items.length > 0 && (
               <button
                 onClick={() => {
-                  if (confirm("Clear all pantry items? This cannot be undone.")) {
+                  // eslint-disable-next-line no-alert
+                  if (window.confirm("Clear all pantry items? This cannot be undone.")) {
                     clear();
                   }
                 }}

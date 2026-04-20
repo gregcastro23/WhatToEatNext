@@ -15,9 +15,9 @@ import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import { instacartService } from "@/services/InstacartService";
-import type { DietaryMode } from "@/utils/dietaryAdaptation";
 import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
+import type { DietaryMode } from "@/utils/dietaryAdaptation";
 import type { TimeBudget } from "@/utils/timeShortcuts";
 
 // Define constant keys for vitamins and minerals based on NutritionalSummary

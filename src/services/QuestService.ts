@@ -15,8 +15,8 @@ import type {
   TokenType,
 } from "@/types/economy";
 import { TOKEN_TYPES } from "@/types/economy";
-import { tokenEconomy } from "./TokenEconomyService";
 import { notificationDatabase } from "./notificationDatabaseService";
+import { tokenEconomy } from "./TokenEconomyService";
 
 // ─── DB Bootstrapping ─────────────────────────────────────────────────
 
