@@ -3,6 +3,7 @@ import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { Recipe } from "@/types/recipe";
+import { getRecipesForIngredient, getRecipeCountForIngredient, getRecipesByCuisineForIngredient } from "@/data/ingredientRecipeIndex";
 
 export const dynamic = "force-dynamic";
 
@@ -84,17 +85,24 @@ export async function GET(
     const ingredientService = IngredientService.getInstance();
     const ingredient = ingredientService.getIngredientByName(ingredientName);
 
-    // Find recipes using this ingredient
+    // Resolve canonical slug for the recipe index
+    const canonicalName = ingredient?.name || ingredientName;
+    const slug = canonicalName.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/(^_|_$)/g, '');
+
+    // Get from pre-computed recipe index
+    const matches = getRecipesForIngredient(slug);
+    const totalRecipeMatches = getRecipeCountForIngredient(slug);
+    const recipesByCuisine = getRecipesByCuisineForIngredient(slug);
+
+    // Enhance the top 24 recipes with detailed timing info for the UI
     const recipeService = UnifiedRecipeService.getInstance();
     const allRecipes = await recipeService.getAllRecipes();
+    const recipeMap = new Map(allRecipes.map((r) => [r.id, r]));
 
     const relatedRecipes: RelatedRecipe[] = [];
-    for (const recipe of allRecipes) {
-      if (!Array.isArray(recipe.ingredients)) continue;
-      const match = recipe.ingredients.find((ing) =>
-        ing?.name ? ingredientMatches(ing.name, ingredientName) : false,
-      );
-      if (match) {
+    for (const match of matches) {
+      const recipe = recipeMap.get(match.recipeId);
+      if (recipe) {
         relatedRecipes.push({
           id: recipe.id as string,
           name: recipe.name,
@@ -106,7 +114,16 @@ export async function GET(
             (recipe as { baseServingSize?: number }).baseServingSize ||
             recipe.servingSize ||
             recipe.numberOfServings,
-          amount: match.amount,
+          amount: typeof match.amount === "number" ? match.amount : undefined,
+          unit: match.unit,
+        });
+      } else {
+        // Fallback if not loaded in memory
+        relatedRecipes.push({
+          id: match.recipeId,
+          name: match.recipeName,
+          cuisine: match.cuisine,
+          amount: typeof match.amount === "number" ? match.amount : undefined,
           unit: match.unit,
         });
       }
@@ -119,8 +136,9 @@ export async function GET(
       success: true,
       ingredient: ingredient ?? null,
       relatedRecipes,
+      recipesByCuisine,
       substitutions,
-      totalRecipeMatches: relatedRecipes.length,
+      totalRecipeMatches,
     });
   } catch (error) {
     console.error("[ingredients/:name] Error:", error);

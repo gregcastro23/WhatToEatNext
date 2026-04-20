@@ -39,14 +39,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         minerals: {}
     },
     sensoryProfile: {
-      taste: {
-        sweet: 0.0,
-        salty: 0.0,
-        sour: 0.0,
-        bitter: 0.3,
-        umami: 0.2,
-        spicy: 0.1,
-      },
+      taste: { sweet: 0.1, salty: 0, sour: 0, bitter: 0.2, umami: 0, spicy: 0.1, rich: 0.8 },
       aroma: {
         floral: 0.2,
         fruity: 0.7,
@@ -1646,7 +1639,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   roasted_pumpkin_seed_oil: {
-      description: "A culinary fat, roasted pumpkin seed oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
     name: "Roasted Pumpkin Seed Oil",
     category: "oils",
     subCategory: "finishing",
@@ -1697,7 +1690,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   mustard_seed_oil: {
-      description: "A culinary fat, mustard seed oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "A pungent condiment made from the crushed seeds of various mustard plants (*Brassica* and *Sinapis* species), blended with water, vinegar, or wine. The sharp heat comes from isothiocyanates, which develop when enzymes are activated by liquid. Mustard acts as both a flavor amplifier and a powerful culinary emulsifier, crucial for stabilizing vinaigrettes and binding rich sauces. Dijon offers sharp tang, whole-grain provides texture, and yellow mustard delivers mild, turmeric-tinted brightness.",
     name: "Mustard Seed Oil",
     category: "oils",
     subCategory: "cooking",
@@ -2043,7 +2036,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   // NEW OILS BELOW
 
   basil_infused_olive_oil: {
-      description: "A culinary fat, basil infused olive oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.\n\n**Selection & Storage:** Choose vibrant, unblemished leaves; avoid any with black spots. Store fresh basil like a bouquet of flowers: stems in a glass of water at room temperature, loosely covered with a plastic bag.",
     name: "Basil-Infused Olive Oil",
     category: "oils",
     subCategory: "finishing",
@@ -2090,7 +2083,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   garlic_infused_olive_oil: {
-      description: "A culinary fat, garlic infused olive oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows dramatically into deep, sweet nuttiness when roasted whole or slow-sautéed in fat. Look for firm, heavy bulbs with dry, unbroken papery skins and no green shoots — green means sprouting and bitterness.",
     name: "Garlic-Infused Olive Oil",
     category: "oils",
     subCategory: "finishing",
@@ -2141,7 +2134,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   lemon_infused_olive_oil: {
-      description: "A culinary fat, lemon infused olive oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "The oval yellow citrus fruit (*Citrus × limon*) delivering 5–6% citric acid plus fragrant d-limonene in the peel — essentially a complete seasoning of acid, aroma, and brightness in one package. Meyer lemons are sweeter with floral notes; Eureka and Lisbon are standard supermarket varieties. Use the whole fruit: zest for aroma (before juicing — the tool ruins the peel otherwise), juice for acid, rind for preserved lemons. Rolling the lemon before cutting breaks internal membranes and yields more juice.",
     name: "Lemon-Infused Olive Oil",
     category: "oils",
     subCategory: "finishing",

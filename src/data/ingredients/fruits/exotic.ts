@@ -513,7 +513,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   loquat_exotic: {
-      description: "A sweet edible plant product, loquat exotic delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.\n\n**Selection & Storage:** They are highly delicate and bruise easily. Choose bright orange fruit that gives slightly to pressure. Store in the refrigerator and eat quickly.",
     name: "Loquat",
     elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
     quantityBase: { amount: 149, unit: "g" },
@@ -585,7 +585,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   cactus_pear: {
-      description: "A sweet edible plant product, cactus pear delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A delicate pome fruit (*Pyrus communis*) that ripens from the inside out, transforming from crunchy to buttery-soft. Its high sugar content and delicate floral notes make it excellent for eating raw, poaching in wine, or pairing with sharp blue cheeses.\n\n**Selection & Storage:** Purchase pears while still firm; they are ripe when the flesh yields slightly to gentle pressure at the stem end. Ripen at room temperature, then transfer to the refrigerator to pause the ripening process.",
     name: "Cactus Pear (Prickly Pear)",
     elementalProperties: { Water: 0.5, Earth: 0.2, Fire: 0.2, Air: 0.1 },
     quantityBase: { amount: 103, unit: "g" },
@@ -657,7 +657,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   quince_exotic: {
-      description: "A sweet edible plant product, quince exotic delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).\n\n**Selection & Storage:** Choose firm, bright yellow fruit that emits a powerful, floral, and rosy aroma. Store at room temperature for several days, or in the refrigerator for up to a month.",
     name: "Quince",
     elementalProperties: { Earth: 0.6, Air: 0.2, Water: 0.2, Fire: 0.0 },
     quantityBase: { amount: 100, unit: "g" },
@@ -801,7 +801,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   custard_apple: {
-      description: "A sweet edible plant product, custard apple delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.\n\n**Selection & Storage:** Look for firm apples with vibrant coloring and smooth skin that feel heavy for their size. Store them in the crisper drawer of the refrigerator to maintain their crispness, as they soften ten times faster at room temperature.",
     name: "Custard Apple (Cherimoya)",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     quantityBase: { amount: 100, unit: "g" },

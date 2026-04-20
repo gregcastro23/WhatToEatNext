@@ -62,7 +62,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       },
     },
     sensoryProfile: {
-      taste: { sweet: 0.1, salty: 0.1, sour: 0, bitter: 0.05, umami: 0.9, spicy: 0 },
+      taste: { spicy: 0, sweet: 0.1, sour: 0, bitter: 0.1, salty: 0.2, umami: 0.9 },
       aroma: { floral: 0, fruity: 0.05, herbal: 0, earthy: 0.6, woody: 0.3, spicy: 0 },
       texture: { crisp: 0.1, tender: 0.5, creamy: 0.1, chewy: 0.4, crunchy: 0, silky: 0 },
     },

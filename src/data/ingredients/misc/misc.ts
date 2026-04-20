@@ -23,7 +23,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      sensoryProfile: { taste: { sweet: 1, salty: 0, sour: 0, bitter: 0, umami: 0, spicy: 0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
       pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
@@ -48,7 +48,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.33, zinc: 0.03, calcium: 0.02, potassium: 0.01 },
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.9, sour: 0, bitter: 0.1, salty: 0, umami: 0.1 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
       pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
@@ -169,7 +169,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.01, potassium: 0.01 },
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.9, sour: 0.1, bitter: 0.1, salty: 0, umami: 0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
       pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
@@ -199,7 +199,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pumpkin_puree: {
-      description: "A pantry staple, pumpkin puree fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
     name: "pumpkin puree",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.4, Air: 0.05 },
     qualities: ["smooth", "earthy"],
@@ -223,7 +223,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pecans: {
-      description: "A pantry staple, pecans fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A buttery, rich tree nut (*Carya illinoinensis*) native to North America, boasting one of the highest fat contents of any nut. This fat gives them a melt-in-the-mouth texture and a naturally sweet, maple-like flavor that makes them a classic pairing for caramel and brown sugar.\n\n**Selection & Storage:** Look for uniform, plump halves without excessive broken pieces. Like walnuts, their high fat content makes them prone to spoiling quickly; store them in the refrigerator or freezer.",
     name: "pecans",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["rich", "buttery"],
@@ -271,7 +271,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   walnuts: {
-      description: "A pantry staple, walnuts fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A brain-shaped tree nut (*Juglans regia*) known for its high concentration of polyunsaturated fats (omega-3s) and a slightly bitter, astringent papery skin. Toasting them mellows this bitterness, bringing forward a rich, buttery, and deeply earthy flavor that pairs beautifully with dark chocolate or blue cheese.\n\n**Selection & Storage:** Buy shelled walnuts that look plump and light-colored; shriveled or very dark nuts may be old. They are highly susceptible to rancidity, so always store them in an airtight container in the freezer.",
     name: "walnuts",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["rich", "earthy"],
@@ -343,7 +343,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mustard: {
-      description: "A pantry staple, mustard fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A pungent condiment made from the crushed seeds of various mustard plants (*Brassica* and *Sinapis* species), blended with water, vinegar, or wine. The sharp heat comes from isothiocyanates, which develop when enzymes are activated by liquid. Mustard acts as both a flavor amplifier and a powerful culinary emulsifier, crucial for stabilizing vinaigrettes and binding rich sauces. Dijon offers sharp tang, whole-grain provides texture, and yellow mustard delivers mild, turmeric-tinted brightness.",
     name: "mustard",
     elementalProperties: { Fire: 0.4, Water: 0.25, Earth: 0.2, Air: 0.15 },
     qualities: ["pungent", "sharp"],
@@ -391,7 +391,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   clams: {
-      description: "A pantry staple, clams fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A bivalve mollusk providing a briny, chewy, and distinctly oceanic flavor. Hard-shell clams (like littlenecks or cherrystones) are perfect for eating raw or tossing into pastas, while softer-shelled varieties (like steamers) are excellent for frying or broths.\n\n**Selection & Storage:** Buy clams that are tightly closed; if slightly open, they should snap shut when tapped. Store them in a breathable bag or bowl covered with a damp cloth in the refrigerator.",
     name: "clams",
     elementalProperties: { Fire: 0.1, Water: 0.55, Earth: 0.25, Air: 0.1 },
     qualities: ["briny", "tender"],
@@ -439,7 +439,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   lobster_meat: {
-      description: "A pantry staple, lobster meat fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A large marine crustacean whose meat is synonymous with luxury, offering an incredibly sweet, rich flavor and a firm, snappy texture. The tail provides dense, meaty portions, while the claws yield softer, more delicate meat that bathes perfectly in drawn butter.\n\n**Selection & Storage:** Live lobsters should be highly active and hold their tails tightly curled when picked up. Cook live lobsters the day you buy them; keep them in the refrigerator wrapped in damp newspaper, never in fresh water.",
     name: "lobster meat",
     elementalProperties: { Fire: 0.15, Water: 0.5, Earth: 0.25, Air: 0.1 },
     qualities: ["sweet", "luxurious"],
@@ -511,7 +511,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sliced_turkey: {
-      description: "A pantry staple, sliced turkey fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
     name: "sliced turkey",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.35, Air: 0.15 },
     qualities: ["lean", "mild"],
@@ -535,7 +535,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cranberry_sauce: {
-      description: "A pantry staple, cranberry sauce fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A small, exceptionally tart, and astringent berry (*Vaccinium macrocarpon*) native to North American bogs. Because of their intense acidity and low sugar content, they are rarely eaten raw; instead, they are cooked with sugar to create brightly colored, pectin-rich sauces that cut through rich holiday roasts.\n\n**Selection & Storage:** Fresh cranberries should be firm, plump, and bright red; they should bounce if dropped. Store fresh berries in the refrigerator for up to a month, or freeze them indefinitely.",
     name: "cranberry sauce",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "tart"],
@@ -631,7 +631,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   lamb_chops: {
-      description: "A pantry staple, lamb chops fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "The meat of young domestic sheep (*Ovis aries*), renowned for its distinctive, slightly gamey, and grassy flavor profile, caused by branched-chain fatty acids in its fat. It pairs beautifully with strong, astringent aromatics like rosemary, mint, and garlic that cut through its rich intensity.\n\n**Selection & Storage:** Choose cuts with a light, rosy-red color and stark white, firm fat; dark red meat indicates an older animal (mutton). Keep tightly wrapped in the coldest section of the refrigerator and cook within 3-5 days.",
     name: "lamb chops",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "tender"],
@@ -679,7 +679,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   whole_turkey: {
-      description: "A pantry staple, whole turkey fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
     name: "whole turkey",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.35, Air: 0.15 },
     qualities: ["hearty", "lean"],
@@ -727,7 +727,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   chocolate_chips: {
-      description: "A pantry staple, chocolate chips fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
     name: "chocolate chips",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.4, Air: 0.15 },
     qualities: ["sweet", "rich"],
@@ -823,7 +823,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   marshmallows: {
-      description: "A pantry staple, marshmallows fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A highly aerated, spongy confection originally made from the mucilaginous sap of the marsh-mallow plant (*Althaea officinalis*), but modernly constructed from a whipped matrix of sugar, corn syrup, and gelatin. It is a structural marvel, trapping massive amounts of air that expand and violently caramelize when exposed to the intense heat of an open flame.\n\n**Selection & Storage:** Keep tightly sealed in a dry pantry; exposure to ambient humidity will cause them to become sticky, while extreme dryness will turn them stale and hard.",
     name: "marshmallows",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 },
     qualities: ["sweet", "fluffy"],
@@ -847,7 +847,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   chocolate_sauce: {
-      description: "A pantry staple, chocolate sauce fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
     name: "chocolate sauce",
     elementalProperties: { Fire: 0.25, Water: 0.3, Earth: 0.3, Air: 0.15 },
     qualities: ["sweet", "rich"],
@@ -961,7 +961,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.25 },
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      sensoryProfile: { taste: { salty: 1, sweet: 0, sour: 0, bitter: 0, umami: 0, spicy: 0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
       pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
@@ -1015,7 +1015,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   whole_duck: {
-      description: "A pantry staple, whole duck fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A rich, fatty waterfowl (*Anas platyrhynchos*) known for its dark, deeply flavorful meat and thick layer of subcutaneous fat. Unlike chicken, its breast meat is typically served medium-rare to maintain tenderness, while the legs are slowly braised (often in their own fat as confit) to break down tough collagen.\n\n**Selection & Storage:** Look for plump birds or breasts with an intact, creamy white layer of skin and fat. Store in the coldest part of the refrigerator and cook within two days, or freeze.",
     name: "whole duck",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "fatty"],
@@ -1087,7 +1087,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   nuts: {
-      description: "A pantry staple, nuts fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Hard-shelled seeds of various trees, valued for their dense concentration of fats, proteins, and rich, earthy flavors. While botanical definitions vary, culinary nuts encompass everything from walnuts and pecans to almonds and cashews. Their high oil content makes them prone to rancidity but also allows them to toast beautifully, enhancing their crunch and deepening their aromatic profile via the Maillard reaction. Store in the freezer to prolong freshness.",
     name: "nuts",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["crunchy", "rich"],
@@ -1183,7 +1183,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   granulated_sugar: {
-      description: "A pantry staple, granulated sugar fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
     name: "granulated sugar",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "pure"],
@@ -1201,7 +1201,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: {},
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      sensoryProfile: { taste: { sweet: 1, salty: 0, sour: 0, bitter: 0, umami: 0, spicy: 0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
       pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
@@ -1303,7 +1303,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   baguette: {
-      description: "A pantry staple, baguette fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A classic French yeast bread characterized by its elongated shape, crisp, deeply browned crust, and chewy, open-crumb interior. Built from a lean dough of simply flour, water, yeast, and salt, its texture relies on a slow fermentation and baking in a steam-injected oven. Highly perishable due to its lack of fat, it is best consumed the day it is baked or repurposed into crostini, croutons, or bread pudding.",
     name: "baguette",
     elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.35, Air: 0.25 },
     qualities: ["crusty", "chewy"],
@@ -1423,7 +1423,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   bacon_or_pancetta: {
-      description: "A pantry staple, bacon or pancetta fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "An Italian salumi made from pork belly meat that is salt-cured, heavily seasoned with black pepper, and often rolled into a tight cylinder (*arrotolata*), but importantly, it is not smoked. It provides a rich, porky saltiness to dishes without the overwhelming wood-smoke flavor of bacon.\n\n**Selection & Storage:** Buy whole pieces if using for cooking (to dice into lardons) or thinly sliced for wrapping. Store tightly sealed in the refrigerator for up to 3 weeks.",
     name: "bacon or pancetta",
     elementalProperties: { Fire: 0.4, Water: 0.15, Earth: 0.35, Air: 0.1 },
     qualities: ["salty", "smoky"],
@@ -1447,7 +1447,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sugar_for_caramelizing: {
-      description: "A pantry staple, sugar for caramelizing fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
     name: "sugar for caramelizing",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "transformative"],
@@ -1543,7 +1543,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   phyllo_dough: {
-      description: "A pantry staple, phyllo dough fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Paper-thin sheets of unleavened flour-and-water dough, central to Middle Eastern and Balkan pastries like baklava and spanakopita. Lacking internal fat, phyllo relies on being layered and individually brushed with melted butter or oil before baking, resulting in a shatteringly crisp, flaky structure. It dries out and cracks rapidly when exposed to air, requiring cooks to keep unused sheets covered with a damp towel during assembly.",
     name: "phyllo dough",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.3, Air: 0.4 },
     qualities: ["paper-thin", "crispy"],
@@ -1759,7 +1759,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   black_salt: {
-      description: "A pantry staple, black salt fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "The mineral sodium chloride (NaCl), the single most important culinary seasoning — amplifier of sweetness, suppressor of bitterness, enabler of fermentation, and the substance without which most cooking falls flat. Form matters: table salt dissolves fast for baking; kosher has large flakes that coat meats evenly; fleur de sel and Maldon finish with crunch and bright brine. Salt early in cooking for penetration, at the end for texture; sprinkle deliberately rather than reflexively.",
     name: "black salt",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.55, Air: 0.1 },
     qualities: ["sulfurous", "pungent"],
@@ -1807,7 +1807,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pistachios: {
-      description: "A pantry staple, pistachios fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "The mildly sweet, pale green seed of a desert tree (*Pistacia vera*) encased in a hard, beige shell. They offer a rich, earthy, and distinctly piney flavor, making them equally prized as a standalone snack, folded into mortadella, or ground into sweet Middle Eastern pastries like baklava.\n\n**Selection & Storage:** Look for pistachios with partially open shells, indicating full maturity. Store shelled pistachios in an airtight container in the refrigerator or freezer to protect their delicate oils.",
     name: "pistachios",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["nutty", "slightly sweet"],
@@ -1831,7 +1831,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   almond_granita: {
-      description: "A pantry staple, almond granita fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A teardrop-shaped tree nut (*Prunus dulcis*) prized for its subtle sweetness, woody flavor, and firm crunch. Blanched almonds (skins removed) are often ground into fine flours for delicate pastries like macarons, while skin-on, roasted almonds provide robust texture and bitterness to savory dishes.\n\n**Selection & Storage:** Choose almonds that smell sweet and nutty, avoiding any that smell sharp or like paint (a sign of rancidity). Store them in an airtight container in the refrigerator or freezer to preserve their volatile oils.",
     name: "almond granita",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     qualities: ["icy", "sweet"],
@@ -1927,7 +1927,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   dashi: {
-      description: "A pantry staple, dashi fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "The foundational soup stock of Japanese cuisine, typically built from *kombu* (kelp) and *katsuobushi* (dried, fermented bonito flakes). This elemental pairing creates an intense synergy of glutamates and inosinates, yielding a profound, clear umami broth in minutes without the long simmering required for Western meat stocks. Dashi forms the backbone of miso soup, noodle broths, and simmering liquids, imparting a distinct, refined oceanic depth to dishes.",
     name: "dashi",
     elementalProperties: { Fire: 0.1, Water: 0.55, Earth: 0.2, Air: 0.15 },
     qualities: ["umami", "delicate"],
@@ -1993,7 +1993,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.38, iron: 0.02, manganese: 0.04 },
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.1, sour: 0.1, bitter: 0.3, salty: 0.8, umami: 0.9 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
       pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
@@ -2023,7 +2023,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   aged_kimchi: {
-      description: "A pantry staple, aged kimchi fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A traditional Korean side dish (banchan) of salted and fermented vegetables, most commonly napa cabbage and Korean radishes. It is fermented by lactic acid bacteria in a paste of gochugaru, garlic, ginger, and salted seafood, resulting in a profoundly complex, sour, spicy, and umami-rich flavor.\n\n**Selection & Storage:** Kimchi is a living food; it will continue to ferment and sour over time. Keep it tightly sealed in the refrigerator; older, sour kimchi is superior for cooking stews (jjigae).",
     name: "aged kimchi",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["fermented", "pungent"],
@@ -2113,7 +2113,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       minerals: { sodium: 0.24, iron: 0.02 },
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0.1, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
+      sensoryProfile: { taste: { spicy: 0.7, sweet: 0.1, sour: 0.8, bitter: 0.1, salty: 0.6, umami: 0.7 }, aroma: { neutral: 0.5 }, texture: { varied: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["functional"], secondary: ["supporting"], notes: "Used to modify texture, balance, or finish." }, cookingMethods: ["mix", "fold", "bloom", "dissolve"], cuisineAffinity: ["global"], preparationTips: ["Measure carefully — small amounts have big impact.", "Store per label guidance."] },
       pairingRecommendations: { complementary: ["base ingredient", "salt", "acid"], contrasting: [], toAvoid: [] },
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
@@ -2215,7 +2215,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sesame_seeds: {
-      description: "A pantry staple, sesame seeds fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Tiny, oil-rich seeds (*Sesamum indicum*) available in white, black, and brown varieties. Toasting them is essential to release their volatile aromatics, which provide an intensely nutty, savory, and almost meaty flavor profile that defines many Asian and Middle Eastern cuisines.\n\n**Selection & Storage:** Look for seeds that smell fresh and sweet. Because they are mostly oil, store them in a tightly sealed container in the refrigerator or freezer to prevent them from going rancid quickly.",
     name: "sesame seeds",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["nutty", "crunchy"],
@@ -2335,7 +2335,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   chocolate: {
-      description: "A pantry staple, chocolate fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
     name: "chocolate",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.35, Air: 0.15 },
     qualities: ["sweet", "rich"],
@@ -2359,7 +2359,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   poblano_chiles: {
-      description: "A pantry staple, poblano chiles fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A mild to moderately hot, dark green chili pepper (*Capsicum annuum*). Its thick flesh and wide cavity make it the premier choice for stuffing (as in Chiles Rellenos), and roasting it transforms its mild, earthy flavor into something deeply savory, rich, and slightly sweet.\n\n**Selection & Storage:** Select dark green, firm peppers that feel heavy for their size. Store in the crisper drawer, though they are best roasted and peeled soon after purchase.",
     name: "poblano chiles",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["mild", "earthy"],
@@ -2431,7 +2431,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   lamb_shoulder: {
-      description: "A pantry staple, lamb shoulder fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "The meat of young domestic sheep (*Ovis aries*), renowned for its distinctive, slightly gamey, and grassy flavor profile, caused by branched-chain fatty acids in its fat. It pairs beautifully with strong, astringent aromatics like rosemary, mint, and garlic that cut through its rich intensity.\n\n**Selection & Storage:** Choose cuts with a light, rosy-red color and stark white, firm fat; dark red meat indicates an older animal (mutton). Keep tightly wrapped in the coldest section of the refrigerator and cook within 3-5 days.",
     name: "lamb shoulder",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "succulent"],
@@ -2479,7 +2479,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pine_nuts: {
-      description: "A pantry staple, pine nuts fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "The small, teardrop-shaped edible seeds extracted from the cones of certain pine trees (*Pinus*). They possess a soft texture and a sweet, intensely buttery, and slightly resinous flavor that is greatly amplified by light toasting, serving as the essential base for classic Genovese pesto.\n\n**Selection & Storage:** Due to their exceptionally high oil content, they are highly prone to rancidity. Always store pine nuts in an airtight container in the refrigerator or freezer.",
     name: "pine nuts",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["buttery", "delicate"],
@@ -2527,7 +2527,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pickles: {
-      description: "A pantry staple, pickles fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Vegetables or fruits preserved through anaerobic fermentation in brine or immersion in vinegar, resulting in a tart, tangy, and often crunchy condiment. Lactic acid bacteria produce the complex sourness in naturally fermented pickles, while vinegar-based pickles rely on acetic acid. They provide an essential acidic counterpoint to rich, fatty, or umami-heavy dishes, acting as a palate cleanser in sandwiches, burgers, and traditional charcuterie boards.",
     name: "pickles",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.2, Air: 0.2 },
     qualities: ["sour", "crunchy"],
@@ -2551,7 +2551,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   green_papaya: {
-      description: "A pantry staple, green papaya fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A large, tropical berry (*Carica papaya*) featuring vibrant orange flesh and a central cavity filled with peppery, edible black seeds. It contains papain, a powerful proteolytic enzyme used globally as a meat tenderizer, and offers a sweet, slightly musky, and floral flavor.\n\n**Selection & Storage:** A ripe papaya will be mostly yellow/orange and yield to gentle pressure. Ripen at room temperature, then store in the refrigerator; green papaya is used unripe as a crisp vegetable in Southeast Asian salads.",
     name: "green papaya",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["crunchy", "mild"],
@@ -2695,7 +2695,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   palm_sugar: {
-      description: "A pantry staple, palm sugar fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
     name: "palm sugar",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "caramel"],
@@ -2791,7 +2791,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   kabocha_pumpkin: {
-      description: "A pantry staple, kabocha pumpkin fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
     name: "kabocha pumpkin",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "starchy"],
@@ -2839,7 +2839,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   tapioca_starch: {
-      description: "A pantry staple, tapioca starch fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "A pure starch extracted from the storage roots of the cassava plant (*Manihot esculenta*). It provides a remarkably chewy, elastic texture when formed into pearls (boba), or acts as an excellent thickener for fruit pies, creating a perfectly clear gel that doesn't break down when frozen.\n\n**Selection & Storage:** Available as flour, flakes, or pearls. Store in an airtight container in a cool, dark pantry; it has an exceptionally long shelf life.",
     name: "tapioca starch",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.55, Air: 0.15 },
     qualities: ["starchy", "thickening"],
@@ -2935,7 +2935,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pickled_vegetables: {
-      description: "A pantry staple, pickled vegetables fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Any edible plant material — leaves, roots, stems, tubers, flowers, fruits used as savory ingredients — delivering fiber, vitamins, phytochemicals, and the flavor backbone of non-meat-forward cooking. Treat by structural group: hard roots (carrots, beets) need more heat and time; leafy greens cook in seconds; fungi need dry heat to develop depth; brassicas reward high heat for caramelization and charring. Freshness matters more than variety — a peak-season common vegetable beats an out-of-season rare one.",
     name: "pickled vegetables",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["tangy", "crunchy"],

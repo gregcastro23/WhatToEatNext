@@ -4,7 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Beverages ingredients extracted from cuisine files
 const rawBeverages: Record<string, Partial<IngredientMapping>> = {
   red_wine_vinaigrette: {
-      description: "A liquid consumable, red wine vinaigrette functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
+      description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
     name: "red wine vinaigrette",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
     scaledElemental: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
@@ -45,7 +45,7 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   clam_juice: {
-      description: "A liquid consumable, clam juice functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
+      description: "A bivalve mollusk providing a briny, chewy, and distinctly oceanic flavor. Hard-shell clams (like littlenecks or cherrystones) are perfect for eating raw or tossing into pastas, while softer-shelled varieties (like steamers) are excellent for frying or broths.\n\n**Selection & Storage:** Buy clams that are tightly closed; if slightly open, they should snap shut when tapped. Store them in a breathable bag or bowl covered with a damp cloth in the refrigerator.",
     name: "clam juice",
     elementalProperties: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
     scaledElemental: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
@@ -168,7 +168,7 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   turkey_stock: {
-      description: "A liquid consumable, turkey stock functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
+      description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
     name: "turkey stock",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
     scaledElemental: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
@@ -332,7 +332,7 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   dry_white_wine: {
-      description: "A liquid consumable, dry white wine functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
+      description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
     name: "dry white wine",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.1, Air: 0.3 },
     scaledElemental: { Fire: 0.1, Water: 0.5, Earth: 0.1, Air: 0.3 },
@@ -455,7 +455,7 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   rose_water: {
-      description: "A liquid consumable, rose water functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
+      description: "The universal solvent and culinary liquid — mineral content and temperature both matter more than is usually recognized. Hard water (high calcium, magnesium) inhibits yeast and affects coffee extraction; filtered or bottled water produces cleaner stock and clearer broth. Ice-cold water relaxes doughs; just-off-boil water extracts tea; room-temperature water shortens rest times in pastry. Recipe measurements assume volumetric consistency — weigh water (1 mL = 1 g) for precision in baking.",
     name: "rose water",
     elementalProperties: { Fire: 0.0, Water: 0.6, Earth: 0.0, Air: 0.4 },
     scaledElemental: { Fire: 0.0, Water: 0.6, Earth: 0.0, Air: 0.4 },
@@ -496,7 +496,7 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   water_chestnuts: {
-      description: "A liquid consumable, water chestnuts functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
+      description: "An aquatic tuber (*Eleocharis dulcis*) grown in marshes, prized for a structural uniqueness: it retains a profound, apple-like crispness even after prolonged cooking. Its mild sweetness provides essential textural contrast in rich stir-fries and dim sum fillings.\n\n**Selection & Storage:** Fresh water chestnuts are superior but difficult to find; look for firm, unwrinkled tubers. Canned ones are widely available; rinse well to remove any tinny flavor before using.",
     name: "water chestnuts",
     elementalProperties: { Fire: 0.0, Water: 0.4, Earth: 0.4, Air: 0.2 },
     scaledElemental: { Fire: 0.0, Water: 0.4, Earth: 0.4, Air: 0.2 },

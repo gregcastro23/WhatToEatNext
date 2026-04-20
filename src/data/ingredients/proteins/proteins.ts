@@ -36,7 +36,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   ground_beef: {
-      description: "A protein-rich ingredient, ground beef provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "ground beef",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "hearty", "savory"],
@@ -68,7 +68,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   grilled_chicken: {
-      description: "A protein-rich ingredient, grilled chicken provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A globally ubiquitous poultry (*Gallus gallus domesticus*) prized for its mild flavor and versatility. Its culinary behavior depends on the cut: lean, fast-cooking breast meat dries out easily, while fat- and collagen-rich thighs and drumsticks become unctuous and tender with slow braising or high-heat roasting.\n\n**Selection & Storage:** Fresh chicken should have pinkish, firm flesh, white fat, and no strong odor. Store in the coldest part of the refrigerator (usually the bottom shelf) in its original packaging for 1-2 days, or freeze for longer storage.",
     name: "grilled chicken",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "versatile", "high-protein"],
@@ -100,7 +100,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   hard_boiled_eggs: {
-      description: "A protein-rich ingredient, hard boiled eggs provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening in a single package. Yolks carry fat, lecithin (an emulsifier), and most of the flavor; whites are primarily water and coagulable proteins (ovalbumin, ovotransferrin) that unfold and bond when heated or whipped. Fresh eggs peel poorly when hard-boiled; slightly older eggs shed shells cleanly. Store pointed-end-down at 35–40°F.",
     name: "hard-boiled eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -131,7 +131,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   pork_ribs: {
-      description: "A protein-rich ingredient, pork ribs provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork ribs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -161,7 +161,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   chicken_pieces: {
-      description: "A protein-rich ingredient, chicken pieces provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A globally ubiquitous poultry (*Gallus gallus domesticus*) prized for its mild flavor and versatility. Its culinary behavior depends on the cut: lean, fast-cooking breast meat dries out easily, while fat- and collagen-rich thighs and drumsticks become unctuous and tender with slow braising or high-heat roasting.\n\n**Selection & Storage:** Fresh chicken should have pinkish, firm flesh, white fat, and no strong odor. Store in the coldest part of the refrigerator (usually the bottom shelf) in its original packaging for 1-2 days, or freeze for longer storage.",
     name: "chicken pieces",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -191,7 +191,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   salmon_fillet: {
-      description: "A protein-rich ingredient, salmon fillet provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A silver-skinned, anadromous fish (*Salmo salar*) celebrated for its rich, buttery texture and high concentration of heart-healthy omega-3 fatty acids (EPA and DHA). Its distinct pink-to-orange flesh color comes from astaxanthin, a powerful antioxidant derived from its natural diet.\\n\\n**Selection & Storage:** Fresh fillets should look moist and brightly colored without dry edges, and smell faintly of the clean ocean, never \"fishy.\" When buying whole fish, look for clear, bright eyes and bright red gills. Keep refrigerated over ice and consume within a day or two of purchase.",
     name: "salmon fillet",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["omega-rich", "flaky", "nutritious"],
@@ -223,7 +223,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   beef_chuck_roast: {
-      description: "A protein-rich ingredient, beef chuck roast provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef chuck roast",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -283,7 +283,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   soft_tofu: {
-      description: "A protein-rich ingredient, soft tofu provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A highly versatile, plant-based protein made by coagulating soy milk and pressing the resulting curds into blocks. Its neutral flavor acts as a blank canvas; silken tofu is ideal for blending into smoothies or delicate soups, while firm or extra-firm tofu holds its shape for frying, baking, or stir-frying.\n\n**Selection & Storage:** Choose firmness based on your recipe needs. Once opened, store unused tofu submerged in fresh water in an airtight container in the refrigerator, changing the water daily.",
     name: "soft tofu",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["mild", "plant-based", "versatile"],
@@ -321,7 +321,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   har_gow__shrimp_dumplings_: {
-      description: "A protein-rich ingredient, har gow  shrimp dumplings  provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A widely consumed crustacean known for its sweet, briny flavor and firm, snappy texture. They cook incredibly fast—turning pink and opaque in minutes as heat denatures their proteins—and become tough and rubbery if exposed to high heat for too long.\n\n**Selection & Storage:** Look for firm bodies attached tightly to their shells with a clean, mild saltwater scent; avoid any with black spots (melanosis) on their shells or a smell of ammonia. Store over ice in the refrigerator and consume within a day.",
     name: "har gow (shrimp dumplings)",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -351,7 +351,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   siu_mai__pork_dumplings_: {
-      description: "A protein-rich ingredient, siu mai  pork dumplings  provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "siu mai (pork dumplings)",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -381,7 +381,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   fresh_eggs: {
-      description: "A protein-rich ingredient, fresh eggs provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening in a single package. Yolks carry fat, lecithin (an emulsifier), and most of the flavor; whites are primarily water and coagulable proteins (ovalbumin, ovotransferrin) that unfold and bond when heated or whipped. Fresh eggs peel poorly when hard-boiled; slightly older eggs shed shells cleanly. Store pointed-end-down at 35–40°F.",
     name: "fresh eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -411,7 +411,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   vanilla_bean: {
-      description: "A protein-rich ingredient, vanilla bean provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A profoundly complex spice derived from the cured pods of orchids in the genus *Vanilla*. It contains hundreds of distinct flavor compounds (primarily vanillin) that provide a rich, sweet, and woody floral aroma, acting as a foundational flavor enhancer in nearly all sweet baking.\n\n**Selection & Storage:** Look for plump, dark, and pliable pods that smell highly aromatic; dry, brittle beans have lost their essential oils. Store beans tightly wrapped or submerged in alcohol (to make extract) in a cool, dark place.",
     name: "vanilla bean",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["aromatic", "sweet", "flavorful"],
@@ -441,7 +441,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   oil_packed_tuna: {
-      description: "A protein-rich ingredient, oil packed tuna provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A large, fast-swimming predatory fish (*Thunnini tribe*) with dense, meaty, and dark red flesh resulting from high levels of myoglobin. Its steak-like texture and rich, robust flavor make it a premium ingredient served raw as sushi, quickly seared, or high-quality oil-packed in cans.\n\n**Selection & Storage:** Fresh tuna steaks should be deep red, firm, and glossy with a clean ocean scent, lacking any strong \"fishy\" odor or brown spots. Keep heavily iced or in the coldest part of the fridge and consume the same day.",
     name: "oil-packed tuna",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -471,7 +471,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   beef_stock: {
-      description: "A protein-rich ingredient, beef stock provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef stock",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["flavorful", "base", "nourishing"],
@@ -525,13 +525,13 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
         vitamins: {},
         minerals: {}
     },
-      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.1, sour: 0, bitter: 0, salty: 0.1, umami: 0.6 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "rich"], notes: "Brown in dry heat for Maillard, then finish gently to stay tender." }, cookingMethods: ["sear", "roast", "braise", "poach", "grill"], cuisineAffinity: ["global"], preparationTips: ["Salt 40 min before cooking for well-seasoned result.", "Rest after cooking to redistribute juices."] },
       pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] },
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   beef_chuck: {
-      description: "A protein-rich ingredient, beef chuck provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef chuck",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -561,7 +561,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   egg_yolks: {
-      description: "A protein-rich ingredient, egg yolks provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening. The yolk carries fat, lecithin (an emulsifier), and most of the flavor; the white is water plus coagulable proteins that unfold and bond when heated or whipped. Temperature control matters: yolks coagulate ~149°F, whites ~145°F, so gentle heat and timing dictate whether you get a silky custard or a rubbery scramble.",
     name: "egg yolks",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "emulsifying", "nutritious"],
@@ -683,7 +683,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   black_lentils: {
-      description: "A protein-rich ingredient, black lentils provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A tiny, lens-shaped legume (*Lens culinaris*) that cooks much faster than other beans because it does not require soaking. Brown and green lentils hold their shape well for salads, while red and yellow varieties break down into a thick, comforting porridge (like dal) when simmered.\n\n**Selection & Storage:** Look for uniformly colored, debris-free lentils. Store dried lentils in an airtight container in a cool, dark place, where they will retain their best quality for up to a year.",
     name: "black lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "earthy"],
@@ -805,7 +805,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   chicken_thigh: {
-      description: "A protein-rich ingredient, chicken thigh provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A globally ubiquitous poultry (*Gallus gallus domesticus*) prized for its mild flavor and versatility. Its culinary behavior depends on the cut: lean, fast-cooking breast meat dries out easily, while fat- and collagen-rich thighs and drumsticks become unctuous and tender with slow braising or high-heat roasting.\n\n**Selection & Storage:** Fresh chicken should have pinkish, firm flesh, white fat, and no strong odor. Store in the coldest part of the refrigerator (usually the bottom shelf) in its original packaging for 1-2 days, or freeze for longer storage.",
     name: "chicken thigh",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["flavorful", "juicy", "protein-rich"],
@@ -835,7 +835,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   pork_belly: {
-      description: "A protein-rich ingredient, pork belly provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork belly",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "fatty", "flavorful"],
@@ -865,7 +865,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   beef_sirloin: {
-      description: "A protein-rich ingredient, beef sirloin provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef sirloin",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "protein-rich", "savory"],
@@ -895,7 +895,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   pork_spine: {
-      description: "A protein-rich ingredient, pork spine provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork spine",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["base", "flavorful", "sustaining"],
@@ -925,7 +925,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   bean_sprouts: {
-      description: "A protein-rich ingredient, bean sprouts provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The crisp, tender shoots of germinated beans—most commonly mung beans (*Vigna radiata*) or soybeans. They are a staple in East and Southeast Asian cuisines, prized for contributing a refreshing, watery crunch to stir-fries, noodle dishes, and fresh spring rolls. Because their delicate cell walls break down quickly under heat, they are typically added at the very end of cooking or served raw as a textural garnish.",
     name: "bean sprouts",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["crunchy", "fresh", "light"],
@@ -1017,7 +1017,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   buckwheat_groats: {
-      description: "A protein-rich ingredient, buckwheat groats provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "A nutrient-dense pseudocereal (*Fagopyrum esculentum*) that is completely unrelated to wheat and naturally gluten-free. It provides an aggressively earthy, nutty, and slightly bitter flavor, and is the essential ingredient in Japanese soba noodles and French Breton galettes (crepes).\n\n**Selection & Storage:** Available as whole groats (which can be toasted into 'kasha') or ground flour. Store in an airtight container in a cool, dark pantry or the refrigerator.",
     name: "buckwheat groats",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -1139,7 +1139,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   beef_bones: {
-      description: "A protein-rich ingredient, beef bones provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef bones",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "base", "nourishing"],
@@ -1169,7 +1169,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   ground_pork: {
-      description: "A protein-rich ingredient, ground pork provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "ground pork",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "savory", "versatile"],
@@ -1229,7 +1229,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   beef_shank: {
-      description: "A protein-rich ingredient, beef shank provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef shank",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["tough", "flavorful", "sustaining"],
@@ -1259,7 +1259,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   pork_knuckles: {
-      description: "A protein-rich ingredient, pork knuckles provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork knuckles",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["collagen-rich", "flavorful", "tough"],
@@ -1289,7 +1289,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   pork_chops: {
-      description: "A protein-rich ingredient, pork chops provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork chops",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["versatile", "protein-rich", "savory"],

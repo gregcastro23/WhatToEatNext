@@ -1,6 +1,6 @@
 # Ingredient Data Audit
 
-Generated: 2026-04-20T01:08:44.094Z
+Generated: 2026-04-20T02:17:42.077Z
 **Total ingredients:** 782
 **Max score per ingredient:** 14
 

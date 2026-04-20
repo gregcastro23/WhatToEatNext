@@ -3,7 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   heirloom_carrot: {
-      description: "A fresh plant food, heirloom carrot offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
     name: "Heirloom Carrot",
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
@@ -115,14 +115,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.7,
-        salty: 0.0,
-        sour: 0.0,
-        bitter: 0.1,
-        umami: 0.1,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.7, sour: 0.1, bitter: 0.1, salty: 0, umami: 0.2 },
       aroma: {
         floral: 0.1,
         fruity: 0.3,
@@ -298,7 +291,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
 },
   carrots: {
-      description: "A fresh plant food, carrots offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
     name: "carrots",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
@@ -316,7 +309,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   parsnips: {
-      description: "A fresh plant food, parsnips offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A pale, cream-colored root vegetable (*Pastinaca sativa*) closely related to the carrot. It is profoundly starchy and packs an intense, woody sweetness with distinct notes of nutmeg and spiced cider, making it ideal for roasting until deeply caramelized.\n\n**Selection & Storage:** Choose small to medium parsnips; very large ones often have a tough, woody core that must be removed. Store unwashed in a plastic bag in the refrigerator.",
     name: "parsnips",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],

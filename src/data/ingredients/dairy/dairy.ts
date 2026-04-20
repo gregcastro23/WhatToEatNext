@@ -218,7 +218,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   evaporated_milk: {
-      description: "A dairy product, evaporated milk contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "evaporated milk",
     elementalProperties: { Fire: 0.12, Water: 0.45, Earth: 0.3, Air: 0.13 },
     alchemicalProperties: { Spirit: 0.1, Essence: 0.26, Matter: 0.35, Substance: 0.29 },
@@ -282,7 +282,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   skim_milk: {
-      description: "A dairy product, skim milk contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "skim milk",
     elementalProperties: { Fire: 0.02, Water: 0.7, Earth: 0.1, Air: 0.18 },
     alchemicalProperties: { Spirit: 0.06, Essence: 0.44, Matter: 0.23, Substance: 0.27 },
@@ -346,7 +346,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   oat_milk: {
-      description: "A dairy product, oat milk contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "oat milk",
     elementalProperties: { Fire: 0.08, Water: 0.5, Earth: 0.28, Air: 0.14 },
     alchemicalProperties: { Spirit: 0.09, Essence: 0.31, Matter: 0.3, Substance: 0.3 },
@@ -474,7 +474,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   coconut_milk: {
-      description: "A dairy product, coconut milk contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "coconut milk",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.28, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.11, Essence: 0.31, Matter: 0.29, Substance: 0.29 },
@@ -484,14 +484,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     qualities: ["tropical", "rich", "creamy", "sweet", "exotic"],
     category: "dairy",
     sensoryProfile: {
-      taste: {
-        sweet: 0.6,
-        salty: 0.05,
-        sour: 0.0,
-        bitter: 0.0,
-        umami: 0.05,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.6, sour: 0.1, bitter: 0, salty: 0, umami: 0.1 },
       aroma: {
         floral: 0.2,
         fruity: 0.5,
@@ -892,14 +885,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     qualities: ["rich", "fatty", "creamy", "golden", "versatile"],
     category: "dairy",
     sensoryProfile: {
-      taste: {
-        sweet: 0.25,
-        salty: 0.3,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.2,
-        spicy: 0.0,
-      },
+      taste: { sweet: 0.2, salty: 0.1, sour: 0, bitter: 0, umami: 0.1, spicy: 0, rich: 0.9 },
       aroma: {
         floral: 0.0,
         fruity: 0.1,
@@ -958,14 +944,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     qualities: ["pure", "sweet", "creamy", "mild", "versatile"],
     category: "dairy",
     sensoryProfile: {
-      taste: {
-        sweet: 0.4,
-        salty: 0.0,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.15,
-        spicy: 0.0,
-      },
+      taste: { sweet: 0.2, salty: 0, sour: 0, bitter: 0, umami: 0.1, spicy: 0, rich: 0.9 },
       aroma: {
         floral: 0.0,
         fruity: 0.15,
@@ -1012,7 +991,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   cold_butter: {
-      description: "A dairy product, cold butter contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "cold butter",
     elementalProperties: { Fire: 0.2, Water: 0.12, Earth: 0.58, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.13, Essence: 0.1, Matter: 0.47, Substance: 0.3 },
@@ -1140,7 +1119,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   clarified_butter: {
-      description: "A dairy product, clarified butter contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "clarified butter",
     elementalProperties: { Fire: 0.35, Water: 0.05, Earth: 0.55, Air: 0.05 },
     alchemicalProperties: { Spirit: 0.19, Essence: 0.1, Matter: 0.43, Substance: 0.28 },
@@ -1273,7 +1252,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   brown_butter: {
-      description: "A dairy product, brown butter contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "brown butter",
     elementalProperties: { Fire: 0.45, Water: 0.08, Earth: 0.4, Air: 0.07 },
     alchemicalProperties: { Spirit: 0.26, Essence: 0.14, Matter: 0.36, Substance: 0.24 },
@@ -2375,7 +2354,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 
   // HARD CHEESES
   cheddar_cheese: {
-      description: "A dairy product, cheddar cheese contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "A relatively hard, off-white to orange cow's milk cheese that undergoes a unique \"cheddaring\" process—stacking slabs of curds to press out whey. As it ages, enzymes break down proteins and fats into complex amino acids, transforming its flavor from mild and creamy to sharp, crumbly, and deeply savory.\n\n**Selection & Storage:** Look for solid blocks without surface mold or dry, cracked edges. Store wrapped tightly in parchment or wax paper, then placed in a loosely closed plastic bag in the cheese drawer.",
     name: "cheddar cheese",
     elementalProperties: { Fire: 0.22, Water: 0.25, Earth: 0.42, Air: 0.11 },
     alchemicalProperties: { Spirit: 0.35, Essence: 0.40, Matter: 0.80, Substance: 0.75 },
@@ -2578,7 +2557,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   pecorino_romano: {
-      description: "A dairy product, pecorino romano contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "A family of hard, salty Italian cheeses made specifically from sheep's milk (*pecora* meaning sheep). Pecorino Romano is the most famous—heavily salted, sharply pungent, and granular—serving as the foundational flavor for classic Roman pastas like Cacio e Pepe.\n\n**Selection & Storage:** Purchase in blocks rather than pre-grated. Store wrapped tightly in parchment paper and plastic wrap in the cheese drawer, where it will last for months.",
     name: "pecorino romano",
     elementalProperties: { Fire: 0.32, Water: 0.08, Earth: 0.52, Air: 0.08 },
     alchemicalProperties: { Spirit: 0.17, Essence: 0.13, Matter: 0.32, Substance: 0.38 },

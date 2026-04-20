@@ -1037,7 +1037,7 @@ const rawDairy = {
       temperature: { fahrenheit: 38, celsius: 3 },
       notes: "Room temperature butter is safe 1–2 days in a covered dish; refrigerate in hot kitchens.",
     },
-      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0, bitter: 0, umami: 0.1, spicy: 0, rich: 0.9 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   goat_cheese: {
     name: "Goat Cheese",
@@ -1687,7 +1687,7 @@ const rawDairy = {
       temperature: { fahrenheit: 38, celsius: 3 },
       notes: "Freezes beautifully — buy a case when on sale, freeze what you won't use in a month.",
     },
-      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0, sour: 0, bitter: 0, umami: 0.1, spicy: 0, rich: 0.9 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   clarified_butter: {
     name: "Clarified Butter / Ghee",
@@ -1904,7 +1904,7 @@ const rawDairy = {
       temperature: { fahrenheit: 38, celsius: 3 },
       notes: "Clear liquid on top (whey) is normal; stir in or drain for thicker yogurt.",
     },
-      sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.2, sour: 0.7, bitter: 0, salty: 0.1, umami: 0.3 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   mozzarella: {
     name: "Mozzarella",

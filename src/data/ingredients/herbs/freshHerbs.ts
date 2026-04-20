@@ -58,14 +58,7 @@ const rawFreshHerbs = {
 
     // Sensory profile (standardized)
     sensoryProfile: {
-      taste: {
-        sweet: 0.5,
-        salty: 0.0,
-        sour: 0.1,
-        bitter: 0.2,
-        umami: 0.0,
-        spicy: 0.2,
-      },
+      taste: { spicy: 0.1, sweet: 0.3, sour: 0, bitter: 0.2, salty: 0, umami: 0.2 },
       aroma: {
         floral: 0.6,
         fruity: 0.3,
@@ -320,7 +313,7 @@ const rawFreshHerbs = {
 
   // More herbs would be added here...
   pork_sausage: {
-      description: "An aromatic culinary herb, pork sausage contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "A remarkably broad category of ground meat (usually pork) mixed with salt, spices, and fat, typically stuffed into a casing. Fresh sausages (like bratwurst or Italian sausage) require cooking, while cured or smoked sausages (like andouille or kielbasa) are preserved and often ready to eat.\n\n**Selection & Storage:** Fresh sausages must be kept in the coldest part of the refrigerator and cooked within 1-2 days, or frozen for long-term storage.",
     name: "pork sausage",
     // Corrected: pork sausage is a cured meat, not an herb.
     // Fire-dominant (high heat cooking), secondary Earth (rich, dense).
@@ -357,7 +350,7 @@ const rawFreshHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   fresh_thyme: {
-      description: "An aromatic culinary herb, fresh thyme contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.\n\n**Selection & Storage:** Look for bright green, fragrant sprigs without woody or dried-out tips. Store fresh thyme wrapped loosely in a damp paper towel inside a plastic bag in the refrigerator's crisper drawer.",
     name: "fresh thyme",
     // Similar to dried thyme but slightly more Water (moisture in fresh leaves).
     elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.18, Air: 0.42 },
@@ -393,7 +386,7 @@ const rawFreshHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   fresh_mint: {
-      description: "An aromatic culinary herb, fresh mint contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "A rapidly spreading, aromatic herb (*Mentha*) characterized by the cooling compound menthol. It provides a sharp, refreshing contrast to rich or spicy dishes, and is utilized globally in everything from Middle Eastern lamb marinades to Southeast Asian salads and sweet desserts.\n\n**Selection & Storage:** Look for perky, bright green leaves without dark spots or wilting. Store unwashed mint wrapped in a lightly damp paper towel inside a plastic bag in the crisper drawer.",
     name: "fresh mint",
     // Cooling menthol creates a paradoxical sensation: Water (cooling), Air (volatile menthol), minimal Fire/Earth.
     elementalProperties: { Fire: 0.05, Water: 0.40, Earth: 0.05, Air: 0.50 },
@@ -411,7 +404,7 @@ const rawFreshHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   fresh_sage: {
-      description: "An aromatic culinary herb, fresh sage contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "A hardy herb (*Salvia officinalis*) with velvety, grey-green leaves and a highly assertive, pine-like, and slightly astringent aroma. Because its flavor is so robust and somewhat resinous, it pairs perfectly with fatty meats like pork and sausage, or browned butter sauces.\n\n**Selection & Storage:** Look for fresh, pliable leaves that are fuzzy and aromatic; avoid dried-out or black-spotted leaves. Store wrapped in a slightly damp paper towel in a plastic bag in the refrigerator.",
     name: "fresh sage",
     // Fresh sage: slightly more Water than dried, warm pungent oils still dominate.
     elementalProperties: { Fire: 0.30, Water: 0.15, Earth: 0.20, Air: 0.35 },
@@ -447,7 +440,7 @@ const rawFreshHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   flat_leaf_parsley: {
-      description: "An aromatic culinary herb, flat leaf parsley contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "A mild, grassy, and slightly bitter herb (*Petroselinum crispum*) available in curly (best for garnishing) and flat-leaf (best for cooking) varieties. Its clean, mineral-rich flavor acts as a culinary palate cleanser, cutting through heavy fats and brightening rich stews and sauces.\n\n**Selection & Storage:** Choose bunches with vibrant, dark green leaves and firm stems. Store it by trimming the ends and placing the stems in a jar of water in the refrigerator, covered loosely with a plastic bag.",
     name: "flat-leaf parsley",
     // Bright, fresh, green. Air (fresh volatile compounds), Water (high moisture, fresh green), minimal Fire/Earth.
     elementalProperties: { Fire: 0.10, Water: 0.35, Earth: 0.10, Air: 0.45 },
@@ -573,7 +566,7 @@ const rawFreshHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   mint_leaves: {
-      description: "An aromatic culinary herb, mint leaves contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "A rapidly spreading, aromatic herb (*Mentha*) characterized by the cooling compound menthol. It provides a sharp, refreshing contrast to rich or spicy dishes, and is utilized globally in everything from Middle Eastern lamb marinades to Southeast Asian salads and sweet desserts.\n\n**Selection & Storage:** Look for perky, bright green leaves without dark spots or wilting. Store unwashed mint wrapped in a lightly damp paper towel inside a plastic bag in the crisper drawer.",
     name: "mint leaves",
     // Mint leaves — same cooling profile as mint.
     elementalProperties: { Fire: 0.05, Water: 0.40, Earth: 0.08, Air: 0.47 },
@@ -591,7 +584,7 @@ const rawFreshHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   fresh_basil: {
-      description: "An aromatic culinary herb, fresh basil contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.\n\n**Selection & Storage:** Choose vibrant, unblemished leaves; avoid any with black spots. Store fresh basil like a bouquet of flowers: stems in a glass of water at room temperature, loosely covered with a plastic bag.",
     name: "fresh basil",
     // Fresh basil shares the profile of the detailed basil entry above: Air dominant, sweet/warm.
     elementalProperties: { Fire: 0.22, Water: 0.27, Earth: 0.08, Air: 0.43 },
@@ -620,7 +613,7 @@ const rawFreshHerbs = {
       favorableZodiac: ["Gemini", "Libra", "Aquarius"],
       seasonalAffinity: ["spring", "summer"],
     },
-      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
+      sensoryProfile: { taste: { spicy: 0.1, sweet: 0.1, sour: 0.1, bitter: 0.3, salty: 0, umami: 0.1 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },

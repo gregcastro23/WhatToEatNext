@@ -268,7 +268,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   napa_cabbage: {
-      description: "A fresh plant food, napa cabbage offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A tightly packed, leafy biennial (*Brassica oleracea*) that is a cornerstone of global preservation through fermentation (like sauerkraut and kimchi). Rich in sulfur compounds, it transforms from crisp and peppery when raw to profoundly sweet and tender when slowly braised or roasted.\n\n**Selection & Storage:** Select heads that feel heavy for their size with tight, unblemished outer leaves. Whole cabbage is remarkably resilient and can be stored loose in the crisper drawer for several weeks.",
     name: "napa cabbage",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],

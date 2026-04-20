@@ -646,7 +646,7 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
       },
     },
     sensoryProfile: {
-      taste: { sweet: 0.1, salty: 0.05, sour: 0.1, bitter: 0.15, umami: 0.55, spicy: 0 },
+      taste: { spicy: 0, sweet: 0.1, sour: 0.1, bitter: 0.3, salty: 0.1, umami: 0.6 },
       aroma: { floral: 0, fruity: 0, herbal: 0, earthy: 0.7, woody: 0.2, spicy: 0 },
       texture: { crisp: 0.1, tender: 0.3, creamy: 0, chewy: 0.7, crunchy: 0, silky: 0 },
     },

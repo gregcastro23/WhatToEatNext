@@ -47,14 +47,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.1,
-        salty: 0.0,
-        sour: 1.0, // Maximum acidity
-        bitter: 0.3, // Especially peel
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.1, sour: 0.9, bitter: 0.3, salty: 0, umami: 0 },
       aroma: {
         floral: 0.4,
         fruity: 0.7,
@@ -192,14 +185,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.7,
-        salty: 0.0,
-        sour: 0.3, // Varies by variety
-        bitter: 0.0,
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 },
       aroma: {
         floral: 0.4,
         fruity: 0.9,
@@ -488,14 +474,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.8,
-        salty: 0.0,
-        sour: 0.3,
-        bitter: 0.0,
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 },
       aroma: {
         floral: 0.7,
         fruity: 1.0, // Maximum fruitiness
@@ -940,14 +919,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.8,
-        salty: 0.0,
-        sour: 0.3,
-        bitter: 0.1, // Pith
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.6, sour: 0.5, bitter: 0.2, salty: 0, umami: 0 },
       aroma: {
         floral: 0.6,
         fruity: 0.9,

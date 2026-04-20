@@ -47,14 +47,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.6, // When cooked
-        salty: 0.0,
-        sour: 0.0,
-        bitter: 0.2,
-        umami: 0.3,
-        spicy: 0.7, // Raw pungency
-      },
+      taste: { spicy: 0.4, sweet: 0.3, salty: 0, sour: 0.1, bitter: 0.1, umami: 0.4 },
       aroma: {
         floral: 0.1,
         fruity: 0.2,
@@ -203,14 +196,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.3, // When roasted
-        salty: 0.0,
-        sour: 0.0,
-        bitter: 0.3,
-        umami: 0.4,
-        spicy: 0.9, // Very pungent raw
-      },
+      taste: { spicy: 0.5, sweet: 0.2, salty: 0, sour: 0.1, bitter: 0.2, umami: 0.4 },
       aroma: {
         floral: 0.0,
         fruity: 0.0,
@@ -362,7 +348,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 },
 
   yellow_onions: {
-      description: "A fresh plant food, yellow onions offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "Foundational aromatics (*Allium cepa*) that build savory depth across global cuisines. Their concentric layers contain sulfur compounds which, under heat, undergo Maillard reactions to create complex flavors from sharp when raw to deeply caramel when slow-cooked. Yellow onions are the all-purpose workhorse for mirepoix and stocks; sweet varieties for raw eating; red for salads and quick pickles; pearl for whole-braising. Always use a sharp knife to minimize the enzymatic release that causes tears.",
     name: "yellow onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -387,7 +373,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 },
 
   pearl_onions: {
-      description: "A fresh plant food, pearl onions offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "Foundational aromatics (*Allium cepa*) that build savory depth across global cuisines. Their concentric layers contain sulfur compounds which, under heat, undergo Maillard reactions to create complex flavors from sharp when raw to deeply caramel when slow-cooked. Yellow onions are the all-purpose workhorse for mirepoix and stocks; sweet varieties for raw eating; red for salads and quick pickles; pearl for whole-braising. Always use a sharp knife to minimize the enzymatic release that causes tears.",
     name: "pearl onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -412,7 +398,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 },
 
   shallots: {
-      description: "A fresh plant food, shallots offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A small, teardrop-shaped allium (*Allium cepa var. aggregatum*) that grows in clusters similar to garlic. It offers a more delicate, sweeter, and less pungent flavor profile than standard onions, making it the classic choice for refined sauces, vinaigrettes, and raw applications.\n\n**Selection & Storage:** Look for firm, heavy bulbs with intact, coppery-pink papery skins. Keep them in a cool, dry, and dark environment with good air circulation to maximize their shelf life.",
     name: "shallots",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -437,7 +423,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 },
 
   green_onions: {
-      description: "A fresh plant food, green onions offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "Foundational aromatics (*Allium cepa*) that build savory depth across global cuisines. Their concentric layers contain sulfur compounds which, under heat, undergo Maillard reactions to create complex flavors from sharp when raw to deeply caramel when slow-cooked. Yellow onions are the all-purpose workhorse for mirepoix and stocks; sweet varieties for raw eating; red for salads and quick pickles; pearl for whole-braising. Always use a sharp knife to minimize the enzymatic release that causes tears.",
     name: "green onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -462,7 +448,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 },
 
   yellow_onion: {
-      description: "A fresh plant food, yellow onion offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds which, when exposed to heat, undergo Maillard reaction to create sweet, complex flavors ranging from sharp when raw to deeply caramel when slow-cooked. Yellow is the all-purpose workhorse; sweet (Vidalia, Walla Walla) for quick raw use; red for salads and pickling; pearl and cipollini for whole-roasting. Slice with a sharp blade to minimize enzymatic tear-gas release.",
     name: "yellow onion",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -487,7 +473,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 },
 
   red_onion: {
-      description: "A fresh plant food, red onion offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds which, when exposed to heat, undergo Maillard reaction to create sweet, complex flavors ranging from sharp when raw to deeply caramel when slow-cooked. Yellow is the all-purpose workhorse; sweet (Vidalia, Walla Walla) for quick raw use; red for salads and pickling; pearl and cipollini for whole-roasting. Slice with a sharp blade to minimize enzymatic tear-gas release.",
     name: "red onion",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {

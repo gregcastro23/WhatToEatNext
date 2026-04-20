@@ -261,14 +261,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       source: "USDA FoodData Central",
     },
     sensoryProfile: {
-      taste: {
-        sweet: 0.8,
-        salty: 0.0,
-        sour: 0.3,
-        bitter: 0.0,
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 },
       aroma: {
         floral: 0.7,
         fruity: 1.0,
@@ -786,7 +779,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   currant_red: {
-      description: "A sweet edible plant product, currant red delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "Tiny, intensely flavored berries (*Ribes*) available in red, black, and white varieties. Blackcurrants are incredibly musky, earthy, and tart (often made into cassis), while red and white currants are brighter, more acidic, and commonly used to make crystal-clear, pectin-heavy jellies.\n\n**Selection & Storage:** Choose firm, plump clusters attached to their stems. Store unwashed in the refrigerator and use within a few days.",
     name: "Red Currant",
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
@@ -850,7 +843,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   },
 
   currant_black: {
-      description: "A sweet edible plant product, currant black delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "Tiny, intensely flavored berries (*Ribes*) available in red, black, and white varieties. Blackcurrants are incredibly musky, earthy, and tart (often made into cassis), while red and white currants are brighter, more acidic, and commonly used to make crystal-clear, pectin-heavy jellies.\n\n**Selection & Storage:** Choose firm, plump clusters attached to their stems. Store unwashed in the refrigerator and use within a few days.",
     name: "Black Currant",
     elementalProperties: { Water: 0.3, Earth: 0.4, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {

@@ -114,12 +114,71 @@ const CURATED: Record<string, string> = {
 
   vegetables:
     "Any edible plant material — leaves, roots, stems, tubers, flowers, fruits used as savory ingredients — delivering fiber, vitamins, phytochemicals, and the flavor backbone of non-meat-forward cooking. Treat by structural group: hard roots (carrots, beets) need more heat and time; leafy greens cook in seconds; fungi need dry heat to develop depth; brassicas reward high heat for caramelization and charring. Freshness matters more than variety — a peak-season common vegetable beats an out-of-season rare one.",
+  mustard: "A pungent condiment made from the crushed seeds of various mustard plants (*Brassica* and *Sinapis* species), blended with water, vinegar, or wine. The sharp heat comes from isothiocyanates, which develop when enzymes are activated by liquid. Mustard acts as both a flavor amplifier and a powerful culinary emulsifier, crucial for stabilizing vinaigrettes and binding rich sauces. Dijon offers sharp tang, whole-grain provides texture, and yellow mustard delivers mild, turmeric-tinted brightness.",
+
+  dashi: "The foundational soup stock of Japanese cuisine, typically built from *kombu* (kelp) and *katsuobushi* (dried, fermented bonito flakes). This elemental pairing creates an intense synergy of glutamates and inosinates, yielding a profound, clear umami broth in minutes without the long simmering required for Western meat stocks. Dashi forms the backbone of miso soup, noodle broths, and simmering liquids, imparting a distinct, refined oceanic depth to dishes.",
+
+  lettuce: "A leafy herbaceous plant (*Lactuca sativa*), primarily cultivated for its crisp, hydrating leaves. Iceberg and romaine varieties provide high water content and structural crunch that resists wilting under heavy dressings, while butterhead and loose-leaf types offer delicate, tender textures. Although typically consumed raw in salads or as a cooling counterpoint in sandwiches, hearty varieties like romaine can be lightly grilled or braised to develop surprising smoky depth.",
+
+  cucumber: "A cylindrical, water-dense fruit (*Cucumis sativus*) eaten as a culinary vegetable. Composed of over 95% water, cucumbers provide essential crispness, hydration, and a cooling, melon-like aroma to salads, cold soups, and pickles. English and Persian varieties are bred to have thin, edible skins and fewer seeds, whereas standard slicing cucumbers have thicker, waxy skins that often benefit from peeling. Salting them before use draws out excess water and concentrates their flavor.",
+
+  nuts: "Hard-shelled seeds of various trees, valued for their dense concentration of fats, proteins, and rich, earthy flavors. While botanical definitions vary, culinary nuts encompass everything from walnuts and pecans to almonds and cashews. Their high oil content makes them prone to rancidity but also allows them to toast beautifully, enhancing their crunch and deepening their aromatic profile via the Maillard reaction. Store in the freezer to prolong freshness.",
+
+  chocolate: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
+
+  bean_sprouts: "The crisp, tender shoots of germinated beans—most commonly mung beans (*Vigna radiata*) or soybeans. They are a staple in East and Southeast Asian cuisines, prized for contributing a refreshing, watery crunch to stir-fries, noodle dishes, and fresh spring rolls. Because their delicate cell walls break down quickly under heat, they are typically added at the very end of cooking or served raw as a textural garnish.",
+
+  wine: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
+
+  pickles: "Vegetables or fruits preserved through anaerobic fermentation in brine or immersion in vinegar, resulting in a tart, tangy, and often crunchy condiment. Lactic acid bacteria produce the complex sourness in naturally fermented pickles, while vinegar-based pickles rely on acetic acid. They provide an essential acidic counterpoint to rich, fatty, or umami-heavy dishes, acting as a palate cleanser in sandwiches, burgers, and traditional charcuterie boards.",
+
+  baguette: "A classic French yeast bread characterized by its elongated shape, crisp, deeply browned crust, and chewy, open-crumb interior. Built from a lean dough of simply flour, water, yeast, and salt, its texture relies on a slow fermentation and baking in a steam-injected oven. Highly perishable due to its lack of fat, it is best consumed the day it is baked or repurposed into crostini, croutons, or bread pudding.",
+
+  phyllo_dough: "Paper-thin sheets of unleavened flour-and-water dough, central to Middle Eastern and Balkan pastries like baklava and spanakopita. Lacking internal fat, phyllo relies on being layered and individually brushed with melted butter or oil before baking, resulting in a shatteringly crisp, flaky structure. It dries out and cracks rapidly when exposed to air, requiring cooks to keep unused sheets covered with a damp towel during assembly.",
 };
 
 const project = new Project({
   skipAddingFilesFromTsConfig: true,
   compilerOptions: { noEmit: true, skipLibCheck: true, target: 99 },
 });
+
+
+const sumSf = project.addSourceFileAtPath(path.join(INGREDIENTS_DIR, "ingredientSummaries.ts"));
+const sumDecl = sumSf.getVariableDeclaration("ingredientSummaries");
+const sumObj = sumDecl?.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
+const summaries: Record<string, string> = {};
+if (sumObj) {
+  for (const prop of sumObj.getProperties()) {
+    const pa = prop.asKind(SyntaxKind.PropertyAssignment);
+    if (!pa) continue;
+    const key = pa.getName().replace(/^["'`]|["'`]$/g, "");
+    let text = pa.getInitializer()?.getText() ?? "";
+    if (text.startsWith('`') || text.startsWith('"') || text.startsWith("'")) {
+       text = text.substring(1, text.length - 1);
+    }
+    summaries[key] = text;
+  }
+}
+
+function getCuratedOrSummary(slug: string): string | undefined {
+  if (CURATED[slug]) return CURATED[slug];
+  if (summaries[slug]) return summaries[slug];
+  
+  if (slug.endsWith('s') && CURATED[slug.slice(0, -1)]) return CURATED[slug.slice(0, -1)];
+  if (slug.endsWith('s') && summaries[slug.slice(0, -1)]) return summaries[slug.slice(0, -1)];
+  if (slug.endsWith('es') && CURATED[slug.slice(0, -2)]) return CURATED[slug.slice(0, -2)];
+  if (slug.endsWith('es') && summaries[slug.slice(0, -2)]) return summaries[slug.slice(0, -2)];
+
+  const words = slug.split('_');
+  for (let i = words.length - 1; i >= 0; i--) {
+    const word = words[i];
+    if (CURATED[word]) return CURATED[word];
+    if (summaries[word]) return summaries[word];
+    if (word.endsWith('s') && CURATED[word.slice(0, -1)]) return CURATED[word.slice(0, -1)];
+    if (word.endsWith('s') && summaries[word.slice(0, -1)]) return summaries[word.slice(0, -1)];
+  }
+  return undefined;
+}
 
 const files: string[] = [];
 function walk(dir: string) {
@@ -182,7 +241,7 @@ for (const file of files) {
       if (!ingObj.getProperty("name")) continue;
 
       const slug = pa.getName().replace(/^["'`]|["'`]$/g, "");
-      const curated = CURATED[slug];
+      const curated = getCuratedOrSummary(slug);
       if (!curated) continue;
 
       const descProp = ingObj
@@ -194,8 +253,8 @@ for (const file of files) {
       const cleaned = currentText.replace(/^["'`]|["'`]$/g, "");
       if (!isDefault(cleaned)) continue;
 
-      const escaped = curated.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-      descProp.setInitializer(`"${escaped}"`);
+      const literal = JSON.stringify(curated);
+      descProp.setInitializer(literal);
       replaced++;
       modified = true;
     }

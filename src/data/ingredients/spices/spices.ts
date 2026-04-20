@@ -190,7 +190,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   mustard_seeds: {
-      description: "A dried aromatic spice, mustard seeds carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Tiny, round seeds of various mustard plants (*Brassica* and *Sinapis*) available in yellow, brown, and black varieties. The seeds themselves have no heat until crushed and mixed with a cold liquid, which triggers an enzyme reaction creating the sharp, pungent compound allyl isothiocyanate.\n\n**Selection & Storage:** Yellow seeds are the mildest, while black and brown are much sharper and more pungent. Store whole seeds in an airtight container in a dark pantry, as they keep indefinitely.",
     name: "mustard seeds",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["pungent", "hot", "flavorful"],
@@ -251,7 +251,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.1, iron: 0.05, potassium: 0.02 },
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      sensoryProfile: { taste: { spicy: 0.3, sweet: 0.1, sour: 0, bitter: 0.5, salty: 0, umami: 0.2 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
       culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
       pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
@@ -437,7 +437,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.04, iron: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      sensoryProfile: { taste: { spicy: 0.4, sweet: 0.3, sour: 0, bitter: 0.3, salty: 0, umami: 0 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
       culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
       pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
@@ -468,7 +468,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.05, iron: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
     },
-      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      sensoryProfile: { taste: { spicy: 0.1, sweet: 0.2, sour: 0, bitter: 0.4, salty: 0, umami: 0.2 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
       culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
       pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
@@ -629,7 +629,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   shrimp_paste: {
-      description: "A dried aromatic spice, shrimp paste carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "A widely consumed crustacean known for its sweet, briny flavor and firm, snappy texture. They cook incredibly fast—turning pink and opaque in minutes as heat denatures their proteins—and become tough and rubbery if exposed to high heat for too long.\n\n**Selection & Storage:** Look for firm bodies attached tightly to their shells with a clean, mild saltwater scent; avoid any with black spots (melanosis) on their shells or a smell of ammonia. Store over ice in the refrigerator and consume within a day.",
     name: "shrimp paste",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["umami", "pungent", "savory"],

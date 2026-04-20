@@ -78,6 +78,14 @@ interface ApiResponse {
   success: boolean;
   ingredient: IngredientData | null;
   relatedRecipes: RelatedRecipe[];
+  recipesByCuisine?: Record<string, Array<{
+    recipeId: string;
+    recipeName: string;
+    cuisine: string;
+    rawIngredientName: string;
+    amount?: number | string;
+    unit?: string;
+  }>>;
   substitutions: Substitution[];
   totalRecipeMatches: number;
   error?: string;
@@ -776,58 +784,63 @@ export function IngredientDrawer({
             )}
 
             {/* Related recipes */}
-            {filteredRelated.length > 0 && (
+            {(data?.totalRecipeMatches ?? 0) > 0 && data?.recipesByCuisine && (
               <Section
-                title={`More recipes with ${displayName} (${filteredRelated.length})`}
+                title={`Used in ${data.totalRecipeMatches} recipes`}
               >
-                <ul className="space-y-2">
-                  {filteredRelated.slice(0, 8).map((r) => (
-                    <li key={r.id}>
-                      <Link
-                        href={`/recipes/${encodeURIComponent(r.id)}`}
-                        onClick={onClose}
-                        className="block px-3 py-2.5 rounded-lg bg-white/[0.03] border border-white/5 hover:border-amber-500/30 hover:bg-amber-500/5 transition-colors group"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0 flex-1">
-                            <div className="text-sm font-medium text-white group-hover:text-amber-200 truncate">
-                              {r.name}
-                            </div>
-                            <div className="flex items-center gap-2 mt-0.5 text-[11px] text-white/40">
-                              {r.cuisine && (
-                                <span className="capitalize">{r.cuisine}</span>
-                              )}
-                              {(r.prepTime || r.cookTime) && (
-                                <>
-                                  <span>•</span>
-                                  <span>
-                                    {formatMinutes((r.prepTime ?? 0) + (r.cookTime ?? 0))}
-                                  </span>
-                                </>
-                              )}
-                              {r.amount != null && r.unit && (
-                                <>
-                                  <span>•</span>
-                                  <span>
-                                    {r.amount} {r.unit}
-                                  </span>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                          <span className="text-amber-400/60 group-hover:text-amber-300 text-sm shrink-0">
-                            →
-                          </span>
+                <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                  {Object.entries(data.recipesByCuisine)
+                    .sort((a, b) => b[1].length - a[1].length)
+                    .map(([cuisine, matches]) => {
+                      const cuisineMatches = currentRecipeId 
+                        ? matches.filter(m => m.recipeId !== currentRecipeId) 
+                        : matches;
+                        
+                      if (cuisineMatches.length === 0) return null;
+                      
+                      return (
+                        <div key={cuisine} className="mb-3 last:mb-0">
+                          <h4 className="text-[10px] uppercase tracking-widest text-amber-400/80 mb-2 font-semibold">
+                            {cuisine} <span className="text-white/30">({cuisineMatches.length})</span>
+                          </h4>
+                          <ul className="space-y-2">
+                            {cuisineMatches.slice(0, 10).map((r) => (
+                              <li key={r.recipeId}>
+                                <Link
+                                  href={`/recipes/${encodeURIComponent(r.recipeId)}`}
+                                  onClick={onClose}
+                                  className="block px-3 py-2.5 rounded-lg bg-white/[0.03] border border-white/5 hover:border-amber-500/30 hover:bg-amber-500/5 transition-colors group"
+                                >
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0 flex-1">
+                                      <div className="text-sm font-medium text-white group-hover:text-amber-200 truncate">
+                                        {r.recipeName}
+                                      </div>
+                                      {(r.amount != null || r.unit) && (
+                                        <div className="flex items-center gap-2 mt-0.5 text-[11px] text-white/40">
+                                          <span>
+                                            {r.amount} {r.unit}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <span className="text-amber-400/60 group-hover:text-amber-300 text-sm shrink-0">
+                                      →
+                                    </span>
+                                  </div>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                          {cuisineMatches.length > 10 && (
+                            <p className="text-[10px] text-white/30 mt-1.5 pl-3">
+                              + {cuisineMatches.length - 10} more in this cuisine
+                            </p>
+                          )}
                         </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                {filteredRelated.length > 8 && (
-                  <p className="text-xs text-white/40 mt-3 text-center">
-                    +{filteredRelated.length - 8} more
-                  </p>
-                )}
+                      );
+                  })}
+                </div>
               </Section>
             )}
           </div>

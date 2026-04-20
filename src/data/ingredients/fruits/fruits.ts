@@ -41,7 +41,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   lemon_juice: {
-      description: "A sweet edible plant product, lemon juice delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "The oval yellow citrus fruit (*Citrus × limon*) delivering 5–6% citric acid plus fragrant d-limonene in the peel — essentially a complete seasoning of acid, aroma, and brightness in one package. Meyer lemons are sweeter with floral notes; Eureka and Lisbon are standard supermarket varieties. Use the whole fruit: zest for aroma (before juicing — the tool ruins the peel otherwise), juice for acid, rind for preserved lemons. Rolling the lemon before cutting breaks internal membranes and yields more juice.",
     name: "lemon juice",
     elementalProperties: { Fire: 0.3, Water: 0.45, Earth: 0.05, Air: 0.2 },
     qualities: ["acidic", "bright", "refreshing", "versatile"],
@@ -67,7 +67,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.06 },
       minerals: {},
     },
-      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      sensoryProfile: { taste: { sour: 0.9, sweet: 0.1, salty: 0, bitter: 0.1, umami: 0, spicy: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
@@ -105,7 +105,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   orange_zest: {
-      description: "A sweet edible plant product, orange zest delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A sweet citrus fruit (*Citrus × sinensis*) prized for its balanced sweetness and acidity. Its juice adds bright, floral sugar to marinades and sauces, while its zest, rich in essential oils, provides pure orange aroma without altering the liquid balance of baked goods.\n\n**Selection & Storage:** Look for oranges that feel heavy for their size with smooth, firm, and vibrantly colored skin. They can be kept at room temperature for a few days, but will last up to a month loose in the refrigerator.",
     name: "orange zest",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.1, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "bright", "versatile"],
@@ -137,7 +137,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   lemon_zest: {
-      description: "A sweet edible plant product, lemon zest delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "The oval yellow citrus fruit (*Citrus × limon*) delivering 5–6% citric acid plus fragrant d-limonene in the peel — essentially a complete seasoning of acid, aroma, and brightness in one package. Meyer lemons are sweeter with floral notes; Eureka and Lisbon are standard supermarket varieties. Use the whole fruit: zest for aroma (before juicing — the tool ruins the peel otherwise), juice for acid, rind for preserved lemons. Rolling the lemon before cutting breaks internal membranes and yields more juice.",
     name: "lemon zest",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.1, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "bright", "versatile"],
@@ -195,13 +195,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 0.51, B6: 0.02 },
       minerals: { potassium: 0.02 },
     },
-      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.1, sour: 0.9, bitter: 0.3, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   apples: {
-      description: "A sweet edible plant product, apples delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.\n\n**Selection & Storage:** Look for firm apples with vibrant coloring and smooth skin that feel heavy for their size. Store them in the crisper drawer of the refrigerator to maintain their crispness, as they soften ten times faster at room temperature.",
     name: "apples",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     qualities: ["sweet", "crisp", "juicy", "versatile"],
@@ -265,7 +265,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   strawberry_preserves: {
-      description: "A sweet edible plant product, strawberry preserves delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A fragrant, deeply red accessory fruit (*Fragaria × ananassa*) bearing its seeds on the outside. Known for a perfect balance of malic acid and natural sugars, they soften quickly when cooked and release their vibrant juices, making them ideal for macerating, purees, and delicate desserts.\n\n**Selection & Storage:** Choose plump, uniformly red berries with fresh, bright green caps; they do not ripen after being picked. Store unwashed in the refrigerator in a container lined with paper towels, and consume within two to three days.",
     name: "strawberry preserves",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
     qualities: ["sweet", "fruity", "spreadable"],
@@ -355,13 +355,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       vitamins: { E: 0.13, K: 0.1 },
       minerals: {},
     },
-      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0, sour: 0, bitter: 0.2, umami: 0, spicy: 0.1, rich: 0.8 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   grape_leaves: {
-      description: "A sweet edible plant product, grape leaves delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "Small, spherical berries (*Vitis vinifera*) that grow in clusters, offering a crisp snap and a burst of sweet-tart juice. With a high ratio of skin-to-flesh, they provide complex tannins and sugars that make them perfect for eating raw, roasting to concentrate their flavor, or fermenting into wine.\n\n**Selection & Storage:** Look for plump, firm grapes tightly attached to pliable, green stems. Store unwashed in a perforated plastic bag in the refrigerator crisper drawer.",
     name: "grape leaves",
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.3, Air: 0.25 },
     qualities: ["tangy", "tender", "Mediterranean"],
@@ -394,7 +394,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
 },
   // lemons removed — duplicate of lemon above
   coconut_chutney: {
-      description: "A sweet edible plant product, coconut chutney delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A large, hard-shelled seed (*Cocos nucifera*) containing sweet, clear water and rich, fatty white meat. Its high concentration of saturated lauric acid gives coconut milk, cream, and oil a uniquely rich, tropical flavor that forms the creamy base of many Southeast Asian and Indian curries.\n\n**Selection & Storage:** Shake whole coconuts to ensure they sound full of water; avoid any with cracks or damp eyes. Store whole coconuts at room temperature, but refrigerate any extracted meat or water.",
     name: "coconut chutney",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.25, Air: 0.2 },
     qualities: ["creamy", "tangy", "aromatic", "Indian"],
@@ -426,7 +426,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   lime_juice: {
-      description: "A sweet edible plant product, lime juice delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A highly acidic, tropical citrus fruit (*Citrus × aurantiifolia*) whose juice provides a sharper, more floral acidity than lemon. It is essential in cuisines around the equator (Latin American, Southeast Asian) as its bright acidity 'cooks' raw fish in ceviche and balances intense chili heat.\n\n**Selection & Storage:** Select limes that are dark green, heavy for their size, and give slightly when squeezed; hard limes will yield little juice. Store them loose in the refrigerator crisper drawer for up to a month.",
     name: "lime juice",
     elementalProperties: { Fire: 0.3, Water: 0.45, Earth: 0.05, Air: 0.2 },
     qualities: ["acidic", "bright", "refreshing", "tropical"],
@@ -458,7 +458,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   coconut_milk: {
-      description: "A sweet edible plant product, coconut milk delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "coconut milk",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["creamy", "rich", "tropical", "versatile"],
@@ -489,13 +489,13 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
         phosphorus: 0.24,
       },
     },
-      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.6, sour: 0.1, bitter: 0, salty: 0, umami: 0.1 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
       storage: { countertop: "Until ripe, then refrigerate.", notes: "Ethylene-producers (apple, banana) ripen neighbors faster — separate if delaying ripening." }
 },
   ripe_bananas: {
-      description: "A sweet edible plant product, ripe bananas delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      description: "A tropical, starch-rich berry (*Musa spp.*) that converts its starches to easily digestible sugars as it ripens, indicated by its skin turning from green to yellow to spotted brown. This enzymatic transformation drastically alters its culinary use, moving from a firm snack to a sweet, mushy base for baking.\n\n**Selection & Storage:** Choose bananas based on your immediate need: green for later, yellow for eating, or heavily spotted for baking. Store at room temperature; refrigerating will turn the skin black but keep the flesh firm longer.",
     name: "ripe bananas",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["sweet", "soft", "nutritious", "energizing"],

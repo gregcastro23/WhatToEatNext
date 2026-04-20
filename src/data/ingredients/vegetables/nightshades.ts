@@ -50,14 +50,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.5,
-        salty: 0.0,
-        sour: 0.4,
-        bitter: 0.1,
-        umami: 0.6, // High umami from glutamates
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.4, sour: 0.6, bitter: 0.1, salty: 0.1, umami: 0.6 },
       aroma: {
         floral: 0.2,
         fruity: 0.7,
@@ -209,14 +202,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.8, // Especially red peppers
-        salty: 0.0,
-        sour: 0.0,
-        bitter: 0.1,
-        umami: 0.1,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0.1, sweet: 0.6, sour: 0.2, bitter: 0.1, salty: 0, umami: 0.2 },
       aroma: {
         floral: 0.2,
         fruity: 0.6,
@@ -360,7 +346,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 },
 
   tomato_paste: {
-      description: "A fresh plant food, tomato paste offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes it the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize whole. Sun-dried tomatoes concentrate sweetness and umami dramatically; rehydrate in warm water or oil.",
     name: "tomato paste",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -400,7 +386,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 },
 
   cherry_tomatoes: {
-      description: "A fresh plant food, cherry tomatoes offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes them the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce well into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize beautifully whole. Salt sliced tomatoes 20 min before serving to draw out water and concentrate flavor.",
     name: "cherry tomatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -425,7 +411,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 },
 
   tomato_sauce: {
-      description: "A fresh plant food, tomato sauce offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes it the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize whole. Sun-dried tomatoes concentrate sweetness and umami dramatically; rehydrate in warm water or oil.",
     name: "tomato sauce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -450,7 +436,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 },
 
   eggplants: {
-      description: "A fresh plant food, eggplants offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.\n\n**Selection & Storage:** Select eggplants with smooth, shiny, deeply colored skin that feel heavy for their size; the stem should be bright green. They are sensitive to both heat and extreme cold; store in a cool, dark place or in the crisper drawer for only a few days.",
     name: "eggplants",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -475,7 +461,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 },
 
   large_eggplant: {
-      description: "A fresh plant food, large eggplant offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.\n\n**Selection & Storage:** Select eggplants with smooth, shiny, deeply colored skin that feel heavy for their size; the stem should be bright green. They are sensitive to both heat and extreme cold; store in a cool, dark place or in the crisper drawer for only a few days.",
     name: "large eggplant",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -525,7 +511,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 },
 
   bell_peppers: {
-      description: "A fresh plant food, bell peppers offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "A sweet, non-spicy fruit of the capsicum family (*Capsicum annuum*) that is botanically a berry but treated as a culinary vegetable. Green peppers are harvested early and taste grassy and slightly bitter, while red, yellow, and orange varieties are fully ripe, offering a fruity sweetness and high Vitamin C content.\n\n**Selection & Storage:** Choose peppers that are firm, heavy for their size, and boast smooth, taut, brightly colored skin without soft spots. Store them unwashed in the crisper drawer, where they will last for a week to ten days.",
     name: "bell peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
