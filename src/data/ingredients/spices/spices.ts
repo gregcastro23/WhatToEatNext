@@ -4,6 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Spices ingredients extracted from cuisine files
 const rawSpices: Record<string, Partial<IngredientMapping>> = {
   ginger: {
+      description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
     name: "ginger",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
@@ -28,8 +29,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.02, magnesium: 0.01, potassium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   cinnamon: {
+      description: "A warm, sweet spice derived from the inner bark of trees (*Cinnamomum*). Cassia cinnamon is strong, spicy, and common in baking, while true \"Ceylon\" cinnamon is softer, more floral, and delicate; both provide a deep, aromatic warmth that enhances both sweet pastries and savory curries.",
     name: "cinnamon",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
@@ -54,8 +60,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.41, calcium: 0.03, iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   nutmeg: {
+      description: "The hard, inner seed of the fruit from a tropical evergreen (*Myristica fragrans*). It possesses an intensely warm, sweet, and slightly woody flavor that is classically paired with dairy (like in béchamel or eggnog) or baked goods to add depth and warmth.",
     name: "nutmeg",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
@@ -80,8 +91,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.04, copper: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   paprika: {
+      description: "A vibrantly red spice made from dried and ground sweet peppers (*Capsicum annuum*). Sweet paprika provides a mild, fruity earthiness and brilliant color, while smoked paprika (Pimentón de la Vera) adds a profound, deep wood-smoke flavor that instantly imparts a 'cooked over fire' quality to any dish.",
     name: "paprika",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
@@ -106,8 +122,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03, potassium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   red_bean_paste: {
+      description: "A dried aromatic spice, red bean paste carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
     name: "red bean paste",
     elementalProperties: { Fire: 0.25, Water: 0.2, Earth: 0.4, Air: 0.15 },
     qualities: ["sweet", "earthy", "dense"],
@@ -132,8 +153,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03, potassium: 0.02, magnesium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   curry_leaves: {
+      description: "A dried aromatic spice, curry leaves carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
     name: "curry leaves",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
@@ -158,8 +184,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.05, calcium: 0.05, phosphorus: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   mustard_seeds: {
+      description: "Tiny, round seeds of various mustard plants (*Brassica* and *Sinapis*) available in yellow, brown, and black varieties. The seeds themselves have no heat until crushed and mixed with a cold liquid, which triggers an enzyme reaction creating the sharp, pungent compound allyl isothiocyanate.\n\n**Selection & Storage:** Yellow seeds are the mildest, while black and brown are much sharper and more pungent. Store whole seeds in an airtight container in a dark pantry, as they keep indefinitely.",
     name: "mustard seeds",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["pungent", "hot", "flavorful"],
@@ -189,8 +220,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   turmeric: {
+      description: "A bright yellow-orange rhizome (*Curcuma longa*) of the ginger family, containing the powerful anti-inflammatory compound curcumin. It offers a distinctly earthy, slightly bitter, and mustard-like flavor, and is primarily used to impart a brilliant golden color to curries, rice, and mustards.",
     name: "turmeric",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.25, Air: 0.3 },
     qualities: ["aromatic", "flavorful", "healing", "warming"],
@@ -215,8 +251,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.1, iron: 0.05, potassium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { spicy: 0.3, sweet: 0.1, sour: 0, bitter: 0.5, salty: 0, umami: 0.2 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   green_chilies: {
+      description: "A dried aromatic spice, green chilies carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
     name: "green chilies",
     elementalProperties: { Fire: 0.55, Water: 0.1, Earth: 0.1, Air: 0.25 },
     qualities: ["spicy", "pungent", "vibrant"],
@@ -241,8 +282,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.05, iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   chole_masala: {
+      description: "A dried aromatic spice, chole masala carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
     name: "chole masala",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "warming"],
@@ -267,8 +313,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03, manganese: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   chaat_masala: {
+      description: "A dried aromatic spice, chaat masala carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
     name: "chaat masala",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.2, Air: 0.35 },
     qualities: ["tangy", "aromatic", "flavorful"],
@@ -293,8 +344,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   cumin_seeds: {
+      description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
     name: "cumin seeds",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.3, Air: 0.25 },
     qualities: ["earthy", "warm", "pungent"],
@@ -319,8 +375,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.07, manganese: 0.02, magnesium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   garam_masala: {
+      description: "A deeply warming, complex spice blend originating from the Indian subcontinent, translating roughly to 'hot spices' (referring to metabolic heat, not chili spice). It typically contains heavily aromatic, sweet spices like cardamom, cinnamon, clove, cumin, and nutmeg, and is usually added near the end of cooking to preserve its aromatics.",
     name: "garam masala",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "warming", "complex"],
@@ -345,8 +406,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.04, manganese: 0.05, calcium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   cardamom: {
+      description: "A highly aromatic, resinous spice (*Elettaria cardamomum*) enclosed in small green or black pods. Green cardamom offers a complex, cooling, eucalyptus-and-citrus sweetness essential for Scandinavian baking and Indian sweets, while black cardamom is heavily smoked and deeply savory.",
     name: "cardamom",
     elementalProperties: { Fire: 0.35, Water: 0.05, Earth: 0.2, Air: 0.4 },
     qualities: ["aromatic", "flavorful", "warming"],
@@ -371,8 +437,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.04, iron: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { spicy: 0.4, sweet: 0.3, sour: 0, bitter: 0.3, salty: 0, umami: 0 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   saffron: {
+      description: "The world's most expensive spice, consisting of the dried crimson stigmas of the *Crocus sativus* flower. It imparts a brilliant golden-yellow hue and a highly complex, honey-like, floral, and slightly metallic or earthy flavor, making it the defining characteristic of classic dishes like paella and risotto alla milanese.",
     name: "saffron",
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.2, Air: 0.3 },
     qualities: ["aromatic", "luxurious", "coloring"],
@@ -397,8 +468,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.05, iron: 0.02, magnesium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { spicy: 0.1, sweet: 0.2, sour: 0, bitter: 0.4, salty: 0, umami: 0.2 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   curry_roux: {
+      description: "A dried aromatic spice, curry roux carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
     name: "curry roux",
     elementalProperties: { Fire: 0.35, Water: 0.15, Earth: 0.3, Air: 0.2 },
     qualities: ["aromatic", "flavorful", "thickening"],
@@ -423,8 +499,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   chili_powder: {
+      description: "A generic term that can refer either to pure ground dried chilies (like cayenne or ancho) or to a Tex-Mex spice blend containing ground chilies, cumin, oregano, and garlic powder. It provides earthy warmth, savory depth, and varying levels of capsaicin-driven heat depending on the chilies used.",
     name: "chili powder",
     elementalProperties: { Fire: 0.55, Water: 0.05, Earth: 0.15, Air: 0.25 },
     qualities: ["spicy", "flavorful", "warming"],
@@ -449,8 +530,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.03, manganese: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   cumin: {
+      description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
     name: "cumin",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.3, Air: 0.25 },
     qualities: ["earthy", "warm", "pungent"],
@@ -475,8 +561,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.07, manganese: 0.02, magnesium: 0.02 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   coriander: {
+      description: "The dried seeds of the cilantro plant (*Coriandrum sativum*), yielding a completely different flavor profile than its leaves. The seeds provide a warm, floral, and slightly citrusy sweetness that is a crucial balancing component in heavy, spicy curry blends and pickling brines.",
     name: "coriander",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.3, Air: 0.3 },
     qualities: ["citrusy", "aromatic", "flavorful"],
@@ -501,8 +592,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02, manganese: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   thai_chilies: {
+      description: "A dried aromatic spice, thai chilies carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
     name: "Thai chilies",
     elementalProperties: { Fire: 0.6, Water: 0.05, Earth: 0.1, Air: 0.25 },
     qualities: ["very spicy", "pungent", "vibrant"],
@@ -527,8 +623,13 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { potassium: 0.01, iron: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
   shrimp_paste: {
+      description: "A widely consumed crustacean known for its sweet, briny flavor and firm, snappy texture. They cook incredibly fast—turning pink and opaque in minutes as heat denatures their proteins—and become tough and rubbery if exposed to high heat for too long.\n\n**Selection & Storage:** Look for firm bodies attached tightly to their shells with a clean, mild saltwater scent; avoid any with black spots (melanosis) on their shells or a smell of ammonia. Store over ice in the refrigerator and consume within a day.",
     name: "shrimp paste",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["umami", "pungent", "savory"],
@@ -553,7 +654,11 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { iron: 0.02, calcium: 0.01 },
       source: "USDA FoodData Central",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
+      culinaryProfile: { flavorProfile: { primary: ["warm"], secondary: ["earthy", "aromatic"], notes: "Bloom in fat or dry-toast briefly to activate aromatics; avoid scorching." }, cookingMethods: ["bloom", "toast", "grind", "infuse"], cuisineAffinity: ["Indian", "Middle-Eastern", "North-African", "Mexican"], preparationTips: ["Grind whole spice as close to use as possible.", "Store away from heat and light."] },
+      pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
+},
 };
 
 // Export spices ingredients for use in spices/index.ts

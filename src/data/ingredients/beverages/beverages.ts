@@ -4,6 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Beverages ingredients extracted from cuisine files
 const rawBeverages: Record<string, Partial<IngredientMapping>> = {
   red_wine_vinaigrette: {
+      description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
     name: "red wine vinaigrette",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
     scaledElemental: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
@@ -38,8 +39,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   clam_juice: {
+      description: "A bivalve mollusk providing a briny, chewy, and distinctly oceanic flavor. Hard-shell clams (like littlenecks or cherrystones) are perfect for eating raw or tossing into pastas, while softer-shelled varieties (like steamers) are excellent for frying or broths.\n\n**Selection & Storage:** Buy clams that are tightly closed; if slightly open, they should snap shut when tapped. Store them in a breathable bag or bowl covered with a damp cloth in the refrigerator.",
     name: "clam juice",
     elementalProperties: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
     scaledElemental: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
@@ -74,8 +80,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 0.4 },
       minerals: { iron: 0.15, selenium: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   white_wine: {
+      description: "A fermented beverage made from light-colored grapes. In cooking, its sharp acidity (tartaric and malic acids) tenderizes proteins, its alcohol dissolves complex flavor compounds, and it provides a bright, fruity foundation for classic sauces like beurre blanc or pan deglazing.",
     name: "white wine",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.1, Air: 0.3 },
     scaledElemental: { Fire: 0.1, Water: 0.5, Earth: 0.1, Air: 0.3 },
@@ -110,8 +121,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: { riboflavin: 0.01, niacin: 0.01 },
       minerals: { phosphorus: 0.03, potassium: 0.02 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   red_wine: {
+      description: "A fermented beverage made from dark-colored grapes, fermented with their skins. It imparts deep color, robust fruit flavors, and astringent tannins, making it the essential braising liquid for hearty, slow-cooked beef dishes like Boeuf Bourguignon.",
     name: "red wine",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 },
     scaledElemental: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 },
@@ -146,8 +162,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: { riboflavin: 0.02 },
       minerals: { manganese: 0.1, iron: 0.03, potassium: 0.04 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   turkey_stock: {
+      description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
     name: "turkey stock",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
     scaledElemental: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
@@ -182,8 +203,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: { niacin: 0.04 },
       minerals: { selenium: 0.03, phosphorus: 0.02 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   water: {
+      description: "The universal solvent and culinary liquid — mineral content and temperature both matter more than is usually recognized. Hard water (high calcium, magnesium) inhibits yeast and affects coffee extraction; filtered or bottled water produces cleaner stock and clearer broth. Ice-cold water relaxes doughs; just-off-boil water extracts tea; room-temperature water shortens rest times in pastry. Recipe measurements assume volumetric consistency — weigh water (1 mL = 1 g) for precision in baking.",
     name: "Water",
     elementalProperties: { Fire: 0.0, Water: 0.8, Earth: 0.1, Air: 0.1 },
     scaledElemental: { Fire: 0.0, Water: 0.8, Earth: 0.1, Air: 0.1 },
@@ -218,8 +244,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: { fluoride: 0.05 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   baking_soda: {
+      description: "Pure sodium bicarbonate, a chemical base that requires the addition of an acidic ingredient (like buttermilk, yogurt, or lemon juice) to react and produce carbon dioxide gas. In addition to leavening, it dramatically accelerates browning (the Maillard reaction) by raising the pH of the batter.",
     name: "baking soda",
     elementalProperties: { Fire: 0.1, Water: 0.1, Earth: 0.6, Air: 0.2 },
     scaledElemental: { Fire: 0.1, Water: 0.1, Earth: 0.6, Air: 0.2 },
@@ -254,8 +285,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   coffee: {
+      description: "A liquid consumable, coffee functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
     name: "coffee",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.1, Air: 0.3 },
     scaledElemental: { Fire: 0.3, Water: 0.3, Earth: 0.1, Air: 0.3 },
@@ -290,8 +326,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: { riboflavin: 0.07, niacin: 0.03, B5: 0.03 },
       minerals: { manganese: 0.02, potassium: 0.03, magnesium: 0.02 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   dry_white_wine: {
+      description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
     name: "dry white wine",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.1, Air: 0.3 },
     scaledElemental: { Fire: 0.1, Water: 0.5, Earth: 0.1, Air: 0.3 },
@@ -326,8 +367,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: { riboflavin: 0.01, niacin: 0.01 },
       minerals: { phosphorus: 0.03 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   white_wine_vinegar: {
+      description: "A bright, moderately sharp vinegar made by fermenting white wine. It is significantly less assertive and tannic than red wine vinegar, offering a delicate, slightly floral acidity that perfectly balances lighter dishes like chicken salads, delicate fish, or hollandaise sauce.",
     name: "white wine vinegar",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
     scaledElemental: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
@@ -362,8 +408,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: { manganese: 0.01 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   tea_bags: {
+      description: "A liquid consumable, tea bags functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
     name: "tea bags",
     elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.1, Air: 0.4 },
     scaledElemental: { Fire: 0.1, Water: 0.4, Earth: 0.1, Air: 0.4 },
@@ -398,8 +449,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: { riboflavin: 0.02 },
       minerals: { manganese: 0.22, fluoride: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   rose_water: {
+      description: "The universal solvent and culinary liquid — mineral content and temperature both matter more than is usually recognized. Hard water (high calcium, magnesium) inhibits yeast and affects coffee extraction; filtered or bottled water produces cleaner stock and clearer broth. Ice-cold water relaxes doughs; just-off-boil water extracts tea; room-temperature water shortens rest times in pastry. Recipe measurements assume volumetric consistency — weigh water (1 mL = 1 g) for precision in baking.",
     name: "rose water",
     elementalProperties: { Fire: 0.0, Water: 0.6, Earth: 0.0, Air: 0.4 },
     scaledElemental: { Fire: 0.0, Water: 0.6, Earth: 0.0, Air: 0.4 },
@@ -434,8 +490,13 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: {},
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
   water_chestnuts: {
+      description: "An aquatic tuber (*Eleocharis dulcis*) grown in marshes, prized for a structural uniqueness: it retains a profound, apple-like crispness even after prolonged cooking. Its mild sweetness provides essential textural contrast in rich stir-fries and dim sum fillings.\n\n**Selection & Storage:** Fresh water chestnuts are superior but difficult to find; look for firm, unwrinkled tubers. Canned ones are widely available; rinse well to remove any tinny flavor before using.",
     name: "water chestnuts",
     elementalProperties: { Fire: 0.0, Water: 0.4, Earth: 0.4, Air: 0.2 },
     scaledElemental: { Fire: 0.0, Water: 0.4, Earth: 0.4, Air: 0.2 },
@@ -470,7 +531,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B6: 0.09, riboflavin: 0.06 },
       minerals: { manganese: 0.1, copper: 0.08, potassium: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.1, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { aromatic: 0.5, complex: 0.5 }, texture: { liquid: 1.0, smooth: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["aromatic"], secondary: ["complex"], notes: "Use as liquid base in reductions, braises, or cocktails." }, cookingMethods: ["reduce", "deglaze", "infuse", "steep"], cuisineAffinity: ["global"], preparationTips: ["Warm or chill to optimal serving temperature.", "Match weight and flavor to accompanying food."] },
+      pairingRecommendations: { complementary: ["citrus", "herbs", "spices"], contrasting: ["dairy", "salt"], toAvoid: [] },
+      storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
+},
 };
 
 // Export processed ingredients

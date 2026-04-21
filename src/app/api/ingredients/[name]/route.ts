@@ -1,29 +1,11 @@
 import { NextResponse } from "next/server";
+import { getRecipesForIngredient, getRecipeCountForIngredient, getRecipesByCuisineForIngredient } from "@/data/ingredientRecipeIndex";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
-
-function normalizeName(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/**
- * Tokenized match: does `candidate` contain `target` as a word/substring?
- * We normalize both sides so "Basil, fresh" matches "basil".
- */
-function ingredientMatches(candidate: string, target: string): boolean {
-  const c = normalizeName(candidate);
-  const t = normalizeName(target);
-  if (!c || !t) return false;
-  return c.includes(t) || t.includes(c);
-}
 
 interface RelatedRecipe {
   id: string;
@@ -84,17 +66,24 @@ export async function GET(
     const ingredientService = IngredientService.getInstance();
     const ingredient = ingredientService.getIngredientByName(ingredientName);
 
-    // Find recipes using this ingredient
+    // Resolve canonical slug for the recipe index
+    const canonicalName = ingredient?.name || ingredientName;
+    const slug = canonicalName.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/(^_|_$)/g, '');
+
+    // Get from pre-computed recipe index
+    const matches = getRecipesForIngredient(slug);
+    const totalRecipeMatches = getRecipeCountForIngredient(slug);
+    const recipesByCuisine = getRecipesByCuisineForIngredient(slug);
+
+    // Enhance the top 24 recipes with detailed timing info for the UI
     const recipeService = UnifiedRecipeService.getInstance();
     const allRecipes = await recipeService.getAllRecipes();
+    const recipeMap = new Map(allRecipes.map((r) => [r.id, r]));
 
     const relatedRecipes: RelatedRecipe[] = [];
-    for (const recipe of allRecipes) {
-      if (!Array.isArray(recipe.ingredients)) continue;
-      const match = recipe.ingredients.find((ing) =>
-        ing?.name ? ingredientMatches(ing.name, ingredientName) : false,
-      );
-      if (match) {
+    for (const match of matches) {
+      const recipe = recipeMap.get(match.recipeId);
+      if (recipe) {
         relatedRecipes.push({
           id: recipe.id,
           name: recipe.name,
@@ -106,7 +95,16 @@ export async function GET(
             (recipe as { baseServingSize?: number }).baseServingSize ||
             recipe.servingSize ||
             recipe.numberOfServings,
-          amount: match.amount,
+          amount: typeof match.amount === "number" ? match.amount : undefined,
+          unit: match.unit,
+        });
+      } else {
+        // Fallback if not loaded in memory
+        relatedRecipes.push({
+          id: match.recipeId,
+          name: match.recipeName,
+          cuisine: match.cuisine,
+          amount: typeof match.amount === "number" ? match.amount : undefined,
           unit: match.unit,
         });
       }
@@ -119,8 +117,9 @@ export async function GET(
       success: true,
       ingredient: ingredient ?? null,
       relatedRecipes,
+      recipesByCuisine,
       substitutions,
-      totalRecipeMatches: relatedRecipes.length,
+      totalRecipeMatches,
     });
   } catch (error) {
     console.error("[ingredients/:name] Error:", error);

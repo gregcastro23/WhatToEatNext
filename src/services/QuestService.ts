@@ -15,8 +15,8 @@ import type {
   TokenType,
 } from "@/types/economy";
 import { TOKEN_TYPES } from "@/types/economy";
-import { tokenEconomy } from "./TokenEconomyService";
 import { notificationDatabase } from "./notificationDatabaseService";
+import { tokenEconomy } from "./TokenEconomyService";
 
 // ─── DB Bootstrapping ─────────────────────────────────────────────────
 
@@ -54,7 +54,7 @@ function rowToQuestDef(row: any): QuestDefinition {
     triggerEvent: row.trigger_event,
     triggerThreshold: row.trigger_threshold || 1,
     isActive: row.is_active !== false,
-    sortOrder: typeof row.sort_order === "number" ? row.sort_order : 0,
+    sortOrder: row.sort_order ?? 0,
   };
 }
 
@@ -306,8 +306,8 @@ class QuestService {
               questSlug: quest.slug,
               tokenType: quest.tokenRewardType,
               tokenAmount: quest.tokenRewardAmount,
-            },
-          },
+            }
+          }
         );
       } catch (err) {
         _logger.error("[QuestService] Failed to create quest completion notification", err as any);

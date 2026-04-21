@@ -2,9 +2,9 @@
 
 import { useMemo, useState } from 'react';
 import { formatNotificationTimeAgo, useNotifications } from '@/hooks/useNotifications';
+import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
 import { NOTIFICATION_STYLES } from '@/types/notification';
 import type { UserNotification } from '@/types/notification';
-import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
 
 type NotificationFilter = 'all' | 'unread';
 
@@ -96,10 +96,9 @@ export function NotificationPanel() {
       } else {
         setStatusMessage(data.message || 'Failed to claim reward.');
       }
-    } catch (err) {
+    } catch {
       setStatusMessage('Error claiming reward.');
     }
-
     setBusyNotificationId(null);
   };
 

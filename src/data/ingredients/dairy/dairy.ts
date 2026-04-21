@@ -5,6 +5,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawDairy: Record<string, Partial<IngredientMapping>> = {
   // MILKS
   milk: {
+      description: "An opaque, nutrient-rich emulsion of butterfat globules suspended in a water-based fluid containing dissolved carbohydrates (lactose) and proteins (casein and whey). It acts as a foundational binder and tenderizer in baking, while its lactose sugars promote browning and crust formation.",
     name: "milk",
     elementalProperties: { Fire: 0.05, Water: 0.6, Earth: 0.2, Air: 0.15 },
     alchemicalProperties: { Spirit: 0.06, Essence: 0.38, Matter: 0.27, Substance: 0.29 },
@@ -71,9 +72,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         magnesium: 0.06,
       },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   whole_milk: {
+      description: "Dairy milk with its naturally occurring ~3.25% butterfat retained after standardization. The fat carries flavor and fat-soluble vitamins (A, D, E, K), contributes richness and body, and gives whole milk a rounder mouthfeel than reduced-fat versions. Indispensable in café culture for steaming a stable microfoam, in baking for tender crumb, and in homemade cheese-making where fat content affects yield and texture. Ultra-pasteurized whole milk has a longer shelf life but slightly cooked flavor.",
     name: "whole milk",
     elementalProperties: { Fire: 0.08, Water: 0.55, Earth: 0.25, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.08, Essence: 0.75, Matter: 0.35, Substance: 0.30 },
@@ -140,9 +144,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         magnesium: 0.06,
       },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   buttermilk: {
+      description: "A dairy product, buttermilk contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
     name: "buttermilk",
     elementalProperties: { Fire: 0.05, Water: 0.55, Earth: 0.15, Air: 0.25 },
     alchemicalProperties: { Spirit: 0.18, Essence: 0.32, Matter: 0.26, Substance: 0.24 },
@@ -203,10 +210,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 12,
         sodium: 260,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   evaporated_milk: {
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "evaporated milk",
     elementalProperties: { Fire: 0.12, Water: 0.45, Earth: 0.3, Air: 0.13 },
     alchemicalProperties: { Spirit: 0.1, Essence: 0.26, Matter: 0.35, Substance: 0.29 },
@@ -262,10 +274,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 25,
         sodium: 267,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   skim_milk: {
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "skim milk",
     elementalProperties: { Fire: 0.02, Water: 0.7, Earth: 0.1, Air: 0.18 },
     alchemicalProperties: { Spirit: 0.06, Essence: 0.44, Matter: 0.23, Substance: 0.27 },
@@ -321,10 +338,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 12,
         sodium: 103,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   oat_milk: {
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "oat milk",
     elementalProperties: { Fire: 0.08, Water: 0.5, Earth: 0.28, Air: 0.14 },
     alchemicalProperties: { Spirit: 0.09, Essence: 0.31, Matter: 0.3, Substance: 0.3 },
@@ -380,10 +402,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 7,
         sodium: 100,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   almond_milk: {
+      description: "A popular plant-based milk alternative created by blending almonds with water and straining out the solids. It offers a very thin, watery texture and a subtly sweet, distinctly nutty flavor, but it lacks the protein structure to properly foam or emulsify in hot sauces without chemical stabilizers.",
     name: "almond milk",
     elementalProperties: { Fire: 0.1, Water: 0.52, Earth: 0.22, Air: 0.16 },
     alchemicalProperties: { Spirit: 0.1, Essence: 0.34, Matter: 0.27, Substance: 0.29 },
@@ -439,10 +466,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 150,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   coconut_milk: {
+      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "coconut milk",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.28, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.11, Essence: 0.31, Matter: 0.29, Substance: 0.29 },
@@ -452,14 +484,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     qualities: ["tropical", "rich", "creamy", "sweet", "exotic"],
     category: "dairy",
     sensoryProfile: {
-      taste: {
-        sweet: 0.6,
-        salty: 0.05,
-        sour: 0.0,
-        bitter: 0.0,
-        umami: 0.05,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.6, sour: 0.1, bitter: 0, salty: 0, umami: 0.1 },
       aroma: {
         floral: 0.2,
         fruity: 0.5,
@@ -509,10 +534,13 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         zinc: 0.09,
       },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   // CREAMS
   heavy_cream: {
+      description: "The high-fat layer (at least 36% milk fat) skimmed from the top of milk before homogenization. Because of its high fat content, it is highly stable—it can be whipped into a foam to hold air, and it won't curdle or \"break\" when boiled or reduced with acidic ingredients.",
     name: "heavy cream",
     elementalProperties: { Fire: 0.18, Water: 0.38, Earth: 0.35, Air: 0.09 },
     alchemicalProperties: { Spirit: 0.1, Essence: 0.31, Matter: 0.3, Substance: 0.29 },
@@ -573,9 +601,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       vitamins: { A: 0.08, D: 0.02, E: 0.02, K: 0.01 },
       minerals: { calcium: 0.01 },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   sour_cream: {
+      description: "A thick, rich dairy product created by fermenting regular cream with lactic acid bacteria, which thickens the liquid and imparts a distinctively tart, acidic tang. It acts as an excellent tenderizer in baked goods and a cooling, rich garnish for spicy dishes.",
     name: "sour cream",
     elementalProperties: { Fire: 0.08, Water: 0.42, Earth: 0.28, Air: 0.22 },
     alchemicalProperties: { Spirit: 0.12, Essence: 0.55, Matter: 0.50, Substance: 0.40 },
@@ -631,10 +662,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 8,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   creme_fraiche: {
+      description: "A dairy product, creme fraiche contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
     name: "crème fraîche",
     elementalProperties: { Fire: 0.12, Water: 0.4, Earth: 0.32, Air: 0.16 },
     alchemicalProperties: { Spirit: 0.12, Essence: 0.60, Matter: 0.50, Substance: 0.42 },
@@ -696,10 +732,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.3,
         sodium: 8,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   mascarpone: {
+      description: "An Italian cream cheese coagulated through the addition of an acidic substance (like lemon juice or citric acid) rather than rennet. It boasts an exceptionally high butterfat content (up to 75%), yielding an unimaginably rich, velvety texture and a sweet, milky flavor crucial for tiramisu.",
     name: "mascarpone",
     elementalProperties: { Fire: 0.15, Water: 0.32, Earth: 0.42, Air: 0.11 },
     alchemicalProperties: { Spirit: 0.10, Essence: 0.55, Matter: 0.62, Substance: 0.48 },
@@ -761,10 +802,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 1,
         sodium: 15,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   clotted_cream: {
+      description: "A dairy product, clotted cream contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
     name: "clotted cream",
     elementalProperties: { Fire: 0.22, Water: 0.28, Earth: 0.42, Air: 0.08 },
     alchemicalProperties: { Spirit: 0.12, Essence: 0.26, Matter: 0.32, Substance: 0.3 },
@@ -820,11 +866,16 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 10,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   // BUTTERS
   butter: {
+      description: "A dairy emulsion created by churning cream until the butterfat separates from the buttermilk, containing about 80% fat, 15% water, and 5% milk proteins. Its low melting point gives it an unparalleled mouthfeel, while its milk solids undergo the Maillard reaction to create complex, nutty flavors when browned.",
     name: "butter",
     elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.5, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.15, Essence: 0.50, Matter: 0.78, Substance: 0.60 },
@@ -834,14 +885,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     qualities: ["rich", "fatty", "creamy", "golden", "versatile"],
     category: "dairy",
     sensoryProfile: {
-      taste: {
-        sweet: 0.25,
-        salty: 0.3,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.2,
-        spicy: 0.0,
-      },
+      taste: { sweet: 0.2, salty: 0.1, sour: 0, bitter: 0, umami: 0.1, spicy: 0, rich: 0.9 },
       aroma: {
         floral: 0.0,
         fruity: 0.1,
@@ -885,9 +929,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       vitamins: { A: 0.11, E: 0.03, D: 0.01, K: 0.01 },
       minerals: { selenium: 0.01 },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   unsalted_butter: {
+      description: "Pure dairy fat (~80%) churned from cream without added salt — the baker's default for precise seasoning control, since salt levels in salted butter vary by brand. Its flavor is pure cream without the distraction of salt, letting the cook decide exact seasoning. Freshness matters more than in salted versions, since salt is a preservative; store unsalted butter refrigerated 1–2 months or frozen up to 6 months. Softened to cool room temperature (65°F), it creams air into cakes and cookies.",
     name: "unsalted butter",
     elementalProperties: { Fire: 0.23, Water: 0.16, Earth: 0.52, Air: 0.09 },
     alchemicalProperties: { Spirit: 0.15, Essence: 0.12, Matter: 0.44, Substance: 0.29 },
@@ -897,14 +944,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     qualities: ["pure", "sweet", "creamy", "mild", "versatile"],
     category: "dairy",
     sensoryProfile: {
-      taste: {
-        sweet: 0.4,
-        salty: 0.0,
-        sour: 0.05,
-        bitter: 0.0,
-        umami: 0.15,
-        spicy: 0.0,
-      },
+      taste: { sweet: 0.2, salty: 0, sour: 0, bitter: 0, umami: 0.1, spicy: 0, rich: 0.9 },
       aroma: {
         floral: 0.0,
         fruity: 0.15,
@@ -943,10 +983,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 2,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   cold_butter: {
+      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "cold butter",
     elementalProperties: { Fire: 0.2, Water: 0.12, Earth: 0.58, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.13, Essence: 0.1, Matter: 0.47, Substance: 0.3 },
@@ -1002,10 +1047,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 91,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   french_butter: {
+      description: "Premium butter cultured with lactic acid bacteria before churning, and required by French law to contain at least 82% butterfat (compared to the US standard of 80%). The culturing process provides a distinct, complex tanginess, while the higher fat content yields flakier pastries and richer sauces.",
     name: "French butter",
     elementalProperties: { Fire: 0.26, Water: 0.14, Earth: 0.48, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.18, Essence: 0.13, Matter: 0.41, Substance: 0.28 },
@@ -1061,10 +1111,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 91,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   clarified_butter: {
+      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "clarified butter",
     elementalProperties: { Fire: 0.35, Water: 0.05, Earth: 0.55, Air: 0.05 },
     alchemicalProperties: { Spirit: 0.19, Essence: 0.1, Matter: 0.43, Substance: 0.28 },
@@ -1125,10 +1180,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 0,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   ghee: {
+      description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
     name: "ghee",
     elementalProperties: { Fire: 0.4, Water: 0.03, Earth: 0.52, Air: 0.05 },
     alchemicalProperties: { Spirit: 0.38, Essence: 0.48, Matter: 0.75, Substance: 0.65 },
@@ -1184,10 +1244,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 0,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   brown_butter: {
+      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "brown butter",
     elementalProperties: { Fire: 0.45, Water: 0.08, Earth: 0.4, Air: 0.07 },
     alchemicalProperties: { Spirit: 0.26, Essence: 0.14, Matter: 0.36, Substance: 0.24 },
@@ -1243,11 +1308,16 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0,
         sodium: 91,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   // FRESH CHEESES
   cream_cheese: {
+      description: "A soft, highly spreadable fresh cheese made from milk and cream, stabilized with lactic acid bacteria to provide a signature, mild tanginess. Because of its high fat content and stable emulsion, it blends seamlessly into both dense, rich frostings and velvety savory dips.",
     name: "cream cheese",
     elementalProperties: { Fire: 0.1, Water: 0.38, Earth: 0.42, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.08, Essence: 0.50, Matter: 0.55, Substance: 0.45 },
@@ -1314,9 +1384,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       vitamins: { A: 0.06, B12: 0.04, riboflavin: 0.03 },
       minerals: { calcium: 0.02, phosphorus: 0.03, selenium: 0.03 },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   ricotta: {
+      description: "An incredibly soft, fluffy Italian whey cheese made by reheating the whey left over from producing other cheeses. It has a mild, subtly sweet, and milky flavor profile that makes it a versatile foundational ingredient in both savory pastas (like lasagna) and sweet pastries (like cannoli).",
     name: "ricotta",
     elementalProperties: { Fire: 0.06, Water: 0.5, Earth: 0.32, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.08, Essence: 0.62, Matter: 0.45, Substance: 0.40 },
@@ -1372,10 +1445,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.3,
         sodium: 104,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   cottage_cheese: {
+      description: "A fresh, unaged cheese consisting of loose, mild curds suspended in a small amount of cream or whey. Its high protein content and very mild, slightly acidic flavor make it a popular base for both savory additions (like black pepper and tomatoes) and sweet pairings (like fruit).",
     name: "cottage cheese",
     elementalProperties: { Fire: 0.05, Water: 0.55, Earth: 0.28, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.08, Essence: 0.58, Matter: 0.42, Substance: 0.45 },
@@ -1431,10 +1509,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 6.1,
         sodium: 819,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   quark: {
+      description: "A dairy product, quark contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
     name: "quark",
     elementalProperties: { Fire: 0.04, Water: 0.58, Earth: 0.26, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.1, Essence: 0.3, Matter: 0.32, Substance: 0.28 },
@@ -1490,10 +1573,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 3.4,
         sodium: 40,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   labneh: {
+      description: "A dairy product, labneh contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
     name: "labneh",
     elementalProperties: { Fire: 0.07, Water: 0.45, Earth: 0.35, Air: 0.13 },
     alchemicalProperties: { Spirit: 0.18, Essence: 0.55, Matter: 0.52, Substance: 0.48 },
@@ -1549,10 +1637,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 1,
         sodium: 120,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   paneer: {
+      description: "A fresh, unaged, non-melting cheese common in the Indian subcontinent, made by curdling heated milk with lemon juice or vinegar. Because it doesn't melt, its firm, spongy texture is perfect for absorbing the complex, spicy gravies of dishes like Saag Paneer or Matar Paneer.",
     name: "paneer",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.42, Air: 0.08 },
     alchemicalProperties: { Spirit: 0.08, Essence: 0.45, Matter: 0.65, Substance: 0.60 },
@@ -1608,11 +1701,16 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 5,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   // SOFT CHEESES
   goat_cheese: {
+      description: "A tart, earthy cheese made from goat's milk (*Capra hircus*), known as chèvre. It contains different fatty acids (caproic, caprylic, and capric acids) than cow's milk, giving it a distinctive tang and a dense, crumbly texture that softens but doesn't melt into strings when heated.",
     name: "goat cheese",
     elementalProperties: { Fire: 0.12, Water: 0.4, Earth: 0.35, Air: 0.13 },
     alchemicalProperties: { Spirit: 0.40, Essence: 0.52, Matter: 0.55, Substance: 0.50 },
@@ -1668,10 +1766,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.3,
         sodium: 130,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   brie: {
+      description: "A soft-ripened, bloomy-rind cheese originally from the French region of Brie. The edible white rind (a mold called *Penicillium camemberti*) breaks down the fats and proteins in the cheese from the outside in, creating a luxurious, runny, and buttery paste with notes of mushroom and earth.",
     name: "brie",
     elementalProperties: { Fire: 0.15, Water: 0.42, Earth: 0.32, Air: 0.11 },
     alchemicalProperties: { Spirit: 0.42, Essence: 0.52, Matter: 0.58, Substance: 0.50 },
@@ -1727,10 +1830,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.1,
         sodium: 180,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   camembert: {
+      description: "A soft, bloomy-rind cheese from Normandy, France. It is chemically similar to Brie but typically features a slightly deeper, more robust flavor profile with pronounced notes of earth, mushrooms, and truffles due to its specific *Penicillium camemberti* mold and production methods.",
     name: "camembert",
     elementalProperties: { Fire: 0.18, Water: 0.4, Earth: 0.3, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.48, Essence: 0.50, Matter: 0.55, Substance: 0.48 },
@@ -1786,10 +1894,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.1,
         sodium: 240,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   feta: {
+      description: "A brined curd cheese traditionally made in Greece from sheep's milk (or a mixture of sheep and goat's milk). Its extended aging in salt brine gives it a profound, sharp saltiness and a crumbly, grainy texture that acts as a bright, acidic counterpoint to rich roasted meats or sweet summer fruits.",
     name: "feta",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.32, Air: 0.13 },
     alchemicalProperties: { Spirit: 0.30, Essence: 0.50, Matter: 0.60, Substance: 0.55 },
@@ -1845,10 +1958,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 1.1,
         sodium: 316,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   burrata: {
+      description: "An artisanal Italian cheese consisting of a solid outer shell of fresh mozzarella that is hand-tied around a luscious, creamy center of stracciatella (shredded mozzarella curds mixed with heavy cream). Breaking it open reveals an incredibly rich, buttery texture that elevates simple salads.",
     name: "burrata",
     elementalProperties: { Fire: 0.12, Water: 0.48, Earth: 0.3, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.15, Essence: 0.68, Matter: 0.45, Substance: 0.42 },
@@ -1904,11 +2022,16 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 1,
         sodium: 85,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   // SEMI-SOFT CHEESES
   mozzarella: {
+      description: "A southern Italian pasta filata (spun paste) cheese made by stretching heated curds, resulting in a unique, elastic, and stringy texture. Fresh mozzarella is incredibly delicate, milky, and high in moisture, while low-moisture (block) mozzarella is ideal for baking and melting (like on pizza) due to its superior stretch.",
     name: "mozzarella",
     elementalProperties: { Fire: 0.14, Water: 0.46, Earth: 0.28, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.10, Essence: 0.60, Matter: 0.55, Substance: 0.50 },
@@ -1969,9 +2092,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 0.13, riboflavin: 0.06, A: 0.04 },
       minerals: { calcium: 0.14, phosphorus: 0.1, selenium: 0.06, zinc: 0.06 },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   havarti: {
+      description: "A semi-soft, buttery cow's milk cheese from Denmark. It features small, irregular holes ('eyes') and a remarkably smooth, sweet, and slightly acidic flavor that melts beautifully, making it an upgraded choice for sophisticated grilled cheese sandwiches.",
     name: "havarti",
     elementalProperties: { Fire: 0.16, Water: 0.38, Earth: 0.35, Air: 0.11 },
     alchemicalProperties: { Spirit: 0.12, Essence: 0.22, Matter: 0.31, Substance: 0.35 },
@@ -2027,10 +2153,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.2,
         sodium: 215,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   monterey_jack: {
+      description: "A semi-hard, highly meltable cow's milk cheese originating in California. Because its flavor is exceptionally mild and neutral, it acts as the perfect structural melting cheese for dishes that rely on other ingredients for flavor, such as nachos, quesadillas, and spicy dips.",
     name: "monterey jack",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.33, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.11, Essence: 0.22, Matter: 0.31, Substance: 0.36 },
@@ -2086,10 +2217,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.2,
         sodium: 150,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   fontina: {
+      description: "A classic Italian cow's milk cheese boasting a pungent, earthy aroma but a surprisingly mild, sweet, and nutty flavor. Its high fat content and semi-soft texture make it one of the premier melting cheeses in the world, essential for fondue and rich gratins.",
     name: "fontina",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.35, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.13, Essence: 0.21, Matter: 0.31, Substance: 0.35 },
@@ -2145,10 +2281,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.4,
         sodium: 220,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   halloumi: {
+      description: "A semi-hard, unripened, brined cheese from Cyprus made from a mixture of goat's and sheep's milk. Its unique chemical structure allows it to withstand incredibly high heat without melting, making it the premier cheese for grilling or pan-frying to a crispy, squeaky golden-brown.",
     name: "halloumi",
     elementalProperties: { Fire: 0.28, Water: 0.32, Earth: 0.32, Air: 0.08 },
     alchemicalProperties: { Spirit: 0.18, Essence: 0.42, Matter: 0.75, Substance: 0.70 },
@@ -2204,11 +2345,16 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 350,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   // HARD CHEESES
   cheddar_cheese: {
+      description: "A relatively hard, off-white to orange cow's milk cheese that undergoes a unique \"cheddaring\" process—stacking slabs of curds to press out whey. As it ages, enzymes break down proteins and fats into complex amino acids, transforming its flavor from mild and creamy to sharp, crumbly, and deeply savory.\n\n**Selection & Storage:** Look for solid blocks without surface mold or dry, cracked edges. Store wrapped tightly in parchment or wax paper, then placed in a loosely closed plastic bag in the cheese drawer.",
     name: "cheddar cheese",
     elementalProperties: { Fire: 0.22, Water: 0.25, Earth: 0.42, Air: 0.11 },
     alchemicalProperties: { Spirit: 0.35, Essence: 0.40, Matter: 0.80, Substance: 0.75 },
@@ -2269,9 +2415,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 0.14, A: 0.06, riboflavin: 0.06, K: 0.03 },
       minerals: { calcium: 0.15, phosphorus: 0.14, selenium: 0.06, zinc: 0.06 },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   gruy_re_cheese: {
+      description: "A dairy product, gruy re cheese contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
     name: "Gruyère cheese",
     elementalProperties: { Fire: 0.24, Water: 0.22, Earth: 0.44, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.14, Essence: 0.17, Matter: 0.31, Substance: 0.38 },
@@ -2327,10 +2476,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.1,
         sodium: 95,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   parmesan: {
+      description: "An iconic, hard, granular Italian cheese (*Parmigiano-Reggiano*) made from raw cow's milk and aged for at least 12 months. This long aging process creates an intensely savory, umami-rich flavor and forms crystalline crunches of tyrosine (an amino acid), making it a powerful natural flavor enhancer.",
     name: "parmesan",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.5, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.17, Essence: 0.13, Matter: 0.32, Substance: 0.38 },
@@ -2398,9 +2552,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 0.2, riboflavin: 0.05, A: 0.04 },
       minerals: { calcium: 0.26, phosphorus: 0.2, selenium: 0.08, zinc: 0.06 },
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   pecorino_romano: {
+      description: "A family of hard, salty Italian cheeses made specifically from sheep's milk (*pecora* meaning sheep). Pecorino Romano is the most famous—heavily salted, sharply pungent, and granular—serving as the foundational flavor for classic Roman pastas like Cacio e Pepe.\n\n**Selection & Storage:** Purchase in blocks rather than pre-grated. Store wrapped tightly in parchment paper and plastic wrap in the cheese drawer, where it will last for months.",
     name: "pecorino romano",
     elementalProperties: { Fire: 0.32, Water: 0.08, Earth: 0.52, Air: 0.08 },
     alchemicalProperties: { Spirit: 0.17, Essence: 0.13, Matter: 0.32, Substance: 0.38 },
@@ -2456,10 +2613,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 340,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   manchego: {
+      description: "A firm, buttery sheep's milk cheese from the La Mancha region of Spain. Depending on its age (from semi-curado to añejo), it offers a complex, zesty, and slightly piquante flavor with a distinctly crystalline texture, making it the classic pairing for sweet quince paste (membrillo).",
     name: "manchego",
     elementalProperties: { Fire: 0.26, Water: 0.18, Earth: 0.46, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.15, Essence: 0.16, Matter: 0.31, Substance: 0.38 },
@@ -2515,10 +2677,15 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.1,
         sodium: 190,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 
   asiago: {
+      description: "A northern Italian cow's milk cheese that dramatically changes with age. Fresh Asiago (Pressato) is smooth, sweet, and meltable, while aged Asiago (d'Allevo) develops a crumbly texture and an incredibly sharp, savory, and complex flavor profile similar to a young Parmesan.",
     name: "asiago",
     elementalProperties: { Fire: 0.25, Water: 0.2, Earth: 0.45, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.14, Essence: 0.16, Matter: 0.31, Substance: 0.39 },
@@ -2574,8 +2741,12 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
         sugar: 0.5,
         sodium: 230,
       },
+        vitamins: {},
+        minerals: {}
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["lactic", "rich"], notes: "Acid and heat cause separation; temper carefully into hot liquids." }, cookingMethods: ["sauce", "cream", "bake", "foam", "finish"], cuisineAffinity: ["European", "American", "Middle-Eastern"], preparationTips: ["Temper with a small amount of hot liquid before adding to sauces.", "High heat breaks the emulsion — use gentle warmth."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
+},
 };
 
 // ... more cheese categories could be added here ...

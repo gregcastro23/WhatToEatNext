@@ -64,6 +64,43 @@ export interface CookingMethod {
   };
   description: string;
 }
+
+// Canonical nutritional profile (aligned to USDA FoodData Central serving format).
+// Optional fields are genuinely optional per ingredient category — e.g. salts have no macros.
+export interface NutritionalProfile {
+  serving_size: string;
+  calories?: number;
+  macros?: {
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+    sugar?: number;
+    saturatedFat?: number;
+    sodium?: number;
+    potassium?: number;
+    cholesterol?: number;
+  };
+  vitamins?: Record<string, number>;
+  minerals?: Record<string, number>;
+  source?: string;
+  notes?: string;
+}
+
+// Canonical culinary profile grouping flavor, methods, cuisine affinity, and prep tips.
+export interface CulinaryProfile {
+  flavorProfile?: {
+    primary?: string[];
+    secondary?: string[];
+    notes?: string;
+  };
+  cookingMethods?: string[];
+  cuisineAffinity?: string[];
+  preparationTips?: string[];
+  doneness?: string[];
+  servingSuggestions?: string[];
+}
+
 export interface BaseIngredient {
   name: string;
   category: IngredientCategory;
@@ -81,10 +118,22 @@ export interface LunarPhaseModifier {
   recommendedUses?: string[];
 }
 export interface Ingredient extends BaseIngredient {
+  id?: string;
+  description?: string;
   origin?: string[];
+  regionalOrigins?: string[];
   subCategory?: string;
   dietary?: string[];
   modality?: Modality;
+  sustainabilityScore?: number;
+  nutritionalProfile?: NutritionalProfile;
+  culinaryProfile?: CulinaryProfile;
+  // Context-computed (NOT stored as primary source of truth — see planetaryAlchemyMapping).
+  // Persisted here only as an authored aesthetic baseline when the recipe context is unknown.
+  alchemicalProperties?: AlchemicalProperties;
+  quantityBase?: { amount: number; unit: string };
+  scaledElemental?: ElementalProperties;
+  kineticsImpact?: { thermalDirection: number; forceMagnitude: number };
   varieties?: Record<
     string,
     {

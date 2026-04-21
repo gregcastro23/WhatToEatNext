@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawAromatics = {
   onion: {
+      description: "A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds that, when exposed to heat, undergo the Maillard reaction to create deep, sweet, and complex flavors ranging from sharp when raw to caramel-like when slow-cooked.",
     name: "Onion",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.55, Essence: 0.50, Matter: 0.55, Substance: 0.45 },
@@ -58,9 +59,13 @@ const rawAromatics = {
       duration: "1-2 months",
       notes: "Keep away from potatoes",
     },
-  },
+      sensoryProfile: { taste: { spicy: 0.4, sweet: 0.3, salty: 0, sour: 0.1, bitter: 0.1, umami: 0.4 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   garlic: {
+      description: "A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows into a deep, sweet nuttiness when roasted or sautéed.\\n\\n",
     name: "Garlic",
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
     alchemicalProperties: { Spirit: 0.82, Essence: 0.55, Matter: 0.45, Substance: 0.38 },
@@ -116,9 +121,13 @@ const rawAromatics = {
       duration: "3-6 months",
       notes: "Do not refrigerate whole heads",
     },
-  },
+      sensoryProfile: { taste: { spicy: 0.5, sweet: 0.2, salty: 0, sour: 0.1, bitter: 0.2, umami: 0.4 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   ginger: {
+      description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
     name: "Ginger",
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
     alchemicalProperties: { Spirit: 0.85, Essence: 0.58, Matter: 0.40, Substance: 0.35 },
@@ -193,9 +202,13 @@ const rawAromatics = {
       duration: "fresh: 3 weeks, frozen: 6 months",
       notes: "Can be frozen whole or grated",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   lemongrass: {
+      description: "A tall, fibrous tropical grass (*Cymbopogon citratus*) with a tough outer stalk and a tender, highly aromatic inner core. It provides a complex, bright, and floral citrus flavor without the sharp acidity of lemon juice, making it indispensable in Southeast Asian curries and soups.",
     name: "Lemongrass",
     elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 },
     alchemicalProperties: { Spirit: 0.78, Essence: 0.65, Matter: 0.15, Substance: 0.18 },
@@ -255,9 +268,13 @@ const rawAromatics = {
       duration: "2-3 weeks fresh6 months frozen",
       notes: "Can be frozen whole or chopped",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   shallot: {
+      description: "A small, teardrop-shaped allium (*Allium cepa var. aggregatum*) that grows in clusters similar to garlic. It offers a more delicate, sweeter, and less pungent flavor profile than standard onions, making it the classic choice for refined sauces, vinaigrettes, and raw applications.",
     name: "Shallot",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.48, Essence: 0.52, Matter: 0.48, Substance: 0.40 },
@@ -307,9 +324,13 @@ const rawAromatics = {
       duration: "1 month",
       notes: "Similar to onions",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   scallion: {
+      description: "Also known as green onions (*Allium fistulosum*), these alliums are harvested before a bulb forms. They offer a dual flavor profile: the white bases provide a sharp, pungent onion bite, while the hollow green tops deliver a fresh, herbaceous flavor ideal for garnishing.",
     name: "Scallion",
     elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.38, Essence: 0.62, Matter: 0.22, Substance: 0.25 },
@@ -359,9 +380,13 @@ const rawAromatics = {
       duration: "1-2 weeks",
       notes: "Can be regrown in water from roots",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   saffron: {
+      description: "The world's most expensive spice, consisting of the dried crimson stigmas of the *Crocus sativus* flower. It imparts a brilliant golden-yellow hue and a highly complex, honey-like, floral, and slightly metallic or earthy flavor, making it the defining characteristic of classic dishes like paella and risotto alla milanese.",
     name: "Saffron",
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
     alchemicalProperties: { Spirit: 0.90, Essence: 0.70, Matter: 0.08, Substance: 0.10 },
@@ -426,7 +451,10 @@ const rawAromatics = {
       duration: "2-3 years",
       notes: "Keep away from light and heat",
     },
-  },
+      sensoryProfile: { taste: { spicy: 0.1, sweet: 0.2, sour: 0, bitter: 0.4, salty: 0, umami: 0.2 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

@@ -9,11 +9,16 @@
  */
 
 import React, { useState, useMemo } from "react";
+import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
+import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
+import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import { instacartService } from "@/services/InstacartService";
 import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
+import type { DietaryMode } from "@/utils/dietaryAdaptation";
+import type { TimeBudget } from "@/utils/timeShortcuts";
 
 // Define constant keys for vitamins and minerals based on NutritionalSummary
 const VITAMIN_KEYS: Array<keyof NutritionalSummary> = [
@@ -66,7 +71,7 @@ interface RecipeDetailModalProps {
   onAddToMeal?: (recipe: Recipe) => void;
 }
 
-type TabId = "overview" | "nutrition" | "notes";
+type TabId = "overview" | "nutrition" | "adapt" | "notes";
 
 /**
  * Format a quantity with fractions for display
@@ -139,6 +144,8 @@ export default function RecipeDetailModal({
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [servingMultiplier, setServingMultiplier] = useState(1);
   const [noteText, setNoteText] = useState("");
+  const [dietaryMode, setDietaryMode] = useState<DietaryMode | null>(null);
+  const [timeBudget, setTimeBudget] = useState<TimeBudget | null>(null);
 
   // Instacart recipe page state
   const [instacartLoading, setInstacartLoading] = useState(false);
@@ -161,6 +168,8 @@ export default function RecipeDetailModal({
       setNoteText(getRecipeNote(recipe.id));
       setServingMultiplier(1);
       setInstacartError(null);
+      setDietaryMode(null);
+      setTimeBudget(null);
     }
   }, [isOpen, recipe.id, markViewed, getRecipeNote]);
 
@@ -227,6 +236,7 @@ export default function RecipeDetailModal({
   const tabs: Array<{ id: TabId; label: string }> = [
     { id: "overview", label: "Overview" },
     { id: "nutrition", label: "Nutrition" },
+    { id: "adapt", label: "Adapt & Tune" },
     { id: "notes", label: "My Notes" },
   ];
 
@@ -665,6 +675,26 @@ export default function RecipeDetailModal({
                   </p>
                 </div>
               )}
+            </div>
+          )}
+
+          {activeTab === "adapt" && (
+            <div className="space-y-5">
+              <p className="text-sm text-gray-600">
+                Adjust the recipe for your diet, flavor preferences, or the time
+                you have tonight. Original recipe is never overwritten.
+              </p>
+              <DietaryAdaptationPanel
+                recipe={recipe}
+                activeMode={dietaryMode}
+                onModeChange={setDietaryMode}
+              />
+              <FlavorTuningPanel />
+              <TimeShortcutsPanel
+                recipe={recipe}
+                activeBudget={timeBudget}
+                onBudgetChange={setTimeBudget}
+              />
             </div>
           )}
 

@@ -4,6 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Grains ingredients extracted from cuisine files
 const rawGrains: Record<string, Partial<IngredientMapping>> = {
   flour: {
+      description: "A powder made by grinding raw grains, roots, beans, nuts, or seeds, though most commonly refers to wheat. Its specific culinary use is dictated by its protein content: high-protein bread flour forms strong gluten networks for chewy breads, while low-protein cake flour yields tender, delicate crumb structures.",
     name: "flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -40,8 +41,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
         copper: 0.08,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -67,8 +73,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.17, niacin: 0.15, B6: 0.09 },
       minerals: { manganese: 0.37, selenium: 0.17, phosphorus: 0.05 },
     },
-  },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.2, sour: 0, bitter: 0, salty: 0, umami: 0.1 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   all_purpose_flour: {
+      description: "A mid-protein (10–12%) wheat flour blended from hard and soft varieties to perform acceptably across most baked goods — the Swiss Army knife of American baking. Less chewy than bread flour and less tender than cake flour, it sits in the middle of the gluten spectrum. Bleached versions cook more predictably in cakes; unbleached has slightly more protein and a mellower cream color. Store airtight in cool, dry conditions; refrigerate for long-term use to deter pantry pests.",
     name: "all-purpose flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -94,8 +105,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.59, niacin: 0.37, folate: 0.46 },
       minerals: { selenium: 0.48, manganese: 0.38, phosphorus: 0.14 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   whole_grain_bread: {
+      description: "A staple food prepared from a dough of flour and water, usually baked. The inclusion of leavening agents (like yeast or sourdough starter) traps carbon dioxide gases within a gluten network, transforming a dense paste into a light, aerated, and highly absorbent sponge.\n\n**Selection & Storage:** Fresh artisanal bread should have a hard, shatteringly crisp crust and a soft interior. Store fresh bread in a paper bag at room temperature for a day or two, or slice and freeze it; never refrigerate bread, as the cold accelerates the staling (retrogradation) process.",
     name: "whole grain bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -121,8 +137,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.1, niacin: 0.1, folate: 0.06 },
       minerals: { manganese: 0.3, selenium: 0.16, phosphorus: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   steel_cut_oats: {
+      description: "A resilient cereal grain (*Avena sativa*) valued for its high soluble fiber (beta-glucan), which creates a creamy, viscous texture when boiled in liquids. Rolled oats are steamed and flattened for quicker cooking, while steel-cut oats retain more texture and require longer simmering.\n\n**Selection & Storage:** Look for oats that smell slightly sweet and toasty. Because they contain natural fats that can go rancid, store them in a cool, dark pantry in an airtight container, or refrigerate for long-term storage.",
     name: "steel-cut oats",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -154,8 +175,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
         zinc: 0.1,
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   breadcrumbs: {
+      description: "A cereal or pseudo-cereal product, breadcrumbs contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
     name: "breadcrumbs",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -181,8 +207,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.42, niacin: 0.3, riboflavin: 0.18, folate: 0.25 },
       minerals: { selenium: 0.4, manganese: 0.35, iron: 0.25 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   arborio_rice: {
+      description: "An Italian short-grain rice (*Oryza sativa*) named after the town of Arborio in the Po Valley. Its exterior is rich in amylopectin starch, which dissolves slowly during constant stirring to create the signature, creamy, suspension characteristic of classic risotto, while the interior maintains a firm 'al dente' bite.",
     name: "arborio rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -208,8 +239,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.17, niacin: 0.15 },
       minerals: { manganese: 0.37, selenium: 0.17 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   bread_stuffing: {
+      description: "A staple food prepared from a dough of flour and water, usually baked. The inclusion of leavening agents (like yeast or sourdough starter) traps carbon dioxide gases within a gluten network, transforming a dense paste into a light, aerated, and highly absorbent sponge.\n\n**Selection & Storage:** Fresh artisanal bread should have a hard, shatteringly crisp crust and a soft interior. Store fresh bread in a paper bag at room temperature for a day or two, or slice and freeze it; never refrigerate bread, as the cold accelerates the staling (retrogradation) process.",
     name: "bread stuffing",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -235,8 +271,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.1, niacin: 0.08, folate: 0.06 },
       minerals: { selenium: 0.14, manganese: 0.12, iron: 0.07 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   cheong_fun__rice_noodle_rolls_: {
+      description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "cheong fun (rice noodle rolls)",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -262,8 +303,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: { iron: 0.03 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   glutinous_rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "glutinous rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -289,8 +335,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.03, niacin: 0.03 },
       minerals: { manganese: 0.25, selenium: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   rustic_bread: {
+      description: "A staple food prepared from a dough of flour and water, usually baked. The inclusion of leavening agents (like yeast or sourdough starter) traps carbon dioxide gases within a gluten network, transforming a dense paste into a light, aerated, and highly absorbent sponge.\n\n**Selection & Storage:** Fresh artisanal bread should have a hard, shatteringly crisp crust and a soft interior. Store fresh bread in a paper bag at room temperature for a day or two, or slice and freeze it; never refrigerate bread, as the cold accelerates the staling (retrogradation) process.",
     name: "rustic bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -316,8 +367,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.15, niacin: 0.1, folate: 0.12 },
       minerals: { selenium: 0.16, manganese: 0.12 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   white_sandwich_bread: {
+      description: "A staple food prepared from a dough of flour and water, usually baked. The inclusion of leavening agents (like yeast or sourdough starter) traps carbon dioxide gases within a gluten network, transforming a dense paste into a light, aerated, and highly absorbent sponge.\n\n**Selection & Storage:** Fresh artisanal bread should have a hard, shatteringly crisp crust and a soft interior. Store fresh bread in a paper bag at room temperature for a day or two, or slice and freeze it; never refrigerate bread, as the cold accelerates the staling (retrogradation) process.",
     name: "white sandwich bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -343,8 +399,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.12, niacin: 0.08, folate: 0.1, riboflavin: 0.06 },
       minerals: { selenium: 0.1, manganese: 0.08, iron: 0.06 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   idli_rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "idli rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -370,8 +431,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.17, niacin: 0.15 },
       minerals: { manganese: 0.37, selenium: 0.17 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   flattened_rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "flattened rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -397,8 +463,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.1, niacin: 0.08 },
       minerals: { iron: 0.15, manganese: 0.1 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   basmati_rice: {
+      description: "A highly aromatic, extra-long-grain rice originating from the Indian subcontinent. It undergoes an aging process before milling to reduce its moisture content, ensuring that when cooked, the grains elongate dramatically and remain completely separate, fluffy, and dry—perfect for biryanis.",
     name: "basmati rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -424,8 +495,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.17, niacin: 0.15 },
       minerals: { manganese: 0.37, selenium: 0.17 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   steamed_rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "steamed rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -451,8 +527,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.17, niacin: 0.15 },
       minerals: { manganese: 0.37, selenium: 0.17 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   sushi_rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "sushi rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -478,8 +559,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.03, niacin: 0.03 },
       minerals: { manganese: 0.25, selenium: 0.1 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   short_grain_rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "short grain rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -505,8 +591,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.17, niacin: 0.15 },
       minerals: { manganese: 0.37, selenium: 0.17 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   sliced_rice_cakes: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "sliced rice cakes",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -532,8 +623,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: { iron: 0.05 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   rice_cakes: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "rice cakes",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -559,8 +655,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { niacin: 0.04 },
       minerals: { manganese: 0.08, selenium: 0.03 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   rice_flour: {
+      description: "The powder produced by milling raw grains, roots, beans, nuts, or seeds — most commonly wheat (*Triticum aestivum*). Its behavior in baking is governed by protein content: high-protein bread flour (12–14%) develops strong gluten networks for chewy yeasted breads, while low-protein cake flour (7–9%) yields tender, delicate crumb. Whole-grain flours include the bran and germ, adding fiber, fat, and perishability that demands cool storage to prevent rancidity.",
     name: "rice flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -586,8 +687,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.11, niacin: 0.16, B6: 0.17 },
       minerals: { manganese: 0.6, selenium: 0.22, phosphorus: 0.15 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   flatbread: {
+      description: "A cereal or pseudo-cereal product, flatbread contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
     name: "flatbread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -613,8 +719,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.15, niacin: 0.12, folate: 0.1 },
       minerals: { selenium: 0.14, iron: 0.1, manganese: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   jasmine_rice: {
+      description: "A fragrant, long-grain rice (*Oryza sativa*) primarily cultivated in Thailand. It contains the aromatic compound 2-acetyl-1-pyrroline, which gives it a deeply floral, pandan-like, and slightly buttery aroma that perfectly complements the rich coconut curries of Southeast Asia.",
     name: "jasmine rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -640,8 +751,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.17, niacin: 0.15 },
       minerals: { manganese: 0.37, selenium: 0.17 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   glass_noodles: {
+      description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "glass noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -667,8 +783,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: { iron: 0.03 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   rice_noodles: {
+      description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "rice noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -694,8 +815,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.01 },
       minerals: { selenium: 0.11, manganese: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   sticky_rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "sticky rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -721,8 +847,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.03, niacin: 0.03 },
       minerals: { manganese: 0.25, selenium: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   tapioca_flour: {
+      description: "The powder produced by milling raw grains, roots, beans, nuts, or seeds — most commonly wheat (*Triticum aestivum*). Its behavior in baking is governed by protein content: high-protein bread flour (12–14%) develops strong gluten networks for chewy yeasted breads, while low-protein cake flour (7–9%) yields tender, delicate crumb. Whole-grain flours include the bran and germ, adding fiber, fat, and perishability that demands cool storage to prevent rancidity.",
     name: "tapioca flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -748,8 +879,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: { iron: 0.06, calcium: 0.02 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   glutinous_rice_flour: {
+      description: "The powder produced by milling raw grains, roots, beans, nuts, or seeds — most commonly wheat (*Triticum aestivum*). Its behavior in baking is governed by protein content: high-protein bread flour (12–14%) develops strong gluten networks for chewy yeasted breads, while low-protein cake flour (7–9%) yields tender, delicate crumb. Whole-grain flours include the bran and germ, adding fiber, fat, and perishability that demands cool storage to prevent rancidity.",
     name: "glutinous rice flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -775,8 +911,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.06, niacin: 0.1 },
       minerals: { manganese: 0.45, selenium: 0.15, iron: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   thick_rice_noodles: {
+      description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "thick rice noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -802,8 +943,13 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: {},
       minerals: { selenium: 0.11, manganese: 0.08 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
   broken_rice: {
+      description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "broken rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
@@ -829,7 +975,11 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       vitamins: { thiamin: 0.17, niacin: 0.15 },
       minerals: { manganese: 0.37, selenium: 0.17 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
 };
 
 // Export processed ingredients

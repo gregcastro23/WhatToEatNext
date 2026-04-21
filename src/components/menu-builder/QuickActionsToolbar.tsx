@@ -17,6 +17,7 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useUser } from "@/contexts/UserContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import { reportQuestEvent } from "@/lib/questReporter";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
@@ -68,6 +69,8 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   const hasNatalChart = !!currentUser?.natalChart;
 
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isGeneratingWeek, setIsGeneratingWeek] = useState(false);
+  const [weekProgressDay, setWeekProgressDay] = useState<DayOfWeek | null>(null);
   const [isBalancing, setIsBalancing] = useState(false);
   const [isDiversifying, setIsDiversifying] = useState(false);
   const [currentGeneratingDay, setCurrentGeneratingDay] =
@@ -153,6 +156,81 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     } finally {
       setIsGenerating(false);
       setCurrentGeneratingDay(null);
+    }
+  };
+
+  /**
+   * Generate Full Week - fills every empty meal slot across all 7 days
+   * using the same planetary + personalized recommendation pipeline as
+   * Generate Day, then rewards the Master Planner quest on completion.
+   */
+  const handleGenerateFullWeek = async () => {
+    if (!currentMenu) return;
+    setIsGeneratingWeek(true);
+
+    try {
+      const mealTypes: MealType[] = ["breakfast", "lunch", "snack", "dinner"];
+      let anyDayNeededWork = false;
+
+      for (let day = 0; day < 7; day++) {
+        const dayOfWeek = day as DayOfWeek;
+        const filledTypes = new Set(
+          currentMenu.meals
+            .filter((m) => m.dayOfWeek === dayOfWeek && m.recipe)
+            .map((m) => m.mealType),
+        );
+        const missingTypes = mealTypes.filter((t) => !filledTypes.has(t));
+        if (missingTypes.length === 0) continue;
+
+        anyDayNeededWork = true;
+        setWeekProgressDay(dayOfWeek);
+
+        await generateMealsForDay(dayOfWeek, {
+          mealTypes: missingTypes,
+          useCurrentPlanetary: true,
+          usePersonalization: hasNatalChart,
+        });
+
+        // Fallback for any slot the recommender couldn't satisfy with
+        // current filters — keeps the week contiguous so the Master Planner
+        // quest actually fires.
+        const stillMissing = mealTypes.filter(
+          (t) =>
+            !currentMenu.meals.some(
+              (m) =>
+                m.dayOfWeek === dayOfWeek && m.mealType === t && m.recipe,
+            ),
+        );
+        if (stillMissing.length > 0) {
+          await fillDayWithRecipeService(dayOfWeek);
+        }
+      }
+
+      setWeekProgressDay(null);
+
+      // Fire quest event only when the whole week is actually full, so users
+      // can't game the Master Planner reward by hammering the button.
+      const fullyFilled = (["breakfast", "lunch", "dinner"] as MealType[]).every(
+        (t) =>
+          Array.from({ length: 7 }, (_, d) => d as DayOfWeek).every((d) =>
+            currentMenu.meals.some(
+              (m) => m.dayOfWeek === d && m.mealType === t && m.recipe,
+            ),
+          ),
+      );
+      if (fullyFilled && anyDayNeededWork) {
+        reportQuestEvent("generate_meal_plan");
+      }
+
+      logger.info("Generated full week meal plan", {
+        personalized: hasNatalChart,
+        fullyFilled,
+      });
+    } catch (err) {
+      logger.error("Failed to generate full week:", err);
+    } finally {
+      setIsGeneratingWeek(false);
+      setWeekProgressDay(null);
     }
   };
 
@@ -508,20 +586,26 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     (nutTargets.prioritizeProtein ? 1 : 0) +
     (nutTargets.prioritizeFiber ? 1 : 0);
 
-  const isAnyLoading = isGenerating || isBalancing || isDiversifying;
-  const loadingMessage = isGenerating
-    ? currentGeneratingDay !== null
+  const isAnyLoading = isGenerating || isGeneratingWeek || isBalancing || isDiversifying;
+  const loadingMessage = isGeneratingWeek
+    ? weekProgressDay !== null
       ? hasNatalChart
-        ? `Generating personalized ${dayNames[currentGeneratingDay]}...`
-        : `Generating ${dayNames[currentGeneratingDay]}...`
-      : hasNatalChart
-        ? "Generating personalized day..."
-        : "Generating day..."
-    : isBalancing
-      ? "Balancing nutrition..."
-      : isDiversifying
-        ? "Diversifying recipes..."
-        : "";
+        ? `Generating personalized ${dayNames[weekProgressDay]}...`
+        : `Generating ${dayNames[weekProgressDay]}...`
+      : "Generating full week..."
+    : isGenerating
+      ? currentGeneratingDay !== null
+        ? hasNatalChart
+          ? `Generating personalized ${dayNames[currentGeneratingDay]}...`
+          : `Generating ${dayNames[currentGeneratingDay]}...`
+        : hasNatalChart
+          ? "Generating personalized day..."
+          : "Generating day..."
+      : isBalancing
+        ? "Balancing nutrition..."
+        : isDiversifying
+          ? "Diversifying recipes..."
+          : "";
 
   // Determine button text based on state
   const getGenerateButtonText = () => {
@@ -584,8 +668,30 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
         <div className="flex flex-wrap gap-3">
           <button
+            onClick={() => { void handleGenerateFullWeek(); }}
+            disabled={isAnyLoading || nextEmptyDay === null}
+            className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              hasNatalChart
+                ? "bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 focus:ring-indigo-500"
+                : "bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 focus:ring-blue-500"
+            }`}
+            title={
+              nextEmptyDay === null
+                ? "Week already full"
+                : "Fill every empty meal slot across all 7 days in one go"
+            }
+          >
+            <span>🗓️</span>
+            {isGeneratingWeek
+              ? weekProgressDay !== null
+                ? `Generating ${dayNames[weekProgressDay]}...`
+                : "Generating full week..."
+              : "Generate Full Week"}
+          </button>
+
+          <button
             onClick={() => { void handleGenerateDay(); }}
-            disabled={isGenerating || nextEmptyDay === null}
+            disabled={isGenerating || isGeneratingWeek || nextEmptyDay === null}
             className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               hasNatalChart
                 ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:ring-purple-500"

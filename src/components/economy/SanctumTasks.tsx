@@ -265,12 +265,21 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
   }, [fetchQuests]);
 
   // Filter & Group
-  const allTasks = questData 
+  const allTasks = questData
     ? [...questData.weekly, ...questData.achievements]
         .filter(q => SANCTUM_QUEST_SLUGS.includes(q.quest.slug))
         .sort((a, b) => (a.quest.sortOrder ?? 0) - (b.quest.sortOrder ?? 0))
     : [];
-  
+
+  // Completion & reward summary
+  const totalCount = allTasks.length;
+  const claimableCount = allTasks.filter(q => !!q.completedAt && !q.claimedAt).length;
+  const earnedCount = allTasks.filter(q => !!q.claimedAt).length;
+  const claimableTokens = allTasks
+    .filter(q => !!q.completedAt && !q.claimedAt)
+    .reduce((sum, q) => sum + (q.quest.tokenRewardAmount || 0), 0);
+  const completionPct = totalCount > 0 ? Math.round((earnedCount / totalCount) * 100) : 0;
+
   // Group logic
   const tasksByToken: Record<string, QuestProgress[]> = {
     All: [],
@@ -302,11 +311,46 @@ export function SanctumTasks({ className = '', onOpenSettings }: SanctumTasksPro
               Alchemical Alignments
             </h2>
             <p className="text-[11px] text-white/30 mt-1 max-w-lg leading-relaxed">
-              Earn ESMS tokens by performing actions that drive your personalized 
+              Earn ESMS tokens by performing actions that drive your personalized
               culinary journey and help tune the alchemical algorithms.
             </p>
           </div>
+
+          {!loading && totalCount > 0 && (
+            <div className="flex items-center gap-3 flex-wrap">
+              <div className="text-right">
+                <div className="text-[9px] font-bold text-white/40 uppercase tracking-[0.3em]">
+                  Progress
+                </div>
+                <div className="text-sm font-black text-white/85">
+                  {earnedCount}/{totalCount}
+                  <span className="text-white/40 font-medium ml-1">({completionPct}%)</span>
+                </div>
+              </div>
+              {claimableCount > 0 && (
+                <div className="px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 shadow-[0_0_15px_rgba(251,191,36,0.15)]">
+                  <div className="text-[9px] font-black text-amber-400/80 uppercase tracking-[0.2em]">
+                    Claimable
+                  </div>
+                  <div className="text-xs font-black text-amber-200">
+                    {claimableCount} task{claimableCount === 1 ? '' : 's'} · +{claimableTokens} tokens
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
+
+        {!loading && totalCount > 0 && (
+          <div className="mb-6 h-1 bg-white/[0.04] rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${completionPct}%` }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="h-full rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-emerald-400"
+            />
+          </div>
+        )}
 
         {loading ? (
           <div className="space-y-3 animate-pulse">

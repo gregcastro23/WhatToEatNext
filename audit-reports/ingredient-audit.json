@@ -1,0 +1,7364 @@
+{
+  "generatedAt": "2026-04-20T02:17:42.075Z",
+  "maxScore": 14,
+  "rubric": [
+    {
+      "key": "description",
+      "label": "Description",
+      "weight": 2
+    },
+    {
+      "key": "elemental",
+      "label": "Elemental properties",
+      "weight": 2
+    },
+    {
+      "key": "qualities",
+      "label": "Qualities array (≥3)",
+      "weight": 1
+    },
+    {
+      "key": "astrology",
+      "label": "Astrological profile",
+      "weight": 1
+    },
+    {
+      "key": "sensory",
+      "label": "Sensory profile",
+      "weight": 1
+    },
+    {
+      "key": "nutrition_basic",
+      "label": "Nutrition (calories + macros)",
+      "weight": 2
+    },
+    {
+      "key": "nutrition_micros",
+      "label": "Nutrition (vitamins + minerals)",
+      "weight": 1
+    },
+    {
+      "key": "culinary",
+      "label": "Culinary profile (methods + cuisines)",
+      "weight": 2
+    },
+    {
+      "key": "pairings",
+      "label": "Pairings",
+      "weight": 1
+    },
+    {
+      "key": "storage",
+      "label": "Storage guidance",
+      "weight": 1
+    }
+  ],
+  "rows": [
+    {
+      "slug": "chervil",
+      "name": "Chervil",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "bay_leaf",
+      "name": "Bay Leaf",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "anise",
+      "name": "Anise",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "echinacea",
+      "name": "Echinacea",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/medicinalHerbs.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Astrological profile"
+      ]
+    },
+    {
+      "slug": "sugar",
+      "name": "sugar",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "maple_syrup",
+      "name": "maple syrup",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "baking_powder",
+      "name": "baking powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "microgreens",
+      "name": "microgreens",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "fresh_herbs",
+      "name": "fresh herbs",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "mixed_berries",
+      "name": "mixed berries",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "honey",
+      "name": "honey",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "granola",
+      "name": "granola",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pumpkin_puree",
+      "name": "pumpkin puree",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pecans",
+      "name": "pecans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "cranberries",
+      "name": "cranberries",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "walnuts",
+      "name": "walnuts",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "hamburger_buns",
+      "name": "hamburger buns",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "ketchup",
+      "name": "ketchup",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "mustard",
+      "name": "mustard",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "bacon",
+      "name": "bacon",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "clams",
+      "name": "clams",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "puff_pastry",
+      "name": "puff pastry",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "lobster_meat",
+      "name": "lobster meat",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "mayonnaise",
+      "name": "mayonnaise",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "split_top_buns",
+      "name": "split-top buns",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "sliced_turkey",
+      "name": "sliced turkey",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "cranberry_sauce",
+      "name": "cranberry sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "stuffing",
+      "name": "stuffing",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "bbq_sauce",
+      "name": "BBQ sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "brown_sugar",
+      "name": "brown sugar",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "lamb_chops",
+      "name": "lamb chops",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "cedar_plank",
+      "name": "cedar plank",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "whole_turkey",
+      "name": "whole turkey",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "white_sugar",
+      "name": "white sugar",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "chocolate_chips",
+      "name": "chocolate chips",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "graham_crackers",
+      "name": "graham crackers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "vanilla_extract",
+      "name": "vanilla extract",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "fresh_strawberries",
+      "name": "fresh strawberries",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "marshmallows",
+      "name": "marshmallows",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "chocolate_sauce",
+      "name": "chocolate sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "sea_salt",
+      "name": "sea salt",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pie_crust",
+      "name": "pie crust",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "molasses",
+      "name": "molasses",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "salt",
+      "name": "salt",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "char_siu_bao",
+      "name": "char siu bao",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "spring_rolls",
+      "name": "spring rolls",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "whole_duck",
+      "name": "whole duck",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pastry_dough",
+      "name": "pastry dough",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "dried_fruits",
+      "name": "dried fruits",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "nuts",
+      "name": "nuts",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "cr_me_fra_che",
+      "name": "crème fraîche",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "fine_herbs",
+      "name": "fine herbs",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "brioche",
+      "name": "brioche",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "granulated_sugar",
+      "name": "granulated sugar",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "white_ham",
+      "name": "white ham",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "bechamel_sauce",
+      "name": "béchamel sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "anchovies",
+      "name": "anchovies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "vinaigrette",
+      "name": "vinaigrette",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "baguette",
+      "name": "baguette",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "lardons",
+      "name": "lardons",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "bouquet_garni",
+      "name": "bouquet garni",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "cognac",
+      "name": "cognac",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "sole_fillets",
+      "name": "sole fillets",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "bacon_or_pancetta",
+      "name": "bacon or pancetta",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "sugar_for_caramelizing",
+      "name": "sugar for caramelizing",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "shortcrust_pastry",
+      "name": "shortcrust pastry",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "choux_pastry",
+      "name": "choux pastry",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "dark_chocolate",
+      "name": "dark chocolate",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "phyllo_dough",
+      "name": "phyllo dough",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "semolina",
+      "name": "semolina",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "almonds",
+      "name": "almonds",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "urad_dal",
+      "name": "urad dal",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "toor_dal",
+      "name": "toor dal",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "sambar_powder",
+      "name": "sambar powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "vegetables",
+      "name": "vegetables",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "puri_shells",
+      "name": "puri shells",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "tamarind",
+      "name": "tamarind",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "black_salt",
+      "name": "black salt",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "sprouted_moong",
+      "name": "sprouted moong",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pistachios",
+      "name": "pistachios",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "almond_granita",
+      "name": "almond granita",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "mascarpone",
+      "name": "mascarpone",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "natto",
+      "name": "natto",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "umeboshi",
+      "name": "umeboshi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "dashi",
+      "name": "dashi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "gyoza_wrappers",
+      "name": "gyoza wrappers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "soy_sauce",
+      "name": "soy sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "sake",
+      "name": "sake",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "aged_kimchi",
+      "name": "aged kimchi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "perilla_leaves",
+      "name": "perilla leaves",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "ssamjang",
+      "name": "ssamjang",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "kimchi",
+      "name": "kimchi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "gochugaru",
+      "name": "gochugaru",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "gochujang",
+      "name": "gochujang",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "saeujeot",
+      "name": "saeujeot",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "shaved_ice",
+      "name": "shaved ice",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "sesame_seeds",
+      "name": "sesame seeds",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pine_needles",
+      "name": "pine needles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "mixed_fruits",
+      "name": "mixed fruits",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "dried_hominy",
+      "name": "dried hominy",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "mixed_dried_chiles",
+      "name": "mixed dried chiles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "chocolate",
+      "name": "chocolate",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "poblano_chiles",
+      "name": "poblano chiles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "masa_harina",
+      "name": "masa harina",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "fresh_fruit",
+      "name": "fresh fruit",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "lamb_shoulder",
+      "name": "lamb shoulder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "jameed",
+      "name": "jameed",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pine_nuts",
+      "name": "pine nuts",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "kataifi_dough",
+      "name": "kataifi dough",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pickles",
+      "name": "pickles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "green_papaya",
+      "name": "green papaya",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "red_syrup",
+      "name": "red syrup",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "green_syrup",
+      "name": "green syrup",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "palm_seeds",
+      "name": "palm seeds",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "grass_jelly",
+      "name": "grass jelly",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "red_food_coloring",
+      "name": "red food coloring",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "palm_sugar",
+      "name": "palm sugar",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "jackfruit",
+      "name": "jackfruit",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "crushed_ice",
+      "name": "crushed ice",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pandan_extract",
+      "name": "pandan extract",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "kabocha_pumpkin",
+      "name": "kabocha pumpkin",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pandan_leaves",
+      "name": "pandan leaves",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "tapioca_starch",
+      "name": "tapioca starch",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "herbs_mix",
+      "name": "herbs mix",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "annatto_seeds",
+      "name": "annatto seeds",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "vietnamese_herbs",
+      "name": "Vietnamese herbs",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pickled_vegetables",
+      "name": "pickled vegetables",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "pandan_jelly",
+      "name": "pandan jelly",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/misc.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "himalayan_salt",
+      "name": "Himalayan Salt",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/salts.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Astrological profile"
+      ]
+    },
+    {
+      "slug": "cinnamon",
+      "name": "Cinnamon",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/warmSpices.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Astrological profile"
+      ]
+    },
+    {
+      "slug": "swiss chard",
+      "name": "Swiss chard",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/leafyGreens.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "turnip",
+      "name": "Turnip",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/rootVegetables.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "zucchini",
+      "name": "zucchini",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/squash.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Astrological profile"
+      ]
+    },
+    {
+      "slug": "acorn squash",
+      "name": "Acorn squash",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/squash.ts",
+      "score": 13,
+      "scorePct": 93,
+      "missing": [
+        "Qualities array (≥3)"
+      ]
+    },
+    {
+      "slug": "red_wine_vinaigrette",
+      "name": "red wine vinaigrette",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "clam_juice",
+      "name": "clam juice",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_wine",
+      "name": "white wine",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "red_wine",
+      "name": "red wine",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "turkey_stock",
+      "name": "turkey stock",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "water",
+      "name": "Water",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "baking_soda",
+      "name": "baking soda",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coffee",
+      "name": "coffee",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dry_white_wine",
+      "name": "dry white wine",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_wine_vinegar",
+      "name": "white wine vinegar",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tea_bags",
+      "name": "tea bags",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rose_water",
+      "name": "rose water",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "water_chestnuts",
+      "name": "water chestnuts",
+      "category": "beverages",
+      "file": "src/data/ingredients/beverages/beverages.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "milk",
+      "name": "milk",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "whole_milk",
+      "name": "whole milk",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "buttermilk",
+      "name": "buttermilk",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "evaporated_milk",
+      "name": "evaporated milk",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "skim_milk",
+      "name": "skim milk",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "oat_milk",
+      "name": "oat milk",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "almond_milk",
+      "name": "almond milk",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coconut_milk",
+      "name": "coconut milk",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "heavy_cream",
+      "name": "heavy cream",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sour_cream",
+      "name": "sour cream",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "creme_fraiche",
+      "name": "crème fraîche",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mascarpone",
+      "name": "mascarpone",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "clotted_cream",
+      "name": "clotted cream",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "butter",
+      "name": "butter",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "unsalted_butter",
+      "name": "unsalted butter",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cold_butter",
+      "name": "cold butter",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "french_butter",
+      "name": "French butter",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "clarified_butter",
+      "name": "clarified butter",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ghee",
+      "name": "ghee",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "brown_butter",
+      "name": "brown butter",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cream_cheese",
+      "name": "cream cheese",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ricotta",
+      "name": "ricotta",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cottage_cheese",
+      "name": "cottage cheese",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "quark",
+      "name": "quark",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "labneh",
+      "name": "labneh",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "paneer",
+      "name": "paneer",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "goat_cheese",
+      "name": "goat cheese",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "brie",
+      "name": "brie",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "camembert",
+      "name": "camembert",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "feta",
+      "name": "feta",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "burrata",
+      "name": "burrata",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mozzarella",
+      "name": "mozzarella",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "havarti",
+      "name": "havarti",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "monterey_jack",
+      "name": "monterey jack",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fontina",
+      "name": "fontina",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "halloumi",
+      "name": "halloumi",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cheddar_cheese",
+      "name": "cheddar cheese",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "gruy_re_cheese",
+      "name": "Gruyère cheese",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "parmesan",
+      "name": "parmesan",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pecorino_romano",
+      "name": "pecorino romano",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "manchego",
+      "name": "manchego",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "asiago",
+      "name": "asiago",
+      "category": "dairy",
+      "file": "src/data/ingredients/dairy/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "blueberry",
+      "name": "Blueberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "raspberry",
+      "name": "Raspberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "strawberry",
+      "name": "Strawberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "blackberry",
+      "name": "Blackberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cranberry",
+      "name": "Cranberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "gooseberry",
+      "name": "Gooseberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "elderberry",
+      "name": "Elderberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mulberry",
+      "name": "Mulberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "goji_berry",
+      "name": "Goji Berry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "acai_berry",
+      "name": "Acai Berry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "currant_red",
+      "name": "Red Currant",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "currant_black",
+      "name": "Black Currant",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/berries.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemon",
+      "name": "Lemon",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "orange",
+      "name": "Orange",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lime",
+      "name": "Lime",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "grapefruit",
+      "name": "Grapefruit",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mandarin",
+      "name": "Mandarin",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "clementine",
+      "name": "Clementine",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pomelo",
+      "name": "Pomelo",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "yuzu",
+      "name": "Yuzu",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bergamot",
+      "name": "Bergamot",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "kumquat",
+      "name": "Kumquat",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "finger_lime",
+      "name": "Finger Lime",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "blood_orange",
+      "name": "Blood Orange",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tangerine",
+      "name": "Tangerine",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/citrus.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemon",
+      "name": "lemon",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/enhancedFruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "apple",
+      "name": "apple",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/enhancedFruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "banana",
+      "name": "banana",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/enhancedFruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "strawberry",
+      "name": "strawberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/enhancedFruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "avocado",
+      "name": "avocado",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/enhancedFruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "blueberry",
+      "name": "blueberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/enhancedFruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "orange",
+      "name": "orange",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/enhancedFruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pomegranate",
+      "name": "Pomegranate",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fig",
+      "name": "Fig",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "grape",
+      "name": "Grape",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "date",
+      "name": "Date",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "kiwano",
+      "name": "Kiwano (Horned Melon)",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "feijoa",
+      "name": "Feijoa (Pineapple Guava)",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tamarind",
+      "name": "Tamarind",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "loquat_exotic",
+      "name": "Loquat",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cactus_pear",
+      "name": "Cactus Pear (Prickly Pear)",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "quince_exotic",
+      "name": "Quince",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "passion_fruit_exotic",
+      "name": "Passion Fruit",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "custard_apple",
+      "name": "Custard Apple (Cherimoya)",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sapote",
+      "name": "Sapote (Mamey)",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "plantain",
+      "name": "Plantain",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "breadfruit",
+      "name": "Breadfruit",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cloudberry",
+      "name": "Cloudberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "boysenberry",
+      "name": "Boysenberry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/exotic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "avocado",
+      "name": "avocado",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemon_juice",
+      "name": "lemon juice",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "banana",
+      "name": "banana",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "orange_zest",
+      "name": "orange zest",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemon_zest",
+      "name": "lemon zest",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemon",
+      "name": "lemon",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "apples",
+      "name": "apples",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ripe_mangoes",
+      "name": "ripe mangoes",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "strawberry_preserves",
+      "name": "strawberry preserves",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ni_oise_olives",
+      "name": "Niçoise olives",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "olive_oil",
+      "name": "olive oil",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "grape_leaves",
+      "name": "grape leaves",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coconut_chutney",
+      "name": "coconut chutney",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lime_juice",
+      "name": "lime juice",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coconut_milk",
+      "name": "coconut milk",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ripe_bananas",
+      "name": "ripe bananas",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lime",
+      "name": "lime",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemongrass",
+      "name": "lemongrass",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "banana_flower",
+      "name": "banana flower",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/fruits.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "watermelon",
+      "name": "Watermelon",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/melons.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cantaloupe",
+      "name": "Cantaloupe",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/melons.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "honeydew",
+      "name": "Honeydew",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/melons.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "casaba",
+      "name": "Casaba",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/melons.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "crenshaw",
+      "name": "Crenshaw",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/melons.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "persian_melon",
+      "name": "Persian Melon",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/melons.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "winter_melon",
+      "name": "Winter Melon",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/melons.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "galia",
+      "name": "Galia Melon",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/melons.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "apple",
+      "name": "Apple",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/pome.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pear",
+      "name": "Pear",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/pome.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "quince",
+      "name": "Quince",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/pome.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "asian_pear",
+      "name": "Asian Pear",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/pome.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "medlar",
+      "name": "Medlar",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/pome.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "loquat",
+      "name": "Loquat",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/pome.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "peach",
+      "name": "Peach",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/stoneFruit.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "plum",
+      "name": "Plum",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/stoneFruit.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "apricot",
+      "name": "Apricot",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/stoneFruit.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cherry",
+      "name": "Cherry",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/stoneFruit.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "nectarine",
+      "name": "Nectarine",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/stoneFruit.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "greengage",
+      "name": "Greengage",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/stoneFruit.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "damson",
+      "name": "Damson",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/stoneFruit.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mango",
+      "name": "Mango",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pineapple",
+      "name": "Pineapple",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "papaya",
+      "name": "Papaya",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "passion_fruit",
+      "name": "Passion Fruit",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "guava",
+      "name": "Guava",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dragon_fruit",
+      "name": "Dragon Fruit",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lychee",
+      "name": "Lychee",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rambutan",
+      "name": "Rambutan",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "longan",
+      "name": "Longan",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "starfruit",
+      "name": "Starfruit",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "persimmon",
+      "name": "Persimmon",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "kiwi",
+      "name": "Kiwi",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "jackfruit",
+      "name": "Jackfruit",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "durian",
+      "name": "Durian",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coconut",
+      "name": "Coconut",
+      "category": "fruits",
+      "file": "src/data/ingredients/fruits/tropical.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flour",
+      "name": "flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice",
+      "name": "rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "all_purpose_flour",
+      "name": "all-purpose flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "whole_grain_bread",
+      "name": "whole grain bread",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "steel_cut_oats",
+      "name": "steel-cut oats",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "breadcrumbs",
+      "name": "breadcrumbs",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "arborio_rice",
+      "name": "arborio rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bread_stuffing",
+      "name": "bread stuffing",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cheong_fun__rice_noodle_rolls_",
+      "name": "cheong fun (rice noodle rolls)",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "glutinous_rice",
+      "name": "glutinous rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rustic_bread",
+      "name": "rustic bread",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_sandwich_bread",
+      "name": "white sandwich bread",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "idli_rice",
+      "name": "idli rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flattened_rice",
+      "name": "flattened rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "basmati_rice",
+      "name": "basmati rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "steamed_rice",
+      "name": "steamed rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sushi_rice",
+      "name": "sushi rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "short_grain_rice",
+      "name": "short grain rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sliced_rice_cakes",
+      "name": "sliced rice cakes",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_cakes",
+      "name": "rice cakes",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_flour",
+      "name": "rice flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flatbread",
+      "name": "flatbread",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "jasmine_rice",
+      "name": "jasmine rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "glass_noodles",
+      "name": "glass noodles",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_noodles",
+      "name": "rice noodles",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sticky_rice",
+      "name": "sticky rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tapioca_flour",
+      "name": "tapioca flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "glutinous_rice_flour",
+      "name": "glutinous rice flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "thick_rice_noodles",
+      "name": "thick rice noodles",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "broken_rice",
+      "name": "broken rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/grains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "amaranth",
+      "name": "Amaranth",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/pseudoGrains/amaranth.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "buckwheat",
+      "name": "Buckwheat",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/pseudoGrains/buckwheat.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chia",
+      "name": "Chia Seeds",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/pseudoGrains/chia.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flaxseed",
+      "name": "Flaxseed",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/pseudoGrains/flaxseed.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "quinoa",
+      "name": "Quinoa",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/pseudoGrains/quinoa.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_rice",
+      "name": "White Rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/refinedGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "semolina",
+      "name": "Semolina",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/refinedGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pearl_barley",
+      "name": "Pearl Barley",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/refinedGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "polished_farro",
+      "name": "Polished Farro",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/refinedGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_cornmeal",
+      "name": "White Cornmeal",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/refinedGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "all_purpose_flour",
+      "name": "All-Purpose Flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/refinedGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "brown_rice",
+      "name": "Brown Rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "quinoa",
+      "name": "Quinoa",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "kamut",
+      "name": "Kamut",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "spelt_berries",
+      "name": "Spelt Berries",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "einkorn",
+      "name": "Einkorn",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rye_berries",
+      "name": "Rye Berries",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "wild_rice",
+      "name": "Wild Rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "triticale",
+      "name": "Triticale",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "oats",
+      "name": "Oats",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "barley",
+      "name": "Barley",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flour",
+      "name": "flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice",
+      "name": "rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "all_purpose_flour",
+      "name": "all-purpose flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "whole_grain_bread",
+      "name": "whole grain bread",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "steel_cut_oats",
+      "name": "steel-cut oats",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "breadcrumbs",
+      "name": "breadcrumbs",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "arborio_rice",
+      "name": "arborio rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bread_stuffing",
+      "name": "bread stuffing",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cheong_fun__rice_noodle_rolls_",
+      "name": "cheong fun (rice noodle rolls)",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "glutinous_rice",
+      "name": "glutinous rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rustic_bread",
+      "name": "rustic bread",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_sandwich_bread",
+      "name": "white sandwich bread",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "idli_rice",
+      "name": "idli rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flattened_rice",
+      "name": "flattened rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "basmati_rice",
+      "name": "basmati rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "steamed_rice",
+      "name": "steamed rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sushi_rice",
+      "name": "sushi rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "short_grain_rice",
+      "name": "short grain rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sliced_rice_cakes",
+      "name": "sliced rice cakes",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_cakes",
+      "name": "rice cakes",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_flour",
+      "name": "rice flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flatbread",
+      "name": "flatbread",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "jasmine_rice",
+      "name": "jasmine rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "glass_noodles",
+      "name": "glass noodles",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_noodles",
+      "name": "rice noodles",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sticky_rice",
+      "name": "sticky rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tapioca_flour",
+      "name": "tapioca flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "glutinous_rice_flour",
+      "name": "glutinous rice flour",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "thick_rice_noodles",
+      "name": "thick rice noodles",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "broken_rice",
+      "name": "broken rice",
+      "category": "grains",
+      "file": "src/data/ingredients/grains/wholeGrains.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "thyme",
+      "name": "Thyme",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rosemary",
+      "name": "Rosemary",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "basil",
+      "name": "Basil",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lovage",
+      "name": "Lovage",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemon verbena",
+      "name": "Lemon Verbena",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "savory",
+      "name": "Savory",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "curry leaf",
+      "name": "Curry Leaf",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chervil",
+      "name": "Chervil",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dill",
+      "name": "Dill",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bay_leaf",
+      "name": "Bay Leaf",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "anise",
+      "name": "Anise",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/aromatic.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_basil",
+      "name": "Dried Basil",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_oregano",
+      "name": "Dried Oregano",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_thyme",
+      "name": "Dried Thyme",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_rosemary",
+      "name": "Dried Rosemary",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_sage",
+      "name": "Dried Sage",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_bay_leaves",
+      "name": "Dried Bay Leaves",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_marjoram",
+      "name": "Dried Marjoram",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_savory",
+      "name": "Dried Savory",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_chervil",
+      "name": "Dried Chervil",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_tarragon",
+      "name": "Dried Tarragon",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_dill",
+      "name": "Dried Dill",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_mint",
+      "name": "Dried Mint",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_fennel",
+      "name": "Dried Fennel",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_parsley",
+      "name": "Dried Parsley",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_cilantro",
+      "name": "Dried Cilantro",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_chives",
+      "name": "Dried Chives",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_lemon_balm",
+      "name": "Dried Lemon Balm",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_lavender",
+      "name": "Dried Lavender",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_summer_savory",
+      "name": "Dried Summer Savory",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_lovage",
+      "name": "Dried Lovage",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/driedHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "basil",
+      "name": "Basil",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pork_sausage",
+      "name": "pork sausage",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "thyme",
+      "name": "thyme",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_thyme",
+      "name": "fresh thyme",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sage",
+      "name": "sage",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_mint",
+      "name": "fresh mint",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_sage",
+      "name": "fresh sage",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bay_leaf",
+      "name": "bay leaf",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flat_leaf_parsley",
+      "name": "flat-leaf parsley",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "oregano",
+      "name": "oregano",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "parsley",
+      "name": "parsley",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mint",
+      "name": "mint",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dill",
+      "name": "dill",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bay_leaves",
+      "name": "bay leaves",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rosemary",
+      "name": "rosemary",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mint_leaves",
+      "name": "mint leaves",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_basil",
+      "name": "fresh basil",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cilantro",
+      "name": "cilantro",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/freshHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "thyme",
+      "name": "thyme",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_thyme",
+      "name": "fresh thyme",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sage",
+      "name": "sage",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_mint",
+      "name": "fresh mint",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_sage",
+      "name": "fresh sage",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bay_leaf",
+      "name": "bay leaf",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flat_leaf_parsley",
+      "name": "flat-leaf parsley",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "oregano",
+      "name": "oregano",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "parsley",
+      "name": "parsley",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mint",
+      "name": "mint",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dill",
+      "name": "dill",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rosemary",
+      "name": "rosemary",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_basil",
+      "name": "fresh basil",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cilantro",
+      "name": "cilantro",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/herbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "elderberry",
+      "name": "Elderberry",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/medicinalHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chamomile",
+      "name": "Chamomile",
+      "category": "herbs",
+      "file": "src/data/ingredients/herbs/medicinalHerbs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "olive_oil",
+      "name": "Olive Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coconut_oil",
+      "name": "Coconut Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sesame_oil",
+      "name": "Sesame Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ghee",
+      "name": "Ghee",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "avocado_oil",
+      "name": "Avocado Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "walnut_oil",
+      "name": "Walnut Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flaxseed_oil",
+      "name": "Flaxseed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "peanut_oil",
+      "name": "Peanut Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mustard_oil",
+      "name": "Mustard Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_bran_oil",
+      "name": "Rice Bran Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chili_oil",
+      "name": "Chili Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "perilla_oil",
+      "name": "Perilla Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "camellia_oil",
+      "name": "Camellia Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "grapeseed_oil",
+      "name": "Grapeseed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "macadamia_oil",
+      "name": "Macadamia Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "palm_oil",
+      "name": "Palm Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tea_seed_oil",
+      "name": "Tea Seed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "shiso_oil",
+      "name": "Shiso Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "argan_oil",
+      "name": "Argan Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "hazelnut_oil",
+      "name": "Hazelnut Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pistachio_oil",
+      "name": "Pistachio Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "hemp_seed_oil",
+      "name": "Hemp Seed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black_seed_oil",
+      "name": "Black Seed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "almond_oil",
+      "name": "Almond Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sunflower_oil",
+      "name": "Sunflower Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "safflower_oil",
+      "name": "Safflower Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_truffle_oil",
+      "name": "White Truffle Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "red_palm_oil",
+      "name": "Red Palm Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "roasted_pumpkin_seed_oil",
+      "name": "Roasted Pumpkin Seed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mustard_seed_oil",
+      "name": "Mustard Seed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "babassu_oil",
+      "name": "Babassu Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "apricot_kernel_oil",
+      "name": "Apricot Kernel Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "canola_oil",
+      "name": "Canola Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mct_oil",
+      "name": "MCT Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "vegetable_oil",
+      "name": "Vegetable Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "basil_infused_olive_oil",
+      "name": "Basil-Infused Olive Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "garlic_infused_olive_oil",
+      "name": "Garlic-Infused Olive Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemon_infused_olive_oil",
+      "name": "Lemon-Infused Olive Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black_truffle_oil",
+      "name": "Black Truffle Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pumpkin_seed_oil",
+      "name": "Pumpkin Seed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chia_seed_oil",
+      "name": "Chia Seed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "moringa_oil",
+      "name": "Moringa Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "neem_oil",
+      "name": "Neem Oil (Culinary Grade)",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cottonseed_oil",
+      "name": "Cottonseed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "soybean_oil",
+      "name": "Soybean Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "corn_oil",
+      "name": "Corn Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rapeseed_oil",
+      "name": "Rapeseed Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sacha_inchi_oil",
+      "name": "Sacha Inchi Oil",
+      "category": "oils",
+      "file": "src/data/ingredients/oils/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "greek_yogurt",
+      "name": "Greek Yogurt",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cottage_cheese",
+      "name": "Cottage Cheese",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ricotta",
+      "name": "Ricotta",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cream_cheese",
+      "name": "Cream Cheese",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "milk",
+      "name": "Milk",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "buttermilk",
+      "name": "Buttermilk",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "butter",
+      "name": "Butter",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "goat_cheese",
+      "name": "Goat Cheese",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cheddar_cheese",
+      "name": "Cheddar Cheese",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "blue_cheese",
+      "name": "Blue Cheese",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "heavy_cream",
+      "name": "Heavy Cream",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sour_cream",
+      "name": "Sour Cream",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cold_butter",
+      "name": "Cold Butter",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "parmesan",
+      "name": "Parmesan (Parmigiano-Reggiano)",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chocolate_ice_cream",
+      "name": "Chocolate Ice Cream",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "evaporated_milk",
+      "name": "Evaporated Milk",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "butter_croissant",
+      "name": "Butter Croissant",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "french_butter",
+      "name": "French Butter",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "whole_milk",
+      "name": "Whole Milk",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "unsalted_butter",
+      "name": "Unsalted Butter",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "clarified_butter",
+      "name": "Clarified Butter / Ghee",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "gruy_re_cheese",
+      "name": "Gruyère Cheese",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "vanilla_ice_cream",
+      "name": "Vanilla Ice Cream",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "yogurt",
+      "name": "Yogurt",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mozzarella",
+      "name": "Mozzarella",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/dairy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chicken_egg",
+      "name": "Chicken Egg",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/eggs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "duck_egg",
+      "name": "Duck Egg",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/eggs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "quail_egg",
+      "name": "Quail Egg",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/eggs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "goose_egg",
+      "name": "Goose Egg",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/eggs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "egg_white",
+      "name": "Egg White (Albumen)",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/eggs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "egg_yolk",
+      "name": "Egg Yolk",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/eggs.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black_beans",
+      "name": "Black Beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chickpeas",
+      "name": "Chickpeas (Garbanzo Beans)",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lentils",
+      "name": "Lentils",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pinto_beans",
+      "name": "Pinto Beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "kidney_beans",
+      "name": "Kidney Beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "split_peas",
+      "name": "Split Peas",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tempeh",
+      "name": "Tempeh",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "beef",
+      "name": "Beef",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/meat.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pork",
+      "name": "Pork",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/meat.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lamb",
+      "name": "Lamb",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/meat.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "veal",
+      "name": "Veal",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/meat.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "venison",
+      "name": "Venison",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/meat.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chicken",
+      "name": "Chicken",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/poultry.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "turkey",
+      "name": "Turkey",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/poultry.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "duck",
+      "name": "Duck",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/poultry.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "goose",
+      "name": "Goose",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/poultry.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "quail",
+      "name": "Quail",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/poultry.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "eggs",
+      "name": "eggs",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ground_beef",
+      "name": "ground beef",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "grilled_chicken",
+      "name": "grilled chicken",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "hard_boiled_eggs",
+      "name": "hard-boiled eggs",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pork_ribs",
+      "name": "pork ribs",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chicken_pieces",
+      "name": "chicken pieces",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "salmon_fillet",
+      "name": "salmon fillet",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "beef_chuck_roast",
+      "name": "beef chuck roast",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "soybeans",
+      "name": "soybeans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "soft_tofu",
+      "name": "soft tofu",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "har_gow__shrimp_dumplings_",
+      "name": "har gow (shrimp dumplings)",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "siu_mai__pork_dumplings_",
+      "name": "siu mai (pork dumplings)",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_eggs",
+      "name": "fresh eggs",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "vanilla_bean",
+      "name": "vanilla bean",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "oil_packed_tuna",
+      "name": "oil-packed tuna",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "beef_stock",
+      "name": "beef stock",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chicken",
+      "name": "chicken",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "beef_chuck",
+      "name": "beef chuck",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "egg_yolks",
+      "name": "egg yolks",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pork",
+      "name": "pork",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_beans",
+      "name": "white beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "yellow_lentils",
+      "name": "yellow lentils",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black_lentils",
+      "name": "black lentils",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "kidney_beans",
+      "name": "kidney beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "egg",
+      "name": "egg",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "parmigiano_reggiano",
+      "name": "Parmigiano-Reggiano",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chicken_thigh",
+      "name": "chicken thigh",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pork_belly",
+      "name": "pork belly",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "beef_sirloin",
+      "name": "beef sirloin",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pork_spine",
+      "name": "pork spine",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bean_sprouts",
+      "name": "bean sprouts",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fava_beans",
+      "name": "fava beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "brown_lentils",
+      "name": "brown lentils",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "buckwheat_groats",
+      "name": "buckwheat groats",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_fish",
+      "name": "white fish",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "long_beans",
+      "name": "long beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "red_beans",
+      "name": "red beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "beef_bones",
+      "name": "beef bones",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ground_pork",
+      "name": "ground pork",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fish_sauce",
+      "name": "fish sauce",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "beef_shank",
+      "name": "beef shank",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pork_knuckles",
+      "name": "pork knuckles",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pork_chops",
+      "name": "pork chops",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mung_beans",
+      "name": "mung beans",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/proteins.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "atlantic_salmon",
+      "name": "Salmon",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tuna",
+      "name": "Tuna",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "shrimp",
+      "name": "Shrimp",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cod",
+      "name": "Cod",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "halibut",
+      "name": "Halibut",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "scallops",
+      "name": "Scallops",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tilapia",
+      "name": "Tilapia",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "trout",
+      "name": "Trout",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sardines",
+      "name": "Sardines",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mackerel",
+      "name": "Mackerel",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "crab",
+      "name": "Crab",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lobster",
+      "name": "Lobster",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mussels",
+      "name": "Mussels",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "squid",
+      "name": "Squid",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "anchovies",
+      "name": "Anchovies",
+      "category": "proteins",
+      "file": "src/data/ingredients/proteins/seafood.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "onion",
+      "name": "Onion",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/aromatics.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "garlic",
+      "name": "Garlic",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/aromatics.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ginger",
+      "name": "Ginger",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/aromatics.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lemongrass",
+      "name": "Lemongrass",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/aromatics.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "shallot",
+      "name": "Shallot",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/aromatics.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "scallion",
+      "name": "Scallion",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/aromatics.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "saffron",
+      "name": "Saffron",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/aromatics.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "olive_oil",
+      "name": "Olive Oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coconut oil",
+      "name": "coconut oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sesame_oil",
+      "name": "Sesame Oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ghee",
+      "name": "Ghee",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "avocado_oil",
+      "name": "Avocado Oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "peanut oil",
+      "name": "peanut oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mustard oil",
+      "name": "mustard oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "walnut oil",
+      "name": "walnut oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice bran oil",
+      "name": "rice bran oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chili oil",
+      "name": "chili oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "perilla oil",
+      "name": "perilla oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "camellia oil",
+      "name": "camellia oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "grapeseed oil",
+      "name": "grapeseed oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "macadamia oil",
+      "name": "macadamia oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "palm oil",
+      "name": "palm oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tea seed oil",
+      "name": "tea seed oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "shiso oil",
+      "name": "shiso oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "argan oil",
+      "name": "argan oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "hazelnut oil",
+      "name": "hazelnut oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pistachio oil",
+      "name": "pistachio oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "hemp seed oil",
+      "name": "hemp seed oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black seed oil",
+      "name": "black seed oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "almond oil",
+      "name": "almond oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sunflower oil",
+      "name": "sunflower oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "safflower oil",
+      "name": "safflower oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white truffle oil",
+      "name": "white truffle oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "flaxseed oil",
+      "name": "flaxseed oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "red palm oil",
+      "name": "red palm oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "roasted pumpkin seed oil",
+      "name": "roasted pumpkin seed oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mustard seed oil",
+      "name": "mustard seed oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "babassu oil",
+      "name": "babassu oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "apricot kernel oil",
+      "name": "apricot kernel oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "grape seed oil",
+      "name": "grape seed oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "canola_oil",
+      "name": "Canola Oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mct_oil",
+      "name": "MCT Oil",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/oils.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black_pepper",
+      "name": "Black Pepper",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/peppers.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_pepper",
+      "name": "White Pepper",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/peppers.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pink_peppercorn",
+      "name": "Pink Peppercorn",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/peppers.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "szechuan_peppercorn",
+      "name": "Szechuan Peppercorn",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/peppers.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "long_pepper",
+      "name": "Long Pepper",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/peppers.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fleur_de_sel",
+      "name": "Fleur De Sel",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/salts.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "maldon_salt",
+      "name": "Maldon Salt",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/salts.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sea_salt",
+      "name": "Sea Salt",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/salts.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "kosher_salt",
+      "name": "Kosher Salt",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/salts.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "table_salt",
+      "name": "Table Salt",
+      "category": "seasonings",
+      "file": "src/data/ingredients/seasonings/salts.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black_pepper",
+      "name": "black pepper",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cinnamon",
+      "name": "cinnamon",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cumin",
+      "name": "cumin",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "turmeric",
+      "name": "turmeric",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ginger",
+      "name": "ginger",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "paprika",
+      "name": "paprika",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cardamom",
+      "name": "cardamom",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coriander",
+      "name": "coriander",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "nutmeg",
+      "name": "nutmeg",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chili_powder",
+      "name": "chili powder",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "saffron",
+      "name": "saffron",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/enhancedSpices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ground_cinnamon",
+      "name": "Ground Cinnamon",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/groundspices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "garam_masala",
+      "name": "Garam Masala",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ras_el_hanout",
+      "name": "Ras El Hanout",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "herbes_de_provence",
+      "name": "Herbes De Provence",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chinese_five_spice",
+      "name": "Chinese Five Spice",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "za_atar",
+      "name": "Za Atar",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "curry_powder",
+      "name": "Curry Powder",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "berbere",
+      "name": "Berbere",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dukkah",
+      "name": "Dukkah",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "shichimi_togarashi",
+      "name": "Shichimi Togarashi",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "baharat",
+      "name": "Baharat",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "jerk_seasoning",
+      "name": "Jerk Seasoning",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spiceBlends.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ginger",
+      "name": "ginger",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cinnamon",
+      "name": "cinnamon",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "nutmeg",
+      "name": "nutmeg",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "paprika",
+      "name": "paprika",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "red_bean_paste",
+      "name": "red bean paste",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "curry_leaves",
+      "name": "curry leaves",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mustard_seeds",
+      "name": "mustard seeds",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "turmeric",
+      "name": "turmeric",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "green_chilies",
+      "name": "green chilies",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chole_masala",
+      "name": "chole masala",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chaat_masala",
+      "name": "chaat masala",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cumin_seeds",
+      "name": "cumin seeds",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "garam_masala",
+      "name": "garam masala",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cardamom",
+      "name": "cardamom",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "saffron",
+      "name": "saffron",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "curry_roux",
+      "name": "curry roux",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chili_powder",
+      "name": "chili powder",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cumin",
+      "name": "cumin",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coriander",
+      "name": "coriander",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "thai_chilies",
+      "name": "Thai chilies",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "shrimp_paste",
+      "name": "shrimp paste",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/spices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "star_anise",
+      "name": "Star Anise",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/wholespices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cardamom_pods",
+      "name": "Cardamom Pods",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/wholespices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mustard_seeds",
+      "name": "Mustard Seeds",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/wholespices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fennel_seeds",
+      "name": "Fennel Seeds",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/wholespices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coriander_seeds",
+      "name": "Coriander Seeds",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/wholespices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cumin_seeds",
+      "name": "Cumin Seeds",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/wholespices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "caraway_seeds",
+      "name": "Caraway Seeds",
+      "category": "spices",
+      "file": "src/data/ingredients/spices/wholespices.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "onion",
+      "name": "onion",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "garlic",
+      "name": "garlic",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "onions",
+      "name": "onions",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "yellow_onions",
+      "name": "yellow onions",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pearl_onions",
+      "name": "pearl onions",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "shallots",
+      "name": "shallots",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "green_onions",
+      "name": "green onions",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "yellow_onion",
+      "name": "yellow onion",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "red_onion",
+      "name": "red onion",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/alliums.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cauliflower",
+      "name": "Cauliflower",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/cruciferous.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "broccoli",
+      "name": "broccoli",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/cruciferous.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cabbage",
+      "name": "cabbage",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/cruciferous.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "napa_cabbage",
+      "name": "napa cabbage",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/cruciferous.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "mushrooms",
+      "name": "mushrooms",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/fungi.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cremini_mushrooms",
+      "name": "cremini mushrooms",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/fungi.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "kale",
+      "name": "Kale",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/leafyGreens.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "spinach",
+      "name": "spinach",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/leafyGreens.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lettuce",
+      "name": "lettuce",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/leafyGreens.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "romaine_lettuce",
+      "name": "romaine lettuce",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/leafyGreens.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "lettuce_leaves",
+      "name": "lettuce leaves",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/leafyGreens.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "chickpeas",
+      "name": "chickpeas",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "dried_chickpeas",
+      "name": "dried chickpeas",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "peanuts",
+      "name": "peanuts",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "crushed_peanuts",
+      "name": "crushed peanuts",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/legumes.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tomato",
+      "name": "tomato",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bell_pepper",
+      "name": "bell pepper",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "eggplant",
+      "name": "eggplant",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tomato_paste",
+      "name": "tomato paste",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cherry_tomatoes",
+      "name": "cherry tomatoes",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tomato_sauce",
+      "name": "tomato sauce",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "eggplants",
+      "name": "eggplants",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "large_eggplant",
+      "name": "large eggplant",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tomatoes",
+      "name": "tomatoes",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "bell_peppers",
+      "name": "bell peppers",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "green_peppers",
+      "name": "green peppers",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/nightshades.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "asparagus",
+      "name": "asparagus",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "artichoke",
+      "name": "artichoke",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "cucumber",
+      "name": "cucumber",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "okra",
+      "name": "okra",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "zucchini",
+      "name": "zucchini",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fennel",
+      "name": "fennel",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "celery",
+      "name": "celery",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "peas",
+      "name": "peas",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fresh_peas",
+      "name": "fresh peas",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sweet_corn",
+      "name": "sweet corn",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "corn_on_the_cob",
+      "name": "corn on the cob",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "green_beans",
+      "name": "green beans",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/otherVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sweet potato",
+      "name": "Sweet potato",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/rootVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "parsnip",
+      "name": "Parsnip",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/rootVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "beet",
+      "name": "Beet",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/rootVegetables.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "heirloom_carrot",
+      "name": "Heirloom Carrot",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/roots.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black_radish",
+      "name": "Black Radish",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/roots.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "carrot",
+      "name": "carrot",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/roots.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "ginger",
+      "name": "Ginger",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/roots.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "jerusalem_artichoke",
+      "name": "Jerusalem Artichoke",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/roots.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "carrots",
+      "name": "carrots",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/roots.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "parsnips",
+      "name": "parsnips",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/roots.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "butternut squash",
+      "name": "Butternut squash",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/squash.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "pumpkin",
+      "name": "Pumpkin",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/squash.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "potatoes",
+      "name": "potatoes",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/starchy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "potato",
+      "name": "potato",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/starchy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "russet_potatoes",
+      "name": "russet potatoes",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/starchy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sweet_potato",
+      "name": "sweet potato",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/starchy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "potato_starch",
+      "name": "potato starch",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/starchy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sweet_potato_noodles",
+      "name": "sweet potato noodles",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/starchy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "tapioca_pearls",
+      "name": "tapioca pearls",
+      "category": "vegetables",
+      "file": "src/data/ingredients/vegetables/starchy.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_vinegar",
+      "name": "Rice Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/consolidated_vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "apple_cider_vinegar",
+      "name": "Apple Cider Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/consolidated_vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "balsamic_vinegar",
+      "name": "Balsamic Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/consolidated_vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "red_wine_vinegar",
+      "name": "Red Wine Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/consolidated_vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_wine_vinegar",
+      "name": "White Wine Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/consolidated_vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "rice_vinegar",
+      "name": "Rice Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "balsamic_vinegar",
+      "name": "Balsamic Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "apple_cider_vinegar",
+      "name": "Apple Cider Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "red_wine_vinegar",
+      "name": "Red Wine Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "sherry_vinegar",
+      "name": "Sherry Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "white_wine_vinegar",
+      "name": "White Wine Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "champagne_vinegar",
+      "name": "Champagne Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "malt_vinegar",
+      "name": "Malt Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "coconut_vinegar",
+      "name": "Coconut Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "black_vinegar",
+      "name": "Black Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "date_vinegar",
+      "name": "Date Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "aged_balsamic",
+      "name": "Aged Balsamic Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "fig_vinegar",
+      "name": "Fig Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    },
+    {
+      "slug": "champagne_rose_vinegar",
+      "name": "Champagne Rose Vinegar",
+      "category": "vinegars",
+      "file": "src/data/ingredients/vinegars/vinegars.ts",
+      "score": 14,
+      "scorePct": 100,
+      "missing": []
+    }
+  ]
+}

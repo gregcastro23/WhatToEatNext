@@ -50,14 +50,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.5,
-        salty: 0.0,
-        sour: 0.4,
-        bitter: 0.1,
-        umami: 0.6, // High umami from glutamates
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.4, sour: 0.6, bitter: 0.1, salty: 0.1, umami: 0.6 },
       aroma: {
         floral: 0.2,
         fruity: 0.7,
@@ -159,7 +152,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Libra", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
+},
 
   bell_pepper: {
     name: "bell pepper",
@@ -208,14 +202,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.8, // Especially red peppers
-        salty: 0.0,
-        sour: 0.0,
-        bitter: 0.1,
-        umami: 0.1,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0.1, sweet: 0.6, sour: 0.2, bitter: 0.1, salty: 0, umami: 0.2 },
       aroma: {
         floral: 0.2,
         fruity: 0.6,
@@ -314,9 +301,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Leo", "Taurus", "Libra", "Cancer", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
+},
 
   eggplant: {
+      description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.",
     name: "eggplant",
     category: "vegetables",
     subcategory: "nightshade",
@@ -352,9 +341,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days",
       notes: "Sensitive to ethylene gas",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
 
   tomato_paste: {
+      description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes it the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize whole. Sun-dried tomatoes concentrate sweetness and umami dramatically; rehydrate in warm water or oil.",
     name: "tomato paste",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -387,9 +379,14 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       vitamins: { A: 0.04, C: 0.04 },
       minerals: { iron: 0.03, potassium: 0.05 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 
   cherry_tomatoes: {
+      description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes them the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce well into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize beautifully whole. Salt sliced tomatoes 20 min before serving to draw out water and concentrate flavor.",
     name: "cherry tomatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -406,9 +403,15 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 
   tomato_sauce: {
+      description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes it the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize whole. Sun-dried tomatoes concentrate sweetness and umami dramatically; rehydrate in warm water or oil.",
     name: "tomato sauce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -425,9 +428,15 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 
   eggplants: {
+      description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.\n\n**Selection & Storage:** Select eggplants with smooth, shiny, deeply colored skin that feel heavy for their size; the stem should be bright green. They are sensitive to both heat and extreme cold; store in a cool, dark place or in the crisper drawer for only a few days.",
     name: "eggplants",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -444,9 +453,15 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 
   large_eggplant: {
+      description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.\n\n**Selection & Storage:** Select eggplants with smooth, shiny, deeply colored skin that feel heavy for their size; the stem should be bright green. They are sensitive to both heat and extreme cold; store in a cool, dark place or in the crisper drawer for only a few days.",
     name: "large eggplant",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -463,9 +478,15 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 
   tomatoes: {
+      description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes them the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce well into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize beautifully whole. Salt sliced tomatoes 20 min before serving to draw out water and concentrate flavor.",
     name: "tomatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -482,9 +503,15 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 
   bell_peppers: {
+      description: "A sweet, non-spicy fruit of the capsicum family (*Capsicum annuum*) that is botanically a berry but treated as a culinary vegetable. Green peppers are harvested early and taste grassy and slightly bitter, while red, yellow, and orange varieties are fully ripe, offering a fruity sweetness and high Vitamin C content.\n\n**Selection & Storage:** Choose peppers that are firm, heavy for their size, and boast smooth, taut, brightly colored skin without soft spots. Store them unwashed in the crisper drawer, where they will last for a week to ten days.",
     name: "bell peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -517,9 +544,14 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       vitamins: { C: 1.69, A: 0.11, B6: 0.17, folate: 0.11 },
       minerals: { potassium: 0.06 },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 
   green_peppers: {
+      description: "A fresh plant food, green peppers offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
     name: "green peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -536,7 +568,12 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

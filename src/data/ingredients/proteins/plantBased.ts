@@ -23,6 +23,12 @@ function createIngredientMapping(
 
 const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   tempeh: createIngredientMapping("tempeh", {
+    description:
+      "Traditional Indonesian cake of whole soybeans bound by live Rhizopus oligosporus mycelium into a firm, sliceable block. Fermentation predigests soy proteins, boosts bioavailable isoflavones, and develops a savory, nutty, mushroom-forward flavor unique among soy products. Sold fresh or pasteurized in flat bricks; accepts marinades aggressively and crisps beautifully when pan-fried, grilled, or braised.",
+    regionalOrigins: ["Java", "Bali", "Sumatra", "global artisan"],
+    sustainabilityScore: 0.92,
+    season: ["all"],
+    seasonality: { peak: [], available: ["all"] },
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
@@ -214,6 +220,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   seitan: createIngredientMapping("seitan", {
+    description:
+      "Vital wheat gluten hydrated and cooked into a dense, chewy, meat-mimetic protein block long used in Chinese Buddhist temple cuisine as 'mian jin' or mock meat. Kneading and rinsing wheat flour (or reconstituting isolated gluten) yields a stretchy matrix that braises, steams, deep-fries, or grills into remarkably beef- or poultry-like textures. Not suitable for celiac or gluten-intolerant diners.",
+    regionalOrigins: ["China", "Japan", "Taiwan", "global vegetarian"],
+    sustainabilityScore: 0.85,
+    season: ["all"],
+    seasonality: { peak: [], available: ["all"] },
     elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
@@ -372,6 +384,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   tofu_varieties: createIngredientMapping("tofu_varieties", {
+    description:
+      "Soybean curd produced by coagulating fresh soy milk with nigari (magnesium chloride), gypsum (calcium sulfate), or acid and pressing the resulting curds. Textures span silken (custardy, uncurdled) through soft, firm, extra-firm, and pressed/baked forms, each suited to specific techniques — silken for blending and mapo tofu, firm for stir-fry, frozen-then-thawed for meaty sponge. A Han Chinese invention now central to East and Southeast Asian cuisines.",
+    regionalOrigins: ["China", "Japan", "Korea", "Vietnam", "global"],
+    sustainabilityScore: 0.90,
+    season: ["all"],
+    seasonality: { peak: [], available: ["all"] },
     elementalProperties: { Water: 0.5, Earth: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -563,6 +581,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   legumes_protein: createIngredientMapping("legumes_protein", {
+    description:
+      "Category index covering pulse proteins — dry beans, peas, lentils, and cowpeas — prized for complementary amino acids, soluble fiber, resistant starch, and nitrogen-fixing sustainability credentials. Legumes form the backbone of every meat-light culinary tradition from Levantine mezze and Mexican frijoles to Indian dal and Italian pasta e fagioli. Properly soaked and simmered they yield silky purees, firm salads, or hearty stews.",
+    regionalOrigins: ["global — Fertile Crescent origin, domesticated 10,000+ years ago"],
+    sustainabilityScore: 0.95,
+    season: ["all"],
+    seasonality: { peak: ["late-summer", "autumn"], available: ["all"] },
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -967,6 +991,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   ),
 
   jackfruit_young: createIngredientMapping("jackfruit_young", {
+    description:
+      "Unripe green jackfruit — the dense, starchy, neutral-flavored pods of Artocarpus heterophyllus harvested before sweetness develops. When simmered or braised, the bulb fibers shred into remarkably pork-like strands that absorb smoke, barbecue, or curry flavors. Long a staple in South Indian (Kerala 'chakka'), Sri Lankan 'polos', and Filipino 'ginataang langka' cuisines; now a global plant-based meat alternative. Sold canned in brine (not syrup).",
+    regionalOrigins: ["Kerala", "Sri Lanka", "Bangladesh", "Philippines", "Southeast Asia"],
+    sustainabilityScore: 0.88,
+    season: ["spring", "summer"],
+    seasonality: { peak: ["late-spring", "summer"], available: ["all — canned"] },
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -1100,6 +1130,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   quinoa_protein: createIngredientMapping("quinoa_protein", {
+    description:
+      "Protein-dense pseudocereal from Chenopodium quinoa, an Andean goosefoot relative cultivated for 5,000+ years on the altiplano of Peru, Bolivia, and Ecuador. Unlike true grains, quinoa delivers all nine essential amino acids, making it a rare complete plant protein. Saponin-coated seeds require thorough rinsing, then cook in ~15 minutes into fluffy spiral-germ grains. Red and black varieties hold shape better for salads; white is softest for pilafs and porridges.",
+    regionalOrigins: ["Peruvian Andes", "Bolivian altiplano", "Ecuador", "global cultivation"],
+    sustainabilityScore: 0.82,
+    season: ["autumn"],
+    seasonality: { peak: ["autumn"], available: ["all"] },
     elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -1245,6 +1281,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   hemp_protein: createIngredientMapping("hemp_protein", {
+    description:
+      "Protein-rich powder and hulled seeds ('hemp hearts') from Cannabis sativa cultivated for non-psychoactive food use. Hemp delivers a rare plant-based ratio of omega-6 to omega-3 fatty acids (~3:1) plus edestin and albumin proteins that are highly digestible. Nutty, grassy flavor reads best in smoothies, energy bars, granolas, and pesto bases. Unlike flax or chia, hemp hearts are soft enough to eat raw with no grinding required.",
+    regionalOrigins: ["Canada (primary)", "France", "Romania", "China"],
+    sustainabilityScore: 0.93,
+    season: ["autumn"],
+    seasonality: { peak: ["autumn"], available: ["all"] },
     elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -1355,6 +1397,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   pea_protein: createIngredientMapping("pea_protein", {
+    description:
+      "Isolated protein fraction extracted from yellow split peas (Pisum sativum) via wet fractionation or dry milling. Neutral-flavored, allergen-friendly (soy-free, gluten-free, dairy-free), and high in BCAAs, it is the backbone of most modern plant-based burgers, sausages, and protein drinks. Forms gels on heating, emulsifies fats, and extrudes into fibrous meat-analog textures. Best hydrated with a touch of acid or salt to tame mild legume-earthiness.",
+    regionalOrigins: ["Canada (prairies)", "France", "USA", "global processors"],
+    sustainabilityScore: 0.94,
+    season: ["all"],
+    seasonality: { peak: [], available: ["all"] },
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -1460,6 +1508,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   chickpea_protein: createIngredientMapping("chickpea_protein", {
+    description:
+      "Protein-forward flour and isolate derived from Cicer arietinum — the garbanzo bean domesticated in southeastern Anatolia ~9,500 years ago. Besan (gram flour) is central to South Asian pakoras, socca/farinata of Nice and Liguria, and Provençal panisse; the cooking liquid (aquafaba) whips into stable vegan meringues. Delivers ~20g protein per 100g dry with a rich nutty-legume flavor that fries and bakes into firm, satisfying textures.",
+    regionalOrigins: ["India", "Turkey", "Middle East", "North Africa", "Mediterranean"],
+    sustainabilityScore: 0.93,
+    season: ["all"],
+    seasonality: { peak: ["summer", "autumn"], available: ["all"] },
     elementalProperties: { Earth: 0.4, Fire: 0.2, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -1560,6 +1614,12 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   lupin_protein: createIngredientMapping("lupin_protein", {
+    description:
+      "Ultra-high-protein legume (~40% dry protein) from sweet-cultivar Lupinus angustifolius or L. albus, traditionally brined as Mediterranean 'lupini' bean snacks and increasingly milled into flour for gluten-free pastas and meat analogs. Among the most sustainable crops on record — nitrogen-fixing, low-water, and cold-tolerant. Bitter wild varieties contain alkaloids; only sweet cultivars or thoroughly de-bittered beans are food-safe. Allergenic for some (cross-reacts with peanut).",
+    regionalOrigins: ["Mediterranean basin", "Australia", "Andes — tarwi"],
+    sustainabilityScore: 0.96,
+    season: ["autumn", "winter"],
+    seasonality: { peak: ["autumn"], available: ["all — dried/brined"] },
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -1673,6 +1733,17 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   fava_protein: createIngredientMapping("fava_protein", {
+    description:
+      "Broad beans (Vicia faba), one of the oldest cultivated legumes — found in Neolithic deposits across the Mediterranean and Nile Valley. Fresh green favas dominate Italian springtime menus (crudo with pecorino); dried and split favas build Egyptian 'ful medames', Sicilian 'maccu', and Portuguese 'favada'. Rare warning: individuals with G6PD deficiency may develop favism, an acute hemolytic reaction to raw or undercooked fava consumption.",
+    regionalOrigins: ["Egypt", "Mediterranean basin", "Middle East", "North Africa", "Latin America"],
+    sustainabilityScore: 0.94,
+    season: ["spring", "early-summer"],
+    seasonality: { peak: ["spring"], available: ["spring fresh", "all dried"] },
+    safetyThresholds: {
+      warnings: [
+        "Favism — individuals with G6PD deficiency (common in Mediterranean, African, Middle Eastern, South Asian populations) can develop acute hemolytic anemia from raw, lightly cooked, or even pollen exposure. Cook thoroughly and know family medical history."
+      ],
+    },
     elementalProperties: { Earth: 0.3, Water: 0.3, Air: 0.2, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],

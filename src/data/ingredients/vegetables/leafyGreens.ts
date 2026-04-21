@@ -23,6 +23,7 @@ const generateVegetableAttributes = (vegData: {
 
 const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   kale: {
+      description: "A robust, hardy member of the cabbage family (*Brassica oleracea var. sabellica*) known for its dense texture and earthy, slightly bitter flavor. Its tough cellulose structure requires massaging with oil or acid when eaten raw, but allows it to hold up beautifully to long braising or roasting.",
     name: "Kale",
     category: "vegetables",
     subCategory: "leafy_green",
@@ -111,7 +112,10 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
         base: "Air",
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
   spinach: {
     name: "spinach",
     category: "vegetables",
@@ -157,14 +161,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.2,
-        salty: 0.0,
-        sour: 0.1,
-        bitter: 0.4,
-        umami: 0.2,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.1, sour: 0.1, bitter: 0.5, salty: 0.1, umami: 0.3 },
       aroma: {
         floral: 0.0,
         fruity: 0.0,
@@ -264,8 +261,10 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Virgo", "Pisces"],
       seasonalAffinity: ["spring"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
+},
   "swiss chard": {
+      description: "A fresh plant food, swiss chard offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
     name: "Swiss chard",
     elementalProperties: { Water: 0.39, Earth: 0.33, Air: 0.21, Fire: 0.07 },
     astrologicalProfile: {
@@ -303,8 +302,11 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Wrap in damp paper towel",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+},
   lettuce: {
+      description: "A leafy herbaceous plant (*Lactuca sativa*), primarily cultivated for its crisp, hydrating leaves. Iceberg and romaine varieties provide high water content and structural crunch that resists wilting under heavy dressings, while butterhead and loose-leaf types offer delicate, tender textures. Although typically consumed raw in salads or as a cooling counterpoint in sandwiches, hearty varieties like romaine can be lightly grilled or braised to develop surprising smoky depth.",
     name: "lettuce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
@@ -315,8 +317,14 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
   romaine_lettuce: {
+      description: "A leafy herbaceous plant (*Lactuca sativa*), primarily cultivated for its crisp, hydrating leaves. Iceberg and romaine varieties provide high water content and structural crunch that resists wilting under heavy dressings, while butterhead and loose-leaf types offer delicate, tender textures. Although typically consumed raw in salads or as a cooling counterpoint in sandwiches, hearty varieties like romaine can be lightly grilled or braised to develop surprising smoky depth.",
     name: "romaine lettuce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
@@ -327,8 +335,14 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
   lettuce_leaves: {
+      description: "A leafy herbaceous plant (*Lactuca sativa*), primarily cultivated for its crisp, hydrating leaves. Iceberg and romaine varieties provide high water content and structural crunch that resists wilting under heavy dressings, while butterhead and loose-leaf types offer delicate, tender textures. Although typically consumed raw in salads or as a cooling counterpoint in sandwiches, hearty varieties like romaine can be lightly grilled or braised to develop surprising smoky depth.",
     name: "lettuce leaves",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
@@ -339,7 +353,12 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
+      nutritionalProfile: { serving_size: "1 cup", calories: 40, macros: { protein: 2, carbs: 8, fat: 0.3, fiber: 3 }, vitamins: { C: 0.3, A: 0.2, K: 0.2, folate: 0.15 }, minerals: { potassium: 0.2, manganese: 0.1, iron: 0.05 }, source: "category default" },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] },
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

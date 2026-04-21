@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawPome = {
   apple: {
+      description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.",
     name: "Apple",
     elementalProperties: {
       Earth: 0.5,
@@ -179,8 +180,11 @@ const rawPome = {
       German: "Apfelstrudel, apfelkuchen (apple cake)",
       Scandinavian: "Apple soup, compotes with cardamom",
     },
-  },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
   pear: {
+      description: "A delicate pome fruit (*Pyrus communis*) that ripens from the inside out, transforming from crunchy to buttery-soft. Its high sugar content and delicate floral notes make it excellent for eating raw, poaching in wine, or pairing with sharp blue cheeses.",
     name: "Pear",
     elementalProperties: {
       Water: 0.4,
@@ -350,8 +354,11 @@ const rawPome = {
       American: "Pear salads, pear butter, baked goods",
       "Asian Fusion": "Pear in ginger syrup, Asian-spiced poached pears",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
   quince: {
+      description: "An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).",
     name: "Quince",
     elementalProperties: {
       Earth: 0.6,
@@ -506,8 +513,11 @@ const rawPome = {
       Spanish: "Essential component of classic cheese service",
       "Middle Eastern": "Traditional accompaniment to meat dishes",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
   asian_pear: {
+      description: "A crisp, exceptionally juicy fruit (*Pyrus pyrifolia*) that looks like a round apple but retains the delicate, floral sweetness of a pear. Unlike European pears, they do not soften after picking; their granular, water-dense texture makes them perfect for eating raw or grating into Korean meat marinades to tenderize beef.",
     name: "Asian Pear",
     elementalProperties: {
       Water: 0.5,
@@ -647,8 +657,11 @@ const rawPome = {
       Chinese: "Symbol of immortality, used in medicinal preparations",
       "Modern Western": "Gourmet salads, cheese pairings, specialty produce",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
   medlar: {
+      description: "A sweet edible plant product, medlar delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Medlar",
     elementalProperties: {
       Earth: 0.7,
@@ -785,8 +798,11 @@ const rawPome = {
       Symbolic: "Used as metaphor for maturity and old age",
       Modern: "Revival interest among historical food enthusiasts",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
   loquat: {
+      description: "A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.",
     name: "Loquat",
     elementalProperties: {
       Water: 0.4,
@@ -928,7 +944,9 @@ const rawPome = {
       "Chinese Medicine": "Used in traditional cough remedies for centuries",
       California: "Heritage tree often found in old gardens and homesteads",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawRefinedGrains = {
   white_rice: {
+      description: "A starchy cereal grain (*Oryza sativa*) that has been milled to remove its husk, bran, and germ. Because only the starchy endosperm remains, it cooks quickly, has a mild, clean flavor, and yields a fluffy, soft texture that acts as a neutral sponge for rich sauces and curries.",
     name: "White Rice",
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -92,9 +93,14 @@ const rawRefinedGrains = {
         preparationTips: ["Excellent for risotto", "Creamy texture enhanced"],
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
 
   semolina: {
+      description: "A coarse, pale-yellow flour milled from hard durum wheat (*Triticum durum*). Its extraordinarily high protein content and coarse grind make it the international standard for creating structured, resilient dried pasta, and it provides a gritty, satisfying crunch when dusted on pizza peels.",
     name: "Semolina",
     elementalProperties: { Fire: 0.18, Water: 0.09, Earth: 0.37, Air: 0.36 },
     astrologicalProfile: {
@@ -196,9 +202,14 @@ const rawRefinedGrains = {
         preparationTips: ["Good for couscous", "Creates light, fluffy texture"],
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
 
   pearl_barley: {
+      description: "A form of barley (*Hordeum vulgare*) that has been scoured (pearled) to remove both its inedible outer hull and its bran layer. This processing significantly reduces its cooking time and allows it to release massive amounts of viscous starches, perfectly thickening heavy winter beef stews and risottos.",
     name: "Pearl Barley",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -292,9 +303,14 @@ const rawRefinedGrains = {
         preparationTips: ["Good for salads", "Enhanced nutty flavor"],
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
 
   polished_farro: {
+      description: "An ancient wheat grain (*Triticum dicoccum*) that has undergone 'pearling' to completely remove its tough bran layer. While this reduces its nutritional density compared to whole farro, it drastically cuts the cooking time to under 20 minutes, yielding a soft, starchy grain perfect for quick risottos (farrotto).",
     name: "Polished Farro",
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
@@ -389,9 +405,14 @@ const rawRefinedGrains = {
         ],
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
 
   white_cornmeal: {
+      description: "A coarse flour milled from dried white dent corn. Compared to yellow cornmeal, it offers a more delicate, less aggressively sweet, and slightly more floral flavor profile, serving as the foundational ingredient for Southern US staples like grits and traditional cornbread.",
     name: "White Cornmeal",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
@@ -487,9 +508,14 @@ const rawRefinedGrains = {
         preparationTips: ["Excellent for breading", "Creates optimal texture"],
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
 
   all_purpose_flour: {
+      description: "A mid-protein (10–12%) wheat flour blended from hard and soft varieties to perform acceptably across most baked goods — the Swiss Army knife of American baking. Less chewy than bread flour and less tender than cake flour, it sits in the middle of the gluten spectrum. Bleached versions cook more predictably in cakes; unbleached has slightly more protein and a mellower cream color. Store airtight in cool, dry conditions; refrigerate for long-term use to deter pantry pests.",
     name: "All-Purpose Flour",
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },
     astrologicalProfile: {
@@ -605,7 +631,11 @@ const rawRefinedGrains = {
         ],
       },
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

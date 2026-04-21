@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawPeppers = {
   black_pepper: {
+      description: "The world's most ubiquitous spice (*Piper nigrum*), made from the dried, unripe berries of a flowering vine. It provides a sharp, biting heat due to the alkaloid piperine, and complex, woody aromas that quickly degrade, which is why it should always be freshly ground just before use.",
     name: "Black Pepper",
     elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },
     alchemicalProperties: { Spirit: 0.85, Essence: 0.35, Matter: 0.15, Substance: 0.20 },
@@ -112,9 +113,13 @@ const rawPeppers = {
       duration: "whole: 2-3 years, ground: 3-4 months",
       notes: "Best stored whole and ground as needed",
     },
-  },
+      sensoryProfile: { taste: { spicy: 0.6, earthy: 0.4, sweet: 0, salty: 0, sour: 0, bitter: 0.2, umami: 0 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   white_pepper: {
+      description: "The seed of the *Piper nigrum* vine, with its dark outer skin removed before drying. It offers a sharper, earthier, and slightly more fermented or musky flavor than black pepper, and is prized in French and Chinese cuisines where dark black specks are visually undesirable in pale sauces.",
     name: "White Pepper",
     elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2, Water: 0 },
     alchemicalProperties: { Spirit: 0.75, Essence: 0.30, Matter: 0.18, Substance: 0.22 },
@@ -190,9 +195,13 @@ const rawPeppers = {
       duration: "whole: 1-2 years, ground: 2-3 months",
       notes: "More delicate than black pepper",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   pink_peppercorn: {
+      description: "The dried berries of the *Schinus molle* (Peruvian peppertree) or *Schinus terebinthifolia* (Brazilian peppertree), entirely unrelated to true black pepper. They offer a very mild, slightly sweet, and profoundly floral heat with notes of rose and citrus, providing brilliant color and delicate crunch to light cream sauces or fish.",
     name: "Pink Peppercorn",
     elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
     alchemicalProperties: { Spirit: 0.70, Essence: 0.45, Matter: 0.10, Substance: 0.15 },
@@ -259,9 +268,13 @@ const rawPeppers = {
       warning: "May cause reaction in people with tree nut allergies",
       related_to: "cashews and mangoes",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   szechuan_peppercorn: {
+      description: "The dried berry husks of the prickly ash tree (*Zanthoxylum*), completely unrelated to black pepper or chili peppers. They contain hydroxy-alpha sanshool, a compound that creates a unique vibrating, numbing, and tingling sensation (málà) on the tongue, accompanied by a bright citrus aroma.",
     name: "Szechuan Peppercorn",
     elementalProperties: { Fire: 0.56, Water: 0, Earth: 0.11, Air: 0.33 },
     alchemicalProperties: { Spirit: 0.88, Essence: 0.40, Matter: 0.12, Substance: 0.18 },
@@ -316,9 +329,13 @@ const rawPeppers = {
       duration: "whole: 1-2 years, ground: 1 month",
       notes: "Volatile oils dissipate quickly when ground",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   long_pepper: {
+      description: "An exotic flowering vine (*Piper longum*) closely related to black pepper, producing tiny fruit clusters that look like slender catkins. It possesses a complex, sweet, and incredibly pungent heat that is earthier and more aromatic than black pepper, boasting notes of nutmeg, cinnamon, and cardamom.",
     name: "Long Pepper",
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
     alchemicalProperties: { Spirit: 0.78, Essence: 0.35, Matter: 0.18, Substance: 0.20 },
@@ -379,7 +396,10 @@ const rawPeppers = {
       duration: "whole: 2 years, ground: 6 months",
       notes: "Less common but keeps well",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

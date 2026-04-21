@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawSalts = {
   fleur_de_sel: {
+      description: "A rare, highly prized sea salt translated as 'flower of salt.' It is meticulously hand-harvested by scraping the delicate, pyramid-shaped crystals that form on the surface of seawater evaporation ponds. It provides a clean, oceanic minerality and a delicate, shattering crunch, used exclusively as a finishing salt.",
     name: "Fleur De Sel",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.08, Essence: 0.15, Matter: 0.90, Substance: 0.92 },
@@ -482,9 +483,13 @@ const rawSalts = {
       container: "ceramic or glass",
       notes: "Keep dry but expects some moisture",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   maldon_salt: {
+      description: "A highly esteemed, artisanal sea salt harvested in the coastal town of Maldon, England. It is famous for its unique, large, hollow pyramid-shaped crystals that provide an exceptionally clean, bright minerality and a dramatic, shattering crunch when sprinkled over finished steaks or chocolate chip cookies.",
     name: "Maldon Salt",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.06, Essence: 0.12, Matter: 0.88, Substance: 0.90 },
@@ -593,9 +598,14 @@ const rawSalts = {
       container: "airtight glass or ceramic",
       notes: "Keep very dry to maintain crunch",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   sea_salt: {
+      description: "A broad category of salt obtained directly through the evaporation of seawater, rather than mined from subterranean rock deposits. While it is chemically mostly sodium chloride, it retains trace oceanic minerals (like magnesium and calcium) that provide a slightly more complex, 'briny' flavor profile than highly refined table salt.",
     name: "Sea Salt",
     elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.05, Essence: 0.18, Matter: 0.92, Substance: 0.95 },
@@ -677,9 +687,13 @@ const rawSalts = {
       container: "airtight glass or ceramic",
       notes: "Keep very dry to maintain crunch",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   himalayan_salt: {
+      description: "A rock salt mined from the Punjab region of Pakistan, characterized by its distinct pink color, which is derived from trace minerals like iron, magnesium, and calcium. While nutrally similar to table salt, its large, coarse crystals make it an excellent visual and textural finishing salt.",
     name: "Himalayan Salt",
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.10, Essence: 0.10, Matter: 0.95, Substance: 0.95 },
@@ -968,9 +982,13 @@ const rawSalts = {
       signs_of_quality: "Should remain dry and free-flowing, no clumping",
       salt_mills: "Ceramic grinding mechanism recommended to prevent corrosion",
     },
-  },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   kosher_salt: {
+      description: "A coarse-grained, additive-free salt that features large, irregular, flat crystals. Originally designed for the Jewish dietary practice of dry-brining (koshering) meat, its large surface area draws out moisture effectively and makes it exceptionally easy for chefs to pinch and accurately judge quantities by feel, compared to dense table salt.",
     name: "Kosher Salt",
     elementalProperties: { Earth: 0.6, Water: 0.2, Air: 0.1, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.03, Essence: 0.08, Matter: 0.92, Substance: 0.95 },
@@ -1043,9 +1061,14 @@ const rawSalts = {
       container: "airtight container",
       notes: "Very stable, no special requirements",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { salty: 1, sweet: 0, sour: 0, bitter: 0, umami: 0, spicy: 0 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 
   table_salt: {
+      description: "A highly refined, fine-grained salt consisting of nearly 100% pure sodium chloride, typically mined from underground salt deposits. Because its grains are uniformly small and dense, it dissolves instantly in water, though it is incredibly easy to over-salt dishes if measuring by volume instead of weight.",
     name: "Table Salt",
     elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.02, Essence: 0.05, Matter: 0.95, Substance: 0.98 },
@@ -1102,7 +1125,11 @@ const rawSalts = {
       container: "airtight container",
       notes: "Very stable, no special requirements",
     },
-  },
+      astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
+      sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
+      culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
+      pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

@@ -110,6 +110,20 @@ export default function RootLayout({
                     📅 Menu Planner
                   </Link>
                   <Link
+                    href="/pantry"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-emerald-100 text-emerald-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-emerald-200"
+                    aria-label="Track ingredients in your pantry"
+                  >
+                    🥫 Pantry
+                  </Link>
+                  <Link
+                    href="/food-tracking"
+                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-teal-100 text-teal-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-teal-200"
+                    aria-label="Track what you eat"
+                  >
+                    📔 Food Diary
+                  </Link>
+                  <Link
                     href="/recipe-builder"
                     className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-amber-100 text-amber-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-200"
                     aria-label="Build and generate recipes with ingredient search and planetary alignment"
@@ -199,6 +213,22 @@ export default function RootLayout({
                         className="text-gray-300 hover:text-purple-300 transition-colors"
                       >
                         📅 Menu Planner
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/pantry"
+                        className="text-gray-300 hover:text-emerald-300 transition-colors"
+                      >
+                        🥫 Pantry
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/food-tracking"
+                        className="text-gray-300 hover:text-teal-300 transition-colors"
+                      >
+                        📔 Food Diary
                       </Link>
                     </li>
                     <li>

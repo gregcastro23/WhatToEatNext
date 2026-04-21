@@ -47,14 +47,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.1,
-        salty: 0.0,
-        sour: 1.0, // Maximum acidity
-        bitter: 0.3, // Especially peel
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.1, sour: 0.9, bitter: 0.3, salty: 0, umami: 0 },
       aroma: {
         floral: 0.4,
         fruity: 0.7,
@@ -154,7 +147,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Gemini", "Virgo"],
       seasonalAffinity: ["winter", "spring"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
 
   apple: {
     name: "apple",
@@ -191,14 +185,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.7,
-        salty: 0.0,
-        sour: 0.3, // Varies by variety
-        bitter: 0.0,
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 },
       aroma: {
         floral: 0.4,
         fruity: 0.9,
@@ -298,7 +285,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Libra", "Cancer"],
       seasonalAffinity: ["fall"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
 
   banana: {
     name: "banana",
@@ -446,7 +434,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Sagittarius", "Taurus", "Libra"],
       seasonalAffinity: ["year-round"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
 
   strawberry: {
     name: "strawberry",
@@ -485,14 +474,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.8,
-        salty: 0.0,
-        sour: 0.3,
-        bitter: 0.0,
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 },
       aroma: {
         floral: 0.7,
         fruity: 1.0, // Maximum fruitiness
@@ -595,7 +577,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Cancer", "Libra"],
       seasonalAffinity: ["spring", "summer"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
 
   avocado: {
     name: "avocado",
@@ -748,7 +731,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Taurus", "Libra", "Cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
 
   blueberry: {
     name: "blueberry",
@@ -894,7 +878,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Cancer", "Pisces", "Sagittarius"],
       seasonalAffinity: ["summer"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
 
   orange: {
     name: "orange",
@@ -934,14 +919,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
     },
 
     sensoryProfile: {
-      taste: {
-        sweet: 0.8,
-        salty: 0.0,
-        sour: 0.3,
-        bitter: 0.1, // Pith
-        umami: 0.0,
-        spicy: 0.0,
-      },
+      taste: { spicy: 0, sweet: 0.6, sour: 0.5, bitter: 0.2, salty: 0, umami: 0 },
       aroma: {
         floral: 0.6,
         fruity: 0.9,
@@ -1041,7 +1019,8 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ["Leo", "Sagittarius", "Gemini"],
       seasonalAffinity: ["winter"],
     },
-  },
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+},
 };
 
 // Export processed ingredients

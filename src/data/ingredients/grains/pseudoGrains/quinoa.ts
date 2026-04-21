@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawQuinoa = {
   quinoa: {
+      description: "A pseudocereal seed (*Chenopodium quinoa*) from the amaranth family, revered for containing all nine essential amino acids (a complete protein). It cooks quickly, yielding a fluffy, slightly crunchy texture and a distinctively earthy, nutty flavor that works perfectly in salads and grain bowls.",
     name: "Quinoa",
     elementalProperties: { Earth: 0.3, Water: 0.2, Air: 0.3, Fire: 0.2 },
     astrologicalProfile: {
@@ -101,7 +102,9 @@ const rawQuinoa = {
         copper: 0.18,
       },
     },
-  },
+      sensoryProfile: { taste: { spicy: 0, sweet: 0.1, sour: 0, bitter: 0.2, salty: 0, umami: 0.2 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
+      culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] }
+},
 };
 
 export const quinoa: Record<string, IngredientMapping> =
