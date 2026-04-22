@@ -278,11 +278,34 @@ export class LocalRecipeService {
     }
 
     try {
-      const recipes = await this.fetchRecipes("AND r.id = $1", [recipeId]);
-      return recipes.length > 0 ? recipes[0] : null;
+      const decodedId = decodeURIComponent(recipeId);
+      const allRecipes = await this.getAllRecipes();
+      
+      const recipe = allRecipes.find(
+        (r) => String(r.id) === decodedId || r.name === decodedId
+      );
+
+      if (recipe) return recipe;
+
+      // Fallback: check if we can query the DB directly by UUID (just in case cache missed a newly added one)
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(decodedId);
+      if (isUuid) {
+        const recipes = await this.fetchRecipes("AND r.id = $1", [decodedId]);
+        if (recipes.length > 0) return recipes[0];
+      }
+
+      return null;
     } catch (error) {
       logger.error(`Error getting recipe by id '${recipeId}':`, error);
-      return null;
+      
+      // Ultimate local fallback
+      try {
+        const decodedId = decodeURIComponent(recipeId);
+        const { allRecipes } = await import("@/data/recipes/index");
+        return allRecipes.find((r) => String(r.id) === decodedId || r.name === decodedId) || null;
+      } catch (_innerError) {
+        return null;
+      }
     }
   }
 
