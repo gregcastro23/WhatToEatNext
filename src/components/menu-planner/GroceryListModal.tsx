@@ -134,7 +134,7 @@ async function _createInstacartShoppingList(
   );
 
   const UNITLESS = new Set(["count", "pieces", "piece", "each", "pack", ""]);
-  
+
   const payload: InstacartShoppingListRequest = {
     title: title || "Grocery List from WhatToEatNext",
     line_items: normalizedItems.map((item) => {
@@ -170,14 +170,14 @@ function formatGroceryListAsText(items: GroceryItem[]): string {
   const grouped = getGroupedGroceryList(items);
 
   let text = "🛒 Grocery List\n";
-  text += `=${  "=".repeat(50)  }\n\n`;
+  text += `=${"=".repeat(50)}\n\n`;
 
   Object.entries(grouped).forEach(([category, categoryItems]) => {
     if (categoryItems.length === 0) return;
 
     const info = CATEGORY_INFO[category as GroceryCategory];
     text += `${info.icon} ${info.name}\n`;
-    text += `${"-".repeat(30)  }\n`;
+    text += `${"-".repeat(30)}\n`;
 
     categoryItems.forEach((item) => {
       text += `☐ ${item.quantity} ${item.unit} ${item.ingredient}\n`;
@@ -398,12 +398,12 @@ export default function GroceryListModal({
       category: item.category,
       addedDate: new Date(),
     });
-    
+
     // Update local context inventory so PossoWidget reacts immediately
     if (!inventory.includes(item.ingredient.toLowerCase())) {
       setInventory([...inventory, item.ingredient.toLowerCase()]);
     }
-    
+
     updateGroceryItem(item.id, { inPantry: true });
   };
 
@@ -417,7 +417,7 @@ export default function GroceryListModal({
           {/* Decorative background circles */}
           <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-[-20%] left-[-10%] w-48 h-48 bg-pink-500/20 rounded-full blur-2xl pointer-events-none" />
-          
+
           <div className="relative z-10 flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <span className="text-4xl filter drop-shadow-md">🛒</span>
@@ -433,7 +433,7 @@ export default function GroceryListModal({
               ×
             </button>
           </div>
- 
+
           {/* Stats Bar */}
           <div className="relative z-10 grid grid-cols-4 gap-4">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg">
@@ -479,7 +479,7 @@ export default function GroceryListModal({
             onClick={regenerateGroceryList}
             className="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm"
           >
-            🔄 Regenerate
+            🔄 Rebuild List
           </button>
           {/* Dynamic retailer list from IDP */}
           {retailers.length > 0 && (
@@ -669,12 +669,12 @@ export default function GroceryListModal({
                 ✕
               </button>
             </div>
-            
+
             <div className="p-6">
               <p className="text-gray-700 mb-6 font-medium">
                 Here is your current cart status. We&apos;ll send the <strong className="text-[#43B02A]">Shopping List</strong> to Instacart and ignore items you already have.
               </p>
-              
+
               <div className="space-y-4">
                 <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -712,14 +712,14 @@ export default function GroceryListModal({
                   <span className="text-2xl font-black text-amber-600">{stats.remaining}</span>
                 </div>
               </div>
-              
+
               {instacartError && (
                 <div className="mt-4 p-3 bg-red-50 text-red-700 text-sm rounded-lg border border-red-200">
                   {instacartError}
                 </div>
               )}
             </div>
-            
+
             <div className="p-4 bg-gray-50 border-t flex justify-end gap-3">
               <button
                 onClick={() => setShowInstacartPreview(false)}
@@ -758,13 +758,12 @@ function GroceryItemRow({
 }) {
   return (
     <div
-      className={`bg-white border rounded-lg p-3 ${
-        item.purchased
+      className={`bg-white border rounded-lg p-3 ${item.purchased
           ? "opacity-50 border-green-300 bg-green-50"
           : isInPantry
             ? "border-orange-300 bg-orange-50"
             : "border-gray-200"
-      }`}
+        }`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 flex-1">

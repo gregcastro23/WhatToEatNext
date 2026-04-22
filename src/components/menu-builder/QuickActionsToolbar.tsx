@@ -160,9 +160,9 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   };
 
   /**
-   * Generate Full Week - fills every empty meal slot across all 7 days
+   * Recommend Full Week - fills every empty meal slot across all 7 days
    * using the same planetary + personalized recommendation pipeline as
-   * Generate Day, then rewards the Master Planner quest on completion.
+   * Recommend Day, then rewards the Master Planner quest on completion.
    */
   const handleGenerateFullWeek = async () => {
     if (!currentMenu) return;
@@ -611,15 +611,15 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   const getGenerateButtonText = () => {
     if (isGenerating && currentGeneratingDay !== null) {
       return hasNatalChart
-        ? `Generating personalized ${dayNames[currentGeneratingDay]}...`
-        : `Generating ${dayNames[currentGeneratingDay]}...`;
+        ? `Recommending personalized ${dayNames[currentGeneratingDay]}...`
+        : `Recommending ${dayNames[currentGeneratingDay]}...`;
     }
     if (nextEmptyDay === null) {
       return "Week Complete!";
     }
     return hasNatalChart
-      ? `Generate ${dayNames[nextEmptyDay]} (Personalized)`
-      : `Generate ${dayNames[nextEmptyDay]}`;
+      ? `Recommend ${dayNames[nextEmptyDay]} (Personalized)`
+      : `Recommend ${dayNames[nextEmptyDay]}`;
   };
 
   return (
@@ -684,9 +684,9 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             <span>🗓️</span>
             {isGeneratingWeek
               ? weekProgressDay !== null
-                ? `Generating ${dayNames[weekProgressDay]}...`
-                : "Generating full week..."
-              : "Generate Full Week"}
+                ? `Recommending ${dayNames[weekProgressDay]}...`
+                : "Recommending full week..."
+              : "Recommend Full Week"}
           </button>
 
           <button
@@ -700,8 +700,8 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             title={
               nextEmptyDay !== null
                 ? hasNatalChart
-                  ? `Generate personalized meals for ${dayNames[nextEmptyDay]}`
-                  : `Generate meals for ${dayNames[nextEmptyDay]}`
+                  ? `Recommend personalized meals for ${dayNames[nextEmptyDay]}`
+                  : `Recommend meals for ${dayNames[nextEmptyDay]}`
                 : "All days have meals"
             }
           >

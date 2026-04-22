@@ -127,7 +127,7 @@ export class PlanetaryHourCalculator {
     // First, determine which planetary sequence to use (based on day of week)
     const planetarySequence =
       PlanetaryHourCalculator.planetaryHours[
-        PlanetaryHourCalculator.dayNames[dayOfWeek]
+      PlanetaryHourCalculator.dayNames[dayOfWeek]
       ];
 
     // Calculate the hour ruler index (0-6) to determine start of sequence
@@ -204,20 +204,15 @@ export class PlanetaryHourCalculator {
     // Determine day of week (0 = Sunday1 = Monday, etc.)
     const dayOfWeek = date.getDay();
 
-    // The first hour of the day is ruled by the planet that rules the day
-    // The day ruler is the first planet in the sequence starting from the
-    // planet that rules the day of the week;
-    const dayRulerIndex = dayOfWeek % 7; // Match day of week to planetary rulers
-
-    // Calculate the hour ruler
-    const hourRulerIndex = (dayRulerIndex + hourIndex) % 7;
-    const _planetName = this.planetaryRulers[hourRulerIndex];
+    // The Day sequence array already begins with the Day's ruler,
+    // so we just calculate the continuous hour from sunrise (0 to 23)
+    const continuousHourIndex = isDaytime ? hourIndex : hourIndex + 12;
 
     return {
       planet:
         PlanetaryHourCalculator.planetaryHours[
-          PlanetaryHourCalculator.dayNames[dayOfWeek]
-        ][dayRulerIndex],
+        PlanetaryHourCalculator.dayNames[dayOfWeek]
+        ][continuousHourIndex % 7],
       hourNumber: hourIndex,
       isDaytime,
     };
@@ -309,15 +304,13 @@ export class PlanetaryHourCalculator {
       hourIndex = Math.floor((((hour < 6 ? hour + 24 : hour) - 18) / 12) * 12);
     }
 
-    const dayRulerIndex = dayOfWeek % 7;
-    const hourRulerIndex = (dayRulerIndex + hourIndex) % 7;
-    const _planetName = this.planetaryRulers[hourRulerIndex];
+    const continuousHourIndex = this.isDaytime(date) ? hourIndex : hourIndex + 12;
 
     return {
       planet:
         PlanetaryHourCalculator.planetaryHours[
-          PlanetaryHourCalculator.dayNames[dayOfWeek]
-        ][dayRulerIndex],
+        PlanetaryHourCalculator.dayNames[dayOfWeek]
+        ][continuousHourIndex % 7],
       hourNumber: hourIndex,
       isDaytime: this.isDaytime(date),
     };

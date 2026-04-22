@@ -81,10 +81,10 @@ export default function WeekProgress({
 
     const ingredients = weekPlan
       ? weekPlan.meals
-          .filter((m) => m.recipe)
-          .flatMap((m) =>
-            (m.recipe!.ingredients || []).map((i) => (typeof i === 'string' ? i : (i as any).name ?? '').toLowerCase()),
-          )
+        .filter((m) => m.recipe)
+        .flatMap((m) =>
+          (m.recipe!.ingredients || []).map((i) => (typeof i === 'string' ? i : (i as any).name ?? '').toLowerCase()),
+        )
       : [];
     const uniqueIngredients = new Set(ingredients).size;
 
@@ -105,10 +105,10 @@ export default function WeekProgress({
       <div className="grid grid-cols-3 gap-4">
         <ProgressRing
           value={stats.plannedMeals}
-          max={21}
+          max={28}
           color="#f59e0b"
           label="Meals"
-          sublabel="of 21"
+          sublabel="of 28"
         />
         <ProgressRing
           value={compliancePct}

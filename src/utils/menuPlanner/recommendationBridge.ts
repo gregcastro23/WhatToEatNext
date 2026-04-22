@@ -22,21 +22,21 @@ import type { NatalChart } from "@/types/natalChart";
 import type { ElementalProperties, Recipe } from "@/types/recipe";
 import { calculateConstitutionalCompatibility } from "@/utils/alchemy/constitutionalBalancing";
 import {
-    getRecipeKAlchm,
-    getUserTargetKAlchm,
+  getRecipeKAlchm,
+  getUserTargetKAlchm,
 } from "@/utils/alchemy/derivedStats";
 import { calculateTransitScoreModifier } from "@/utils/astrology/transits";
 import {
-    getCuisineEntry,
-    getDominantElementForCuisine,
+  getCuisineEntry,
+  getDominantElementForCuisine,
 } from "@/utils/cuisine/cuisineIndex";
 import { calculateRecipeEstimatedCost, calculateBangForBuck } from "@/utils/instacart/priceEstimator";
 import { createLogger } from "@/utils/logger";
 import { isSuitableForMealType } from "@/utils/menuPlanner/mealTypeMatching";
 import {
-    calculateDayFoodCompatibility,
-    getPlanetaryDayCharacteristics,
-    type PlanetaryDayCharacteristics,
+  calculateDayFoodCompatibility,
+  getPlanetaryDayCharacteristics,
+  type PlanetaryDayCharacteristics,
 } from "@/utils/planetaryDayRecommendations";
 
 const logger = createLogger("RecommendationBridge");
@@ -430,10 +430,14 @@ async function generateMealRecommendations(
       const { score, reasons, dayAlignment, planetaryAlignment } =
         scoreRecipeForDay(recipe, dayChar, mealType, astroState, options.nutritionalContext);
 
+      // Add small randomization (e.g., +/- 10% to score) to prevent identical
+      // deterministic top choices spreading across similar days, causing repetitive menus.
+      const jitteredScore = score * (0.9 + Math.random() * 0.2);
+
       return {
         mealType,
         recipe,
-        score,
+        score: jitteredScore,
         reasons,
         dayAlignment,
         planetaryAlignment,
