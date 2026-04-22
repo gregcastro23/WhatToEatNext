@@ -27,7 +27,7 @@ interface DayCardProps {
   dayOfWeek: DayOfWeek;
   date: Date;
   meals: MealSlotType[];
-  onGenerateMeal: (mealType: MealType) => void;
+  onRecommendMeal: (mealType: MealType) => void;
   dragState: DragState;
   isValidDrop: (
     dayOfWeek: DayOfWeek,
@@ -142,7 +142,7 @@ export default function DayCard({
   dayOfWeek,
   date,
   meals,
-  onGenerateMeal: _onGenerateMeal,
+  onRecommendMeal: _onRecommendMeal,
   dragState,
   isValidDrop: _isValidDrop,
   renderMealSlot,

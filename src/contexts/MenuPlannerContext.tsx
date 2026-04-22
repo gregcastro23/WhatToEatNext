@@ -458,7 +458,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     try {
       const currentPantry = PantryManager.getPantry();
       const currentNames = new Set(currentPantry.map(i => i.name.toLowerCase()));
-      
+
       inv.forEach(name => {
         if (!currentNames.has(name.toLowerCase())) {
           PantryManager.addItem({
@@ -469,7 +469,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           });
         }
       });
-      
+
     } catch (err) {
       logger.error("Failed to sync inventory with PantryManager", err);
     }
@@ -581,6 +581,18 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const toggleSyncWithLunarCycle = useCallback(() => {
     setSyncWithLunarCycle((prev) => !prev);
   }, []);
+
+  /**
+   * Automatically synchronize grocery list when menu or inventory changes
+   */
+  useEffect(() => {
+    if (currentMenu?.meals) {
+      const newList = generateGroceryList(currentMenu.meals);
+      setGroceryList(newList);
+    } else {
+      setGroceryList([]);
+    }
+  }, [currentMenu?.meals, inventory]);
 
   /**
    * Initialize menu on mount
@@ -714,25 +726,26 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       if (!currentMenu) return;
 
       try {
-        const updatedMeals = currentMenu.meals.map((meal) => {
-          if (meal.dayOfWeek === dayOfWeek && meal.mealType === mealType) {
-            return {
-              ...meal,
-              recipe,
-              servings,
-              updatedAt: new Date(),
-            };
-          }
-          return meal;
+        setCurrentMenu((prevMenu) => {
+          if (!prevMenu) return prevMenu;
+          const updatedMeals = prevMenu.meals.map((meal) => {
+            if (meal.dayOfWeek === dayOfWeek && meal.mealType === mealType) {
+              return {
+                ...meal,
+                recipe,
+                servings,
+                updatedAt: new Date(),
+              };
+            }
+            return meal;
+          });
+
+          return {
+            ...prevMenu,
+            meals: updatedMeals,
+            updatedAt: new Date(),
+          } as any;
         });
-
-        const updatedMenu = {
-          ...currentMenu,
-          meals: updatedMeals,
-          updatedAt: new Date(),
-        };
-
-        setCurrentMenu(updatedMenu as any);
         logger.info(`Added ${recipe.name} to ${mealType} on day ${dayOfWeek}`);
       } catch (err) {
         logger.error("Failed to add meal:", err);
@@ -750,24 +763,25 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       if (!currentMenu) return;
 
       try {
-        const updatedMeals = currentMenu.meals.map((meal) => {
-          if (meal.id === mealSlotId) {
-            const { recipe: _recipe, ...mealWithoutRecipe } = meal;
-            return {
-              ...mealWithoutRecipe,
-              updatedAt: new Date(),
-            };
-          }
-          return meal;
+        setCurrentMenu((prevMenu) => {
+          if (!prevMenu) return prevMenu;
+          const updatedMeals = prevMenu.meals.map((meal) => {
+            if (meal.id === mealSlotId) {
+              const { recipe: _recipe, ...mealWithoutRecipe } = meal;
+              return {
+                ...mealWithoutRecipe,
+                updatedAt: new Date(),
+              };
+            }
+            return meal;
+          });
+
+          return {
+            ...prevMenu,
+            meals: updatedMeals,
+            updatedAt: new Date(),
+          } as any;
         });
-
-        const updatedMenu = {
-          ...currentMenu,
-          meals: updatedMeals,
-          updatedAt: new Date(),
-        };
-
-        setCurrentMenu(updatedMenu);
         logger.info(`Removed meal from slot ${mealSlotId}`);
       } catch (err) {
         logger.error("Failed to remove meal:", err);
@@ -876,34 +890,35 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           throw new Error("Target slot is already occupied");
         }
 
-        const updatedMeals = currentMenu.meals.map((meal) => {
-          if (meal.id === targetMealSlotId) {
-            // Add recipe to target slot
-            return {
-              ...meal,
-              recipe: sourceMeal.recipe,
-              servings: sourceMeal.servings,
-              updatedAt: new Date(),
-            };
-          }
-          if (meal.id === sourceMealSlotId) {
-            // Clear source slot
-            const { recipe: _recipe, ...mealWithoutRecipe } = meal;
-            return {
-              ...mealWithoutRecipe,
-              updatedAt: new Date(),
-            };
-          }
-          return meal;
+        setCurrentMenu((prevMenu) => {
+          if (!prevMenu) return prevMenu;
+          const updatedMeals = prevMenu.meals.map((meal) => {
+            if (meal.id === targetMealSlotId) {
+              // Add recipe to target slot
+              return {
+                ...meal,
+                recipe: sourceMeal.recipe,
+                servings: sourceMeal.servings,
+                updatedAt: new Date(),
+              };
+            }
+            if (meal.id === sourceMealSlotId) {
+              // Clear source slot
+              const { recipe: _recipe, ...mealWithoutRecipe } = meal;
+              return {
+                ...mealWithoutRecipe,
+                updatedAt: new Date(),
+              };
+            }
+            return meal;
+          });
+
+          return {
+            ...prevMenu,
+            meals: updatedMeals,
+            updatedAt: new Date(),
+          } as any;
         });
-
-        const updatedMenu = {
-          ...currentMenu,
-          meals: updatedMeals,
-          updatedAt: new Date(),
-        };
-
-        setCurrentMenu(updatedMenu);
         logger.info(
           `Moved meal from ${sourceMealSlotId} to ${targetMealSlotId}`,
         );
@@ -1127,14 +1142,15 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         };
       });
 
-      const updatedMenu = {
-        ...currentMenu,
-        meals: updatedMeals,
-        groceryList: [],
-        updatedAt: new Date(),
-      };
-
-      setCurrentMenu(updatedMenu);
+      setCurrentMenu((prevMenu) => {
+        if (!prevMenu) return prevMenu;
+        return {
+          ...prevMenu,
+          meals: updatedMeals,
+          groceryList: [],
+          updatedAt: new Date(),
+        };
+      });
       setGroceryList([]);
       logger.info("Cleared entire week");
     } catch (err) {
@@ -1445,10 +1461,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         const userContext: UserPersonalizationContext | undefined =
           hasPersonalization && natalChart
             ? {
-                natalChart,
-                chartComparison: chartComparison || undefined,
-                prioritizeHarmony: true,
-              }
+              natalChart,
+              chartComparison: chartComparison || undefined,
+              prioritizeHarmony: true,
+            }
             : undefined;
 
         // Extract existing meals from the weekly plan for context-aware recommendations
@@ -1884,11 +1900,11 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
           if (response.ok) {
             const data = await response.json();
             if (data.confidence === "high") {
-               // If IDP confirms matching, we can bump our confidence
-               setEstimatedCostState(prev => ({
-                 ...prev,
-                 confidence: "high"
-               }));
+              // If IDP confirms matching, we can bump our confidence
+              setEstimatedCostState(prev => ({
+                ...prev,
+                confidence: "high"
+              }));
             }
           }
         } catch (err) {

@@ -24,7 +24,7 @@ interface TodaysMealsWidgetProps {
   weekPlan: WeeklyMenu | null;
   onScrollToDay?: (day: DayOfWeek) => void;
   onAddRecipe?: (dayOfWeek: DayOfWeek, mealType: MealType, recipe: MonicaOptimizedRecipe) => void;
-  onGenerateMeal?: (dayOfWeek: DayOfWeek, mealType: MealType) => void;
+  onRecommendMeal?: (dayOfWeek: DayOfWeek, mealType: MealType) => void;
 }
 
 interface MealWindow {
@@ -156,7 +156,7 @@ export default function TodaysMealsWidget({
   weekPlan,
   onScrollToDay,
   onAddRecipe,
-  onGenerateMeal,
+  onRecommendMeal,
 }: TodaysMealsWidgetProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [recipeSelectorMealType, setRecipeSelectorMealType] = useState<MealType | null>(null);
@@ -455,13 +455,12 @@ export default function TodaysMealsWidget({
           <div className="flex items-center gap-3">
             {/* Progress pill */}
             <span
-              className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                plannedCount === 4
+              className={`px-2 py-0.5 rounded-full text-xs font-bold ${plannedCount === 4
                   ? "bg-green-100 text-green-700"
                   : plannedCount >= 2
                     ? "bg-yellow-100 text-yellow-700"
                     : "bg-red-100 text-red-700"
-              }`}
+                }`}
             >
               {plannedCount}/4 planned
             </span>
@@ -485,14 +484,13 @@ export default function TodaysMealsWidget({
               className={`
                 w-full mb-3 px-4 py-3 rounded-xl font-bold text-white shadow-md transition-all
                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-400
-                ${
-                  isWeekFullyPlanned
-                    ? "bg-gradient-to-r from-emerald-500 to-teal-500 cursor-default"
-                    : isGeneratingNext
-                      ? "bg-gradient-to-r from-indigo-400 to-purple-400 cursor-wait"
-                      : currentUser?.natalChart
-                        ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-700 hover:via-purple-700 hover:to-indigo-700 hover:shadow-lg active:scale-[0.99]"
-                        : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg active:scale-[0.99]"
+                ${isWeekFullyPlanned
+                  ? "bg-gradient-to-r from-emerald-500 to-teal-500 cursor-default"
+                  : isGeneratingNext
+                    ? "bg-gradient-to-r from-indigo-400 to-purple-400 cursor-wait"
+                    : currentUser?.natalChart
+                      ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-700 hover:via-purple-700 hover:to-indigo-700 hover:shadow-lg active:scale-[0.99]"
+                      : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg active:scale-[0.99]"
                 }
               `}
               aria-label={ctaLabel}
@@ -539,14 +537,13 @@ export default function TodaysMealsWidget({
                   }}
                   className={`
                     flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer
-                    ${
-                      isActive
-                        ? `${meal.activeBg} ${meal.activeBorder} border-2 shadow-sm`
-                        : isNext
-                          ? "bg-gray-50 border-dashed border-gray-300 border"
-                          : isPast
-                            ? "bg-gray-50 border-gray-100 border opacity-60"
-                            : "bg-white border-gray-100 border"
+                    ${isActive
+                      ? `${meal.activeBg} ${meal.activeBorder} border-2 shadow-sm`
+                      : isNext
+                        ? "bg-gray-50 border-dashed border-gray-300 border"
+                        : isPast
+                          ? "bg-gray-50 border-gray-100 border opacity-60"
+                          : "bg-white border-gray-100 border"
                     }
                     ${isEmpty ? "hover:border-indigo-300 hover:shadow-sm" : "hover:shadow-sm"}
                   `}
@@ -561,9 +558,8 @@ export default function TodaysMealsWidget({
                     </span>
                     <div>
                       <p
-                        className={`text-xs font-bold leading-tight ${
-                          isActive ? meal.activeColor : "text-gray-700"
-                        }`}
+                        className={`text-xs font-bold leading-tight ${isActive ? meal.activeColor : "text-gray-700"
+                          }`}
                       >
                         {meal.label}
                       </p>
@@ -577,20 +573,18 @@ export default function TodaysMealsWidget({
                   <div className="flex-1 min-w-0">
                     {recipeName ? (
                       <p
-                        className={`text-xs font-semibold truncate ${
-                          isActive ? meal.activeColor : "text-gray-600"
-                        }`}
+                        className={`text-xs font-semibold truncate ${isActive ? meal.activeColor : "text-gray-600"
+                          }`}
                         title={recipeName}
                       >
                         {recipeName}
                       </p>
                     ) : (
                       <span
-                        className={`text-xs font-medium transition-colors ${
-                          isActive
+                        className={`text-xs font-medium transition-colors ${isActive
                             ? `${meal.activeColor} underline underline-offset-2`
                             : "text-gray-400 hover:text-indigo-500"
-                        }`}
+                          }`}
                       >
                         {isActive ? "Plan now →" : "Not planned"}
                       </span>
@@ -598,16 +592,16 @@ export default function TodaysMealsWidget({
                   </div>
 
                   {/* Action buttons for empty slots */}
-                  {isEmpty && onGenerateMeal && (
+                  {isEmpty && onRecommendMeal && (
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        onGenerateMeal(todayDow, meal.type);
+                        onRecommendMeal(todayDow, meal.type);
                       }}
                       className="flex-shrink-0 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors"
-                      title={`Auto-generate ${meal.label}`}
+                      title={`Auto-recommend ${meal.label}`}
                     >
-                      ✨ Generate
+                      ✨ Recommend
                     </button>
                   )}
 

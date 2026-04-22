@@ -362,7 +362,7 @@ function MenuPlannerContent() {
                 const { addMealToSlot } = menuPlannerActions;
                 void addMealToSlot(dayOfWeek, mealType, recipe);
               }}
-              onGenerateMeal={(dayOfWeek, mealType) => {
+              onRecommendMeal={(dayOfWeek, mealType) => {
                 const { generateMealsForDay } = menuPlannerActions;
                 void generateMealsForDay(dayOfWeek, { mealTypes: [mealType] });
               }}

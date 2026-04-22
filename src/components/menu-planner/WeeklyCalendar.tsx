@@ -66,13 +66,12 @@ function DayNutritionStrip({
           {Math.round(totals.calories ?? 0)} / {Math.round(goals.calories)} kcal
         </span>
         <span
-          className={`font-medium ${
-            compliance.overall >= 0.75
+          className={`font-medium ${compliance.overall >= 0.75
               ? "text-emerald-700"
               : compliance.overall >= 0.5
                 ? "text-amber-700"
                 : "text-red-700"
-          }`}
+            }`}
         >
           {Math.round(compliance.overall * 100)}%
         </span>
@@ -235,9 +234,9 @@ function DayColumn({
             void generateMealsForDay(dayOfWeek);
           }}
           className="text-xs px-2 py-1 rounded bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors font-medium flex-1"
-          title={`Generate meals for ${getDayName(dayOfWeek)} using ${characteristics.planet} energy`}
+          title={`Recommend meals for ${getDayName(dayOfWeek)} using ${characteristics.planet} energy`}
         >
-          ✨ Gen
+          ✨ Rec
         </button>
         <button
           onClick={(e) => {
@@ -420,13 +419,12 @@ function TodayHeroCard({
               Compliance
             </div>
             <div
-              className={`font-bold ${
-                dailyNutrition.compliance.overall >= 0.75
+              className={`font-bold ${dailyNutrition.compliance.overall >= 0.75
                   ? "text-emerald-700"
                   : dailyNutrition.compliance.overall >= 0.5
                     ? "text-amber-700"
                     : "text-red-700"
-              }`}
+                }`}
             >
               {Math.round(dailyNutrition.compliance.overall * 100)}%
             </div>
@@ -718,9 +716,8 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`w-2 h-8 rounded ${
-                      i < totalMeals ? "bg-purple-500" : "bg-gray-200"
-                    }`}
+                    className={`w-2 h-8 rounded ${i < totalMeals ? "bg-purple-500" : "bg-gray-200"
+                      }`}
                   />
                 ))}
               </div>
