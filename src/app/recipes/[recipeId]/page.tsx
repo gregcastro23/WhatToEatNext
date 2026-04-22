@@ -5,7 +5,12 @@ import { sauceRecommender } from "@/services/sauceRecommender";
 import type { Recipe } from "@/types/recipe";
 import RecipeClient from "./RecipeClient";
 
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const recipes = await LocalRecipeService.getAllRecipes();
+  return recipes.map((recipe) => ({
+    recipeId: String(recipe.id),
+  }));
+}
 
 interface RecipePageProps {
   params: Promise<{ recipeId: string }>;
