@@ -171,7 +171,12 @@ raw_cors = os.getenv(
     "CORS_ALLOWED_ORIGINS", 
     "https://alchm.kitchen,https://v0-alchm-kitchen.vercel.app,http://localhost:3000"
 )
-CORS_ALLOWED_ORIGINS = [o.strip() for o in raw_cors.split(",") if o.strip()]
+CORS_ALLOWED_ORIGINS = [o.strip().rstrip('/') for o in raw_cors.split(",") if o.strip()]
+
+# Ensure key frontend domains are always allowed
+for origin in ["https://alchm.kitchen", "https://www.alchm.kitchen"]:
+    if origin not in CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS.append(origin)
 
 # Add wildcard if empty or explicitly requested
 if not CORS_ALLOWED_ORIGINS or "*" in CORS_ALLOWED_ORIGINS:

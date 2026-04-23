@@ -128,8 +128,7 @@ export class AlchemicalRecommendationService {
                   s === "fall" ||
                   s === "winter",
               ),
-              planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets ||
-                []) as Planet[],
+              planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
               flavorProfile: (ingredient.flavorProfile || {}) as Record<
                 string,
                 number

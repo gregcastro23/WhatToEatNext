@@ -55,6 +55,7 @@ export default function RootLayout({
                         src="/brand/logo.jpg"
                         alt="Alchm Kitchen Logo"
                         fill
+                        unoptimized
                         sizes="(min-width: 768px) 64px, 48px"
                         className="w-full h-full rounded-xl object-contain shadow-sm border border-purple-100 group-hover:scale-105 transition-transform"
                       />

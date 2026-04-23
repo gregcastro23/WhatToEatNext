@@ -41,7 +41,25 @@ export async function GET(
   const userId = session?.user?.id;
 
   try {
-    const madeCount = await getAggregateMadeCount(recipeId);
+    let resolvedId = recipeId;
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(recipeId);
+    if (!isUuid) {
+      // Import dynamically to avoid circular dependencies if any
+      const { LocalRecipeService } = await import("@/services/LocalRecipeService");
+      const recipe = await LocalRecipeService.getRecipeById(recipeId);
+      if (!recipe?.id) {
+        return NextResponse.json({
+          authenticated: !!userId,
+          madeIt: false,
+          rating: 0,
+          review: "",
+          madeCount: 0,
+        });
+      }
+      resolvedId = String(recipe.id);
+    }
+
+    const madeCount = await getAggregateMadeCount(resolvedId);
 
     if (!userId) {
       return NextResponse.json({
@@ -57,7 +75,7 @@ export async function GET(
       `SELECT made_it, rating, review
        FROM user_recipe_interactions
        WHERE user_id = $1 AND recipe_id = $2`,
-      [userId, recipeId],
+      [userId, resolvedId],
     );
     const row = result.rows[0];
 
