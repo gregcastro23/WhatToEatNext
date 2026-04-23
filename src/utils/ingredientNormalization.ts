@@ -47,7 +47,8 @@ export function stripQuotes(text: string): string {
 export function normalize(text: string): string {
     return text
         .toLowerCase()
-        .normalize("NFKD")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^\w\s]/g, " ")
         .replace(/_/g, " ")
         .replace(/\s+/g, " ")
@@ -56,8 +57,8 @@ export function normalize(text: string): string {
 
 export function singularize(token: string): string {
     if (token.endsWith("ies") && token.length > 4) return `${token.slice(0, -3)}y`;
-    if (token.endsWith("es") && token.length > 3) return token.slice(0, -2);
-    if (token.endsWith("s") && token.length > 2) return token.slice(0, -1);
+    if (token.endsWith("oes") && token.length > 4) return token.slice(0, -2);
+    if (token.endsWith("s") && token.length > 2 && !token.endsWith("ss")) return token.slice(0, -1);
     return token;
 }
 
@@ -217,7 +218,7 @@ export function inferCategory(name: string): "culinary_herb" | "spice" | "vegeta
     if (/(milk|cream|cheese|yogurt|labneh|quark|ricotta)/.test(n)) return "dairy";
     if (/(basil|mint|cilantro|parsley|oregano|thyme|dill|herb|leaf|leaves)/.test(n)) return "culinary_herb";
     if (/(pepper|chili|chile|masala|clove|cumin|cardamom|spice|harissa|curry|paprika)/.test(n)) return "spice";
-    if (/(tomato|onion|garlic|radish|pepper|cabbage|potato|carrot|bamboo|corn)/.test(n)) return "vegetable";
+    if (/(tomato|onion|garlic|radish|pepper|cabbage|potato|carrot|bamboo|corn|kale)/.test(n)) return "vegetable";
     if (/(lime|lemon|orange|berry|raisin|fruit)/.test(n)) return "fruit";
     return "misc";
 }

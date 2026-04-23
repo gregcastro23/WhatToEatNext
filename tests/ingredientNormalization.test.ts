@@ -1,4 +1,4 @@
-import { normalize, singularize, normalizedVariants, canonicalizeCoverageName, inferCategory } from "../src/utils/ingredientNormalization.js";
+import { normalize, singularize, normalizedVariants, canonicalizeCoverageName, inferCategory } from "../src/utils/ingredientNormalization";
 
 describe("ingredientNormalization", () => {
     it("normalizes text deterministically", () => {
