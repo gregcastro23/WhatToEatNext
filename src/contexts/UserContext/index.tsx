@@ -54,6 +54,13 @@ interface UserProfile {
   stats?: AlchemicalProfile;
   // Multi-chart cosmic identities
   savedCharts?: SavedChart[];
+  // Token Economy & Premium State
+  tokenEconomy?: {
+    balances: { spirit: number; essence: number; matter: number; substance: number };
+    isPremium: boolean;
+    streakCount: number;
+    lastDailyClaimAt: string | null;
+  };
 }
 
 // Keys for localStorage
@@ -402,7 +409,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       window.removeEventListener("online", goOnline);
       window.removeEventListener("offline", goOffline);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
