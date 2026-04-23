@@ -951,7 +951,11 @@ async def get_current_moment_cuisine_recommendations(
                 zodiac_sign = zodiac_sign or 'Libra'
                 season = season or 'Autumn'
 
-        # Validate inputs
+        # Normalize and validate inputs
+        zodiac_sign = zodiac_sign.capitalize() if zodiac_sign else None
+        season = season.capitalize() if season else None
+        meal_type = meal_type.lower() if meal_type else None
+
         valid_signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
                       'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces']
         valid_seasons = ['Spring', 'Summer', 'Autumn', 'Winter']
