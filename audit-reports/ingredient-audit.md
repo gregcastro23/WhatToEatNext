@@ -1,7 +1,7 @@
 # Ingredient Data Audit
 
-Generated: 2026-04-20T02:17:42.077Z
-**Total ingredients:** 782
+Generated: 2026-04-22T22:37:34.141Z
+**Total ingredients:** 1214
 **Max score per ingredient:** 14
 
 ## Category Summary
@@ -13,7 +13,7 @@ Generated: 2026-04-20T02:17:42.077Z
 | fruits | 104 | 100 | 0 | 104 |
 | grains | 81 | 100 | 0 | 81 |
 | herbs | 69 | 100 | 0 | 69 |
-| misc | 124 | 93 | 0 | 124 |
+| misc | 556 | 76 | 0 | 124 |
 | oils | 48 | 100 | 0 | 48 |
 | proteins | 107 | 100 | 0 | 107 |
 | seasonings | 53 | 100 | 0 | 53 |
@@ -25,56 +25,56 @@ Generated: 2026-04-20T02:17:42.077Z
 
 | Slug | Name | Category | % | Missing |
 | --- | --- | --- | --- | --- |
-| `chervil` | Chervil | herbs | 93% | Qualities array (≥3) |
-| `bay_leaf` | Bay Leaf | herbs | 93% | Qualities array (≥3) |
-| `anise` | Anise | herbs | 93% | Qualities array (≥3) |
-| `echinacea` | Echinacea | herbs | 93% | Astrological profile |
-| `sugar` | sugar | misc | 93% | Qualities array (≥3) |
-| `maple_syrup` | maple syrup | misc | 93% | Qualities array (≥3) |
-| `baking_powder` | baking powder | misc | 93% | Qualities array (≥3) |
-| `microgreens` | microgreens | misc | 93% | Qualities array (≥3) |
-| `fresh_herbs` | fresh herbs | misc | 93% | Qualities array (≥3) |
-| `mixed_berries` | mixed berries | misc | 93% | Qualities array (≥3) |
-| `honey` | honey | misc | 93% | Qualities array (≥3) |
-| `granola` | granola | misc | 93% | Qualities array (≥3) |
-| `pumpkin_puree` | pumpkin puree | misc | 93% | Qualities array (≥3) |
-| `pecans` | pecans | misc | 93% | Qualities array (≥3) |
-| `cranberries` | cranberries | misc | 93% | Qualities array (≥3) |
-| `walnuts` | walnuts | misc | 93% | Qualities array (≥3) |
-| `hamburger_buns` | hamburger buns | misc | 93% | Qualities array (≥3) |
-| `ketchup` | ketchup | misc | 93% | Qualities array (≥3) |
-| `mustard` | mustard | misc | 93% | Qualities array (≥3) |
-| `bacon` | bacon | misc | 93% | Qualities array (≥3) |
-| `clams` | clams | misc | 93% | Qualities array (≥3) |
-| `puff_pastry` | puff pastry | misc | 93% | Qualities array (≥3) |
-| `lobster_meat` | lobster meat | misc | 93% | Qualities array (≥3) |
-| `mayonnaise` | mayonnaise | misc | 93% | Qualities array (≥3) |
-| `split_top_buns` | split-top buns | misc | 93% | Qualities array (≥3) |
-| `sliced_turkey` | sliced turkey | misc | 93% | Qualities array (≥3) |
-| `cranberry_sauce` | cranberry sauce | misc | 93% | Qualities array (≥3) |
-| `stuffing` | stuffing | misc | 93% | Qualities array (≥3) |
-| `bbq_sauce` | BBQ sauce | misc | 93% | Qualities array (≥3) |
-| `brown_sugar` | brown sugar | misc | 93% | Qualities array (≥3) |
-| `lamb_chops` | lamb chops | misc | 93% | Qualities array (≥3) |
-| `cedar_plank` | cedar plank | misc | 93% | Qualities array (≥3) |
-| `whole_turkey` | whole turkey | misc | 93% | Qualities array (≥3) |
-| `white_sugar` | white sugar | misc | 93% | Qualities array (≥3) |
-| `chocolate_chips` | chocolate chips | misc | 93% | Qualities array (≥3) |
-| `graham_crackers` | graham crackers | misc | 93% | Qualities array (≥3) |
-| `vanilla_extract` | vanilla extract | misc | 93% | Qualities array (≥3) |
-| `fresh_strawberries` | fresh strawberries | misc | 93% | Qualities array (≥3) |
-| `marshmallows` | marshmallows | misc | 93% | Qualities array (≥3) |
-| `chocolate_sauce` | chocolate sauce | misc | 93% | Qualities array (≥3) |
-| `sea_salt` | sea salt | misc | 93% | Qualities array (≥3) |
-| `pie_crust` | pie crust | misc | 93% | Qualities array (≥3) |
-| `molasses` | molasses | misc | 93% | Qualities array (≥3) |
-| `salt` | salt | misc | 93% | Qualities array (≥3) |
-| `char_siu_bao` | char siu bao | misc | 93% | Qualities array (≥3) |
-| `spring_rolls` | spring rolls | misc | 93% | Qualities array (≥3) |
-| `whole_duck` | whole duck | misc | 93% | Qualities array (≥3) |
-| `pastry_dough` | pastry dough | misc | 93% | Qualities array (≥3) |
-| `dried_fruits` | dried fruits | misc | 93% | Qualities array (≥3) |
-| `nuts` | nuts | misc | 93% | Qualities array (≥3) |
+| `mirin` | mirin | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `active_dry_yeast` | active dry yeast | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cornstarch` | cornstarch | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `oyster_sauce` | oyster sauce | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shaoxing_wine` | shaoxing wine | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `alchemical_binding_agent` | alchemical binding agent | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `neutral_oil` | neutral oil | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `white_vinegar` | white vinegar | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `corn_tortillas` | corn tortillas | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `five_spice_powder` | five spice powder | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `firm_tofu` | firm tofu | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cayenne_pepper` | cayenne pepper | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `queso_fresco` | queso fresco | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bird_eye_chilies` | bird eye chilies | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bird_s_eye_chilies` | bird s eye chilies | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `white_bread` | white bread | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `capers` | capers | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sichuan_peppercorns` | sichuan peppercorns | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_red_chilies` | dried red chilies | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `garni` | garni | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `oil` | oil | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `frying_oil` | frying oil | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bamboo_skewers` | bamboo skewers | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chili_flakes` | chili flakes | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `radishes` | radishes | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `black_peppercorns` | black peppercorns | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ice` | ice | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `corn` | corn | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `limes` | limes | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `achiote_paste` | achiote paste | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ancho_chilies` | ancho chilies | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `allspice` | allspice | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `red_curry_paste` | red curry paste | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `harissa_paste` | harissa paste | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `raisins` | raisins | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `worcestershire_sauce` | worcestershire sauce | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hot_sauce` | hot sauce | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `heavy_whipping_cream` | heavy whipping cream | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hoisin_sauce` | hoisin sauce | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bamboo_shoots` | bamboo shoots | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sauerkraut` | sauerkraut | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cloves` | cloves | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `asafoetida_hing` | asafoetida hing | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kasuri_methi` | kasuri methi | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pepper` | pepper | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `marsala_wine_or_dark_rum` | marsala wine or dark rum | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `golden_raisins` | golden raisins | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nori_seaweed` | nori seaweed | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_ramen_noodles` | fresh ramen noodles | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_soba_noodles` | dried soba noodles | misc | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
 
 ## All ingredients by category
 
@@ -412,10 +412,442 @@ Generated: 2026-04-20T02:17:42.077Z
 | `elderberry` | Elderberry | 100% | — |
 | `chamomile` | Chamomile | 100% | — |
 
-### misc (124)
+### misc (556)
 
 | Slug | Name | % | Missing |
 | --- | --- | --- | --- |
+| `mirin` | mirin | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `active_dry_yeast` | active dry yeast | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cornstarch` | cornstarch | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `oyster_sauce` | oyster sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shaoxing_wine` | shaoxing wine | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `alchemical_binding_agent` | alchemical binding agent | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `neutral_oil` | neutral oil | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `white_vinegar` | white vinegar | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `corn_tortillas` | corn tortillas | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `five_spice_powder` | five spice powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `firm_tofu` | firm tofu | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cayenne_pepper` | cayenne pepper | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `queso_fresco` | queso fresco | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bird_eye_chilies` | bird eye chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bird_s_eye_chilies` | bird s eye chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `white_bread` | white bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `capers` | capers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sichuan_peppercorns` | sichuan peppercorns | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_red_chilies` | dried red chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `garni` | garni | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `oil` | oil | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `frying_oil` | frying oil | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bamboo_skewers` | bamboo skewers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chili_flakes` | chili flakes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `radishes` | radishes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `black_peppercorns` | black peppercorns | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ice` | ice | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `corn` | corn | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `limes` | limes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `achiote_paste` | achiote paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ancho_chilies` | ancho chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `allspice` | allspice | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `red_curry_paste` | red curry paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `harissa_paste` | harissa paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `raisins` | raisins | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `worcestershire_sauce` | worcestershire sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hot_sauce` | hot sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `heavy_whipping_cream` | heavy whipping cream | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hoisin_sauce` | hoisin sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bamboo_shoots` | bamboo shoots | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sauerkraut` | sauerkraut | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cloves` | cloves | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `asafoetida_hing` | asafoetida hing | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kasuri_methi` | kasuri methi | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pepper` | pepper | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `marsala_wine_or_dark_rum` | marsala wine or dark rum | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `golden_raisins` | golden raisins | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nori_seaweed` | nori seaweed | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_ramen_noodles` | fresh ramen noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_soba_noodles` | dried soba noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `wasabi` | wasabi | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mixed_seafood` | mixed seafood | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `doenjang` | doenjang | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `aromatic_catalyst` | aromatic catalyst | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ancho_chiles` | ancho chiles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pasilla_chilies` | pasilla chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `poblano_peppers` | poblano peppers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `guajillo_chilies` | guajillo chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tahini` | tahini | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `raw_tahini` | raw tahini | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `green_curry_paste` | green curry paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `niter_kibbeh` | niter kibbeh | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `scotch_bonnet_pepper` | scotch bonnet pepper | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `red_pepper_flakes` | red pepper flakes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `peri_peri_sauce` | peri peri sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `unsliced_white_bread` | unsliced white bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `habanero_pepper` | habanero pepper | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cream_of_tartar` | cream of tartar | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `american_cheese` | american cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `creole_seasoning` | creole seasoning | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cornmeal` | cornmeal | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `wheat_starch` | wheat starch | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `silken_tofu` | silken tofu | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_wheat_noodles` | fresh wheat noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shellfish` | shellfish | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `toulouse_sausage` | toulouse sausage | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kalamata_olives` | kalamata olives | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pita_breads` | pita breads | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `biryani_masala` | biryani masala | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cashew_paste` | cashew paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `spaghetti` | spaghetti | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `guanciale` | guanciale | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `strong_espresso` | strong espresso | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `savoiardi_ladyfingers` | savoiardi ladyfingers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `unsweetened_cocoa_powder` | unsweetened cocoa powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `yakisoba_noodles` | yakisoba noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `yakisoba_sauce` | yakisoba sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ajitsuke_tamago` | ajitsuke tamago | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tentsuyu` | tentsuyu | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tenkasu_tempura_scraps` | tenkasu tempura scraps | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `okonomiyaki_sauce` | okonomiyaki sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `katsuobushi_bonito_flakes` | katsuobushi bonito flakes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shirataki_noodles` | shirataki noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kamaboko` | kamaboko | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `somyeon_thin_wheat_noodles` | somyeon thin wheat noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `medium_firm_tofu` | medium firm tofu | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `gim_roasted_seaweed` | gim roasted seaweed | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dangmyeon` | dangmyeon | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `eomuk_fish_cakes` | eomuk fish cakes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tomatillos` | tomatillos | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `crema_mexicana` | crema mexicana | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `lard` | lard | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `guajillo_chiles` | guajillo chiles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mulato_chilies` | mulato chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_epazote` | fresh epazote | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mexican_crema` | mexican crema | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pita_bread` | pita bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shawarma_spice_blend` | shawarma spice blend | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pickle_brine` | pickle brine | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tvorog_farmers_cheese` | tvorog farmers cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nam_prik_pao` | nam prik pao | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bird_s_eye_chili` | bird s eye chili | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `massaman_curry_paste` | massaman curry paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `long_red_chilies` | long red chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_chili_flakes` | dried chili flakes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `toppings_matrix` | toppings matrix | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hale_s_blue_boy_syrup` | hale s blue boy syrup | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `vietnamese_baguettes` | vietnamese baguettes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `leftover_dry_injera` | leftover dry injera | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `scotch_bonnet_or_habanero_peppers` | scotch bonnet or habanero peppers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `scotch_bonnet_peppers_ata_rodo` | scotch bonnet peppers ata rodo | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `habanero_or_scotch_bonnet_pepper` | habanero or scotch bonnet pepper | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `macaroni_or_ditalini_pasta` | macaroni or ditalini pasta | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `vegetable_stock` | vegetable stock | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `vermicelli` | vermicelli | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `crushed_wheat_frik` | crushed wheat frik | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `harissa` | harissa | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `brick_pastry_sheets` | brick pastry sheets | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ogbono_seeds` | ogbono seeds | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `collard_greens` | collard greens | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `raisins_or_sultanas` | raisins or sultanas | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ndol_leaves_bitterleaf` | ndol leaves bitterleaf | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `couscous` | couscous | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `durban_curry_masala` | durban curry masala | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mitmita` | mitmita | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kuli_kuli_powder` | kuli kuli powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bitterleaves` | bitterleaves | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `vinegar_white_or_brown` | vinegar white or brown | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sourdough_bread` | sourdough bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `leeks` | leeks | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_berries` | fresh berries | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sweet_pickle_relish` | sweet pickle relish | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `watercress` | watercress | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `top_split_hot_dog_buns` | top split hot dog buns | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `thick_cut_sourdough_or_multigrain_bread` | thick cut sourdough or multigrain bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_navy_beans` | dried navy beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cube_steak` | cube steak | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `andouille_sausage` | andouille sausage | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `italian_sausage` | italian sausage | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hoagie_rolls` | hoagie rolls | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `provolone_cheese` | provolone cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pie_dough` | pie dough | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cedar_grilling_plank` | cedar grilling plank | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `youtiao_fried_dough` | youtiao fried dough | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tianmianjiang_sweet_bean_sauce` | tianmianjiang sweet bean sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `baocui_crispy_fried_cracker_or_youtiao` | baocui crispy fried cracker or youtiao | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_chinese_wheat_noodles` | fresh chinese wheat noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sui_mi_ya_cai` | sui mi ya cai | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chinese_sesame_paste` | chinese sesame paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pixian_doubanjiang` | pixian doubanjiang | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `lard_or_neutral_oil` | lard or neutral oil | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `square_wonton_wrappers` | square wonton wrappers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `supreme_broth_gao_tang` | supreme broth gao tang | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chili_paste` | chili paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `doubanjiang` | doubanjiang | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `black_tea_leaves` | black tea leaves | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `maltose_syrup` | maltose syrup | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sweet_bean_sauce_or_hoisin` | sweet bean sauce or hoisin | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `doubanjiang_spicy_broad_bean_paste` | doubanjiang spicy broad bean paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `red_fermented_tofu_or_food_coloring` | red fermented tofu or food coloring | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sesame_paste` | sesame paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sichuan_peppercorn_powder` | sichuan peppercorn powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sweet_bean_sauce_or_hoisin_sauce` | sweet bean sauce or hoisin sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `flank_steak` | flank steak | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `wheat_starch_tang_mian_fen` | wheat starch tang mian fen | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `doubanjiang_spicy_bean_paste` | doubanjiang spicy bean paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sweet_bean_sauce_tianmianjiang` | sweet bean sauce tianmianjiang | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `thick_fresh_wheat_noodles` | thick fresh wheat noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `wonton_wrappers` | wonton wrappers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `croissant_au_beurre` | croissant au beurre | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `caf_au_lait_or_espresso` | caf au lait or espresso | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `jambon_de_paris_high_quality_cooked_ham` | jambon de paris high quality cooked ham | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `croutons` | croutons | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `jambon_blanc_cooked_ham` | jambon blanc cooked ham | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `gruy_re_or_emmental_cheese` | gruy re or emmental cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `escargots` | escargots | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ni_u00e7oise_olives` | ni u00e7oise olives | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dover_sole` | dover sole | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sausages` | sausages | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `juniper_berries` | juniper berries | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `marrow_bone` | marrow bone | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `leek` | leek | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mixed_firm_and_flaky_fish` | mixed firm and flaky fish | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fish_stock` | fish stock | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `white_haricot_beans` | white haricot beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_white_tarbais_beans` | dried white tarbais beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `red_burgundy_wine` | red burgundy wine | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `small_bony_fish_for_stock` | small bony fish for stock | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `rouille` | rouille | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `piperade` | piperade | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cr_me_p_tissi_re_or_whipped_cream` | cr me p tissi re or whipped cream | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `wooden_skewers` | wooden skewers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `greek_pita_bread` | greek pita bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kefalotyri_cheese` | kefalotyri cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `vegetable_broth` | vegetable broth | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kefalograviera_cheese` | kefalograviera cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `orzo_pasta` | orzo pasta | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `stale_bread` | stale bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pastitsio_pasta_misko_no_2_or_ziti` | pastitsio pasta misko no 2 or ziti | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_currants` | dried currants | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `allspice_berries` | allspice berries | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kritharaki_greek_orzo_pasta` | kritharaki greek orzo pasta | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kefalotyri_or_mizithra_cheese` | kefalotyri or mizithra cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_gigantes_beans_or_large_lima_corona_beans` | dried gigantes beans or large lima corona beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `stale_white_bread` | stale white bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `phyllo_pastry` | phyllo pastry | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pastitsio_pasta` | pastitsio pasta | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `currants_or_raisins` | currants or raisins | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kefalotyri_or_kefalograviera_cheese` | kefalotyri or kefalograviera cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fenugreek_seeds` | fenugreek seeds | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kasuri_methi_dried_fenugreek_leaves` | kasuri methi dried fenugreek leaves | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sev` | sev | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mutton` | mutton | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `red_chilies` | red chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `whole_green_gram_moong_dal` | whole green gram moong dal | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cooking_oil` | cooking oil | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `green_chili_paste` | green chili paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nihari_masala` | nihari masala | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cashews` | cashews | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chana_masala_powder` | chana masala powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `carom_seeds_ajwain` | carom seeds ajwain | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `amchur` | amchur | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `raisins_and_cashews` | raisins and cashews | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `crispy_puris` | crispy puris | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pav_bhaji_masala` | pav bhaji masala | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pav_rolls` | pav rolls | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tiger_prawns` | tiger prawns | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bydagi_chilies` | bydagi chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ajwain_carom_seeds` | ajwain carom seeds | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `khoya_mawa` | khoya mawa | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tikka_masala_spice_blend` | tikka masala spice blend | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_fenugreek_leaves_kasuri_methi` | dried fenugreek leaves kasuri methi | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `khoya` | khoya | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `espresso` | espresso | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `high_quality_cocoa_powder` | high quality cocoa powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cantuccini_biscotti` | cantuccini biscotti | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `spaghetti_or_bucatini` | spaghetti or bucatini | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `stale_crusty_bread_ideally_saltless_tuscan_bread` | stale crusty bread ideally saltless tuscan bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cannellini_beans` | cannellini beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `stale_tuscan_bread` | stale tuscan bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_borlotti_or_cannellini_beans` | dried borlotti or cannellini beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ditalini_or_other_short_pasta` | ditalini or other short pasta | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_yeast` | fresh yeast | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `olives` | olives | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pici_pasta` | pici pasta | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `green_olives` | green olives | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `vinegar` | vinegar | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `marsala_wine` | marsala wine | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `oil_for_frying` | oil for frying | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `puntarelle` | puntarelle | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `taleggio_cheese` | taleggio cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bolognese_rag` | bolognese rag | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `gremolata` | gremolata | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `prosciutto_di_parma` | prosciutto di parma | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cocoa_powder` | cocoa powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sea_bass_or_orata` | sea bass or orata | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tonnarelli_or_spaghetti` | tonnarelli or spaghetti | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `instant_yeast` | instant yeast | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `savoiardi_ladyfinger_biscuits` | savoiardi ladyfinger biscuits | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dextrose_or_corn_syrup` | dextrose or corn syrup | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `locust_bean_gum_or_guar_gum_stabilizer` | locust bean gum or guar gum stabilizer | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `active_lieveto_madre_stiff_sourdough_starter` | active lieveto madre stiff sourdough starter | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `miso_soup` | miso soup | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kobachi_side_dish` | kobachi side dish | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ham` | ham | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tahini_or_chinese_sesame_paste` | tahini or chinese sesame paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `edamame_beans` | edamame beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `katsuobushi` | katsuobushi | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tsuyu_noodle_sauce` | tsuyu noodle sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `toasted_nori` | toasted nori | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `wasabi_paste` | wasabi paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shoyu_tare_or_shio_tare` | shoyu tare or shio tare | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `white_miso_paste_shiro_miso` | white miso paste shiro miso | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_wakame_seaweed` | dried wakame seaweed | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `aonori_dried_green_seaweed_flakes` | aonori dried green seaweed flakes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cooked_octopus_tako` | cooked octopus tako | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `takoyaki_sauce` | takoyaki sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mentsuyu_dipping_sauce` | mentsuyu dipping sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hot_green_tea_sencha_or_hojicha` | hot green tea sencha or hojicha | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nori_strips` | nori strips | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shungiku_chrysanthemum_greens` | shungiku chrysanthemum greens | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `alkaline_wheat_noodles` | alkaline wheat noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shoyu_tare` | shoyu tare | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tare_sauce` | tare sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tenkasu` | tenkasu | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `katsuobushi_and_aonori` | katsuobushi and aonori | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_or_frozen_udon_noodles` | fresh or frozen udon noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tonkatsu_sauce` | tonkatsu sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mitsuba` | mitsuba | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `white_miso_paste` | white miso paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nori` | nori | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `naengmyeon_noodles` | naengmyeon noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dongchimi_brine` | dongchimi brine | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `korean_pancake_mix` | korean pancake mix | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `red_chili_pepper` | red chili pepper | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `garaetteok` | garaetteok | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fish_cakes_eomuk` | fish cakes eomuk | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `jajangmyeon_noodles` | jajangmyeon noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chunjang` | chunjang | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cornstarch_slurry` | cornstarch slurry | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `core_element_of_haemul_pajeon` | core element of haemul pajeon | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `alchemical_spice` | alchemical spice | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pancake_mix` | pancake mix | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `danmuji_yellow_pickled_radish` | danmuji yellow pickled radish | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `round_mandu_wrappers` | round mandu wrappers | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chili_pepper` | chili pepper | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chestnuts` | chestnuts | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `jujubes_dried_dates` | jujubes dried dates | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `extra_firm_tofu` | extra firm tofu | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `spam` | spam | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `instant_ramen_noodles` | instant ramen noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hot_dogs` | hot dogs | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `baked_beans` | baked beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fresh_ginseng` | fresh ginseng | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_jujubes` | dried jujubes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_astragalus_root` | dried astragalus root | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mochi` | mochi | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `primary_ingredient_for_hotteok` | primary ingredient for hotteok | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `primary_ingredient_for_songpyeon` | primary ingredient for songpyeon | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `primary_ingredient_for_japchae` | primary ingredient for japchae | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `jalape_o_or_serrano_pepper` | jalape o or serrano pepper | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `queso_fresco_or_cotija_cheese` | queso fresco or cotija cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `stale_corn_tortillas` | stale corn tortillas | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `epazote` | epazote | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bolillo_rolls` | bolillo rolls | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `refried_beans` | refried beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pico_de_gallo` | pico de gallo | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chiltomate_sauce` | chiltomate sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cooked_ham` | cooked ham | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `serrano_chilies` | serrano chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tlayudas` | tlayudas | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `oaxaca_cheese` | oaxaca cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chorizo` | chorizo | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `roma` | roma | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hass` | hass | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `salsa_roja` | salsa roja | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nopales` | nopales | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cotija_cheese` | cotija cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chile_powder` | chile powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `juice` | juice | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `fideo_pasta` | fideo pasta | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mulato_chiles` | mulato chiles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `pasilla_chiles` | pasilla chiles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `corn_tortilla` | corn tortilla | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `jalape_os_or_serranos` | jalape os or serranos | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `serrano_chiles` | serrano chiles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cascabel_chilies` | cascabel chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `salsa_verde` | salsa verde | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `dried_corn_husks` | dried corn husks | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `yucatecan_limes` | yucatecan limes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chilhuacle_negro_chilies` | chilhuacle negro chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tajin_or_ancho_chile_powder` | tajin or ancho chile powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `chamoy_sauce` | chamoy sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cotija_cheese_crumbled` | cotija cheese crumbled | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ancho_or_guajillo_chile_powder` | ancho or guajillo chile powder | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `warm_pita_bread` | warm pita bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `aleppo_pepper_flakes` | aleppo pepper flakes | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `macaroni` | macaroni | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `laurel_leaves` | laurel leaves | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sumac` | sumac | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `bulgur` | bulgur | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `molokhia_leaves` | molokhia leaves | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `b_u00e9chamel_sauce` | b u00e9chamel sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `shrak_or_markook_bread` | shrak or markook bread | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `hawaij_or_arabic_spice_blend` | hawaij or arabic spice blend | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kataifi_pastry` | kataifi pastry | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nabulsi_or_akawi_cheese` | nabulsi or akawi cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `neutral_frying_oil` | neutral frying oil | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tahini_sauce` | tahini sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kitchen_towel` | kitchen towel | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tvorog_farmer_s_cheese` | tvorog farmer s cheese | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `berry_preserves_or_jam` | berry preserves or jam | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `kefir` | kefir | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `neutral_oil_or_lard` | neutral oil or lard | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `small_fish_or_fish_heads_spines` | small fish or fish heads spines | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `prized_fish` | prized fish | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `vodka` | vodka | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `mixed_cured_meats` | mixed cured meats | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `black_olives` | black olives | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cooked_meat` | cooked meat | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `filling` | filling | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `currants` | currants | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `for_glaze` | for glaze | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cold_kvas` | cold kvas | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sriracha_or_prik_nam_pla` | sriracha or prik nam pla | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `finely_sliced` | finely sliced | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `panang_curry_paste` | panang curry paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `torn` | torn | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `beaten` | beaten | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nam_prik_pao_thai_chili_jam` | nam prik pao thai chili jam | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `preserved_radish_chai_poh` | preserved radish chai poh | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `canned_bamboo_shoots` | canned bamboo shoots | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_gaeng_panang_neua` | foundation of gaeng panang neua | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_khao_soi_gai` | foundation of khao soi gai | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_tub_tim_grob` | foundation of tub tim grob | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_bua_loi` | foundation of bua loi | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_sangkaya_fak_thong` | foundation of sangkaya fak thong | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_kluay_tod` | foundation of kluay tod | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `youtiao_qu_y` | youtiao qu y | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `n_c_ch_m` | n c ch m | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `ch_l_a` | ch l a | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_b_nh_m_p_la` | foundation of b nh m p la | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_ch_o` | foundation of ch o | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `caramel_sauce_n_c_m_u` | caramel sauce n c m u | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `warm_n_c_ch_m` | warm n c ch m | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `m_m_ru_c` | m m ru c | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `annatto_oil` | annatto oil | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `tapioca_noodles` | tapioca noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `jalape_o_or_bird_s_eye_chili` | jalape o or bird s eye chili | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nuoc_cham` | nuoc cham | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `catfish_steaks` | catfish steaks | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_th_t_kho_t_u` | foundation of th t kho t u | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_l_u_th_i` | foundation of l u th i | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `liver_p_t` | liver p t | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `snakehead_fish_or_catfish` | snakehead fish or catfish | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `vietnamese_baguettes_banh_mi` | vietnamese baguettes banh mi | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `jalapeno_or_fresno_chilies` | jalapeno or fresno chilies | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `nuoc_cham_dipping_sauce` | nuoc cham dipping sauce | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `sa_te_chili_paste` | sa te chili paste | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `cao_lau_noodles` | cao lau noodles | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `red_adzuki_beans` | red adzuki beans | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
+| `foundation_of_ch_ba_m_u` | foundation of ch ba m u | 71% | Qualities array (≥3), Nutrition (calories + macros), Nutrition (vitamins + minerals) |
 | `sugar` | sugar | 93% | Qualities array (≥3) |
 | `maple_syrup` | maple syrup | 93% | Qualities array (≥3) |
 | `baking_powder` | baking powder | 93% | Qualities array (≥3) |

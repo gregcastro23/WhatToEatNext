@@ -10,7 +10,7 @@ import type {
   NutritionalProfile,
   Season,
   PlanetName,
-  ZodiacSignType as _ZodiacSignType,
+  ZodiacSignType,
   ThermodynamicMetrics,
   ThermodynamicProperties,
   FlavorProfile as _FlavorProfile,
@@ -84,9 +84,9 @@ export interface UnifiedIngredient {
       base: string;
       secondary?: string;
     };
-    rulingPlanets?: PlanetName[] | string[];
-    favorableZodiac?: any[] | string[];
-    zodiacAffinity?: any[] | string[];
+    rulingPlanets?: PlanetName[];
+    favorableZodiac?: ZodiacSignType[];
+    zodiacAffinity?: ZodiacSignType[];
   };
 
   // Energy properties
@@ -98,7 +98,7 @@ export interface UnifiedIngredient {
   storage?: unknown;
   preparation?: unknown;
   qualities?: string[];
-  origin?: string[];
+  origin?: string[]; // (e.g. Country of origin)
   affinities?: string[];
   healthBenefits?: string[];
   seasonality?: Season[];
@@ -107,7 +107,7 @@ export interface UnifiedIngredient {
   intensity?: number;
   complexity?: number;
   swaps?: string[];
-  culturalOrigins?: string[] | unknown;
+  culturalOrigins?: string[];
   elementalAffinity?: {
     base: string;
     secondary?: string;

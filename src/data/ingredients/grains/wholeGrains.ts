@@ -72,7 +72,7 @@ const rawWholeGrains = {
       "nourishing",
     ],
     origin: ["Asia", "Global cultivation"],
-    season: ["all"],
+    season: ["fall"],
     category: "grains",
     subCategory: "rice",
     nutritionalProfile: {
@@ -372,7 +372,8 @@ const rawWholeGrains = {
       },
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Brown Rice is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   quinoa: {
@@ -413,8 +414,8 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Earth"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["buttery", "rich", "chewy"],
     category: "grains",
@@ -464,8 +465,8 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Earth"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "complex", "hearty"],
     category: "grains",
@@ -515,8 +516,8 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "ancient", "nutritious"],
     category: "grains",
@@ -566,8 +567,8 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.1, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["earthy", "robust", "hearty"],
     category: "grains",
@@ -617,8 +618,8 @@ const rawWholeGrains = {
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "complex", "aromatic"],
     category: "grains",
@@ -667,8 +668,8 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "hybrid vigor", "nutritious"],
     category: "grains",
@@ -822,7 +823,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -839,7 +840,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.2, sour: 0, bitter: 0, salty: 0, umami: 0.1 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -856,7 +857,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -873,7 +874,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -890,7 +891,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -900,14 +901,14 @@ const rawWholeGrains = {
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
 },
   breadcrumbs: {
-      description: "A cereal or pseudo-cereal product, breadcrumbs contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
+      description: "Breadcrumbs is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "breadcrumbs",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -924,7 +925,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -941,7 +942,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -958,7 +959,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -975,7 +976,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -992,7 +993,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1009,7 +1010,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1026,7 +1027,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1043,7 +1044,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1060,7 +1061,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1077,7 +1078,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1094,7 +1095,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1111,7 +1112,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1128,7 +1129,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1145,7 +1146,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1162,7 +1163,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1172,14 +1173,14 @@ const rawWholeGrains = {
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
 },
   flatbread: {
-      description: "A cereal or pseudo-cereal product, flatbread contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
+      description: "Flatbread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "flatbread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1196,7 +1197,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1213,7 +1214,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1230,7 +1231,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1247,7 +1248,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1264,7 +1265,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1281,7 +1282,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1298,7 +1299,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1315,7 +1316,7 @@ const rawWholeGrains = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },

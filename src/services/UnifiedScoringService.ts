@@ -69,6 +69,7 @@ export interface ScoringBreakdown {
   kalchmResonance: number;
   monicaOptimization: number;
   retrogradeEffect: number;
+  tokenAffinityEffect: number;
   [key: string]: number;
 }
 
@@ -509,11 +510,11 @@ export function calculateThermodynamicEffect(
     const heatNum = Math.pow(alch.Spirit || 0, 2) + Math.pow(elem.Fire || 0, 2);
     const heatDen = Math.pow(
       (alch.Substance || 0) +
-        (alch.Essence || 0) +
-        (alch.Matter || 0) +
-        (elem.Water || 0) +
-        (elem.Air || 0) +
-        (elem.Earth || 0),
+      (alch.Essence || 0) +
+      (alch.Matter || 0) +
+      (elem.Water || 0) +
+      (elem.Air || 0) +
+      (elem.Earth || 0),
       2,
     );
     const heat = heatNum / (heatDen || 1);
@@ -526,9 +527,9 @@ export function calculateThermodynamicEffect(
       Math.pow(elem.Air || 0, 2);
     const entropyDen = Math.pow(
       (alch.Essence || 0) +
-        (alch.Matter || 0) +
-        (elem.Earth || 0) +
-        (elem.Water || 0),
+      (alch.Matter || 0) +
+      (elem.Earth || 0) +
+      (elem.Water || 0),
       2,
     );
     const entropy = entropyNum / (entropyDen || 1);
@@ -552,8 +553,8 @@ export function calculateThermodynamicEffect(
       context.item.kalchmResonance ||
       (Math.pow(alch.Spirit || 1, alch.Spirit || 1) *
         Math.pow(alch.Essence || 1, alch.Essence || 1)) /
-        (Math.pow(alch.Matter || 1, alch.Matter || 1) *
-          Math.pow(alch.Substance || 1, alch.Substance || 1));
+      (Math.pow(alch.Matter || 1, alch.Matter || 1) *
+        Math.pow(alch.Substance || 1, alch.Substance || 1));
 
     // Monica
     let monica = context.item.monicaConstant || 1.0;
@@ -633,6 +634,60 @@ export function calculateMonicaOptimization(
 }
 
 /**
+ * Calculate token affinity effect based on user's ESMS token balance.
+ *
+ * When a user has accumulated tokens of a particular type (e.g., Spirit),
+ * recipes whose dominant alchemical property matches get a scoring boost.
+ * This creates a feedback loop where the economy influences recommendations.
+ */
+export function calculateTokenAffinityEffect(
+  _astroData: AstrologicalData,
+  context: ScoringContext,
+): number {
+  // tokenBalances is an optional field on context — skip if absent
+  const balances = (context as any).tokenBalances as
+    | { spirit: number; essence: number; matter: number; substance: number }
+    | undefined;
+  if (!balances) return 0;
+
+  const total = balances.spirit + balances.essence + balances.matter + balances.substance;
+  if (total === 0) return 0;
+
+  // Normalize balances to weights
+  const weights = {
+    Spirit: balances.spirit / total,
+    Essence: balances.essence / total,
+    Matter: balances.matter / total,
+    Substance: balances.substance / total,
+  };
+
+  // Get the item's alchemical properties
+  const alch = context.item.alchemicalProperties;
+  if (!alch) return 0;
+
+  const alchTotal = (alch.Spirit || 0) + (alch.Essence || 0) + (alch.Matter || 0) + (alch.Substance || 0);
+  if (alchTotal === 0) return 0;
+
+  // Dot-product similarity between user token distribution and recipe ESMS
+  const recipeWeights = {
+    Spirit: (alch.Spirit || 0) / alchTotal,
+    Essence: (alch.Essence || 0) / alchTotal,
+    Matter: (alch.Matter || 0) / alchTotal,
+    Substance: (alch.Substance || 0) / alchTotal,
+  };
+
+  const dotProduct =
+    weights.Spirit * recipeWeights.Spirit +
+    weights.Essence * recipeWeights.Essence +
+    weights.Matter * recipeWeights.Matter +
+    weights.Substance * recipeWeights.Substance;
+
+  // dotProduct ranges 0.25 (uniform) to 1.0 (perfect alignment)
+  // Map to scoring range: uniform → 0, perfect → 0.25
+  return Math.max(0, (dotProduct - 0.25) * (0.25 / 0.75));
+}
+
+/**
  * Calculate kinetic compatibility using P=IV circuit model
  * Uses power, current, voltage matching for temporal alignment
  */
@@ -681,11 +736,11 @@ export function calculateKineticCompatibilityEffect(
       Math.pow(itemAlch.Spirit || 0, 2) + Math.pow(itemElem.Fire || 0, 2);
     const heatDen = Math.pow(
       (itemAlch.Substance || 0) +
-        (itemAlch.Essence || 0) +
-        (itemAlch.Matter || 0) +
-        (itemElem.Water || 0) +
-        (itemElem.Air || 0) +
-        (itemElem.Earth || 0),
+      (itemAlch.Essence || 0) +
+      (itemAlch.Matter || 0) +
+      (itemElem.Water || 0) +
+      (itemElem.Air || 0) +
+      (itemElem.Earth || 0),
       2,
     );
     const heat = heatNum / (heatDen || 1);
@@ -697,9 +752,9 @@ export function calculateKineticCompatibilityEffect(
       Math.pow(itemElem.Air || 0, 2);
     const entropyDen = Math.pow(
       (itemAlch.Essence || 0) +
-        (itemAlch.Matter || 0) +
-        (itemElem.Earth || 0) +
-        (itemElem.Water || 0),
+      (itemAlch.Matter || 0) +
+      (itemElem.Earth || 0) +
+      (itemElem.Water || 0),
       2,
     );
     const entropy = entropyNum / (entropyDen || 1);
@@ -781,7 +836,7 @@ export function calculateRetrogradeEffect(
 export class UnifiedScoringService {
   private static instance: UnifiedScoringService;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): UnifiedScoringService {
     if (!UnifiedScoringService.instance) {
@@ -823,6 +878,7 @@ export class UnifiedScoringService {
         kalchmResonance: calculateKalchmResonance(astroData, context),
         monicaOptimization: calculateMonicaOptimization(astroData, context),
         retrogradeEffect: calculateRetrogradeEffect(astroData, context),
+        tokenAffinityEffect: calculateTokenAffinityEffect(astroData, context),
       };
 
       // 3. Apply custom weights if provided
@@ -1033,6 +1089,7 @@ export class UnifiedScoringService {
       kalchmResonance: 0.4,
       monicaOptimization: 0.3,
       retrogradeEffect: 0.55,
+      tokenAffinityEffect: 0.75, // Token economy shapes recommendations
     };
 
     let totalWeightedScore = 0;

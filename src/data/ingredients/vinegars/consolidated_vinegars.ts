@@ -34,7 +34,7 @@ const rawVinegars = {
         secondary: "Air",
       },
     },
-    season: ["all"] as Season[],
+    season: ["fall"] as Season[],
     culinaryProfile: {
       flavorProfile: {
         primary: ["balanced"],
@@ -83,7 +83,7 @@ const rawVinegars = {
         secondary: "Water",
       },
     },
-    season: ["autumn", "winter"] as Season[],
+    season: ["fall", "winter"] as Season[],
     culinaryProfile: {
       flavorProfile: {
         primary: ["tangy"],
@@ -132,7 +132,7 @@ const rawVinegars = {
         secondary: "Water",
       },
     },
-    season: ["all"] as Season[],
+    season: ["fall"] as Season[],
     culinaryProfile: {
       flavorProfile: {
         primary: ["sweet"],
@@ -181,7 +181,7 @@ const rawVinegars = {
         secondary: "Water",
       },
     },
-    season: ["all"] as Season[],
+    season: ["fall"] as Season[],
     culinaryProfile: {
       flavorProfile: {
         primary: ["tangy"],

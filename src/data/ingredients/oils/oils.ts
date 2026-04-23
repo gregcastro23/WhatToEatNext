@@ -312,8 +312,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     kineticsImpact: { thermalDirection: 0.22, forceMagnitude: 1.10 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Libra", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "leo"],
+      seasonalAffinity: ["fall"],
     },
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 250, fahrenheit: 482 },
@@ -400,8 +400,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Libra", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "leo"],
+      seasonalAffinity: ["fall"],
     },
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 271, fahrenheit: 520 },
@@ -880,7 +880,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   camellia_oil: {
-      description: "A culinary fat, camellia oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "Camellia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Camellia Oil",
     category: "oils",
     subCategory: "cooking",
@@ -2026,7 +2026,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
       favorableZodiac: ["leo", "libra", "taurus"],
-      seasonalAffinity: ["all"],
+      seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.0, sour: 0.0, bitter: 0.1, umami: 0.05, spicy: 0.0 }, aroma: { fatty: 0.7, nutty: 0.3, fruity: 0.3 }, texture: { oily: 0.9, smooth: 0.9, coating: 0.9 } },
       culinaryProfile: { flavorProfile: { primary: ["fatty"], secondary: ["nutty", "fruity"], notes: "Heat below smoke point for frying; finish raw for best aroma." }, cookingMethods: ["saute", "fry", "drizzle", "emulsify", "confit"], cuisineAffinity: ["Mediterranean", "Asian", "American"], preparationTips: ["Store away from light and heat.", "Use high-smoke-point oils for searing; finishing oils raw."] },
@@ -2376,7 +2376,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   neem_oil: {
-      description: "A culinary fat, neem oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "Neem Oil (Culinary Grade) is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Neem Oil (Culinary Grade)",
     category: "oils",
     subCategory: "specialty",
@@ -2570,7 +2570,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   rapeseed_oil: {
-      description: "A culinary fat, rapeseed oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "Rapeseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Rapeseed Oil",
     category: "oils",
     subCategory: "cooking",

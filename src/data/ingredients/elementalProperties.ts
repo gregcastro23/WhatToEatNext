@@ -35,7 +35,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       earth: 0.3,
       air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     cuisineAffinities: [
       "Mediterranean",
       "Asian",
@@ -150,7 +150,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       earth: 0.5,
       air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     cuisineAffinities: ["Asian", "Indian", "Middle Eastern", "Spanish"],
     flavorProfile: ["neutral", "subtle", "adaptable"],
     healthBenefits: ["energy", "fiber (brown)", "manganese"],
@@ -166,7 +166,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       earth: 0.4,
       air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     cuisineAffinities: ["South American", "Mediterranean", "Modern"],
     flavorProfile: ["nutty", "earthy", "subtle"],
     healthBenefits: ["complete protein", "fiber", "magnesium", "iron"],
@@ -199,7 +199,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       earth: 0.4,
       air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     cuisineAffinities: ["Indian", "Southeast Asian", "Middle Eastern"],
     flavorProfile: ["earthy", "bitter", "warming"],
     healthBenefits: ["anti-inflammatory", "antioxidant", "digestive aid"],
@@ -269,7 +269,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       earth: 0.5,
       air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     cuisineAffinities: [
       "Mediterranean",
       "Middle Eastern",
@@ -308,7 +308,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       earth: 0.3,
       air: 0.5,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     cuisineAffinities: ["Mediterranean", "Italian", "Spanish", "Greek"],
     flavorProfile: ["fruity", "peppery", "grassy"],
     healthBenefits: [
@@ -328,7 +328,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       earth: 0.3,
       air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     cuisineAffinities: ["Southeast Asian", "Caribbean", "Indian", "Pacific"],
     flavorProfile: ["tropical", "sweet", "nutty"],
     healthBenefits: [
@@ -390,7 +390,7 @@ export const _getIngredientsBySeason = (
   ingredientElementalDatabase.filter(
     (ingredient) =>
       ingredient.seasonality.includes(season.toLowerCase()) ||
-      ingredient.seasonality.includes("all"),
+      ingredient.seasonality.includes("fall"),
   );
 
 /** Get ingredients by cuisine */

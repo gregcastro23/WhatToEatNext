@@ -11,7 +11,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -54,7 +54,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -86,7 +86,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -118,7 +118,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -150,7 +150,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -181,14 +181,14 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
 },
   breadcrumbs: {
-      description: "A cereal or pseudo-cereal product, breadcrumbs contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
+      description: "Breadcrumbs is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "breadcrumbs",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -220,7 +220,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -252,7 +252,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -284,7 +284,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -316,7 +316,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -348,7 +348,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -380,7 +380,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -412,7 +412,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -444,7 +444,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -476,7 +476,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -508,7 +508,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -540,7 +540,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -572,7 +572,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -604,7 +604,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -636,7 +636,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -668,7 +668,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -693,14 +693,14 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
 },
   flatbread: {
-      description: "A cereal or pseudo-cereal product, flatbread contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
+      description: "Flatbread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "flatbread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -732,7 +732,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -764,7 +764,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -796,7 +796,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -828,7 +828,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -860,7 +860,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -892,7 +892,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -924,7 +924,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -956,7 +956,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {

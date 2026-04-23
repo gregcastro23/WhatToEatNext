@@ -328,7 +328,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
     seasonalOptimization: Record<string, string[]>;
     seasonalHarmony: Record<string, number>;
   } => {
-    const testSeasons = ["spring", "summer", "autumn", "winter"];
+    const testSeasons = ["spring", "summer", "fall", "winter"];
 
     const seasonalAnalysis = {
       functionName: seasonalFunc.name,
@@ -1087,7 +1087,7 @@ export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {
         validationLogic: true, // Function exists and has proper structure
         testProfile: {
           rulingPlanets: ["Sun"],
-          favorableZodiac: ["Leo"],
+          favorableZodiac: ["leo"],
           elementalAffinity: {
             base: "Fire",
             decanModifiers: {

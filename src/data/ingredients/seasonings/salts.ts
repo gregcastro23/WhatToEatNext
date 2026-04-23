@@ -9,8 +9,8 @@ const rawSalts = {
     alchemicalProperties: { Spirit: 0.08, Essence: 0.15, Matter: 0.90, Substance: 0.92 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Virgo", "Gemini", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["delicate", "moist", "mineral"],
     nutritionalProfile: {
@@ -699,7 +699,7 @@ const rawSalts = {
     alchemicalProperties: { Spirit: 0.10, Essence: 0.10, Matter: 0.95, Substance: 0.95 },
     astrologicalProfile: {
       planetaryRuler: "Mars",
-      zodiacRuler: "Aries",
+      zodiacRuler: "aries",
       element: "Earth",
       energyType: "Grounding",
       lunarPhaseModifiers: {

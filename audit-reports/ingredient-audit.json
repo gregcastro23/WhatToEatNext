@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-20T02:17:42.075Z",
+  "generatedAt": "2026-04-22T22:37:34.139Z",
   "maxScore": 14,
   "rubric": [
     {
@@ -54,6 +54,5622 @@
     }
   ],
   "rows": [
+    {
+      "slug": "mirin",
+      "name": "mirin",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "active_dry_yeast",
+      "name": "active dry yeast",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cornstarch",
+      "name": "cornstarch",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "oyster_sauce",
+      "name": "oyster sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "shaoxing_wine",
+      "name": "shaoxing wine",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "alchemical_binding_agent",
+      "name": "alchemical binding agent",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "neutral_oil",
+      "name": "neutral oil",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "white_vinegar",
+      "name": "white vinegar",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "corn_tortillas",
+      "name": "corn tortillas",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "five_spice_powder",
+      "name": "five spice powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "firm_tofu",
+      "name": "firm tofu",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cayenne_pepper",
+      "name": "cayenne pepper",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "queso_fresco",
+      "name": "queso fresco",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bird_eye_chilies",
+      "name": "bird eye chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bird_s_eye_chilies",
+      "name": "bird s eye chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "white_bread",
+      "name": "white bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "capers",
+      "name": "capers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sichuan_peppercorns",
+      "name": "sichuan peppercorns",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_red_chilies",
+      "name": "dried red chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "garni",
+      "name": "garni",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "oil",
+      "name": "oil",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "frying_oil",
+      "name": "frying oil",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bamboo_skewers",
+      "name": "bamboo skewers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chili_flakes",
+      "name": "chili flakes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "radishes",
+      "name": "radishes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "black_peppercorns",
+      "name": "black peppercorns",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ice",
+      "name": "ice",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "corn",
+      "name": "corn",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "limes",
+      "name": "limes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "achiote_paste",
+      "name": "achiote paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ancho_chilies",
+      "name": "ancho chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "allspice",
+      "name": "allspice",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "red_curry_paste",
+      "name": "red curry paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "harissa_paste",
+      "name": "harissa paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "raisins",
+      "name": "raisins",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "worcestershire_sauce",
+      "name": "worcestershire sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "hot_sauce",
+      "name": "hot sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "heavy_whipping_cream",
+      "name": "heavy whipping cream",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "hoisin_sauce",
+      "name": "hoisin sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bamboo_shoots",
+      "name": "bamboo shoots",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sauerkraut",
+      "name": "sauerkraut",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cloves",
+      "name": "cloves",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "asafoetida_hing",
+      "name": "asafoetida hing",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kasuri_methi",
+      "name": "kasuri methi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pepper",
+      "name": "pepper",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "marsala_wine_or_dark_rum",
+      "name": "marsala wine or dark rum",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "golden_raisins",
+      "name": "golden raisins",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nori_seaweed",
+      "name": "nori seaweed",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fresh_ramen_noodles",
+      "name": "fresh ramen noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_soba_noodles",
+      "name": "dried soba noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "wasabi",
+      "name": "wasabi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mixed_seafood",
+      "name": "mixed seafood",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "doenjang",
+      "name": "doenjang",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "aromatic_catalyst",
+      "name": "aromatic catalyst",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ancho_chiles",
+      "name": "ancho chiles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pasilla_chilies",
+      "name": "pasilla chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "poblano_peppers",
+      "name": "poblano peppers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "guajillo_chilies",
+      "name": "guajillo chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tahini",
+      "name": "tahini",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "raw_tahini",
+      "name": "raw tahini",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "green_curry_paste",
+      "name": "green curry paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "niter_kibbeh",
+      "name": "niter kibbeh",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "scotch_bonnet_pepper",
+      "name": "scotch bonnet pepper",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "red_pepper_flakes",
+      "name": "red pepper flakes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "peri_peri_sauce",
+      "name": "peri peri sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "unsliced_white_bread",
+      "name": "unsliced white bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "habanero_pepper",
+      "name": "habanero pepper",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cream_of_tartar",
+      "name": "cream of tartar",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "american_cheese",
+      "name": "american cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "creole_seasoning",
+      "name": "creole seasoning",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cornmeal",
+      "name": "cornmeal",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "wheat_starch",
+      "name": "wheat starch",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "silken_tofu",
+      "name": "silken tofu",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fresh_wheat_noodles",
+      "name": "fresh wheat noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "shellfish",
+      "name": "shellfish",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "toulouse_sausage",
+      "name": "toulouse sausage",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kalamata_olives",
+      "name": "kalamata olives",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pita_breads",
+      "name": "pita breads",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "biryani_masala",
+      "name": "biryani masala",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cashew_paste",
+      "name": "cashew paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "spaghetti",
+      "name": "spaghetti",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "guanciale",
+      "name": "guanciale",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "strong_espresso",
+      "name": "strong espresso",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "savoiardi_ladyfingers",
+      "name": "savoiardi ladyfingers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "unsweetened_cocoa_powder",
+      "name": "unsweetened cocoa powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "yakisoba_noodles",
+      "name": "yakisoba noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "yakisoba_sauce",
+      "name": "yakisoba sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ajitsuke_tamago",
+      "name": "ajitsuke tamago",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tentsuyu",
+      "name": "tentsuyu",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tenkasu_tempura_scraps",
+      "name": "tenkasu tempura scraps",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "okonomiyaki_sauce",
+      "name": "okonomiyaki sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "katsuobushi_bonito_flakes",
+      "name": "katsuobushi bonito flakes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "shirataki_noodles",
+      "name": "shirataki noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kamaboko",
+      "name": "kamaboko",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "somyeon_thin_wheat_noodles",
+      "name": "somyeon thin wheat noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "medium_firm_tofu",
+      "name": "medium firm tofu",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "gim_roasted_seaweed",
+      "name": "gim roasted seaweed",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dangmyeon",
+      "name": "dangmyeon",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "eomuk_fish_cakes",
+      "name": "eomuk fish cakes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tomatillos",
+      "name": "tomatillos",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "crema_mexicana",
+      "name": "crema mexicana",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "lard",
+      "name": "lard",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "guajillo_chiles",
+      "name": "guajillo chiles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mulato_chilies",
+      "name": "mulato chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fresh_epazote",
+      "name": "fresh epazote",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mexican_crema",
+      "name": "mexican crema",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pita_bread",
+      "name": "pita bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "shawarma_spice_blend",
+      "name": "shawarma spice blend",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pickle_brine",
+      "name": "pickle brine",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tvorog_farmers_cheese",
+      "name": "tvorog farmers cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nam_prik_pao",
+      "name": "nam prik pao",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bird_s_eye_chili",
+      "name": "bird s eye chili",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "massaman_curry_paste",
+      "name": "massaman curry paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "long_red_chilies",
+      "name": "long red chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_chili_flakes",
+      "name": "dried chili flakes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "toppings_matrix",
+      "name": "toppings matrix",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "hale_s_blue_boy_syrup",
+      "name": "hale s blue boy syrup",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "vietnamese_baguettes",
+      "name": "vietnamese baguettes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "leftover_dry_injera",
+      "name": "leftover dry injera",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "scotch_bonnet_or_habanero_peppers",
+      "name": "scotch bonnet or habanero peppers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "scotch_bonnet_peppers_ata_rodo",
+      "name": "scotch bonnet peppers ata rodo",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "habanero_or_scotch_bonnet_pepper",
+      "name": "habanero or scotch bonnet pepper",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "macaroni_or_ditalini_pasta",
+      "name": "macaroni or ditalini pasta",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "vegetable_stock",
+      "name": "vegetable stock",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "vermicelli",
+      "name": "vermicelli",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "crushed_wheat_frik",
+      "name": "crushed wheat frik",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "harissa",
+      "name": "harissa",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "brick_pastry_sheets",
+      "name": "brick pastry sheets",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ogbono_seeds",
+      "name": "ogbono seeds",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "collard_greens",
+      "name": "collard greens",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "raisins_or_sultanas",
+      "name": "raisins or sultanas",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ndol_leaves_bitterleaf",
+      "name": "ndol leaves bitterleaf",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "couscous",
+      "name": "couscous",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "durban_curry_masala",
+      "name": "durban curry masala",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mitmita",
+      "name": "mitmita",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kuli_kuli_powder",
+      "name": "kuli kuli powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bitterleaves",
+      "name": "bitterleaves",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "vinegar_white_or_brown",
+      "name": "vinegar white or brown",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sourdough_bread",
+      "name": "sourdough bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "leeks",
+      "name": "leeks",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fresh_berries",
+      "name": "fresh berries",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sweet_pickle_relish",
+      "name": "sweet pickle relish",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "watercress",
+      "name": "watercress",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "top_split_hot_dog_buns",
+      "name": "top split hot dog buns",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "thick_cut_sourdough_or_multigrain_bread",
+      "name": "thick cut sourdough or multigrain bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_navy_beans",
+      "name": "dried navy beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cube_steak",
+      "name": "cube steak",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "andouille_sausage",
+      "name": "andouille sausage",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "italian_sausage",
+      "name": "italian sausage",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "hoagie_rolls",
+      "name": "hoagie rolls",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "provolone_cheese",
+      "name": "provolone cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pie_dough",
+      "name": "pie dough",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cedar_grilling_plank",
+      "name": "cedar grilling plank",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "youtiao_fried_dough",
+      "name": "youtiao fried dough",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tianmianjiang_sweet_bean_sauce",
+      "name": "tianmianjiang sweet bean sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "baocui_crispy_fried_cracker_or_youtiao",
+      "name": "baocui crispy fried cracker or youtiao",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fresh_chinese_wheat_noodles",
+      "name": "fresh chinese wheat noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sui_mi_ya_cai",
+      "name": "sui mi ya cai",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chinese_sesame_paste",
+      "name": "chinese sesame paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pixian_doubanjiang",
+      "name": "pixian doubanjiang",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "lard_or_neutral_oil",
+      "name": "lard or neutral oil",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "square_wonton_wrappers",
+      "name": "square wonton wrappers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "supreme_broth_gao_tang",
+      "name": "supreme broth gao tang",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chili_paste",
+      "name": "chili paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "doubanjiang",
+      "name": "doubanjiang",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "black_tea_leaves",
+      "name": "black tea leaves",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "maltose_syrup",
+      "name": "maltose syrup",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sweet_bean_sauce_or_hoisin",
+      "name": "sweet bean sauce or hoisin",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "doubanjiang_spicy_broad_bean_paste",
+      "name": "doubanjiang spicy broad bean paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "red_fermented_tofu_or_food_coloring",
+      "name": "red fermented tofu or food coloring",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sesame_paste",
+      "name": "sesame paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sichuan_peppercorn_powder",
+      "name": "sichuan peppercorn powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sweet_bean_sauce_or_hoisin_sauce",
+      "name": "sweet bean sauce or hoisin sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "flank_steak",
+      "name": "flank steak",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "wheat_starch_tang_mian_fen",
+      "name": "wheat starch tang mian fen",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "doubanjiang_spicy_bean_paste",
+      "name": "doubanjiang spicy bean paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sweet_bean_sauce_tianmianjiang",
+      "name": "sweet bean sauce tianmianjiang",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "thick_fresh_wheat_noodles",
+      "name": "thick fresh wheat noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "wonton_wrappers",
+      "name": "wonton wrappers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "croissant_au_beurre",
+      "name": "croissant au beurre",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "caf_au_lait_or_espresso",
+      "name": "caf au lait or espresso",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "jambon_de_paris_high_quality_cooked_ham",
+      "name": "jambon de paris high quality cooked ham",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "croutons",
+      "name": "croutons",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "jambon_blanc_cooked_ham",
+      "name": "jambon blanc cooked ham",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "gruy_re_or_emmental_cheese",
+      "name": "gruy re or emmental cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "escargots",
+      "name": "escargots",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ni_u00e7oise_olives",
+      "name": "ni u00e7oise olives",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dover_sole",
+      "name": "dover sole",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sausages",
+      "name": "sausages",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "juniper_berries",
+      "name": "juniper berries",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "marrow_bone",
+      "name": "marrow bone",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "leek",
+      "name": "leek",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mixed_firm_and_flaky_fish",
+      "name": "mixed firm and flaky fish",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fish_stock",
+      "name": "fish stock",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "white_haricot_beans",
+      "name": "white haricot beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_white_tarbais_beans",
+      "name": "dried white tarbais beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "red_burgundy_wine",
+      "name": "red burgundy wine",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "small_bony_fish_for_stock",
+      "name": "small bony fish for stock",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "rouille",
+      "name": "rouille",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "piperade",
+      "name": "piperade",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cr_me_p_tissi_re_or_whipped_cream",
+      "name": "cr me p tissi re or whipped cream",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "wooden_skewers",
+      "name": "wooden skewers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "greek_pita_bread",
+      "name": "greek pita bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kefalotyri_cheese",
+      "name": "kefalotyri cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "vegetable_broth",
+      "name": "vegetable broth",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kefalograviera_cheese",
+      "name": "kefalograviera cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "orzo_pasta",
+      "name": "orzo pasta",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "stale_bread",
+      "name": "stale bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pastitsio_pasta_misko_no_2_or_ziti",
+      "name": "pastitsio pasta misko no 2 or ziti",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_currants",
+      "name": "dried currants",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "allspice_berries",
+      "name": "allspice berries",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kritharaki_greek_orzo_pasta",
+      "name": "kritharaki greek orzo pasta",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kefalotyri_or_mizithra_cheese",
+      "name": "kefalotyri or mizithra cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_gigantes_beans_or_large_lima_corona_beans",
+      "name": "dried gigantes beans or large lima corona beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "stale_white_bread",
+      "name": "stale white bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "phyllo_pastry",
+      "name": "phyllo pastry",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pastitsio_pasta",
+      "name": "pastitsio pasta",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "currants_or_raisins",
+      "name": "currants or raisins",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kefalotyri_or_kefalograviera_cheese",
+      "name": "kefalotyri or kefalograviera cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fenugreek_seeds",
+      "name": "fenugreek seeds",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kasuri_methi_dried_fenugreek_leaves",
+      "name": "kasuri methi dried fenugreek leaves",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sev",
+      "name": "sev",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mutton",
+      "name": "mutton",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "red_chilies",
+      "name": "red chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "whole_green_gram_moong_dal",
+      "name": "whole green gram moong dal",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cooking_oil",
+      "name": "cooking oil",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "green_chili_paste",
+      "name": "green chili paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nihari_masala",
+      "name": "nihari masala",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cashews",
+      "name": "cashews",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chana_masala_powder",
+      "name": "chana masala powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "carom_seeds_ajwain",
+      "name": "carom seeds ajwain",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "amchur",
+      "name": "amchur",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "raisins_and_cashews",
+      "name": "raisins and cashews",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "crispy_puris",
+      "name": "crispy puris",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pav_bhaji_masala",
+      "name": "pav bhaji masala",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pav_rolls",
+      "name": "pav rolls",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tiger_prawns",
+      "name": "tiger prawns",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bydagi_chilies",
+      "name": "bydagi chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ajwain_carom_seeds",
+      "name": "ajwain carom seeds",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "khoya_mawa",
+      "name": "khoya mawa",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tikka_masala_spice_blend",
+      "name": "tikka masala spice blend",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_fenugreek_leaves_kasuri_methi",
+      "name": "dried fenugreek leaves kasuri methi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "khoya",
+      "name": "khoya",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "espresso",
+      "name": "espresso",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "high_quality_cocoa_powder",
+      "name": "high quality cocoa powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cantuccini_biscotti",
+      "name": "cantuccini biscotti",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "spaghetti_or_bucatini",
+      "name": "spaghetti or bucatini",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "stale_crusty_bread_ideally_saltless_tuscan_bread",
+      "name": "stale crusty bread ideally saltless tuscan bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cannellini_beans",
+      "name": "cannellini beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "stale_tuscan_bread",
+      "name": "stale tuscan bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_borlotti_or_cannellini_beans",
+      "name": "dried borlotti or cannellini beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ditalini_or_other_short_pasta",
+      "name": "ditalini or other short pasta",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fresh_yeast",
+      "name": "fresh yeast",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "olives",
+      "name": "olives",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pici_pasta",
+      "name": "pici pasta",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "green_olives",
+      "name": "green olives",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "vinegar",
+      "name": "vinegar",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "marsala_wine",
+      "name": "marsala wine",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "oil_for_frying",
+      "name": "oil for frying",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "puntarelle",
+      "name": "puntarelle",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "taleggio_cheese",
+      "name": "taleggio cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bolognese_rag",
+      "name": "bolognese rag",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "gremolata",
+      "name": "gremolata",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "prosciutto_di_parma",
+      "name": "prosciutto di parma",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cocoa_powder",
+      "name": "cocoa powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sea_bass_or_orata",
+      "name": "sea bass or orata",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tonnarelli_or_spaghetti",
+      "name": "tonnarelli or spaghetti",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "instant_yeast",
+      "name": "instant yeast",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "savoiardi_ladyfinger_biscuits",
+      "name": "savoiardi ladyfinger biscuits",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dextrose_or_corn_syrup",
+      "name": "dextrose or corn syrup",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "locust_bean_gum_or_guar_gum_stabilizer",
+      "name": "locust bean gum or guar gum stabilizer",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "active_lieveto_madre_stiff_sourdough_starter",
+      "name": "active lieveto madre stiff sourdough starter",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "miso_soup",
+      "name": "miso soup",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kobachi_side_dish",
+      "name": "kobachi side dish",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ham",
+      "name": "ham",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tahini_or_chinese_sesame_paste",
+      "name": "tahini or chinese sesame paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "edamame_beans",
+      "name": "edamame beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "katsuobushi",
+      "name": "katsuobushi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tsuyu_noodle_sauce",
+      "name": "tsuyu noodle sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "toasted_nori",
+      "name": "toasted nori",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "wasabi_paste",
+      "name": "wasabi paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "shoyu_tare_or_shio_tare",
+      "name": "shoyu tare or shio tare",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "white_miso_paste_shiro_miso",
+      "name": "white miso paste shiro miso",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_wakame_seaweed",
+      "name": "dried wakame seaweed",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "aonori_dried_green_seaweed_flakes",
+      "name": "aonori dried green seaweed flakes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cooked_octopus_tako",
+      "name": "cooked octopus tako",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "takoyaki_sauce",
+      "name": "takoyaki sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mentsuyu_dipping_sauce",
+      "name": "mentsuyu dipping sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "hot_green_tea_sencha_or_hojicha",
+      "name": "hot green tea sencha or hojicha",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nori_strips",
+      "name": "nori strips",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "shungiku_chrysanthemum_greens",
+      "name": "shungiku chrysanthemum greens",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "alkaline_wheat_noodles",
+      "name": "alkaline wheat noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "shoyu_tare",
+      "name": "shoyu tare",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tare_sauce",
+      "name": "tare sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tenkasu",
+      "name": "tenkasu",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "katsuobushi_and_aonori",
+      "name": "katsuobushi and aonori",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fresh_or_frozen_udon_noodles",
+      "name": "fresh or frozen udon noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tonkatsu_sauce",
+      "name": "tonkatsu sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mitsuba",
+      "name": "mitsuba",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "white_miso_paste",
+      "name": "white miso paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nori",
+      "name": "nori",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "naengmyeon_noodles",
+      "name": "naengmyeon noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dongchimi_brine",
+      "name": "dongchimi brine",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "korean_pancake_mix",
+      "name": "korean pancake mix",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "red_chili_pepper",
+      "name": "red chili pepper",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "garaetteok",
+      "name": "garaetteok",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fish_cakes_eomuk",
+      "name": "fish cakes eomuk",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "jajangmyeon_noodles",
+      "name": "jajangmyeon noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chunjang",
+      "name": "chunjang",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cornstarch_slurry",
+      "name": "cornstarch slurry",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "core_element_of_haemul_pajeon",
+      "name": "core element of haemul pajeon",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "alchemical_spice",
+      "name": "alchemical spice",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pancake_mix",
+      "name": "pancake mix",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "danmuji_yellow_pickled_radish",
+      "name": "danmuji yellow pickled radish",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "round_mandu_wrappers",
+      "name": "round mandu wrappers",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chili_pepper",
+      "name": "chili pepper",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chestnuts",
+      "name": "chestnuts",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "jujubes_dried_dates",
+      "name": "jujubes dried dates",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "extra_firm_tofu",
+      "name": "extra firm tofu",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "spam",
+      "name": "spam",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "instant_ramen_noodles",
+      "name": "instant ramen noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "hot_dogs",
+      "name": "hot dogs",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "baked_beans",
+      "name": "baked beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fresh_ginseng",
+      "name": "fresh ginseng",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_jujubes",
+      "name": "dried jujubes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_astragalus_root",
+      "name": "dried astragalus root",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mochi",
+      "name": "mochi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "primary_ingredient_for_hotteok",
+      "name": "primary ingredient for hotteok",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "primary_ingredient_for_songpyeon",
+      "name": "primary ingredient for songpyeon",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "primary_ingredient_for_japchae",
+      "name": "primary ingredient for japchae",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "jalape_o_or_serrano_pepper",
+      "name": "jalape o or serrano pepper",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "queso_fresco_or_cotija_cheese",
+      "name": "queso fresco or cotija cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "stale_corn_tortillas",
+      "name": "stale corn tortillas",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "epazote",
+      "name": "epazote",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bolillo_rolls",
+      "name": "bolillo rolls",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "refried_beans",
+      "name": "refried beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pico_de_gallo",
+      "name": "pico de gallo",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chiltomate_sauce",
+      "name": "chiltomate sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cooked_ham",
+      "name": "cooked ham",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "serrano_chilies",
+      "name": "serrano chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tlayudas",
+      "name": "tlayudas",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "oaxaca_cheese",
+      "name": "oaxaca cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chorizo",
+      "name": "chorizo",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "roma",
+      "name": "roma",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "hass",
+      "name": "hass",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "salsa_roja",
+      "name": "salsa roja",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nopales",
+      "name": "nopales",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cotija_cheese",
+      "name": "cotija cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chile_powder",
+      "name": "chile powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "juice",
+      "name": "juice",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "fideo_pasta",
+      "name": "fideo pasta",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mulato_chiles",
+      "name": "mulato chiles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "pasilla_chiles",
+      "name": "pasilla chiles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "corn_tortilla",
+      "name": "corn tortilla",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "jalape_os_or_serranos",
+      "name": "jalape os or serranos",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "serrano_chiles",
+      "name": "serrano chiles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cascabel_chilies",
+      "name": "cascabel chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "salsa_verde",
+      "name": "salsa verde",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "dried_corn_husks",
+      "name": "dried corn husks",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "yucatecan_limes",
+      "name": "yucatecan limes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chilhuacle_negro_chilies",
+      "name": "chilhuacle negro chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tajin_or_ancho_chile_powder",
+      "name": "tajin or ancho chile powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "chamoy_sauce",
+      "name": "chamoy sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cotija_cheese_crumbled",
+      "name": "cotija cheese crumbled",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ancho_or_guajillo_chile_powder",
+      "name": "ancho or guajillo chile powder",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "warm_pita_bread",
+      "name": "warm pita bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "aleppo_pepper_flakes",
+      "name": "aleppo pepper flakes",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "macaroni",
+      "name": "macaroni",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "laurel_leaves",
+      "name": "laurel leaves",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sumac",
+      "name": "sumac",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "bulgur",
+      "name": "bulgur",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "molokhia_leaves",
+      "name": "molokhia leaves",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "b_u00e9chamel_sauce",
+      "name": "b u00e9chamel sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "shrak_or_markook_bread",
+      "name": "shrak or markook bread",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "hawaij_or_arabic_spice_blend",
+      "name": "hawaij or arabic spice blend",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kataifi_pastry",
+      "name": "kataifi pastry",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nabulsi_or_akawi_cheese",
+      "name": "nabulsi or akawi cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "neutral_frying_oil",
+      "name": "neutral frying oil",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tahini_sauce",
+      "name": "tahini sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kitchen_towel",
+      "name": "kitchen towel",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tvorog_farmer_s_cheese",
+      "name": "tvorog farmer s cheese",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "berry_preserves_or_jam",
+      "name": "berry preserves or jam",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "kefir",
+      "name": "kefir",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "neutral_oil_or_lard",
+      "name": "neutral oil or lard",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "small_fish_or_fish_heads_spines",
+      "name": "small fish or fish heads spines",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "prized_fish",
+      "name": "prized fish",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "vodka",
+      "name": "vodka",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "mixed_cured_meats",
+      "name": "mixed cured meats",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "black_olives",
+      "name": "black olives",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cooked_meat",
+      "name": "cooked meat",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "filling",
+      "name": "filling",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "currants",
+      "name": "currants",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "for_glaze",
+      "name": "for glaze",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cold_kvas",
+      "name": "cold kvas",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sriracha_or_prik_nam_pla",
+      "name": "sriracha or prik nam pla",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "finely_sliced",
+      "name": "finely sliced",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "panang_curry_paste",
+      "name": "panang curry paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "torn",
+      "name": "torn",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "beaten",
+      "name": "beaten",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nam_prik_pao_thai_chili_jam",
+      "name": "nam prik pao thai chili jam",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "preserved_radish_chai_poh",
+      "name": "preserved radish chai poh",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "canned_bamboo_shoots",
+      "name": "canned bamboo shoots",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_gaeng_panang_neua",
+      "name": "foundation of gaeng panang neua",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_khao_soi_gai",
+      "name": "foundation of khao soi gai",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_tub_tim_grob",
+      "name": "foundation of tub tim grob",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_bua_loi",
+      "name": "foundation of bua loi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_sangkaya_fak_thong",
+      "name": "foundation of sangkaya fak thong",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_kluay_tod",
+      "name": "foundation of kluay tod",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "youtiao_qu_y",
+      "name": "youtiao qu y",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "n_c_ch_m",
+      "name": "n c ch m",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "ch_l_a",
+      "name": "ch l a",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_b_nh_m_p_la",
+      "name": "foundation of b nh m p la",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_ch_o",
+      "name": "foundation of ch o",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "caramel_sauce_n_c_m_u",
+      "name": "caramel sauce n c m u",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "warm_n_c_ch_m",
+      "name": "warm n c ch m",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "m_m_ru_c",
+      "name": "m m ru c",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "annatto_oil",
+      "name": "annatto oil",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "tapioca_noodles",
+      "name": "tapioca noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "jalape_o_or_bird_s_eye_chili",
+      "name": "jalape o or bird s eye chili",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nuoc_cham",
+      "name": "nuoc cham",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "catfish_steaks",
+      "name": "catfish steaks",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_th_t_kho_t_u",
+      "name": "foundation of th t kho t u",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_l_u_th_i",
+      "name": "foundation of l u th i",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "liver_p_t",
+      "name": "liver p t",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "snakehead_fish_or_catfish",
+      "name": "snakehead fish or catfish",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "vietnamese_baguettes_banh_mi",
+      "name": "vietnamese baguettes banh mi",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "jalapeno_or_fresno_chilies",
+      "name": "jalapeno or fresno chilies",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "nuoc_cham_dipping_sauce",
+      "name": "nuoc cham dipping sauce",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "sa_te_chili_paste",
+      "name": "sa te chili paste",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "cao_lau_noodles",
+      "name": "cao lau noodles",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "red_adzuki_beans",
+      "name": "red adzuki beans",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
+    {
+      "slug": "foundation_of_ch_ba_m_u",
+      "name": "foundation of ch ba m u",
+      "category": "misc",
+      "file": "src/data/ingredients/misc/recipeCoverageIngredients.ts",
+      "score": 10,
+      "scorePct": 71,
+      "missing": [
+        "Qualities array (≥3)",
+        "Nutrition (calories + macros)",
+        "Nutrition (vitamins + minerals)"
+      ]
+    },
     {
       "slug": "chervil",
       "name": "Chervil",

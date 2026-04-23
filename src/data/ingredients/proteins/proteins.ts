@@ -11,8 +11,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 large (50g)",
@@ -43,8 +43,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz cooked (85g)",
@@ -75,8 +75,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -107,8 +107,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 large (50g)",
@@ -138,8 +138,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz cooked (85g)",
@@ -168,8 +168,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -198,8 +198,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -230,8 +230,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -253,15 +253,15 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   soybeans: {
-      description: "A protein-rich ingredient, soybeans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "Soybeans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "soybeans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup (86g)",
@@ -290,8 +290,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup (126g)",
@@ -328,8 +328,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 piece (25g)",
@@ -358,8 +358,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 piece (30g)",
@@ -388,8 +388,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 large (50g)",
@@ -418,8 +418,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "spices",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["Taurus", "Libra", "Sagittarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 bean (5g)",
@@ -448,8 +448,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -478,8 +478,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -508,8 +508,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -538,8 +538,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -568,8 +568,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
-      favorableZodiac: ["Leo", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "aries"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 yolk (17g)",
@@ -598,8 +598,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -621,7 +621,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   white_beans: {
-      description: "A protein-rich ingredient, white beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "White Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "white beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "fiber-rich"],
@@ -629,8 +629,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "legumes",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (90g)",
@@ -660,8 +660,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "legumes",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Virgo", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (100g)",
@@ -691,8 +691,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "legumes",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Pluto"],
-      favorableZodiac: ["Capricorn", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (100g)",
@@ -714,7 +714,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   kidney_beans: {
-      description: "A protein-rich ingredient, kidney beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "Kidney Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "kidney beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "robust"],
@@ -722,8 +722,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "legumes",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (88g)",
@@ -752,8 +752,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 large (50g)",
@@ -775,15 +775,15 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   parmigiano_reggiano: {
-      description: "A protein-rich ingredient, parmigiano reggiano provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "Parmigiano-Reggiano is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "Parmigiano-Reggiano",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "savory", "nutritious"],
     category: "dairy",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Capricorn", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -812,8 +812,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -842,8 +842,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -872,8 +872,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -902,8 +902,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -932,8 +932,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (104g)",
@@ -955,7 +955,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   fava_beans: {
-      description: "A protein-rich ingredient, fava beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "Fava Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "fava beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -963,7 +963,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "legumes",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus"],
+      favorableZodiac: ["cancer", "taurus"],
       seasonalAffinity: ["spring"],
     },
     nutritionalProfile: {
@@ -994,8 +994,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "legumes",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Virgo", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (100g)",
@@ -1024,8 +1024,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "grains",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (85g)",
@@ -1047,7 +1047,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   white_fish: {
-      description: "A protein-rich ingredient, white fish provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "White Fish is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "white fish",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "protein-rich", "versatile"],
@@ -1055,8 +1055,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "seafood",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -1078,14 +1078,14 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   long_beans: {
-      description: "A protein-rich ingredient, long beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "Long Beans is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "long beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["crunchy", "fresh", "light"],
     category: "vegetables",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Virgo"],
+      favorableZodiac: ["cancer", "virgo"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -1108,7 +1108,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   red_beans: {
-      description: "A protein-rich ingredient, red beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "Red Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "red beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
@@ -1116,8 +1116,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "legumes",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (90g)",
@@ -1146,8 +1146,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "100g",
@@ -1176,8 +1176,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -1206,8 +1206,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (18g)",
@@ -1236,8 +1236,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -1266,8 +1266,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -1296,8 +1296,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     category: "proteins",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -1319,7 +1319,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, 1-3 days fresh; freeze for longer.", notes: "Thaw in refrigerator — never at room temperature." }
 },
   mung_beans: {
-      description: "A protein-rich ingredient, mung beans provides complete or complementary amino acids along with fat, minerals, and umami depth. Cooking method determines texture: dry-heat for browning, moist-heat for tenderness.",
+      description: "Mung Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "mung beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "cooling", "nutritious"],
@@ -1327,8 +1327,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     subcategory: "legumes",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (100g)",

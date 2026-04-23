@@ -12,7 +12,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -44,7 +44,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -74,7 +74,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -104,7 +104,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -134,7 +134,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -164,7 +164,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -194,7 +194,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -224,7 +224,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -256,7 +256,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -288,7 +288,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -318,7 +318,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -349,7 +349,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -382,7 +382,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -414,7 +414,7 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {

@@ -1,0 +1,152 @@
+[
+  {
+    "id": "cucumber-agua-fresca",
+    "name": "Cucumber Agua Fresca",
+    "title": "CUCUMBER AGUA FRESCA",
+    "description": "A deeply refreshing, cooling elixir that harnesses the watery essence of cucumber and the bright, volatile acidity of lime to soothe the spirit. Perfect for intense summer heat, this beverage restores thermodynamic equilibrium through its cooling properties.",
+    "yield_amount": "7 cups",
+    "prepTime": "10 minutes",
+    "cookTime": "0 minutes",
+    "totalTime": "10 minutes",
+    "elementalProperties": {
+      "Fire": 0.05,
+      "Water": 0.80,
+      "Earth": 0.10,
+      "Air": 0.05
+    },
+    "ingredients": [
+      "6 English cucumbers with skin (12 ounces each), seeded and cut into 1-inch pieces",
+      "1 cup lime juice (approximately 6 limes)",
+      "2 cups mint leaves (approximately 1/2 ounce)",
+      "3 cups water",
+      "1/4 cup plus one tablespoon agave",
+      "2 limes, sliced for garnish"
+    ],
+    "instructions": [
+      "Combine cucumbers, lime juice, mint, water, and agave in blender and puree until smooth.",
+      "Strain puree through sieve and serve in glasses with slice of lime."
+    ],
+    "categories": [
+      "Beverage",
+      "Non-Alcoholic",
+      "Vegan"
+    ],
+    "cuisine": "Mexican",
+    "season": [
+      "summer",
+      "spring"
+    ]
+  },
+  {
+    "id": "pomegranate-blueberry-ginger-elixir",
+    "name": "Pomegranate, Blueberry, and Ginger Elixir",
+    "title": "POMEGRANATE, BLUEBERRY, AND GINGER ELIXIR",
+    "description": "A vibrant, antioxidant-rich tonic balancing the earthy sweetness of dark berries with the fiery, kinetic bite of fresh ginger. This intensely restorative elixir promotes energetic circulation and grounds the body while stimulating the senses.",
+    "yield_amount": "Approximately eight 1-cup servings",
+    "prepTime": "5 minutes",
+    "cookTime": "0 minutes",
+    "totalTime": "5 minutes",
+    "elementalProperties": {
+      "Fire": 0.25,
+      "Water": 0.50,
+      "Earth": 0.20,
+      "Air": 0.05
+    },
+    "ingredients": [
+      "4 cups pomegranate juice",
+      "1 pint blueberries, washed and stemmed",
+      "1/4 cup ginger juice (approximately 3-inch piece)",
+      "1 cup filtered water",
+      "2 tablespoons agave"
+    ],
+    "instructions": [
+      "Combine pomegranate juice, blueberries, ginger juice, and agave in VitaMix and puree. Do not strain. Serve over ice."
+    ],
+    "categories": [
+      "Beverage",
+      "Non-Alcoholic",
+      "Vegan"
+    ],
+    "cuisine": "Fusion",
+    "season": [
+      "autumn",
+      "winter"
+    ]
+  },
+  {
+    "id": "hibiscus-mint-cooler",
+    "name": "Hibiscus-Mint Cooler",
+    "title": "HIBISCUS-MINT COOLER",
+    "description": "A visually striking, ruby-red infusion uniting the tart, fiery nature of hibiscus flowers with the crisp, ethereal cooling effect of fresh mint. This harmonizing cooler acts as a powerful botanical reset during transitional seasons.",
+    "yield_amount": "16 8-ounce servings",
+    "prepTime": "15 minutes",
+    "cookTime": "20 minutes",
+    "totalTime": "35 minutes",
+    "elementalProperties": {
+      "Fire": 0.30,
+      "Water": 0.60,
+      "Earth": 0.05,
+      "Air": 0.05
+    },
+    "ingredients": [
+      "1 gallon water",
+      "3/4 cup (1 1/2 ounces) hibiscus tea leaves",
+      "1/2 cup agave",
+      "1 ounce of mint"
+    ],
+    "instructions": [
+      "Combine water and hibiscus tea in stockpot. Bring to boil, turn off tea, and steep for 20 minutes. Chill tea in ice bath.",
+      "Combine agave and mint leaves in suribachi with 2 cups of cooled tea. Muddle (crush) mint leaves with agave and tea using surikogi (pestle) until well combined.",
+      "Add mint mixture to remaining tea and strain.",
+      "Serve over ice and garnish with mint sprig."
+    ],
+    "categories": [
+      "Beverage",
+      "Non-Alcoholic",
+      "Vegan"
+    ],
+    "cuisine": "Mexican",
+    "season": [
+      "summer"
+    ]
+  },
+  {
+    "id": "fresh-herb-dressing",
+    "name": "Fresh Herb Dressing",
+    "title": "FRESH HERB DRESSING",
+    "description": "An aromatic, emulsified suspension that merges the earthy groundedness of mustard and shallots with the bright, elevating airiness of fresh basil, tarragon, and dill. This versatile dressing transforms raw vegetables by aligning their elemental profiles.",
+    "yield_amount": "Six 2-tablespoon servings",
+    "prepTime": "10 minutes",
+    "cookTime": "10 minutes",
+    "totalTime": "20 minutes",
+    "elementalProperties": {
+      "Fire": 0.15,
+      "Water": 0.30,
+      "Earth": 0.35,
+      "Air": 0.20
+    },
+    "ingredients": [
+      "2 cups vegetable stock",
+      "2 tablespoons minced shallots",
+      "1 tablespoon extra-virgin olive oil",
+      "2 teaspoons prepared mustard",
+      "2 tablespoons orange juice",
+      "1-1 1/2 tablespoons rice syrup",
+      "2 tablespoons chopped fresh basil, tarragon, or dill"
+    ],
+    "instructions": [
+      "In small sauce pan, reduce stock to 6 tablespoons and set aside to cool.",
+      "Combine stock with shallots, olive oil, mustard, orange juice, rice syrup and herbs in blender and puree until emulsified."
+    ],
+    "categories": [
+      "Dressing",
+      "Vegan",
+      "Gluten-Free"
+    ],
+    "cuisine": "American",
+    "season": [
+      "spring",
+      "summer"
+    ]
+  }
+]

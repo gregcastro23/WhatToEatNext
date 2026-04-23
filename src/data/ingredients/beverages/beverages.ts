@@ -17,10 +17,10 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.85 },
     qualities: ["tangy", "acidic", "emulsified", "bright", "savory"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Mercury"],
-      favorableZodiac: ["Aries", "Gemini", "Sagittarius"],
+      favorableZodiac: ["aries", "gemini", "sagittarius"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -58,11 +58,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.60 },
     qualities: ["briny", "savory", "umami-rich", "oceanic", "mineral"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -99,10 +99,10 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.70 },
     qualities: ["crisp", "acidic", "fruity", "delicate", "aromatic"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Libra", "Virgo", "Gemini"],
+      favorableZodiac: ["libra", "virgo", "gemini"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -140,11 +140,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.80 },
     qualities: ["robust", "tannic", "full-bodied", "complex", "warming"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mars"],
-      favorableZodiac: ["Sagittarius", "Leo", "Scorpio"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["sagittarius", "leo", "scorpio"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "5 fl oz (148ml)",
@@ -181,11 +181,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 0.55 },
     qualities: ["savory", "nourishing", "gelatinous", "hearty", "comforting"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Capricorn", "Taurus"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["cancer", "capricorn", "taurus"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -222,11 +222,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: -0.10, forceMagnitude: 0.30 },
     qualities: ["neutral", "cleansing", "hydrating", "pure", "universal-solvent"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -263,11 +263,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.00, forceMagnitude: 1.40 },
     qualities: ["alkaline", "leavening", "reactive", "tenderizing", "odor-neutralizing"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Uranus"],
-      favorableZodiac: ["Capricorn", "Aquarius", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "aquarius", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (4.6g)",
@@ -291,7 +291,7 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   coffee: {
-      description: "A liquid consumable, coffee functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
+      description: "Coffee is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
     name: "coffee",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.1, Air: 0.3 },
     scaledElemental: { Fire: 0.3, Water: 0.3, Earth: 0.1, Air: 0.3 },
@@ -304,11 +304,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.25, forceMagnitude: 1.20 },
     qualities: ["bitter", "stimulating", "roasted", "bold", "aromatic"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "leo", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup brewed (240ml)",
@@ -345,10 +345,10 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.03, forceMagnitude: 0.65 },
     qualities: ["dry", "mineral", "crisp", "clean", "bright"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Virgo", "Libra", "Aquarius"],
+      favorableZodiac: ["virgo", "libra", "aquarius"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -386,11 +386,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.06, forceMagnitude: 0.90 },
     qualities: ["sharp", "acidic", "pungent", "preserving", "clarifying"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Mercury"],
-      favorableZodiac: ["Aries", "Virgo", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "virgo", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15ml)",
@@ -414,7 +414,7 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   tea_bags: {
-      description: "A liquid consumable, tea bags functions as hydration, flavor carrier, or culinary ingredient. Temperature, dilution, and accompaniment dramatically change its sensory profile.",
+      description: "Tea Bags is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
     name: "tea bags",
     elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.1, Air: 0.4 },
     scaledElemental: { Fire: 0.1, Water: 0.4, Earth: 0.1, Air: 0.4 },
@@ -427,11 +427,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.75 },
     qualities: ["soothing", "aromatic", "astringent", "warming", "antioxidant-rich"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Gemini", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "gemini", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup brewed (240ml)",
@@ -468,10 +468,10 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: -0.08, forceMagnitude: 0.50 },
     qualities: ["fragrant", "floral", "delicate", "cooling", "ethereal"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Neptune"],
-      favorableZodiac: ["Libra", "Pisces", "Taurus"],
+      favorableZodiac: ["libra", "pisces", "taurus"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -509,11 +509,11 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
     },
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.45 },
     qualities: ["crisp", "mild", "starchy", "refreshing", "crunchy"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Virgo"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["cancer", "taurus", "virgo"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1/2 cup sliced (62g)",

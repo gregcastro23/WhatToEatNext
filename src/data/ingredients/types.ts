@@ -1,9 +1,15 @@
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
+import type {
+  Planet as PlanetName,
+  ZodiacSignType,
+  Season,
+  LunarPhase,
+  CuisineType
+} from "@/types/constants";
 
 // Re-export ElementalProperties to fix TS2459 errors
-export type { ElementalProperties };
-export type { AlchemicalProperties };
+export type { ElementalProperties, AlchemicalProperties };
 export type IngredientCategory =
   | "culinary_herb"
   | "spice"
@@ -14,39 +20,46 @@ export type IngredientCategory =
   | "dairy"
   | "oil"
   | "vinegar"
-  | "seasoning";
+  | "seasoning"
+  | "misc"
+  | "beverage"
+  | "sweetener"
+  | "preserved"
+  | "aromatic_base"
+  | "nut_seed"
+  | "fungi";
 // New interface for sensory profiles
 export interface SensoryProfile {
   taste:
-    | {
-        sweet: number;
-        salty: number;
-        sour: number;
-        bitter: number;
-        umami: number;
-        spicy: number;
-      }
-    | Record<string, number>;
+  | {
+    sweet: number;
+    salty: number;
+    sour: number;
+    bitter: number;
+    umami: number;
+    spicy: number;
+  }
+  | Record<string, number>;
   aroma:
-    | {
-        floral: number;
-        fruity: number;
-        herbal: number;
-        spicy: number;
-        earthy: number;
-        woody: number;
-      }
-    | Record<string, number>;
+  | {
+    floral: number;
+    fruity: number;
+    herbal: number;
+    spicy: number;
+    earthy: number;
+    woody: number;
+  }
+  | Record<string, number>;
   texture:
-    | {
-        crisp: number;
-        tender: number;
-        creamy: number;
-        chewy: number;
-        crunchy: number;
-        silky: number;
-      }
-    | Record<string, number>;
+  | {
+    crisp: number;
+    tender: number;
+    creamy: number;
+    chewy: number;
+    crunchy: number;
+    silky: number;
+  }
+  | Record<string, number>;
 }
 // New interface for cooking methods
 export interface CookingMethod {
@@ -169,11 +182,11 @@ export interface Ingredient extends BaseIngredient {
     container?: string;
     duration: string;
     temperature?:
-      | string
-      | {
-          fahrenheit: number;
-          celsius: number;
-        };
+    | string
+    | {
+      fahrenheit: number;
+      celsius: number;
+    };
     notes?: string;
   };
   safetyThresholds?: {
@@ -205,6 +218,13 @@ export const _VALID_CATEGORIES: IngredientCategory[] = [
   "oil",
   "vinegar",
   "seasoning",
+  "misc",
+  "beverage",
+  "sweetener",
+  "preserved",
+  "aromatic_base",
+  "nut_seed",
+  "fungi"
 ];
 // Improved subcategories
 export type VegetableSubcategory =
@@ -224,6 +244,12 @@ export type ProteinSubcategory =
 export type SeasoningSubcategory = "salt" | "pepper" | "aromatic" | "blend";
 export type OilSubcategory = "cooking" | "finishing" | "infused";
 export type VinegarSubcategory = "wine" | "fruit" | "grain" | "specialty";
+export type FruitSubcategory = "citrus" | "berry" | "stone" | "tropical" | "melon" | "pome";
+export type DairySubcategory = "milk" | "cheese" | "butter" | "cream" | "cultured";
+export type GrainSubcategory = "wheat" | "rice" | "corn" | "oat" | "pseudo_cereal";
+export type NutSeedSubcategory = "nut" | "seed";
+export type MiscSubcategory = "thickener" | "binding_agent" | "preservative" | "leavening";
+export type BaseSubcategory = "mirepoix" | "sofrito" | "bouquet_garni" | "curry_paste" | "stock" | "aromatic_blend";
 // Updated ThermodynamicProperties interface based on the FoodAlchemySystem
 export interface ThermodynamicProperties {
   heat: number;
@@ -244,35 +270,75 @@ export interface IngredientProfile {
 }
 export interface IngredientMapping {
   name: string;
+  provenance?: "core" | "generated" | "manual";
   elementalProperties: ElementalProperties;
   astrologicalProfile?: {
-    rulingPlanets?: string[];
-    favorableZodiac?: any[];
-    seasonalAffinity?: string[];
+    rulingPlanets?: PlanetName[];
+    favorableZodiac?: ZodiacSignType[];
+    seasonalAffinity?: Season[];
     elementalAffinity?:
-      | string
-      | {
-          base: string;
-          secondary?: string;
-          decanModifiers?: {
-            first?: { element: string; planet: string; influence?: number };
-            second?: { element: string; planet: string; influence?: number };
-            third?: { element: string; planet: string; influence?: number };
-          };
-        };
-    lunarPhaseModifiers?: Record<string, unknown>;
+    | string
+    | {
+      base: string;
+      secondary?: string;
+      decanModifiers?: {
+        first?: { element: string; planet: PlanetName; influence?: number };
+        second?: { element: string; planet: PlanetName; influence?: number };
+        third?: { element: string; planet: PlanetName; influence?: number };
+      };
+    };
+    lunarPhaseModifiers?: Partial<Record<LunarPhase, unknown>>;
     aspectEnhancers?: string[];
   };
   qualities?: string[];
-  origin?: string[];
-  category?: string;
-  subCategory?: string;
+  origin?: string[]; // Geographical origins (e.g. "Mexico")
+  category?: IngredientCategory;
+  subCategory?: VegetableSubcategory
+  | ProteinSubcategory
+  | SeasoningSubcategory
+  | OilSubcategory
+  | VinegarSubcategory
+  | FruitSubcategory
+  | DairySubcategory
+  | GrainSubcategory
+  | NutSeedSubcategory
+  | MiscSubcategory
+  | BaseSubcategory
+  | string;
+  description?: string;
+  aliases?: string[];
+  compositeElements?: string[]; // Used strictly for 'aromatic_base' / composite ingredients
+  alchemicalProperties?: AlchemicalProperties;
+  scaledElemental?: ElementalProperties;
+  quantityBase?: { amount: number; unit: string };
+  kineticsImpact?: { thermalDirection: number; forceMagnitude: number };
+  thermodynamicProperties?: ThermodynamicProperties;
+  smokePoint?: {
+    celsius: number;
+    fahrenheit: number;
+  };
+  potency?: number;
+  heatLevel?: number;
+  safetyThresholds?: {
+    minimum?: { fahrenheit: number; celsius: number };
+    maximum?: { fahrenheit: number; celsius: number };
+    notes?: string;
+  };
+  pairingRecommendations?: {
+    complementary: string[];
+    contrasting: string[];
+    toAvoid?: string[];
+  };
+  elementalTransformation?: {
+    whenCooked: Partial<ElementalProperties>;
+    whenFermented?: Partial<ElementalProperties>;
+    whenDried?: Partial<ElementalProperties>;
+  };
   varieties?: Record<string, unknown>;
   culinaryApplications?: Record<string, unknown>;
-  seasonalAdjustments?: Record<string, unknown>;
+  seasonalAdjustments?: Partial<Record<Season, unknown>>;
   regionalPreparations?: Record<string, unknown>;
   preparation?: Record<string, unknown>;
   storage?: Record<string, unknown>;
-  // Allow additional properties
   [key: string]: unknown;
 }

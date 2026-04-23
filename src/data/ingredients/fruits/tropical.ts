@@ -169,7 +169,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days refrigerated",
       notes: "Ripe when aromatic at base",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Pineapple is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   papaya: {
       description: "A large, tropical berry (*Carica papaya*) featuring vibrant orange flesh and a central cavity filled with peppery, edible black seeds. It contains papain, a powerful proteolytic enzyme used globally as a meat tenderizer, and offers a sweet, slightly musky, and floral flavor.",
@@ -241,7 +242,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days refrigerated",
       notes: "Ripe when mostly yellow with slight give",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Papaya is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   passion_fruit: {
       description: "The small, tough-skinned fruit of a climbing vine (*Passiflora edulis*), filled with a gelatinous, intensely aromatic, and sharply acidic yellow pulp containing crunchy black seeds. Its explosive, tropical tartness makes it an unparalleled flavor enhancer for sweet meringues, curds, and cocktails.",
@@ -320,7 +322,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "1 week, 2-3 weeks refrigerated",
       notes: "Ripe when wrinkled",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Passion Fruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   guava: {
       description: "A highly aromatic tropical fruit (*Psidium guajava*) with an edible rind, ranging in interior color from white to deep pink. It provides an intense, perfumed sweetness and a distinctively gritty texture from its small, edible seeds, making it a favorite for purees, jams, and Latin American pastries (pastelitos).",
@@ -392,7 +395,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days refrigerated",
       notes: "Extremely fragrant when ripe",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Guava is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   dragon_fruit: {
       description: "Also known as pitaya (*Selenicereus undatus*), this striking fruit of a cactus features bright pink or yellow skin with green, leafy scales. Despite its dramatic appearance, its white or magenta flesh offers a very mild, subtly sweet flavor—similar to a cross between a pear and a kiwi—with a crunchy texture from its tiny black seeds.",
@@ -464,7 +468,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days",
       notes: "Very mild flavor, stunning appearance",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dragon Fruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   lychee: {
       description: "A small tropical fruit (*Litchi chinensis*) native to China, encased in a rough, pinkish-red rind. Peeling the rind reveals a translucent, pearl-white flesh that is incredibly juicy, crisp, and boasts a profound, floral sweetness reminiscent of rosewater and muscat grapes.",
@@ -536,7 +541,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Remove from shell just before eating",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lychee is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   rambutan: {
       description: "A tropical fruit (*Nephelium lappaceum*) covered in a striking, hairy, bright red rind. The translucent white flesh inside is similar to a lychee but is generally sweeter, creamier, and slightly less acidic, making it a highly refreshing raw snack.",
@@ -608,7 +614,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days",
       notes: "Similar to lychee but sweeter",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Rambutan is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   longan: {
       description: "A small tropical fruit (*Dimocarpus longan*) closely related to the lychee, often referred to as 'dragon eye' due to the appearance of its translucent flesh encasing a single black seed. It offers a deeply sweet, slightly musky, and floral flavor profile that is less acidic and more earthy than a lychee.",
@@ -680,7 +687,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days fresh",
       notes: "Often sold dried or in syrup",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Longan is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   starfruit: {
       description: "Also known as carambola (*Averrhoa carambola*), a uniquely shaped tropical fruit that forms a perfect five-pointed star when sliced horizontally. Its crisp, watery texture and mild, sweet-tart flavor (reminiscent of green apples and citrus) make it a beautiful, refreshing garnish or addition to fruit salads.",
@@ -752,7 +760,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days refrigerated",
       notes: "Stunning star shape when sliced",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Starfruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   persimmon: {
       description: "A vibrant orange fruit (*Diospyros kaki*) that must be fully understood before eating. The Hachiya variety is highly astringent (due to tannins) until it becomes entirely soft and jelly-like, while the Fuyu variety is non-astringent, crisp like an apple, and mildly sweet with notes of honey and cinnamon.",
@@ -824,7 +833,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days when ripe",
       notes: "Must be fully ripe to avoid astringency",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Persimmon is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   kiwi: {
       description: "A small, fuzzy brown fruit (*Actinidia deliciosa*) harboring bright green flesh and tiny, edible black seeds. It delivers a uniquely tart, sweet flavor—reminiscent of strawberries and melon—and, like pineapple, contains actinidain, an enzyme that tenderizes meat and prevents gelatin from setting.",
@@ -896,7 +906,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days refrigerated",
       notes: "Ripe when yields to gentle pressure",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Kiwi is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   jackfruit: {
       description: "The largest tree-borne fruit in the world (*Artocarpus heterophyllus*). When ripe, the golden bulbs are intensely sweet and taste like a blend of mango, banana, and pineapple; when unripe (green), the flesh is neutral, stringy, and fibrous, acting as an incredibly popular vegan substitute for pulled pork or braised chicken.",
@@ -968,7 +979,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days cut and refrigerated",
       notes: "Massive fruit, often sold pre-cut or canned",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Jackfruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   durian: {
       description: "A massive, spiky tropical fruit native to Southeast Asia, famously known for its overpowering, highly divisive odor (often compared to rotting onions or raw sewage). However, the custard-like flesh inside is incredibly rich, buttery, and profoundly sweet, tasting of almond, caramel, and complex savory notes.",
@@ -1040,7 +1052,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days",
       notes: "Extremely pungent smell, banned in some hotels",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Durian is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   coconut: {
       description: "A large, hard-shelled seed (*Cocos nucifera*) containing sweet, clear water and rich, fatty white meat. Its high concentration of saturated lauric acid gives coconut milk, cream, and oil a uniquely rich, tropical flavor that forms the creamy base of many Southeast Asian and Indian curries.",
@@ -1121,7 +1134,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "months whole, days opened",
       notes: "Incredibly versatile - water, milk, meat, oil all used",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Coconut is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

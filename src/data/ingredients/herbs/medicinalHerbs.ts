@@ -9,7 +9,7 @@ const rawMedicinalHerbs = {
     alchemicalProperties: { Spirit: 0.32, Essence: 0.21, Matter: 0.24, Substance: 0.23 },
     astrologicalProfile: {
       planetaryRuler: "Mars",
-      zodiacRuler: "Aries",
+      zodiacRuler: "aries",
       element: "Fire",
       energyType: "Protective",
       lunarPhaseModifiers: {},
@@ -335,7 +335,7 @@ const rawMedicinalHerbs = {
     alchemicalProperties: { Spirit: 0.16, Essence: 0.26, Matter: 0.29, Substance: 0.29 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
     qualities: ["antiviral", "immune-supporting", "cooling"],
@@ -373,7 +373,7 @@ const rawMedicinalHerbs = {
     alchemicalProperties: { Spirit: 0.20, Essence: 0.29, Matter: 0.25, Substance: 0.26 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Pisces"],
+      favorableZodiac: ["cancer", "taurus", "pisces"],
       seasonalAffinity: ["summer"],
     },
     qualities: ["calming", "soothing", "cooling"],

@@ -72,7 +72,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2 weeks whole, 3-5 days arils",
       notes: "Arils freeze beautifully",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Pomegranate is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   fig: {
       description: "A unique, inverted flower structure (*Ficus carica*) containing hundreds of tiny seeds within a soft, fleshy exterior. Fresh figs are incredibly delicate and offer a profound, honeyed sweetness with an earthy, jammy texture that pairs flawlessly with salty, cured meats (like prosciutto) or sharp blue cheeses.",
@@ -150,7 +151,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days ripe",
       notes: "Very delicate when ripe",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Fig is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   grape: {
       description: "Small, spherical berries (*Vitis vinifera*) that grow in clusters, offering a crisp snap and a burst of sweet-tart juice. With a high ratio of skin-to-flesh, they provide complex tannins and sugars that make them perfect for eating raw, roasting to concentrate their flavor, or fermenting into wine.",
@@ -222,7 +224,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 weeks",
       notes: "Store unwashed in perforated bag",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Grape is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   date: {
       description: "The profoundly sweet, chewy fruit of the date palm tree (*Phoenix dactylifera*), typically consumed in its dried or semi-dried state (like the Medjool variety). Consisting of nearly 80% sugar, they provide deep, complex notes of caramel, toffee, and molasses, acting as a powerful natural sweetener and binder in raw desserts.",
@@ -294,7 +297,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "months",
       notes: "Natural preservative properties",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Date is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   kiwano: {
       description: "A sweet edible plant product, kiwano delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
@@ -366,7 +370,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "several months",
       notes: "Cucumber-lime flavor, gel-like interior",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Kiwano (Horned Melon) is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   feijoa: {
       description: "A sweet edible plant product, feijoa delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
@@ -438,7 +443,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days refrigerated",
       notes: "Tastes like pineapple-guava-mint blend",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Feijoa (Pineapple Guava) is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   tamarind: {
       description: "The sticky, highly acidic pulp extracted from the seed pods of the *Tamarindus indica* tree. It provides a profoundly complex, fruity, and intensely tart flavor profile that acts as the primary souring agent in Pad Thai, Indian chutneys, and Worcestershire sauce.",
@@ -510,7 +516,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "months in pod, indefinite as paste",
       notes: "Essential in many cuisines",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Tamarind is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   loquat_exotic: {
       description: "A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.\n\n**Selection & Storage:** They are highly delicate and bruise easily. Choose bright orange fruit that gives slightly to pressure. Store in the refrigerator and eat quickly.",
@@ -582,7 +589,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Very perishable, best fresh",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Loquat is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   cactus_pear: {
       description: "A delicate pome fruit (*Pyrus communis*) that ripens from the inside out, transforming from crunchy to buttery-soft. Its high sugar content and delicate floral notes make it excellent for eating raw, poaching in wine, or pairing with sharp blue cheeses.\n\n**Selection & Storage:** Purchase pears while still firm; they are ripe when the flesh yields slightly to gentle pressure at the stem end. Ripen at room temperature, then transfer to the refrigerator to pause the ripening process.",
@@ -654,7 +662,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Handle carefully - small spines remain",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cactus Pear (Prickly Pear) is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   quince_exotic: {
       description: "An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).\n\n**Selection & Storage:** Choose firm, bright yellow fruit that emits a powerful, floral, and rosy aroma. Store at room temperature for several days, or in the refrigerator for up to a month.",
@@ -726,7 +735,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 months",
       notes: "Extremely aromatic, perfumes room",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Quince is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   passion_fruit_exotic: {
       description: "A sweet edible plant product, passion fruit exotic delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
@@ -798,7 +808,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "1 week, 2-3 weeks refrigerated",
       notes: "Ripe when wrinkled",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Passion Fruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   custard_apple: {
       description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.\n\n**Selection & Storage:** Look for firm apples with vibrant coloring and smooth skin that feel heavy for their size. Store them in the crisper drawer of the refrigerator to maintain their crispness, as they soften ten times faster at room temperature.",
@@ -870,7 +881,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days ripe",
       notes: "Tastes like banana-pineapple-vanilla blend",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Custard Apple (Cherimoya) is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   sapote: {
       description: "A sweet edible plant product, sapote delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
@@ -942,7 +954,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days ripe",
       notes: "Sweet potato-pumpkin flavor",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Sapote (Mamey) is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   plantain: {
       description: "A large, starchy member of the banana family (*Musa paradisiaca*) that is treated strictly as a vegetable. When green, it is hard and starchy, ideal for savory frying (tostones); as it blackens, its starches convert to sugar, becoming incredibly sweet and soft when caramelized (maduros).",
@@ -1014,7 +1027,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days",
       notes: "Green plantains for savory, yellow-black for sweet",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Plantain is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   breadfruit: {
       description: "A massive, starchy, tropical fruit (*Artocarpus altilis*) related to the jackfruit. When unripe and green, its flesh is hard and starchy, tasting remarkably like freshly baked bread or potatoes when roasted; as it ripens, the starches convert to sugar, becoming soft, sweet, and custard-like.",
@@ -1086,7 +1100,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Tastes like fresh bread when cooked",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Breadfruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   cloudberry: {
       description: "A highly prized, rare wild berry (*Rubus chamaemorus*) native to alpine and arctic tundras, resembling an amber-colored raspberry. They possess a completely unique, tart flavor profile reminiscent of baked apples and floral honey, most commonly preserved in jams or served warm over Swedish cheese.",
@@ -1158,7 +1173,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days",
       notes: "Very rare and prized in Nordic countries",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cloudberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   boysenberry: {
       description: "A large, highly perishable aggregate fruit that is a complex cross between a European raspberry, a European blackberry, an American dewberry, and a loganberry. It offers a spectacular balance of sweet and tart flavors with a softer, juicier texture than a standard blackberry, making it unparalleled for jams and pies.",
@@ -1230,7 +1246,8 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days",
       notes: "Raspberry-blackberry-loganberry hybrid",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Boysenberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

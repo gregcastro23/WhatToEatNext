@@ -1,5 +1,13 @@
-import type { ZodiacSignType} from "./alchemy";
-
+import type {
+  ZodiacSignType,
+  CuisineType,
+  Season,
+  SpiceLevel,
+  MealType,
+  CookingMethod,
+  Planet as PlanetName,
+  LunarPhase
+} from "./constants";
 export interface AlchemicalIngredient {
   amount: number;
   unit: string;
@@ -28,18 +36,18 @@ export interface AlchemicalRecipe {
   name: string;
   description: string;
   details: {
-    cuisine: string;
+    cuisine: CuisineType | string;
     prepTimeMinutes: number;
     cookTimeMinutes: number;
     baseServingSize: number;
-    spiceLevel: string;
-    season: string[];
+    spiceLevel: SpiceLevel | string;
+    season: Season[];
   };
   ingredients: AlchemicalIngredient[];
   instructions: string[];
   classifications: {
-    mealType: string[];
-    cookingMethods: string[];
+    mealType: MealType[];
+    cookingMethods: CookingMethod[];
   };
   elementalProperties: {
     Fire: number; // Capitalized to match project interface
@@ -48,9 +56,9 @@ export interface AlchemicalRecipe {
     Air: number;
   };
   astrologicalAffinities: {
-    planets: string[];
+    planets: PlanetName[];
     signs: ZodiacSignType[];
-    lunarPhases: string[];
+    lunarPhases: LunarPhase[];
   };
   alchemicalProperties: RecipeAlchemicalProperties;
   thermodynamicProperties: RecipeThermodynamicProperties;

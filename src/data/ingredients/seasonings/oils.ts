@@ -69,7 +69,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "coconut oil": {
-      description: "A foundational seasoning, coconut oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Coconut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "coconut oil",
     category: "oils",
     elementalProperties: {
@@ -78,7 +78,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 177,
       fahrenheit: 350,
@@ -187,8 +187,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.25, Air: 0.15 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Libra", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "leo"],
+      seasonalAffinity: ["fall"],
     },
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 250, fahrenheit: 482 },
@@ -232,8 +232,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Libra", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "leo"],
+      seasonalAffinity: ["fall"],
     },
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 271, fahrenheit: 520 },
@@ -271,7 +271,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "peanut oil": {
-      description: "A foundational seasoning, peanut oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Peanut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "peanut oil",
     category: "oils",
     elementalProperties: {
@@ -280,7 +280,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 232,
       fahrenheit: 450,
@@ -319,7 +319,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "mustard oil": {
-      description: "A foundational seasoning, mustard oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Mustard Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "mustard oil",
     category: "oils",
     elementalProperties: {
@@ -328,7 +328,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 254,
       fahrenheit: 490,
@@ -354,7 +354,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "walnut oil": {
-      description: "A foundational seasoning, walnut oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Walnut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "walnut oil",
     category: "oils",
     elementalProperties: {
@@ -402,7 +402,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "rice bran oil": {
-      description: "A foundational seasoning, rice bran oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Rice Bran Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "rice bran oil",
     category: "oils",
     elementalProperties: {
@@ -411,7 +411,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 232,
       fahrenheit: 450,
@@ -437,7 +437,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "chili oil": {
-      description: "A foundational seasoning, chili oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Chili Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "chili oil",
     category: "oils",
     elementalProperties: {
@@ -446,7 +446,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 215,
       fahrenheit: 420,
@@ -472,7 +472,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "perilla oil": {
-      description: "A foundational seasoning, perilla oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Perilla Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "perilla oil",
     category: "oils",
     elementalProperties: {
@@ -481,7 +481,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 165,
       fahrenheit: 330,
@@ -507,7 +507,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "camellia oil": {
-      description: "A foundational seasoning, camellia oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Camellia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "camellia oil",
     category: "oils",
     elementalProperties: {
@@ -516,7 +516,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 245,
       fahrenheit: 473,
@@ -542,7 +542,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "grapeseed oil": {
-      description: "A foundational seasoning, grapeseed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Grapeseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "grapeseed oil",
     category: "oils",
     elementalProperties: {
@@ -551,7 +551,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 216,
       fahrenheit: 421,
@@ -591,7 +591,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "macadamia oil": {
-      description: "A foundational seasoning, macadamia oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Macadamia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "macadamia oil",
     category: "oils",
     elementalProperties: {
@@ -600,7 +600,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.4,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 210,
       fahrenheit: 410,
@@ -626,7 +626,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "palm oil": {
-      description: "A foundational seasoning, palm oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Palm Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "palm oil",
     category: "oils",
     elementalProperties: {
@@ -635,7 +635,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.4,
       Air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 235,
       fahrenheit: 455,
@@ -661,7 +661,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "tea seed oil": {
-      description: "A foundational seasoning, tea seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Tea Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "tea seed oil",
     category: "oils",
     elementalProperties: {
@@ -670,7 +670,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 252,
       fahrenheit: 485,
@@ -696,7 +696,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "shiso oil": {
-      description: "A foundational seasoning, shiso oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Shiso Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "shiso oil",
     category: "oils",
     elementalProperties: {
@@ -731,7 +731,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "argan oil": {
-      description: "A foundational seasoning, argan oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Argan Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "argan oil",
     category: "oils",
     elementalProperties: {
@@ -740,7 +740,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.4,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 185,
       fahrenheit: 365,
@@ -766,7 +766,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "hazelnut oil": {
-      description: "A foundational seasoning, hazelnut oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Hazelnut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "hazelnut oil",
     category: "oils",
     elementalProperties: {
@@ -801,7 +801,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "pistachio oil": {
-      description: "A foundational seasoning, pistachio oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Pistachio Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "pistachio oil",
     category: "oils",
     elementalProperties: {
@@ -810,7 +810,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 160,
       fahrenheit: 320,
@@ -836,7 +836,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "hemp seed oil": {
-      description: "A foundational seasoning, hemp seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Hemp Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "hemp seed oil",
     category: "oils",
     elementalProperties: {
@@ -845,7 +845,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 165,
       fahrenheit: 330,
@@ -871,7 +871,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "black seed oil": {
-      description: "A foundational seasoning, black seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Black Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "black seed oil",
     category: "oils",
     elementalProperties: {
@@ -880,7 +880,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 177,
       fahrenheit: 350,
@@ -906,7 +906,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "almond oil": {
-      description: "A foundational seasoning, almond oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Almond Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "almond oil",
     category: "oils",
     elementalProperties: {
@@ -915,7 +915,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 216,
       fahrenheit: 420,
@@ -954,7 +954,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "sunflower oil": {
-      description: "A foundational seasoning, sunflower oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Sunflower Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "sunflower oil",
     category: "oils",
     elementalProperties: {
@@ -963,7 +963,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 232,
       fahrenheit: 450,
@@ -1002,7 +1002,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "safflower oil": {
-      description: "A foundational seasoning, safflower oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Safflower Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "safflower oil",
     category: "oils",
     elementalProperties: {
@@ -1011,7 +1011,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 266,
       fahrenheit: 510,
@@ -1040,7 +1040,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "white truffle oil": {
-      description: "A foundational seasoning, white truffle oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "White Truffle Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "white truffle oil",
     category: "oils",
     elementalProperties: {
@@ -1075,7 +1075,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "flaxseed oil": {
-      description: "A foundational seasoning, flaxseed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Flaxseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "flaxseed oil",
     category: "oils",
     elementalProperties: {
@@ -1084,7 +1084,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 107,
       fahrenheit: 225,
@@ -1123,7 +1123,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "red palm oil": {
-      description: "A foundational seasoning, red palm oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Red Palm Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "red palm oil",
     category: "oils",
     elementalProperties: {
@@ -1132,7 +1132,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.4,
       Air: 0.1,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 235,
       fahrenheit: 455,
@@ -1158,7 +1158,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "roasted pumpkin seed oil": {
-      description: "A foundational seasoning, roasted pumpkin seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Roasted Pumpkin Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "roasted pumpkin seed oil",
     category: "oils",
     elementalProperties: {
@@ -1197,7 +1197,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "mustard seed oil": {
-      description: "A foundational seasoning, mustard seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Mustard Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "mustard seed oil",
     category: "oils",
     elementalProperties: {
@@ -1206,7 +1206,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 254,
       fahrenheit: 490,
@@ -1236,7 +1236,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "babassu oil": {
-      description: "A foundational seasoning, babassu oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Babassu Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "babassu oil",
     category: "oils",
     elementalProperties: {
@@ -1245,7 +1245,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.3,
       Air: 0.2,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 232,
       fahrenheit: 450,
@@ -1275,7 +1275,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "apricot kernel oil": {
-      description: "A foundational seasoning, apricot kernel oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Apricot Kernel Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "apricot kernel oil",
     category: "oils",
     elementalProperties: {
@@ -1284,7 +1284,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 204,
       fahrenheit: 400,
@@ -1310,7 +1310,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "grape seed oil": {
-      description: "A foundational seasoning, grape seed oil shapes the savory backbone of cooking. Used for salt balance, umami depth, or aromatic lift, its placement and timing matter as much as quantity.",
+      description: "Grape Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "grape seed oil",
     category: "oils",
     elementalProperties: {
@@ -1319,7 +1319,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Air: 0.3,
     },
-    seasonality: ["all"],
+    seasonality: ["fall"],
     smokePoint: {
       celsius: 216,
       fahrenheit: 420,

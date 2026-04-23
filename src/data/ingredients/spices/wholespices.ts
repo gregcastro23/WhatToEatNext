@@ -8,8 +8,8 @@ const rawWholeSpices = {
     elementalProperties: { Fire: 0.49, Water: 0.13, Earth: 0.13, Air: 0.25 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn", "Aries"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn", "aries"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["sweet", "licorice-like", "warming"],
     origin: ["China", "Vietnam"],

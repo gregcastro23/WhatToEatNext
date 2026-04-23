@@ -322,8 +322,8 @@ const rawFreshHerbs = {
     category: "meats",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Capricorn", "Scorpio"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["aries", "capricorn", "scorpio"],
+      seasonalAffinity: ["fall", "winter"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -340,7 +340,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Libra", "Virgo"],
+      favorableZodiac: ["taurus", "libra", "virgo"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -358,7 +358,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Libra", "Virgo"],
+      favorableZodiac: ["taurus", "libra", "virgo"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -376,8 +376,8 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mercury"],
-      favorableZodiac: ["Sagittarius", "Gemini", "Virgo"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["sagittarius", "gemini", "virgo"],
+      seasonalAffinity: ["fall", "winter"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -394,7 +394,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Cancer", "Pisces"],
+      favorableZodiac: ["libra", "cancer", "pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -412,8 +412,8 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mercury"],
-      favorableZodiac: ["Sagittarius", "Gemini", "Virgo"],
-      seasonalAffinity: ["spring", "summer", "autumn"],
+      favorableZodiac: ["sagittarius", "gemini", "virgo"],
+      seasonalAffinity: ["spring", "summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -430,8 +430,8 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Apollo"],
-      favorableZodiac: ["Gemini", "Leo", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "leo", "virgo"],
+      seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -448,7 +448,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -466,8 +466,8 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Mercury"],
-      favorableZodiac: ["Aries", "Gemini", "Scorpio"],
-      seasonalAffinity: ["summer", "autumn"],
+      favorableZodiac: ["aries", "gemini", "scorpio"],
+      seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -484,7 +484,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -502,7 +502,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Cancer", "Pisces"],
+      favorableZodiac: ["libra", "cancer", "pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -520,7 +520,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Cancer", "Pisces"],
+      favorableZodiac: ["gemini", "cancer", "pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -530,7 +530,7 @@ const rawFreshHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   bay_leaves: {
-      description: "An aromatic culinary herb, bay leaves contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "Bay Leaves is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "bay leaves",
     // Same profile as bay_leaf (plural form, same ingredient).
     elementalProperties: { Fire: 0.15, Water: 0.10, Earth: 0.35, Air: 0.40 },
@@ -538,8 +538,8 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Apollo"],
-      favorableZodiac: ["Gemini", "Leo", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "leo", "virgo"],
+      seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -556,7 +556,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
-      favorableZodiac: ["Leo", "Aries", "Capricorn"],
+      favorableZodiac: ["leo", "aries", "capricorn"],
       seasonalAffinity: ["year-round"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -574,7 +574,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Cancer", "Pisces"],
+      favorableZodiac: ["libra", "cancer", "pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -592,7 +592,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra", "Virgo"],
+      favorableZodiac: ["gemini", "libra", "virgo"],
       seasonalAffinity: ["summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -610,7 +610,7 @@ const rawFreshHerbs = {
     category: "herbs",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra", "Aquarius"],
+      favorableZodiac: ["gemini", "libra", "aquarius"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { spicy: 0.1, sweet: 0.1, sour: 0.1, bitter: 0.3, salty: 0, umami: 0.1 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },

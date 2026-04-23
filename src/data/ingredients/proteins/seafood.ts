@@ -10,8 +10,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Oily cold-water fish (*Salmo salar*, Atlantic) prized for its rich orange flesh, generous omega-3 fats, and forgiving, flaky texture. Farmed salmon from Norway, Scotland, and Chile supplies most of the world market; wild Atlantic stocks are heavily restricted. Flavor ranges from buttery and mild (farmed) to deeply savory and almost meaty (wild). Essential in everything from Scandinavian cured gravlax to Japanese sushi, French en papillote, and American cedar-plank grilling.",
     regionalOrigins: ["northern_europe", "north_america", "south_america"],
     sustainabilityScore: 6,
-    season: ["spring", "summer", "autumn"],
-    seasonality: ["spring", "summer", "autumn"],
+    season: ["spring", "summer", "fall"],
+    seasonality: ["spring", "summer", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
@@ -19,8 +19,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
 
     // Phase 2: Quantity scaling metadata
@@ -277,8 +277,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Large, fast-swimming pelagic fish (*Thunnus spp.*) with dense, meaty red flesh, frequently compared to beef. Yellowfin (ahi) and bigeye are prized raw for sushi and sashimi; bluefin (the most prized and most endangered) delivers the fattest toro belly cuts; skipjack dominates canning. Sears beautifully with a rare center; overcooks quickly to chalky dryness. Buy only from sources rated Best Choice or Good Alternative by Seafood Watch — some populations are severely overfished.",
     regionalOrigins: ["pacific", "atlantic", "indian_ocean", "mediterranean"],
     sustainabilityScore: 4,
-    season: ["spring", "summer", "autumn"],
-    seasonality: ["spring", "summer", "autumn"],
+    season: ["spring", "summer", "fall"],
+    seasonality: ["spring", "summer", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
@@ -286,8 +286,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.3, Water: 0.4, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
 
     // Phase 2: Quantity scaling metadata
@@ -346,8 +346,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Small decapod crustaceans (*Penaeidae, Pandalidae*) harvested worldwide — the most consumed seafood in the United States. Sweet, briny flesh that turns from translucent grey-blue to opaque pink in seconds. Sold by count-per-pound (U-15 jumbo down to 61/70 small). Prawns are similar and often used interchangeably. Star in shrimp scampi, Thai tom yum, Spanish gambas al ajillo, Cajun étouffée, and Southeast Asian curries.",
     regionalOrigins: ["gulf_of_mexico", "pacific", "atlantic", "southeast_asia"],
     sustainabilityScore: 5,
-    season: ["all"],
-    seasonality: ["spring", "summer", "autumn", "winter"],
+    season: ["fall"],
+    seasonality: ["spring", "summer", "fall", "winter"],
     category: "proteins",
     subCategory: "seafood",
 
@@ -355,8 +355,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
 
     // Phase 2: Quantity scaling metadata
@@ -412,7 +412,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     regionalOrigins: ["north_atlantic", "north_pacific", "iceland", "norway"],
     sustainabilityScore: 6,
     season: ["winter", "spring"],
-    seasonality: ["winter", "spring", "autumn"],
+    seasonality: ["winter", "spring", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
@@ -420,8 +420,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Water: 0.6, Air: 0.2, Earth: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
 
     // Phase 2: Quantity scaling metadata
@@ -477,7 +477,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     regionalOrigins: ["north_pacific", "north_atlantic", "alaska"],
     sustainabilityScore: 7,
     season: ["spring", "summer"],
-    seasonality: ["spring", "summer", "autumn"],
+    seasonality: ["spring", "summer", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
@@ -485,8 +485,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
 
     // Phase 2: Quantity scaling metadata
@@ -542,7 +542,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     regionalOrigins: ["north_atlantic", "pacific", "japan"],
     sustainabilityScore: 7,
     season: ["winter", "spring"],
-    seasonality: ["winter", "spring", "autumn"],
+    seasonality: ["winter", "spring", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
@@ -550,8 +550,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
 
     // Phase 2: Quantity scaling metadata
@@ -606,16 +606,16 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Affordable, fast-growing farmed freshwater fish (*Oreochromis spp.*), the fourth-most-consumed seafood in the U.S. Mild, neutral-flavored white flesh that readily absorbs marinades and sauces. Quality varies dramatically by farm — U.S., Ecuador, and Peru farms rank as Best Choice; some Asian producers are flagged for environmental practices. Best for busy weeknight cooking: pan-fried with lemon and capers, baked with salsa, or battered for fish tacos.",
     regionalOrigins: ["central_america", "south_america", "asia", "africa"],
     sustainabilityScore: 6,
-    season: ["all"],
-    seasonality: ["spring", "summer", "autumn", "winter"],
+    season: ["fall"],
+    seasonality: ["spring", "summer", "fall", "winter"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.5, Air: 0.25, Earth: 0.15, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
 
     quantityBase: { amount: 140, unit: "g" },
@@ -669,15 +669,15 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Freshwater and anadromous salmonids (*Oncorhynchus mykiss* rainbow, *Salvelinus fontinalis* brook, *Salmo trutta* brown) prized for delicate pink-to-red flesh, clean flavor, and small-plate size ideal for whole-fish preparations. Farmed rainbow trout is one of the most sustainable protein choices available. Classic preparations include meunière (brown-butter and lemon), smoked trout with horseradish cream, and almondine. Sweet, mild, less oily than salmon.",
     regionalOrigins: ["north_america", "europe", "global_farmed"],
     sustainabilityScore: 8,
-    season: ["spring", "summer", "autumn"],
-    seasonality: ["spring", "summer", "autumn"],
+    season: ["spring", "summer", "fall"],
+    seasonality: ["spring", "summer", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.55, Earth: 0.2, Air: 0.15, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
       seasonalAffinity: ["spring", "summer"],
     },
 
@@ -732,16 +732,16 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Small, oily schooling fish (*Sardina pilchardus* and related species) prized for their rich flavor, exceptional omega-3 content, and unmatched sustainability — they reproduce quickly and sit low on the food chain. Fresh sardines are a Mediterranean staple grilled with lemon and olive oil; tinned sardines (in olive oil, tomato, or piri-piri) are a pantry superfood. Edible bones add calcium. A genuine case of 'eat more seafood, eat lower on the food chain.'",
     regionalOrigins: ["mediterranean", "atlantic", "portugal", "morocco"],
     sustainabilityScore: 9,
-    season: ["spring", "summer", "autumn"],
-    seasonality: ["spring", "summer", "autumn"],
+    season: ["spring", "summer", "fall"],
+    seasonality: ["spring", "summer", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.5, Fire: 0.2, Earth: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Pisces", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "gemini"],
+      seasonalAffinity: ["fall"],
     },
 
     quantityBase: { amount: 85, unit: "g" },
@@ -795,16 +795,16 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Fast-swimming pelagic fish (*Scomber scombrus* Atlantic, *S. japonicus* chub) with dark, oily flesh and a distinctively rich, pronounced flavor. Among the most omega-3-dense fish available. Atlantic mackerel is a Seafood Watch Best Choice; king mackerel contains high mercury and should be limited. Excellent grilled over high heat, smoked, or cured (Japanese shime saba, Scandinavian soused mackerel). The bold flavor stands up to assertive sauces — mustard, horseradish, gooseberry.",
     regionalOrigins: ["north_atlantic", "pacific", "japan", "scandinavia"],
     sustainabilityScore: 8,
-    season: ["summer", "autumn"],
-    seasonality: ["summer", "autumn"],
+    season: ["summer", "fall"],
+    seasonality: ["summer", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.45, Fire: 0.25, Earth: 0.15, Air: 0.15 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mars"],
-      favorableZodiac: ["Cancer", "Scorpio", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "scorpio", "aries"],
+      seasonalAffinity: ["fall"],
     },
 
     quantityBase: { amount: 140, unit: "g" },
@@ -859,14 +859,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     regionalOrigins: ["chesapeake_bay", "pacific_northwest", "alaska", "southeast_asia"],
     sustainabilityScore: 6,
     season: ["spring", "summer"],
-    seasonality: ["spring", "summer", "autumn"],
+    seasonality: ["spring", "summer", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.55, Earth: 0.2, Air: 0.15, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
-      favorableZodiac: ["Cancer"],
+      favorableZodiac: ["cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
 
@@ -921,15 +921,15 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Large marine crustaceans (*Homarus americanus* American/Maine, *H. gammarus* European, *Panulirus spp.* spiny/rock) prized for firm, sweet, luxurious white tail and claw meat. American lobster from Maine and Atlantic Canada is the gold standard — MSC-certified and abundantly managed. Cooked methods range from the classic New England boil with drawn butter, to grilled split tails, bisque, lobster rolls, and thermidor. Traditionally killed by plunging headfirst into boiling water; some chefs now use the more humane ikejime or rapid-chill methods.",
     regionalOrigins: ["north_atlantic", "maine", "atlantic_canada", "mediterranean"],
     sustainabilityScore: 7,
-    season: ["summer", "autumn"],
-    seasonality: ["summer", "autumn", "winter"],
+    season: ["summer", "fall"],
+    seasonality: ["summer", "fall", "winter"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.5, Fire: 0.2, Earth: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra"],
+      favorableZodiac: ["cancer", "taurus", "libra"],
       seasonalAffinity: ["summer"],
     },
 
@@ -984,16 +984,16 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Dark-shelled bivalve mollusks (*Mytilus edulis* blue, *M. galloprovincialis* Mediterranean) with tender, mildly briny meat. Farmed mussels are among the most sustainable seafood in existence — they feed by filtering water, actually improving marine ecosystems, and require no added feed. Discard any that stay open when tapped before cooking, or stay closed after cooking. Classic moules marinière (white wine, shallots, parsley, butter) cooks in under 5 minutes; Belgian, Italian, Spanish, and Thai traditions all shine.",
     regionalOrigins: ["atlantic_europe", "mediterranean", "pacific_northwest", "new_zealand"],
     sustainabilityScore: 10,
-    season: ["autumn", "winter", "spring"],
-    seasonality: ["autumn", "winter", "spring"],
+    season: ["fall", "winter", "spring"],
+    seasonality: ["fall", "winter", "spring"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces", "Scorpio"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["cancer", "pisces", "scorpio"],
+      seasonalAffinity: ["fall", "winter"],
     },
 
     quantityBase: { amount: 150, unit: "g" },
@@ -1047,16 +1047,16 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       "Cephalopod mollusks (*Loligo spp.*, *Doryteuthis pealeii*) with firm, white flesh and a clean, slightly sweet flavor that turns rubbery if cooked in the awkward middle temperature range. The rule: cook 2 minutes or more than 20 — anything in between is tough. Fried calamari is the universal crowd-pleaser; Mediterranean stuffed squid, Spanish chipirones, Korean ojingeo bokkeum, and Japanese ika sashimi showcase the range. Ink is a prized culinary ingredient for pasta and risotto nero.",
     regionalOrigins: ["mediterranean", "pacific", "atlantic", "east_asia"],
     sustainabilityScore: 7,
-    season: ["all"],
-    seasonality: ["spring", "summer", "autumn", "winter"],
+    season: ["fall"],
+    seasonality: ["spring", "summer", "fall", "winter"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.5, Air: 0.25, Fire: 0.15, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Pisces", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces", "gemini"],
+      seasonalAffinity: ["fall"],
     },
 
     quantityBase: { amount: 100, unit: "g" },
@@ -1111,15 +1111,15 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     regionalOrigins: ["mediterranean", "atlantic", "pacific", "peru"],
     sustainabilityScore: 9,
     season: ["spring", "summer"],
-    seasonality: ["spring", "summer", "autumn"],
+    seasonality: ["spring", "summer", "fall"],
     category: "proteins",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mars"],
-      favorableZodiac: ["Cancer", "Scorpio", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "scorpio", "aries"],
+      seasonalAffinity: ["fall"],
     },
 
     quantityBase: { amount: 30, unit: "g" },

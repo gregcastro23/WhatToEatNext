@@ -8,7 +8,7 @@ const rawWarmSpices = {
     elementalProperties: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 }, // ← Pattern GG-5: Added missing Water property
     astrologicalProfile: {
       planetaryRuler: "Sun",
-      zodiacRuler: "Leo",
+      zodiacRuler: "leo",
       element: "Fire",
       energyType: "Restorative",
       seasonalPeak: {

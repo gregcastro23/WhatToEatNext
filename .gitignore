@@ -141,3 +141,5 @@ backend/.env
 # OpenNext
 .open-next
 .wrangler/
+
+.claude/

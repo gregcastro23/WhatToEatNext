@@ -11,7 +11,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
+      favorableZodiac: ["taurus", "leo", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -48,8 +48,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15ml)",
@@ -80,8 +80,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 medium (118g)",
@@ -112,7 +112,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
-      favorableZodiac: ["Leo", "Sagittarius", "Aries"],
+      favorableZodiac: ["leo", "sagittarius", "aries"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -144,8 +144,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (6g)",
@@ -176,8 +176,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 medium (58g)",
@@ -208,7 +208,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["Taurus", "Libra", "Sagittarius"],
+      favorableZodiac: ["taurus", "libra", "sagittarius"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -240,7 +240,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
-      favorableZodiac: ["Leo", "Taurus", "Libra"],
+      favorableZodiac: ["leo", "taurus", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -272,7 +272,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
+      favorableZodiac: ["taurus", "leo", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -304,8 +304,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Capricorn", "Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "10 olives (30g)",
@@ -336,8 +336,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "leo", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -368,7 +368,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Gemini", "Libra"],
+      favorableZodiac: ["taurus", "gemini", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -401,8 +401,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 tbsp (30g)",
@@ -433,8 +433,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15ml)",
@@ -465,8 +465,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -502,8 +502,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 medium (118g)",
@@ -534,8 +534,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "aries"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 medium (67g)",
@@ -566,7 +566,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Sun"],
-      favorableZodiac: ["Gemini", "Leo", "Virgo"],
+      favorableZodiac: ["gemini", "leo", "virgo"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -598,7 +598,7 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     category: "fruits",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Pisces"],
+      favorableZodiac: ["taurus", "cancer", "pisces"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
