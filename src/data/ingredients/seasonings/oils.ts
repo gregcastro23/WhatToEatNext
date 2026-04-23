@@ -8,7 +8,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
       description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
     name: "Olive Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
     seasonality: ["spring", "summer", "fall", "winter"],
@@ -54,11 +54,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        firstQuarter: {
+        "first quarter": {
           elementalBoost: { Fire: 0.1, Earth: 0.1 },
           preparationTips: ["Best for dressings"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Ideal for finishing dishes"],
         },
@@ -71,7 +71,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "coconut oil": {
       description: "Coconut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "coconut oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -119,7 +119,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   sesame_oil: {
       description: "An incredibly potent oil pressed from sesame seeds (*Sesamum indicum*). Toasted sesame oil (dark brown) provides a massive burst of savory, nutty pyrazines and should be used exclusively as a finishing oil, while plain sesame oil (pale yellow) is neutral and suitable for cooking.",
     name: "Sesame Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     seasonality: ["fall", "winter"],
@@ -165,11 +165,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Fire: 0.1, Air: 0.1 },
           preparationTips: ["Best for stir-frying"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Ideal for finishing dishes"],
         },
@@ -182,7 +182,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   ghee: {
       description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
     name: "Ghee",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.25, Air: 0.15 },
     astrologicalProfile: {
@@ -227,7 +227,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   avocado_oil: {
       description: "An oil pressed from the fleshy pulp of avocados. It boasts the highest smoke point of any common culinary oil (up to 520°F / 271°C) and a very mild, buttery flavor, making it a premium choice for aggressive high-heat searing, grilling, and broiling.",
     name: "Avocado Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     astrologicalProfile: {
@@ -273,7 +273,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "peanut oil": {
       description: "Peanut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "peanut oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.4,
       Water: 0.2,
@@ -321,7 +321,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "mustard oil": {
       description: "Mustard Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "mustard oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.5,
       Water: 0.1,
@@ -356,7 +356,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "walnut oil": {
       description: "Walnut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "walnut oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -404,7 +404,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "rice bran oil": {
       description: "Rice Bran Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "rice bran oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -439,7 +439,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "chili oil": {
       description: "Chili Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "chili oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.6,
       Water: 0.1,
@@ -474,7 +474,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "perilla oil": {
       description: "Perilla Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "perilla oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -509,7 +509,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "camellia oil": {
       description: "Camellia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "camellia oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -544,7 +544,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "grapeseed oil": {
       description: "Grapeseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "grapeseed oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -593,7 +593,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "macadamia oil": {
       description: "Macadamia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "macadamia oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -628,7 +628,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "palm oil": {
       description: "Palm Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "palm oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.4,
       Water: 0.1,
@@ -663,7 +663,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "tea seed oil": {
       description: "Tea Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "tea seed oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -698,7 +698,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "shiso oil": {
       description: "Shiso Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "shiso oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -733,7 +733,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "argan oil": {
       description: "Argan Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "argan oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -768,7 +768,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "hazelnut oil": {
       description: "Hazelnut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "hazelnut oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -803,7 +803,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "pistachio oil": {
       description: "Pistachio Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "pistachio oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.2,
@@ -838,7 +838,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "hemp seed oil": {
       description: "Hemp Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "hemp seed oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.1,
       Water: 0.3,
@@ -873,7 +873,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "black seed oil": {
       description: "Black Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "black seed oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.4,
       Water: 0.2,
@@ -908,7 +908,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "almond oil": {
       description: "Almond Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "almond oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -956,7 +956,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "sunflower oil": {
       description: "Sunflower Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "sunflower oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -1004,7 +1004,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "safflower oil": {
       description: "Safflower Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "safflower oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -1042,7 +1042,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "white truffle oil": {
       description: "White Truffle Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "white truffle oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.1,
       Water: 0.2,
@@ -1077,7 +1077,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "flaxseed oil": {
       description: "Flaxseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "flaxseed oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.1,
       Water: 0.3,
@@ -1125,7 +1125,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "red palm oil": {
       description: "Red Palm Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "red palm oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.4,
       Water: 0.1,
@@ -1160,7 +1160,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "roasted pumpkin seed oil": {
       description: "Roasted Pumpkin Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "roasted pumpkin seed oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -1199,7 +1199,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "mustard seed oil": {
       description: "Mustard Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "mustard seed oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.5,
       Water: 0.1,
@@ -1238,7 +1238,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "babassu oil": {
       description: "Babassu Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "babassu oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -1277,7 +1277,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "apricot kernel oil": {
       description: "Apricot Kernel Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "apricot kernel oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -1312,7 +1312,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   "grape seed oil": {
       description: "Grape Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "grape seed oil",
-    category: "oils",
+    category: "oil",
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
@@ -1365,7 +1365,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   canola_oil: {
       description: "A highly refined, neutral-tasting vegetable oil extracted from a specific, low-erucic acid variety of the rapeseed plant. Its high smoke point (400°F / 204°C) and lack of flavor make it a ubiquitous, all-purpose oil for deep-frying, baking, and emulsifying mild mayonnaises.",
     name: "Canola Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     seasonality: ["spring", "summer", "fall", "winter"],
@@ -1410,11 +1410,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Air: 0.1, Fire: 0.1 },
           preparationTips: ["Good for light sautéing"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Air: 0.15 },
           preparationTips: ["Best for baking"],
         },
@@ -1427,7 +1427,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   mct_oil: {
       description: "A highly refined supplement oil composed exclusively of Medium-Chain Triglycerides, typically extracted from coconut or palm kernel oil. Because these specific fats are metabolized rapidly by the liver rather than stored, it is extremely popular in ketogenic diets and 'bulletproof' coffee, possessing a completely neutral, flavorless profile.",
     name: "MCT Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "specialty",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     seasonality: ["spring", "summer", "fall", "winter"],
@@ -1475,11 +1475,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Best added to morning beverages"],
         },
-        newMoon: {
+        "new moon": {
           elementalBoost: { Fire: 0.15, Air: 0.1 },
           preparationTips: ["Ideal for fasting periods"],
         },

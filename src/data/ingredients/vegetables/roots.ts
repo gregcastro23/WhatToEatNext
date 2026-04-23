@@ -15,7 +15,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
     subCategory: "root",
     season: ["summer", "fall"],
-    category: "vegetables",
+    category: "vegetable",
     cookingMethods: ["roast", "saute", "steam", "raw"],
     qualities: ["grounding", "nourishing", "sweet"],
     affinities: ["ginger", "cumin", "thyme", "orange", "maple"],
@@ -52,7 +52,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
     subCategory: "root",
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     cookingMethods: ["roast", "pickle", "raw"],
     qualities: ["warming", "pungent", "cleansing"],
     affinities: ["apple", "horseradish", "dill", "vinegar", "caraway"],
@@ -78,7 +78,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
 },
   carrot: {
     name: "carrot",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "root_vegetable",
 
     // Sweet, earthy, grounding
@@ -233,7 +233,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
     subCategory: "root",
     season: ["fall", "winter"],
-    category: "spices",
+    category: "spice",
     cookingMethods: ["grate", "sliced", "juiced", "infused"],
     qualities: ["warming", "spicy", "aromatic"],
     affinities: ["garlic", "lemon", "honey", "soy sauce", "turmeric"],
@@ -270,7 +270,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
     subCategory: "root",
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     cookingMethods: ["roast", "boil", "fry", "raw"],
     qualities: ["grounding", "sweet", "nutty"],
     affinities: ["thyme", "lemon", "butter", "sage", "parsley"],
@@ -299,7 +299,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     name: "carrots",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "root_vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -317,7 +317,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     name: "parsnips",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "root_vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],

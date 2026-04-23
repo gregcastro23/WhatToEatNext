@@ -4,7 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   tomato: {
     name: "tomato",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
 
     // Juicy, balanced, slightly acidic
@@ -157,7 +157,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 
   bell_pepper: {
     name: "bell pepper",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
 
     // Sweet, crisp, vibrant
@@ -307,7 +307,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   eggplant: {
       description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.",
     name: "eggplant",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade",
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     alchemicalProperties: {
@@ -357,7 +357,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.55,
     },
     qualities: ["nutritious", "versatile", "concentrated"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -397,7 +397,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.25,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -422,7 +422,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.35,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -447,7 +447,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.40,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -472,7 +472,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.40,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -497,7 +497,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -522,7 +522,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["sweet", "colorful", "crunchy"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -562,7 +562,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],

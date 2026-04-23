@@ -6,7 +6,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     name: "Chicken",
     description:
       "Domesticated fowl descended from the red junglefowl (*Gallus gallus domesticus*) of Southeast Asia. The world's most consumed protein, with an exceptionally mild, slightly sweet flesh that carries seasonings and sauces across virtually every global cuisine. White breast meat is lean and quick-cooking; dark thigh and leg meat is richer and forgiving under long heat. Select birds with plump, unblemished skin, pale flesh, and a clean smell; air-chilled or pasture-raised birds yield noticeably better flavor.",
-    category: "poultry",
+    category: "protein",
     subCategory: "poultry",
     origin: ["Southeast Asia (domesticated worldwide)"],
     regionalOrigins: ["global"],
@@ -103,7 +103,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     name: "Turkey",
     description:
       "Native North American fowl (*Meleagris gallopavo*) domesticated by Indigenous peoples of Mesoamerica and now raised worldwide. Leaner than chicken with a slightly gamier, more savory profile. Heritage breeds (Bourbon Red, Narragansett) offer deeper flavor than the commodity Broad-Breasted White. Whole birds are a centerpiece of fall and winter feasts; breast cuts and ground turkey serve as year-round lean protein staples.",
-    category: "poultry",
+    category: "protein",
     subCategory: "poultry",
     origin: ["North America", "Mesoamerica"],
     regionalOrigins: ["americas"],
@@ -194,7 +194,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     name: "Duck",
     description:
       "Waterfowl (*Anas platyrhynchos domesticus*) prized across Chinese, French, and Southeast Asian traditions for its rich dark meat, thick insulating layer of subcutaneous fat, and legendary crisp skin. Pekin (Long Island) is the everyday breed; Muscovy and Moulard produce deeper flavor and the foie gras / magret of French cuisine. Every part has a use — the fat renders to a cooking medium rivaling olive oil, the carcass makes extraordinary stock, and the legs become confit.",
-    category: "poultry",
+    category: "protein",
     subCategory: "poultry",
     origin: ["China (Pekin)", "France (Rouen, Moulard)", "South America (Muscovy)"],
     regionalOrigins: ["asia", "europe"],
@@ -285,7 +285,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     name: "Goose",
     description:
       "Domesticated waterfowl (*Anser anser domesticus*) with exceptionally rich, dark, iron-heavy flesh and an extraordinary layer of fat that, when rendered, rivals duck fat for roasting potatoes and confiting. A traditional centerpiece of European winter feasts (Christmas goose in Germany, Britain, Scandinavia) whose popularity declined with industrial chicken and turkey but endures in heritage cooking.",
-    category: "poultry",
+    category: "protein",
     subCategory: "poultry",
     origin: ["Europe", "East Asia"],
     regionalOrigins: ["europe", "asia"],
@@ -349,7 +349,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     name: "Quail",
     description:
       "Small game bird (*Coturnix japonica* or *Colinus virginianus*) with dark, tender, mildly sweet flesh and a delicate, almost nutty flavor. Each bird serves one as an elegant appetizer or two as a component of a larger plate. Farmed quail are mild and consistent; wild quail carry a more pronounced gamey edge. Cook hot and fast — 10 minutes is often all they need.",
-    category: "poultry",
+    category: "protein",
     subCategory: "poultry",
     origin: ["East Asia", "Europe", "North America"],
     regionalOrigins: ["global"],

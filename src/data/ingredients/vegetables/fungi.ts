@@ -13,7 +13,7 @@ const rawFungi: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.40,
     },
     qualities: ["nutritious", "versatile", "fresh", "umami"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "fungi",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -37,7 +37,7 @@ const rawFungi: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.40,
     },
     qualities: ["nutritious", "versatile", "fresh", "umami"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "fungi",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],

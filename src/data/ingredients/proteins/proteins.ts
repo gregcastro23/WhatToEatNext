@@ -8,7 +8,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -40,7 +40,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "ground beef",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "hearty", "savory"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -72,7 +72,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "grilled chicken",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "versatile", "high-protein"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -104,7 +104,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "hard-boiled eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -135,7 +135,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "pork ribs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -165,7 +165,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "chicken pieces",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -195,7 +195,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "salmon fillet",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["omega-rich", "flaky", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -227,7 +227,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "beef chuck roast",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -257,7 +257,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "soybeans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -287,7 +287,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "soft tofu",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["mild", "plant-based", "versatile"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -325,7 +325,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "har gow (shrimp dumplings)",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -355,7 +355,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "siu mai (pork dumplings)",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -385,7 +385,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "fresh eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -415,7 +415,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "vanilla bean",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["aromatic", "sweet", "flavorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
       favorableZodiac: ["taurus", "libra", "sagittarius"],
@@ -445,7 +445,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "oil-packed tuna",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -475,7 +475,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "beef stock",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["flavorful", "base", "nourishing"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -505,7 +505,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "chicken",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -535,7 +535,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "beef chuck",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -565,7 +565,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "egg yolks",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "emulsifying", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
       favorableZodiac: ["leo", "aries"],
@@ -595,7 +595,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "pork",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "flavorful", "versatile"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -625,8 +625,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "white beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "fiber-rich"],
-    category: "proteins",
-    subcategory: "legumes",
+    category: "protein",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "taurus"],
@@ -656,8 +656,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "yellow lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "quick-cooking"],
-    category: "proteins",
-    subcategory: "legumes",
+    category: "protein",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -687,8 +687,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "black lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "earthy"],
-    category: "proteins",
-    subcategory: "legumes",
+    category: "protein",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Pluto"],
       favorableZodiac: ["capricorn", "scorpio"],
@@ -718,8 +718,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "kidney beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "robust"],
-    category: "proteins",
-    subcategory: "legumes",
+    category: "protein",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "capricorn"],
@@ -749,7 +749,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "egg",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -809,7 +809,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "chicken thigh",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["flavorful", "juicy", "protein-rich"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -839,7 +839,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "pork belly",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "fatty", "flavorful"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -869,7 +869,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "beef sirloin",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "protein-rich", "savory"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -899,7 +899,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "pork spine",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["base", "flavorful", "sustaining"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -929,7 +929,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "bean sprouts",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["crunchy", "fresh", "light"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
       favorableZodiac: ["cancer", "virgo"],
@@ -959,8 +959,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "fava beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
-    subcategory: "legumes",
+    category: "protein",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "taurus"],
@@ -990,8 +990,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "brown lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "earthy"],
-    category: "proteins",
-    subcategory: "legumes",
+    category: "protein",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -1021,7 +1021,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "buckwheat groats",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo"],
@@ -1051,7 +1051,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "white fish",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "protein-rich", "versatile"],
-    category: "proteins",
+    category: "protein",
     subcategory: "seafood",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
@@ -1082,7 +1082,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "long beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["crunchy", "fresh", "light"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
       favorableZodiac: ["cancer", "virgo"],
@@ -1112,8 +1112,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "red beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
-    category: "proteins",
-    subcategory: "legumes",
+    category: "protein",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "capricorn"],
@@ -1143,7 +1143,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "beef bones",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "base", "nourishing"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -1173,7 +1173,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "ground pork",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "savory", "versatile"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -1233,7 +1233,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "beef shank",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["tough", "flavorful", "sustaining"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -1263,7 +1263,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "pork knuckles",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["collagen-rich", "flavorful", "tough"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -1293,7 +1293,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "pork chops",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["versatile", "protein-rich", "savory"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["aries", "taurus", "capricorn"],
@@ -1323,8 +1323,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
     name: "mung beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "cooling", "nutritious"],
-    category: "proteins",
-    subcategory: "legumes",
+    category: "protein",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
       favorableZodiac: ["cancer", "virgo"],

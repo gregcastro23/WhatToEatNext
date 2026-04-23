@@ -8,7 +8,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -51,7 +51,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -83,7 +83,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "all-purpose flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -115,7 +115,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "whole grain bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -147,7 +147,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "steel-cut oats",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -185,7 +185,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "breadcrumbs",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -217,7 +217,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "arborio rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -249,7 +249,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "bread stuffing",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -281,7 +281,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "cheong fun (rice noodle rolls)",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -313,7 +313,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "glutinous rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -345,7 +345,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "rustic bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -377,7 +377,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "white sandwich bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -409,7 +409,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "idli rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -441,7 +441,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "flattened rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -473,7 +473,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "basmati rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -505,7 +505,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "steamed rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -537,7 +537,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "sushi rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -569,7 +569,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "short grain rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -601,7 +601,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "sliced rice cakes",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -633,7 +633,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "rice cakes",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -665,7 +665,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "rice flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -697,7 +697,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "flatbread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -729,7 +729,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "jasmine rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -761,7 +761,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "glass noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -793,7 +793,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "rice noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -825,7 +825,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "sticky rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -857,7 +857,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "tapioca flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -889,7 +889,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "glutinous rice flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -921,7 +921,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "thick rice noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],
@@ -953,7 +953,7 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
     name: "broken rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["capricorn", "virgo", "taurus"],

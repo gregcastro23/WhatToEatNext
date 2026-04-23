@@ -11,7 +11,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     // Refined sweetener: Earth (crystalline structure), Fire (quick energy), minimal Water/Air
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -36,7 +36,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     // Tree sap liquid sweetener: Water (liquid), Earth (from trees), Fire (sweet energy)
     elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.25, Air: 0.05 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -60,7 +60,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "baking powder",
     elementalProperties: { Fire: 0.24, Water: 0.14, Earth: 0.33, Air: 0.29 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -84,7 +84,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "microgreens",
     elementalProperties: { Fire: 0.18, Water: 0.32, Earth: 0.18, Air: 0.32 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -108,7 +108,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "fresh herbs",
     elementalProperties: { Fire: 0.18, Water: 0.32, Earth: 0.18, Air: 0.32 },
     qualities: ["aromatic", "fresh"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -132,7 +132,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "mixed berries",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "tart"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "cancer"],
@@ -157,7 +157,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     // Thick liquid sweetener from bees: Water (liquid), Earth (thick/grounding), Fire (energy)
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.3, Air: 0.05 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -181,7 +181,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "granola",
     elementalProperties: { Fire: 0.2, Water: 0.05, Earth: 0.5, Air: 0.25 },
     qualities: ["crunchy", "sweet"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["virgo", "taurus"],
@@ -205,7 +205,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pumpkin puree",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.4, Air: 0.05 },
     qualities: ["smooth", "earthy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
       favorableZodiac: ["cancer", "scorpio"],
@@ -229,7 +229,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pecans",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["rich", "buttery"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "libra"],
@@ -253,7 +253,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "cranberries",
     elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.15, Air: 0.15 },
     qualities: ["tart", "acidic"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["scorpio", "aries"],
@@ -277,7 +277,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "walnuts",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["rich", "earthy"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
       favorableZodiac: ["sagittarius", "pisces"],
@@ -301,7 +301,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "hamburger buns",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["soft", "starchy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["taurus", "virgo"],
@@ -325,7 +325,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "ketchup",
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "tangy"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "leo"],
@@ -349,7 +349,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "mustard",
     elementalProperties: { Fire: 0.4, Water: 0.25, Earth: 0.2, Air: 0.15 },
     qualities: ["pungent", "sharp"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -373,7 +373,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "bacon",
     elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.3, Air: 0.1 },
     qualities: ["smoky", "salty"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "leo"],
@@ -397,7 +397,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "clams",
     elementalProperties: { Fire: 0.1, Water: 0.55, Earth: 0.25, Air: 0.1 },
     qualities: ["briny", "tender"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
       favorableZodiac: ["cancer", "pisces"],
@@ -421,7 +421,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "puff pastry",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.3, Air: 0.35 },
     qualities: ["flaky", "buttery"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["libra", "taurus"],
@@ -445,7 +445,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "lobster meat",
     elementalProperties: { Fire: 0.15, Water: 0.5, Earth: 0.25, Air: 0.1 },
     qualities: ["sweet", "luxurious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
       favorableZodiac: ["cancer", "pisces"],
@@ -469,7 +469,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "mayonnaise",
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.3, Air: 0.25 },
     qualities: ["creamy", "rich"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "libra"],
@@ -493,7 +493,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "split-top buns",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["soft", "starchy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["taurus", "virgo"],
@@ -517,7 +517,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sliced turkey",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.35, Air: 0.15 },
     qualities: ["lean", "mild"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
       favorableZodiac: ["sagittarius", "virgo"],
@@ -541,7 +541,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "cranberry sauce",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "tart"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mars"],
       favorableZodiac: ["scorpio", "libra"],
@@ -565,7 +565,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "stuffing",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["savory", "herbed"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -589,7 +589,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "BBQ sauce",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["smoky", "sweet"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["leo", "aries"],
@@ -613,7 +613,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "brown sugar",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "caramel"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "libra"],
@@ -637,7 +637,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "lamb chops",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "tender"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -685,7 +685,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "whole turkey",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.35, Air: 0.15 },
     qualities: ["hearty", "lean"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
       favorableZodiac: ["sagittarius", "virgo"],
@@ -709,7 +709,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "white sugar",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "pure"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "libra"],
@@ -733,7 +733,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "chocolate chips",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.4, Air: 0.15 },
     qualities: ["sweet", "rich"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
       favorableZodiac: ["scorpio", "taurus"],
@@ -757,7 +757,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "graham crackers",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.4, Air: 0.3 },
     qualities: ["sweet", "crunchy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -781,7 +781,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "vanilla extract",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.25, Air: 0.2 },
     qualities: ["aromatic", "sweet"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "libra"],
@@ -805,7 +805,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "fresh strawberries",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "juicy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "libra"],
@@ -829,7 +829,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "marshmallows",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 },
     qualities: ["sweet", "fluffy"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
       favorableZodiac: ["cancer", "pisces"],
@@ -853,7 +853,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "chocolate sauce",
     elementalProperties: { Fire: 0.25, Water: 0.3, Earth: 0.3, Air: 0.15 },
     qualities: ["sweet", "rich"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
       favorableZodiac: ["scorpio", "taurus"],
@@ -877,7 +877,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sea salt",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
     qualities: ["mineral", "briny"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Neptune"],
       favorableZodiac: ["capricorn", "pisces"],
@@ -901,7 +901,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pie crust",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["flaky", "buttery"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["taurus", "capricorn"],
@@ -925,7 +925,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "molasses",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.35, Air: 0.05 },
     qualities: ["sweet", "bitter"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Pluto"],
       favorableZodiac: ["capricorn", "scorpio"],
@@ -949,7 +949,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "salt",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 },
     qualities: ["mineral", "essential"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["capricorn", "aquarius"],
@@ -973,7 +973,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "char siu bao",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.35, Air: 0.15 },
     qualities: ["savory", "sweet"],
-    category: "prepared",
+    category: "preserved",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
       favorableZodiac: ["sagittarius", "taurus"],
@@ -997,7 +997,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "spring rolls",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.3, Air: 0.2 },
     qualities: ["crispy", "savory"],
-    category: "prepared",
+    category: "preserved",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["gemini", "libra"],
@@ -1021,7 +1021,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "whole duck",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "fatty"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mars"],
       favorableZodiac: ["scorpio", "sagittarius"],
@@ -1045,7 +1045,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pastry dough",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.35, Air: 0.25 },
     qualities: ["buttery", "malleable"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["libra", "capricorn"],
@@ -1069,7 +1069,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "dried fruits",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.4, Air: 0.25 },
     qualities: ["sweet", "chewy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
       favorableZodiac: ["leo", "taurus"],
@@ -1093,7 +1093,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "nuts",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["crunchy", "rich"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Saturn"],
       favorableZodiac: ["taurus", "capricorn"],
@@ -1141,7 +1141,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "fine herbs",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["delicate", "aromatic"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["virgo", "libra"],
@@ -1165,7 +1165,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "brioche",
     elementalProperties: { Fire: 0.25, Water: 0.2, Earth: 0.3, Air: 0.25 },
     qualities: ["buttery", "rich"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "libra"],
@@ -1189,7 +1189,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "granulated sugar",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "pure"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
       favorableZodiac: ["taurus", "libra"],
@@ -1213,7 +1213,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "white ham",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.35, Air: 0.15 },
     qualities: ["savory", "mild"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
       favorableZodiac: ["sagittarius", "taurus"],
@@ -1237,7 +1237,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "béchamel sauce",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["creamy", "smooth"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "taurus"],
@@ -1261,7 +1261,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "anchovies",
     elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1 },
     qualities: ["salty", "umami"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Mars"],
       favorableZodiac: ["pisces", "scorpio"],
@@ -1285,7 +1285,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "vinaigrette",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.15, Air: 0.3 },
     qualities: ["tangy", "light"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["gemini", "libra"],
@@ -1309,7 +1309,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "baguette",
     elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.35, Air: 0.25 },
     qualities: ["crusty", "chewy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -1333,7 +1333,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "lardons",
     elementalProperties: { Fire: 0.4, Water: 0.15, Earth: 0.35, Air: 0.1 },
     qualities: ["salty", "smoky"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -1357,7 +1357,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "bouquet garni",
     elementalProperties: { Fire: 0.2, Water: 0.25, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "herbal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1405,7 +1405,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sole fillets",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.25, Air: 0.15 },
     qualities: ["delicate", "mild"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
       favorableZodiac: ["pisces", "cancer"],
@@ -1429,7 +1429,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "bacon or pancetta",
     elementalProperties: { Fire: 0.4, Water: 0.15, Earth: 0.35, Air: 0.1 },
     qualities: ["salty", "smoky"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -1453,7 +1453,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sugar for caramelizing",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "transformative"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
       favorableZodiac: ["leo", "taurus"],
@@ -1477,7 +1477,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "shortcrust pastry",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["crumbly", "buttery"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
       favorableZodiac: ["taurus", "capricorn"],
@@ -1501,7 +1501,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "choux pastry",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.2, Air: 0.3 },
     qualities: ["light", "eggy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["libra", "gemini"],
@@ -1525,7 +1525,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "dark chocolate",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.4, Air: 0.15 },
     qualities: ["bitter", "rich"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Pluto", "Venus"],
       favorableZodiac: ["scorpio", "taurus"],
@@ -1549,7 +1549,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "phyllo dough",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.3, Air: 0.4 },
     qualities: ["paper-thin", "crispy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["gemini", "virgo"],
@@ -1573,7 +1573,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "semolina",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["coarse", "hearty"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -1597,7 +1597,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "almonds",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["crunchy", "nutty"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["virgo", "taurus"],
@@ -1621,7 +1621,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "urad dal",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.45, Air: 0.15 },
     qualities: ["earthy", "creamy"],
-    category: "legumes",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["capricorn", "virgo"],
@@ -1645,7 +1645,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "toor dal",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.45, Air: 0.15 },
     qualities: ["earthy", "mild"],
-    category: "legumes",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["capricorn", "virgo"],
@@ -1669,7 +1669,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sambar powder",
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 },
     qualities: ["spicy", "complex"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo"],
@@ -1693,7 +1693,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "vegetables",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.3, Air: 0.2 },
     qualities: ["fresh", "wholesome"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
       favorableZodiac: ["cancer", "virgo"],
@@ -1717,7 +1717,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "puri shells",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.35, Air: 0.25 },
     qualities: ["crispy", "hollow"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["gemini", "virgo"],
@@ -1741,7 +1741,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "tamarind",
     elementalProperties: { Fire: 0.25, Water: 0.35, Earth: 0.25, Air: 0.15 },
     qualities: ["sour", "tangy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
       favorableZodiac: ["capricorn", "scorpio"],
@@ -1765,7 +1765,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "black salt",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.55, Air: 0.1 },
     qualities: ["sulfurous", "pungent"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Pluto"],
       favorableZodiac: ["capricorn", "scorpio"],
@@ -1789,7 +1789,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sprouted moong",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["crunchy", "fresh"],
-    category: "legumes",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
       favorableZodiac: ["cancer", "virgo"],
@@ -1813,7 +1813,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pistachios",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["nutty", "slightly sweet"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["taurus", "gemini"],
@@ -1837,7 +1837,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "almond granita",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     qualities: ["icy", "sweet"],
-    category: "desserts",
+    category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "taurus"],
@@ -1885,7 +1885,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "natto",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.35, Air: 0.15 },
     qualities: ["fermented", "pungent"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Pluto", "Saturn"],
       favorableZodiac: ["scorpio", "capricorn"],
@@ -1909,7 +1909,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "umeboshi",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["sour", "salty"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
       favorableZodiac: ["scorpio", "capricorn"],
@@ -1933,7 +1933,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "dashi",
     elementalProperties: { Fire: 0.1, Water: 0.55, Earth: 0.2, Air: 0.15 },
     qualities: ["umami", "delicate"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
       favorableZodiac: ["pisces", "cancer"],
@@ -1957,7 +1957,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "gyoza wrappers",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.4, Air: 0.25 },
     qualities: ["thin", "pliable"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["gemini", "virgo"],
@@ -1981,7 +1981,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "soy sauce",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["salty", "umami"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Neptune"],
       favorableZodiac: ["capricorn", "pisces"],
@@ -2029,7 +2029,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "aged kimchi",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["fermented", "pungent"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Pluto"],
       favorableZodiac: ["scorpio", "aries"],
@@ -2053,7 +2053,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "perilla leaves",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "minty"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["gemini", "virgo"],
@@ -2077,7 +2077,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "ssamjang",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.25, Air: 0.15 },
     qualities: ["savory", "spicy"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Jupiter"],
       favorableZodiac: ["aries", "sagittarius"],
@@ -2101,7 +2101,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "kimchi",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["fermented", "spicy"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Pluto"],
       favorableZodiac: ["scorpio", "aries"],
@@ -2125,7 +2125,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "gochugaru",
     elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.25, Air: 0.15 },
     qualities: ["spicy", "smoky"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo"],
@@ -2149,7 +2149,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "gochujang",
     elementalProperties: { Fire: 0.4, Water: 0.25, Earth: 0.2, Air: 0.15 },
     qualities: ["spicy", "sweet"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Venus"],
       favorableZodiac: ["aries", "taurus"],
@@ -2173,7 +2173,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "saeujeot",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["salty", "umami"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
       favorableZodiac: ["pisces", "cancer"],
@@ -2197,7 +2197,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "shaved ice",
     elementalProperties: { Fire: 0.0, Water: 0.8, Earth: 0.1, Air: 0.1 },
     qualities: ["cold", "refreshing"],
-    category: "desserts",
+    category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
       favorableZodiac: ["cancer", "aquarius"],
@@ -2221,7 +2221,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sesame seeds",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["nutty", "crunchy"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -2245,7 +2245,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pine needles",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.3, Air: 0.35 },
     qualities: ["aromatic", "resinous"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
       favorableZodiac: ["capricorn", "sagittarius"],
@@ -2269,7 +2269,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "mixed fruits",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "refreshing"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
       favorableZodiac: ["taurus", "sagittarius"],
@@ -2293,7 +2293,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "dried hominy",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.5, Air: 0.2 },
     qualities: ["starchy", "hearty"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["capricorn", "virgo"],
@@ -2317,7 +2317,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "mixed dried chiles",
     elementalProperties: { Fire: 0.5, Water: 0.05, Earth: 0.3, Air: 0.15 },
     qualities: ["spicy", "smoky"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo"],
@@ -2341,7 +2341,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "chocolate",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.35, Air: 0.15 },
     qualities: ["sweet", "rich"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
       favorableZodiac: ["taurus", "scorpio"],
@@ -2365,7 +2365,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "poblano chiles",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["mild", "earthy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -2389,7 +2389,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "masa harina",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.5, Air: 0.2 },
     qualities: ["starchy", "earthy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["capricorn", "virgo"],
@@ -2413,7 +2413,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "fresh fruit",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "juicy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer"],
@@ -2437,7 +2437,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "lamb shoulder",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "succulent"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -2485,7 +2485,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pine nuts",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["buttery", "delicate"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
       favorableZodiac: ["taurus", "virgo"],
@@ -2509,7 +2509,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "kataifi dough",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.3, Air: 0.4 },
     qualities: ["shredded", "crispy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["gemini", "virgo"],
@@ -2533,7 +2533,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pickles",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.2, Air: 0.2 },
     qualities: ["sour", "crunchy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
       favorableZodiac: ["capricorn", "cancer"],
@@ -2557,7 +2557,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "green papaya",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["crunchy", "mild"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       favorableZodiac: ["cancer", "taurus"],
@@ -2581,7 +2581,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "red syrup",
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "vibrant"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Venus"],
       favorableZodiac: ["aries", "taurus"],
@@ -2605,7 +2605,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "green syrup",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.2, Air: 0.25 },
     qualities: ["sweet", "herbal"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer"],
@@ -2629,7 +2629,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "palm seeds",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["translucent", "chewy"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
       favorableZodiac: ["sagittarius", "taurus"],
@@ -2653,7 +2653,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "grass jelly",
     elementalProperties: { Fire: 0.05, Water: 0.5, Earth: 0.25, Air: 0.2 },
     qualities: ["cooling", "herbal"],
-    category: "desserts",
+    category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
       favorableZodiac: ["cancer", "pisces"],
@@ -2701,7 +2701,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "palm sugar",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "caramel"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
       favorableZodiac: ["taurus", "sagittarius"],
@@ -2725,7 +2725,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "jackfruit",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["sweet", "meaty"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
       favorableZodiac: ["sagittarius", "taurus"],
@@ -2773,7 +2773,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pandan extract",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.2, Air: 0.35 },
     qualities: ["fragrant", "floral"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Neptune"],
       favorableZodiac: ["taurus", "pisces"],
@@ -2797,7 +2797,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "kabocha pumpkin",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "starchy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Jupiter"],
       favorableZodiac: ["cancer", "sagittarius"],
@@ -2821,7 +2821,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pandan leaves",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.2, Air: 0.4 },
     qualities: ["fragrant", "grassy"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Neptune"],
       favorableZodiac: ["taurus", "pisces"],
@@ -2845,7 +2845,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "tapioca starch",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.55, Air: 0.15 },
     qualities: ["starchy", "thickening"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["cancer", "capricorn"],
@@ -2869,7 +2869,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "herbs mix",
     elementalProperties: { Fire: 0.2, Water: 0.25, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "savory"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2893,7 +2893,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "annatto seeds",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 },
     qualities: ["earthy", "colorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
       favorableZodiac: ["leo", "aries"],
@@ -2917,7 +2917,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "Vietnamese herbs",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["fresh", "aromatic"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["gemini", "libra"],
@@ -2941,7 +2941,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pickled vegetables",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["tangy", "crunchy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
       favorableZodiac: ["capricorn", "cancer"],
@@ -2965,7 +2965,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pandan jelly",
     elementalProperties: { Fire: 0.05, Water: 0.45, Earth: 0.25, Air: 0.25 },
     qualities: ["fragrant", "refreshing"],
-    category: "desserts",
+    category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "cancer"],

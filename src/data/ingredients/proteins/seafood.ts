@@ -12,7 +12,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 6,
     season: ["spring", "summer", "fall"],
     seasonality: ["spring", "summer", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -279,7 +279,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 4,
     season: ["spring", "summer", "fall"],
     seasonality: ["spring", "summer", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -348,7 +348,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 5,
     season: ["fall"],
     seasonality: ["spring", "summer", "fall", "winter"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -413,7 +413,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 6,
     season: ["winter", "spring"],
     seasonality: ["winter", "spring", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -478,7 +478,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 7,
     season: ["spring", "summer"],
     seasonality: ["spring", "summer", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -543,7 +543,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 7,
     season: ["winter", "spring"],
     seasonality: ["winter", "spring", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     // Base elemental properties (unscaled)
@@ -608,7 +608,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 6,
     season: ["fall"],
     seasonality: ["spring", "summer", "fall", "winter"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.5, Air: 0.25, Earth: 0.15, Fire: 0.1 },
@@ -671,7 +671,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 8,
     season: ["spring", "summer", "fall"],
     seasonality: ["spring", "summer", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.55, Earth: 0.2, Air: 0.15, Fire: 0.1 },
@@ -734,7 +734,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 9,
     season: ["spring", "summer", "fall"],
     seasonality: ["spring", "summer", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.5, Fire: 0.2, Earth: 0.2, Air: 0.1 },
@@ -797,7 +797,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 8,
     season: ["summer", "fall"],
     seasonality: ["summer", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.45, Fire: 0.25, Earth: 0.15, Air: 0.15 },
@@ -860,7 +860,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 6,
     season: ["spring", "summer"],
     seasonality: ["spring", "summer", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.55, Earth: 0.2, Air: 0.15, Fire: 0.1 },
@@ -923,7 +923,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 7,
     season: ["summer", "fall"],
     seasonality: ["summer", "fall", "winter"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.5, Fire: 0.2, Earth: 0.2, Air: 0.1 },
@@ -986,7 +986,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 10,
     season: ["fall", "winter", "spring"],
     seasonality: ["fall", "winter", "spring"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
@@ -1049,7 +1049,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 7,
     season: ["fall"],
     seasonality: ["spring", "summer", "fall", "winter"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.5, Air: 0.25, Fire: 0.15, Earth: 0.1 },
@@ -1112,7 +1112,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     sustainabilityScore: 9,
     season: ["spring", "summer"],
     seasonality: ["spring", "summer", "fall"],
-    category: "proteins",
+    category: "protein",
     subCategory: "seafood",
 
     elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },

@@ -111,7 +111,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   basil: createIngredientMapping("basil", {
     elementalProperties: { Air: 0.43, Water: 0.27, Fire: 0.22, Earth: 0.08 },
     qualities: ["aromatic", "sweet", "peppery"],
-    category: "herbs",
+    category: "culinary_herb",
     varieties: {
       sweet_basil: {
         aroma: "clove-like, sweet",
@@ -178,7 +178,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   mint: createIngredientMapping("mint", {
     elementalProperties: { Water: 0.55, Air: 0.32, Earth: 0.08, Fire: 0.05 },
     qualities: ["cooling", "refreshing", "aromatic"],
-    category: "herbs",
+    category: "culinary_herb",
     varieties: {
       peppermint: {
         aroma: "strong, mentholated",
@@ -198,7 +198,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   rosemary: createIngredientMapping("rosemary", {
     elementalProperties: { Fire: 0.4, Earth: 0.35, Air: 0.2, Water: 0.05 },
     qualities: ["piney", "resinous", "aromatic"],
-    category: "herbs",
+    category: "culinary_herb",
     heat_resistance: 8, // Ability to withstand cooking heat
     extraction_efficiency: 6, // How easily flavors infuse into oils/liquids
     varieties: {
@@ -217,7 +217,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   curry_leaves: createIngredientMapping("curry_leaves", {
     elementalProperties: { Earth: 0.2, Water: 0.2, Fire: 0.4, Air: 0.2 },
     qualities: ["aromatic", "citrusy", "nutty"],
-    category: "herbs",
+    category: "culinary_herb",
     sustainabilityScore: 8,
     preparation: {
       fresh: {
@@ -249,7 +249,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   lemongrass: createIngredientMapping("lemongrass", {
     elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
     qualities: ["lemony", "citral", "grassy", "refreshing"],
-    category: "herbs",
+    category: "culinary_herb",
     sustainabilityScore: 9,
     preparation: {
       fresh: {
@@ -276,7 +276,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   shiso: createIngredientMapping("shiso", {
     elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
     qualities: ["minty", "basil-like", "anise", "citrusy"],
-    category: "herbs",
+    category: "culinary_herb",
     sustainabilityScore: 8,
     culinaryUses: [
       "sushi",

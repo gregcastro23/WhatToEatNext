@@ -20,7 +20,7 @@ const rawQuinoa = {
       "complete protein",
       "gluten-free",
     ],
-    category: "grains",
+    category: "grain",
     origin: ["South America", "Andean region", "Peru", "Bolivia", "Ecuador"],
     varieties: {
       rainbow: {

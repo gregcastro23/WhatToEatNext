@@ -16,7 +16,7 @@ function createIngredientMapping(
       Fire: 0.15,
       Air: 0.10,
     },
-    category: properties.category || "",
+    category: properties.category || undefined,
     ...properties,
   };
 }
@@ -42,11 +42,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        waxingGibbous: {
+        "waxing gibbous": {
           elementalBoost: { Earth: 0.1, Fire: 0.1, Water: 0.0, Air: 0.0 },
           preparationTips: ["Best for grilling"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2, Water: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for frying"],
         },
@@ -54,7 +54,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["fermented", "nutty", "firm"],
     origin: ["Indonesia", "Java"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "3 oz",
@@ -239,11 +239,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        waxingGibbous: {
+        "waxing gibbous": {
           elementalBoost: { Earth: 0.1, Fire: 0.1, Water: 0.0, Air: 0.0 },
           preparationTips: ["Best for grilling"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2, Water: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for frying"],
         },
@@ -251,7 +251,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["chewy", "versatile", "high-protein"],
     origin: ["China", "Buddhist Cuisine"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "3 oz",
@@ -403,11 +403,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
@@ -415,7 +415,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["versatile", "neutral", "protein-rich"],
     origin: ["China", "East Asia"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "3.5 oz (100g)",
@@ -600,18 +600,18 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
       },
     },
     qualities: ["hearty", "versatile", "nutritious"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "1/2 cup cooked (approx. 100g)",
@@ -844,35 +844,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
     },
     safetyThresholds: {
-      storage: {
-        name: "Storage",
-        dried: {
-          name: "Dried",
-          conditions: "cool, dry place",
-          duration: "up to 1 year",
-          notes: "check for insects",
-        },
-        cooked: {
-          name: "Cooked",
-          refrigerated: "3-5 days",
-          frozen: "up to 6 months",
-        },
-      },
-      preparation: {
-        name: "Preparation",
-        sprouting: {
-          name: "Sprouting",
-          method: "rinse 2-3 times daily",
-          duration: "2-5 days",
-          safety: "use clean water, watch for mold",
-        },
-        cooking: {
-          name: "Cooking",
-          minimum: "until tender",
-          pressure_cooking: "follow cooker instructions",
-          boiling: "full rolling boil for specified time",
-        },
-      },
+      notes: "Dried: store in cool, dry place up to 1 year, check for insects. Cooked: refrigerate 3-5 days, freeze up to 6 months. Sprouting: rinse 2-3 times daily for 2-5 days, use clean water and watch for mold. Cooking: cook until tender, full rolling boil for specified time.",
     },
   }),
 
@@ -892,11 +864,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           },
         },
         lunarPhaseModifiers: {
-          newMoon: {
+          "new moon": {
             elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
             preparationTips: ["Best for marinating"],
           },
-          fullMoon: {
+          "full moon": {
             elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
             preparationTips: ["Ideal for baking"],
           },
@@ -904,7 +876,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       qualities: ["versatile", "meat-like", "protein-rich"],
       origin: ["United States", "Industrial Development"],
-      category: "proteins",
+      category: "protein",
       subCategory: "plant_based",
       nutritionalProfile: {
         serving_size: "1/4 cup dry (24g)",
@@ -1010,11 +982,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
@@ -1022,7 +994,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["fibrous", "meaty", "neutral"],
     origin: ["Southeast Asia"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "3.5 oz (100g)",
@@ -1149,11 +1121,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
@@ -1161,7 +1133,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["complete protein", "fluffy", "versatile"],
     origin: ["Andean Region"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "1 cup cooked (185g)",
@@ -1300,18 +1272,18 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
       },
     },
     qualities: ["complete protein", "nutty", "sustainable"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "3 tbsp (30g)",
@@ -1416,11 +1388,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
@@ -1428,7 +1400,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["versatile", "neutral", "complete protein"],
     origin: ["Global"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "30g powder",
@@ -1527,11 +1499,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
@@ -1539,7 +1511,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["versatile", "nutty", "hearty"],
     origin: ["Mediterranean", "Middle East"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "30g flour/protein",
@@ -1633,11 +1605,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
@@ -1645,7 +1617,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["high-protein", "low-carb", "alkaline"],
     origin: ["Mediterranean", "Australia"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "100g",
@@ -1740,9 +1712,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     season: ["spring", "early-summer"],
     seasonality: { peak: ["spring"], available: ["spring fresh", "all dried"] },
     safetyThresholds: {
-      warnings: [
-        "Favism — individuals with G6PD deficiency (common in Mediterranean, African, Middle Eastern, South Asian populations) can develop acute hemolytic anemia from raw, lightly cooked, or even pollen exposure. Cook thoroughly and know family medical history."
-      ],
+      notes: "Favism — individuals with G6PD deficiency (common in Mediterranean, African, Middle Eastern, South Asian populations) can develop acute hemolytic anemia from raw, lightly cooked, or even pollen exposure. Cook thoroughly and know family medical history.",
     },
     elementalProperties: { Earth: 0.3, Water: 0.3, Air: 0.2, Fire: 0.2 },
     astrologicalProfile: {
@@ -1757,11 +1727,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ["Best for marinating"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ["Ideal for baking"],
         },
@@ -1769,7 +1739,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["rich", "creamy", "versatile"],
     origin: ["Mediterranean", "Middle East"],
-    category: "proteins",
+    category: "protein",
     subCategory: "plant_based",
     nutritionalProfile: {
       serving_size: "100g cooked",

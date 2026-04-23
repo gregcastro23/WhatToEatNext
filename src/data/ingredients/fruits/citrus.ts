@@ -33,7 +33,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sour", "cooling", "cleansing"],
     season: ["winter", "spring"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["honey", "ginger", "mint", "thyme", "lavender"],
     cookingMethods: ["raw", "juiced", "preserved", "zested"],
@@ -99,7 +99,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "warming", "nourishing"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["vanilla", "cinnamon", "chocolate", "cranberry", "dates"],
     cookingMethods: ["raw", "juiced", "zested", "candied"],
@@ -154,7 +154,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["sour", "cooling", "refreshing"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["mint", "coconut", "chili", "cilantro", "ginger"],
     cookingMethods: ["raw", "juiced", "zested", "preserved"],
@@ -220,7 +220,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["bitter-sweet", "tart", "refreshing"],
     season: ["winter", "spring"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["mint", "honey", "avocado", "fennel", "rosemary"],
     cookingMethods: ["raw", "juiced", "broiled", "preserved"],
@@ -293,7 +293,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["sweet", "delicate", "aromatic"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["chocolate", "vanilla", "ginger", "cinnamon", "almond"],
     cookingMethods: ["raw", "juiced", "preserved", "candied"],
@@ -348,7 +348,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["sweet", "juicy", "easy-to-peel", "seedless"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["honey", "vanilla", "mint", "cinnamon"],
     cookingMethods: ["raw", "juiced", "preserved"],
@@ -414,7 +414,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["mild", "sweet", "aromatic", "large", "juicy"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["mint", "honey", "ginger", "cinnamon"],
     cookingMethods: ["raw", "juiced", "salads"],
@@ -504,7 +504,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["aromatic", "tart", "floral", "complex"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 fruit juice (30ml)",
@@ -575,7 +575,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["aromatic", "bitter", "floral", "perfumed"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 tsp zest (2g)",
@@ -646,7 +646,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet-tart", "tiny", "edible peel", "intense"],
     season: ["winter", "spring"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "5 fruits (95g)",
@@ -717,7 +717,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "caviar-like", "elegant", "unique"],
     season: ["summer", "fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 fruit (15g)",
@@ -788,7 +788,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "berry-like", "red flesh", "aromatic"],
     season: ["winter", "spring"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 medium (131g)",
@@ -859,7 +859,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "easy-peel", "aromatic", "bright"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 medium (88g)",

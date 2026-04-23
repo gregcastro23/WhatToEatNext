@@ -28,13 +28,13 @@ import type {
 } from "@/types/kinetics";
 import type { RecipeIngredient } from "@/types/recipe";
 import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
+import { unifiedIngredientService } from "@/services/UnifiedIngredientService";
 import {
   aggregateZodiacElementals,
   calculateAlchemicalFromPlanets,
   getDominantAlchemicalProperty,
   getDominantElement,
 } from "./planetaryAlchemyMapping";
-import { unifiedIngredientService } from "@/services/UnifiedIngredientService";
 
 // ========== COOKING METHOD TRANSFORMATIONS ==========
 

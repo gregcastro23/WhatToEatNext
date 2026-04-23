@@ -25,7 +25,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   kale: {
       description: "A robust, hardy member of the cabbage family (*Brassica oleracea var. sabellica*) known for its dense texture and earthy, slightly bitter flavor. Its tough cellulose structure requires massaging with oil or acid when eaten raw, but allows it to hold up beautifully to long braising or roasting.",
     name: "Kale",
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "leafy_green",
 
     // Base elemental properties (unscaled)
@@ -119,7 +119,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
 },
   spinach: {
     name: "spinach",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "leafy_green",
 
     // Mineral-rich, slightly bitter, nourishing
@@ -277,7 +277,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["cooling", "cleansing"],
     season: ["summer", "fall"],
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "leafy green",
     affinities: ["garlic", "beans", "lemon", "pine nuts"],
     cookingMethods: ["steamed", "sautéed", "braised"],
@@ -312,7 +312,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     name: "lettuce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "leafy_green",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -330,7 +330,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     name: "romaine lettuce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "leafy_green",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -348,7 +348,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     name: "lettuce leaves",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "leafy_green",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],

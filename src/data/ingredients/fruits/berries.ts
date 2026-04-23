@@ -34,7 +34,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     qualities: ["cooling", "sweet", "astringent", "balancing", "restorative"],
     origin: ["North America", "Europe", "Asia"],
     season: ["summer", "early fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     affinities: [
       "lemon",
@@ -174,7 +174,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["delicate", "sweet-tart", "aromatic", "fragrant"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (123g)",
@@ -251,7 +251,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "aromatic", "juicy", "delicate"],
     season: ["spring", "summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (152g)",
@@ -318,7 +318,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet-tart", "earthy", "intense", "robust"],
     season: ["summer", "early fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (144g)",
@@ -390,7 +390,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "astringent", "cleansing", "protective"],
     season: ["fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup whole (100g)",
@@ -462,7 +462,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "complex", "unique", "versatile"],
     season: ["early summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (150g)",
@@ -527,7 +527,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["medicinal", "tart", "earthy", "protective"],
     season: ["late summer", "early fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup cooked (145g)",
@@ -592,7 +592,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "mild", "delicate", "nutritious"],
     season: ["late spring", "early summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (140g)",
@@ -657,7 +657,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["energizing", "sweet-tart", "medicinal", "nutritious"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1/4 cup dried (28g)",
@@ -729,7 +729,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["antioxidant-rich", "earthy", "rich", "nutritious"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "100g frozen puree",
@@ -801,7 +801,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "bright", "jewel-like", "aromatic"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (112g)",
@@ -866,7 +866,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["intense", "aromatic", "earthy", "medicinal"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (112g)",

@@ -5,7 +5,6 @@ import type {
   ZodiacSignType,
   Season,
   LunarPhase,
-  CuisineType
 } from "@/types/constants";
 
 // Re-export ElementalProperties to fix TS2459 errors

@@ -13,8 +13,8 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.32,
     },
     qualities: ["hearty", "protein-rich", "versatile"],
-    category: "vegetables",
-    subcategory: "legumes",
+    category: "vegetable",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["cancer", "taurus", "capricorn"],
@@ -59,8 +59,8 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.34,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
-    subcategory: "legumes",
+    category: "vegetable",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["cancer", "taurus", "capricorn"],
@@ -83,8 +83,8 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.32,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
-    subcategory: "legumes",
+    category: "vegetable",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["cancer", "taurus", "capricorn"],
@@ -107,8 +107,8 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.32,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
-    subcategory: "legumes",
+    category: "vegetable",
+    subcategory: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["cancer", "taurus", "capricorn"],

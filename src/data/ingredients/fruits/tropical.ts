@@ -29,7 +29,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "cooling", "nourishing"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     affinities: ["lime", "chili", "coconut", "mint", "ginger"],
     cookingMethods: ["raw", "grilled", "puréed", "dried"],
@@ -122,7 +122,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet-tart", "tropical", "energizing", "bright"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 cup chunks (165g)",
@@ -195,7 +195,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "digestive", "tropical", "soft"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 cup cubed (145g)",
@@ -268,7 +268,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "aromatic", "exotic", "intense"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 fruit (18g pulp)",
@@ -348,7 +348,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["aromatic", "sweet-tart", "tropical", "nutritious"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 fruit (55g)",
@@ -421,7 +421,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["mild", "refreshing", "exotic", "visual"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 cup cubed (227g)",
@@ -494,7 +494,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "floral", "delicate", "perfumed"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 cup (190g)",
@@ -567,7 +567,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "juicy", "tropical", "exotic"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "100g",
@@ -640,7 +640,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "mild", "aromatic", "medicinal"],
     season: ["summer", "fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "100g",
@@ -713,7 +713,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "crisp", "visual", "refreshing"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 cup sliced (108g)",
@@ -786,7 +786,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "astringent", "seasonal", "rich"],
     season: ["fall", "winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 fruit (168g)",
@@ -859,7 +859,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "sweet", "refreshing", "vitamin-rich"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 fruit (69g)",
@@ -932,7 +932,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "meaty", "tropical", "versatile"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 cup sliced (165g)",
@@ -1005,7 +1005,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["pungent", "rich", "creamy", "divisive"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "100g",
@@ -1078,7 +1078,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["versatile", "tropical", "nourishing", "rich"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "tropical",
     nutritionalProfile: {
       serving_size: "1 cup shredded (80g)",

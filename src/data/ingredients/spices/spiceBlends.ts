@@ -24,7 +24,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["warming", "aromatic", "complex"],
     origin: ["Indian Subcontinent"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -143,7 +143,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["warming", "complex", "aromatic"],
     origin: ["North Africa"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: [
@@ -243,7 +243,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["aromatic", "Mediterranean", "savory"],
     origin: ["Southern France"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: [
@@ -352,7 +352,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["warming", "balanced", "complex"],
     origin: ["China"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -444,7 +444,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["earthy", "tangy", "aromatic"],
     origin: ["Levant"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -514,7 +514,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["warming", "complex", "pungent"],
     origin: ["British-Indian"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -581,7 +581,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     qualities: ["hot", "complex", "earthy"],
     origin: ["Ethiopia"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -643,7 +643,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["nutty", "aromatic", "crunchy"],
     origin: ["Egypt"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -705,7 +705,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.61, Water: 0.13, Earth: 0.13, Air: 0.13 },
     qualities: ["spicy", "citrusy", "nutty"],
     origin: ["Japan"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -768,7 +768,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["warming", "aromatic", "complex"],
     origin: ["Middle East"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -830,7 +830,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ["hot", "pungent", "aromatic"],
     origin: ["Jamaica"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {

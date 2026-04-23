@@ -29,7 +29,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["cooling", "drying", "light", "versatile", "transformative", "nutritious", "fresh"],
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "cruciferous",
     affinities: [
       "cumin",
@@ -86,7 +86,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
 },
   broccoli: {
     name: "broccoli",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "cruciferous",
 
     // Slightly bitter, nutritious, complex
@@ -240,7 +240,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     name: "cabbage",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["crunchy", "mild", "versatile"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "cruciferous",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -273,7 +273,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     name: "napa cabbage",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "cruciferous",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],

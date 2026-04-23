@@ -20,7 +20,7 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
       "gluten-free",
       "omega-rich",
     ],
-    category: "grains",
+    category: "grain",
     origin: ["Central America", "Mexico", "Guatemala"],
     varieties: {},
     preparation: {

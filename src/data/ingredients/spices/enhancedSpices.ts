@@ -11,7 +11,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
   black_pepper: {
     name: "black pepper",
-    category: "spices",
+    category: "spice",
     subcategory: "peppercorn",
 
     // Unique elemental properties - pungent, warming, penetrating
@@ -155,7 +155,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   cinnamon: {
     name: "cinnamon",
-    category: "spices",
+    category: "spice",
     subcategory: "bark",
 
     // Sweet, warming, aromatic
@@ -300,7 +300,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   cumin: {
     name: "cumin",
-    category: "spices",
+    category: "spice",
     subcategory: "seed",
 
     // Earthy, warming, grounding
@@ -447,7 +447,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   turmeric: {
     name: "turmeric",
-    category: "spices",
+    category: "spice",
     subcategory: "rhizome",
 
     // Earthy, bitter, warm
@@ -584,7 +584,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   ginger: {
     name: "ginger",
-    category: "spices",
+    category: "spice",
     subcategory: "rhizome",
 
     // Pungent, warming, sharp
@@ -731,7 +731,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   paprika: {
     name: "paprika",
-    category: "spices",
+    category: "spice",
     subcategory: "ground pepper",
 
     // Sweet, mild, earthy
@@ -867,7 +867,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   cardamom: {
     name: "cardamom",
-    category: "spices",
+    category: "spice",
     subcategory: "pod",
 
     // Aromatic, sweet, complex
@@ -1003,7 +1003,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   coriander: {
     name: "coriander",
-    category: "spices",
+    category: "spice",
     subcategory: "seed",
 
     // Sweet, citrusy, warm
@@ -1147,7 +1147,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   nutmeg: {
     name: "nutmeg",
-    category: "spices",
+    category: "spice",
     subcategory: "seed",
 
     // Warm, sweet, aromatic
@@ -1290,7 +1290,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   chili_powder: {
     name: "chili powder",
-    category: "spices",
+    category: "spice",
     subcategory: "blend",
 
     // Hot, earthy, complex
@@ -1427,7 +1427,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 
   saffron: {
     name: "saffron",
-    category: "spices",
+    category: "spice",
     subcategory: "stigma",
 
     // Delicate, floral, complex

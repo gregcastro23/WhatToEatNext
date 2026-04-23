@@ -8,7 +8,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "ginger",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo", "scorpio"],
@@ -39,7 +39,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "cinnamon",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo", "scorpio"],
@@ -70,7 +70,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "nutmeg",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo", "scorpio"],
@@ -101,7 +101,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "paprika",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo", "scorpio"],
@@ -132,7 +132,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "red bean paste",
     elementalProperties: { Fire: 0.25, Water: 0.2, Earth: 0.4, Air: 0.15 },
     qualities: ["sweet", "earthy", "dense"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
       favorableZodiac: ["taurus", "cancer"],
@@ -163,7 +163,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "curry leaves",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Sun"],
       favorableZodiac: ["virgo", "leo"],
@@ -194,7 +194,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "mustard seeds",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["pungent", "hot", "flavorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo", "scorpio"],
@@ -230,7 +230,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "turmeric",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.25, Air: 0.3 },
     qualities: ["aromatic", "flavorful", "healing", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Sun"],
       favorableZodiac: ["sagittarius", "leo"],
@@ -261,7 +261,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "green chilies",
     elementalProperties: { Fire: 0.55, Water: 0.1, Earth: 0.1, Air: 0.25 },
     qualities: ["spicy", "pungent", "vibrant"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -292,7 +292,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "chole masala",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
       favorableZodiac: ["aries", "leo", "scorpio"],
@@ -323,7 +323,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "chaat masala",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.2, Air: 0.35 },
     qualities: ["tangy", "aromatic", "flavorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Mercury"],
       favorableZodiac: ["aries", "gemini"],
@@ -354,7 +354,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "cumin seeds",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.3, Air: 0.25 },
     qualities: ["earthy", "warm", "pungent"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -385,7 +385,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "garam masala",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "warming", "complex"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Jupiter"],
       favorableZodiac: ["aries", "sagittarius"],
@@ -416,7 +416,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "cardamom",
     elementalProperties: { Fire: 0.35, Water: 0.05, Earth: 0.2, Air: 0.4 },
     qualities: ["aromatic", "flavorful", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["gemini", "libra"],
@@ -447,7 +447,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "saffron",
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.2, Air: 0.3 },
     qualities: ["aromatic", "luxurious", "coloring"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
       favorableZodiac: ["leo", "sagittarius"],
@@ -478,7 +478,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "curry roux",
     elementalProperties: { Fire: 0.35, Water: 0.15, Earth: 0.3, Air: 0.2 },
     qualities: ["aromatic", "flavorful", "thickening"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Jupiter"],
       favorableZodiac: ["aries", "sagittarius"],
@@ -509,7 +509,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "chili powder",
     elementalProperties: { Fire: 0.55, Water: 0.05, Earth: 0.15, Air: 0.25 },
     qualities: ["spicy", "flavorful", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -540,7 +540,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "cumin",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.3, Air: 0.25 },
     qualities: ["earthy", "warm", "pungent"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
       favorableZodiac: ["virgo", "capricorn"],
@@ -571,7 +571,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "coriander",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.3, Air: 0.3 },
     qualities: ["citrusy", "aromatic", "flavorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
       favorableZodiac: ["gemini", "libra"],
@@ -602,7 +602,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "Thai chilies",
     elementalProperties: { Fire: 0.6, Water: 0.05, Earth: 0.1, Air: 0.25 },
     qualities: ["very spicy", "pungent", "vibrant"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -633,7 +633,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "shrimp paste",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["umami", "pungent", "savory"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
       favorableZodiac: ["pisces", "cancer"],

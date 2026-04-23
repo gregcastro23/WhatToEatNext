@@ -4,7 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   asparagus: {
     name: "asparagus",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "shoot",
 
     // Delicate, slightly bitter, refined
@@ -172,7 +172,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Matter: 0.31,
       Substance: 0.22,
     },
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "other",
     nutritionalProfile: {
       macros: { protein: 3.27, carbs: 10.51, fiber: 5.4 },
@@ -208,7 +208,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ["Moon", "Saturn"],
       favorableZodiac: ["cancer", "pisces", "taurus", "capricorn"],
     },
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "other",
     nutritionalProfile: {
       macros: { protein: 0.6, carbs: 2.2, fiber: 0.7 },
@@ -239,7 +239,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Matter: 0.37,
       Substance: 0.24,
     },
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "other",
     nutritionalProfile: {
       macros: { protein: 1.9, carbs: 7.5, fiber: 3.2 },
@@ -271,7 +271,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Matter: 0.28,
       Substance: 0.24,
     },
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "other",
     nutritionalProfile: {
       macros: { protein: 1.2, carbs: 3.1, fiber: 1.0 },
@@ -303,7 +303,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Matter: 0.27,
       Substance: 0.30,
     },
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "other",
     nutritionalProfile: {
       macros: { protein: 1.2, carbs: 7.3, fiber: 3.1 },
@@ -331,7 +331,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.26,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "other",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -355,7 +355,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "other",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -379,7 +379,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.29,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "other",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -403,7 +403,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "other",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -427,7 +427,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "other",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -451,7 +451,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.27,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "other",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],

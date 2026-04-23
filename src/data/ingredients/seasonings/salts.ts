@@ -30,7 +30,7 @@ const rawSalts = {
       minerals: { calcium: 0.01, magnesium: 0.01 },
     },
     origin: ["France", "Portugal"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "salt",
     varieties: {
       Guérande: {
@@ -511,7 +511,7 @@ const rawSalts = {
       minerals: {},
     },
     origin: ["United Kingdom"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "salt",
     varieties: {
       Smoked: {
@@ -621,11 +621,11 @@ const rawSalts = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ["Best for brining"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2 },
           preparationTips: ["Ideal for finishing dishes"],
         },
@@ -649,7 +649,7 @@ const rawSalts = {
       minerals: { magnesium: 0.02, calcium: 0.01 },
     },
     origin: ["Various"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "salt",
     varieties: {
       Smoked: {
@@ -1090,7 +1090,7 @@ const rawSalts = {
       minerals: { iodine: 0.47 },
     },
     origin: ["Global"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "salt",
     culinaryApplications: {
       cooking: {

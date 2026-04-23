@@ -13,7 +13,7 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.80,
     },
     qualities: ["nutritious", "versatile", "fresh", "grounding"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "starchy",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -37,7 +37,7 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.80,
     },
     qualities: ["nutritious", "versatile", "fresh", "grounding"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "starchy",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -61,7 +61,7 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.82,
     },
     qualities: ["nutritious", "versatile", "fresh", "starchy"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "starchy",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -85,7 +85,7 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.70,
     },
     qualities: ["nutritious", "versatile", "fresh", "sweet"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "starchy",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -109,7 +109,7 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.85,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "starchy",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -133,7 +133,7 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.65,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "starchy",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -157,7 +157,7 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.80,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "starchy",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],

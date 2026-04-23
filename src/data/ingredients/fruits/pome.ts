@@ -31,7 +31,7 @@ const rawPome = {
     },
     season: ["fall", "winter"],
     qualities: ["crisp", "sweet", "tart", "versatile", "refreshing"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -213,7 +213,7 @@ const rawPome = {
     },
     season: ["fall", "winter"],
     qualities: ["juicy", "sweet", "fragrant", "delicate", "elegant"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -388,7 +388,7 @@ const rawPome = {
     },
     season: ["fall"],
     qualities: ["astringent", "fragrant", "firm", "transformative", "aromatic"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -544,7 +544,7 @@ const rawPome = {
     },
     season: ["late summer", "fall"],
     qualities: ["crisp", "juicy", "refreshing", "fragrant", "delicate"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -689,7 +689,7 @@ const rawPome = {
     },
     season: ["late fall", "early winter"],
     qualities: ["complex", "unusual", "earthy", "historical", "transformative"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -831,7 +831,7 @@ const rawPome = {
     },
     season: ["spring"],
     qualities: ["sweet-tart", "fragrant", "floral", "refreshing", "unique"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
