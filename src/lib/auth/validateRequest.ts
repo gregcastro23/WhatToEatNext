@@ -10,6 +10,7 @@ import { jwtVerify, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
+import { UserRole } from "@/lib/auth/roles";
 
 type AuthResolver = typeof import("@/lib/auth/auth").auth;
 type UserDatabaseResolver =
@@ -332,7 +333,7 @@ export async function getDatabaseUserFromRequest(
 ): Promise<UserWithProfile | null> {
   const userId = await getUserIdFromRequest(request);
   let user: any = null;
-  
+
   const userDb = await getUserDatabase();
   if (!userDb) return null;
 
@@ -347,7 +348,20 @@ export async function getDatabaseUserFromRequest(
       if (auth) {
         const session = await auth();
         if (session?.user?.email) {
-          user = await userDb.getUserByEmail(session.user.email);
+          try {
+            user = await userDb.getUserByEmail(session.user.email);
+            if (!user) {
+              console.warn("[validateRequest] User authenticated via NextAuth but missing in Postgres. JIT healing sequence initiated.");
+              user = await userDb.createUser({
+                email: session.user.email,
+                name: session.user.name || "Cosmic Citizen",
+                roles: session.user.email.includes("admin") ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
+              });
+            }
+          } catch (dbError) {
+            console.error("[validateRequest] Database lookup or JIT creation failed:", dbError);
+            // Cannot proceed without DB user
+          }
         }
       }
     } catch {

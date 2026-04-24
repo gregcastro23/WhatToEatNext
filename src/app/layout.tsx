@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import SignInModal from "@/components/auth/SignInModal";
 import TokenShopModal from "@/components/economy/TokenShopModal";
+import MobileNavToggle from "@/components/nav/MobileNavToggle";
 import NavAuthLink from "@/components/nav/NavAuthLink";
 import NotificationBell from "@/components/nav/NotificationBell";
 import PremiumLink from "@/components/nav/PremiumLink";
@@ -44,122 +45,71 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans">
         <ClientProviders>
-          <header className="bg-gradient-to-r from-purple-50 via-orange-50 to-pink-50 py-6 border-b-2 border-purple-100 shadow-md">
+          <header className="relative bg-gradient-to-r from-purple-50 via-orange-50 to-pink-50 py-4 md:py-6 border-b-2 border-purple-100 shadow-md">
             <div className="mx-auto max-w-7xl px-4">
               <div className="flex flex-col gap-4">
                 {/* Top Row: Logo and PayPal */}
                 <div className="flex flex-row items-center justify-between">
-                  <Link href="/" className="group flex flex-row items-center gap-4">
-                    <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+                  <Link href="/" className="group flex flex-row items-center gap-3 md:gap-4">
+                    <div className="relative w-10 h-10 md:w-16 md:h-16 flex-shrink-0">
                       <Image
                         src="/brand/logo.jpg"
                         alt="Alchm Kitchen Logo"
                         fill
                         unoptimized
-                        sizes="(min-width: 768px) 64px, 48px"
+                        sizes="(min-width: 768px) 64px, 40px"
                         className="w-full h-full rounded-xl object-contain shadow-sm border border-purple-100 group-hover:scale-105 transition-transform"
                       />
                     </div>
                     <div>
-                      <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600 group-hover:from-purple-700 group-hover:to-orange-700 transition-all">
+                      <h1 className="text-xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600 group-hover:from-purple-700 group-hover:to-orange-700 transition-all">
                         Alchm Kitchen
                       </h1>
-                      <p className="mt-1 text-gray-700 text-sm md:text-lg">
+                      <p className="hidden md:block mt-1 text-gray-700 text-sm md:text-lg">
                         The Menu of the Moment in the Stars and Elements
                       </p>
                     </div>
                   </Link>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <NotificationBell />
+                    {/* Hamburger toggle for mobile */}
+                    <MobileNavToggle>
+                      <Link href="/#cuisines" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-purple-100 text-purple-700 font-semibold text-sm border border-purple-200">🍽️ Cuisines</Link>
+                      <Link href="/#ingredients" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-green-100 text-green-700 font-semibold text-sm border border-green-200">🥬 Ingredients</Link>
+                      <Link href="/cooking-methods" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-orange-100 text-orange-700 font-semibold text-sm border border-orange-200">🔥 Cooking Methods</Link>
+                      <Link href="/menu-planner" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-purple-100 text-purple-700 font-semibold text-sm border border-purple-200">📅 Menu Planner</Link>
+                      <Link href="/pantry" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-emerald-100 text-emerald-700 font-semibold text-sm border border-emerald-200">🥫 Pantry</Link>
+                      <Link href="/food-tracking" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-teal-100 text-teal-700 font-semibold text-sm border border-teal-200">📔 Food Diary</Link>
+                      <Link href="/recipe-builder" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-amber-100 text-amber-700 font-semibold text-sm border border-amber-200">✨ Recipe Builder</Link>
+                      <Link href="/quantities" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-indigo-100 text-indigo-700 font-semibold text-sm border border-indigo-200">⚗️ Alchm Quantities</Link>
+                      <Link href="/cosmic-recipe" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-pink-100 text-pink-700 font-semibold text-sm border border-pink-200">🌌 Cosmic Recipes</Link>
+                      <Link href="/restaurant-creator" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-rose-100 text-rose-700 font-semibold text-sm border border-rose-200">🏪 Restaurant Creator</Link>
+                      <Link href="/sauces" className="px-3 py-2.5 rounded-lg bg-white/80 hover:bg-green-100 text-green-700 font-semibold text-sm border border-green-200">🥣 Sauces</Link>
+                      <NavAuthLink />
+                    </MobileNavToggle>
                     {/* PayPal Button */}
                     <div className="hidden md:block">
                       <PayPalButton />
                     </div>
                   </div>
                 </div>
-                {/* Navigation Menu */}
+                {/* Desktop Navigation Menu — hidden on mobile */}
                 <nav
-                  className="flex flex-wrap gap-2 md:gap-4"
+                  className="hidden md:flex flex-wrap gap-2 md:gap-4"
                   aria-label="Main navigation"
                 >
-                  <Link
-                    href="/#cuisines"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-purple-100 text-purple-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-200"
-                    aria-label="Explore cuisines"
-                  >
-                    🍽️ Cuisines
-                  </Link>
-                  <Link
-                    href="/#ingredients"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-green-100 text-green-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-200"
-                    aria-label="Browse ingredients"
-                  >
-                    🥬 Ingredients
-                  </Link>
-                  <Link
-                    href="/cooking-methods"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-orange-100 text-orange-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-orange-200"
-                    aria-label="Discover cooking methods"
-                  >
-                    🔥 Cooking Methods
-                  </Link>
-                  <Link
-                    href="/menu-planner"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-purple-100 text-purple-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-200"
-                    aria-label="Plan your weekly menu"
-                  >
-                    📅 Menu Planner
-                  </Link>
-                  <Link
-                    href="/pantry"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-emerald-100 text-emerald-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-emerald-200"
-                    aria-label="Track ingredients in your pantry"
-                  >
-                    🥫 Pantry
-                  </Link>
-                  <Link
-                    href="/food-tracking"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-teal-100 text-teal-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-teal-200"
-                    aria-label="Track what you eat"
-                  >
-                    📔 Food Diary
-                  </Link>
-                  <Link
-                    href="/recipe-builder"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-amber-100 text-amber-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-200"
-                    aria-label="Build and generate recipes with ingredient search and planetary alignment"
-                  >
-                    ✨ Recipe Builder
-                  </Link>
-                  <Link
-                    href="/quantities"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-indigo-100 text-indigo-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-indigo-200"
-                    aria-label="View alchm quantities"
-                  >
-                    ⚗️ Alchm Quantities
-                  </Link>
-                  <Link
-                    href="/cosmic-recipe"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-pink-100 text-pink-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-pink-200"
-                    aria-label="AI cosmic recipe generator"
-                  >
-                    🌌 Cosmic Recipes
-                  </Link>
-                  <Link
-                    href="/restaurant-creator"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-rose-100 text-rose-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-rose-200"
-                    aria-label="Create your cosmic restaurant"
-                  >
-                    🏪 Restaurant Creator
-                  </Link>
+                  <Link href="/#cuisines" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-purple-100 text-purple-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-200" aria-label="Explore cuisines">🍽️ Cuisines</Link>
+                  <Link href="/#ingredients" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-green-100 text-green-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-200" aria-label="Browse ingredients">🥬 Ingredients</Link>
+                  <Link href="/cooking-methods" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-orange-100 text-orange-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-orange-200" aria-label="Discover cooking methods">🔥 Cooking Methods</Link>
+                  <Link href="/menu-planner" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-purple-100 text-purple-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-200" aria-label="Plan your weekly menu">📅 Menu Planner</Link>
+                  <Link href="/pantry" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-emerald-100 text-emerald-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-emerald-200" aria-label="Track ingredients in your pantry">🥫 Pantry</Link>
+                  <Link href="/food-tracking" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-teal-100 text-teal-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-teal-200" aria-label="Track what you eat">📔 Food Diary</Link>
+                  <Link href="/recipe-builder" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-amber-100 text-amber-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-amber-200" aria-label="Build and generate recipes">✨ Recipe Builder</Link>
+                  <Link href="/quantities" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-indigo-100 text-indigo-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-indigo-200" aria-label="View alchm quantities">⚗️ Alchm Quantities</Link>
+                  <Link href="/cosmic-recipe" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-pink-100 text-pink-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-pink-200" aria-label="AI cosmic recipe generator">🌌 Cosmic Recipes</Link>
+                  <Link href="/restaurant-creator" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-rose-100 text-rose-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-rose-200" aria-label="Create your cosmic restaurant">🏪 Restaurant Creator</Link>
                   <PremiumLink />
-                  <Link
-                    href="/sauces"
-                    className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-green-100 text-green-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-200"
-                    aria-label="Discover Cosmic Sauces"
-                  >
-                    🥣 Sauces
-                  </Link>
+                  <Link href="/sauces" className="px-3 py-2 rounded-lg bg-white bg-opacity-70 hover:bg-green-100 text-green-700 font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-200" aria-label="Discover Cosmic Sauces">🥣 Sauces</Link>
                   <NavAuthLink />
                 </nav>
               </div>
