@@ -35,7 +35,7 @@ export default function PossoWidget({
       .split(",")
       .map((i) => i.trim().toLowerCase())
       .filter((i) => i && !inventory.includes(i));
-    
+
     if (items.length > 0) {
       setInventory([...inventory, ...items]);
     }
@@ -96,10 +96,15 @@ export default function PossoWidget({
           } as ScoredRecipe;
         });
 
-        // Filter for recipes that use at least 1 inventory item, sort by highest savings
+        // Filter for recipes that use at least 1 inventory item, sort by highest match percentage then savings
         const relevant = scored
           .filter((r) => r.matchCount > 0)
-          .sort((a, b) => b.savings - a.savings);
+          .sort((a, b) => {
+            if (b.matchPercentage !== a.matchPercentage) {
+              return b.matchPercentage - a.matchPercentage;
+            }
+            return b.savings - a.savings;
+          });
 
         setScoredRecipes(relevant.slice(0, 20)); // Top 20 best savings
       } catch (err) {
@@ -136,7 +141,7 @@ export default function PossoWidget({
         {/* Left: Inventory Manager */}
         <div className="w-full md:w-1/3 bg-emerald-50 border-r border-emerald-100 p-4 overflow-y-auto">
           <h3 className="font-semibold text-emerald-900 mb-3">My Pantry & Cart</h3>
-          
+
           <form onSubmit={handleAddItem} className="mb-4">
             <div className="flex gap-2">
               <input
@@ -230,8 +235,8 @@ export default function PossoWidget({
                     <div className="flex items-center gap-2">
                       {/* Match Progress Bar */}
                       <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden" title={`${recipe.matchCount}/${recipe.totalIngredients} ingredients`}>
-                        <div 
-                          className="h-full bg-emerald-500" 
+                        <div
+                          className="h-full bg-emerald-500"
                           style={{ width: `${recipe.matchPercentage * 100}%` }}
                         />
                       </div>
@@ -245,7 +250,7 @@ export default function PossoWidget({
                         // Very naive auto-placement (for demo). A better UX would be drag-and-drop.
                         // Try placing it on the next empty dinner slot
                         const days = [0, 1, 2, 3, 4, 5, 6] as any[];
-                        for(const day of days) {
+                        for (const day of days) {
                           void addMealToSlot(day, "dinner", recipe as MonicaOptimizedRecipe);
                           showSuccess(`Added to ${day} Dinner`);
                           break;
