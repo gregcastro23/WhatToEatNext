@@ -11,6 +11,7 @@
 import React, { useState, useMemo } from "react";
 import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
 import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
+import { RestaurantDiscovery } from "@/components/RestaurantDiscovery";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
@@ -416,8 +417,11 @@ export default function RecipeDetailModal({
                   )}
                 </h3>
 
-                {/* Shop This Recipe on Instacart */}
+                {/* Cook it / Order it — parallel CTAs */}
                 <div className="mb-4">
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">
+                    Cook it
+                  </div>
                   <button
                     onClick={() => { void handleShopOnInstacart(); }}
                     disabled={instacartLoading}
@@ -437,6 +441,17 @@ export default function RecipeDetailModal({
                   </button>
                   {instacartError && (
                     <p className="text-xs text-red-500 mt-1">{instacartError}</p>
+                  )}
+
+                  {/* Order it — Yelp-powered alchm-scored restaurants */}
+                  {recipe.cuisine && (
+                    <RestaurantDiscovery
+                      cuisineType={
+                        typeof recipe.cuisine === "string"
+                          ? recipe.cuisine
+                          : String(recipe.cuisine)
+                      }
+                    />
                   )}
                 </div>
 
