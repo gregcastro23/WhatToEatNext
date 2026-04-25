@@ -7,9 +7,9 @@
  * layer, so repeated calls are cheap.
  */
 
-import type { Recipe } from "@/types/recipe";
-import type { ElementalProperties } from "@/types/alchemy";
 import { calculateRecipeCompatibility } from "@/calculations/culinary/recipeMatching";
+import type { ElementalProperties } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 import { calculateElementalSimilarity } from "./RecipeElementalService";
 
 interface RecipeMatchCriteria {

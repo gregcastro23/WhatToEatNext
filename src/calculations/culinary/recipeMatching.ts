@@ -15,13 +15,13 @@
  * scores for that axis so partial data still yields usable results.
  */
 
-import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
-import type { Recipe } from "@/types/recipe";
 import {
   calculateElementalSimilarity,
   deriveElementalProperties,
   normalizeElementalProperties,
 } from "@/services/RecipeElementalService";
+import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 export interface RecipeCompatibilityResult {
   score: number;

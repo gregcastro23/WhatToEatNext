@@ -488,7 +488,7 @@ export class EnhancedRecommendationService {
   }> {
     let entries: FoodDiaryEntry[] = [];
     let favoriteNames = new Set<string>();
-    let highRatedCuisines = new Set<string>();
+    const highRatedCuisines = new Set<string>();
 
     try {
       const mod = await import("@/services/FoodDiaryService");

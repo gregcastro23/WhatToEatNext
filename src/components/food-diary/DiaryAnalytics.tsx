@@ -34,11 +34,11 @@ interface AnalyticsProps {
   weeklySummary: WeeklyFoodDiarySummary | null;
 }
 
-type DayRow = {
+interface DayRow {
   label: string; // e.g. "Mon"
   dateLabel: string; // e.g. "Mar 6"
   day: DailyFoodDiarySummary;
-};
+}
 
 const DAY_SHORT: Record<number, string> = {
   0: "Sun",

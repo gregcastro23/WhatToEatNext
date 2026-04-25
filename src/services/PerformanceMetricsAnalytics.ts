@@ -34,7 +34,7 @@ function collectNumericMetrics(input: unknown): Record<string, number> {
       } else if (Array.isArray(v)) {
         if (v.every((x) => typeof x === "number")) {
           // Summarize arrays of numbers with mean + count
-          const arr = v as number[];
+          const arr = v;
           flat[`${key}.count`] = arr.length;
           if (arr.length > 0) {
             flat[`${key}.mean`] = arr.reduce((a, b) => a + b, 0) / arr.length;

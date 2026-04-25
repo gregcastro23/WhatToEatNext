@@ -8,11 +8,11 @@
 
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { ElementalProperties, PlanetName } from "@/types/alchemy";
+import { IngredientService } from "./IngredientService";
 import {
   calculateElementalSimilarity,
   normalizeElementalProperties,
 } from "./RecipeElementalService";
-import { IngredientService } from "./IngredientService";
 
 interface IngredientCriteria {
   elementalPreference?: Partial<ElementalProperties>;

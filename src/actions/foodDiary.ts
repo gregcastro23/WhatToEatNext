@@ -1,7 +1,7 @@
 "use server";
 
-import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { foodDiaryService } from "@/services/FoodDiaryService";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type {
   CreateFoodDiaryEntryInput,
   UpdateFoodDiaryEntryInput,

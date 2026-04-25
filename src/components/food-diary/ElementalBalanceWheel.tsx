@@ -244,7 +244,7 @@ export default function ElementalBalanceWheel({
                 key={el}
                 className={`flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg transition-colors ${
                   highlight === "dominant"
-                    ? ELEMENT_STYLE[el].bg + " ring-1 ring-inset ring-red-200/60"
+                    ? `${ELEMENT_STYLE[el].bg  } ring-1 ring-inset ring-red-200/60`
                     : highlight === "missing"
                       ? "bg-gray-50 ring-1 ring-inset ring-gray-200"
                       : "bg-gray-50"
