@@ -25,6 +25,12 @@ import { cuisinesMap } from "@/data/cuisines";
 import { allSauces, type Sauce as DataSauce } from "@/data/sauces";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
+import { aggregateIngredientElementals } from "@/utils/hierarchicalRecipeCalculations";
+import { normalizeForDisplay } from "@/utils/elemental/normalization";
+import {
+  calculateThermodynamicMetrics,
+  elementalToAlchemicalApproximation
+} from "@/utils/monicaKalchmCalculations";
 
 // ============================================================================
 // Types
@@ -200,17 +206,17 @@ export function getCuisineFingerprint(cuisineKey: string): CuisineFingerprint | 
   const regionalEntries = cuisine.regionalCuisines
     ? Array.isArray(cuisine.regionalCuisines)
       ? cuisine.regionalCuisines.map((r: any, i: number) => ({
-          key: String(i),
-          name: r?.name ?? String(i),
-          description: r?.description,
-          signature: r?.signature ?? r?.signatureDishes,
-        }))
+        key: String(i),
+        name: r?.name ?? String(i),
+        description: r?.description,
+        signature: r?.signature ?? r?.signatureDishes,
+      }))
       : Object.entries(cuisine.regionalCuisines).map(([k, r]: [string, any]) => ({
-          key: k,
-          name: r?.name ?? k,
-          description: r?.description,
-          signature: r?.signature ?? r?.signatureDishes,
-        }))
+        key: k,
+        name: r?.name ?? k,
+        description: r?.description,
+        signature: r?.signature ?? r?.signatureDishes,
+      }))
     : [];
 
   const sr = cuisine.sauceRecommender ?? {
@@ -374,6 +380,40 @@ function fromGlobalSauce(key: string, sauce: DataSauce): UnifiedSauce {
 }
 
 /**
+ * Dynamically infuses a UnifiedSauce with cutting-edge elemental and
+ * thermodynamic calculations if it has ingredients, replacing stagnant defaults.
+ */
+function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
+  const ingredientsArray = sauce.ingredients || sauce.keyIngredients || [];
+  if (ingredientsArray.length === 0) return sauce;
+
+  // Create recipe-style ingredients for the aggregation engine
+  const recipeIngs = ingredientsArray.map(name => ({
+    name,
+    amount: "1",
+    unit: "part"
+  }));
+
+  const rawElementals = aggregateIngredientElementals(recipeIngs as any);
+
+  // If zero (e.g. ingredients not recognized), fallback to existing
+  if (rawElementals.Fire === 0 && rawElementals.Water === 0 && rawElementals.Earth === 0 && rawElementals.Air === 0) {
+    return sauce;
+  }
+
+  const elementalProperties = normalizeForDisplay(rawElementals);
+  const alchemicalProperties = sauce.alchemicalProperties || elementalToAlchemicalApproximation(elementalProperties);
+  const thermodynamicProperties = calculateThermodynamicMetrics(alchemicalProperties, elementalProperties);
+
+  return {
+    ...sauce,
+    elementalProperties,
+    alchemicalProperties,
+    thermodynamicProperties
+  };
+}
+
+/**
  * Build the candidate pool for a given context. Pulls:
  *   - All mother + traditional sauces of the chosen cuisine (rich data)
  *   - All globally-cataloged sauces (rich data)
@@ -392,7 +432,7 @@ export function buildCuisineSaucePool(cuisineKey: string): UnifiedSauce[] {
     const { cuisine, canonicalKey } = resolved;
     if (cuisine.motherSauces) {
       for (const [k, raw] of Object.entries(cuisine.motherSauces)) {
-        const u = fromCuisineSauce(canonicalKey, "mother", k, raw);
+        const u = enhanceSauceWithDynamicProperties(fromCuisineSauce(canonicalKey, "mother", k, raw));
         pool.set(norm(u.name), u);
       }
     }
@@ -400,7 +440,7 @@ export function buildCuisineSaucePool(cuisineKey: string): UnifiedSauce[] {
       for (const [k, raw] of Object.entries(cuisine.traditionalSauces)) {
         const key = norm((raw as any)?.name ?? k);
         if (!pool.has(key)) {
-          const u = fromCuisineSauce(canonicalKey, "traditional", k, raw);
+          const u = enhanceSauceWithDynamicProperties(fromCuisineSauce(canonicalKey, "traditional", k, raw));
           pool.set(key, u);
         }
       }
@@ -428,7 +468,7 @@ export function buildCuisineSaucePool(cuisineKey: string): UnifiedSauce[] {
         if (pool.has(k)) continue;
         const richer = findDataSauce(name);
         if (richer) {
-          pool.set(k, fromGlobalSauce(richer.key, richer.sauce));
+          pool.set(k, enhanceSauceWithDynamicProperties(fromGlobalSauce(richer.key, richer.sauce)));
         } else {
           pool.set(k, {
             id: `${canonicalKey}:named:${k}`,
@@ -444,7 +484,7 @@ export function buildCuisineSaucePool(cuisineKey: string): UnifiedSauce[] {
   // 3) Global sauces from allSauces — add anything not already present
   for (const [key, sauce] of Object.entries(allSauces)) {
     const k = norm(sauce.name);
-    if (!pool.has(k)) pool.set(k, fromGlobalSauce(key, sauce));
+    if (!pool.has(k)) pool.set(k, enhanceSauceWithDynamicProperties(fromGlobalSauce(key, sauce)));
   }
 
   return Array.from(pool.values());
