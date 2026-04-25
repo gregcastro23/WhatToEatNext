@@ -31,6 +31,7 @@ import {
   getElementalFoodRecommendations,
   getTemporalFoodRecommendations,
 } from "@/utils/kineticsFoodMatcher";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
 export interface UsePlanetaryKineticsOptions {
   location?: KineticsLocation;
@@ -108,8 +109,14 @@ export function usePlanetaryKinetics(
         kineticsOptions as any,
       );
 
-      // Get current planetary positions (for now using default, can be enhanced later)
-      const currentPlanetaryPositions = getDefaultPlanetaryPositions();
+      // Get accurate planetary positions utilizing our robust astronomy-engine wrapper
+      const accuratePositions = getAccuratePlanetaryPositions(new Date());
+      const currentPlanetaryPositions: Record<string, string> = {};
+      for (const [planet, data] of Object.entries(accuratePositions)) {
+        if (data && typeof data === "object" && "sign" in data) {
+          currentPlanetaryPositions[planet] = String(data.sign);
+        }
+      }
 
       // Calculate kinetics metrics
       const currentTime = Date.now();
@@ -356,22 +363,3 @@ export function usePlanetaryKinetics(
   };
 }
 
-/**
- * Get default planetary positions for kinetics calculation
- * TODO: Replace with actual planetary position service
- */
-function getDefaultPlanetaryPositions(): Record<string, string> {
-  return {
-    Sun: "leo",
-    Moon: "cancer",
-    Mercury: "gemini",
-    Venus: "libra",
-    Mars: "aries",
-    Jupiter: "pisces",
-    Saturn: "aquarius",
-    Uranus: "taurus",
-    Neptune: "pisces",
-    Pluto: "scorpio",
-    Ascendant: "aries",
-  };
-}
