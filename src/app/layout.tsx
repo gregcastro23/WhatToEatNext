@@ -204,7 +204,7 @@ export default function RootLayout({
                         href="/quantities"
                         className="text-gray-300 hover:text-indigo-300 transition-colors"
                       >
-                        ⚗️ Alchm Quantities
+                        Alchm Quantities
                       </Link>
                     </li>
                     <li className="pt-4">

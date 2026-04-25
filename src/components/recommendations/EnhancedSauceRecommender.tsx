@@ -244,10 +244,10 @@ function ScoreBar({ label, value }: { label: string; value: number }) {
     pct >= 80
       ? "bg-emerald-500"
       : pct >= 60
-      ? "bg-amber-500"
-      : pct >= 40
-      ? "bg-orange-400"
-      : "bg-slate-300";
+        ? "bg-amber-500"
+        : pct >= 40
+          ? "bg-orange-400"
+          : "bg-slate-300";
   return (
     <div className="flex items-center gap-2 text-[10px]">
       <span className="w-28 text-slate-500">{label}</span>
@@ -283,10 +283,10 @@ function SauceResultCard({
     sauce.origin === "mother"
       ? { label: "Mother sauce", className: "bg-amber-500 text-white" }
       : sauce.origin === "traditional"
-      ? { label: "Traditional", className: "bg-slate-700 text-white" }
-      : sauce.origin === "global"
-      ? { label: sauce.ownerCuisine ?? "Global", className: "bg-slate-200 text-slate-700" }
-      : { label: "Pairing reference", className: "bg-slate-100 text-slate-500" };
+        ? { label: "Traditional", className: "bg-slate-700 text-white" }
+        : sauce.origin === "global"
+          ? { label: sauce.ownerCuisine ?? "Global", className: "bg-slate-200 text-slate-700" }
+          : { label: "Pairing reference", className: "bg-slate-100 text-slate-500" };
 
   return (
     <div className="bg-white rounded-xl p-4 border border-slate-200 hover:shadow-md transition-shadow flex flex-col">
@@ -382,7 +382,7 @@ function SauceResultCard({
           {sauce.astrologicalInfluences.slice(0, 4).map((a) => (
             <span
               key={a}
-              className="text-[9px] bg-purple-50 text-purple-700 border border-purple-200/40 px-1.5 py-0.5 rounded capitalize"
+              className="text-[9px] bg-purple-50 text-purple-700 border border-purple-200/40 px-1.5 py-0.5 rounded lowercase"
             >
               {a}
             </span>
@@ -420,11 +420,10 @@ function SauceResultCard({
               <button
                 key={m}
                 onClick={() => setScaleMultiplier(m)}
-                className={`px-2 py-0.5 rounded text-[10px] transition-colors ${
-                  scaleMultiplier === m
+                className={`px-2 py-0.5 rounded text-[10px] transition-colors ${scaleMultiplier === m
                     ? "bg-amber-600 text-white"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 {m}x
               </button>
@@ -546,11 +545,11 @@ export default function EnhancedSauceRecommender() {
       season,
       cosmic: cosmicSync
         ? {
-            zodiac: astroState.currentZodiac as string | undefined,
-            planetaryHour: (astroState.currentPlanetaryHour ?? planetaryHour) as string | undefined,
-            isDaytime,
-            lunarPhase: lunarPhase as string | undefined,
-          }
+          zodiac: astroState.currentZodiac as string | undefined,
+          planetaryHour: (astroState.currentPlanetaryHour ?? planetaryHour) as string | undefined,
+          isDaytime,
+          lunarPhase: lunarPhase as string | undefined,
+        }
         : undefined,
       cosmicWeight: cosmicSync ? 0.5 : 0,
     }),
@@ -678,11 +677,10 @@ export default function EnhancedSauceRecommender() {
                   setCuisineKey(c.key);
                   setRegion(undefined);
                 }}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                  cuisineKey === c.key
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${cuisineKey === c.key
                     ? "bg-amber-600 text-white shadow-sm"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 {c.name}
               </button>
@@ -702,11 +700,10 @@ export default function EnhancedSauceRecommender() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setRegion(undefined)}
-                className={`px-3 py-1 rounded-full text-xs transition-colors ${
-                  region === undefined
+                className={`px-3 py-1 rounded-full text-xs transition-colors ${region === undefined
                     ? "bg-slate-800 text-white"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 Any region
               </button>
@@ -715,11 +712,10 @@ export default function EnhancedSauceRecommender() {
                   key={r.key}
                   onClick={() => setRegion(r.key)}
                   title={r.description}
-                  className={`px-3 py-1 rounded-full text-xs transition-colors ${
-                    region === r.key
+                  className={`px-3 py-1 rounded-full text-xs transition-colors ${region === r.key
                       ? "bg-slate-800 text-white"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
+                    }`}
                 >
                   {r.name}
                 </button>
@@ -794,11 +790,10 @@ export default function EnhancedSauceRecommender() {
                 <button
                   key={d.key}
                   onClick={() => toggleInArray(d.key, dietary, setDietary)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                    active
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${active
                       ? "bg-emerald-600 text-white"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
+                    }`}
                 >
                   {d.label}
                 </button>
@@ -821,9 +816,8 @@ export default function EnhancedSauceRecommender() {
                   onClick={() =>
                     toggleInArray<FlavorAxis>(f.key, flavorTargets, setFlavorTargets)
                   }
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors border ${
-                    active ? "bg-slate-800 text-white border-slate-800" : f.color
-                  }`}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors border ${active ? "bg-slate-800 text-white border-slate-800" : f.color
+                    }`}
                 >
                   {f.label}
                 </button>
@@ -844,11 +838,10 @@ export default function EnhancedSauceRecommender() {
                   key={r.key}
                   title={r.description}
                   onClick={() => setRole(r.key)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                    role === r.key
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${role === r.key
                       ? "bg-amber-600 text-white"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
+                    }`}
                 >
                   {r.label}
                 </button>
@@ -864,11 +857,10 @@ export default function EnhancedSauceRecommender() {
                 <button
                   key={s.key}
                   onClick={() => setSeason(s.key as CuisineSauceContext["season"])}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                    season === s.key
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${season === s.key
                       ? "bg-emerald-700 text-white"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
+                    }`}
                 >
                   {s.label}
                 </button>
@@ -892,7 +884,7 @@ export default function EnhancedSauceRecommender() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px] text-slate-600">
               <div>
                 <div className="text-[10px] text-slate-400">Sun sign</div>
-                <div className="font-semibold text-slate-800 capitalize">
+                <div className="font-semibold text-slate-800 lowercase">
                   {(astroState.currentZodiac as string) || "—"}
                 </div>
               </div>
