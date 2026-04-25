@@ -49,8 +49,57 @@ import {
   type UserIntent,
   type HarmonyResult as _HarmonyResult,
 } from "@/utils/resonanceGapScoring";
+import { METHOD_PHYSICAL_REFERENCE, MethodPhysicalReference } from "@/data/cooking/physicalReference";
 
-// ============================================================================
+
+  const renderRecipesTab = (method: (typeof currentMethods)[0]) => {
+    return (
+      <div className="space-y-4">
+        <div className="rounded-xl border border-white/10 bg-transparent/5 p-5 shadow-sm">
+          <h4 className="text-sm font-bold text-gray-200 mb-2 flex items-center gap-2">
+            <span>🍱</span> Current Moment Aligned Recipes
+          </h4>
+          <p className="text-xs text-gray-400 mb-4">Recipes using {method.name} that perfectly target current live thermodynamic constraints.</p>
+          
+          {isLoadingRecipes && <div className="text-sm text-gray-500 animate-pulse">Scanning recipe calculus...</div>}
+          
+          {!isLoadingRecipes && alignedRecipes.length === 0 && (
+            <div className="text-sm text-gray-500">No perfectly aligned recipes found for this specific technique.</div>
+          )}
+
+          {!isLoadingRecipes && alignedRecipes.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+              {alignedRecipes.map(recipe => (
+                <div key={recipe.id} className="group relative flex flex-col justify-between rounded-lg border border-white/5 bg-transparent/5 p-4 hover:border-purple-500/50 hover:bg-transparent/10 transition-colors">
+                  <div>
+                    <div className="flex justify-between items-start mb-2">
+                      <h5 className="font-semibold text-gray-200 text-sm">{recipe.name}</h5>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
+                        {Math.round(recipe.matchScore)}% Match
+                      </span>
+                    </div>
+                    <div className="text-xs text-brand text-purple-400">{recipe.cuisine || "Global"}</div>
+                  </div>
+                  
+                  <div className="mt-3 flex gap-2">
+                    {recipe.elementalProperties && (
+                      <div className="flex gap-1">
+                        {Object.entries(recipe.elementalProperties).map(([el, val]) => (
+                           <span key={el} className="text-[10px] bg-black/40 px-1.5 rounded text-gray-400">{el} {Number(val).toFixed(2)}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ============================================================================
 // Types
 // ============================================================================
 
@@ -84,7 +133,42 @@ interface CategoryConfig {
   methods: Record<string, MethodData>;
 }
 
-type ExpandedTab = "overview" | "thermo" | "kinetics" | "conditions";
+type ExpandedTab = "overview" | "thermo" | "kinetics" | "conditions" | "recipes";
+
+interface CurrentMomentPayload {
+  success: boolean;
+  timestamp: string;
+  quantities: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  };
+  dominantElement: string;
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  energy: number;
+  kalchm: number;
+  monica: number;
+  circuit: {
+    charge: number;
+    potentialDifference: number;
+    currentFlow: number;
+    power: number;
+    inertia: number;
+    forceMagnitude: number;
+    forceClassification: "accelerating" | "decelerating" | "balanced";
+    thermalDirection: "heating" | "cooling" | "stable";
+    elementalBalance: {
+      Fire: number;
+      Water: number;
+      Earth: number;
+      Air: number;
+    };
+  };
+}
+
 
 const categories: CategoryConfig[] = [
   { id: "dry", name: "Dry Heat", icon: "🔥", methods: dryCookingMethods as Record<string, MethodData> },
@@ -120,6 +204,10 @@ const INTENT_OPTIONS: Array<{ key: UserIntent; label: string; icon: string }> = 
   { key: "flavorful", label: "Flavorful", icon: "🌿" },
 ];
 
+function toCelsius(fahrenheit: number): number {
+  return (fahrenheit - 32) * (5 / 9);
+}
+
 function extractZodiacSignType(position: unknown): string {
   if (!position) return "Aries";
   if (typeof position === "string") return position;
@@ -144,7 +232,7 @@ function normalizePlanetaryPositions(contextPositions: Record<string, unknown> |
 }
 
 function classifyMonica(monica: number | null): { label: string; color: string; bgColor: string; badgeColor: string } {
-  if (monica === null || isNaN(monica)) return { label: "Undefined", color: "text-gray-500", bgColor: "bg-gray-100", badgeColor: "bg-gray-400" };
+  if (monica === null || isNaN(monica)) return { label: "Undefined", color: "text-gray-500", bgColor: "bg-white/10", badgeColor: "bg-gray-400" };
   if (monica > 10) return { label: "Highly Volatile", color: "text-red-700", bgColor: "bg-red-100", badgeColor: "bg-red-500" };
   if (monica > 5) return { label: "Volatile", color: "text-orange-700", bgColor: "bg-orange-100", badgeColor: "bg-orange-500" };
   if (monica > 2) return { label: "Transformative", color: "text-yellow-700", bgColor: "bg-yellow-100", badgeColor: "bg-yellow-500" };
@@ -170,7 +258,7 @@ function getPillarColors(pillarId: number) {
     13: { bg: "bg-violet-50", text: "text-violet-800", border: "border-violet-300", accent: "#8b5cf6" },
     14: { bg: "bg-amber-50", text: "text-amber-800", border: "border-amber-300", accent: "#f59e0b" },
   };
-  return map[pillarId] || { bg: "bg-gray-50", text: "text-gray-800", border: "border-gray-300", accent: "#6b7280" };
+  return map[pillarId] || { bg: "bg-white/5", text: "text-gray-200", border: "border-white/10", accent: "#6b7280" };
 }
 
 // ============================================================================
@@ -357,6 +445,11 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
   const [compareMode, setCompareMode] = useState(false);
   const [compareSelections, setCompareSelections] = useState<string[]>([]);
+  const [currentMoment, setCurrentMoment] = useState<CurrentMomentPayload | null>(null);
+  const [momentStatus, setMomentStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [alignedRecipes, setAlignedRecipes] = useState<any[]>([]);
+  const [isLoadingRecipes, setIsLoadingRecipes] = useState(false);
+  const [fetchedMethodRecipes, setFetchedMethodRecipes] = useState<Record<string, any[]>>({});
 
   // Get planetary positions from AlchemicalContext
   const alchemicalContext = useAlchemical();
@@ -389,12 +482,48 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchCurrentMoment = async () => {
+      try {
+        const response = await fetch("/api/alchm-quantities", { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = (await response.json()) as CurrentMomentPayload;
+        if (!cancelled && data?.success) {
+          setCurrentMoment(data);
+          setMomentStatus("ready");
+        }
+      } catch {
+        if (!cancelled) setMomentStatus("error");
+      }
+    };
+
+    void fetchCurrentMoment();
+    const interval = setInterval(() => {
+      void fetchCurrentMoment();
+    }, 60000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
   // ── Compute all methods with full metrics + Harmony Index ──
   const currentMethods = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);
     if (!category) return [];
 
-    const baseAlchemicalProperties = calculateAlchemicalFromPlanets(planetaryPositions);
+    const planetaryDerivedESMS = calculateAlchemicalFromPlanets(planetaryPositions);
+    const baseAlchemicalProperties = currentMoment?.quantities
+      ? {
+          Spirit: currentMoment.quantities.Spirit,
+          Essence: currentMoment.quantities.Essence,
+          Matter: currentMoment.quantities.Matter,
+          Substance: currentMoment.quantities.Substance,
+        }
+      : planetaryDerivedESMS;
 
     const methods = Object.entries(category.methods).map(([id, method]) => {
       const pillar = getCookingMethodPillar(id);
@@ -449,6 +578,24 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       );
 
       const kProfile = getKineticProfile(id, (method as any).kineticProfile);
+      const referenceProfile = METHOD_PHYSICAL_REFERENCE[id];
+      const thermoAlignmentScore = currentMoment
+        ? Math.max(
+            0,
+            100 -
+              ((Math.abs((currentMoment.heat ?? 0.5) - methodThermo.heat) +
+                Math.abs((currentMoment.entropy ?? 0.5) - methodThermo.entropy) +
+                Math.abs((currentMoment.reactivity ?? 0.5) - methodThermo.reactivity)) /
+                3) *
+                100,
+          )
+        : null;
+      const methodPowerProxy = Math.max(0, Math.min(1, kProfile.voltage * kProfile.current * (1 - kProfile.resistance)));
+      const currentPowerProxy = currentMoment
+        ? Math.max(0, Math.min(1, Math.abs(currentMoment.circuit.power) * 20))
+        : null;
+      const kineticAlignmentScore =
+        currentPowerProxy === null ? null : Math.max(0, 100 - Math.abs(methodPowerProxy - currentPowerProxy) * 100);
 
       // Calculate Harmony Index via Resonance Gap model
       const duration = method.duration || method.time_range;
@@ -464,7 +611,11 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           kineticPower: kinetics?.power,
         },
         userIntent,
-        { highStress: false },
+        {
+          highStress:
+            currentMoment?.circuit.forceClassification === "accelerating" &&
+            currentMoment.circuit.forceMagnitude > 0.25,
+        },
         focusMode,
       );
 
@@ -482,12 +633,39 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         monicaScoreResult,
         kProfile,
         harmony,
+        referenceProfile,
+        thermoAlignmentScore,
+        kineticAlignmentScore,
       };
     });
 
     // Sort by Harmony Index (primary sort for all focus modes)
     return methods.sort((a, b) => b.harmony.harmonyIndex - a.harmony.harmonyIndex);
-  }, [selectedCategory, planetaryPositions, focusMode, userIntent]);
+  }, [selectedCategory, planetaryPositions, focusMode, userIntent, currentMoment]);
+
+  
+  const loadAlignedRecipes = useCallback(async (methodId: string) => {
+    if (fetchedMethodRecipes[methodId]) {
+      setAlignedRecipes(fetchedMethodRecipes[methodId]);
+      return;
+    }
+    setIsLoadingRecipes(true);
+    try {
+      const heat = currentMoment?.heat ?? 0.5;
+      const entropy = currentMoment?.entropy ?? 0.5;
+      const reactivity = currentMoment?.reactivity ?? 0.5;
+      const res = await fetch(`/api/recommendations/recipes?method=${methodId}&heat=${heat}&entropy=${entropy}&reactivity=${reactivity}`);
+      const data = await res.json();
+      if (data.success) {
+        setAlignedRecipes(data.recipes);
+        setFetchedMethodRecipes(prev => ({ ...prev, [methodId]: data.recipes }));
+      }
+    } catch(err) {
+      console.warn("Failed to fetch aligned recipes", err);
+    } finally {
+      setIsLoadingRecipes(false);
+    }
+  }, [currentMoment, fetchedMethodRecipes]);
 
   const toggleMethod = useCallback((methodId: string) => {
     if (compareMode) {
@@ -527,11 +705,19 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // ============================================================================
   // RENDER: Tabs for expanded view
   // ============================================================================
+
+  useEffect(() => {
+    if (expandedTab === "recipes" && expandedMethod) {
+      loadAlignedRecipes(expandedMethod);
+    }
+  }, [expandedTab, expandedMethod, loadAlignedRecipes]);
+
   const tabs: Array<{ key: ExpandedTab; label: string; icon: string }> = [
     { key: "overview", label: "Overview", icon: "🔮" },
     { key: "thermo", label: "Thermodynamics", icon: "🌡️" },
     { key: "kinetics", label: "Kinetics", icon: "⚡" },
     { key: "conditions", label: "Conditions", icon: "🎯" },
+    { key: "recipes", label: "Aligned Recipes", icon: "🍱" },
   ];
 
   // ============================================================================
@@ -546,12 +732,12 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         {/* Harmony Index + Transformation Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Harmony Index */}
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h4 className="text-sm font-bold text-gray-700 mb-3">Harmony Index</h4>
+          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+            <h4 className="text-sm font-bold text-gray-300 mb-3">Harmony Index</h4>
             <div className="flex items-center gap-5">
               <HarmonyRing value={harmony.harmonyIndex} size={80} />
               <div className="space-y-2 flex-1">
-                <div className="text-lg font-bold text-gray-800">{harmony.label}</div>
+                <div className="text-lg font-bold text-gray-200">{harmony.label}</div>
                 <div className="space-y-1">
                   {[
                     { n: "Stability", v: harmony.breakdown.stabilityResonance },
@@ -562,10 +748,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                   ].map(({ n, v }) => (
                     <div key={n} className="flex items-center gap-2 text-xs">
                       <span className="w-14 text-gray-500">{n}</span>
-                      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                         <div className="h-full bg-indigo-400 rounded-full" style={{ width: `${Math.min(100, v)}%` }} />
                       </div>
-                      <span className="w-8 text-right font-semibold text-gray-600">{Math.round(v)}</span>
+                      <span className="w-8 text-right font-semibold text-gray-400">{Math.round(v)}</span>
                     </div>
                   ))}
                 </div>
@@ -574,8 +760,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           </div>
 
           {/* Key Metrics */}
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h4 className="text-sm font-bold text-gray-700 mb-3">Transformation Overview</h4>
+          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+            <h4 className="text-sm font-bold text-gray-300 mb-3">Transformation Overview</h4>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <div className="text-xs text-gray-500">Volatility</div>
@@ -604,8 +790,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         </div>
 
         {/* ESMS Matrix */}
-        <div className="rounded-xl border border-purple-200 bg-white p-5 shadow-sm">
-          <h4 className="text-sm font-bold text-gray-700 mb-3">Alchemical Matrix (ESMS)</h4>
+        <div className="rounded-xl border border-purple-200 bg-transparent p-5 shadow-sm">
+          <h4 className="text-sm font-bold text-gray-300 mb-3">Alchemical Matrix (ESMS)</h4>
           <div className="grid grid-cols-4 gap-3">
             {[
               { name: "Spirit", value: method.alchemicalProperties.Spirit, color: "bg-yellow-400", icon: "✨" },
@@ -615,9 +801,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             ].map(({ name, value, color, icon }) => (
               <div key={name} className="text-center">
                 <div className="text-lg">{icon}</div>
-                <div className="text-xs font-semibold text-gray-600 mt-1">{name}</div>
-                <div className="text-lg font-black text-gray-800">{value}</div>
-                <div className="mt-1 mx-auto h-1.5 w-12 bg-gray-100 rounded-full overflow-hidden">
+                <div className="text-xs font-semibold text-gray-400 mt-1">{name}</div>
+                <div className="text-lg font-black text-gray-200">{value}</div>
+                <div className="mt-1 mx-auto h-1.5 w-12 bg-white/10 rounded-full overflow-hidden">
                   <div className={`h-full ${color} rounded-full`} style={{ width: `${Math.min(100, ((value + 5) / 10) * 100)}%` }} />
                 </div>
               </div>
@@ -633,8 +819,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         {/* Details Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {method.suitable_for && method.suitable_for.length > 0 && (
-            <div className="rounded-xl border border-green-200 bg-white p-4 shadow-sm">
-              <h4 className="text-xs font-bold text-gray-700 mb-2">Suitable For</h4>
+            <div className="rounded-xl border border-green-200 bg-transparent p-4 shadow-sm">
+              <h4 className="text-xs font-bold text-gray-300 mb-2">Suitable For</h4>
               <div className="flex flex-wrap gap-1">
                 {method.suitable_for.slice(0, 6).map((item, i) => (
                   <span key={i} className="rounded-md bg-green-50 px-2 py-0.5 text-xs text-green-700">{item}</span>
@@ -643,17 +829,17 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             </div>
           )}
           {method.benefits && method.benefits.length > 0 && (
-            <div className="rounded-xl border border-blue-200 bg-white p-4 shadow-sm">
-              <h4 className="text-xs font-bold text-gray-700 mb-2">Benefits</h4>
-              <ul className="list-disc list-inside space-y-0.5 text-xs text-gray-600">
+            <div className="rounded-xl border border-blue-200 bg-transparent p-4 shadow-sm">
+              <h4 className="text-xs font-bold text-gray-300 mb-2">Benefits</h4>
+              <ul className="list-disc list-inside space-y-0.5 text-xs text-gray-400">
                 {method.benefits.slice(0, 3).map((b, i) => <li key={i}>{b}</li>)}
               </ul>
             </div>
           )}
           {method.expertTips && method.expertTips.length > 0 && (
-            <div className="rounded-xl border border-amber-200 bg-white p-4 shadow-sm">
-              <h4 className="text-xs font-bold text-gray-700 mb-2">Expert Tips</h4>
-              <ul className="list-disc list-inside space-y-0.5 text-xs text-gray-600">
+            <div className="rounded-xl border border-amber-200 bg-transparent p-4 shadow-sm">
+              <h4 className="text-xs font-bold text-gray-300 mb-2">Expert Tips</h4>
+              <ul className="list-disc list-inside space-y-0.5 text-xs text-gray-400">
                 {method.expertTips.slice(0, 2).map((t, i) => <li key={i}>{t}</li>)}
               </ul>
             </div>
@@ -677,23 +863,23 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     ];
     return (
       <div className="space-y-4">
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h4 className="text-sm font-bold text-gray-700 mb-4">Heat · Entropy · Reactivity</h4>
+        <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+          <h4 className="text-sm font-bold text-gray-300 mb-4">Heat · Entropy · Reactivity</h4>
           <div className="space-y-3">
             {metrics.map(({ name, value, icon, color, desc }) => (
               <div key={name} className="flex items-center gap-3">
                 <span className="text-xl w-8 text-center">{icon}</span>
                 <div className="w-20">
-                  <div className="text-sm font-bold text-gray-700">{name}</div>
+                  <div className="text-sm font-bold text-gray-300">{name}</div>
                   <div className="text-[10px] text-gray-400">{desc}</div>
                 </div>
                 <div className="flex-1">
-                  <div className="relative h-5 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="relative h-5 bg-white/10 rounded-full overflow-hidden">
                     <div className={`h-full ${color} transition-all duration-500 rounded-full`} style={{ width: `${value * 100}%` }} />
                     <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white mix-blend-difference">{(value * 100).toFixed(0)}%</span>
                   </div>
                 </div>
-                <div className="w-14 text-right text-sm font-semibold text-gray-600">{value.toFixed(3)}</div>
+                <div className="w-14 text-right text-sm font-semibold text-gray-400">{value.toFixed(3)}</div>
               </div>
             ))}
           </div>
@@ -701,19 +887,19 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
         {/* Derived Metrics */}
         <div className="grid grid-cols-3 gap-3">
-          <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm text-center">
+          <div className="rounded-xl border border-white/10 bg-transparent p-4 shadow-sm text-center">
             <div className="text-xs text-gray-500 mb-1">Greg&apos;s Energy</div>
             <div className={`text-2xl font-black ${gregsEnergy >= 0 ? "text-green-600" : "text-red-600"}`}>
               {gregsEnergy >= 0 ? "+" : ""}{gregsEnergy.toFixed(3)}
             </div>
             <div className="text-[10px] text-gray-400 mt-1">H - (S × R)</div>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm text-center">
+          <div className="rounded-xl border border-white/10 bg-transparent p-4 shadow-sm text-center">
             <div className="text-xs text-gray-500 mb-1">Kalchm</div>
             <div className="text-2xl font-black text-purple-600">{kalchm !== null && !isNaN(kalchm) ? kalchm.toFixed(3) : "N/A"}</div>
             <div className="text-[10px] text-gray-400 mt-1">Equilibrium K</div>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm text-center">
+          <div className="rounded-xl border border-white/10 bg-transparent p-4 shadow-sm text-center">
             <div className="text-xs text-gray-500 mb-1">Monica</div>
             <div className={`text-xl font-black ${monicaClass.color}`}>
               {monica !== null && !isNaN(monica) ? monica.toFixed(3) : "N/A"}
@@ -734,8 +920,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h4 className="text-sm font-bold text-gray-700 mb-3">P=IV Circuit Profile</h4>
+          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+            <h4 className="text-sm font-bold text-gray-300 mb-3">P=IV Circuit Profile</h4>
             <div className="flex justify-center">
               <KineticRadar profile={kProfile} size={180} />
             </div>
@@ -750,15 +936,15 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
               ].map(({ label, value, unit }) => (
                 <div key={label} className="text-xs">
                   <div className="text-gray-400">{label}</div>
-                  <div className="font-bold text-gray-700">{value.toFixed(2)} <span className="text-gray-400 text-[10px]">{unit}</span></div>
+                  <div className="font-bold text-gray-300">{value.toFixed(2)} <span className="text-gray-400 text-[10px]">{unit}</span></div>
                 </div>
               ))}
             </div>
           </div>
 
           {kinetics && (
-            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-              <h4 className="text-sm font-bold text-gray-700 mb-3">Computed Kinetics</h4>
+            <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+              <h4 className="text-sm font-bold text-gray-300 mb-3">Computed Kinetics</h4>
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { label: "Power (P=IV)", value: kinetics.power, color: "text-indigo-600" },
@@ -766,7 +952,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                   { label: "Charge (Q)", value: kinetics.charge, color: "text-green-600" },
                   { label: "Potential (V)", value: kinetics.potentialDifference, color: "text-blue-600" },
                   { label: "Current (I)", value: kinetics.currentFlow, color: "text-amber-600" },
-                  { label: "Inertia", value: kinetics.inertia, color: "text-gray-600" },
+                  { label: "Inertia", value: kinetics.inertia, color: "text-gray-400" },
                 ].map(({ label, value, color }) => (
                   <div key={label}>
                     <div className="text-[10px] text-gray-400">{label}</div>
@@ -784,7 +970,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                 <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${
                   kinetics.thermalDirection === "heating" ? "bg-red-100 text-red-700"
                   : kinetics.thermalDirection === "cooling" ? "bg-blue-100 text-blue-700"
-                  : "bg-gray-100 text-gray-700"
+                  : "bg-white/10 text-gray-300"
                 }`}>
                   {kinetics.thermalDirection === "heating" ? "🔥" : kinetics.thermalDirection === "cooling" ? "❄️" : "➖"} {kinetics.thermalDirection}
                 </span>
@@ -795,8 +981,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
         {/* Elemental Flow */}
         {kinetics && (
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h4 className="text-sm font-bold text-gray-700 mb-3">Elemental Flow</h4>
+          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+            <h4 className="text-sm font-bold text-gray-300 mb-3">Elemental Flow</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {(["Fire", "Water", "Earth", "Air"] as const).map((el) => {
                 const icons: Record<string, string> = { Fire: "🔥", Water: "💧", Earth: "🌍", Air: "💨" };
@@ -805,9 +991,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                 const m = kinetics.momentum[el];
                 const f = kinetics.force[el];
                 return (
-                  <div key={el} className="text-center p-3 rounded-lg bg-gray-50">
+                  <div key={el} className="text-center p-3 rounded-lg bg-white/5">
                     <div className="text-xl">{icons[el]}</div>
-                    <div className="text-xs font-bold text-gray-700 mt-1">{el}</div>
+                    <div className="text-xs font-bold text-gray-300 mt-1">{el}</div>
                     <div className="mt-2 space-y-1">
                       {[
                         { label: "vel", value: v },
@@ -837,54 +1023,94 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   // RENDER: Conditions Tab
   // ============================================================================
   const renderConditionsTab = (method: (typeof currentMethods)[0]) => {
-    if (!method.optimalConditions) return <p className="text-sm text-gray-500 py-8 text-center">No optimal conditions calculated. Requires thermodynamic + Monica data.</p>;
-    const { temperature, timing, planetaryHours, lunarPhases } = method.optimalConditions;
+    const reference = method.referenceProfile as MethodPhysicalReference | undefined;
+    const hasCalculatedConditions = Boolean(method.optimalConditions);
+    const { temperature, timing, planetaryHours, lunarPhases } = method.optimalConditions || {
+      temperature: null,
+      timing: null,
+      planetaryHours: [],
+      lunarPhases: [],
+    };
+    const temperatureF = typeof temperature === "number" ? temperature : 0;
     const mods = method.monicaModifiers as any;
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm text-center">
-            <div className="text-xs text-gray-500 mb-1">Temperature</div>
-            <div className="text-3xl font-black text-red-600">{temperature}°F</div>
-            <div className="text-sm text-gray-500">{Math.round(((temperature - 32) * 5) / 9)}°C</div>
-            {mods?.temperatureAdjustment !== 0 && (
-              <div className="mt-1 text-xs text-gray-400">Monica: {mods.temperatureAdjustment >= 0 ? "+" : ""}{mods.temperatureAdjustment.toFixed(0)}°F</div>
-            )}
-          </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm text-center">
-            <div className="text-xs text-gray-500 mb-1">Timing</div>
-            <span className={`inline-block rounded-full px-4 py-2 text-sm font-bold ${
-              timing === "quick" ? "bg-yellow-100 text-yellow-800"
-              : timing === "slow" ? "bg-blue-100 text-blue-800"
-              : "bg-green-100 text-green-800"
-            }`}>{timing.toUpperCase()}</span>
-            {mods?.timingAdjustment !== 0 && (
-              <div className="mt-2 text-xs text-gray-400">Monica: {mods.timingAdjustment >= 0 ? "+" : ""}{mods.timingAdjustment.toFixed(0)} min</div>
-            )}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <div className="text-xs font-bold text-gray-700 mb-2">Best Planetary Hours</div>
-            <div className="flex flex-wrap gap-1.5">
-              {planetaryHours.map((p) => (
-                <span key={p} className="rounded-md bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 border border-amber-200">{p}</span>
-              ))}
+        {hasCalculatedConditions ? (
+          <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm text-center">
+              <div className="text-xs text-gray-500 mb-1">Temperature</div>
+              <div className="text-3xl font-black text-red-600">{temperatureF}°F</div>
+              <div className="text-sm text-gray-500">{Math.round(((temperatureF - 32) * 5) / 9)}°C</div>
+              {mods?.temperatureAdjustment !== 0 && (
+                <div className="mt-1 text-xs text-gray-400">Monica: {mods.temperatureAdjustment >= 0 ? "+" : ""}{mods.temperatureAdjustment.toFixed(0)}°F</div>
+              )}
+            </div>
+            <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm text-center">
+              <div className="text-xs text-gray-500 mb-1">Timing</div>
+              <span className={`inline-block rounded-full px-4 py-2 text-sm font-bold ${
+                timing === "quick" ? "bg-yellow-100 text-yellow-800"
+                : timing === "slow" ? "bg-blue-100 text-blue-800"
+                : "bg-green-100 text-green-800"
+              }`}>{String(timing).toUpperCase()}</span>
+              {mods?.timingAdjustment !== 0 && (
+                <div className="mt-2 text-xs text-gray-400">Monica: {mods.timingAdjustment >= 0 ? "+" : ""}{mods.timingAdjustment.toFixed(0)} min</div>
+              )}
             </div>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <div className="text-xs font-bold text-gray-700 mb-2">Lunar Phases</div>
-            <div className="flex flex-wrap gap-1.5">
-              {lunarPhases.map((ph) => (
-                <span key={ph} className="rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700 border border-indigo-200">{ph.replace("_", " ")}</span>
-              ))}
-            </div>
+        ) : (
+          <div className="rounded-xl border border-dashed border-white/10 bg-white/5 p-5 text-center text-sm text-gray-500">
+            Computed Monica conditions unavailable for this method; using canonical culinary reference ranges below.
           </div>
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {hasCalculatedConditions && (
+            <>
+              <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+                <div className="text-xs font-bold text-gray-300 mb-2">Best Planetary Hours</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {planetaryHours.map((p) => (
+                    <span key={p} className="rounded-md bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 border border-amber-200">{p}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+                <div className="text-xs font-bold text-gray-300 mb-2">Lunar Phases</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {lunarPhases.map((ph) => (
+                    <span key={ph} className="rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700 border border-indigo-200">{ph.replace("_", " ")}</span>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+          {reference && (
+            <div className="rounded-xl border border-emerald-200 bg-transparent p-5 shadow-sm md:col-span-2">
+              <h4 className="text-xs font-bold text-gray-300 mb-3">Scientific Culinary Reference</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="rounded-lg bg-emerald-50 border border-emerald-100 p-3">
+                  <div className="text-[11px] font-semibold text-emerald-700 mb-1">Temperature Envelope</div>
+                  <div className="text-sm font-bold text-gray-200">
+                    {reference.temperatureF.low}-{reference.temperatureF.high}°F
+                    <span className="text-gray-500 font-medium"> ({Math.round(toCelsius(reference.temperatureF.low))}-{Math.round(toCelsius(reference.temperatureF.high))}°C)</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">Ideal: {reference.temperatureF.ideal}°F ({Math.round(toCelsius(reference.temperatureF.ideal))}°C)</div>
+                  <div className="text-xs text-gray-500 mt-1">{reference.temperatureF.note}</div>
+                </div>
+                <div className="rounded-lg bg-sky-50 border border-sky-100 p-3">
+                  <div className="text-[11px] font-semibold text-sky-700 mb-1">Pressure Environment</div>
+                  <div className="text-sm font-bold text-gray-200 capitalize">{reference.pressure.mode}</div>
+                  <div className="text-xs text-gray-400 mt-1">Gauge: {reference.pressure.gaugePsi} psi</div>
+                  <div className="text-xs text-gray-400">Absolute: {reference.pressure.absoluteKPa} kPa</div>
+                  <div className="text-xs text-gray-500 mt-1">{reference.pressure.note}</div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         {method.pillar && (
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h4 className="text-xs font-bold text-gray-700 mb-2">Pillar Details: #{method.pillar.id} {method.pillar.name}</h4>
-            <p className="text-xs text-gray-600">{method.pillar.description}</p>
+          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+            <h4 className="text-xs font-bold text-gray-300 mb-2">Pillar Details: #{method.pillar.id} {method.pillar.name}</h4>
+            <p className="text-xs text-gray-400">{method.pillar.description}</p>
             <div className="mt-2 flex flex-wrap gap-3 text-xs text-gray-500">
               {method.pillar.planetaryAssociations && <span>Planets: {method.pillar.planetaryAssociations.join(", ")}</span>}
               {method.pillar.tarotAssociations && <span>Tarot: {method.pillar.tarotAssociations.join(", ")}</span>}
@@ -914,26 +1140,26 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const diff = bVal - aVal;
       return (
         <div className="flex items-center gap-3 py-2 border-b border-gray-100 last:border-0">
-          <span className="w-32 text-xs font-medium text-gray-600">{label}</span>
-          <span className="w-20 text-right text-sm font-bold text-gray-700">{fmt(aVal)}</span>
+          <span className="w-32 text-xs font-medium text-gray-400">{label}</span>
+          <span className="w-20 text-right text-sm font-bold text-gray-300">{fmt(aVal)}</span>
           <span className={`w-20 text-center text-xs font-bold ${diff > 0 ? "text-green-600" : diff < 0 ? "text-red-600" : "text-gray-400"}`}>
             {diff > 0 ? "+" : ""}{fmt(diff)}
           </span>
-          <span className="w-20 text-right text-sm font-bold text-gray-700">{fmt(bVal)}</span>
+          <span className="w-20 text-right text-sm font-bold text-gray-300">{fmt(bVal)}</span>
         </div>
       );
     };
 
     return (
-      <div className="rounded-xl border border-indigo-200 bg-white p-6 shadow-lg space-y-4">
+      <div className="rounded-xl border border-indigo-200 bg-transparent p-6 shadow-lg space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-gray-900">Delta View</h3>
+          <h3 className="text-lg font-bold text-gray-100">Delta View</h3>
           <button onClick={() => { setCompareMode(false); setCompareSelections([]); }}
-            className="text-xs text-gray-400 hover:text-gray-600">Close Compare</button>
+            className="text-xs text-gray-400 hover:text-gray-400">Close Compare</button>
         </div>
 
         {/* Headers */}
-        <div className="flex items-center gap-3 pb-2 border-b border-gray-200">
+        <div className="flex items-center gap-3 pb-2 border-b border-white/10">
           <span className="w-32" />
           <span className="w-20 text-right text-xs font-bold text-indigo-600 capitalize">{a.name}</span>
           <span className="w-20 text-center text-xs font-bold text-gray-400">Δ Delta</span>
@@ -952,13 +1178,13 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         {/* Side-by-side Spider Charts */}
         <div className="grid grid-cols-2 gap-4 pt-4">
           <div className="text-center">
-            <h4 className="text-xs font-bold text-gray-600 mb-2 capitalize">{a.name}</h4>
+            <h4 className="text-xs font-bold text-gray-400 mb-2 capitalize">{a.name}</h4>
             <div className="flex justify-center">
               <ElementalSpider effect={a.elementalEffect as unknown as Record<string, number>} size={120} />
             </div>
           </div>
           <div className="text-center">
-            <h4 className="text-xs font-bold text-gray-600 mb-2 capitalize">{b.name}</h4>
+            <h4 className="text-xs font-bold text-gray-400 mb-2 capitalize">{b.name}</h4>
             <div className="flex justify-center">
               <ElementalSpider effect={b.elementalEffect as unknown as Record<string, number>} size={120} />
             </div>
@@ -975,11 +1201,11 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     <div className="space-y-6 px-2 md:px-6 py-4">
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-3xl md:text-4xl font-black text-gray-900">Cooking Methods</h2>
+        <h2 className="text-3xl md:text-4xl font-black text-gray-100">Cooking Methods</h2>
         <p className="text-gray-500 mt-1">Alchemical Transformation System · Harmony Index · 14 Pillars</p>
         <div className="mt-2 flex items-center justify-center gap-3">
           <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${
-            positionsSource === "real" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
+            positionsSource === "real" ? "bg-green-100 text-green-700" : "bg-white/10 text-gray-400"
           }`}>
             {positionsSource === "real" ? "🌟 Live Planetary Data" : "⏳ Default Positions"}
           </span>
@@ -1009,6 +1235,52 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         </div>
       )}
 
+      {/* Current Moment Panel */}
+      <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+        <div className="flex items-center justify-between gap-2 mb-4">
+          <h3 className="text-sm font-bold text-gray-200">Current Moment Metrics</h3>
+          <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${
+            momentStatus === "ready" ? "bg-emerald-100 text-emerald-700" : momentStatus === "loading" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
+          }`}>
+            {momentStatus === "ready" ? "LIVE /api/alchm-quantities" : momentStatus === "loading" ? "Loading..." : "Unavailable"}
+          </span>
+        </div>
+        {currentMoment ? (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+            <div className="rounded-lg border border-purple-200 bg-purple-50 p-3">
+              <div className="font-bold text-purple-800 mb-1">ESMS</div>
+              <div className="text-gray-300">S {currentMoment.quantities.Spirit.toFixed(2)}</div>
+              <div className="text-gray-300">E {currentMoment.quantities.Essence.toFixed(2)}</div>
+              <div className="text-gray-300">M {currentMoment.quantities.Matter.toFixed(2)}</div>
+              <div className="text-gray-300">Su {currentMoment.quantities.Substance.toFixed(2)}</div>
+            </div>
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+              <div className="font-bold text-amber-800 mb-1">Elemental</div>
+              <div className="text-gray-300">🔥 {currentMoment.circuit.elementalBalance.Fire.toFixed(3)}</div>
+              <div className="text-gray-300">💧 {currentMoment.circuit.elementalBalance.Water.toFixed(3)}</div>
+              <div className="text-gray-300">🌍 {currentMoment.circuit.elementalBalance.Earth.toFixed(3)}</div>
+              <div className="text-gray-300">💨 {currentMoment.circuit.elementalBalance.Air.toFixed(3)}</div>
+            </div>
+            <div className="rounded-lg border border-rose-200 bg-rose-50 p-3">
+              <div className="font-bold text-rose-800 mb-1">Thermodynamic</div>
+              <div className="text-gray-300">Heat {currentMoment.heat.toFixed(3)}</div>
+              <div className="text-gray-300">Entropy {currentMoment.entropy.toFixed(3)}</div>
+              <div className="text-gray-300">Reactivity {currentMoment.reactivity.toFixed(3)}</div>
+              <div className="text-gray-300">Monica {currentMoment.monica.toFixed(3)}</div>
+            </div>
+            <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
+              <div className="font-bold text-cyan-800 mb-1">Kinetic / Circuit</div>
+              <div className="text-gray-300">Power {currentMoment.circuit.power.toFixed(4)}</div>
+              <div className="text-gray-300">Force {currentMoment.circuit.forceMagnitude.toFixed(4)}</div>
+              <div className="text-gray-300">State {currentMoment.circuit.forceClassification}</div>
+              <div className="text-gray-300">Thermal {currentMoment.circuit.thermalDirection}</div>
+            </div>
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500">Using planetary fallback values while current-moment metrics load.</p>
+        )}
+      </div>
+
       {/* Category Selector */}
       <div className="flex flex-wrap justify-center gap-2">
         {categories.map((cat) => (
@@ -1018,7 +1290,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             className={`rounded-lg px-4 py-2 text-sm font-bold transition-all duration-200 ${
               selectedCategory === cat.id
                 ? "bg-gray-900 text-white shadow-lg scale-105"
-                : "bg-white text-gray-700 border border-gray-200 hover:border-gray-400 hover:shadow"
+                : "bg-transparent text-gray-300 border border-white/10 hover:border-gray-400 hover:shadow"
             }`}
           >
             <span className="mr-1.5">{cat.icon}</span>{cat.name}
@@ -1027,7 +1299,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       </div>
 
       {/* Controls: Focus dropdown + Intent + Compare toggle */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-transparent rounded-xl border border-white/10 p-4 shadow-sm">
         {/* Focus dropdown */}
         <div className="flex items-center gap-2">
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -1035,7 +1307,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           <select
             value={focusMode}
             onChange={(e) => setFocusMode(e.target.value as FocusMode)}
-            className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 focus:outline-none"
+            className="rounded-lg border border-white/10 bg-transparent px-3 py-1.5 text-sm font-medium text-gray-300 shadow-sm focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 focus:outline-none"
           >
             {FOCUS_OPTIONS.map(({ key, label }) => (
               <option key={key} value={key}>{label}</option>
@@ -1054,7 +1326,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                 className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${
                   userIntent === key
                     ? "bg-indigo-100 text-indigo-700 shadow-sm ring-1 ring-indigo-300"
-                    : "text-gray-500 hover:bg-gray-100"
+                    : "text-gray-500 hover:bg-white/10"
                 }`}
               >
                 {icon} {label}
@@ -1069,7 +1341,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
             compareMode
               ? "bg-indigo-600 text-white shadow-md"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              : "bg-white/10 text-gray-400 hover:bg-gray-200"
           }`}
         >
           {compareMode ? "✔ Compare On" : "↔ Compare"}
@@ -1080,7 +1352,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       <div className="flex items-center gap-3 px-1">
         <span className="text-3xl">{category?.icon}</span>
         <div>
-          <h3 className="text-xl font-bold text-gray-900">{category?.name} Methods</h3>
+          <h3 className="text-xl font-bold text-gray-100">{category?.name} Methods</h3>
           <p className="text-xs text-gray-500">
             {currentMethods.length} methods · Focus: {FOCUS_OPTIONS.find(f => f.key === focusMode)?.label}
             {userIntent && ` · Intent: ${userIntent}`}
@@ -1107,7 +1379,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                   ? "border-2 border-indigo-400 shadow-lg bg-indigo-50/30"
                   : isExpanded
                     ? `border-2 ${pillarColors?.border || "border-purple-300"} shadow-xl bg-gradient-to-br from-gray-50 to-white`
-                    : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-md"
+                    : "border-white/10 bg-transparent hover:border-white/10 hover:shadow-md"
               }`}
             >
               {/* -- Collapsed Card (always visible) -- */}
@@ -1118,16 +1390,16 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
               >
                 <div className="flex items-start gap-4">
                   {/* Rank badge */}
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-black text-gray-500">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-black text-gray-500">
                     {idx + 1}
                   </div>
 
                   {/* Main content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="text-lg font-bold capitalize text-gray-900">{method.name}</h4>
+                      <h4 className="text-lg font-bold capitalize text-gray-100">{method.name}</h4>
                       {method.culinaryArchetype && (
-                        <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold bg-gray-100 text-gray-600 italic">
+                        <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold bg-white/10 text-gray-400 italic">
                           {method.culinaryArchetype}
                         </span>
                       )}
@@ -1140,7 +1412,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                     </div>
 
                     {/* Alchemist's Hook */}
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-1 italic">
+                    <p className="text-sm text-gray-400 mt-1 line-clamp-1 italic">
                       {method.shortDescription || method.description}
                     </p>
 
@@ -1156,6 +1428,16 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                           ⚙️ P={method.kinetics.power.toFixed(2)}
                         </span>
                       )}
+                      {method.thermoAlignmentScore !== null && method.thermoAlignmentScore !== undefined && (
+                        <span className="text-xs font-semibold text-rose-600">
+                          🌡️ {Math.round(method.thermoAlignmentScore)}% thermo
+                        </span>
+                      )}
+                      {method.kineticAlignmentScore !== null && method.kineticAlignmentScore !== undefined && (
+                        <span className="text-xs font-semibold text-cyan-700">
+                          ⚡ {Math.round(method.kineticAlignmentScore)}% kinetic
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -1168,7 +1450,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
               {/* -- Expanded View -- */}
               {isExpanded && !compareMode && (
-                <div className="border-t border-gray-200 px-5 pb-5">
+                <div className="border-t border-white/10 px-5 pb-5">
                   {/* Tab bar */}
                   <div className="flex gap-1 py-3 border-b border-gray-100 mb-4">
                     {tabs.map((tab) => (
@@ -1178,7 +1460,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                         className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
                           expandedTab === tab.key
                             ? "bg-gray-900 text-white shadow"
-                            : "text-gray-500 hover:bg-gray-100"
+                            : "text-gray-500 hover:bg-white/10"
                         }`}
                       >
                         {tab.icon} {tab.label}
@@ -1191,6 +1473,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                   {expandedTab === "thermo" && renderThermoTab(method)}
                   {expandedTab === "kinetics" && renderKineticsTab(method)}
                   {expandedTab === "conditions" && renderConditionsTab(method)}
+                  {expandedTab === "recipes" && renderRecipesTab(method)}
                 </div>
               )}
 
