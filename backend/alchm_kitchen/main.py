@@ -169,7 +169,7 @@ async def startup_event():
 # CORS Configuration
 raw_cors = os.getenv(
     "CORS_ALLOWED_ORIGINS", 
-    "https://alchm.kitchen,https://v0-alchm-kitchen.vercel.app,http://localhost:3000"
+    "https://alchm.kitchen,https://v0-alchm-kitchen.vercel.app,http://localhost:3000,http://localhost:3001"
 )
 CORS_ALLOWED_ORIGINS = [o.strip().rstrip('/') for o in raw_cors.split(",") if o.strip()]
 

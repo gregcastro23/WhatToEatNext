@@ -10,12 +10,16 @@
  * imports so it can be safely imported from both server and client bundles.
  */
 
-import type { ElementalProperties } from "@/types/alchemy";
+import type {
+  AlchemicalProperties,
+  ElementalProperties,
+} from "@/types/alchemy";
 import type {
   FoodDiaryEntry,
   FoodSearchResult,
   FoodRecommendation,
 } from "@/types/foodDiary";
+import type { CompositeNatalChart } from "@/types/natalChart";
 import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe } from "@/types/recipe";
 
@@ -244,6 +248,41 @@ function passesDietaryRestrictions(
   return haystack.length === 0;
 }
 
+/**
+ * Score how closely a recipe's alchemical properties (ESMS) align with a
+ * target chart. Uses cosine similarity on the four-component vector. When
+ * either side is missing the data we fall back to a neutral 0.5 so this
+ * signal does not skew composite recommendations.
+ */
+function scoreAlchemicalAlignment(
+  recipe: Recipe,
+  target: AlchemicalProperties | undefined,
+): number {
+  if (!target) return 0.5;
+  const recipeAlchemy = (recipe as Recipe & {
+    alchemicalProperties?: AlchemicalProperties;
+  }).alchemicalProperties;
+  if (!recipeAlchemy) return 0.5;
+  const keys: Array<keyof AlchemicalProperties> = [
+    "Spirit",
+    "Essence",
+    "Matter",
+    "Substance",
+  ];
+  let dot = 0;
+  let magA = 0;
+  let magB = 0;
+  for (const k of keys) {
+    const a = Number(recipeAlchemy[k] ?? 0);
+    const b = Number(target[k] ?? 0);
+    dot += a * b;
+    magA += a * a;
+    magB += b * b;
+  }
+  if (magA === 0 || magB === 0) return 0.5;
+  return Math.max(0, Math.min(1, dot / (Math.sqrt(magA) * Math.sqrt(magB))));
+}
+
 function buildReason(
   recipe: Recipe,
   breakdown: ScoredRecipe["scoreBreakdown"],
@@ -394,6 +433,122 @@ export class EnhancedRecommendationService {
         location: ctx.location,
         dominantElementalGap: elementalGap,
         topNutritionalGap: nutritionalGap,
+      },
+    };
+  }
+
+  /**
+   * Score every recipe in the catalog against a group's composite natal
+   * chart. Stateless: no user, diary, or favorites are consulted, which makes
+   * this safe for guest/anonymous flows. Reuses the same per-signal helpers
+   * as `getRecommendations` but reweights for an aligning (not gap-filling)
+   * objective and zeroes out user-only signals.
+   */
+  static async getRecommendationsForComposite(
+    composite: CompositeNatalChart,
+    limit = 5,
+  ): Promise<EnhancedRecommendationResult> {
+    const datetime = new Date();
+
+    let recipes: Recipe[] = [];
+    try {
+      const mod = await import("@/actions/recipes");
+      recipes = await mod.getServerRecipes();
+    } catch {
+      recipes = [];
+    }
+
+    // Rebuild the elemental balance into the alchemy.ts shape (with index
+    // signature) so it satisfies the helper signatures without casts.
+    const elementalState: ElementalProperties = {
+      Fire: composite.elementalBalance.Fire,
+      Water: composite.elementalBalance.Water,
+      Earth: composite.elementalBalance.Earth,
+      Air: composite.elementalBalance.Air,
+    };
+    const alchemicalTarget: AlchemicalProperties = {
+      Spirit: composite.alchemicalProperties.Spirit,
+      Essence: composite.alchemicalProperties.Essence,
+      Matter: composite.alchemicalProperties.Matter,
+      Substance: composite.alchemicalProperties.Substance,
+    };
+
+    const scored: ScoredRecipe[] = recipes.map((recipe) => {
+      // For composite mode we want recipes that ALIGN with the group's
+      // chart, not fill an individual gap — so pass `gap = undefined` and let
+      // the astrological/alchemical alignment signals do the work.
+      const elementalMatch = scoreElementalMatch(recipe, undefined);
+      const astrologicalAlignment = scoreAstrologicalAlignment(
+        recipe,
+        elementalState,
+      );
+      const alchemicalAlignment = scoreAlchemicalAlignment(
+        recipe,
+        alchemicalTarget,
+      );
+      // Diversity is scoped to user history, which we don't have — so leave
+      // it neutral. Same for nutritional/favorite signals.
+      const breakdown = {
+        nutritionalGap: 0.5,
+        elementalMatch,
+        favoriteBoost: 0.5,
+        astrologicalAlignment,
+        diversityBonus: 0.5,
+      };
+
+      const composite_score =
+        astrologicalAlignment * 0.45 +
+        alchemicalAlignment * 0.3 +
+        elementalMatch * 0.15 +
+        breakdown.diversityBonus * 0.1;
+
+      const reasonParts: string[] = [];
+      if (astrologicalAlignment >= 0.8) {
+        reasonParts.push("aligns with your group's elemental signature");
+      } else if (astrologicalAlignment >= 0.65) {
+        reasonParts.push("matches your group's elemental flavor");
+      }
+      if (alchemicalAlignment >= 0.75) {
+        reasonParts.push(
+          `resonates with the group's ${composite.dominantElement.toLowerCase()}-leaning alchemy`,
+        );
+      }
+      if (elementalMatch >= 0.6 && reasonParts.length === 0) {
+        reasonParts.push(
+          `carries strong ${composite.dominantElement} character`,
+        );
+      }
+      const reason =
+        reasonParts.length === 0
+          ? `Balanced pick for a ${composite.memberCount}-member group leaning ${composite.dominantElement}.`
+          : `Recommended because it ${reasonParts.join(", ")}.`;
+
+      return {
+        recipe,
+        score: Math.max(0, Math.min(1, composite_score)),
+        scoreBreakdown: breakdown,
+        reason,
+      };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+    const top = scored.slice(0, limit);
+    const topScore = top[0]?.score ?? 0;
+    const avgScore =
+      top.length > 0
+        ? top.reduce((sum, r) => sum + r.score, 0) / top.length
+        : 0;
+
+    return {
+      recommendations: top,
+      items: top.map((r) => r.recipe),
+      score: topScore,
+      confidence: Math.min(1, avgScore),
+      context: {
+        userId: composite.groupId,
+        datetime,
+        dominantElementalGap: undefined,
+        topNutritionalGap: undefined,
       },
     };
   }
