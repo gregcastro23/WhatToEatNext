@@ -9,14 +9,16 @@
  */
 
 import React, { useMemo, useState } from "react";
+import { logServerMealFromPlan } from "@/actions/foodDiary";
 import { useToast } from "@/components/common/Toast";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import { useUser } from "@/contexts/UserContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-import type { WeeklyMenu, MealType, DayOfWeek } from "@/types/menuPlanner";
+import type { WeeklyMenu, MealType, DayOfWeek, MealSlot } from "@/types/menuPlanner";
 import { PLANETARY_DAY_RULERS, getDayName } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
+import { deductRecipeFromPantry } from "@/utils/pantryManager";
 import RecipeCollisionModal from "./RecipeCollisionModal";
 import RecipeSelector from "./RecipeSelector";
 
@@ -205,26 +207,75 @@ export default function TodaysMealsWidget({
     return weekPlan.meals.filter((m) => m.dayOfWeek === todayDow);
   }, [weekPlan, todayDow]);
 
-  // Today's assigned meals
+  // Today's assigned meals — full slot references so we can "Log from Plan"
   const todaysMeals = useMemo(() => {
-    if (!weekPlan) return {} as Record<MealType, string | null>;
-    const result: Record<MealType, string | null> = {
+    const result: Record<MealType, MealSlot | null> = {
       breakfast: null,
       lunch: null,
       snack: null,
       dinner: null,
     };
+    if (!weekPlan) return result;
     weekPlan.meals
-      .filter((m) => m.dayOfWeek === todayDow)
+      .filter((m) => m.dayOfWeek === todayDow && m.recipe)
       .forEach((m) => {
-        if (m.recipe) {
-          result[m.mealType] = m.recipe.name ?? null;
-        }
+        result[m.mealType] = m;
       });
     return result;
   }, [weekPlan, todayDow]);
 
   const plannedCount = Object.values(todaysMeals).filter(Boolean).length;
+
+  // Track which meal types have been logged this session so the button can
+  // switch to a "logged" state without a diary refetch.
+  const [loggedMealTypes, setLoggedMealTypes] = useState<Set<MealType>>(
+    new Set(),
+  );
+  const [loggingMealType, setLoggingMealType] = useState<MealType | null>(null);
+
+  const handleLogMeal = async (mealType: MealType) => {
+    const slot = todaysMeals[mealType];
+    if (!slot || !slot.recipe) return;
+    const userId = currentUser?.userId;
+    if (!userId) {
+      showInfo("Sign in to log meals to your food diary.");
+      return;
+    }
+    setLoggingMealType(mealType);
+    try {
+      await logServerMealFromPlan(userId, { mealSlot: slot });
+      setLoggedMealTypes((prev) => {
+        const next = new Set(prev);
+        next.add(mealType);
+        return next;
+      });
+
+      // Best-effort pantry deduction — localStorage only, never throws.
+      const ingredients = slot.recipe.ingredients?.map((ing: any) => ({
+        name: typeof ing === "string" ? ing : ing.name,
+        amount: typeof ing === "string" ? undefined : ing.amount,
+        unit: typeof ing === "string" ? undefined : ing.unit,
+      }));
+      let pantrySuffix = "";
+      if (ingredients && ingredients.length > 0) {
+        const result = deductRecipeFromPantry(ingredients, slot.servings || 1);
+        const touched =
+          result.deducted.length + result.depleted.length;
+        if (touched > 0) {
+          pantrySuffix = ` · Deducted ${touched} ingredient${touched === 1 ? "" : "s"} from pantry`;
+        }
+      }
+
+      showSuccess(
+        `Logged ${slot.recipe.name ?? mealType} to your diary.${pantrySuffix}`,
+      );
+    } catch (err) {
+      console.error("Log from plan failed:", err);
+      showError("Couldn't log that meal. Please try again.");
+    } finally {
+      setLoggingMealType(null);
+    }
+  };
 
   const dayLabel = getDayName(todayDow);
   const dateLabel = now.toLocaleDateString("en-US", {
@@ -525,8 +576,11 @@ export default function TodaysMealsWidget({
               const isNext = !currentMealType && nextMeal?.type === meal.type;
               const isPast =
                 !isActive && meal.endHour <= currentHour && currentHour < 22;
-              const recipeName = todaysMeals[meal.type];
-              const isEmpty = !recipeName;
+              const plannedSlot = todaysMeals[meal.type];
+              const recipeName = plannedSlot?.recipe?.name ?? null;
+              const isEmpty = !plannedSlot;
+              const isLogged = loggedMealTypes.has(meal.type);
+              const isLoggingThis = loggingMealType === meal.type;
 
               return (
                 <div
@@ -602,6 +656,35 @@ export default function TodaysMealsWidget({
                       title={`Auto-recommend ${meal.label}`}
                     >
                       ✨ Recommend
+                    </button>
+                  )}
+
+                  {/* "I ate this" — logs the planned meal straight into the food diary */}
+                  {!isEmpty && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        void handleLogMeal(meal.type);
+                      }}
+                      disabled={isLogged || isLoggingThis}
+                      className={`flex-shrink-0 px-2 py-0.5 text-[10px] font-semibold rounded-full transition-colors ${
+                        isLogged
+                          ? "bg-emerald-100 text-emerald-700 cursor-default"
+                          : isLoggingThis
+                            ? "bg-emerald-50 text-emerald-500 cursor-wait"
+                            : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
+                      }`}
+                      title={
+                        isLogged
+                          ? "Logged to your food diary"
+                          : "Log this meal to your food diary"
+                      }
+                    >
+                      {isLogged
+                        ? "✓ Logged"
+                        : isLoggingThis
+                          ? "Logging…"
+                          : "🍽 I ate this"}
                     </button>
                   )}
 

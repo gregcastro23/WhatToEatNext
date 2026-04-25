@@ -141,6 +141,24 @@ export async function POST(request: NextRequest) {
 
     const entry = await foodDiaryService.createEntry(userId, input);
     await reportQuestEventBestEffort(userId, "log_meal");
+    // Meal-type-specific events allow quests like "log breakfast 3 days in a row"
+    await reportQuestEventBestEffort(userId, `log_${entry.mealType}`);
+
+    // Streak-aware events: fire log_streak_3_days / log_streak_7_days when
+    // today's entry pushes the user across a threshold.
+    try {
+      const stats = await foodDiaryService.getStats(userId);
+      const streak = stats.trackingStreak;
+      if (streak === 3) {
+        await reportQuestEventBestEffort(userId, "log_streak_3_days");
+      } else if (streak === 7) {
+        await reportQuestEventBestEffort(userId, "log_streak_7_days");
+      } else if (streak === 30) {
+        await reportQuestEventBestEffort(userId, "log_streak_30_days");
+      }
+    } catch {
+      // Stats/streak failures should not break entry creation.
+    }
 
     return NextResponse.json({ success: true, entry }, { status: 201 });
   } catch (error) {

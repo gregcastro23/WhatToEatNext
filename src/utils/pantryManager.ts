@@ -420,6 +420,121 @@ function generateId(): string {
 }
 
 /**
+ * Result of a deduction pass — useful for toasts/telemetry.
+ */
+export interface PantryDeductionResult {
+  deducted: Array<{ name: string; amount: number; unit: string }>;
+  depleted: Array<{ name: string }>;
+  unitMismatch: Array<{ name: string; pantryUnit: string; recipeUnit: string }>;
+  notInPantry: string[];
+}
+
+const _UNIT_ALIASES: Record<string, string> = {
+  grams: "g",
+  gram: "g",
+  kilogram: "kg",
+  kilograms: "kg",
+  ounce: "oz",
+  ounces: "oz",
+  pound: "lb",
+  pounds: "lb",
+  cups: "cup",
+  tablespoon: "tbsp",
+  tablespoons: "tbsp",
+  teaspoon: "tsp",
+  teaspoons: "tsp",
+  pieces: "piece",
+  pcs: "piece",
+  piece: "piece",
+};
+
+function normalizeUnit(unit: string | undefined): string {
+  if (!unit) return "";
+  const key = unit.toLowerCase().trim();
+  return _UNIT_ALIASES[key] ?? key;
+}
+
+/**
+ * Best-effort deduction of a recipe's ingredients from the pantry.
+ *
+ * Strategy:
+ *  - Match ingredients to pantry items by lowercased name
+ *  - When units match (after alias normalization), subtract quantity
+ *  - When the remaining quantity hits 0, remove the pantry item
+ *  - When units don't match, record a mismatch but don't modify the item
+ *  - Ingredients with no pantry match are reported, not persisted
+ *
+ * Designed to be safe to call after logging a meal — never throws, never
+ * removes items it can't confidently match, and always returns a summary.
+ */
+export function deductRecipeFromPantry(
+  ingredients: Array<{
+    name: string;
+    amount?: number;
+    quantity?: number;
+    unit?: string;
+  }>,
+  servings: number = 1,
+): PantryDeductionResult {
+  const result: PantryDeductionResult = {
+    deducted: [],
+    depleted: [],
+    unitMismatch: [],
+    notInPantry: [],
+  };
+  if (!ingredients || ingredients.length === 0) return result;
+
+  try {
+    let pantry = getPantry();
+
+    for (const ing of ingredients) {
+      const amount = (ing.amount ?? ing.quantity ?? 0) * servings;
+      if (!amount || amount <= 0 || !ing.name) continue;
+      const ingUnit = normalizeUnit(ing.unit);
+      const nameLower = ing.name.toLowerCase().trim();
+
+      const idx = pantry.findIndex(
+        (p) => p.name.toLowerCase().trim() === nameLower,
+      );
+      if (idx < 0) {
+        result.notInPantry.push(ing.name);
+        continue;
+      }
+
+      const pantryItem = pantry[idx];
+      const pantryUnit = normalizeUnit(pantryItem.unit);
+      if (pantryUnit && ingUnit && pantryUnit !== ingUnit) {
+        result.unitMismatch.push({
+          name: pantryItem.name,
+          pantryUnit: pantryItem.unit,
+          recipeUnit: ing.unit ?? "",
+        });
+        continue;
+      }
+
+      const next = pantryItem.quantity - amount;
+      if (next <= 0) {
+        pantry = pantry.filter((_, i) => i !== idx);
+        result.depleted.push({ name: pantryItem.name });
+      } else {
+        pantry[idx] = { ...pantryItem, quantity: Math.round(next * 100) / 100 };
+        result.deducted.push({
+          name: pantryItem.name,
+          amount,
+          unit: pantryItem.unit,
+        });
+      }
+    }
+
+    savePantry(pantry);
+  } catch (error) {
+    logger.error("deductRecipeFromPantry failed:", error);
+  }
+
+  return result;
+}
+
+/**
  * Default pantry manager object (for backward compatibility)
  */
 export const PantryManager = {
@@ -439,6 +554,7 @@ export const PantryManager = {
   searchItems,
   exportPantryJSON,
   importPantryJSON,
+  deductRecipeFromPantry,
 };
 
 export default PantryManager;

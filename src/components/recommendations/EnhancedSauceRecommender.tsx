@@ -1,14 +1,22 @@
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
+import {
+  calculateHeat,
+  calculateEntropy,
+  calculateReactivity,
+  calculateGregsEnergy,
+} from "@/calculations/core/kalchmEngine";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import { allSauces } from "@/data/sauces";
 import type { Sauce as SauceData } from "@/data/sauces";
+import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type { ElementalProperties } from "@/types/recipe";
 import type { Sauce } from "@/utils/cuisine/intelligentSauceRecommender";
 import { recommendSauces } from "@/utils/cuisine/intelligentSauceRecommender";
 import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
 
-type InputMode = "manual" | "cuisine";
+type InputMode = "current" | "manual" | "cuisine";
 type CuisineFilter = "all" | "Italian" | "Mexican" | "Thai" | "French" | "Japanese";
 type SauceRole = "complement" | "contrast" | "enhance" | "balance";
 
@@ -168,10 +176,14 @@ function SauceResultCard({
 
 export default function EnhancedSauceRecommender() {
   const [selectedRole, setSelectedRole] = useState<SauceRole>("complement");
-  const [inputMode, setInputMode] = useState<InputMode>("manual");
+  const [inputMode, setInputMode] = useState<InputMode>("current");
   const [selectedCuisine, setSelectedCuisine] = useState<string>("Italian");
   const [searchQuery, setSearchQuery] = useState("");
   const [cuisineFilter, setCuisineFilter] = useState<CuisineFilter>("all");
+
+  // Live astrological state — feeds the "Current Moment" mode
+  const astroState = useAstrologicalState();
+  const alchemicalCtx = useAlchemical();
 
   // Manual elemental sliders
   const [manualElementals, setManualElementals] = useState<ElementalProperties>({
@@ -198,23 +210,98 @@ export default function EnhancedSauceRecommender() {
     });
   }, []);
 
+  /**
+   * Derive live thermodynamic metrics from the current elemental + ESMS state.
+   * Uses the canonical formulas in kalchmEngine so results line up with
+   * everything else the platform computes.
+   */
+  const liveThermo = useMemo(() => {
+    const e = astroState.domElements;
+    const a = alchemicalCtx?.alchemicalValues ?? {
+      Spirit: 0,
+      Essence: 0,
+      Matter: 0,
+      Substance: 0,
+    };
+    // When every input is zero we haven't booted yet — return a neutral state
+    // that won't poison the downstream scorer.
+    const allZero =
+      e.Fire + e.Water + e.Earth + e.Air === 0 &&
+      a.Spirit + a.Essence + a.Matter + a.Substance === 0;
+    if (allZero) {
+      return { heat: 0.05, entropy: 0.2, reactivity: 1.5, gregsEnergy: -0.6 };
+    }
+    const inputs = {
+      Spirit: a.Spirit || 0.1,
+      Essence: a.Essence || 0.1,
+      Matter: a.Matter || 0.1,
+      Substance: a.Substance || 0.1,
+      Fire: e.Fire || 0.1,
+      Water: e.Water || 0.1,
+      Earth: e.Earth || 0.1,
+      Air: e.Air || 0.1,
+    };
+    const heat = calculateHeat(inputs);
+    const entropy = calculateEntropy(inputs);
+    const reactivity = calculateReactivity(inputs);
+    const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
+    return { heat, entropy, reactivity, gregsEnergy };
+  }, [astroState.domElements, alchemicalCtx?.alchemicalValues]);
+
   // Determine target properties based on input mode
   const targetProperties = useMemo(() => {
+    if (inputMode === "current") {
+      const e = astroState.domElements;
+      const total = e.Fire + e.Water + e.Earth + e.Air;
+      // Normalize so sum == 1 for the downstream scorer
+      const elemental: ElementalProperties =
+        total > 0
+          ? {
+              Fire: e.Fire / total,
+              Water: e.Water / total,
+              Earth: e.Earth / total,
+              Air: e.Air / total,
+            }
+          : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const a = alchemicalCtx?.alchemicalValues ?? {
+        Spirit: 3.0,
+        Essence: 4.5,
+        Matter: 5.0,
+        Substance: 4.5,
+      };
+      return {
+        elemental,
+        alchemical: {
+          Spirit: a.Spirit || 0.1,
+          Essence: a.Essence || 0.1,
+          Matter: a.Matter || 0.1,
+          Substance: a.Substance || 0.1,
+        },
+        thermodynamic: liveThermo,
+      };
+    }
     if (inputMode === "cuisine" && CUISINE_ELEMENTAL_PROFILES[selectedCuisine]) {
       const profile = CUISINE_ELEMENTAL_PROFILES[selectedCuisine];
       return {
         elemental: profile.elemental,
         alchemical: profile.alchemical,
-        thermodynamic: { heat: 0.05, entropy: 0.2, reactivity: 1.5, gregsEnergy: -0.6 },
+        thermodynamic: liveThermo,
       };
     }
     // Manual mode
     return {
       elemental: manualElementals,
       alchemical: { Spirit: 3.0, Essence: 4.5, Matter: 5.0, Substance: 4.5 },
-      thermodynamic: { heat: 0.05, entropy: 0.2, reactivity: 1.5, gregsEnergy: -0.6 },
+      thermodynamic: liveThermo,
     };
-  }, [inputMode, selectedCuisine, manualElementals]);
+  }, [
+    inputMode,
+    selectedCuisine,
+    manualElementals,
+    astroState.domElements,
+    alchemicalCtx?.alchemicalValues,
+    liveThermo,
+  ]);
 
   // Convert sauces to recommender format
   const availableSauces = useMemo(() => {
@@ -280,7 +367,17 @@ export default function EnhancedSauceRecommender() {
         {/* Input Mode Selector */}
         <div className="mb-6">
           <div className="text-sm font-medium text-slate-700 mb-2 block">Target Profile</div>
-          <div className="flex gap-2 mb-4">
+          <div className="flex gap-2 mb-4 flex-wrap">
+            <button
+              onClick={() => setInputMode("current")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                inputMode === "current"
+                  ? "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-md"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              ✨ Current Moment
+            </button>
             <button
               onClick={() => setInputMode("cuisine")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -302,6 +399,83 @@ export default function EnhancedSauceRecommender() {
               Manual Elements
             </button>
           </div>
+
+          {/* Current Moment — live state readout */}
+          {inputMode === "current" && (
+            <div className="rounded-lg border border-purple-100 bg-gradient-to-br from-purple-50 via-white to-indigo-50 p-3 mb-3">
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-xs font-semibold text-purple-700 uppercase tracking-wider">
+                  Live Planetary State
+                </div>
+                {astroState.loading ? (
+                  <span className="text-[10px] text-slate-400">calculating…</span>
+                ) : (
+                  <span className="text-[10px] text-emerald-600 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    live
+                  </span>
+                )}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px] text-slate-600 mb-2">
+                <div>
+                  <div className="text-[10px] text-slate-400">Sun sign</div>
+                  <div className="font-semibold text-slate-800 capitalize">
+                    {astroState.currentZodiac || "—"}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[10px] text-slate-400">Lunar</div>
+                  <div className="font-semibold text-slate-800 capitalize">
+                    {astroState.lunarPhase || "—"}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[10px] text-slate-400">Planetary hour</div>
+                  <div className="font-semibold text-slate-800">
+                    {astroState.currentPlanetaryHour || "—"}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[10px] text-slate-400">Phase</div>
+                  <div className="font-semibold text-slate-800">
+                    {astroState.isDaytime ? "☀️ Day" : "🌙 Night"}
+                  </div>
+                </div>
+              </div>
+              {/* Live elemental bars */}
+              <div className="grid grid-cols-4 gap-1.5">
+                {(["Fire", "Water", "Earth", "Air"] as const).map((el) => {
+                  const value = targetProperties.elemental[el] ?? 0;
+                  const color: Record<string, string> = {
+                    Fire: "bg-red-400",
+                    Water: "bg-blue-400",
+                    Earth: "bg-lime-500",
+                    Air: "bg-violet-400",
+                  };
+                  return (
+                    <div key={el} className="flex flex-col">
+                      <div className="text-[9px] text-slate-500 font-medium">{el}</div>
+                      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden mt-0.5">
+                        <div
+                          className={`h-full ${color[el]} rounded-full transition-all`}
+                          style={{ width: `${Math.round(value * 100)}%` }}
+                        />
+                      </div>
+                      <div className="text-[9px] text-slate-500 mt-0.5">
+                        {Math.round(value * 100)}%
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="mt-2 grid grid-cols-4 gap-1.5 text-[10px] text-slate-500">
+                <div>Heat <span className="text-slate-800 font-semibold">{liveThermo.heat.toFixed(3)}</span></div>
+                <div>Entropy <span className="text-slate-800 font-semibold">{liveThermo.entropy.toFixed(3)}</span></div>
+                <div>Reactivity <span className="text-slate-800 font-semibold">{liveThermo.reactivity.toFixed(2)}</span></div>
+                <div>Greg&apos;s E <span className="text-slate-800 font-semibold">{liveThermo.gregsEnergy.toFixed(3)}</span></div>
+              </div>
+            </div>
+          )}
 
           {/* Cuisine Selector */}
           {inputMode === "cuisine" && (

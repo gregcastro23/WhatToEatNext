@@ -17,6 +17,8 @@ import type {
 } from "@/types/foodDiary";
 import type { NutritionalSummary } from "@/types/nutrition";
 import { NutritionRing } from "../nutrition";
+import DiaryAnalytics from "./DiaryAnalytics";
+import ElementalBalanceWheel from "./ElementalBalanceWheel";
 
 interface NutritionDashboardProps {
   dailySummary: DailyFoodDiarySummary | null;
@@ -51,9 +53,9 @@ export default function NutritionDashboard({
   insights,
   onRefreshInsights,
 }: NutritionDashboardProps) {
-  const [activeTab, setActiveTab] = useState<"today" | "week" | "insights">(
-    "today",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "today" | "week" | "trends" | "insights"
+  >("today");
 
   const macroPercentages = useMemo(() => {
     if (!dailySummary) return null;
@@ -79,6 +81,7 @@ export default function NutritionDashboard({
         {[
           { id: "today", label: "Today" },
           { id: "week", label: "This Week" },
+          { id: "trends", label: "Trends" },
           { id: "insights", label: "Insights" },
         ].map((tab) => (
           <button
@@ -207,6 +210,13 @@ export default function NutritionDashboard({
                     color="#6b7280"
                   />
                 </div>
+              </div>
+
+              {/* Elemental Balance Wheel */}
+              <div className="mb-6">
+                <ElementalBalanceWheel
+                  balance={dailySummary.elementalBalance}
+                />
               </div>
 
               {/* Macro Distribution Bar */}
@@ -480,6 +490,13 @@ export default function NutritionDashboard({
               )}
             </>
           )}
+        </div>
+      )}
+
+      {/* Trends Tab */}
+      {activeTab === "trends" && (
+        <div className="p-4">
+          <DiaryAnalytics weeklySummary={weeklySummary} />
         </div>
       )}
 

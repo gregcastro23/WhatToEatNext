@@ -75,12 +75,24 @@ export class RecommendationService implements RecommendationServiceInterface {
           return compatibility >= (criteria.minCompatibility || 0.3);
         });
       }
-      // Filter by planetary positions if provided
+      // Filter by planetary positions if provided. We translate the planet
+      // signs into an elemental profile (via zodiac → element mapping) and
+      // keep recipes whose elemental properties align at or above the
+      // requested compatibility threshold.
       if (criteria.planetaryPositions) {
-        // For now, use elemental properties as proxy for planetary influence
-        // TODO: Implement direct planetary compatibility calculation
+        const planetaryElements = this.planetaryPositionsToElemental(
+          criteria.planetaryPositions as Record<
+            string,
+            { sign: string; degree: number }
+          >,
+        );
         filteredRecipes = filteredRecipes.filter((recipe) => {
-          return recipe.elementalProperties !== undefined;
+          if (!recipe.elementalProperties) return false;
+          const compatibility = this.calculateElementalCompatibility(
+            planetaryElements,
+            recipe.elementalProperties,
+          );
+          return compatibility >= (criteria.minCompatibility || 0.3);
         });
       }
       // Filter by cooking method
@@ -287,33 +299,36 @@ export class RecommendationService implements RecommendationServiceInterface {
   ): Promise<RecommendationResult<string>> {
     try {
       logger.info("Getting recommended cuisines with criteria:", criteria);
-      // For now, return some default cuisines based on elemental properties
-      // TODO: Implement full cuisine recommendation logic
-      const defaultCuisines = [
-        "Italian",
-        "Mexican",
-        "Indian",
-        "Japanese",
-        "Mediterranean",
-        "Thai",
-        "French",
-        "Chinese",
-        "Greek",
-        "Middle-Eastern",
-      ];
-      let filteredCuisines = [...defaultCuisines];
+      // Cuisine → canonical elemental profile. Values come from the same
+      // tendencies used by EnhancedSauceRecommender + cultural archetypes.
+      const cuisineProfiles: Record<string, ElementalProperties> = {
+        Italian: { Fire: 0.30, Water: 0.20, Earth: 0.35, Air: 0.15 },
+        Mexican: { Fire: 0.45, Water: 0.15, Earth: 0.30, Air: 0.10 },
+        Indian: { Fire: 0.45, Water: 0.15, Earth: 0.25, Air: 0.15 },
+        Japanese: { Fire: 0.15, Water: 0.40, Earth: 0.30, Air: 0.15 },
+        Mediterranean: { Fire: 0.25, Water: 0.30, Earth: 0.30, Air: 0.15 },
+        Thai: { Fire: 0.40, Water: 0.20, Earth: 0.20, Air: 0.20 },
+        French: { Fire: 0.20, Water: 0.30, Earth: 0.40, Air: 0.10 },
+        Chinese: { Fire: 0.30, Water: 0.30, Earth: 0.25, Air: 0.15 },
+        Greek: { Fire: 0.25, Water: 0.25, Earth: 0.30, Air: 0.20 },
+        "Middle-Eastern": { Fire: 0.35, Water: 0.15, Earth: 0.35, Air: 0.15 },
+      };
+      let filteredCuisines = Object.keys(cuisineProfiles);
       const scores: { [key: string]: number } = {};
-      // Apply elemental filtering (simplified)
       if (criteria.elementalProperties) {
-        // For now, assign random-ish scores based on elemental properties
-        // TODO: Implement proper cuisine-elemental mapping
-        filteredCuisines.forEach((cuisine) => {
-          scores[cuisine] = Math.random() * 0.5 + 0.5; // Random score between 0.5-1.0
-        });
-        // Sort by score
+        // Score each cuisine via the same elemental compatibility metric the
+        // recipe scorer uses. Result already falls within the project's
+        // "no opposing elements" floor.
+        for (const cuisine of filteredCuisines) {
+          scores[cuisine] = this.calculateElementalCompatibility(
+            criteria.elementalProperties,
+            cuisineProfiles[cuisine],
+          );
+        }
         filteredCuisines.sort((a, b) => scores[b] - scores[a]);
       } else {
-        // Default scores
+        // Without an elemental signal, give every cuisine the neutral 0.8
+        // baseline used elsewhere in the codebase.
         filteredCuisines.forEach((cuisine) => {
           scores[cuisine] = 0.8;
         });
@@ -337,7 +352,7 @@ export class RecommendationService implements RecommendationServiceInterface {
         scores,
         context: {
           criteria,
-          totalCuisines: defaultCuisines.length,
+          totalCuisines: Object.keys(cuisineProfiles).length,
           filteredCount: filteredCuisines.length,
         },
       };

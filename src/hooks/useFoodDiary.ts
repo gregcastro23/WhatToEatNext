@@ -24,6 +24,7 @@ import {
   getServerQuickFoodPresets,
   searchServerFoods,
   addServerToFavorites,
+  removeServerFavorite,
   generateServerInsights,
 } from "@/actions/foodDiary";
 import { useUser } from "@/contexts/UserContext";
@@ -418,14 +419,28 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   );
 
   /**
-   * Remove from favorites (placeholder - would need implementation in service)
+   * Remove from favorites. Accepts either a favorite id or a food name.
    */
   const removeFavorite = useCallback(
-    async (_favoriteId: string): Promise<boolean> => {
-      // TODO: Implement in service
-      return false;
+    async (favoriteIdOrName: string): Promise<boolean> => {
+      try {
+        const success = await removeServerFavorite(userId, favoriteIdOrName);
+        if (success) {
+          await loadData();
+        }
+        return success;
+      } catch (error) {
+        setState((prev) => ({
+          ...prev,
+          error:
+            error instanceof Error
+              ? error.message
+              : "Failed to remove favorite",
+        }));
+        return false;
+      }
     },
-    [],
+    [userId, loadData],
   );
 
   /**

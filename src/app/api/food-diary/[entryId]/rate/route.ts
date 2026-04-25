@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { foodDiaryService } from "@/services/FoodDiaryService";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { FoodRating, MoodTag } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
 
@@ -76,6 +77,11 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         id: entryId,
         wouldEatAgain,
       });
+    }
+
+    await reportQuestEventBestEffort(userId, "rate_food");
+    if (moodTags && Array.isArray(moodTags) && moodTags.length > 0) {
+      await reportQuestEventBestEffort(userId, "log_mood_tag");
     }
 
     return NextResponse.json({
