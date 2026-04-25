@@ -160,13 +160,13 @@ export function LocationSearch({
   };
 
   const inputClasses = compact
-    ? "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 pr-8"
-    : "w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none pr-10";
+    ? "w-full border border-purple-900/60 bg-black/40 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 pr-8"
+    : "w-full px-4 py-3 border-2 border-purple-900/60 bg-black/40 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-400/50 transition-all outline-none text-white pr-10";
 
   return (
     <div ref={containerRef} className="relative">
       {!compact && (
-        <label htmlFor="birth-location" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="birth-location" className="block text-sm font-medium text-purple-200 mb-2">
           Birth Location
           <span className="text-red-500 ml-1">*</span>
         </label>
@@ -219,7 +219,7 @@ export function LocationSearch({
 
       {/* Search Results Dropdown */}
       {showResults && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-72 overflow-y-auto">
+        <div className="absolute z-50 w-full mt-1 bg-[#0a0a14] border border-white/10 rounded-xl shadow-lg max-h-72 overflow-y-auto">
           {results.length > 0 ? (
             results.map((result, index) => {
               const { primary, secondary } = formatDisplayName(
@@ -230,11 +230,11 @@ export function LocationSearch({
                   key={index}
                   type="button"
                   onClick={() => handleSelectLocation(result)}
-                  className="w-full px-4 py-3 text-left hover:bg-purple-50 transition-colors border-b border-gray-50 last:border-b-0 group"
+                  className="w-full px-4 py-3 text-left hover:bg-purple-900/20 transition-colors border-b border-white/5 last:border-b-0 group"
                 >
                   <div className="flex items-start gap-2">
                     <svg
-                      className="w-4 h-4 mt-0.5 text-gray-400 group-hover:text-purple-500 flex-shrink-0"
+                      className="w-4 h-4 mt-0.5 text-gray-400 group-hover:text-purple-400 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -253,15 +253,15 @@ export function LocationSearch({
                       />
                     </svg>
                     <div className="min-w-0">
-                      <div className="font-medium text-gray-900 text-sm truncate">
+                      <div className="font-medium text-gray-200 text-sm truncate">
                         {primary}
                       </div>
-                      <div className="text-xs text-gray-500 truncate">
+                      <div className="text-xs text-gray-400 truncate">
                         {secondary}
                       </div>
-                      <div className="text-[10px] text-gray-400 mt-0.5">
+                      <div className="text-[10px] text-gray-500 mt-0.5">
                         {result.latitude.toFixed(2)}N, {result.longitude.toFixed(2)}E
-                        {result.type && <span className="ml-1.5 capitalize">{result.type}</span>}
+                        {result.type && <span className="ml-1.5 capitalize text-purple-400/70">{result.type}</span>}
                       </div>
                     </div>
                   </div>

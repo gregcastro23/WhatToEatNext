@@ -52,54 +52,8 @@ import {
 import { METHOD_PHYSICAL_REFERENCE, MethodPhysicalReference } from "@/data/cooking/physicalReference";
 
 
-  const renderRecipesTab = (method: (typeof currentMethods)[0]) => {
-    return (
-      <div className="space-y-4">
-        <div className="rounded-xl border border-white/10 bg-transparent/5 p-5 shadow-sm">
-          <h4 className="text-sm font-bold text-gray-200 mb-2 flex items-center gap-2">
-            <span>🍱</span> Current Moment Aligned Recipes
-          </h4>
-          <p className="text-xs text-gray-400 mb-4">Recipes using {method.name} that perfectly target current live thermodynamic constraints.</p>
-          
-          {isLoadingRecipes && <div className="text-sm text-gray-500 animate-pulse">Scanning recipe calculus...</div>}
-          
-          {!isLoadingRecipes && alignedRecipes.length === 0 && (
-            <div className="text-sm text-gray-500">No perfectly aligned recipes found for this specific technique.</div>
-          )}
 
-          {!isLoadingRecipes && alignedRecipes.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
-              {alignedRecipes.map(recipe => (
-                <div key={recipe.id} className="group relative flex flex-col justify-between rounded-lg border border-white/5 bg-transparent/5 p-4 hover:border-purple-500/50 hover:bg-transparent/10 transition-colors">
-                  <div>
-                    <div className="flex justify-between items-start mb-2">
-                      <h5 className="font-semibold text-gray-200 text-sm">{recipe.name}</h5>
-                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
-                        {Math.round(recipe.matchScore)}% Match
-                      </span>
-                    </div>
-                    <div className="text-xs text-brand text-purple-400">{recipe.cuisine || "Global"}</div>
-                  </div>
-                  
-                  <div className="mt-3 flex gap-2">
-                    {recipe.elementalProperties && (
-                      <div className="flex gap-1">
-                        {Object.entries(recipe.elementalProperties).map(([el, val]) => (
-                           <span key={el} className="text-[10px] bg-black/40 px-1.5 rounded text-gray-400">{el} {Number(val).toFixed(2)}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  // ============================================================================
+// ============================================================================
 // Types
 // ============================================================================
 
@@ -518,11 +472,11 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     const planetaryDerivedESMS = calculateAlchemicalFromPlanets(planetaryPositions);
     const baseAlchemicalProperties = currentMoment?.quantities
       ? {
-          Spirit: currentMoment.quantities.Spirit,
-          Essence: currentMoment.quantities.Essence,
-          Matter: currentMoment.quantities.Matter,
-          Substance: currentMoment.quantities.Substance,
-        }
+        Spirit: currentMoment.quantities.Spirit,
+        Essence: currentMoment.quantities.Essence,
+        Matter: currentMoment.quantities.Matter,
+        Substance: currentMoment.quantities.Substance,
+      }
       : planetaryDerivedESMS;
 
     const methods = Object.entries(category.methods).map(([id, method]) => {
@@ -535,11 +489,11 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       };
       const transformedESMS = pillar
         ? {
-            Spirit: baseESMS.Spirit + (pillar.effects.Spirit || 0),
-            Essence: baseESMS.Essence + (pillar.effects.Essence || 0),
-            Matter: baseESMS.Matter + (pillar.effects.Matter || 0),
-            Substance: baseESMS.Substance + (pillar.effects.Substance || 0),
-          }
+          Spirit: baseESMS.Spirit + (pillar.effects.Spirit || 0),
+          Essence: baseESMS.Essence + (pillar.effects.Essence || 0),
+          Matter: baseESMS.Matter + (pillar.effects.Matter || 0),
+          Substance: baseESMS.Substance + (pillar.effects.Substance || 0),
+        }
         : baseESMS;
 
       const methodThermo = method.thermodynamicProperties || getCookingMethodThermodynamics(id) || { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
@@ -581,14 +535,14 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const referenceProfile = METHOD_PHYSICAL_REFERENCE[id];
       const thermoAlignmentScore = currentMoment
         ? Math.max(
-            0,
-            100 -
-              ((Math.abs((currentMoment.heat ?? 0.5) - methodThermo.heat) +
-                Math.abs((currentMoment.entropy ?? 0.5) - methodThermo.entropy) +
-                Math.abs((currentMoment.reactivity ?? 0.5) - methodThermo.reactivity)) /
-                3) *
-                100,
-          )
+          0,
+          100 -
+          ((Math.abs((currentMoment.heat ?? 0.5) - methodThermo.heat) +
+            Math.abs((currentMoment.entropy ?? 0.5) - methodThermo.entropy) +
+            Math.abs((currentMoment.reactivity ?? 0.5) - methodThermo.reactivity)) /
+            3) *
+          100,
+        )
         : null;
       const methodPowerProxy = Math.max(0, Math.min(1, kProfile.voltage * kProfile.current * (1 - kProfile.resistance)));
       const currentPowerProxy = currentMoment
@@ -643,7 +597,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     return methods.sort((a, b) => b.harmony.harmonyIndex - a.harmony.harmonyIndex);
   }, [selectedCategory, planetaryPositions, focusMode, userIntent, currentMoment]);
 
-  
+
   const loadAlignedRecipes = useCallback(async (methodId: string) => {
     if (fetchedMethodRecipes[methodId]) {
       setAlignedRecipes(fetchedMethodRecipes[methodId]);
@@ -660,7 +614,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         setAlignedRecipes(data.recipes);
         setFetchedMethodRecipes(prev => ({ ...prev, [methodId]: data.recipes }));
       }
-    } catch(err) {
+    } catch (err) {
       console.warn("Failed to fetch aligned recipes", err);
     } finally {
       setIsLoadingRecipes(false);
@@ -719,6 +673,53 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     { key: "conditions", label: "Conditions", icon: "🎯" },
     { key: "recipes", label: "Aligned Recipes", icon: "🍱" },
   ];
+
+  const renderRecipesTab = (method: (typeof currentMethods)[0]) => {
+    return (
+      <div className="space-y-4">
+        <div className="rounded-xl border border-white/10 bg-transparent/5 p-5 shadow-sm">
+          <h4 className="text-sm font-bold text-gray-200 mb-2 flex items-center gap-2">
+            <span>🍱</span> Current Moment Aligned Recipes
+          </h4>
+          <p className="text-xs text-gray-400 mb-4">Recipes using {method.name} that perfectly target current live thermodynamic constraints.</p>
+
+          {isLoadingRecipes && <div className="text-sm text-gray-500 animate-pulse">Scanning recipe calculus...</div>}
+
+          {!isLoadingRecipes && alignedRecipes.length === 0 && (
+            <div className="text-sm text-gray-500">No perfectly aligned recipes found for this specific technique.</div>
+          )}
+
+          {!isLoadingRecipes && alignedRecipes.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+              {alignedRecipes.map(recipe => (
+                <div key={recipe.id} className="group relative flex flex-col justify-between rounded-lg border border-white/5 bg-transparent/5 p-4 hover:border-purple-500/50 hover:bg-transparent/10 transition-colors">
+                  <div>
+                    <div className="flex justify-between items-start mb-2">
+                      <h5 className="font-semibold text-gray-200 text-sm">{recipe.name}</h5>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
+                        {Math.round(recipe.matchScore)}% Match
+                      </span>
+                    </div>
+                    <div className="text-xs text-brand text-purple-400">{recipe.cuisine || "Global"}</div>
+                  </div>
+
+                  <div className="mt-3 flex gap-2">
+                    {recipe.elementalProperties && (
+                      <div className="flex gap-1">
+                        {Object.entries(recipe.elementalProperties).map(([el, val]) => (
+                          <span key={el} className="text-[10px] bg-black/40 px-1.5 rounded text-gray-400">{el} {Number(val).toFixed(2)}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   // ============================================================================
   // RENDER: Overview Tab
@@ -962,16 +963,14 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
               </div>
 
               <div className="mt-4 flex gap-3">
-                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                  kinetics.forceClassification === "accelerating" ? "bg-green-100 text-green-700"
-                  : kinetics.forceClassification === "balanced" ? "bg-blue-100 text-blue-700"
-                  : "bg-orange-100 text-orange-700"
-                }`}>{kinetics.forceClassification}</span>
-                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                  kinetics.thermalDirection === "heating" ? "bg-red-100 text-red-700"
-                  : kinetics.thermalDirection === "cooling" ? "bg-blue-100 text-blue-700"
-                  : "bg-white/10 text-gray-300"
-                }`}>
+                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${kinetics.forceClassification === "accelerating" ? "bg-green-100 text-green-700"
+                    : kinetics.forceClassification === "balanced" ? "bg-blue-100 text-blue-700"
+                      : "bg-orange-100 text-orange-700"
+                  }`}>{kinetics.forceClassification}</span>
+                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${kinetics.thermalDirection === "heating" ? "bg-red-100 text-red-700"
+                    : kinetics.thermalDirection === "cooling" ? "bg-blue-100 text-blue-700"
+                      : "bg-white/10 text-gray-300"
+                  }`}>
                   {kinetics.thermalDirection === "heating" ? "🔥" : kinetics.thermalDirection === "cooling" ? "❄️" : "➖"} {kinetics.thermalDirection}
                 </span>
               </div>
@@ -1047,11 +1046,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             </div>
             <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm text-center">
               <div className="text-xs text-gray-500 mb-1">Timing</div>
-              <span className={`inline-block rounded-full px-4 py-2 text-sm font-bold ${
-                timing === "quick" ? "bg-yellow-100 text-yellow-800"
-                : timing === "slow" ? "bg-blue-100 text-blue-800"
-                : "bg-green-100 text-green-800"
-              }`}>{String(timing).toUpperCase()}</span>
+              <span className={`inline-block rounded-full px-4 py-2 text-sm font-bold ${timing === "quick" ? "bg-yellow-100 text-yellow-800"
+                  : timing === "slow" ? "bg-blue-100 text-blue-800"
+                    : "bg-green-100 text-green-800"
+                }`}>{String(timing).toUpperCase()}</span>
               {mods?.timingAdjustment !== 0 && (
                 <div className="mt-2 text-xs text-gray-400">Monica: {mods.timingAdjustment >= 0 ? "+" : ""}{mods.timingAdjustment.toFixed(0)} min</div>
               )}
@@ -1204,9 +1202,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         <h2 className="text-3xl md:text-4xl font-black text-gray-100">Cooking Methods</h2>
         <p className="text-gray-500 mt-1">Alchemical Transformation System · Harmony Index · 14 Pillars</p>
         <div className="mt-2 flex items-center justify-center gap-3">
-          <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${
-            positionsSource === "real" ? "bg-green-100 text-green-700" : "bg-white/10 text-gray-400"
-          }`}>
+          <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${positionsSource === "real" ? "bg-green-100 text-green-700" : "bg-white/10 text-gray-400"
+            }`}>
             {positionsSource === "real" ? "🌟 Live Planetary Data" : "⏳ Default Positions"}
           </span>
           <button onClick={() => setShowPillarsGuide(!showPillarsGuide)} className="text-xs text-purple-600 hover:text-purple-800 hover:underline">
@@ -1239,9 +1236,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
         <div className="flex items-center justify-between gap-2 mb-4">
           <h3 className="text-sm font-bold text-gray-200">Current Moment Metrics</h3>
-          <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${
-            momentStatus === "ready" ? "bg-emerald-100 text-emerald-700" : momentStatus === "loading" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
-          }`}>
+          <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${momentStatus === "ready" ? "bg-emerald-100 text-emerald-700" : momentStatus === "loading" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
+            }`}>
             {momentStatus === "ready" ? "LIVE /api/alchm-quantities" : momentStatus === "loading" ? "Loading..." : "Unavailable"}
           </span>
         </div>
@@ -1287,11 +1283,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           <button
             key={cat.id}
             onClick={() => { setSelectedCategory(cat.id); setExpandedMethod(null); setCompareSelections([]); }}
-            className={`rounded-lg px-4 py-2 text-sm font-bold transition-all duration-200 ${
-              selectedCategory === cat.id
+            className={`rounded-lg px-4 py-2 text-sm font-bold transition-all duration-200 ${selectedCategory === cat.id
                 ? "bg-gray-900 text-white shadow-lg scale-105"
                 : "bg-transparent text-gray-300 border border-white/10 hover:border-gray-400 hover:shadow"
-            }`}
+              }`}
           >
             <span className="mr-1.5">{cat.icon}</span>{cat.name}
           </button>
@@ -1323,11 +1318,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
               <button
                 key={label}
                 onClick={() => setUserIntent(key)}
-                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${
-                  userIntent === key
+                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${userIntent === key
                     ? "bg-indigo-100 text-indigo-700 shadow-sm ring-1 ring-indigo-300"
                     : "text-gray-500 hover:bg-white/10"
-                }`}
+                  }`}
               >
                 {icon} {label}
               </button>
@@ -1338,11 +1332,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         {/* Compare toggle */}
         <button
           onClick={() => { setCompareMode(!compareMode); if (compareMode) setCompareSelections([]); }}
-          className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
-            compareMode
+          className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${compareMode
               ? "bg-indigo-600 text-white shadow-md"
               : "bg-white/10 text-gray-400 hover:bg-gray-200"
-          }`}
+            }`}
         >
           {compareMode ? "✔ Compare On" : "↔ Compare"}
         </button>
@@ -1374,13 +1367,12 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           return (
             <div
               key={method.id}
-              className={`rounded-xl border transition-all duration-300 ${
-                isCompareSelected
+              className={`rounded-xl border transition-all duration-300 ${isCompareSelected
                   ? "border-2 border-indigo-400 shadow-lg bg-indigo-50/30"
                   : isExpanded
                     ? `border-2 ${pillarColors?.border || "border-purple-300"} shadow-xl bg-gradient-to-br from-gray-50 to-white`
                     : "border-white/10 bg-transparent hover:border-white/10 hover:shadow-md"
-              }`}
+                }`}
             >
               {/* -- Collapsed Card (always visible) -- */}
               <div
@@ -1457,11 +1449,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                       <button
                         key={tab.key}
                         onClick={(e) => { e.stopPropagation(); setExpandedTab(tab.key); }}
-                        className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
-                          expandedTab === tab.key
+                        className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${expandedTab === tab.key
                             ? "bg-gray-900 text-white shadow"
                             : "text-gray-500 hover:bg-white/10"
-                        }`}
+                          }`}
                       >
                         {tab.icon} {tab.label}
                       </button>
