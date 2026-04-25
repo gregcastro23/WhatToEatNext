@@ -32,28 +32,28 @@ const rawWholeGrains = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Earth: 0.1, Water: 0.05 },
           preparationTips: [
             "Begin sprouting process",
             "Mindful cooking with minimal seasonings",
           ],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.15, Earth: 0.05 },
           preparationTips: [
             "Perfect for hearty dishes",
             "Enhanced digestibility",
           ],
         },
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Earth: 0.05, Water: 0.1 },
           preparationTips: [
             "Good for starting fermentations",
             "Basic cooking methods",
           ],
         },
-        firstQuarter: {
+        "first quarter": {
           elementalBoost: { Earth: 0.1, Air: 0.05 },
           preparationTips: [
             "Balanced seasonings",
@@ -72,8 +72,8 @@ const rawWholeGrains = {
       "nourishing",
     ],
     origin: ["Asia", "Global cultivation"],
-    season: ["all"],
-    category: "grains",
+    season: ["fall"],
+    category: "grain",
     subCategory: "rice",
     nutritionalProfile: {
       serving_size: "1/2 cup cooked",
@@ -372,7 +372,8 @@ const rawWholeGrains = {
       },
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
-      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Brown Rice is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   quinoa: {
@@ -392,7 +393,7 @@ const rawWholeGrains = {
       },
     },
     qualities: ["light", "protein-rich", "versatile"],
-    category: "grains",
+    category: "grain",
     varieties: {},
     preparation: {
       rinsing: {
@@ -413,11 +414,11 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Earth"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["buttery", "rich", "chewy"],
-    category: "grains",
+    category: "grain",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 kamut to water",
@@ -464,11 +465,11 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Earth"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "complex", "hearty"],
-    category: "grains",
+    category: "grain",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 spelt to water",
@@ -515,11 +516,11 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "ancient", "nutritious"],
-    category: "grains",
+    category: "grain",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:2 einkorn to water",
@@ -566,11 +567,11 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.1, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["earthy", "robust", "hearty"],
-    category: "grains",
+    category: "grain",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 rye to water",
@@ -617,11 +618,11 @@ const rawWholeGrains = {
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "complex", "aromatic"],
-    category: "grains",
+    category: "grain",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 rice to water",
@@ -667,11 +668,11 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "hybrid vigor", "nutritious"],
-    category: "grains",
+    category: "grain",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 triticale to water",
@@ -728,18 +729,18 @@ const rawWholeGrains = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
           preparationTips: ["Best for overnight oats"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2 },
           preparationTips: ["Ideal for creamy porridge"],
         },
       },
     },
     qualities: ["nutty", "chewy", "wholesome"],
-    category: "grains",
+    category: "grain",
     varieties: {
       short_grain: {
         characteristics: "sticky, plump",
@@ -774,7 +775,7 @@ const rawWholeGrains = {
     },
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ["nutty", "chewy", "wholesome"],
-    category: "grains",
+    category: "grain",
     culinaryApplications: {
       basic_cooking: {
         ratio: "1:3 barley to water",
@@ -819,10 +820,10 @@ const rawWholeGrains = {
     name: "flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -836,10 +837,10 @@ const rawWholeGrains = {
     name: "rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.2, sour: 0, bitter: 0, salty: 0, umami: 0.1 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -853,10 +854,10 @@ const rawWholeGrains = {
     name: "all-purpose flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -870,10 +871,10 @@ const rawWholeGrains = {
     name: "whole grain bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -887,10 +888,10 @@ const rawWholeGrains = {
     name: "steel-cut oats",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -900,14 +901,14 @@ const rawWholeGrains = {
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
 },
   breadcrumbs: {
-      description: "A cereal or pseudo-cereal product, breadcrumbs contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
+      description: "Breadcrumbs is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "breadcrumbs",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -921,10 +922,10 @@ const rawWholeGrains = {
     name: "arborio rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -938,10 +939,10 @@ const rawWholeGrains = {
     name: "bread stuffing",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -955,10 +956,10 @@ const rawWholeGrains = {
     name: "cheong fun (rice noodle rolls)",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -972,10 +973,10 @@ const rawWholeGrains = {
     name: "glutinous rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -989,10 +990,10 @@ const rawWholeGrains = {
     name: "rustic bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1006,10 +1007,10 @@ const rawWholeGrains = {
     name: "white sandwich bread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1023,10 +1024,10 @@ const rawWholeGrains = {
     name: "idli rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1040,10 +1041,10 @@ const rawWholeGrains = {
     name: "flattened rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1057,10 +1058,10 @@ const rawWholeGrains = {
     name: "basmati rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1074,10 +1075,10 @@ const rawWholeGrains = {
     name: "steamed rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1091,10 +1092,10 @@ const rawWholeGrains = {
     name: "sushi rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1108,10 +1109,10 @@ const rawWholeGrains = {
     name: "short grain rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1125,10 +1126,10 @@ const rawWholeGrains = {
     name: "sliced rice cakes",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1142,10 +1143,10 @@ const rawWholeGrains = {
     name: "rice cakes",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1159,10 +1160,10 @@ const rawWholeGrains = {
     name: "rice flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1172,14 +1173,14 @@ const rawWholeGrains = {
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
 },
   flatbread: {
-      description: "A cereal or pseudo-cereal product, flatbread contributes complex carbohydrates, fiber, and a neutral-to-nutty flavor that anchors savory and sweet dishes across global cuisines.",
+      description: "Flatbread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "flatbread",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1193,10 +1194,10 @@ const rawWholeGrains = {
     name: "jasmine rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1210,10 +1211,10 @@ const rawWholeGrains = {
     name: "glass noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1227,10 +1228,10 @@ const rawWholeGrains = {
     name: "rice noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1244,10 +1245,10 @@ const rawWholeGrains = {
     name: "sticky rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1261,10 +1262,10 @@ const rawWholeGrains = {
     name: "tapioca flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1278,10 +1279,10 @@ const rawWholeGrains = {
     name: "glutinous rice flour",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1295,10 +1296,10 @@ const rawWholeGrains = {
     name: "thick rice noodles",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
@@ -1312,10 +1313,10 @@ const rawWholeGrains = {
     name: "broken rice",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus"],
+      favorableZodiac: ["capricorn", "virgo", "taurus"],
       seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },

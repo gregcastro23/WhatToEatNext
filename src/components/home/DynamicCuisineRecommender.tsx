@@ -81,15 +81,15 @@ const OPTIMAL_TIMINGS: Record<string, string> = {
 };
 
 const DIGNITIES: Record<string, { domicile: string[]; exaltation: string[] }> =
-  {
-    Sun: { domicile: ["leo"], exaltation: ["aries"] },
-    Moon: { domicile: ["cancer"], exaltation: ["taurus"] },
-    Mercury: { domicile: ["gemini", "virgo"], exaltation: ["virgo"] },
-    Venus: { domicile: ["taurus", "libra"], exaltation: ["pisces"] },
-    Mars: { domicile: ["aries", "scorpio"], exaltation: ["capricorn"] },
-    Jupiter: { domicile: ["sagittarius", "pisces"], exaltation: ["cancer"] },
-    Saturn: { domicile: ["capricorn", "aquarius"], exaltation: ["libra"] },
-  };
+{
+  Sun: { domicile: ["leo"], exaltation: ["aries"] },
+  Moon: { domicile: ["cancer"], exaltation: ["taurus"] },
+  Mercury: { domicile: ["gemini", "virgo"], exaltation: ["virgo"] },
+  Venus: { domicile: ["taurus", "libra"], exaltation: ["pisces"] },
+  Mars: { domicile: ["aries", "scorpio"], exaltation: ["capricorn"] },
+  Jupiter: { domicile: ["sagittarius", "pisces"], exaltation: ["cancer"] },
+  Saturn: { domicile: ["capricorn", "aquarius"], exaltation: ["libra"] },
+};
 
 function calculateDignity(planet: string, sign: string): number {
   const dignity = DIGNITIES[planet];
@@ -182,50 +182,58 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
 
       if (data.success && data.recommendations) {
         // Map API response to our component's format
-        const apiCuisines = data.recommendations.cuisines || [];
+        const apiCuisines: string[] = Array.isArray(data.recommendations.cuisines)
+          ? data.recommendations.cuisines
+          : Array.isArray(data.recommendations)
+            ? data.recommendations
+            : [];
         const recipeCounts = data.recipeCounts || {};
-        
-        const mapped: DynamicCuisineRecommendation[] = [];
-        
-        for (const def of CUISINE_DEFINITIONS) {
-          const nameLower = def.name.toLowerCase();
-          const count = recipeCounts[nameLower] || 0;
-          
-          const isRecommended = apiCuisines.includes(def.name);
-          const recommendationIndex = apiCuisines.indexOf(def.name);
-          
-          let score = 70; // Default
-          if (isRecommended) {
-            score = 95 - (recommendationIndex * 5);
-          } else {
-            score = 60;
+
+        // If we got a valid response with cuisines, use it
+        if (apiCuisines.length > 0) {
+          const mapped: DynamicCuisineRecommendation[] = [];
+
+          for (const def of CUISINE_DEFINITIONS) {
+            const nameLower = def.name.toLowerCase();
+            const count = recipeCounts[nameLower] || 0;
+
+            const isRecommended = apiCuisines.includes(def.name);
+            const recommendationIndex = apiCuisines.indexOf(def.name);
+
+            let score = 70; // Default
+            if (isRecommended) {
+              score = 95 - (recommendationIndex * 5);
+            } else {
+              score = 60;
+            }
+
+            mapped.push({
+              cuisine: def.name,
+              score: Math.max(score, 1),
+              planet: def.planet,
+              reasoning: CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`,
+              recipeCount: count,
+              optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
+              topRecipes: [], // We'll populate this later if needed
+              isRetrograde: false
+            });
           }
 
-          mapped.push({
-            cuisine: def.name,
-            score: Math.max(score, 1),
-            planet: def.planet,
-            reasoning: CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`,
-            recipeCount: count,
-            optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
-            topRecipes: [], // We'll populate this later if needed
-            isRetrograde: false
-          });
+          mapped.sort((a, b) => b.score - a.score);
+          setRecommendations(mapped);
+          setLastUpdated(new Date());
+          console.log(`DynamicCuisineRecommender: Successfully mapped ${mapped.length} cuisines from API`);
+          setIsLoading(false);
+          return;
         }
-
-        mapped.sort((a, b) => b.score - a.score);
-        setRecommendations(mapped);
-        setLastUpdated(new Date());
-        console.log(`DynamicCuisineRecommender: Successfully mapped ${mapped.length} cuisines from API`);
-        setIsLoading(false);
-        return;
       }
-      
-      throw new Error("Invalid API response format");
+
+      // If we reach here, the API response was not in the expected format — trigger legacy fallback
+      throw new Error("API response lacked usable cuisine data");
 
     } catch (error) {
-      console.error("DynamicCuisineRecommender: API call failed, falling back to legacy logic:", error);
-      
+      console.warn("DynamicCuisineRecommender: API call failed, falling back to legacy logic:", error);
+
       try {
         const service = PlanetaryScoringService.getInstance();
         const allRecipes = await getServerRecipes();
@@ -234,7 +242,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
         const recipeCountsMap = new Map<string, number>();
         for (const cuisine of CUISINE_DEFINITIONS) {
           try {
-            const cuisineRecipes = allRecipes.filter((r: any) => 
+            const cuisineRecipes = allRecipes.filter((r: any) =>
               r.cuisine?.toLowerCase().includes(cuisine.name.toLowerCase())
             );
             recipeCountsMap.set(cuisine.name, cuisineRecipes.length);
@@ -276,7 +284,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
           const dignityScore = calculateDignity(cuisine.planet, sign);
           const isCurrentHourPlanet = planetaryHour === cuisine.planet;
           const timingScore = getTimingScore(cuisine.name, hour);
-          
+
           const totalScore = Math.round(
             Math.min((dignityScore * 0.6 + timingScore * 0.2 + (isCurrentHourPlanet ? 0.2 : 0)) * 100, 99)
           );
@@ -298,7 +306,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
         setLastUpdated(new Date());
       } catch (innerError) {
         console.error("DynamicCuisineRecommender: CRITICAL ERROR in fallback logic:", innerError);
-        
+
         // Final emergency fallback
         const fallback: DynamicCuisineRecommendation[] = CUISINE_DEFINITIONS.map((c, i) => ({
           cuisine: c.name,

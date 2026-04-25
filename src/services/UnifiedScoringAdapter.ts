@@ -8,7 +8,7 @@
 
 import { scoreRecommendation } from "./UnifiedScoringService";
 import type { ScoringContext } from "./UnifiedScoringService";
-import type { ElementalProperties} from "../types/alchemy";
+import type { ElementalProperties } from "../types/alchemy";
 import type { Planet } from "../types/celestial";
 import type { CookingMethod } from "../types/cooking";
 import type { UnifiedIngredient } from "../types/ingredient";
@@ -42,7 +42,7 @@ export interface ScoredItem<T> {
 export class UnifiedScoringAdapter {
   private static instance: UnifiedScoringAdapter;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): UnifiedScoringAdapter {
     if (!UnifiedScoringAdapter.instance) {
@@ -72,8 +72,7 @@ export class UnifiedScoringAdapter {
         elementalProperties:
           ingredient.elementalProperties || ingredient.elementalPropertiesState,
         seasonality: (ingredient.seasonality as any) || [],
-        planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets ||
-          []) as Planet[],
+        planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
         flavorProfile:
           (ingredient.flavorProfile as Record<string, number>) || {},
         culturalOrigins: (ingredient.culturalOrigins as string[]) || [],
@@ -134,11 +133,11 @@ export class UnifiedScoringAdapter {
         type: "recipe",
         elementalProperties: (recipe.elementalState as ElementalProperties) ||
           recipe.elementalProperties || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.25,
-          },
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        },
         seasonality: (recipe.seasonality as any) || [],
         planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
         flavorProfile:

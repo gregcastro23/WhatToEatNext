@@ -171,7 +171,12 @@ raw_cors = os.getenv(
     "CORS_ALLOWED_ORIGINS", 
     "https://alchm.kitchen,https://v0-alchm-kitchen.vercel.app,http://localhost:3000"
 )
-CORS_ALLOWED_ORIGINS = [o.strip() for o in raw_cors.split(",") if o.strip()]
+CORS_ALLOWED_ORIGINS = [o.strip().rstrip('/') for o in raw_cors.split(",") if o.strip()]
+
+# Ensure key frontend domains are always allowed
+for origin in ["https://alchm.kitchen", "https://www.alchm.kitchen"]:
+    if origin not in CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS.append(origin)
 
 # Add wildcard if empty or explicitly requested
 if not CORS_ALLOWED_ORIGINS or "*" in CORS_ALLOWED_ORIGINS:
@@ -946,7 +951,11 @@ async def get_current_moment_cuisine_recommendations(
                 zodiac_sign = zodiac_sign or 'Libra'
                 season = season or 'Autumn'
 
-        # Validate inputs
+        # Normalize and validate inputs
+        zodiac_sign = zodiac_sign.capitalize() if zodiac_sign else None
+        season = season.capitalize() if season else None
+        meal_type = meal_type.lower() if meal_type else None
+
         valid_signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
                       'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces']
         valid_seasons = ['Spring', 'Summer', 'Autumn', 'Winter']

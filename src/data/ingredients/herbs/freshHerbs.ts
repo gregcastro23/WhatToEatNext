@@ -5,7 +5,7 @@ const rawFreshHerbs = {
   basil: {
       description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.",
     name: "Basil",
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "fresh_herb",
 
     // Base elemental properties (unscaled)
@@ -293,11 +293,11 @@ const rawFreshHerbs = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Air: 0.1, Water: 0.05 },
           preparationTips: ["Harvest in morning", "Gentle processing"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Air: 0.15, Fire: 0.1 },
           preparationTips: [
             "Enhanced aroma when harvested",
@@ -322,8 +322,8 @@ const rawFreshHerbs = {
     category: "meats",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Capricorn", "Scorpio"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["aries", "capricorn", "scorpio"],
+      seasonalAffinity: ["fall", "winter"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -337,10 +337,10 @@ const rawFreshHerbs = {
     // Warm, earthy Mediterranean herb. Fire (warming thymol), Air (volatile aromatics), Earth (woody stem).
     elementalProperties: { Fire: 0.30, Water: 0.10, Earth: 0.20, Air: 0.40 },
     qualities: ["aromatic", "warming", "earthy", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Libra", "Virgo"],
+      favorableZodiac: ["taurus", "libra", "virgo"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -355,10 +355,10 @@ const rawFreshHerbs = {
     // Similar to dried thyme but slightly more Water (moisture in fresh leaves).
     elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.18, Air: 0.42 },
     qualities: ["aromatic", "fresh", "warming", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Libra", "Virgo"],
+      favorableZodiac: ["taurus", "libra", "virgo"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -373,11 +373,11 @@ const rawFreshHerbs = {
     // Warm, pungent, slightly bitter. Strong Fire (warming oils), Air (volatile compounds), Earth (grounding).
     elementalProperties: { Fire: 0.35, Water: 0.10, Earth: 0.20, Air: 0.35 },
     qualities: ["warming", "pungent", "savory", "medicinal", "culinary"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mercury"],
-      favorableZodiac: ["Sagittarius", "Gemini", "Virgo"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["sagittarius", "gemini", "virgo"],
+      seasonalAffinity: ["fall", "winter"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -391,10 +391,10 @@ const rawFreshHerbs = {
     // Cooling menthol creates a paradoxical sensation: Water (cooling), Air (volatile menthol), minimal Fire/Earth.
     elementalProperties: { Fire: 0.05, Water: 0.40, Earth: 0.05, Air: 0.50 },
     qualities: ["cooling", "refreshing", "menthol", "aromatic", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Cancer", "Pisces"],
+      favorableZodiac: ["libra", "cancer", "pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -409,11 +409,11 @@ const rawFreshHerbs = {
     // Fresh sage: slightly more Water than dried, warm pungent oils still dominate.
     elementalProperties: { Fire: 0.30, Water: 0.15, Earth: 0.20, Air: 0.35 },
     qualities: ["warming", "pungent", "fresh", "savory", "culinary"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mercury"],
-      favorableZodiac: ["Sagittarius", "Gemini", "Virgo"],
-      seasonalAffinity: ["spring", "summer", "autumn"],
+      favorableZodiac: ["sagittarius", "gemini", "virgo"],
+      seasonalAffinity: ["spring", "summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -427,11 +427,11 @@ const rawFreshHerbs = {
     // Subtle, woody background note. Earth (woody structure), Air (slow-release aromatics), mild Fire.
     elementalProperties: { Fire: 0.15, Water: 0.10, Earth: 0.35, Air: 0.40 },
     qualities: ["aromatic", "woody", "subtle", "earthy", "culinary"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Apollo"],
-      favorableZodiac: ["Gemini", "Leo", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "leo", "virgo"],
+      seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -445,10 +445,10 @@ const rawFreshHerbs = {
     // Bright, fresh, green. Air (fresh volatile compounds), Water (high moisture, fresh green), minimal Fire/Earth.
     elementalProperties: { Fire: 0.10, Water: 0.35, Earth: 0.10, Air: 0.45 },
     qualities: ["fresh", "bright", "green", "clean", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -463,11 +463,11 @@ const rawFreshHerbs = {
     // Robust Mediterranean herb. Strong Fire (warming carvacrol), Air (pungent aromatics), Earth (robust drying).
     elementalProperties: { Fire: 0.40, Water: 0.10, Earth: 0.15, Air: 0.35 },
     qualities: ["pungent", "warming", "robust", "aromatic", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Mercury"],
-      favorableZodiac: ["Aries", "Gemini", "Scorpio"],
-      seasonalAffinity: ["summer", "autumn"],
+      favorableZodiac: ["aries", "gemini", "scorpio"],
+      seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -481,10 +481,10 @@ const rawFreshHerbs = {
     // Classic culinary parsley. Air dominant (fresh aromatics), Water (moisture-rich leaves).
     elementalProperties: { Fire: 0.10, Water: 0.35, Earth: 0.12, Air: 0.43 },
     qualities: ["fresh", "bright", "mild", "versatile", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -499,10 +499,10 @@ const rawFreshHerbs = {
     // Cooling, menthol-dominant. Water (cooling effect), Air (extremely volatile menthol compounds).
     elementalProperties: { Fire: 0.05, Water: 0.40, Earth: 0.08, Air: 0.47 },
     qualities: ["cooling", "refreshing", "menthol", "aromatic", "medicinal", "culinary"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Cancer", "Pisces"],
+      favorableZodiac: ["libra", "cancer", "pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -517,10 +517,10 @@ const rawFreshHerbs = {
     // Feathery, delicate, anise-like. Very Air dominant (extremely aromatic, feathery texture), Water (fresh green).
     elementalProperties: { Fire: 0.05, Water: 0.30, Earth: 0.10, Air: 0.55 },
     qualities: ["delicate", "feathery", "anise-like", "fresh", "aromatic", "culinary"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Cancer", "Pisces"],
+      favorableZodiac: ["gemini", "cancer", "pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -530,16 +530,16 @@ const rawFreshHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   bay_leaves: {
-      description: "An aromatic culinary herb, bay leaves contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "Bay Leaves is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "bay leaves",
     // Same profile as bay_leaf (plural form, same ingredient).
     elementalProperties: { Fire: 0.15, Water: 0.10, Earth: 0.35, Air: 0.40 },
     qualities: ["aromatic", "woody", "subtle", "earthy", "culinary"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Apollo"],
-      favorableZodiac: ["Gemini", "Leo", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "leo", "virgo"],
+      seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
@@ -553,10 +553,10 @@ const rawFreshHerbs = {
     // Piney, resinous, powerful. Fire dominant (warming terpenes, resinous oils), Air (piney volatile aroma).
     elementalProperties: { Fire: 0.45, Water: 0.10, Earth: 0.15, Air: 0.30 },
     qualities: ["piney", "resinous", "warming", "robust", "aromatic", "medicinal", "culinary"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
-      favorableZodiac: ["Leo", "Aries", "Capricorn"],
+      favorableZodiac: ["leo", "aries", "capricorn"],
       seasonalAffinity: ["year-round"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -571,10 +571,10 @@ const rawFreshHerbs = {
     // Mint leaves — same cooling profile as mint.
     elementalProperties: { Fire: 0.05, Water: 0.40, Earth: 0.08, Air: 0.47 },
     qualities: ["cooling", "refreshing", "aromatic", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Cancer", "Pisces"],
+      favorableZodiac: ["libra", "cancer", "pisces"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -589,10 +589,10 @@ const rawFreshHerbs = {
     // Fresh basil shares the profile of the detailed basil entry above: Air dominant, sweet/warm.
     elementalProperties: { Fire: 0.22, Water: 0.27, Earth: 0.08, Air: 0.43 },
     qualities: ["aromatic", "sweet", "fresh", "warm", "culinary"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra", "Virgo"],
+      favorableZodiac: ["gemini", "libra", "virgo"],
       seasonalAffinity: ["summer"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
@@ -607,10 +607,10 @@ const rawFreshHerbs = {
     // Bright, citrusy-soapy. Air very dominant (highly volatile aldehydes), Water (fresh green moisture).
     elementalProperties: { Fire: 0.08, Water: 0.32, Earth: 0.10, Air: 0.50 },
     qualities: ["citrusy", "fresh", "aromatic", "bright", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra", "Aquarius"],
+      favorableZodiac: ["gemini", "libra", "aquarius"],
       seasonalAffinity: ["spring", "summer"],
     },
       sensoryProfile: { taste: { spicy: 0.1, sweet: 0.1, sour: 0.1, bitter: 0.3, salty: 0, umami: 0.1 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },

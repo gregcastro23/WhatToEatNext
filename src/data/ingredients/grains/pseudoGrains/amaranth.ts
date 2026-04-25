@@ -14,7 +14,7 @@ const rawAmaranth = {
       },
     },
     qualities: ["nutty", "earthy", "gelatinous", "gluten-free", "protein-rich"],
-    category: "grains",
+    category: "grain",
     origin: ["Central America", "Mexico", "South America"],
     varieties: {
       regular: {

@@ -65,7 +65,7 @@ const rawMelons = {
     },
     season: ["summer"],
     qualities: ["hydrating", "sweet", "refreshing", "cooling"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "melon",
     nutritionalProfile: {
       serving_size: "100g",
@@ -255,7 +255,7 @@ const rawMelons = {
     },
     season: ["summer", "early fall"],
     qualities: ["sweet", "aromatic", "juicy", "musky"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "melon",
     nutritionalProfile: {
       serving_size: "100g",
@@ -408,7 +408,7 @@ const rawMelons = {
     },
     season: ["summer", "early fall"],
     qualities: ["refreshing", "crisp", "subtle sweetness", "delicate"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "melon",
     nutritionalProfile: {
       serving_size: "100g",
@@ -565,7 +565,7 @@ const rawMelons = {
     },
     season: ["summer", "fall"],
     qualities: ["mild", "subtle", "cucumber-like", "refreshing"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "melon",
     nutritionalProfile: {
       serving_size: "100g",
@@ -704,7 +704,7 @@ const rawMelons = {
     },
     season: ["summer", "early fall"],
     qualities: ["aromatic", "rich", "sweet", "complex"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "melon",
     nutritionalProfile: {
       serving_size: "100g",
@@ -834,7 +834,7 @@ const rawMelons = {
     },
     season: ["summer"],
     qualities: ["aromatic", "floral", "sweet", "juicy"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "melon",
     nutritionalProfile: {
       serving_size: "100g",
@@ -973,7 +973,7 @@ const rawMelons = {
     },
     season: ["winter", "fall"],
     qualities: ["mild", "cooling", "spongy", "savory"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "melon",
     nutritionalProfile: {
       serving_size: "100g",
@@ -1122,7 +1122,7 @@ const rawMelons = {
     },
     season: ["summer"],
     qualities: ["aromatic", "sweet", "complex", "fragrant"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "melon",
     nutritionalProfile: {
       serving_size: "100g",

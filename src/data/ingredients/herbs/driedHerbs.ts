@@ -11,12 +11,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.60, Essence: 0.35, Matter: 0.15, Substance: 0.18 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["warming", "pungent", "aromatic"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     potency: 8,
     affinities: ["tomato", "garlic", "olive oil", "mediterranean herbs"],
@@ -43,7 +43,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Crush to test freshness - should be aromatic",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Basil is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_oregano: {
@@ -53,12 +54,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.72, Essence: 0.30, Matter: 0.15, Substance: 0.20 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["warming", "pungent", "drying"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: [
       "tomato",
@@ -90,7 +91,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Maintains flavor well when dried",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Oregano is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_thyme: {
@@ -100,12 +102,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.70, Essence: 0.32, Matter: 0.15, Substance: 0.18 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["warming", "drying", "pungent"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["lemon", "garlic", "poultry", "mushrooms", "root vegetables"],
     cookingMethods: ["cooked", "infused", "brined"],
@@ -131,7 +133,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Whole leaves last longer than ground",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Thyme is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_rosemary: {
@@ -141,12 +144,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.75, Essence: 0.30, Matter: 0.18, Substance: 0.22 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["warming", "pungent", "drying"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["lamb", "potato", "olive oil", "garlic", "lemon"],
     cookingMethods: ["cooked", "infused", "roasted"],
@@ -172,7 +175,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Whole needles last longer than ground",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Rosemary is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_sage: {
@@ -182,12 +186,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.65, Essence: 0.28, Matter: 0.20, Substance: 0.22 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["warming", "drying", "astringent"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["poultry", "pork", "butternut squash", "butter", "mushrooms"],
     cookingMethods: ["cooked", "infused", "rubbed"],
@@ -217,7 +221,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       cautions: ["avoid therapeutic doses during pregnancy"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Sage is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_bay_leaves: {
@@ -227,12 +232,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.68, Essence: 0.25, Matter: 0.22, Substance: 0.25 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["warming", "bitter", "aromatic"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["soups", "stews", "rice", "beans", "meat"],
     cookingMethods: ["simmered", "infused", "brined"],
@@ -258,7 +263,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Whole leaves maintain flavor longer",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Bay Leaves is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_marjoram: {
@@ -268,12 +274,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.65, Essence: 0.32, Matter: 0.14, Substance: 0.18 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["sweet", "delicate", "warming"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["poultry", "vegetables", "legumes", "tomato sauces", "eggs"],
     cookingMethods: ["cooked", "infused"],
@@ -298,7 +304,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Replace when aroma fades",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Marjoram is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_savory: {
@@ -308,12 +315,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.60, Essence: 0.30, Matter: 0.18, Substance: 0.20 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["peppery", "robust", "aromatic"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["beans", "pork", "poultry", "sausages", "cabbage"],
     cookingMethods: ["cooked", "infused", "marinades"],
@@ -338,7 +345,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Maintains strength well when dried",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Savory is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_chervil: {
@@ -348,12 +356,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.55, Essence: 0.35, Matter: 0.10, Substance: 0.14 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["delicate", "subtle", "anise-like"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["eggs", "fish", "chicken", "light sauces", "potatoes"],
     cookingMethods: ["finishing", "infused"],
@@ -378,7 +386,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Loses flavor quickly when dried",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Chervil is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_tarragon: {
@@ -388,12 +397,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.70, Essence: 0.32, Matter: 0.12, Substance: 0.16 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["anise-like", "sweet", "aromatic"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["chicken", "fish", "eggs", "mushrooms", "french cuisine"],
     cookingMethods: ["cooked", "infused", "sauces"],
@@ -418,7 +427,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Replace when aroma weakens",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Tarragon is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_dill: {
@@ -428,12 +438,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.62, Essence: 0.35, Matter: 0.10, Substance: 0.14 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["fresh", "tangy", "herbaceous"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["fish", "pickles", "potatoes", "cucumber", "yogurt"],
     cookingMethods: ["cooked", "pickling", "infused"],
@@ -458,7 +468,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Protect from light to maintain color",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Dill is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_mint: {
@@ -468,12 +479,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.78, Essence: 0.38, Matter: 0.08, Substance: 0.12 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["cooling", "refreshing", "pungent"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["chocolate", "lamb", "peas", "tea", "fruit"],
     cookingMethods: ["tea", "cooked", "infused"],
@@ -503,7 +514,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       cautions: ["may affect iron absorption"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Mint is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_fennel: {
@@ -513,12 +525,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.65, Essence: 0.30, Matter: 0.18, Substance: 0.20 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["warming", "sweet", "aromatic"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["fish", "pork", "tomatoes", "eggs", "bread"],
     cookingMethods: ["cooked", "infused", "tea"],
@@ -548,7 +560,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       cautions: ["may interact with estrogen"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Fennel is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_parsley: {
@@ -558,12 +571,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.45, Essence: 0.30, Matter: 0.15, Substance: 0.18 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["herbaceous", "mild", "fresh"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["potatoes", "fish", "soups", "grains", "vegetables"],
     cookingMethods: ["cooked", "garnish", "infused"],
@@ -588,7 +601,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Color may fade but flavor remains",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Parsley is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_cilantro: {
@@ -598,12 +612,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.58, Essence: 0.28, Matter: 0.12, Substance: 0.15 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["citrusy", "warm", "distinctive"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["mexican cuisine", "indian cuisine", "rice", "beans", "soups"],
     cookingMethods: ["cooked", "infused"],
@@ -628,7 +642,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Best in cooked dishes",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Cilantro is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_chives: {
@@ -638,12 +653,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.50, Essence: 0.32, Matter: 0.10, Substance: 0.14 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["oniony", "mild", "delicate"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["potatoes", "eggs", "soups", "dips", "sauces"],
     cookingMethods: ["garnish", "rehydrated", "cooked"],
@@ -668,7 +683,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Protect from moisture",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Chives is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_lemon_balm: {
@@ -678,12 +694,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.65, Essence: 0.40, Matter: 0.08, Substance: 0.12 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["lemony", "mild", "soothing"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["tea", "fish", "poultry", "salads", "fruit desserts"],
     cookingMethods: ["tea", "infused", "baking"],
@@ -713,7 +729,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       cautions: ["may cause drowsiness"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Lemon Balm is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_lavender: {
@@ -723,12 +740,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.80, Essence: 0.42, Matter: 0.08, Substance: 0.10 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["floral", "sweet", "aromatic"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["desserts", "honey", "lamb", "provence herbs", "tea"],
     cookingMethods: ["baking", "infused", "tea"],
@@ -758,22 +775,23 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       cautions: ["may cause drowsiness"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Lavender is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_summer_savory: {
-      description: "An aromatic culinary herb, dried summer savory contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "Dried Summer Savory is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Dried Summer Savory",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.58, Essence: 0.30, Matter: 0.18, Substance: 0.20 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["peppery", "robust", "warming"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["beans", "meat", "poultry", "sausages", "vegetables"],
     cookingMethods: ["cooked", "infused", "marinades"],
@@ -798,7 +816,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Replace when aroma fades",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Summer Savory is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dried_lovage: {
@@ -808,12 +827,12 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.11, Essence: 0.19, Matter: 0.39, Substance: 0.31 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["celery-like", "robust", "savory"],
-    season: ["all"],
-    category: "herbs",
+    season: ["fall"],
+    category: "culinary_herb",
     subCategory: "dried",
     affinities: ["soups", "stews", "potato", "meat", "stocks"],
     cookingMethods: ["cooked", "infused", "seasoning"],
@@ -838,7 +857,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       notes: "Replace when aroma weakens",
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
-      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Lovage is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   chervil: {
@@ -853,10 +873,10 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.36, Essence: 0.22, Matter: 0.23, Substance: 0.19 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
-    category: "herbs",
+    category: "culinary_herb",
     qualities: ["nourishing"],
     nutritionalProfile: {
       calories: 0,
@@ -885,10 +905,10 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.36, Essence: 0.22, Matter: 0.23, Substance: 0.19 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
-    category: "herbs",
+    category: "culinary_herb",
     qualities: ["nourishing"],
     nutritionalProfile: {
       calories: 0,
@@ -918,10 +938,10 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     alchemicalProperties: { Spirit: 0.36, Essence: 0.22, Matter: 0.23, Substance: 0.19 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Gemini", "Virgo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
-    category: "herbs",
+    category: "culinary_herb",
     qualities: ["nourishing"],
     nutritionalProfile: {
       calories: 0,

@@ -65,7 +65,7 @@ const updateSaltCategory = (salts: IngredientMapping): IngredientMapping =>
     (acc, [key, value]) => {
       acc[key] = {
         ...value,
-        category: "seasonings",
+        category: "seasoning",
         subCategory: "salt",
       };
       return acc;

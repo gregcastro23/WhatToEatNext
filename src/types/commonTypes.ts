@@ -18,9 +18,9 @@ import type {
 // Import LunarPhase as type from constants.ts
 
 // Define types directly since they're not exported from constants
-     // eslint-disable-next-line @typescript-eslint/naming-convention
+// eslint-disable-next-line @typescript-eslint/naming-convention
 type _Element = "Fire" | "Water" | "Earth" | "Air";
-     // eslint-disable-next-line @typescript-eslint/naming-convention
+// eslint-disable-next-line @typescript-eslint/naming-convention
 type _PlanetName =
   | "Sun"
   | "Moon"
@@ -49,21 +49,20 @@ export interface ElementalProperties {
   [key: string]: number;
 }
 
-// Define basic Recipe and RecipeIngredient types
+/** @deprecated Migrate to AlchemicalRecipe and AlchemicalIngredient for unified system constraints */
 export interface RecipeIngredient {
   name: string;
   amount?: number | string;
   unit?: string;
-  [key: string]: unknown;
 }
 
+/** @deprecated Migrate to AlchemicalRecipe for uniform astrology/thermodynamic data */
 export interface Recipe {
   id: string;
   name: string;
   description: string;
   ingredients: RecipeIngredient[];
   instructions: string[];
-  [key: string]: unknown;
 }
 
 export interface ScoredRecipe extends Recipe {

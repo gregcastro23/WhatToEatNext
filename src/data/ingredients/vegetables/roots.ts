@@ -8,14 +8,14 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
-      favorableZodiac: ["Taurus", "Virgo", "Capricorn"],
+      favorableZodiac: ["taurus", "virgo", "capricorn"],
       elementalAffinity: {
         base: "Earth",
       },
     },
     subCategory: "root",
     season: ["summer", "fall"],
-    category: "vegetables",
+    category: "vegetable",
     cookingMethods: ["roast", "saute", "steam", "raw"],
     qualities: ["grounding", "nourishing", "sweet"],
     affinities: ["ginger", "cumin", "thyme", "orange", "maple"],
@@ -36,7 +36,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       notes: "Remove greens before storing",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Heirloom Carrot is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   black_radish: {
       description: "A large, winter root vegetable (*Raphanus sativus var. niger*) with a tough, coal-black exterior and a stark white interior. It possesses a remarkably sharp, aggressively spicy, and pungent bite when raw, which mellows dramatically into a sweet, earthy flavor when roasted or braised.",
@@ -44,14 +45,14 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.6, Fire: 0.25, Air: 0.1, Water: 0.05 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Scorpio", "Capricorn", "Aquarius"],
+      favorableZodiac: ["scorpio", "capricorn", "aquarius"],
       elementalAffinity: {
         base: "Earth",
       },
     },
     subCategory: "root",
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     cookingMethods: ["roast", "pickle", "raw"],
     qualities: ["warming", "pungent", "cleansing"],
     affinities: ["apple", "horseradish", "dill", "vinegar", "caraway"],
@@ -72,11 +73,12 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       notes: "Store in plastic bag with moisture",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Black Radish is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   carrot: {
     name: "carrot",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "root_vegetable",
 
     // Sweet, earthy, grounding
@@ -213,7 +215,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury", "Moon"],
-      favorableZodiac: ["Capricorn", "Virgo", "Taurus", "Cancer"],
+      favorableZodiac: ["capricorn", "virgo", "taurus", "cancer"],
       seasonalAffinity: ["fall", "winter", "summer"],
     },
       culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
@@ -224,14 +226,14 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.6, Earth: 0.2, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo"],
+      favorableZodiac: ["aries", "leo"],
       elementalAffinity: {
         base: "Fire",
       },
     },
     subCategory: "root",
     season: ["fall", "winter"],
-    category: "spices",
+    category: "spice",
     cookingMethods: ["grate", "sliced", "juiced", "infused"],
     qualities: ["warming", "spicy", "aromatic"],
     affinities: ["garlic", "lemon", "honey", "soy sauce", "turmeric"],
@@ -252,7 +254,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       notes: "Store in dry place or refrigerate in paper bag",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Ginger is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   jerusalem_artichoke: {
       description: "Also known as a sunchoke, this lumpy tuber (*Helianthus tuberosus*) is actually the root of a species of sunflower. It provides a sweet, intensely nutty flavor and a texture that ranges from water-chestnut crunchy when raw, to remarkably creamy and silken when roasted or pureed.",
@@ -260,14 +263,14 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.55, Water: 0.25, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Virgo"],
+      favorableZodiac: ["taurus", "virgo"],
       elementalAffinity: {
         base: "Earth",
       },
     },
     subCategory: "root",
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     cookingMethods: ["roast", "boil", "fry", "raw"],
     qualities: ["grounding", "sweet", "nutty"],
     affinities: ["thyme", "lemon", "butter", "sage", "parsley"],
@@ -288,18 +291,19 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       notes: "Store in paper bag in crisper drawer",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Jerusalem Artichoke is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   carrots: {
       description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
     name: "carrots",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "root_vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
@@ -313,11 +317,11 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     name: "parsnips",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "root_vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },

@@ -24,7 +24,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["warming", "aromatic", "complex"],
     origin: ["Indian Subcontinent"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -143,7 +143,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["warming", "complex", "aromatic"],
     origin: ["North Africa"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: [
@@ -243,7 +243,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["aromatic", "Mediterranean", "savory"],
     origin: ["Southern France"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: [
@@ -334,8 +334,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Jupiter"],
-      favorableZodiac: ["Gemini", "Sagittarius", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "sagittarius", "virgo"],
+      seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.3, umami: 0.0, spicy: 0.4 }, aroma: { warm: 0.8, earthy: 0.5, spicy: 0.7 }, texture: { powdery: 0.6, dry: 0.8 } },
       pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] }
@@ -347,12 +347,12 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.58, Water: 0.14, Earth: 0.14, Air: 0.14 },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mars"],
-      favorableZodiac: ["Sagittarius", "Aries", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["sagittarius", "aries", "leo"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["warming", "balanced", "complex"],
     origin: ["China"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -444,7 +444,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["earthy", "tangy", "aromatic"],
     origin: ["Levant"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -514,7 +514,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["warming", "complex", "pungent"],
     origin: ["British-Indian"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -581,7 +581,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     qualities: ["hot", "complex", "earthy"],
     origin: ["Ethiopia"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -643,7 +643,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["nutty", "aromatic", "crunchy"],
     origin: ["Egypt"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -705,7 +705,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.61, Water: 0.13, Earth: 0.13, Air: 0.13 },
     qualities: ["spicy", "citrusy", "nutty"],
     origin: ["Japan"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -763,12 +763,12 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 },
 
   baharat: {
-      description: "A dried aromatic spice, baharat carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Baharat is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "Baharat",
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["warming", "aromatic", "complex"],
     origin: ["Middle East"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {
@@ -830,7 +830,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ["hot", "pungent", "aromatic"],
     origin: ["Jamaica"],
-    category: "spices",
+    category: "spice",
     subCategory: "blend",
 
     baseIngredients: {

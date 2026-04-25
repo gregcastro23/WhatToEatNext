@@ -34,7 +34,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     qualities: ["cooling", "sweet", "astringent", "balancing", "restorative"],
     origin: ["North America", "Europe", "Asia"],
     season: ["summer", "early fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     affinities: [
       "lemon",
@@ -174,7 +174,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["delicate", "sweet-tart", "aromatic", "fragrant"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (123g)",
@@ -230,7 +230,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "single layer on paper towels",
       notes: "Extremely delicate, use quickly",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Raspberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   strawberry: {
       description: "A fragrant, deeply red accessory fruit (*Fragaria × ananassa*) bearing its seeds on the outside. Known for a perfect balance of malic acid and natural sugars, they soften quickly when cooked and release their vibrant juices, making them ideal for macerating, purees, and delicate desserts.",
@@ -250,7 +251,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "aromatic", "juicy", "delicate"],
     season: ["spring", "summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (152g)",
@@ -300,7 +301,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "original container or single layer",
       notes: "Store unwashed with hulls attached",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Strawberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   blackberry: {
       description: "An aggregate fruit (*Rubus*) composed of many tiny, juice-filled drupelets. They provide a complex, earthy, and slightly tart flavor with a noticeable seed crunch, cooking down beautifully into rich, dark jams and reductions that pair surprisingly well with game meats.",
@@ -316,7 +318,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet-tart", "earthy", "intense", "robust"],
     season: ["summer", "early fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (144g)",
@@ -371,7 +373,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "single layer preferred",
       notes: "Very delicate, use quickly",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Blackberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   cranberry: {
       description: "A small, exceptionally tart, and astringent berry (*Vaccinium macrocarpon*) native to North American bogs. Because of their intense acidity and low sugar content, they are rarely eaten raw; instead, they are cooked with sugar to create brightly colored, pectin-rich sauces that cut through rich holiday roasts.",
@@ -387,7 +390,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "astringent", "cleansing", "protective"],
     season: ["fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup whole (100g)",
@@ -442,7 +445,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "original bag or container",
       notes: "Can be frozen for months",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cranberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   gooseberry: {
       description: "A small, tart berry (*Ribes uva-crispa*) with translucent skin, often green or pale red, featuring faint vertical striping. Their sharp acidity makes them a classic ingredient in traditional British baking (like fools and crumbles) and a sharp, pectin-rich pairing for fatty fish like mackerel.",
@@ -458,7 +462,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "complex", "unique", "versatile"],
     season: ["early summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (150g)",
@@ -506,7 +510,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "ventilated container",
       notes: "Can be frozen whole",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Gooseberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   elderberry: {
       description: "The tiny, dark purple-black berries of the *Sambucus* tree. They are mildly toxic when raw and must be cooked, which transforms their astringent, earthy flavor into a deeply complex, floral, and rich syrup utilized in cordials, jams, and medicinal tinctures.",
@@ -522,7 +527,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["medicinal", "tart", "earthy", "protective"],
     season: ["late summer", "early fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup cooked (145g)",
@@ -570,7 +575,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "sealed container",
       notes: "Must be cooked before eating, toxic when raw",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Elderberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   mulberry: {
       description: "A highly perishable, elongated berry (*Morus*) resembling an elongated blackberry. They offer an intensely sweet, earthy, and slightly woodsy flavor without the sharp tartness of other berries, though their delicate structure makes them difficult to transport commercially.",
@@ -586,7 +592,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "mild", "delicate", "nutritious"],
     season: ["late spring", "early summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (140g)",
@@ -634,7 +640,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "single layer preferred",
       notes: "Extremely delicate, stains easily",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Mulberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   goji_berry: {
       description: "The bright red-orange fruit of the *Lycium barbarum* shrub, typically sold dried. They possess a complex, slightly sour, and earthy sweetness (reminiscent of a cross between a cranberry and a cherry tomato), commonly steeped in Chinese healing broths or used as a nutrient-dense topping for oatmeal.",
@@ -650,7 +657,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["energizing", "sweet-tart", "medicinal", "nutritious"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1/4 cup dried (28g)",
@@ -705,7 +712,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "sealed container",
       notes: "Usually sold dried",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Goji Berry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   acai_berry: {
       description: "A small, dark purple fruit (*Euterpe oleracea*) native to the Amazon rainforest. Highly perishable when fresh, it is usually sold as a frozen puree or freeze-dried powder, providing an earthy, unsweetened flavor profile with deep notes of blackberry and dark, unsweetened chocolate.",
@@ -721,7 +729,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["antioxidant-rich", "earthy", "rich", "nutritious"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "100g frozen puree",
@@ -776,7 +784,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "sealed bag",
       notes: "Usually sold frozen as puree",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Acai Berry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   currant_red: {
       description: "Tiny, intensely flavored berries (*Ribes*) available in red, black, and white varieties. Blackcurrants are incredibly musky, earthy, and tart (often made into cassis), while red and white currants are brighter, more acidic, and commonly used to make crystal-clear, pectin-heavy jellies.\n\n**Selection & Storage:** Choose firm, plump clusters attached to their stems. Store unwashed in the refrigerator and use within a few days.",
@@ -792,7 +801,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "bright", "jewel-like", "aromatic"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (112g)",
@@ -840,7 +849,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "ventilated container",
       notes: "Can be frozen on stems",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Red Currant is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   currant_black: {
       description: "Tiny, intensely flavored berries (*Ribes*) available in red, black, and white varieties. Blackcurrants are incredibly musky, earthy, and tart (often made into cassis), while red and white currants are brighter, more acidic, and commonly used to make crystal-clear, pectin-heavy jellies.\n\n**Selection & Storage:** Choose firm, plump clusters attached to their stems. Store unwashed in the refrigerator and use within a few days.",
@@ -856,7 +866,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["intense", "aromatic", "earthy", "medicinal"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "berry",
     nutritionalProfile: {
       serving_size: "1 cup (112g)",
@@ -904,7 +914,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "ventilated container",
       notes: "Very high vitamin C content",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Black Currant is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

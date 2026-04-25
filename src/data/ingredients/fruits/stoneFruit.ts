@@ -26,7 +26,7 @@ const rawStoneFruit = {
     },
     qualities: ["sweet", "juicy", "fragrant"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "stone fruit",
     affinities: ["vanilla", "almond", "honey", "raspberry", "cream"],
     cookingMethods: ["raw", "grilled", "baked", "poached"],
@@ -58,7 +58,8 @@ const rawStoneFruit = {
       notes: "Refrigerate when ripe",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Peach is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   plum: {
       description: "A smooth-skinned stone fruit (*Prunus domestica*) that comes in a wide variety of colors and sizes. The skin provides a sharp, tannic tartness that perfectly balances the incredibly sweet, jammy interior, making it excellent for reductions, sauces, and raw eating.",
@@ -84,7 +85,7 @@ const rawStoneFruit = {
     },
     qualities: ["sweet-tart", "juicy", "refreshing"],
     season: ["summer", "early fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "stone fruit",
     affinities: ["cinnamon", "ginger", "vanilla", "almond", "star anise"],
     cookingMethods: ["raw", "poached", "baked", "preserved"],
@@ -116,7 +117,8 @@ const rawStoneFruit = {
       notes: "Refrigerate when ripe",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Plum is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   apricot: {
       description: "A small, golden-orange stone fruit (*Prunus armeniaca*) with a velvety skin and a delicate, sweet-tart flavor profile. Because fresh apricots have a very short shelf life and subtle flavor, they are frequently dried, which concentrates their natural sugars and bright acidity, making them a staple in Middle Eastern tagines and baking.",
@@ -130,12 +132,12 @@ const rawStoneFruit = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra", "Aries"],
+      favorableZodiac: ["taurus", "leo", "libra", "aries"],
       seasonalAffinity: ["summer"],
     },
     qualities: ["sweet-tart", "delicate", "aromatic"],
     season: ["late spring", "early summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "stone fruit",
     affinities: ["almond", "honey", "vanilla", "lavender", "thyme"],
     cookingMethods: ["raw", "poached", "baked", "dried"],
@@ -167,7 +169,8 @@ const rawStoneFruit = {
       notes: "Very perishable when ripe",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Apricot is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   cherry: {
       description: "A small, fleshy drupe (*Prunus avium*) that ranges from bright red and tart to dark mahogany and intensely sweet. Because they retain their structure well when heated, they are versatile in both sweet applications (pies, jams) and savory reductions (pairing classically with duck or pork).",
@@ -181,12 +184,12 @@ const rawStoneFruit = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
+      favorableZodiac: ["taurus", "leo", "libra"],
       seasonalAffinity: ["summer"],
     },
     qualities: ["sweet-tart", "juicy", "bright"],
     season: ["late spring", "early summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "stone fruit",
     affinities: ["almond", "chocolate", "vanilla", "brandy", "cinnamon"],
     cookingMethods: ["raw", "baked", "preserved", "poached"],
@@ -218,7 +221,8 @@ const rawStoneFruit = {
       notes: "Store unwashed until ready to use",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cherry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   nectarine: {
       description: "A smooth-skinned, genetic mutation of the peach (*Prunus persica var. nucipersica*). Lacking the fuzzy trichomes of a peach, nectarines often have a slightly firmer texture and a sharper, more pronounced acidity, making them excellent candidates for raw slicing, salads, or high-heat grilling.",
@@ -232,12 +236,12 @@ const rawStoneFruit = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
+      favorableZodiac: ["taurus", "leo", "libra"],
       seasonalAffinity: ["summer"],
     },
     qualities: ["sweet", "aromatic", "smooth"],
     season: ["summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "stone fruit",
     affinities: ["peach", "berry", "vanilla", "honey", "ginger"],
     cookingMethods: ["raw", "grilled", "baked", "poached"],
@@ -269,7 +273,8 @@ const rawStoneFruit = {
       notes: "Refrigerate when ripe",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Nectarine is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   greengage: {
       description: "A cultivar of plum (*Prunus domestica subsp. italica*) featuring a pale, green-yellow skin even when fully ripe. They are widely considered to be the finest dessert plum in the world, boasting an unimaginably rich, honeyed sweetness and a dense, jammy texture.",
@@ -283,12 +288,12 @@ const rawStoneFruit = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
+      favorableZodiac: ["taurus", "leo", "libra"],
       seasonalAffinity: ["summer"],
     },
     qualities: ["sweet", "honey-like", "delicate"],
     season: ["late summer"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "stone fruit",
     affinities: ["almond", "vanilla", "lavender", "honey", "yogurt"],
     cookingMethods: ["raw", "baked", "preserved", "poached"],
@@ -320,7 +325,8 @@ const rawStoneFruit = {
       notes: "Refrigerate when fully ripe",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Greengage is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   damson: {
       description: "A small, oval plum (*Prunus insititia*) with dark blue-black skin and yellow-green flesh. Because it is highly astringent and tart when raw, it is almost exclusively cooked down into intensely flavored, deeply colored jams, jellies, and traditional fruit cheeses.",
@@ -334,12 +340,12 @@ const rawStoneFruit = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
+      favorableZodiac: ["taurus", "leo", "libra"],
       seasonalAffinity: ["summer"],
     },
     qualities: ["tart", "astringent", "complex"],
     season: ["late summer", "early autumn"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "stone fruit",
     affinities: ["cinnamon", "star anise", "vanilla", "almond", "clove"],
     cookingMethods: ["preserved", "baked", "stewed", "distilled"],
@@ -371,7 +377,8 @@ const rawStoneFruit = {
       notes: "Ideal for preserving and cooking",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Damson is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 };
 

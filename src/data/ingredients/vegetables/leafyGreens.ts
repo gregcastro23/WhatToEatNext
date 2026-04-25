@@ -25,7 +25,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   kale: {
       description: "A robust, hardy member of the cabbage family (*Brassica oleracea var. sabellica*) known for its dense texture and earthy, slightly bitter flavor. Its tough cellulose structure requires massaging with oil or acid when eaten raw, but allows it to hold up beautifully to long braising or roasting.",
     name: "Kale",
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "leafy_green",
 
     // Base elemental properties (unscaled)
@@ -107,18 +107,19 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Virgo", "Capricorn"],
+      favorableZodiac: ["virgo", "capricorn"],
       elementalAffinity: {
         base: "Air",
       },
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Kale is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   spinach: {
     name: "spinach",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "leafy_green",
 
     // Mineral-rich, slightly bitter, nourishing
@@ -258,25 +259,25 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Virgo", "Pisces"],
+      favorableZodiac: ["cancer", "virgo", "pisces"],
       seasonalAffinity: ["spring"],
     },
       culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
 },
   "swiss chard": {
-      description: "A fresh plant food, swiss chard offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "Swiss Chard is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "Swiss chard",
     elementalProperties: { Water: 0.39, Earth: 0.33, Air: 0.21, Fire: 0.07 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
-      favorableZodiac: ["Taurus", "Capricorn", "Libra"],
+      favorableZodiac: ["taurus", "capricorn", "libra"],
       elementalAffinity: {
         base: "Water",
       },
     },
     qualities: ["cooling", "cleansing"],
     season: ["summer", "fall"],
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "leafy green",
     affinities: ["garlic", "beans", "lemon", "pine nuts"],
     cookingMethods: ["steamed", "sautéed", "braised"],
@@ -303,18 +304,19 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
       notes: "Wrap in damp paper towel",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Swiss Chard is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   lettuce: {
       description: "A leafy herbaceous plant (*Lactuca sativa*), primarily cultivated for its crisp, hydrating leaves. Iceberg and romaine varieties provide high water content and structural crunch that resists wilting under heavy dressings, while butterhead and loose-leaf types offer delicate, tender textures. Although typically consumed raw in salads or as a cooling counterpoint in sandwiches, hearty varieties like romaine can be lightly grilled or braised to develop surprising smoky depth.",
     name: "lettuce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "leafy_green",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
@@ -328,11 +330,11 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     name: "romaine lettuce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "leafy_green",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
@@ -346,11 +348,11 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     name: "lettuce leaves",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "leafy_green",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },

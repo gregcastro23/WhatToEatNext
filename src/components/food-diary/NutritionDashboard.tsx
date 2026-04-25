@@ -17,6 +17,8 @@ import type {
 } from "@/types/foodDiary";
 import type { NutritionalSummary } from "@/types/nutrition";
 import { NutritionRing } from "../nutrition";
+import DiaryAnalytics from "./DiaryAnalytics";
+import ElementalBalanceWheel from "./ElementalBalanceWheel";
 
 interface NutritionDashboardProps {
   dailySummary: DailyFoodDiarySummary | null;
@@ -51,13 +53,13 @@ export default function NutritionDashboard({
   insights,
   onRefreshInsights,
 }: NutritionDashboardProps) {
-  const [activeTab, setActiveTab] = useState<"today" | "week" | "insights">(
-    "today",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "today" | "week" | "trends" | "insights"
+  >("today");
 
   const macroPercentages = useMemo(() => {
     if (!dailySummary) return null;
-    const { protein, carbs, fat } = dailySummary.totalNutrition;
+    const { protein, carbs, fat } = dailySummary.totalNutrition || {};
     const total = (protein || 0) * 4 + (carbs || 0) * 4 + (fat || 0) * 9;
     if (total === 0) return null;
 
@@ -79,16 +81,16 @@ export default function NutritionDashboard({
         {[
           { id: "today", label: "Today" },
           { id: "week", label: "This Week" },
+          { id: "trends", label: "Trends" },
           { id: "insights", label: "Insights" },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as typeof activeTab)}
-            className={`flex-1 py-3 text-sm font-medium transition-colors ${
-              activeTab === tab.id
+            className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === tab.id
                 ? "text-amber-600 border-b-2 border-amber-500"
                 : "text-gray-500 hover:text-gray-700"
-            }`}
+              }`}
           >
             {tab.label}
           </button>
@@ -131,11 +133,11 @@ export default function NutritionDashboard({
                     percentage={
                       dailySummary.nutritionGoals?.calories
                         ? Math.min(
-                            100,
-                            (dailySummary.totalNutrition.calories /
-                              dailySummary.nutritionGoals.calories) *
-                              100,
-                          )
+                          100,
+                          ((dailySummary.totalNutrition?.calories || 0) /
+                            dailySummary.nutritionGoals.calories) *
+                          100,
+                        )
                         : 0
                     }
                     label="Calories"
@@ -147,11 +149,11 @@ export default function NutritionDashboard({
                     percentage={
                       dailySummary.nutritionGoals?.protein
                         ? Math.min(
-                            100,
-                            (dailySummary.totalNutrition.protein /
-                              dailySummary.nutritionGoals.protein) *
-                              100,
-                          )
+                          100,
+                          ((dailySummary.totalNutrition?.protein || 0) /
+                            dailySummary.nutritionGoals.protein) *
+                          100,
+                        )
                         : 0
                     }
                     label="Protein"
@@ -163,11 +165,11 @@ export default function NutritionDashboard({
                     percentage={
                       dailySummary.nutritionGoals?.carbs
                         ? Math.min(
-                            100,
-                            (dailySummary.totalNutrition.carbs /
-                              dailySummary.nutritionGoals.carbs) *
-                              100,
-                          )
+                          100,
+                          ((dailySummary.totalNutrition?.carbs || 0) /
+                            dailySummary.nutritionGoals.carbs) *
+                          100,
+                        )
                         : 0
                     }
                     label="Carbs"
@@ -179,11 +181,11 @@ export default function NutritionDashboard({
                     percentage={
                       dailySummary.nutritionGoals?.fat
                         ? Math.min(
-                            100,
-                            (dailySummary.totalNutrition.fat /
-                              dailySummary.nutritionGoals.fat) *
-                              100,
-                          )
+                          100,
+                          ((dailySummary.totalNutrition?.fat || 0) /
+                            dailySummary.nutritionGoals.fat) *
+                          100,
+                        )
                         : 0
                     }
                     label="Fat"
@@ -195,11 +197,11 @@ export default function NutritionDashboard({
                     percentage={
                       dailySummary.nutritionGoals?.sodium
                         ? Math.min(
-                            100,
-                            (dailySummary.totalNutrition.sodium /
-                              dailySummary.nutritionGoals.sodium) *
-                              100,
-                          )
+                          100,
+                          ((dailySummary.totalNutrition?.sodium || 0) /
+                            dailySummary.nutritionGoals.sodium) *
+                          100,
+                        )
                         : 0
                     }
                     label="Sodium"
@@ -208,6 +210,13 @@ export default function NutritionDashboard({
                     color="#6b7280"
                   />
                 </div>
+              </div>
+
+              {/* Elemental Balance Wheel */}
+              <div className="mb-6">
+                <ElementalBalanceWheel
+                  balance={dailySummary.elementalBalance}
+                />
               </div>
 
               {/* Macro Distribution Bar */}
@@ -252,14 +261,14 @@ export default function NutritionDashboard({
                 <div className="grid grid-cols-2 gap-3">
                   <NutrientBar
                     label="Fiber"
-                    value={dailySummary.totalNutrition.fiber}
+                    value={dailySummary.totalNutrition?.fiber || 0}
                     max={dailySummary.nutritionGoals?.fiber || 28}
                     unit="g"
                     color="#22c55e"
                   />
                   <NutrientBar
                     label="Sugar"
-                    value={dailySummary.totalNutrition.sugar}
+                    value={dailySummary.totalNutrition?.sugar || 0}
                     max={50}
                     unit="g"
                     color="#ec4899"
@@ -267,21 +276,21 @@ export default function NutritionDashboard({
                   />
                   <NutrientBar
                     label="Vitamin C"
-                    value={dailySummary.totalNutrition.vitaminC}
+                    value={dailySummary.totalNutrition?.vitaminC || 0}
                     max={90}
                     unit="mg"
                     color="#f97316"
                   />
                   <NutrientBar
                     label="Potassium"
-                    value={dailySummary.totalNutrition.potassium}
+                    value={dailySummary.totalNutrition?.potassium || 0}
                     max={dailySummary.nutritionGoals?.potassium || 4700}
                     unit="mg"
                     color="#a855f7"
                   />
                   <NutrientBar
                     label="Sat. Fat"
-                    value={dailySummary.totalNutrition.saturatedFat}
+                    value={dailySummary.totalNutrition?.saturatedFat || 0}
                     max={20}
                     unit="g"
                     color="#f43f5e"
@@ -289,7 +298,7 @@ export default function NutritionDashboard({
                   />
                   <NutrientBar
                     label="Sodium"
-                    value={dailySummary.totalNutrition.sodium}
+                    value={dailySummary.totalNutrition?.sodium || 0}
                     max={dailySummary.nutritionGoals?.sodium || 2300}
                     unit="mg"
                     color="#6b7280"
@@ -313,8 +322,8 @@ export default function NutritionDashboard({
                       );
                       const percentage = dailySummary.nutritionGoals?.calories
                         ? (mealCalories /
-                            dailySummary.nutritionGoals.calories) *
-                          100
+                          dailySummary.nutritionGoals.calories) *
+                        100
                         : 0;
 
                       return (
@@ -400,11 +409,11 @@ export default function NutritionDashboard({
                   {weeklySummary.dailySummaries.map((day, index) => {
                     const maxCal = Math.max(
                       ...weeklySummary.dailySummaries.map(
-                        (d) => d.totalNutrition.calories,
+                        (d) => d.totalNutrition?.calories || 0,
                       ),
                       1,
                     );
-                    const height = (day.totalNutrition.calories / maxCal) * 100;
+                    const height = ((day.totalNutrition?.calories || 0) / maxCal) * 100;
                     const dayName = new Date(day.date).toLocaleDateString(
                       "en-US",
                       { weekday: "short" },
@@ -419,9 +428,8 @@ export default function NutritionDashboard({
                         className="flex-1 flex flex-col items-center"
                       >
                         <div
-                          className={`w-full rounded-t transition-all ${
-                            isToday ? "bg-amber-500" : "bg-amber-300"
-                          }`}
+                          className={`w-full rounded-t transition-all ${isToday ? "bg-amber-500" : "bg-amber-300"
+                            }`}
                           style={{
                             height: `${height}%`,
                             minHeight: day.entries.length > 0 ? 4 : 0,
@@ -434,7 +442,7 @@ export default function NutritionDashboard({
                         </div>
                         <div className="text-xs text-gray-400">
                           {day.entries.length > 0
-                            ? Math.round(day.totalNutrition.calories)
+                            ? Math.round(day.totalNutrition?.calories || 0)
                             : "-"}
                         </div>
                       </div>
@@ -482,6 +490,13 @@ export default function NutritionDashboard({
               )}
             </>
           )}
+        </div>
+      )}
+
+      {/* Trends Tab */}
+      {activeTab === "trends" && (
+        <div className="p-4">
+          <DiaryAnalytics weeklySummary={weeklySummary} />
         </div>
       )}
 
@@ -667,20 +682,20 @@ function InsightCard({ insight }: { insight: FoodInsight }) {
           )}
           {(insight.type === "excess_warning" ||
             insight.type === "improvement_opportunity") && (
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          )}
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            )}
         </div>
         <div className="flex-1">
           <h5 className="font-medium text-gray-900">{insight.title}</h5>

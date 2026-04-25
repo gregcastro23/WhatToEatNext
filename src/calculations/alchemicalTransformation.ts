@@ -6,7 +6,7 @@ import type {
 import type { AlchemicalProperty, CelestialPosition } from "@/types/celestial";
 import { createLogger } from "@/utils/logger";
 import { calculatePlanetaryBoost } from "../constants/planetaryFoodAssociations";
-import { calculateAlchemicalProperties } from "./core/alchemicalCalculations";
+import { alchemize } from "./core/alchemicalCalculations";
 import type { PlanetaryDignityDetails } from "../constants/planetaryFoodAssociations";
 
 // Create a component-specific logger
@@ -69,11 +69,21 @@ export const transformItemWithPlanetaryPositions = (
       ) as Record<ElementalCharacter, number>,
     };
 
-    // Calculate alchemical properties based on planetary positions
-    const alchemicalResults = calculateAlchemicalProperties({
+    // Calculate alchemical properties based on planetary positions.
+    // `alchemize` returns a bundle: { alchemicalProperties, thermodynamics, ... }
+    // We adapt it to the shape the rest of this function expects
+    // (alchemicalCounts + heat/entropy/reactivity) so the surrounding
+    // mathematical pipeline is unchanged.
+    const alchemizeResult = alchemize({
       planetPositions: planetPositions as unknown,
       isDaytime,
     });
+    const alchemicalResults = {
+      alchemicalCounts: alchemizeResult.alchemicalProperties,
+      heat: alchemizeResult.thermodynamics.heat,
+      entropy: alchemizeResult.thermodynamics.entropy,
+      reactivity: alchemizeResult.thermodynamics.reactivity,
+    };
 
     // Calculate planetary boost based on ingredient's characteristics
     const {

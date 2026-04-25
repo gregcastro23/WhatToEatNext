@@ -11,7 +11,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
       description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
     name: "Olive Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -96,11 +96,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        firstQuarter: {
+        "first quarter": {
           elementalBoost: { Fire: 0.1, Earth: 0.1 },
           preparationTips: ["Best for dressings"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Ideal for finishing dishes"],
         },
@@ -112,7 +112,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   coconut_oil: {
       description: "An edible oil extracted from the meat of mature coconuts (*Cocos nucifera*), characterized by its high concentration of saturated fat, which makes it solid at room temperature. Virgin coconut oil retains a distinct tropical coconut aroma, while refined coconut oil is neutral and has a much higher smoke point for frying.",
     name: "Coconut Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -196,7 +196,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   sesame_oil: {
       description: "An incredibly potent oil pressed from sesame seeds (*Sesamum indicum*). Toasted sesame oil (dark brown) provides a massive burst of savory, nutty pyrazines and should be used exclusively as a finishing oil, while plain sesame oil (pale yellow) is neutral and suitable for cooking.",
     name: "Sesame Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -287,11 +287,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Fire: 0.1, Air: 0.1 },
           preparationTips: ["Best for stir-frying"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Ideal for finishing dishes"],
         },
@@ -303,7 +303,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   ghee: {
       description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
     name: "Ghee",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.25, Air: 0.15 },
     quantityBase: { amount: 14, unit: "g" },
@@ -312,8 +312,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     kineticsImpact: { thermalDirection: 0.22, forceMagnitude: 1.10 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Libra", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "leo"],
+      seasonalAffinity: ["fall"],
     },
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 250, fahrenheit: 482 },
@@ -391,7 +391,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   avocado_oil: {
       description: "An oil pressed from the fleshy pulp of avocados. It boasts the highest smoke point of any common culinary oil (up to 520°F / 271°C) and a very mild, buttery flavor, making it a premium choice for aggressive high-heat searing, grilling, and broiling.",
     name: "Avocado Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -400,8 +400,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.80 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Libra", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "leo"],
+      seasonalAffinity: ["fall"],
     },
     seasonality: ["spring", "summer", "fall", "winter"],
     smokePoint: { celsius: 271, fahrenheit: 520 },
@@ -479,7 +479,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   walnut_oil: {
       description: "A specialty finishing oil pressed from walnuts, boasting an intense, deeply roasted, and slightly astringent walnut flavor. Because heat destroys its delicate, volatile aromatics, it should never be used for cooking, but rather drizzled over roasted squash, blue cheese, or fresh pastas.",
     name: "Walnut Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -563,7 +563,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   flaxseed_oil: {
       description: "An oil cold-pressed from flaxseeds, prized for its exceptionally high levels of omega-3 fatty acids. Because of its extremely low smoke point and delicate chemical structure, it must never be heated; it is used strictly as a finishing oil or nutritional supplement in smoothies.",
     name: "Flaxseed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.3, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -646,7 +646,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   peanut_oil: {
       description: "An oil pressed from peanuts, available in both refined (neutral) and unrefined (roasted) varieties. Refined peanut oil has an exceptionally high smoke point (450°F / 232°C) and does not absorb flavors, making it the premier choice for deep-frying foods and high-heat wok stir-frying.",
     name: "Peanut Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
     quantityBase: { amount: 14, unit: "g" },
@@ -694,7 +694,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   mustard_oil: {
       description: "An intensely pungent, deeply yellow oil extracted from mustard seeds, forming the culinary backbone of traditional Bengali and Northern Indian cuisines. It contains extraordinarily high levels of allyl isothiocyanate, providing a sharp, vaporous, horseradish-like heat that must be brought to a smoking point before cooking to mellow its aggressive bite.",
     name: "Mustard Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -741,7 +741,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   rice_bran_oil: {
       description: "A highly stable oil extracted from the hard outer brown layer (bran) of rice grains. It boasts an exceptionally high smoke point (450°F / 232°C) and a very mild, slightly nutty flavor, making it a highly prized, premium oil for deep-frying delicate foods like Japanese tempura without imparting greasy flavors.",
     name: "Rice Bran Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -788,7 +788,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   chili_oil: {
       description: "A vibrant red, infused condiment made by gently heating a neutral oil and pouring it over crushed chili flakes, aromatics (like garlic and star anise), and often Sichuan peppercorns. It provides immense depth, slow-building heat, and a glossy, fiery finish to dumplings, noodles, and broths.",
     name: "Chili Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1 },
     quantityBase: { amount: 14, unit: "g" },
@@ -835,7 +835,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   perilla_oil: {
       description: "A deeply toasted, powerfully aromatic oil pressed from the seeds of the *Perilla frutescens* plant, essential to Korean cuisine. It boasts an intensely rich, nutty, and distinctly earthy flavor profile (often compared to toasted sesame oil but deeper), used exclusively as a finishing oil over namul (vegetable side dishes).",
     name: "Perilla Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -880,9 +880,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   camellia_oil: {
-      description: "A culinary fat, camellia oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "Camellia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Camellia Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -929,7 +929,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   grapeseed_oil: {
       description: "A byproduct of the winemaking industry, pressed from the seeds of grapes. It has a moderately high smoke point and a remarkably clean, light, and unobtrusive flavor, making it highly favored by chefs for creating herb-infused oils and delicate vinaigrettes.",
     name: "Grapeseed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -978,7 +978,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   macadamia_oil: {
       description: "A highly prized, golden culinary oil cold-pressed from macadamia nuts. It features an extraordinarily high concentration of monounsaturated fats (making it highly stable at high temperatures) and an intensely buttery, slightly sweet, and luxurious nutty flavor that shines in both baking and searing.",
     name: "Macadamia Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1025,7 +1025,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   palm_oil: {
       description: "A highly saturated, semi-solid fat extracted from the fleshy fruit of oil palms (*Elaeis guineensis*). Refined palm oil is completely neutral in flavor and boasts incredible oxidative stability, making it the globally dominant, workhorse fat used in commercial baking and processed snack foods.",
     name: "Palm Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.4, Air: 0.1 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1072,7 +1072,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   tea_seed_oil: {
       description: "Also known as camellia oil, this pale, golden oil is cold-pressed from the seeds of *Camellia oleifera* (closely related to the tea plant). It boasts an incredibly high smoke point (485°F / 252°C) and a very delicate, slightly herbaceous and sweet flavor, making it a premium oil for delicate Asian stir-fries.",
     name: "Tea Seed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1119,7 +1119,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   shiso_oil: {
       description: "An oil cold-pressed from the seeds of the *Perilla frutescens* plant (shiso/perilla), predominantly used in East Asian cuisine. It offers a deeply complex, savory, and distinctly herbaceous flavor that pairs flawlessly with raw fish and delicate vegetables.",
     name: "Shiso Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1166,7 +1166,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   argan_oil: {
       description: "A highly prized, intensely nutty oil pressed from the kernels of the argan tree (*Argania spinosa*), endemic to Morocco. Culinary argan oil is made from lightly roasted kernels, resulting in a profound, toasted hazelnut flavor that is used exclusively as a finishing oil over couscous, dips, or desserts.",
     name: "Argan Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1213,7 +1213,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   hazelnut_oil: {
       description: "A specialty finishing oil pressed from hazelnuts, boasting an intense, deeply roasted, and slightly astringent hazelnut flavor. Because heat destroys its delicate, volatile aromatics, it should never be used for cooking, but rather drizzled over roasted squash, blue cheese, or fresh pastas.",
     name: "Hazelnut Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1260,7 +1260,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   pistachio_oil: {
       description: "A luxurious, deep green finishing oil pressed from pistachios (*Pistacia vera*). It delivers a profoundly rich, earthy, and distinctly roasted pistachio flavor that acts as a stunning drizzle over fresh burrata, delicate white fish, or simple citrus salads.",
     name: "Pistachio Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.3, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1307,7 +1307,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   hemp_seed_oil: {
       description: "An oil cold-pressed from hemp seeds (*Cannabis sativa*), known for its dark green color and earthy, distinctly grassy, and nutty flavor. It is rich in polyunsaturated fats and possesses a very low smoke point, making it suitable only as a finishing oil for salads or hummus.",
     name: "Hemp Seed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.3, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1354,7 +1354,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   black_seed_oil: {
       description: "A potent oil pressed from the seeds of *Nigella sativa*, featuring a dark amber color and a highly distinct, aggressive flavor profile described as a mix of cumin, black pepper, and oregano. Because of its intense bitterness and pungency, it is used very sparingly as a finishing oil or for medicinal purposes.",
     name: "Black Seed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "specialty",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1401,7 +1401,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   almond_oil: {
       description: "A culinary oil pressed from almonds, offering a clean, subtle, and sweet marzipan-like flavor. While refined almond oil has a high enough smoke point for sautéing, unrefined roasted almond oil is best used as a finishing touch for delicate fish, pastries, or salads.",
     name: "Almond Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1449,7 +1449,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   sunflower_oil: {
       description: "A light, neutral oil extracted from sunflower seeds. Refined sunflower oil behaves similarly to canola or vegetable oil in high-heat applications, while unrefined (cold-pressed) sunflower oil retains a distinct, nutty, and buttery flavor ideal for dressing salads.",
     name: "Sunflower Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1497,7 +1497,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   safflower_oil: {
       description: "An oil extracted from the seeds of the safflower plant, possessing a completely neutral flavor and an extremely high smoke point (up to 510°F / 265°C). It remains liquid at cold temperatures, making it an excellent choice for vinaigrettes that will be stored in the fridge.",
     name: "Safflower Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1547,7 +1547,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   white_truffle_oil: {
       description: "A finishing oil meant to mimic the incredibly rare, pungent aroma of the white Alba truffle (*Tuber magnatum*). It relies on synthesized aromatic compounds (primarily bis(methylthio)methane) to provide a piercing, garlicky, and deeply musky aroma intended to elevate neutral dishes like risotto or mashed potatoes.",
     name: "White Truffle Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.4, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1594,7 +1594,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   red_palm_oil: {
       description: "An unrefined, highly saturated oil extracted from the fruit of the oil palm (*Elaeis guineensis*). Its striking, vibrant red-orange color comes from an incredibly high concentration of carotenes, and it imparts a strong, earthy, and slightly smoky flavor essential to authentic West African and Brazilian cuisines.",
     name: "Red Palm Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.4, Air: 0.1 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1641,7 +1641,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   roasted_pumpkin_seed_oil: {
       description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
     name: "Roasted Pumpkin Seed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1692,7 +1692,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   mustard_seed_oil: {
       description: "A pungent condiment made from the crushed seeds of various mustard plants (*Brassica* and *Sinapis* species), blended with water, vinegar, or wine. The sharp heat comes from isothiocyanates, which develop when enzymes are activated by liquid. Mustard acts as both a flavor amplifier and a powerful culinary emulsifier, crucial for stabilizing vinaigrettes and binding rich sauces. Dijon offers sharp tang, whole-grain provides texture, and yellow mustard delivers mild, turmeric-tinted brightness.",
     name: "Mustard Seed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1743,7 +1743,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   babassu_oil: {
       description: "A clear, light oil extracted from the seeds of the babassu palm (*Attalea speciosa*) native to the Amazon region. It is chemically very similar to coconut oil—solid at room temperature and melting quickly upon skin contact—but lacks the distinct tropical coconut aroma, making it a versatile, neutral fat for baking and frying.",
     name: "Babassu Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1794,7 +1794,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   apricot_kernel_oil: {
       description: "A pale, delicate oil pressed from the kernels (seeds) of apricots. It possesses a very mild, slightly sweet, and nutty flavor profile (reminiscent of almonds) and a high smoke point, making it suitable for both high-heat sautéing and delicate salad dressings.",
     name: "Apricot Kernel Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1841,7 +1841,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   canola_oil: {
       description: "A highly refined, neutral-tasting vegetable oil extracted from a specific, low-erucic acid variety of the rapeseed plant. Its high smoke point (400°F / 204°C) and lack of flavor make it a ubiquitous, all-purpose oil for deep-frying, baking, and emulsifying mild mayonnaises.",
     name: "Canola Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1892,11 +1892,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Air: 0.1, Fire: 0.1 },
           preparationTips: ["Good for light sautéing"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Air: 0.15 },
           preparationTips: ["Best for baking"],
         },
@@ -1910,7 +1910,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   mct_oil: {
       description: "A highly refined supplement oil composed exclusively of Medium-Chain Triglycerides, typically extracted from coconut or palm kernel oil. Because these specific fats are metabolized rapidly by the liver rather than stored, it is extremely popular in ketogenic diets and 'bulletproof' coffee, possessing a completely neutral, flavorless profile.",
     name: "MCT Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "specialty",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -1967,11 +1967,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Best added to morning beverages"],
         },
-        newMoon: {
+        "new moon": {
           elementalBoost: { Fire: 0.15, Air: 0.1 },
           preparationTips: ["Ideal for fasting periods"],
         },
@@ -1985,7 +1985,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   vegetable_oil: {
       description: "A generic term for any refined, plant-based oil, though in modern supermarkets it is almost exclusively 100% soybean oil. Like canola, it is completely flavorless and boasts a high smoke point, functioning purely as a structural cooking fat or heat-transfer medium.",
     name: "Vegetable Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.35, Water: 0.35, Earth: 0.2, Air: 0.1 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2026,7 +2026,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
       favorableZodiac: ["leo", "libra", "taurus"],
-      seasonalAffinity: ["all"],
+      seasonalAffinity: ["fall"],
     },
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.0, sour: 0.0, bitter: 0.1, umami: 0.05, spicy: 0.0 }, aroma: { fatty: 0.7, nutty: 0.3, fruity: 0.3 }, texture: { oily: 0.9, smooth: 0.9, coating: 0.9 } },
       culinaryProfile: { flavorProfile: { primary: ["fatty"], secondary: ["nutty", "fruity"], notes: "Heat below smoke point for frying; finish raw for best aroma." }, cookingMethods: ["saute", "fry", "drizzle", "emulsify", "confit"], cuisineAffinity: ["Mediterranean", "Asian", "American"], preparationTips: ["Store away from light and heat.", "Use high-smoke-point oils for searing; finishing oils raw."] },
@@ -2038,7 +2038,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   basil_infused_olive_oil: {
       description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.\n\n**Selection & Storage:** Choose vibrant, unblemished leaves; avoid any with black spots. Store fresh basil like a bouquet of flowers: stems in a glass of water at room temperature, loosely covered with a plastic bag.",
     name: "Basil-Infused Olive Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2085,7 +2085,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   garlic_infused_olive_oil: {
       description: "A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows dramatically into deep, sweet nuttiness when roasted whole or slow-sautéed in fat. Look for firm, heavy bulbs with dry, unbroken papery skins and no green shoots — green means sprouting and bitterness.",
     name: "Garlic-Infused Olive Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2136,7 +2136,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   lemon_infused_olive_oil: {
       description: "The oval yellow citrus fruit (*Citrus × limon*) delivering 5–6% citric acid plus fragrant d-limonene in the peel — essentially a complete seasoning of acid, aroma, and brightness in one package. Meyer lemons are sweeter with floral notes; Eureka and Lisbon are standard supermarket varieties. Use the whole fruit: zest for aroma (before juicing — the tool ruins the peel otherwise), juice for acid, rind for preserved lemons. Rolling the lemon before cutting breaks internal membranes and yields more juice.",
     name: "Lemon-Infused Olive Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2187,7 +2187,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   black_truffle_oil: {
       description: "A finishing oil meant to mimic the incredibly rare, earthy, and musky aroma of black truffles (*Tuber melanosporum*). Most commercial truffle oils are synthesized using the chemical compound 2,4-dithiapentane rather than real truffles, providing an intense, sometimes overpowering burst of umami aroma.",
     name: "Black Truffle Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2234,7 +2234,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   pumpkin_seed_oil: {
       description: "An intensely dark green-red oil pressed from roasted pumpkin seeds (*Cucurbita pepo*), heavily utilized in Austrian cuisine. It boasts an incredibly profound, nutty, and slightly sweet flavor profile that is utterly ruined by heat, meaning it must only be used raw as a drizzle over soups, salads, or vanilla ice cream.",
     name: "Pumpkin Seed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2281,7 +2281,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   chia_seed_oil: {
       description: "A highly nutritious oil cold-pressed from chia seeds (*Salvia hispanica*), boasting one of the highest botanical concentrations of omega-3 fatty acids. It has a very mild, slightly nutty flavor and a low smoke point, meaning it should never be heated but instead used as a finishing oil or in smoothies.",
     name: "Chia Seed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.3, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2331,7 +2331,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   moringa_oil: {
       description: "An incredibly stable, nutrient-dense oil cold-pressed from the seeds of the *Moringa oleifera* tree. It possesses a mild, pleasant, slightly nutty flavor resembling peanut oil and an extraordinarily high smoke point, making it suitable for both delicate salad dressings and high-heat frying.",
     name: "Moringa Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "specialty",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2376,9 +2376,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   neem_oil: {
-      description: "A culinary fat, neem oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "Neem Oil (Culinary Grade) is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Neem Oil (Culinary Grade)",
-    category: "oils",
+    category: "oil",
     subCategory: "specialty",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2429,7 +2429,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   cottonseed_oil: {
       description: "A highly processed, neutral-tasting vegetable oil extracted from the seeds of the cotton plant. Like corn oil, it has an incredibly high smoke point and is chemically stable, making it a very common (though increasingly less popular) choice for commercial deep-frying and processed snack foods.",
     name: "Cottonseed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2476,7 +2476,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   soybean_oil: {
       description: "A highly processed, neutral vegetable oil extracted from the seeds of the soybean (*Glycine max*). It is one of the most widely consumed cooking oils globally, offering a very high smoke point (450°F / 232°C) and a completely flavorless profile that acts purely as a structural cooking fat for frying and baking.",
     name: "Soybean Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2524,7 +2524,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   corn_oil: {
       description: "A highly refined oil extracted from the germ of corn kernels. Because it is highly processed, it is almost entirely flavorless and boasts a very high smoke point (450°F / 232°C), making it a stable, workhorse fat ideal for deep-frying and high-heat stovetop cooking.",
     name: "Corn Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2570,9 +2570,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   rapeseed_oil: {
-      description: "A culinary fat, rapeseed oil carries flavor compounds, enables Maillard reactions, and regulates heat transfer. Smoke point and flavor intensity determine best use: low-heat finishing versus high-heat frying.",
+      description: "Rapeseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Rapeseed Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "cooking",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },
@@ -2623,7 +2623,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   sacha_inchi_oil: {
       description: "A highly specialized oil cold-pressed from the star-shaped seed pods of the *Plukenetia volubilis* plant native to the Amazon rainforest. It boasts one of the highest plant-based concentrations of omega-3 fatty acids and features a distinct, earthy, and strongly herbaceous/nutty flavor, used strictly as a finishing oil.",
     name: "Sacha Inchi Oil",
-    category: "oils",
+    category: "oil",
     subCategory: "finishing",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.2, Air: 0.3 },
     quantityBase: { amount: 14, unit: "g" },

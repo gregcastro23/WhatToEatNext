@@ -19,11 +19,11 @@ const rawPeppers = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Fire: 0.1, Air: 0.1 },
           preparationTips: ["Best for marinades"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Ideal for robust dishes"],
         },
@@ -47,7 +47,7 @@ const rawPeppers = {
       minerals: { manganese: 0.06, iron: 0.02, copper: 0.01 },
     },
     origin: ["India", "Vietnam", "Brazil"],
-    category: "spices",
+    category: "spice",
     subCategory: "peppercorn",
     varieties: {
       Tellicherry: {
@@ -148,7 +148,7 @@ const rawPeppers = {
       minerals: { manganese: 0.05, iron: 0.02, calcium: 0.01 },
     },
     origin: ["Indonesia", "Malaysia", "China"],
-    category: "spices",
+    category: "spice",
     subCategory: "peppercorn",
     varieties: {
       Muntok: {
@@ -230,7 +230,7 @@ const rawPeppers = {
       minerals: { manganese: 0.02, calcium: 0.01 },
     },
     origin: ["Brazil", "Madagascar", "Reunion Island"],
-    category: "spices",
+    category: "spice",
     subCategory: "false peppercorn",
     botanical: {
       family: "Anacardiaceae",
@@ -303,7 +303,7 @@ const rawPeppers = {
       minerals: { manganese: 0.03, iron: 0.02 },
     },
     origin: ["China"],
-    category: "spices",
+    category: "spice",
     subCategory: "false peppercorn",
     botanical: {
       family: "Rutaceae",
@@ -364,7 +364,7 @@ const rawPeppers = {
       minerals: { manganese: 0.04, iron: 0.02 },
     },
     origin: ["India", "Indonesia"],
-    category: "spices",
+    category: "spice",
     subCategory: "true peppercorn",
     botanical: {
       species: "Piper longum",

@@ -162,19 +162,17 @@ export default function FoodDiaryView({
             <div className="flex bg-gray-100 rounded-lg p-0.5">
               <button
                 onClick={() => setViewMode("meals")}
-                className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                  viewMode === "meals" ? "bg-white shadow-sm" : "text-gray-600"
-                }`}
+                className={`px-3 py-1 text-sm rounded-md transition-colors ${viewMode === "meals" ? "bg-white shadow-sm" : "text-gray-600"
+                  }`}
               >
                 By Meal
               </button>
               <button
                 onClick={() => setViewMode("timeline")}
-                className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                  viewMode === "timeline"
+                className={`px-3 py-1 text-sm rounded-md transition-colors ${viewMode === "timeline"
                     ? "bg-white shadow-sm"
                     : "text-gray-600"
-                }`}
+                  }`}
               >
                 Timeline
               </button>
@@ -190,9 +188,9 @@ export default function FoodDiaryView({
             <NutritionRing
               percentage={
                 dailySummary.nutritionGoals?.calories
-                  ? (dailySummary.totalNutrition.calories /
-                      dailySummary.nutritionGoals.calories) *
-                    100
+                  ? ((dailySummary.totalNutrition?.calories || 0) /
+                    dailySummary.nutritionGoals.calories) *
+                  100
                   : 0
               }
               label="Calories"
@@ -202,9 +200,9 @@ export default function FoodDiaryView({
             <NutritionRing
               percentage={
                 dailySummary.nutritionGoals?.protein
-                  ? (dailySummary.totalNutrition.protein /
-                      dailySummary.nutritionGoals.protein) *
-                    100
+                  ? ((dailySummary.totalNutrition?.protein || 0) /
+                    dailySummary.nutritionGoals.protein) *
+                  100
                   : 0
               }
               label="Protein"
@@ -214,9 +212,9 @@ export default function FoodDiaryView({
             <NutritionRing
               percentage={
                 dailySummary.nutritionGoals?.carbs
-                  ? (dailySummary.totalNutrition.carbs /
-                      dailySummary.nutritionGoals.carbs) *
-                    100
+                  ? ((dailySummary.totalNutrition?.carbs || 0) /
+                    dailySummary.nutritionGoals.carbs) *
+                  100
                   : 0
               }
               label="Carbs"
@@ -226,9 +224,9 @@ export default function FoodDiaryView({
             <NutritionRing
               percentage={
                 dailySummary.nutritionGoals?.fat
-                  ? (dailySummary.totalNutrition.fat /
-                      dailySummary.nutritionGoals.fat) *
-                    100
+                  ? ((dailySummary.totalNutrition?.fat || 0) /
+                    dailySummary.nutritionGoals.fat) *
+                  100
                   : 0
               }
               label="Fat"
@@ -497,11 +495,10 @@ function FoodEntryCard({
           <div className="flex items-center justify-between pt-3 border-t border-gray-200">
             <button
               onClick={() => { void onToggleFavorite(); }}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg transition-colors ${
-                entry.isFavorite
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg transition-colors ${entry.isFavorite
                   ? "bg-amber-100 text-amber-700"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
+                }`}
             >
               <svg
                 className="w-4 h-4"

@@ -9,10 +9,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "thyme",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "earthy", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -41,10 +41,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "fresh thyme",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -71,10 +71,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "sage",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -101,10 +101,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "fresh mint",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -131,10 +131,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "fresh sage",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -161,10 +161,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "bay leaf",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -191,10 +191,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "flat-leaf parsley",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -221,10 +221,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "oregano",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "peppery", "Mediterranean"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -253,10 +253,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "parsley",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["fresh", "bright", "versatile"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -285,10 +285,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "mint",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -315,10 +315,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "dill",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -346,10 +346,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "rosemary",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "piney", "robust"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -379,10 +379,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "fresh basil",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "sweet", "Italian"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -411,10 +411,10 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
     name: "cilantro",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "citrusy", "fresh"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Virgo", "Libra"],
+      favorableZodiac: ["gemini", "virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {

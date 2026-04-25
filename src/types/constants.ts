@@ -136,3 +136,30 @@ export function isLunarPhase(value: string): value is LunarPhase {
 export function isSeason(value: string): value is Season {
   return SEASONS.includes(value as Season);
 }
+
+export const MEAL_TYPES = [
+  "breakfast",
+  "lunch",
+  "dinner",
+  "snack",
+  "dessert",
+  "beverage"
+] as const;
+export type MealType = (typeof MEAL_TYPES)[number];
+
+export const SPICE_LEVELS = [
+  "none",
+  "mild",
+  "medium",
+  "hot",
+  "very_hot"
+] as const;
+export type SpiceLevel = (typeof SPICE_LEVELS)[number];
+
+export function isMealType(value: string): value is MealType {
+  return MEAL_TYPES.includes(value as MealType);
+}
+
+export function isSpiceLevel(value: string): value is SpiceLevel {
+  return SPICE_LEVELS.includes(value as SpiceLevel);
+}

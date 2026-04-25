@@ -4,7 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   tomato: {
     name: "tomato",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
 
     // Juicy, balanced, slightly acidic
@@ -149,7 +149,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "libra", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
@@ -157,7 +157,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 
   bell_pepper: {
     name: "bell pepper",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
 
     // Sweet, crisp, vibrant
@@ -298,7 +298,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus", "Moon", "Saturn"],
-      favorableZodiac: ["Leo", "Taurus", "Libra", "Cancer", "Capricorn"],
+      favorableZodiac: ["leo", "taurus", "libra", "cancer", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
@@ -307,7 +307,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   eggplant: {
       description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.",
     name: "eggplant",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade",
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     alchemicalProperties: {
@@ -318,7 +318,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
     qualities: ["cooling", "moistening", "nutritious", "versatile", "fresh"],
@@ -342,7 +342,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       notes: "Sensitive to ethylene gas",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Eggplant is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   tomato_paste: {
@@ -356,11 +357,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.55,
     },
     qualities: ["nutritious", "versatile", "concentrated"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
     nutritionalProfile: {
@@ -396,11 +397,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.25,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
@@ -421,11 +422,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.35,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
@@ -446,11 +447,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.40,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
@@ -471,11 +472,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.40,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
@@ -496,11 +497,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
@@ -521,11 +522,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["sweet", "colorful", "crunchy"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
     nutritionalProfile: {
@@ -551,7 +552,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 },
 
   green_peppers: {
-      description: "A fresh plant food, green peppers offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "Green Peppers is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "green peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
@@ -561,11 +562,11 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       Substance: 0.30,
     },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "nightshade_fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },

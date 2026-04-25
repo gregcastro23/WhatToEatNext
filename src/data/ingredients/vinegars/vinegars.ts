@@ -17,8 +17,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Virgo", "Gemini", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini", "cancer"],
+      seasonalAffinity: ["fall"],
     },
 
     // Phase 2: Quantity scaling metadata
@@ -67,8 +67,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Capricorn", "Libra", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "libra", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["sweet", "complex", "syrupy", "rich"],
     origin: ["Italy"],
@@ -106,8 +106,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Virgo", "Gemini", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["tart", "fruity", "subtly sweet", "robust"],
     origin: ["Ancient Rome", "Colonial America"],
@@ -145,8 +145,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Scorpio", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "scorpio", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["robust", "tangy", "fruity", "complex"],
     origin: ["Mediterranean", "European"],
@@ -184,8 +184,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Jupiter"],
-      favorableZodiac: ["Capricorn", "Sagittarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["nutty", "complex", "sharp"],
     origin: ["Spain"],
@@ -223,8 +223,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Gemini", "Virgo", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["bright", "crisp", "tangy", "light"],
     origin: ["France", "Italy", "Spain"],
@@ -262,8 +262,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Libra", "Gemini", "Aquarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["libra", "gemini", "aquarius"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["delicate", "light", "subtle", "refined"],
     origin: ["France"],
@@ -301,8 +301,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Capricorn", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "aries"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["toasty", "robust", "yeasty", "strong"],
     origin: ["United Kingdom"],
@@ -340,8 +340,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Jupiter"],
-      favorableZodiac: ["Cancer", "Sagittarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["cloudy", "mildly sweet", "tropical", "tart"],
     origin: ["Southeast Asia", "India"],
@@ -379,8 +379,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Pluto"],
-      favorableZodiac: ["Capricorn", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["smoky", "complex", "umami", "aged"],
     origin: ["China"],
@@ -418,8 +418,8 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
-      favorableZodiac: ["Leo", "Sagittarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["sweet", "caramel-like", "robust", "fruity"],
     origin: ["Middle East"],
@@ -452,7 +452,7 @@ export const vinegars = fixIngredientMappings(rawVinegars);
 // Define artisanal vinegars (premium / (specialty || 1) vinegars)
 const rawArtisanalVinegars = {
   aged_balsamic: {
-      description: "An acidic condiment, aged balsamic delivers sharpness, brightness, and balance. Acetic acid cuts through fat and richness; specific base material (wine, rice, apple, malt) contributes a distinct secondary flavor.",
+      description: "Aged Balsamic Vinegar is an acidic ingredient used to balance richness, sharpen flavor, and improve perceived freshness in finished dishes. In small doses it can also support emulsification and brighten sauces, pickles, and braises. Add gradually and taste as you go, since acidity intensity varies significantly by style and concentration.",
     name: "Aged Balsamic Vinegar",
     category: "vinegars",
     subCategory: "artisanal",
@@ -522,7 +522,7 @@ const rawArtisanalVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   champagne_rose_vinegar: {
-      description: "An acidic condiment, champagne rose vinegar delivers sharpness, brightness, and balance. Acetic acid cuts through fat and richness; specific base material (wine, rice, apple, malt) contributes a distinct secondary flavor.",
+      description: "Champagne Rose Vinegar is an acidic ingredient used to balance richness, sharpen flavor, and improve perceived freshness in finished dishes. In small doses it can also support emulsification and brighten sauces, pickles, and braises. Add gradually and taste as you go, since acidity intensity varies significantly by style and concentration.",
     name: "Champagne Rose Vinegar",
     category: "vinegars",
     subCategory: "artisanal",

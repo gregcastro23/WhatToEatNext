@@ -46,25 +46,25 @@ const rawVinegars = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Water: 0.1, Air: 0.05 },
           preparationTips: [
             "Ideal for subtle pickling",
             "Best for delicate flavors",
           ],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.15, Air: 0.1 },
           preparationTips: ["Enhanced flavor clarity", "Perfect for dressings"],
         },
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Water: 0.1, Earth: 0.05 },
           preparationTips: [
             "Good for quick pickles",
             "Supports growth of ferments",
           ],
         },
-        waxingGibbous: {
+        "waxing gibbous": {
           elementalBoost: { Air: 0.15, Water: 0.05 },
           preparationTips: [
             "Excellent for marinades",
@@ -139,14 +139,14 @@ const rawVinegars = {
         },
       },
       lunarPhaseModifiers: {
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Earth: 0.15, Water: 0.1 },
           preparationTips: [
             "Perfect for reduction sauces",
             "Enhanced sweetness",
           ],
         },
-        waxingGibbous: {
+        "waxing gibbous": {
           elementalBoost: { Earth: 0.1, Fire: 0.05 },
           preparationTips: ["Ideal for glazes", "Best for marinades"],
         },
@@ -379,14 +379,14 @@ const rawVinegars = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
           preparationTips: [
             "Good for cleansing tonics",
             "Enhances detoxification",
           ],
         },
-        waxingGibbous: {
+        "waxing gibbous": {
           elementalBoost: { Air: 0.1, Earth: 0.1 },
           preparationTips: ["Best for fermentation", "Supports preservation"],
         },

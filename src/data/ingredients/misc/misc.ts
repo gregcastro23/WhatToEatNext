@@ -1,5 +1,7 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
+import { coverageCurationOverrides } from "./coverageCurationOverrides";
+import { recipeCoverageIngredients } from "./recipeCoverageIngredients";
 
 // Misc ingredients extracted from cuisine files
 const rawMisc: Record<string, Partial<IngredientMapping>> = {
@@ -9,11 +11,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     // Refined sweetener: Earth (crystalline structure), Fire (quick energy), minimal Water/Air
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Virgo", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (4g)",
@@ -34,11 +36,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     // Tree sap liquid sweetener: Water (liquid), Earth (from trees), Fire (sweet energy)
     elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.25, Air: 0.05 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Virgo", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (20g)",
@@ -58,11 +60,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "baking powder",
     elementalProperties: { Fire: 0.24, Water: 0.14, Earth: 0.33, Air: 0.29 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Virgo", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (5g)",
@@ -78,15 +80,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   microgreens: {
-      description: "A pantry staple, microgreens fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Microgreens is a seasoning ingredient used to adjust balance, aroma, and perceived intensity across savory and sweet cooking. Add in stages so you can control extraction during cooking and precision at the finish. Keep sealed and dry to preserve potency and prevent clumping or flavor drift.",
     name: "microgreens",
     elementalProperties: { Fire: 0.18, Water: 0.32, Earth: 0.18, Air: 0.32 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Virgo", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (25g)",
@@ -102,14 +104,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   fresh_herbs: {
-      description: "A pantry staple, fresh herbs fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Fresh Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "fresh herbs",
     elementalProperties: { Fire: 0.18, Water: 0.32, Earth: 0.18, Air: 0.32 },
     qualities: ["aromatic", "fresh"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Virgo", "Gemini"],
+      favorableZodiac: ["virgo", "gemini"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -126,14 +128,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mixed_berries: {
-      description: "A pantry staple, mixed berries fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Mixed Berries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "mixed berries",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "tart"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Cancer"],
+      favorableZodiac: ["taurus", "cancer"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -155,11 +157,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     // Thick liquid sweetener from bees: Water (liquid), Earth (thick/grounding), Fire (energy)
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.3, Air: 0.05 },
     qualities: ["versatile", "culinary"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Virgo", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (21g)",
@@ -175,15 +177,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   granola: {
-      description: "A pantry staple, granola fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Granola is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "granola",
     elementalProperties: { Fire: 0.2, Water: 0.05, Earth: 0.5, Air: 0.25 },
     qualities: ["crunchy", "sweet"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Virgo", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.5 cup (61g)",
@@ -203,11 +205,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pumpkin puree",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.4, Air: 0.05 },
     qualities: ["smooth", "earthy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
-      favorableZodiac: ["Cancer", "Scorpio"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["cancer", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (245g)",
@@ -227,11 +229,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pecans",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["rich", "buttery"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Libra"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["taurus", "libra"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -247,15 +249,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cranberries: {
-      description: "A pantry staple, cranberries fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Cranberries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "cranberries",
     elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.15, Air: 0.15 },
     qualities: ["tart", "acidic"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Scorpio", "Aries"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["scorpio", "aries"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (100g)",
@@ -275,11 +277,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "walnuts",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["rich", "earthy"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
-      favorableZodiac: ["Sagittarius", "Pisces"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["sagittarius", "pisces"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -295,15 +297,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   hamburger_buns: {
-      description: "A pantry staple, hamburger buns fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Hamburger Buns is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "hamburger buns",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["soft", "starchy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Taurus", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 bun (43g)",
@@ -323,11 +325,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "ketchup",
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "tangy"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "leo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (17g)",
@@ -347,11 +349,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "mustard",
     elementalProperties: { Fire: 0.4, Water: 0.25, Earth: 0.2, Air: 0.15 },
     qualities: ["pungent", "sharp"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (5g)",
@@ -371,11 +373,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "bacon",
     elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.3, Air: 0.1 },
     qualities: ["smoky", "salty"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "leo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 slices (34g)",
@@ -395,11 +397,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "clams",
     elementalProperties: { Fire: 0.1, Water: 0.55, Earth: 0.25, Air: 0.1 },
     qualities: ["briny", "tender"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces"],
-      seasonalAffinity: ["spring", "autumn"],
+      favorableZodiac: ["cancer", "pisces"],
+      seasonalAffinity: ["spring", "fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -415,15 +417,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   puff_pastry: {
-      description: "A pantry staple, puff pastry fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Puff Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "puff pastry",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.3, Air: 0.35 },
     qualities: ["flaky", "buttery"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Libra", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["libra", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 sheet (142g)",
@@ -443,10 +445,10 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "lobster meat",
     elementalProperties: { Fire: 0.15, Water: 0.5, Earth: 0.25, Air: 0.1 },
     qualities: ["sweet", "luxurious"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
-      favorableZodiac: ["Cancer", "Pisces"],
+      favorableZodiac: ["cancer", "pisces"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -467,11 +469,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "mayonnaise",
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.3, Air: 0.25 },
     qualities: ["creamy", "rich"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (13g)",
@@ -487,15 +489,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   split_top_buns: {
-      description: "A pantry staple, split top buns fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Split-top Buns is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "split-top buns",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["soft", "starchy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Taurus", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 bun (43g)",
@@ -515,11 +517,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sliced turkey",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.35, Air: 0.15 },
     qualities: ["lean", "mild"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
-      favorableZodiac: ["Sagittarius", "Virgo"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["sagittarius", "virgo"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "2 oz (56g)",
@@ -539,11 +541,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "cranberry sauce",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "tart"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mars"],
-      favorableZodiac: ["Scorpio", "Libra"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["scorpio", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup (69g)",
@@ -559,15 +561,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   stuffing: {
-      description: "A pantry staple, stuffing fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Stuffing is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "stuffing",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["savory", "herbed"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Virgo", "Capricorn"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["virgo", "capricorn"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "0.5 cup (100g)",
@@ -587,10 +589,10 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "BBQ sauce",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["smoky", "sweet"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Leo", "Aries"],
+      favorableZodiac: ["leo", "aries"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -611,11 +613,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "brown sugar",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "caramel"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (4.6g)",
@@ -635,10 +637,10 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "lamb chops",
     elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "tender"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
+      favorableZodiac: ["aries", "scorpio"],
       seasonalAffinity: ["spring"],
     },
     nutritionalProfile: {
@@ -655,14 +657,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cedar_plank: {
-      description: "A pantry staple, cedar plank fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Cedar Plank is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "cedar plank",
     elementalProperties: { Fire: 0.3, Water: 0.05, Earth: 0.5, Air: 0.15 },
     qualities: ["aromatic", "smoky"],
     category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Capricorn", "Virgo"],
+      favorableZodiac: ["capricorn", "virgo"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -683,11 +685,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "whole turkey",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.35, Air: 0.15 },
     qualities: ["hearty", "lean"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
-      favorableZodiac: ["Sagittarius", "Virgo"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["sagittarius", "virgo"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -707,11 +709,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "white sugar",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "pure"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (4g)",
@@ -731,11 +733,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "chocolate chips",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.4, Air: 0.15 },
     qualities: ["sweet", "rich"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
-      favorableZodiac: ["Scorpio", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["scorpio", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15g)",
@@ -751,15 +753,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   graham_crackers: {
-      description: "A pantry staple, graham crackers fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Graham Crackers is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "graham crackers",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.4, Air: 0.3 },
     qualities: ["sweet", "crunchy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Virgo", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 sheets (28g)",
@@ -779,11 +781,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "vanilla extract",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.25, Air: 0.2 },
     qualities: ["aromatic", "sweet"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (4.2g)",
@@ -799,14 +801,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   fresh_strawberries: {
-      description: "A pantry staple, fresh strawberries fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Fresh Strawberries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "fresh strawberries",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "juicy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Libra"],
+      favorableZodiac: ["taurus", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -827,11 +829,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "marshmallows",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.2, Air: 0.4 },
     qualities: ["sweet", "fluffy"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
-      favorableZodiac: ["Cancer", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "4 pieces (29g)",
@@ -851,11 +853,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "chocolate sauce",
     elementalProperties: { Fire: 0.25, Water: 0.3, Earth: 0.3, Air: 0.15 },
     qualities: ["sweet", "rich"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
-      favorableZodiac: ["Scorpio", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["scorpio", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 tbsp (38g)",
@@ -875,11 +877,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sea salt",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
     qualities: ["mineral", "briny"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Neptune"],
-      favorableZodiac: ["Capricorn", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 tsp (1.5g)",
@@ -895,15 +897,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pie_crust: {
-      description: "A pantry staple, pie crust fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Pie Crust is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "pie crust",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["flaky", "buttery"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
-      favorableZodiac: ["Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["taurus", "capricorn"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1/8 crust (23g)",
@@ -923,11 +925,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "molasses",
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.35, Air: 0.05 },
     qualities: ["sweet", "bitter"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Pluto"],
-      favorableZodiac: ["Capricorn", "Scorpio"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["capricorn", "scorpio"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (20g)",
@@ -947,11 +949,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "salt",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 },
     qualities: ["mineral", "essential"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Capricorn", "Aquarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "aquarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 tsp (1.5g)",
@@ -967,15 +969,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   char_siu_bao: {
-      description: "A pantry staple, char siu bao fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Char Siu Bao is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "char siu bao",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.35, Air: 0.15 },
     qualities: ["savory", "sweet"],
-    category: "prepared",
+    category: "preserved",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
-      favorableZodiac: ["Sagittarius", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["sagittarius", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 bun (85g)",
@@ -991,14 +993,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   spring_rolls: {
-      description: "A pantry staple, spring rolls fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Spring Rolls is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "spring rolls",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.3, Air: 0.2 },
     qualities: ["crispy", "savory"],
-    category: "prepared",
+    category: "preserved",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra"],
+      favorableZodiac: ["gemini", "libra"],
       seasonalAffinity: ["spring"],
     },
     nutritionalProfile: {
@@ -1019,11 +1021,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "whole duck",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "fatty"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Mars"],
-      favorableZodiac: ["Scorpio", "Sagittarius"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["scorpio", "sagittarius"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -1039,15 +1041,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pastry_dough: {
-      description: "A pantry staple, pastry dough fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Pastry Dough is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "pastry dough",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.35, Air: 0.25 },
     qualities: ["buttery", "malleable"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
-      favorableZodiac: ["Libra", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["libra", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1063,15 +1065,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   dried_fruits: {
-      description: "A pantry staple, dried fruits fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Dried Fruits is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "dried fruits",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.4, Air: 0.25 },
     qualities: ["sweet", "chewy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
-      favorableZodiac: ["Leo", "Taurus"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["leo", "taurus"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup (40g)",
@@ -1091,11 +1093,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "nuts",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["crunchy", "rich"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Saturn"],
-      favorableZodiac: ["Taurus", "Capricorn"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["taurus", "capricorn"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1111,15 +1113,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cr_me_fra_che: {
-      description: "A pantry staple, cr me fra che fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Crème Fraîche is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "crème fraîche",
     elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
     qualities: ["creamy", "tangy"],
     category: "dairy",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 tbsp (30g)",
@@ -1135,14 +1137,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   fine_herbs: {
-      description: "A pantry staple, fine herbs fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Fine Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "fine herbs",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["delicate", "aromatic"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Virgo", "Libra"],
+      favorableZodiac: ["virgo", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -1159,15 +1161,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   brioche: {
-      description: "A pantry staple, brioche fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Brioche is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "brioche",
     elementalProperties: { Fire: 0.25, Water: 0.2, Earth: 0.3, Air: 0.25 },
     qualities: ["buttery", "rich"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 slice (40g)",
@@ -1187,11 +1189,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "granulated sugar",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.45, Air: 0.1 },
     qualities: ["sweet", "pure"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus"],
-      favorableZodiac: ["Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (4g)",
@@ -1207,15 +1209,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   white_ham: {
-      description: "A pantry staple, white ham fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "White Ham is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "white ham",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.35, Air: 0.15 },
     qualities: ["savory", "mild"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
-      favorableZodiac: ["Sagittarius", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["sagittarius", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 oz (56g)",
@@ -1231,15 +1233,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   bechamel_sauce: {
-      description: "A pantry staple, bechamel sauce fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Béchamel Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "béchamel sauce",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["creamy", "smooth"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup (63g)",
@@ -1259,11 +1261,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "anchovies",
     elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1 },
     qualities: ["salty", "umami"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Mars"],
-      favorableZodiac: ["Pisces", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["pisces", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "5 fillets (20g)",
@@ -1279,15 +1281,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   vinaigrette: {
-      description: "A pantry staple, vinaigrette fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Vinaigrette is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "vinaigrette",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.15, Air: 0.3 },
     qualities: ["tangy", "light"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 tbsp (30g)",
@@ -1307,11 +1309,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "baguette",
     elementalProperties: { Fire: 0.25, Water: 0.15, Earth: 0.35, Air: 0.25 },
     qualities: ["crusty", "chewy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["Virgo", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 oz (57g)",
@@ -1327,15 +1329,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   lardons: {
-      description: "A pantry staple, lardons fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Lardons is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "lardons",
     elementalProperties: { Fire: 0.4, Water: 0.15, Earth: 0.35, Air: 0.1 },
     qualities: ["salty", "smoky"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1351,15 +1353,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   bouquet_garni: {
-      description: "A pantry staple, bouquet garni fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Bouquet Garni is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "bouquet garni",
     elementalProperties: { Fire: 0.2, Water: 0.25, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "herbal"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Virgo", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 bundle (10g)",
@@ -1375,15 +1377,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cognac: {
-      description: "A pantry staple, cognac fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Cognac is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
     name: "cognac",
     elementalProperties: { Fire: 0.5, Water: 0.25, Earth: 0.15, Air: 0.1 },
     qualities: ["warm", "complex"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
-      favorableZodiac: ["Leo", "Sagittarius"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["leo", "sagittarius"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 fl oz (28ml)",
@@ -1399,14 +1401,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sole_fillets: {
-      description: "A pantry staple, sole fillets fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Sole Fillets is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "sole fillets",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.25, Air: 0.15 },
     qualities: ["delicate", "mild"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
-      favorableZodiac: ["Pisces", "Cancer"],
+      favorableZodiac: ["pisces", "cancer"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -1427,11 +1429,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "bacon or pancetta",
     elementalProperties: { Fire: 0.4, Water: 0.15, Earth: 0.35, Air: 0.1 },
     qualities: ["salty", "smoky"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1451,11 +1453,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sugar for caramelizing",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "transformative"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
-      favorableZodiac: ["Leo", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (12g)",
@@ -1471,15 +1473,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   shortcrust_pastry: {
-      description: "A pantry staple, shortcrust pastry fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Shortcrust Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "shortcrust pastry",
     elementalProperties: { Fire: 0.2, Water: 0.15, Earth: 0.4, Air: 0.25 },
     qualities: ["crumbly", "buttery"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
-      favorableZodiac: ["Taurus", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1495,15 +1497,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   choux_pastry: {
-      description: "A pantry staple, choux pastry fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Choux Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "choux pastry",
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.2, Air: 0.3 },
     qualities: ["light", "eggy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Libra", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["libra", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 puff (22g)",
@@ -1523,11 +1525,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "dark chocolate",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.4, Air: 0.15 },
     qualities: ["bitter", "rich"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Pluto", "Venus"],
-      favorableZodiac: ["Scorpio", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["scorpio", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1547,11 +1549,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "phyllo dough",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.3, Air: 0.4 },
     qualities: ["paper-thin", "crispy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 sheets (32g)",
@@ -1571,11 +1573,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "semolina",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["coarse", "hearty"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Virgo", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup (42g)",
@@ -1595,11 +1597,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "almonds",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["crunchy", "nutty"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Virgo", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1615,15 +1617,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   urad_dal: {
-      description: "A pantry staple, urad dal fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Urad Dal is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "urad dal",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.45, Air: 0.15 },
     qualities: ["earthy", "creamy"],
-    category: "legumes",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Capricorn", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup dry (48g)",
@@ -1639,15 +1641,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   toor_dal: {
-      description: "A pantry staple, toor dal fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Toor Dal is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "toor dal",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.45, Air: 0.15 },
     qualities: ["earthy", "mild"],
-    category: "legumes",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Capricorn", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup dry (48g)",
@@ -1663,15 +1665,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sambar_powder: {
-      description: "A pantry staple, sambar powder fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Sambar Powder is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "sambar powder",
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 },
     qualities: ["spicy", "complex"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "leo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (3g)",
@@ -1691,11 +1693,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "vegetables",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.3, Air: 0.2 },
     qualities: ["fresh", "wholesome"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
-      favorableZodiac: ["Cancer", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (130g)",
@@ -1711,15 +1713,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   puri_shells: {
-      description: "A pantry staple, puri shells fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Puri Shells is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "puri shells",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.35, Air: 0.25 },
     qualities: ["crispy", "hollow"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "6 shells (18g)",
@@ -1739,11 +1741,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "tamarind",
     elementalProperties: { Fire: 0.25, Water: 0.35, Earth: 0.25, Air: 0.15 },
     qualities: ["sour", "tangy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Capricorn", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (20g)",
@@ -1763,11 +1765,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "black salt",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.55, Air: 0.1 },
     qualities: ["sulfurous", "pungent"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Pluto"],
-      favorableZodiac: ["Capricorn", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 tsp (1.5g)",
@@ -1783,14 +1785,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sprouted_moong: {
-      description: "A pantry staple, sprouted moong fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Sprouted Moong is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "sprouted moong",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["crunchy", "fresh"],
-    category: "legumes",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Virgo"],
+      favorableZodiac: ["cancer", "virgo"],
       seasonalAffinity: ["spring"],
     },
     nutritionalProfile: {
@@ -1811,11 +1813,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pistachios",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["nutty", "slightly sweet"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1835,10 +1837,10 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "almond granita",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     qualities: ["icy", "sweet"],
-    category: "desserts",
+    category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus"],
+      favorableZodiac: ["cancer", "taurus"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -1862,8 +1864,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     category: "dairy",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 tbsp (28g)",
@@ -1879,15 +1881,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   natto: {
-      description: "A pantry staple, natto fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Natto is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "natto",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.35, Air: 0.15 },
     qualities: ["fermented", "pungent"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Pluto", "Saturn"],
-      favorableZodiac: ["Scorpio", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["scorpio", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -1903,15 +1905,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   umeboshi: {
-      description: "A pantry staple, umeboshi fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Umeboshi is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "umeboshi",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["sour", "salty"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Scorpio", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["scorpio", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 piece (8g)",
@@ -1931,11 +1933,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "dashi",
     elementalProperties: { Fire: 0.1, Water: 0.55, Earth: 0.2, Air: 0.15 },
     qualities: ["umami", "delicate"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
-      favorableZodiac: ["Pisces", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["pisces", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -1951,15 +1953,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   gyoza_wrappers: {
-      description: "A pantry staple, gyoza wrappers fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Gyoza Wrappers is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "gyoza wrappers",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.4, Air: 0.25 },
     qualities: ["thin", "pliable"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "4 wrappers (32g)",
@@ -1979,11 +1981,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "soy sauce",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["salty", "umami"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Neptune"],
-      favorableZodiac: ["Capricorn", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (18g)",
@@ -2003,11 +2005,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sake",
     elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.15, Air: 0.15 },
     qualities: ["clean", "delicate"],
-    category: "beverages",
+    category: "beverage",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
-      favorableZodiac: ["Pisces", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["pisces", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 fl oz (30ml)",
@@ -2027,10 +2029,10 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "aged kimchi",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["fermented", "pungent"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Pluto"],
-      favorableZodiac: ["Scorpio", "Aries"],
+      favorableZodiac: ["scorpio", "aries"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -2047,14 +2049,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   perilla_leaves: {
-      description: "A pantry staple, perilla leaves fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Perilla Leaves is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "perilla leaves",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "minty"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Gemini", "Virgo"],
+      favorableZodiac: ["gemini", "virgo"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2071,15 +2073,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   ssamjang: {
-      description: "A pantry staple, ssamjang fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Ssamjang is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "ssamjang",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.25, Air: 0.15 },
     qualities: ["savory", "spicy"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Jupiter"],
-      favorableZodiac: ["Aries", "Sagittarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (18g)",
@@ -2099,11 +2101,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "kimchi",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["fermented", "spicy"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Pluto"],
-      favorableZodiac: ["Scorpio", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["scorpio", "aries"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.5 cup (75g)",
@@ -2123,11 +2125,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "gochugaru",
     elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.25, Air: 0.15 },
     qualities: ["spicy", "smoky"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "leo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (8g)",
@@ -2147,11 +2149,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "gochujang",
     elementalProperties: { Fire: 0.4, Water: 0.25, Earth: 0.2, Air: 0.15 },
     qualities: ["spicy", "sweet"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Venus"],
-      favorableZodiac: ["Aries", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (18g)",
@@ -2167,15 +2169,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   saeujeot: {
-      description: "A pantry staple, saeujeot fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Saeujeot is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "saeujeot",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["salty", "umami"],
-    category: "condiments",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
-      favorableZodiac: ["Pisces", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["pisces", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (6g)",
@@ -2191,14 +2193,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   shaved_ice: {
-      description: "A pantry staple, shaved ice fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Shaved Ice is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "shaved ice",
     elementalProperties: { Fire: 0.0, Water: 0.8, Earth: 0.1, Air: 0.1 },
     qualities: ["cold", "refreshing"],
-    category: "desserts",
+    category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
-      favorableZodiac: ["Cancer", "Aquarius"],
+      favorableZodiac: ["cancer", "aquarius"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2219,11 +2221,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "sesame seeds",
     elementalProperties: { Fire: 0.25, Water: 0.1, Earth: 0.45, Air: 0.2 },
     qualities: ["nutty", "crunchy"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Virgo", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (9g)",
@@ -2239,14 +2241,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pine_needles: {
-      description: "A pantry staple, pine needles fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Pine Needles is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "pine needles",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.3, Air: 0.35 },
     qualities: ["aromatic", "resinous"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Capricorn", "Sagittarius"],
+      favorableZodiac: ["capricorn", "sagittarius"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -2263,14 +2265,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mixed_fruits: {
-      description: "A pantry staple, mixed fruits fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Mixed Fruits is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "mixed fruits",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "refreshing"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["Taurus", "Sagittarius"],
+      favorableZodiac: ["taurus", "sagittarius"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2287,15 +2289,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   dried_hominy: {
-      description: "A pantry staple, dried hominy fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Dried Hominy is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "dried hominy",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.5, Air: 0.2 },
     qualities: ["starchy", "hearty"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Capricorn", "Virgo"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["capricorn", "virgo"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup dry (42g)",
@@ -2311,15 +2313,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mixed_dried_chiles: {
-      description: "A pantry staple, mixed dried chiles fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Mixed Dried Chiles is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "mixed dried chiles",
     elementalProperties: { Fire: 0.5, Water: 0.05, Earth: 0.3, Air: 0.15 },
     qualities: ["spicy", "smoky"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "leo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 chile (5g)",
@@ -2339,11 +2341,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "chocolate",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.35, Air: 0.15 },
     qualities: ["sweet", "rich"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
-      favorableZodiac: ["Taurus", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2363,10 +2365,10 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "poblano chiles",
     elementalProperties: { Fire: 0.35, Water: 0.3, Earth: 0.2, Air: 0.15 },
     qualities: ["mild", "earthy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
+      favorableZodiac: ["aries", "scorpio"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2387,11 +2389,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "masa harina",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.5, Air: 0.2 },
     qualities: ["starchy", "earthy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
-      favorableZodiac: ["Capricorn", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup (28g)",
@@ -2407,14 +2409,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   fresh_fruit: {
-      description: "A pantry staple, fresh fruit fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Fresh Fruit is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "fresh fruit",
     elementalProperties: { Fire: 0.2, Water: 0.45, Earth: 0.15, Air: 0.2 },
     qualities: ["sweet", "juicy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer"],
+      favorableZodiac: ["taurus", "cancer"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2435,11 +2437,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "lamb shoulder",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.3, Air: 0.1 },
     qualities: ["rich", "succulent"],
-    category: "proteins",
+    category: "protein",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
-      seasonalAffinity: ["spring", "autumn"],
+      favorableZodiac: ["aries", "scorpio"],
+      seasonalAffinity: ["spring", "fall"],
     },
     nutritionalProfile: {
       serving_size: "3 oz (85g)",
@@ -2455,15 +2457,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   jameed: {
-      description: "A pantry staple, jameed fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Jameed is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "jameed",
     elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.5, Air: 0.15 },
     qualities: ["tangy", "salty"],
     category: "dairy",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
-      favorableZodiac: ["Capricorn", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2483,11 +2485,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pine nuts",
     elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.5, Air: 0.2 },
     qualities: ["buttery", "delicate"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Virgo"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["taurus", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2503,15 +2505,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   kataifi_dough: {
-      description: "A pantry staple, kataifi dough fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Kataifi Dough is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "kataifi dough",
     elementalProperties: { Fire: 0.15, Water: 0.15, Earth: 0.3, Air: 0.4 },
     qualities: ["shredded", "crispy"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2531,11 +2533,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pickles",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.2, Air: 0.2 },
     qualities: ["sour", "crunchy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
-      favorableZodiac: ["Capricorn", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 spear (35g)",
@@ -2555,10 +2557,10 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "green papaya",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["crunchy", "mild"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus"],
+      favorableZodiac: ["cancer", "taurus"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2575,14 +2577,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   red_syrup: {
-      description: "A pantry staple, red syrup fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Red Syrup is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "red syrup",
     elementalProperties: { Fire: 0.3, Water: 0.35, Earth: 0.2, Air: 0.15 },
     qualities: ["sweet", "vibrant"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Venus"],
-      favorableZodiac: ["Aries", "Taurus"],
+      favorableZodiac: ["aries", "taurus"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2599,14 +2601,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   green_syrup: {
-      description: "A pantry staple, green syrup fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Green Syrup is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "green syrup",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.2, Air: 0.25 },
     qualities: ["sweet", "herbal"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer"],
+      favorableZodiac: ["taurus", "cancer"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2623,14 +2625,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   palm_seeds: {
-      description: "A pantry staple, palm seeds fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Palm Seeds is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "palm seeds",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["translucent", "chewy"],
-    category: "nuts",
+    category: "nut_seed",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter"],
-      favorableZodiac: ["Sagittarius", "Taurus"],
+      favorableZodiac: ["sagittarius", "taurus"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2647,14 +2649,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   grass_jelly: {
-      description: "A pantry staple, grass jelly fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Grass Jelly is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "grass jelly",
     elementalProperties: { Fire: 0.05, Water: 0.5, Earth: 0.25, Air: 0.2 },
     qualities: ["cooling", "herbal"],
-    category: "desserts",
+    category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Neptune"],
-      favorableZodiac: ["Cancer", "Pisces"],
+      favorableZodiac: ["cancer", "pisces"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2671,15 +2673,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   red_food_coloring: {
-      description: "A pantry staple, red food coloring fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Red Food Coloring is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "red food coloring",
     elementalProperties: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
     qualities: ["vibrant", "decorative"],
     category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Leo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "leo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 drop (0.05ml)",
@@ -2699,11 +2701,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "palm sugar",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "caramel"],
-    category: "sweeteners",
+    category: "sweetener",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["Taurus", "Sagittarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (5g)",
@@ -2723,10 +2725,10 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "jackfruit",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["sweet", "meaty"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
-      favorableZodiac: ["Sagittarius", "Taurus"],
+      favorableZodiac: ["sagittarius", "taurus"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2743,14 +2745,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   crushed_ice: {
-      description: "A pantry staple, crushed ice fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Crushed Ice is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "crushed ice",
     elementalProperties: { Fire: 0.0, Water: 0.8, Earth: 0.1, Air: 0.1 },
     qualities: ["cold", "refreshing"],
     category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Moon"],
-      favorableZodiac: ["Cancer", "Aquarius"],
+      favorableZodiac: ["cancer", "aquarius"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2767,15 +2769,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pandan_extract: {
-      description: "A pantry staple, pandan extract fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Pandan Extract is a seasoning ingredient used to adjust balance, aroma, and perceived intensity across savory and sweet cooking. Add in stages so you can control extraction during cooking and precision at the finish. Keep sealed and dry to preserve potency and prevent clumping or flavor drift.",
     name: "pandan extract",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.2, Air: 0.35 },
     qualities: ["fragrant", "floral"],
-    category: "seasonings",
+    category: "seasoning",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Neptune"],
-      favorableZodiac: ["Taurus", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (5ml)",
@@ -2795,11 +2797,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "kabocha pumpkin",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.4, Air: 0.1 },
     qualities: ["sweet", "starchy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Jupiter"],
-      favorableZodiac: ["Cancer", "Sagittarius"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["cancer", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (116g)",
@@ -2815,15 +2817,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pandan_leaves: {
-      description: "A pantry staple, pandan leaves fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Pandan Leaves is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "pandan leaves",
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.2, Air: 0.4 },
     qualities: ["fragrant", "grassy"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Neptune"],
-      favorableZodiac: ["Taurus", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 leaves (4g)",
@@ -2843,11 +2845,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "tapioca starch",
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.55, Air: 0.15 },
     qualities: ["starchy", "thickening"],
-    category: "grains",
+    category: "grain",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Capricorn"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "capricorn"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (10g)",
@@ -2863,15 +2865,15 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   herbs_mix: {
-      description: "A pantry staple, herbs mix fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Herbs Mix is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "herbs mix",
     elementalProperties: { Fire: 0.2, Water: 0.25, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "savory"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
-      favorableZodiac: ["Virgo", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (1g)",
@@ -2891,11 +2893,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "annatto seeds",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 },
     qualities: ["earthy", "colorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
-      favorableZodiac: ["Leo", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "aries"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (3g)",
@@ -2911,14 +2913,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   vietnamese_herbs: {
-      description: "A pantry staple, vietnamese herbs fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Vietnamese Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Vietnamese herbs",
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.15, Air: 0.35 },
     qualities: ["fresh", "aromatic"],
-    category: "herbs",
+    category: "culinary_herb",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra"],
+      favorableZodiac: ["gemini", "libra"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -2939,11 +2941,11 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     name: "pickled vegetables",
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     qualities: ["tangy", "crunchy"],
-    category: "vegetables",
+    category: "vegetable",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
-      favorableZodiac: ["Capricorn", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "0.25 cup (35g)",
@@ -2959,14 +2961,14 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pandan_jelly: {
-      description: "A pantry staple, pandan jelly fills a specific functional or flavor role in the kitchen — thickening, emulsifying, sweetening, leavening, or garnishing.",
+      description: "Pandan Jelly is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "pandan jelly",
     elementalProperties: { Fire: 0.05, Water: 0.45, Earth: 0.25, Air: 0.25 },
     qualities: ["fragrant", "refreshing"],
-    category: "desserts",
+    category: "misc",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer"],
+      favorableZodiac: ["taurus", "cancer"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -2984,5 +2986,24 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
 },
 };
 
+function mergeIngredientRecords(
+  base: Record<string, Partial<IngredientMapping>>,
+  overrides: Record<string, Partial<IngredientMapping>>,
+): Record<string, Partial<IngredientMapping>> {
+  const merged: Record<string, Partial<IngredientMapping>> = { ...base };
+  for (const [slug, patch] of Object.entries(overrides)) {
+    merged[slug] = { ...(merged[slug] ?? {}), ...patch };
+  }
+  return merged;
+}
+
 // Export processed ingredients
-export const miscIngredients = fixIngredientMappings(rawMisc);
+export const miscIngredients = fixIngredientMappings(
+  mergeIngredientRecords(
+    {
+      ...rawMisc,
+      ...recipeCoverageIngredients,
+    },
+    coverageCurationOverrides,
+  ),
+);

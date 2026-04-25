@@ -8,12 +8,12 @@ const rawWholeSpices = {
     elementalProperties: { Fire: 0.49, Water: 0.13, Earth: 0.13, Air: 0.25 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Virgo", "Taurus", "Capricorn", "Aries"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["virgo", "taurus", "capricorn", "aries"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["sweet", "licorice-like", "warming"],
     origin: ["China", "Vietnam"],
-    category: "spices",
+    category: "spice",
     subCategory: "whole",
     varieties: {
       Chinese: "traditional variety",
@@ -92,7 +92,7 @@ const rawWholeSpices = {
     },
     qualities: ["aromatic", "complex", "intense"],
     origin: ["India", "Guatemala", "Sri Lanka"],
-    category: "spices",
+    category: "spice",
     subCategory: "whole",
     varieties: {},
     preparation: {
@@ -164,7 +164,7 @@ const rawWholeSpices = {
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["pungent", "hot", "nutty"],
     origin: ["India", "Canada", "Nepal"],
-    category: "spices",
+    category: "spice",
     subCategory: "whole",
     varieties: {
       Brown: {
@@ -249,7 +249,7 @@ const rawWholeSpices = {
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["sweet", "anise-like", "warming"],
     origin: ["India", "Mediterranean", "China"],
-    category: "spices",
+    category: "spice",
     subCategory: "whole",
     varieties: {
       Indian: {
@@ -330,7 +330,7 @@ const rawWholeSpices = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["citrusy", "nutty", "floral"],
     origin: ["India", "Morocco", "Eastern Europe"],
-    category: "spices",
+    category: "spice",
     subCategory: "whole",
     varieties: {
       Indian: {
@@ -412,7 +412,7 @@ const rawWholeSpices = {
     },
     qualities: ["earthy", "warm", "pungent"],
     origin: ["India", "Iran", "Turkey"],
-    category: "spices",
+    category: "spice",
     subCategory: "whole",
     varieties: {
       Indian: {
@@ -481,7 +481,7 @@ const rawWholeSpices = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["warming", "sharp", "slightly sweet"],
     origin: ["Netherlands", "Eastern Europe", "Finland"],
-    category: "spices",
+    category: "spice",
     subCategory: "whole",
     varieties: {
       Dutch: {

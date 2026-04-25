@@ -49,13 +49,13 @@ interface RecipeMatch {
   unit?: string;
 }
 
-function normalize(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+interface UnmatchedIngredientUsage {
+  name: string;
+  occurrences: number;
+  sampleRecipes: string[];
 }
 
-function stripQuotes(s: string): string {
-  return s.replace(/^["'`]|["'`]$/g, "");
-}
+import { normalize, singularize, MATCH_STOPWORDS, normalizedVariants, stripQuotes } from "../src/utils/ingredientNormalization.js";
 
 // --- Pass 1: collect canonical ingredients ---
 function collectCanonical(project: Project): CanonicalIngredient[] {
@@ -99,10 +99,8 @@ function parseIngredientFile(project: Project, file: string, out: CanonicalIngre
 
       const terms = new Set<string>();
       terms.add(normalize(slug.replace(/_/g, " ")));
-      terms.add(normalize(name));
-      const norm = normalize(name);
-      if (norm.endsWith("s") && norm.length > 3) terms.add(norm.slice(0, -1));
-      else if (norm.length > 2) terms.add(`${norm}s`);
+      for (const v of normalizedVariants(name)) terms.add(v);
+      for (const v of normalizedVariants(slug.replace(/_/g, " "))) terms.add(v);
 
       // Add varieties as aliases
       const varsProp = card.getProperty("varieties")?.asKind(SyntaxKind.PropertyAssignment);
@@ -114,7 +112,21 @@ function parseIngredientFile(project: Project, file: string, out: CanonicalIngre
           const vo = va.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
           if (!vo) continue;
           const vnProp = vo.getProperty("name")?.asKind(SyntaxKind.PropertyAssignment);
-          if (vnProp) terms.add(normalize(stripQuotes(vnProp.getInitializer()?.getText() ?? "")));
+          if (vnProp) {
+            for (const v of normalizedVariants(stripQuotes(vnProp.getInitializer()?.getText() ?? ""))) {
+              terms.add(v);
+            }
+          }
+        }
+      }
+
+      // Add explicit aliases if authored on ingredient card.
+      const aliasesProp = card.getProperty("aliases")?.asKind(SyntaxKind.PropertyAssignment);
+      const aliasesArr = aliasesProp?.getInitializer()?.asKind(SyntaxKind.ArrayLiteralExpression);
+      if (aliasesArr) {
+        for (const el of aliasesArr.getElements()) {
+          const txt = stripQuotes(el.getText());
+          for (const v of normalizedVariants(txt)) terms.add(v);
         }
       }
 
@@ -128,7 +140,7 @@ interface RawRecipe {
   id: string;
   name: string;
   cuisine: string;
-  ingredients: Array<{ name: string; amount?: string; unit?: string }>;
+  ingredients: Array<{ name: string; amount?: number | string; unit?: string }>;
 }
 
 function collectRecipes(project: Project): RawRecipe[] {
@@ -180,9 +192,11 @@ function collectRecipes(project: Project): RawRecipe[] {
 
         const amtProp = propByName(io, "amount");
         const unitProp = propByName(io, "unit");
+        const rawAmount = amtProp ? stripQuotes(amtProp.getInitializer()?.getText() ?? "") : undefined;
+        const parsedAmount = rawAmount && /^-?\d+(\.\d+)?$/.test(rawAmount) ? Number(rawAmount) : rawAmount;
         ingredients.push({
           name: iname,
-          amount: amtProp ? stripQuotes(amtProp.getInitializer()?.getText() ?? "") : undefined,
+          amount: parsedAmount,
           unit: unitProp ? stripQuotes(unitProp.getInitializer()?.getText() ?? "") : undefined,
         });
       }
@@ -197,9 +211,13 @@ function collectRecipes(project: Project): RawRecipe[] {
 }
 
 // --- Pass 3: build the index ---
-function buildIndex(canonical: CanonicalIngredient[], recipes: RawRecipe[]): Record<string, RecipeMatch[]> {
+function buildIndex(
+  canonical: CanonicalIngredient[],
+  recipes: RawRecipe[],
+): { index: Record<string, RecipeMatch[]>; unmatched: UnmatchedIngredientUsage[] } {
   const index: Record<string, RecipeMatch[]> = {};
   for (const c of canonical) index[c.slug] = [];
+  const unmatched = new Map<string, { count: number; recipes: Set<string> }>();
 
   // Pre-compile regex for each search term
   const termRegexByCanonical = new Map<string, RegExp[]>();
@@ -215,19 +233,24 @@ function buildIndex(canonical: CanonicalIngredient[], recipes: RawRecipe[]): Rec
 
   for (const recipe of recipes) {
     for (const ing of recipe.ingredients) {
-      const normRaw = normalize(ing.name);
-      if (!normRaw) continue;
+      const variants = normalizedVariants(ing.name);
+      if (variants.size === 0) continue;
+      let matchedAtLeastOne = false;
 
       for (const c of canonical) {
         const regexes = termRegexByCanonical.get(c.slug) ?? [];
         let matched = false;
         for (const re of regexes) {
-          if (re.test(normRaw)) {
-            matched = true;
-            break;
+          for (const variant of variants) {
+            if (re.test(variant)) {
+              matched = true;
+              break;
+            }
           }
+          if (matched) break;
         }
         if (matched) {
+          matchedAtLeastOne = true;
           index[c.slug].push({
             recipeId: recipe.id,
             recipeName: recipe.name,
@@ -238,10 +261,26 @@ function buildIndex(canonical: CanonicalIngredient[], recipes: RawRecipe[]): Rec
           });
         }
       }
+
+      if (!matchedAtLeastOne) {
+        const normName = [...variants][0];
+        const current = unmatched.get(normName) ?? { count: 0, recipes: new Set<string>() };
+        current.count += 1;
+        current.recipes.add(`${recipe.cuisine} / ${recipe.name}`);
+        unmatched.set(normName, current);
+      }
     }
   }
 
-  return index;
+  const unmatchedRows: UnmatchedIngredientUsage[] = [...unmatched.entries()]
+    .map(([name, v]) => ({
+      name,
+      occurrences: v.count,
+      sampleRecipes: [...v.recipes].slice(0, 3),
+    }))
+    .sort((a, b) => b.occurrences - a.occurrences);
+
+  return { index, unmatched: unmatchedRows };
 }
 
 const project = new Project({
@@ -258,7 +297,7 @@ const recipes = collectRecipes(project);
 // eslint-disable-next-line no-console
 console.log(`Recipes with ingredients: ${recipes.length}`);
 
-const index = buildIndex(canonical, recipes);
+const { index, unmatched } = buildIndex(canonical, recipes);
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const fullPath = path.join(OUT_DIR, "ingredientRecipeIndex.json");
@@ -268,9 +307,14 @@ const summary = Object.fromEntries(Object.entries(index).map(([k, v]) => [k, v.l
 const summaryPath = path.join(OUT_DIR, "ingredientRecipeIndex.summary.json");
 fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
 
+const unmatchedPath = path.join(OUT_DIR, "ingredientRecipeUnmatched.summary.json");
+fs.writeFileSync(unmatchedPath, JSON.stringify(unmatched, null, 2));
+
 const nonEmpty = Object.values(index).filter((v) => v.length > 0).length;
 const totalRefs = Object.values(index).reduce((s, v) => s + v.length, 0);
 // eslint-disable-next-line no-console
 console.log(`Index: ${nonEmpty}/${canonical.length} ingredients matched by ≥1 recipe; ${totalRefs} total references.`);
 // eslint-disable-next-line no-console
 console.log(`Written: ${path.relative(process.cwd(), fullPath)}`);
+// eslint-disable-next-line no-console
+console.log(`Unmatched recipe ingredient names: ${unmatched.length} (summary: ${path.relative(process.cwd(), unmatchedPath)})`);

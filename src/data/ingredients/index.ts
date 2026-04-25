@@ -170,12 +170,12 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   }
   // Create default lunar phase modifiers if none exist
   const defaultLunarPhaseModifiers = {
-    newMoon: {
+    "new moon": {
       elementalBoost: { Earth: 0.05, Water: 0.05 },
       preparationTips: ["Best for subtle preparation methods"],
       thermodynamicEffects: { heat: -0.1, entropy: -0.05 },
     },
-    fullMoon: {
+    "full moon": {
       elementalBoost: { Water: 0.1, Air: 0.05 },
       preparationTips: ["Enhanced flavor extraction"],
       thermodynamicEffects: { reactivity: 0.1, energy: 0.05 },

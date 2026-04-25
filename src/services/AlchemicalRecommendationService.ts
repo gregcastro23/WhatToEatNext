@@ -6,7 +6,6 @@ import type {
   ZodiacSignType,
   BasicThermodynamicProperties as _BasicThermodynamicProperties,
 } from "@/types/alchemy";
-import type { Planet } from "@/types/celestial";
 import type { UnifiedIngredient } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
 import { getCurrentSeason } from "@/types/seasons";
@@ -128,8 +127,7 @@ export class AlchemicalRecommendationService {
                   s === "fall" ||
                   s === "winter",
               ),
-              planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets ||
-                []) as Planet[],
+              planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
               flavorProfile: (ingredient.flavorProfile || {}) as Record<
                 string,
                 number

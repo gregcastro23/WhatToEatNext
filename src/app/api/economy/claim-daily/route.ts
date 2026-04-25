@@ -18,68 +18,76 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
-  const user = await getDatabaseUserFromRequest(request);
-  if (!user) {
-    return NextResponse.json(
-      { success: false, message: "Authentication required" },
-      { status: 401 },
-    );
-  }
-
-  // Extract natal chart positions from user profile
-  const natalChart = user.profile?.natalChart;
-  if (!natalChart) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Complete onboarding with your birth data to start earning tokens",
-      },
-      { status: 400 },
-    );
-  }
-
-  // Build planet → sign map from natal chart
-  const signs = extractPlanetaryPositions(natalChart);
-  const natalPositions: Record<string, string> = {};
-  
-  Object.entries(signs).forEach(([planet, sign]) => {
-    if (typeof sign === "string") {
-      natalPositions[planet] = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
+  try {
+    const user = await getDatabaseUserFromRequest(request);
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
+      );
     }
-  });
 
-  if (Object.keys(natalPositions).length === 0) {
+    // Extract natal chart positions from user profile
+    const natalChart = user.profile?.natalChart;
+    if (!natalChart) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Complete onboarding with your birth data to start earning tokens",
+        },
+        { status: 400 },
+      );
+    }
+
+    // Build planet → sign map from natal chart
+    const signs = extractPlanetaryPositions(natalChart);
+    const natalPositions: Record<string, string> = {};
+
+    Object.entries(signs).forEach(([planet, sign]) => {
+      if (typeof sign === "string") {
+        natalPositions[planet] = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
+      }
+    });
+
+    if (Object.keys(natalPositions).length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Natal chart data is incomplete. Please update your birth data.",
+        },
+        { status: 400 },
+      );
+    }
+
+    // Check if user is premium for yield multiplier
+    const sub = await subscriptionService.getUserSubscription(user.id);
+    const isPremium = sub?.tier === "premium";
+
+    // Claim the daily yield
+    const yieldResult = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium);
+
+    if (!yieldResult) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "You have already claimed your Cosmic Yield today. Return tomorrow!",
+        },
+        { status: 409 },
+      );
+    }
+
+    const response: ClaimDailyResponse = {
+      success: true,
+      yield: yieldResult,
+      message: `✨ Cosmic Yield collected! +${yieldResult.totalTokens.toFixed(1)} tokens across Spirit, Essence, Matter & Substance.`,
+    };
+
+    return NextResponse.json(response);
+  } catch (error) {
+    console.error("[economy/claim-daily] Error claiming daily yield:", error);
     return NextResponse.json(
-      {
-        success: false,
-        message: "Natal chart data is incomplete. Please update your birth data.",
-      },
-      { status: 400 },
+      { success: false, message: "Failed to claim daily yield. Please try again." },
+      { status: 500 },
     );
   }
-
-  // Check if user is premium for yield multiplier
-  const sub = await subscriptionService.getUserSubscription(user.id);
-  const isPremium = sub?.tier === "premium";
-
-  // Claim the daily yield
-  const yieldResult = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium);
-
-  if (!yieldResult) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "You have already claimed your Cosmic Yield today. Return tomorrow!",
-      },
-      { status: 409 },
-    );
-  }
-
-  const response: ClaimDailyResponse = {
-    success: true,
-    yield: yieldResult,
-    message: `✨ Cosmic Yield collected! +${yieldResult.totalTokens.toFixed(1)} tokens across Spirit, Essence, Matter & Substance.`,
-  };
-
-  return NextResponse.json(response);
 }

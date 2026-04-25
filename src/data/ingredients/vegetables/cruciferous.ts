@@ -21,7 +21,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.95 }, // Cooling effect, gentle force
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn", "Moon"],
-      favorableZodiac: ["Virgo", "Capricorn", "Cancer", "Taurus"],
+      favorableZodiac: ["virgo", "capricorn", "cancer", "taurus"],
       elementalAffinity: {
         base: "Air",
       },
@@ -29,7 +29,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["cooling", "drying", "light", "versatile", "transformative", "nutritious", "fresh"],
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "cruciferous",
     affinities: [
       "cumin",
@@ -81,11 +81,12 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
+      storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cauliflower is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   broccoli: {
     name: "broccoli",
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "cruciferous",
 
     // Slightly bitter, nutritious, complex
@@ -229,7 +230,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Virgo", "Gemini"],
+      favorableZodiac: ["cancer", "virgo", "gemini"],
       seasonalAffinity: ["fall", "winter"],
     },
       culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
@@ -239,11 +240,11 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     name: "cabbage",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["crunchy", "mild", "versatile"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "cruciferous",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
@@ -272,11 +273,11 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     name: "napa cabbage",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
-    category: "vegetables",
+    category: "vegetable",
     subcategory: "cruciferous",
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      favorableZodiac: ["cancer", "taurus", "capricorn"],
       seasonalAffinity: ["summer", "fall"],
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },

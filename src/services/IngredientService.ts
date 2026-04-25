@@ -92,9 +92,19 @@ export class IngredientService implements IngredientServiceInterface {
    */
   getIngredientByName(name: string): UnifiedIngredient | undefined {
     const normalizedName = name.toLowerCase().trim();
+    const normalize = (value: string): string =>
+      value
+        .toLowerCase()
+        .normalize("NFKD")
+        .replace(/[^\w\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    const inputNorm = normalize(normalizedName);
     const allIngredients = this.getAllIngredientsFlat();
-    return allIngredients.find((ingredient) =>
-      ingredient.name.toLowerCase().includes(normalizedName),
+    return (
+      allIngredients.find((ingredient) => normalize(ingredient.name) === inputNorm) ||
+      allIngredients.find((ingredient) => normalize(ingredient.name).includes(inputNorm)) ||
+      allIngredients.find((ingredient) => inputNorm.includes(normalize(ingredient.name)))
     );
   }
   /**

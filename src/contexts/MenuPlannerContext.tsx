@@ -1523,12 +1523,44 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             }
           }
 
+          // If generating for *today*, also subtract nutrition the user has
+          // already logged in the food diary. This turns "remaining macros"
+          // from plan-aware into plan+reality-aware — so the generator stops
+          // recommending 50g of protein at dinner when breakfast already hit it.
+          let eatenCals = 0, eatenProtein = 0, eatenCarbs = 0, eatenFat = 0, eatenFiber = 0;
+          const todayDow = new Date().getDay();
+          if (dayOfWeek === todayDow && currentUser?.userId) {
+            try {
+              const { getServerDayEntries } = await import("@/actions/foodDiary");
+              const todaysEntries = await getServerDayEntries(
+                currentUser.userId,
+                new Date(),
+              );
+              for (const entry of todaysEntries) {
+                const n = entry.nutrition as Record<string, number | undefined>;
+                eatenCals += n?.calories ?? 0;
+                eatenProtein += n?.protein ?? 0;
+                eatenCarbs += n?.carbs ?? 0;
+                eatenFat += n?.fat ?? 0;
+                eatenFiber += n?.fiber ?? 0;
+              }
+            } catch (err) {
+              logger.warn("Could not load diary totals for today", { err });
+            }
+          }
+
+          const consumedCals = plannedCals + eatenCals;
+          const consumedProtein = plannedProtein + eatenProtein;
+          const consumedCarbs = plannedCarbs + eatenCarbs;
+          const consumedFat = plannedFat + eatenFat;
+          const consumedFiber = plannedFiber + eatenFiber;
+
           nutritionalContext = {
-            remainingCalories: nutTargets.dailyCalories ? Math.max(0, nutTargets.dailyCalories - plannedCals) : undefined,
-            remainingProteinG: nutTargets.dailyProteinG ? Math.max(0, nutTargets.dailyProteinG - plannedProtein) : undefined,
-            remainingCarbsG: nutTargets.dailyCarbsG ? Math.max(0, nutTargets.dailyCarbsG - plannedCarbs) : undefined,
-            remainingFatG: nutTargets.dailyFatG ? Math.max(0, nutTargets.dailyFatG - plannedFat) : undefined,
-            remainingFiberG: nutTargets.dailyFiberG ? Math.max(0, nutTargets.dailyFiberG - plannedFiber) : undefined,
+            remainingCalories: nutTargets.dailyCalories ? Math.max(0, nutTargets.dailyCalories - consumedCals) : undefined,
+            remainingProteinG: nutTargets.dailyProteinG ? Math.max(0, nutTargets.dailyProteinG - consumedProtein) : undefined,
+            remainingCarbsG: nutTargets.dailyCarbsG ? Math.max(0, nutTargets.dailyCarbsG - consumedCarbs) : undefined,
+            remainingFatG: nutTargets.dailyFatG ? Math.max(0, nutTargets.dailyFatG - consumedFat) : undefined,
+            remainingFiberG: nutTargets.dailyFiberG ? Math.max(0, nutTargets.dailyFiberG - consumedFiber) : undefined,
             prioritizeProtein: nutTargets.prioritizeProtein,
             prioritizeFiber: nutTargets.prioritizeFiber,
           };

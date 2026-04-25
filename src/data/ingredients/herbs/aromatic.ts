@@ -5,7 +5,7 @@ const rawAromaticHerbs = {
   thyme: {
       description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.",
     name: "Thyme",
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "aromatic",
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
     qualities: ["aromatic", "fresh", "culinary"],
@@ -32,22 +32,22 @@ const rawAromaticHerbs = {
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Air: 0.1 },
         preparationTips: ["Best for drying and preserving"],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Air: 0.2 },
         preparationTips: [
           "Enhanced aromatic properties",
           "Ideal for teas and infusions",
         ],
       },
-      waxingCrescent: {
+      "waxing crescent": {
         elementalBoost: { Air: 0.1, Fire: 0.05 },
         preparationTips: ["Good for light cooking applications"],
       },
-      waxingGibbous: {
+      "waxing gibbous": {
         elementalBoost: { Air: 0.15, Fire: 0.1 },
         preparationTips: ["Perfect for stocks and broths"],
       },
@@ -60,7 +60,7 @@ const rawAromaticHerbs = {
   rosemary: {
       description: "A fragrant, evergreen shrub (*Salvia rosmarinus*) of the mint family known for its needle-like leaves and robust, pine-and-citrus aroma. Its essential oils contain rosmarinic acid, a powerful antioxidant that helps preserve the flavor and freshness of the foods it's cooked with, making it a classic pairing for roasted meats and root vegetables.\\n\\n",
     name: "Rosemary",
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "aromatic",
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     qualities: ["aromatic", "fresh", "culinary"],
@@ -87,35 +87,35 @@ const rawAromaticHerbs = {
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Fire: 0.1, Earth: 0.05 },
         preparationTips: ["Best for subtle infusions", "Good time for drying"],
       },
-      waxingCrescent: {
+      "waxing crescent": {
         elementalBoost: { Fire: 0.15, Air: 0.05 },
         preparationTips: ["Good for infused oils"],
       },
-      firstQuarter: {
+      "first quarter": {
         elementalBoost: { Fire: 0.2 },
         preparationTips: ["Ideal for grilling meats"],
       },
-      waxingGibbous: {
+      "waxing gibbous": {
         elementalBoost: { Fire: 0.25 },
         preparationTips: ["Perfect for roasts and hearty dishes"],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Fire: 0.3 },
         preparationTips: ["Maximum potency", "Best for medicinal preparations"],
       },
-      waningGibbous: {
+      "waning gibbous": {
         elementalBoost: { Fire: 0.2, Air: 0.1 },
         preparationTips: ["Excellent for soups and stews"],
       },
-      lastQuarter: {
+      "last quarter": {
         elementalBoost: { Fire: 0.15, Earth: 0.1 },
         preparationTips: ["Good for marinades"],
       },
-      waningCrescent: {
+      "waning crescent": {
         elementalBoost: { Fire: 0.1, Earth: 0.15 },
         preparationTips: ["Best for subtle applications"],
       },
@@ -128,7 +128,7 @@ const rawAromaticHerbs = {
   basil: {
       description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.",
     name: "Basil",
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "aromatic",
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.2, Water: 0 },
     qualities: ["aromatic", "fresh", "culinary"],
@@ -154,11 +154,11 @@ const rawAromaticHerbs = {
         },
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Air: 0.1, Fire: 0.1 },
           preparationTips: ["Best for fresh pesto"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Ideal for infused oils"],
         },
@@ -191,7 +191,7 @@ const rawAromaticHerbs = {
     qualities: ["warming", "aromatic", "digestive", "stimulating"],
     origin: ["Mediterranean", "Western Asia"],
     season: ["spring", "summer"],
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "culinary",
     affinities: ["potato", "chicken", "fish", "tomato", "celery"],
     cookingMethods: ["fresh", "dried", "infused"],
@@ -217,11 +217,12 @@ const rawAromaticHerbs = {
     modality: "Cardinal",
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lovage is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   "lemon verbena": {
-      description: "An aromatic culinary herb, lemon verbena contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "Lemon Verbena is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Lemon Verbena",
     elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 },
     nutritionalProfile: {
@@ -250,7 +251,7 @@ const rawAromaticHerbs = {
     qualities: ["cooling", "uplifting", "refreshing", "calming"],
     origin: ["South America"],
     season: ["summer"],
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "aromatic",
     affinities: ["fish", "chicken", "desserts", "tea", "fruit"],
     cookingMethods: ["infused", "dried", "fresh"],
@@ -284,11 +285,12 @@ const rawAromaticHerbs = {
     },
     modality: "Mutable",
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lemon Verbena is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   savory: {
-      description: "An aromatic culinary herb, savory contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "Savory is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Savory",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
@@ -317,7 +319,7 @@ const rawAromaticHerbs = {
     qualities: ["warming", "stimulating", "digestive", "astringent"],
     origin: ["Mediterranean"],
     season: ["summer"],
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "culinary",
     affinities: ["beans", "lentils", "meat", "poultry", "eggs"],
     cookingMethods: ["dried", "fresh", "infused"],
@@ -354,11 +356,12 @@ const rawAromaticHerbs = {
     modality: "Fixed",
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Savory is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   "curry leaf": {
-      description: "An aromatic culinary herb, curry leaf contributes volatile aromatic compounds that lift, brighten, or perfume a dish. Fresh and dried forms behave very differently — fresh is vivid and grassy, dried is concentrated and earthier.",
+      description: "Curry Leaf is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Curry Leaf",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
@@ -387,7 +390,7 @@ const rawAromaticHerbs = {
     qualities: ["warming", "stimulating", "digestive", "aromatic"],
     origin: ["India", "Sri Lanka"],
     season: ["year-round"],
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "aromatic",
     affinities: ["lentils", "coconut", "fish", "vegetables", "rice"],
     cookingMethods: ["fried", "fresh", "dried"],
@@ -428,7 +431,8 @@ const rawAromaticHerbs = {
     modality: "Cardinal",
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Curry Leaf is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   chervil: {
@@ -461,7 +465,7 @@ const rawAromaticHerbs = {
     qualities: ["cooling", "delicate", "digestive", "balancing"],
     origin: ["Caucasus", "Russia"],
     season: ["spring", "fall"],
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "culinary",
     affinities: ["eggs", "fish", "chicken", "potatoes", "carrots"],
     cookingMethods: ["fresh", "garnish", "light cooking"],
@@ -488,7 +492,8 @@ const rawAromaticHerbs = {
     modality: "Mutable",
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Chervil is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   dill: {
@@ -513,7 +518,7 @@ const rawAromaticHerbs = {
     qualities: ["cooling", "digestive", "balancing"],
     origin: ["Europe", "Asia"],
     season: ["summer", "fall"],
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "culinary",
     affinities: ["fish", "potatoes", "eggs", "cucumbers", "yogurt"],
     cookingMethods: ["fresh", "garnish", "pickling"],
@@ -541,7 +546,8 @@ const rawAromaticHerbs = {
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dill is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   bay_leaf: {
@@ -566,7 +572,7 @@ const rawAromaticHerbs = {
     qualities: ["warming", "digestive", "aromatic"],
     origin: ["Mediterranean", "Asia Minor"],
     season: ["year-round"],
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "culinary",
     affinities: ["tomatoes", "beans", "meats", "soups", "stews"],
     cookingMethods: ["whole leaf", "removed before serving", "long cooking"],
@@ -592,7 +598,8 @@ const rawAromaticHerbs = {
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Bay Leaf is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   anise: {
       description: "The seed of the *Pimpinella anisum* plant, yielding a distinctively sweet, highly aromatic, and slightly spicy licorice flavor. It shares the volatile compound anethole with fennel and star anise, making it a foundational flavoring for classic Mediterranean spirits like Ouzo, Sambuca, and Absinthe.",
@@ -616,7 +623,7 @@ const rawAromaticHerbs = {
     qualities: ["warming", "digestive", "expectorant"],
     origin: ["Mediterranean", "Middle East"],
     season: ["year-round"],
-    category: "herbs",
+    category: "culinary_herb",
     subCategory: "culinary",
     affinities: ["fish", "pork", "baking", "liqueurs", "pastries"],
     cookingMethods: ["whole seeds", "ground", "infused", "baking"],
@@ -638,7 +645,8 @@ const rawAromaticHerbs = {
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
+      storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Anise is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 };
 

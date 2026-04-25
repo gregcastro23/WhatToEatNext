@@ -3,7 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawRootVegetables = {
   "sweet potato": {
-      description: "A fresh plant food, sweet potato offers fiber, micronutrients, and a characteristic texture-flavor profile that changes dramatically with preparation method — from crisp and raw to tender and caramelized.",
+      description: "Sweet Potato is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "Sweet potato",
 
     // Base elemental properties (unscaled)
@@ -33,7 +33,7 @@ const rawRootVegetables = {
     },
     qualities: ["grounding", "warming", "nourishing"],
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "root",
     affinities: ["cinnamon", "butter", "maple", "pecans", "coconut"],
     cookingMethods: ["roasted", "steamed", "mashed", "grilled"],
@@ -58,7 +58,8 @@ const rawRootVegetables = {
       notes: "Do not refrigerate raw",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Sweet Potato is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   parsnip: {
@@ -67,12 +68,12 @@ const rawRootVegetables = {
     elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Virgo", "Gemini", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["grounding", "warming", "nourishing"],
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "root",
     affinities: ["nutmeg", "cream", "maple", "thyme", "apple"],
     cookingMethods: ["roasted", "mashed", "soup", "fried"],
@@ -98,7 +99,8 @@ const rawRootVegetables = {
       notes: "Store in plastic bag with holes",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Parsnip is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   beet: {
@@ -107,12 +109,12 @@ const rawRootVegetables = {
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Capricorn", "Aries", "Scorpio"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["capricorn", "aries", "scorpio"],
+      seasonalAffinity: ["fall", "winter"],
     },
     qualities: ["grounding", "building", "cleansing"],
     season: ["fall", "winter"],
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "root",
     affinities: ["goat cheese", "walnuts", "orange", "dill", "balsamic"],
     cookingMethods: ["roasted", "raw", "steamed", "pickled"],
@@ -139,7 +141,8 @@ const rawRootVegetables = {
       notes: "Remove greens, store separately",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Beet is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   turnip: {
@@ -148,12 +151,12 @@ const rawRootVegetables = {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
-      favorableZodiac: ["Capricorn", "Cancer", "Taurus"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["capricorn", "cancer", "taurus"],
+      seasonalAffinity: ["fall", "winter"],
     },
     qualities: ["cooling", "cleansing"],
     season: ["fall", "winter", "spring"],
-    category: "vegetables",
+    category: "vegetable",
     subCategory: "root",
     affinities: ["butter", "cream", "mustard", "thyme", "bacon"],
     cookingMethods: ["roasted", "mashed", "braised", "raw"],
@@ -179,7 +182,8 @@ const rawRootVegetables = {
       notes: "Store in plastic bag with holes",
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
-      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Turnip is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 };
 

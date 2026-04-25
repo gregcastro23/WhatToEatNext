@@ -33,7 +33,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sour", "cooling", "cleansing"],
     season: ["winter", "spring"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["honey", "ginger", "mint", "thyme", "lavender"],
     cookingMethods: ["raw", "juiced", "preserved", "zested"],
@@ -64,7 +64,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       notes: "Will continue to ripen at room temperature",
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.1, sour: 0.9, bitter: 0.3, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lemon is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   orange: {
@@ -98,7 +99,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "warming", "nourishing"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["vanilla", "cinnamon", "chocolate", "cranberry", "dates"],
     cookingMethods: ["raw", "juiced", "zested", "candied"],
@@ -129,7 +130,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       notes: "Keep away from apples and bananas",
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.6, sour: 0.5, bitter: 0.2, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Orange is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   lime: {
@@ -152,7 +154,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["sour", "cooling", "refreshing"],
     season: ["year-round"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["mint", "coconut", "chili", "cilantro", "ginger"],
     cookingMethods: ["raw", "juiced", "zested", "preserved"],
@@ -194,7 +196,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       },
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lime is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   grapefruit: {
@@ -217,7 +220,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["bitter-sweet", "tart", "refreshing"],
     season: ["winter", "spring"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["mint", "honey", "avocado", "fennel", "rosemary"],
     cookingMethods: ["raw", "juiced", "broiled", "preserved"],
@@ -261,7 +264,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       },
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Grapefruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   mandarin: {
@@ -272,7 +276,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Sagittarius"],
+      favorableZodiac: ["leo", "gemini", "sagittarius"],
       seasonalAffinity: ["winter", "spring"],
     },
 
@@ -289,7 +293,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["sweet", "delicate", "aromatic"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["chocolate", "vanilla", "ginger", "cinnamon", "almond"],
     cookingMethods: ["raw", "juiced", "preserved", "candied"],
@@ -320,7 +324,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       notes: "Keep in cool, dry place",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Mandarin is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   clementine: {
@@ -343,7 +348,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["sweet", "juicy", "easy-to-peel", "seedless"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["honey", "vanilla", "mint", "cinnamon"],
     cookingMethods: ["raw", "juiced", "preserved"],
@@ -385,7 +390,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       },
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] }
+      pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Clementine is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
 
   pomelo: {
@@ -408,7 +414,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     qualities: ["mild", "sweet", "aromatic", "large", "juicy"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     affinities: ["mint", "honey", "ginger", "cinnamon"],
     cookingMethods: ["raw", "juiced", "salads"],
@@ -481,7 +487,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         },
       },
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Pomelo is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   yuzu: {
       description: "A highly aromatic, bumpy, and tart citrus fruit (*Citrus junos*) native to East Asia. It produces very little juice, but its intensely fragrant zest offers a profoundly complex, floral aroma that tastes like a hybrid of lemon, mandarin, and grapefruit, famously used to flavor ponzu sauce.",
@@ -497,7 +504,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["aromatic", "tart", "floral", "complex"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 fruit juice (30ml)",
@@ -551,7 +558,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 weeks",
       notes: "Highly aromatic and prized in Japanese cuisine",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Yuzu is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   bergamot: {
       description: "A highly aromatic, bitter citrus fruit (*Citrus bergamia*) primarily cultivated for its essential oils extracted from the rind. This intensely fragrant, floral, and slightly spicy oil is the defining flavor of Earl Grey tea and adds a profoundly sophisticated, perfumed note to marmalades and delicate pastries.",
@@ -567,7 +575,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["aromatic", "bitter", "floral", "perfumed"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 tsp zest (2g)",
@@ -621,7 +629,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "2 weeks",
       notes: "Primarily used for zest and oil in Earl Grey tea",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Bergamot is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   kumquat: {
       description: "A tiny, bite-sized citrus fruit (*Citrus japonica*) possessing a unique biological inversion: its rind is incredibly sweet and floral, while its juice and flesh are sharply, intensely sour. This contrast makes them perfect for eating whole (raw) or boiling down into deeply complex, sweet-and-sour marmalades.",
@@ -637,7 +646,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet-tart", "tiny", "edible peel", "intense"],
     season: ["winter", "spring"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "5 fruits (95g)",
@@ -691,7 +700,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "2 weeks",
       notes: "Eat whole - sweet peel, tart flesh",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Kumquat is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   finger_lime: {
       description: "A highly unusual micro-citrus (*Citrus australasica*) native to Australia. When the thin, elongated fruit is cut open, it reveals hundreds of tiny, spherical juice vesicles that resemble caviar; when bitten, they explode with an intense, tart, and floral lime flavor.",
@@ -707,7 +717,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["tart", "caviar-like", "elegant", "unique"],
     season: ["summer", "fall"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 fruit (15g)",
@@ -761,7 +771,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 weeks",
       notes: "Caviar-like pearls burst with flavor",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Finger Lime is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   blood_orange: {
       description: "A visually striking citrus fruit (*Citrus × sinensis*) characterized by its deep crimson flesh, which results from the presence of anthocyanins (antioxidants rare in citrus). They offer a complex flavor profile that combines traditional bright orange sweetness with distinct notes of raspberry and tart cherry.",
@@ -777,7 +788,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "berry-like", "red flesh", "aromatic"],
     season: ["winter", "spring"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 medium (131g)",
@@ -831,7 +842,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 weeks",
       notes: "Distinctive raspberry-like flavor, burgundy flesh",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Blood Orange is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 
   tangerine: {
       description: "A specific variety of mandarin orange (*Citrus tangerina*) characterized by its deep red-orange hue and pebbly skin. It is exceptionally sweet, juicy, and highly aromatic, with a more pronounced, complex citrus bite than standard navel oranges.",
@@ -847,7 +859,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ["sweet", "easy-peel", "aromatic", "bright"],
     season: ["winter"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "citrus",
     nutritionalProfile: {
       serving_size: "1 medium (88g)",
@@ -901,7 +913,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 weeks",
       notes: "Very easy to peel and segment",
     },
-  },
+      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Tangerine is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

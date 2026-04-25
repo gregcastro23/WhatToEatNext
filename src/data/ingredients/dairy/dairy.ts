@@ -47,8 +47,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (244g)",
@@ -119,8 +119,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (244g)",
@@ -149,7 +149,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   buttermilk: {
-      description: "A dairy product, buttermilk contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Buttermilk is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "buttermilk",
     elementalProperties: { Fire: 0.05, Water: 0.55, Earth: 0.15, Air: 0.25 },
     alchemicalProperties: { Spirit: 0.18, Essence: 0.32, Matter: 0.26, Substance: 0.24 },
@@ -196,8 +196,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Gemini", "Virgo", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "virgo", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (245g)",
@@ -260,8 +260,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
-      favorableZodiac: ["Leo", "Taurus", "Libra"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["leo", "taurus", "libra"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (252g)",
@@ -324,8 +324,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Virgo", "Gemini", "Aquarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini", "aquarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (245g)",
@@ -388,8 +388,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Virgo", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "virgo", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -452,8 +452,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra", "Aquarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["gemini", "libra", "aquarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -509,8 +509,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
-      favorableZodiac: ["Leo", "Sagittarius", "Pisces"],
-      seasonalAffinity: ["summer", "all"],
+      favorableZodiac: ["leo", "sagittarius", "pisces"],
+      seasonalAffinity: ["summer", "fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -582,8 +582,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Libra", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15g)",
@@ -648,8 +648,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Cancer", "Virgo", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "virgo", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15g)",
@@ -670,7 +670,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   creme_fraiche: {
-      description: "A dairy product, creme fraiche contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Crème Fraîche is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "crème fraîche",
     elementalProperties: { Fire: 0.12, Water: 0.4, Earth: 0.32, Air: 0.16 },
     alchemicalProperties: { Spirit: 0.12, Essence: 0.60, Matter: 0.50, Substance: 0.42 },
@@ -718,8 +718,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Taurus", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["libra", "taurus", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15g)",
@@ -788,8 +788,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Libra", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -810,7 +810,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   clotted_cream: {
-      description: "A dairy product, clotted cream contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Clotted Cream is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "clotted cream",
     elementalProperties: { Fire: 0.22, Water: 0.28, Earth: 0.42, Air: 0.08 },
     alchemicalProperties: { Spirit: 0.12, Essence: 0.26, Matter: 0.32, Substance: 0.3 },
@@ -852,8 +852,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
-      favorableZodiac: ["Taurus", "Capricorn", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "capricorn", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -910,8 +910,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "leo", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -969,8 +969,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -1033,8 +1033,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Capricorn", "Taurus", "Virgo"],
-      seasonalAffinity: ["winter", "autumn"],
+      favorableZodiac: ["capricorn", "taurus", "virgo"],
+      seasonalAffinity: ["winter", "fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -1097,8 +1097,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Libra", "Taurus", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["libra", "taurus", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -1166,8 +1166,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
-      favorableZodiac: ["Leo", "Aries", "Sagittarius"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "aries", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -1230,8 +1230,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
-      favorableZodiac: ["Leo", "Sagittarius", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "sagittarius", "aries"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -1294,8 +1294,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["aries", "leo", "scorpio"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -1365,8 +1365,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1431,7 +1431,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Pisces", "Taurus"],
+      favorableZodiac: ["cancer", "pisces", "taurus"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -1495,8 +1495,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Virgo", "Cancer", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "cancer", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (226g)",
@@ -1517,7 +1517,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   quark: {
-      description: "A dairy product, quark contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Quark is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "quark",
     elementalProperties: { Fire: 0.04, Water: 0.58, Earth: 0.26, Air: 0.12 },
     alchemicalProperties: { Spirit: 0.1, Essence: 0.3, Matter: 0.32, Substance: 0.28 },
@@ -1559,8 +1559,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["Virgo", "Gemini", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "100g",
@@ -1581,7 +1581,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   labneh: {
-      description: "A dairy product, labneh contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Labneh is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "labneh",
     elementalProperties: { Fire: 0.07, Water: 0.45, Earth: 0.35, Air: 0.13 },
     alchemicalProperties: { Spirit: 0.18, Essence: 0.55, Matter: 0.52, Substance: 0.48 },
@@ -1623,8 +1623,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1687,8 +1687,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Jupiter"],
-      favorableZodiac: ["Cancer", "Sagittarius", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "sagittarius", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1752,7 +1752,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Venus"],
-      favorableZodiac: ["Aries", "Capricorn", "Taurus"],
+      favorableZodiac: ["aries", "capricorn", "taurus"],
       seasonalAffinity: ["spring", "summer"],
     },
     nutritionalProfile: {
@@ -1816,8 +1816,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Libra", "Taurus", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["libra", "taurus", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1880,8 +1880,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Pluto"],
-      favorableZodiac: ["Scorpio", "Taurus", "Libra"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["scorpio", "taurus", "libra"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -1944,7 +1944,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Neptune"],
-      favorableZodiac: ["Aries", "Pisces", "Sagittarius"],
+      favorableZodiac: ["aries", "pisces", "sagittarius"],
       seasonalAffinity: ["summer", "spring"],
     },
     nutritionalProfile: {
@@ -2008,7 +2008,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Libra", "Cancer"],
+      favorableZodiac: ["taurus", "libra", "cancer"],
       seasonalAffinity: ["summer", "spring"],
     },
     nutritionalProfile: {
@@ -2073,8 +2073,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2139,8 +2139,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Libra", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "libra", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2203,8 +2203,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["Cancer", "Taurus", "Gemini"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["cancer", "taurus", "gemini"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2267,8 +2267,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["Taurus", "Sagittarius", "Libra"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["taurus", "sagittarius", "libra"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2331,7 +2331,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Sagittarius"],
+      favorableZodiac: ["aries", "leo", "sagittarius"],
       seasonalAffinity: ["summer", "spring"],
     },
     nutritionalProfile: {
@@ -2396,8 +2396,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Capricorn", "Taurus", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "taurus", "aries"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2420,7 +2420,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   gruy_re_cheese: {
-      description: "A dairy product, gruy re cheese contributes fat, protein, moisture, and rich mouthfeel. Heat, acid, and age transform its character — from liquid to curd, from fresh to aged.",
+      description: "Gruyère Cheese is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "Gruyère cheese",
     elementalProperties: { Fire: 0.24, Water: 0.22, Earth: 0.44, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.14, Essence: 0.17, Matter: 0.31, Substance: 0.38 },
@@ -2462,8 +2462,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
-      favorableZodiac: ["Sagittarius", "Taurus", "Libra"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["sagittarius", "taurus", "libra"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2533,8 +2533,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
-      favorableZodiac: ["Capricorn", "Taurus", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "taurus", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2599,8 +2599,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
-      favorableZodiac: ["Aries", "Capricorn", "Scorpio"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["aries", "capricorn", "scorpio"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2663,8 +2663,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Saturn"],
-      favorableZodiac: ["Sagittarius", "Capricorn", "Taurus"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["sagittarius", "capricorn", "taurus"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
@@ -2727,8 +2727,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Venus"],
-      favorableZodiac: ["Sagittarius", "Taurus", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["sagittarius", "taurus", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 oz (28g)",

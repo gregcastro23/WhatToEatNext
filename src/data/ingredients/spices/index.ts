@@ -95,7 +95,7 @@ export const spices = fixIngredientMappings({
       },
     },
     qualities: ["earthy", "warm", "aromatic"],
-    category: "spices",
+    category: "spice",
     varieties: {
       Indian: {
         origin: "India",
@@ -122,29 +122,29 @@ export const spices = fixIngredientMappings({
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Fire: 0.1, Earth: 0.05 },
           preparationTips: ["Good for subtle infusions"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: [
             "Spice potency enhanced",
             "Ideal for ceremonial uses",
           ],
         },
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Fire: 0.15 },
           preparationTips: ["Good for baking applications"],
         },
-        firstQuarter: {
+        "first quarter": {
           elementalBoost: { Fire: 0.1, Air: 0.1 },
           preparationTips: ["Ideal for tea blends"],
         },
       },
     },
     qualities: ["warm", "sweet", "aromatic"],
-    category: "spices",
+    category: "spice",
     varieties: {
       Ceylon: {
         origin: "Sri Lanka",
@@ -171,30 +171,30 @@ export const spices = fixIngredientMappings({
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Fire: 0.1 },
           preparationTips: ["Use sparingly", "Good for subtle heat"],
         },
-        waxingCrescent: {
+        "waxing crescent": {
           elementalBoost: { Fire: 0.15 },
           preparationTips: ["Building heat for marinades"],
         },
-        firstQuarter: {
+        "first quarter": {
           elementalBoost: { Fire: 0.2 },
           preparationTips: ["Ideal for medium-spicy dishes"],
         },
-        waxingGibbous: {
+        "waxing gibbous": {
           elementalBoost: { Fire: 0.25 },
           preparationTips: ["Strong heat for bold dishes"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Fire: 0.3 },
           preparationTips: ["Maximum heat potential", "Best for spicy feasts"],
         },
       },
     },
     qualities: ["hot", "spicy", "stimulating"],
-    category: "spices",
+    category: "spice",
     varieties: {
       Red: {
         origin: "Global",
@@ -206,7 +206,7 @@ export const spices = fixIngredientMappings({
     elementalProperties: { Fire: 0.45, Earth: 0.3, Air: 0.15, Water: 0.1 },
     name: "paprika",
     qualities: ["earthy", "warm", "sweet"],
-    category: "spices",
+    category: "spice",
     varieties: {
       sweet: {
         flavor: "mild, fruity",
@@ -222,30 +222,30 @@ export const spices = fixIngredientMappings({
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Earth: 0.1, Fire: 0.05 },
         preparationTips: ["Good for subtle color and flavor"],
       },
-      waxingCrescent: {
+      "waxing crescent": {
         elementalBoost: { Fire: 0.1, Earth: 0.05 },
         preparationTips: ["Building flavor for rubs and marinades"],
       },
-      firstQuarter: {
+      "first quarter": {
         elementalBoost: { Fire: 0.15, Earth: 0.1 },
         preparationTips: ["Ideal for stews and goulash"],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Fire: 0.2, Earth: 0.1 },
         preparationTips: [
           "Color and flavor most vibrant",
           "Best for showcase dishes",
         ],
       },
-      waningGibbous: {
+      "waning gibbous": {
         elementalBoost: { Earth: 0.15, Fire: 0.1 },
         preparationTips: ["Good for hearty roasted dishes"],
       },
-      waningCrescent: {
+      "waning crescent": {
         elementalBoost: { Earth: 0.2 },
         preparationTips: ["Best for subtle, earthy applications"],
       },
@@ -255,53 +255,53 @@ export const spices = fixIngredientMappings({
     elementalProperties: { Fire: 0.3, Earth: 0.5, Air: 0.1, Water: 0.1 },
     name: "turmeric",
     qualities: ["earthy", "bitter", "warm"],
-    category: "spices",
+    category: "spice",
     potency: 7,
     health_benefits: ["anti-inflammatory", "antioxidant"],
     pigment_strength: 9,
     staining_risk: 8,
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Earth: 0.15 },
         preparationTips: [
           "Good for starting cleansing routines",
           "Subtle medicinal use",
         ],
       },
-      waxingCrescent: {
+      "waxing crescent": {
         elementalBoost: { Earth: 0.1, Fire: 0.1 },
         preparationTips: ["Building healing properties", "Good for curries"],
       },
-      firstQuarter: {
+      "first quarter": {
         elementalBoost: { Fire: 0.15, Earth: 0.15 },
         preparationTips: [
           "Medicinal potency increasing",
           "Ideal for golden milk",
         ],
       },
-      waxingGibbous: {
+      "waxing gibbous": {
         elementalBoost: { Earth: 0.2, Fire: 0.1 },
         preparationTips: [
           "Strong healing properties",
           "Good for therapeutic dishes",
         ],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Earth: 0.25, Fire: 0.1 },
         preparationTips: [
           "Maximum medicinal potency",
           "Best for healing rituals",
         ],
       },
-      waningGibbous: {
+      "waning gibbous": {
         elementalBoost: { Earth: 0.2, Water: 0.1 },
         preparationTips: ["Good for detoxifying recipes"],
       },
-      lastQuarter: {
+      "last quarter": {
         elementalBoost: { Earth: 0.15, Water: 0.1 },
         preparationTips: ["Balancing properties for savory dishes"],
       },
-      waningCrescent: {
+      "waning crescent": {
         elementalBoost: { Earth: 0.1, Water: 0.15 },
         preparationTips: ["Gentle applications", "Good for subtle coloring"],
       },

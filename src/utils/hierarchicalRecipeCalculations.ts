@@ -13,6 +13,7 @@
 
 import { calculateKinetics } from "@/calculations/kinetics";
 import { ZERO_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
+import { unifiedIngredientService } from "@/services/UnifiedIngredientService";
 import type {
   CookingMethod,
   ElementalProperties,
@@ -200,14 +201,44 @@ export function aggregateIngredientElementals(
     Air: 0,
   };
 
-  for (const ingredient of ingredients) {
-    if (!ingredient.elementalProperties) continue;
+  for (const recipeIngredient of ingredients) {
+    // 1. Resolve composite ingredients if applicable
+    const resolvedProfile = unifiedIngredientService.getIngredientByName(recipeIngredient.name);
+
+    if (resolvedProfile && Array.isArray(resolvedProfile.compositeElements) && resolvedProfile.compositeElements.length > 0) {
+      // It's a composite ingredient (like Mirepoix or Bouquet Garni)
+      const composites = resolvedProfile.compositeElements as string[];
+      const numComponents = composites.length;
+      // Distribute the quantity equally among constituents
+      const sharedAmount = (Number(recipeIngredient.amount) || 1) / numComponents;
+
+      for (const compName of composites) {
+        const compProfile = unifiedIngredientService.getIngredientByName(compName);
+        if (compProfile && compProfile.elementalProperties) {
+          const scaled = scaleIngredientByQuantity(
+            compProfile.elementalProperties,
+            sharedAmount,
+            recipeIngredient.unit || "g",
+          );
+          totals.Fire += scaled.scaled.Fire;
+          totals.Water += scaled.scaled.Water;
+          totals.Earth += scaled.scaled.Earth;
+          totals.Air += scaled.scaled.Air;
+        }
+      }
+      continue; // Skip the base ingredient's native elementals since we unpacked it
+    }
+
+    // 2. Fall back to the ingredient's provided elementals or the profile's elementals
+    const elementals = recipeIngredient.elementalProperties || resolvedProfile?.elementalProperties;
+
+    if (!elementals) continue;
 
     // Scale by quantity
     const scaled = scaleIngredientByQuantity(
-      ingredient.elementalProperties,
-      Number(ingredient.amount) || 1,
-      ingredient.unit || "g",
+      elementals,
+      Number(recipeIngredient.amount) || 1,
+      recipeIngredient.unit || "g",
     );
 
     // Add to totals (raw aggregation - no normalization)
@@ -293,7 +324,7 @@ export function computeRecipeProperties(
   if (!options.planetaryPositions) {
     throw new Error(
       "planetaryPositions are required for recipe property calculation. " +
-        "ESMS values cannot be derived without astrological context.",
+      "ESMS values cannot be derived without astrological context.",
     );
   }
 

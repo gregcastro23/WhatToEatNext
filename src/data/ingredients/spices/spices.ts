@@ -8,10 +8,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "ginger",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
+      favorableZodiac: ["aries", "leo", "scorpio"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -39,10 +39,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "cinnamon",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
+      favorableZodiac: ["aries", "leo", "scorpio"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -70,10 +70,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "nutmeg",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
+      favorableZodiac: ["aries", "leo", "scorpio"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -101,10 +101,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "paprika",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
+      favorableZodiac: ["aries", "leo", "scorpio"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -128,15 +128,15 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   red_bean_paste: {
-      description: "A dried aromatic spice, red bean paste carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Red Bean Paste is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "red bean paste",
     elementalProperties: { Fire: 0.25, Water: 0.2, Earth: 0.4, Air: 0.15 },
     qualities: ["sweet", "earthy", "dense"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["taurus", "cancer"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (18g)",
@@ -159,14 +159,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   curry_leaves: {
-      description: "A dried aromatic spice, curry leaves carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Curry Leaves is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "curry leaves",
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Sun"],
-      favorableZodiac: ["Virgo", "Leo"],
+      favorableZodiac: ["virgo", "leo"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -194,10 +194,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "mustard seeds",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["pungent", "hot", "flavorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
+      favorableZodiac: ["aries", "leo", "scorpio"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -230,11 +230,11 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "turmeric",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.25, Air: 0.3 },
     qualities: ["aromatic", "flavorful", "healing", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Jupiter", "Sun"],
-      favorableZodiac: ["Sagittarius", "Leo"],
-      seasonalAffinity: ["autumn", "winter"],
+      favorableZodiac: ["sagittarius", "leo"],
+      seasonalAffinity: ["fall", "winter"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (3g)",
@@ -257,14 +257,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   green_chilies: {
-      description: "A dried aromatic spice, green chilies carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Green Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "green chilies",
     elementalProperties: { Fire: 0.55, Water: 0.1, Earth: 0.1, Air: 0.25 },
     qualities: ["spicy", "pungent", "vibrant"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
+      favorableZodiac: ["aries", "scorpio"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -288,14 +288,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   chole_masala: {
-      description: "A dried aromatic spice, chole masala carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Chole Masala is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "chole masala",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
-      favorableZodiac: ["Aries", "Leo", "Scorpio"],
+      favorableZodiac: ["aries", "leo", "scorpio"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -319,14 +319,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   chaat_masala: {
-      description: "A dried aromatic spice, chaat masala carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Chaat Masala is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "chaat masala",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.2, Air: 0.35 },
     qualities: ["tangy", "aromatic", "flavorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Mercury"],
-      favorableZodiac: ["Aries", "Gemini"],
+      favorableZodiac: ["aries", "gemini"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -354,10 +354,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "cumin seeds",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.3, Air: 0.25 },
     qualities: ["earthy", "warm", "pungent"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Virgo", "Capricorn"],
+      favorableZodiac: ["virgo", "capricorn"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -385,10 +385,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "garam masala",
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "warming", "complex"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Jupiter"],
-      favorableZodiac: ["Aries", "Sagittarius"],
+      favorableZodiac: ["aries", "sagittarius"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -416,10 +416,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "cardamom",
     elementalProperties: { Fire: 0.35, Water: 0.05, Earth: 0.2, Air: 0.4 },
     qualities: ["aromatic", "flavorful", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra"],
+      favorableZodiac: ["gemini", "libra"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -447,11 +447,11 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "saffron",
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.2, Air: 0.3 },
     qualities: ["aromatic", "luxurious", "coloring"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
-      favorableZodiac: ["Leo", "Sagittarius"],
-      seasonalAffinity: ["autumn"],
+      favorableZodiac: ["leo", "sagittarius"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (0.7g)",
@@ -474,14 +474,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   curry_roux: {
-      description: "A dried aromatic spice, curry roux carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Curry Roux is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "curry roux",
     elementalProperties: { Fire: 0.35, Water: 0.15, Earth: 0.3, Air: 0.2 },
     qualities: ["aromatic", "flavorful", "thickening"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Jupiter"],
-      favorableZodiac: ["Aries", "Sagittarius"],
+      favorableZodiac: ["aries", "sagittarius"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -509,10 +509,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "chili powder",
     elementalProperties: { Fire: 0.55, Water: 0.05, Earth: 0.15, Air: 0.25 },
     qualities: ["spicy", "flavorful", "warming"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
+      favorableZodiac: ["aries", "scorpio"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -540,10 +540,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "cumin",
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.3, Air: 0.25 },
     qualities: ["earthy", "warm", "pungent"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["Virgo", "Capricorn"],
+      favorableZodiac: ["virgo", "capricorn"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -571,10 +571,10 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "coriander",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.3, Air: 0.3 },
     qualities: ["citrusy", "aromatic", "flavorful"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["Gemini", "Libra"],
+      favorableZodiac: ["gemini", "libra"],
       seasonalAffinity: ["spring"],
     },
     nutritionalProfile: {
@@ -598,14 +598,14 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   thai_chilies: {
-      description: "A dried aromatic spice, thai chilies carries highly concentrated essential oils and flavor compounds. Heat in fat or toasting bloom its character; age and light degrade it, so fresh whole spice ground as needed gives the best results.",
+      description: "Thai Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "Thai chilies",
     elementalProperties: { Fire: 0.6, Water: 0.05, Earth: 0.1, Air: 0.25 },
     qualities: ["very spicy", "pungent", "vibrant"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
-      favorableZodiac: ["Aries", "Scorpio"],
+      favorableZodiac: ["aries", "scorpio"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -633,11 +633,11 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
     name: "shrimp paste",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["umami", "pungent", "savory"],
-    category: "spices",
+    category: "spice",
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
-      favorableZodiac: ["Pisces", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["pisces", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tsp (5g)",

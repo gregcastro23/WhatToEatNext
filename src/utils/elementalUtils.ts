@@ -431,13 +431,15 @@ export function fixIngredientMapping(
 
 /**
  * Normalize a record of ingredient mappings.
+ * Accepts loose shapes — each value must contain at least `elementalProperties`
+ * but may carry extra metadata that will pass through via the index signature.
  */
-export function fixIngredientMappings<
-  T extends Record<string, Partial<IngredientMapping>>,
->(ingredients: T): Record<string, IngredientMapping> {
+export function fixIngredientMappings(
+  ingredients: Record<string, Record<string, unknown>>,
+): Record<string, IngredientMapping> {
   const result: Record<string, IngredientMapping> = {};
   Object.entries(ingredients).forEach(([k, v]) => {
-    result[k] = fixIngredientMapping(v, k);
+    result[k] = fixIngredientMapping(v as Partial<IngredientMapping>, k);
   });
   return result;
 }

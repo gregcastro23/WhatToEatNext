@@ -37,7 +37,7 @@ const rawAromatics = {
       minerals: { manganese: 0.06, phosphorus: 0.04, potassium: 0.05 },
     },
     origin: ["Global"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "allium",
     varieties: {},
     culinaryApplications: {
@@ -99,7 +99,7 @@ const rawAromatics = {
       minerals: { manganese: 0.08, selenium: 0.01 },
     },
     origin: ["Central Asia"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "allium",
     varieties: {},
     culinaryApplications: {
@@ -161,7 +161,7 @@ const rawAromatics = {
       minerals: { manganese: 0.01, copper: 0.01, magnesium: 0.01 },
     },
     origin: ["Southeast Asia"],
-    category: "spices",
+    category: "spice",
     subCategory: "rhizome",
     varieties: {
       Young: {
@@ -237,7 +237,7 @@ const rawAromatics = {
       minerals: { manganese: 0.28, iron: 0.23, zinc: 0.1, potassium: 0.1 },
     },
     origin: ["Southeast Asia"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "herb",
     culinaryApplications: {
       infusing: {
@@ -303,7 +303,7 @@ const rawAromatics = {
       minerals: { manganese: 0.02, iron: 0.01 },
     },
     origin: ["Southeast Asia"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "allium",
     culinaryApplications: {
       diced: {
@@ -359,7 +359,7 @@ const rawAromatics = {
       minerals: { iron: 0.01, manganese: 0.01 },
     },
     origin: ["Asia"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "allium",
     culinaryApplications: {
       cooked: {
@@ -420,7 +420,7 @@ const rawAromatics = {
       minerals: { manganese: 0.14, iron: 0.04 },
     },
     origin: ["Iran"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "spices",
     culinaryApplications: {
       infusing: {

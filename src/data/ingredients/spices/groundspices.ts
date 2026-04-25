@@ -37,7 +37,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       minerals: { manganese: 0.22, calcium: 0.03, iron: 0.01 },
     },
     origin: ["Sri Lanka", "Indonesia", "China"],
-    category: "spices",
+    category: "spice",
     subCategory: "ground",
     varieties: {
       Ceylon: "true cinnamon, more delicate",

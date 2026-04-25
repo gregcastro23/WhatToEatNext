@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
-import { getRecipesForIngredient, getRecipeCountForIngredient, getRecipesByCuisineForIngredient } from "@/data/ingredientRecipeIndex";
+import {
+  getRecipeCountForIngredient,
+  getRecipesByCuisineForIngredient,
+  getRecipesForIngredient,
+  resolveIngredientSlug,
+} from "@/data/ingredientRecipeIndex";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
@@ -61,14 +66,20 @@ export async function GET(
 ) {
   try {
     const { name } = await props.params;
-    const ingredientName = decodeURIComponent(name);
+    const ingredientName = decodeURIComponent(name || "").trim();
+    if (!ingredientName) {
+      return NextResponse.json(
+        { success: false, error: "Ingredient name is required" },
+        { status: 400 },
+      );
+    }
 
     const ingredientService = IngredientService.getInstance();
     const ingredient = ingredientService.getIngredientByName(ingredientName);
 
     // Resolve canonical slug for the recipe index
     const canonicalName = ingredient?.name || ingredientName;
-    const slug = canonicalName.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/(^_|_$)/g, '');
+    const slug = resolveIngredientSlug(canonicalName) ?? resolveIngredientSlug(ingredientName) ?? canonicalName;
 
     // Get from pre-computed recipe index
     const matches = getRecipesForIngredient(slug);

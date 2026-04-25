@@ -3176,12 +3176,73 @@ class FoodDiaryService {
     return this.favorites.get(userId) || [];
   }
 
+  /**
+   * Remove a favorite for a user. Matches by favorite id OR food name.
+   * Also clears the isFavorite flag on any of the user's entries that
+   * reference the removed food name, so the UI stays in sync.
+   */
+  async removeFavorite(
+    userId: string,
+    favoriteIdOrName: string,
+  ): Promise<boolean> {
+    const userFavorites = this.favorites.get(userId);
+    if (!userFavorites || userFavorites.length === 0) return false;
+
+    const idx = userFavorites.findIndex(
+      (f) => f.id === favoriteIdOrName || f.foodName === favoriteIdOrName,
+    );
+    if (idx < 0) return false;
+
+    const [removed] = userFavorites.splice(idx, 1);
+    this.favorites.set(userId, userFavorites);
+
+    // Clear isFavorite flag on matching entries (in-memory)
+    const userEntryIds = this.userEntries.get(userId);
+    if (userEntryIds) {
+      for (const entryId of userEntryIds) {
+        const entry = this.entries.get(entryId);
+        if (entry && entry.foodName === removed.foodName && entry.isFavorite) {
+          entry.isFavorite = false;
+          entry.updatedAt = new Date();
+          this.entries.set(entryId, entry);
+        }
+      }
+    }
+
+    // Best-effort DB sync
+    const db = await getDbModule();
+    if (db) {
+      try {
+        await db.executeQuery(
+          `UPDATE food_diary_entries
+           SET is_favorite = false, updated_at = NOW()
+           WHERE user_id = $1 AND food_name = $2`,
+          [userId, removed.foodName],
+        );
+      } catch (error) {
+        _logger.warn("removeFavorite DB sync failed", error as any);
+      }
+    }
+
+    this.invalidateCache(userId);
+    this.saveToStorage();
+    _logger.info("Food favorite removed", {
+      userId,
+      favoriteId: removed.id,
+      foodName: removed.foodName,
+    });
+    return true;
+  }
+
   // ============================================================
   // Insights & Recommendations
   // ============================================================
 
   /**
-   * Generate insights from food diary
+   * Generate insights from food diary.
+   *
+   * Covers nutrient gaps/excesses, elemental imbalance, mood-food
+   * correlations, streak recognition, and cuisine diversity scores.
    */
   async generateInsights(userId: string): Promise<FoodInsight[]> {
     const entries = await this.getEntries(userId);
@@ -3239,6 +3300,44 @@ class FoodDiaryService {
       });
     }
 
+    // Saturated fat excess
+    if (
+      typeof dailyTargets.saturatedFat === "number" &&
+      dailyTargets.saturatedFat > 0 &&
+      avgNutrition.saturatedFat > dailyTargets.saturatedFat * 1.2
+    ) {
+      insights.push({
+        id: `insight_sat_fat_${Date.now()}`,
+        type: "excess_warning",
+        priority: "medium",
+        title: "Saturated Fat Running High",
+        description: `Your saturated fat intake (${Math.round(
+          avgNutrition.saturatedFat,
+        )}g) is above the ${dailyTargets.saturatedFat}g target.`,
+        recommendation:
+          "Swap in olive oil, fish, nuts, and avocado for some of the heavier options.",
+        createdAt: new Date(),
+      });
+    }
+
+    // Sugar excess
+    if (
+      typeof dailyTargets.sugar === "number" &&
+      dailyTargets.sugar > 0 &&
+      avgNutrition.sugar > dailyTargets.sugar * 1.3
+    ) {
+      insights.push({
+        id: `insight_sugar_${Date.now()}`,
+        type: "excess_warning",
+        priority: "medium",
+        title: "Added Sugar Trending Up",
+        description: `Your average sugar intake (${Math.round(avgNutrition.sugar)}g) is well above target.`,
+        recommendation:
+          "Check drinks and sauces — they often hide the most sugar.",
+        createdAt: new Date(),
+      });
+    }
+
     // Positive patterns - tracking consistency
     if (patterns.topFoods.length >= 5) {
       insights.push({
@@ -3265,7 +3364,234 @@ class FoodDiaryService {
       });
     }
 
+    // Elemental imbalance (over last 21 entries)
+    const elementalInsight = this.buildElementalImbalanceInsight(recentEntries);
+    if (elementalInsight) insights.push(elementalInsight);
+
+    // Mood / food correlations
+    const moodInsights = this.buildMoodCorrelationInsights(entries);
+    insights.push(...moodInsights);
+
+    // Cuisine diversity
+    const diversityInsight = this.buildCuisineDiversityInsight(recentEntries);
+    if (diversityInsight) insights.push(diversityInsight);
+
+    // Streak recognition
+    const streakInsight = this.buildStreakInsight(entries);
+    if (streakInsight) insights.push(streakInsight);
+
     return insights;
+  }
+
+  /**
+   * Flag when a single element dominates >50% of recent elemental load
+   * or when one is missing entirely.
+   */
+  private buildElementalImbalanceInsight(
+    entries: FoodDiaryEntry[],
+  ): FoodInsight | null {
+    const totals: Record<"Fire" | "Water" | "Earth" | "Air", number> = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
+    let counted = 0;
+    for (const entry of entries) {
+      if (!entry.elementalProperties) continue;
+      counted++;
+      for (const el of ["Fire", "Water", "Earth", "Air"] as const) {
+        totals[el] += entry.elementalProperties[el] ?? 0;
+      }
+    }
+    if (counted < 5) return null;
+
+    const sum = totals.Fire + totals.Water + totals.Earth + totals.Air;
+    if (sum === 0) return null;
+
+    const shares: Record<"Fire" | "Water" | "Earth" | "Air", number> = {
+      Fire: totals.Fire / sum,
+      Water: totals.Water / sum,
+      Earth: totals.Earth / sum,
+      Air: totals.Air / sum,
+    };
+
+    type ElKey = "Fire" | "Water" | "Earth" | "Air";
+    const sharePairs = (Object.entries(shares) as Array<[ElKey, number]>);
+
+    // Dominant element
+    const [dominantEl, dominantShare] = sharePairs.reduce((a, b) =>
+      a[1] > b[1] ? a : b,
+    );
+    // Missing element
+    const [missingEl, missingShare] = sharePairs.reduce((a, b) =>
+      a[1] < b[1] ? a : b,
+    );
+
+    if (dominantShare > 0.5) {
+      return {
+        id: `insight_elemental_dominant_${Date.now()}`,
+        type: "elemental_balance",
+        priority: "medium",
+        title: `${dominantEl} Energy Dominating Your Plate`,
+        description: `Over half of your recent elemental load (${Math.round(
+          dominantShare * 100,
+        )}%) has been ${dominantEl}.`,
+        recommendation: `Try adding foods that lean ${missingEl} for balance.`,
+        data: { shares },
+        createdAt: new Date(),
+      };
+    }
+    if (missingShare < 0.1) {
+      return {
+        id: `insight_elemental_missing_${Date.now()}`,
+        type: "elemental_balance",
+        priority: "low",
+        title: `${missingEl} Running Low`,
+        description: `Only ${Math.round(missingShare * 100)}% of your recent foods carry ${missingEl} energy.`,
+        recommendation: `Consider rotating in something more ${missingEl}-leaning this week.`,
+        data: { shares },
+        createdAt: new Date(),
+      };
+    }
+    return null;
+  }
+
+  /**
+   * Surface foods strongly associated with positive or negative mood tags.
+   */
+  private buildMoodCorrelationInsights(
+    entries: FoodDiaryEntry[],
+  ): FoodInsight[] {
+    const moodCounts: Record<
+      string,
+      { positive: number; negative: number; total: number }
+    > = {};
+    const POSITIVE: MoodTag[] = ["energized", "satisfied", "focused", "content"];
+    const NEGATIVE: MoodTag[] = [
+      "bloated",
+      "tired",
+      "sluggish",
+      "hungry_after",
+      "craving_more",
+    ];
+
+    for (const e of entries) {
+      if (!e.moodTags || e.moodTags.length === 0) continue;
+      const bucket =
+        moodCounts[e.foodName] ||
+        (moodCounts[e.foodName] = { positive: 0, negative: 0, total: 0 });
+      for (const m of e.moodTags) {
+        if (POSITIVE.includes(m)) bucket.positive++;
+        if (NEGATIVE.includes(m)) bucket.negative++;
+        bucket.total++;
+      }
+    }
+
+    const insights: FoodInsight[] = [];
+    for (const [food, counts] of Object.entries(moodCounts)) {
+      if (counts.total < 3) continue; // need some signal
+      const posRate = counts.positive / counts.total;
+      const negRate = counts.negative / counts.total;
+      if (posRate >= 0.7) {
+        insights.push({
+          id: `insight_mood_positive_${food}_${Date.now()}`,
+          type: "positive_pattern",
+          priority: "low",
+          title: `${food} Seems to Treat You Well`,
+          description: `You logged positive moods after ${Math.round(
+            posRate * 100,
+          )}% of your ${food} entries.`,
+          relatedFoods: [food],
+          data: counts,
+          createdAt: new Date(),
+        });
+      } else if (negRate >= 0.6) {
+        insights.push({
+          id: `insight_mood_negative_${food}_${Date.now()}`,
+          type: "improvement_opportunity",
+          priority: "medium",
+          title: `${food} May Not Be Sitting Right`,
+          description: `Most of your ${food} entries (${Math.round(
+            negRate * 100,
+          )}%) are followed by negative mood tags.`,
+          recommendation: "Consider swapping it out or adjusting portion size.",
+          relatedFoods: [food],
+          data: counts,
+          createdAt: new Date(),
+        });
+      }
+    }
+
+    // Cap mood insights so they don't flood the feed.
+    return insights
+      .sort(
+        (a, b) => (b.priority === "medium" ? 1 : 0) - (a.priority === "medium" ? 1 : 0),
+      )
+      .slice(0, 3);
+  }
+
+  /**
+   * Track cuisine diversity over the last ~3 weeks.
+   */
+  private buildCuisineDiversityInsight(
+    entries: FoodDiaryEntry[],
+  ): FoodInsight | null {
+    const cuisines = new Set<string>();
+    for (const e of entries) {
+      const cuisine = ((e as FoodDiaryEntry & { cuisine?: string }).cuisine ?? "")
+        .toString()
+        .trim();
+      if (cuisine) cuisines.add(cuisine.toLowerCase());
+    }
+    if (cuisines.size === 0) return null;
+    if (cuisines.size >= 5) {
+      return {
+        id: `insight_cuisine_diverse_${Date.now()}`,
+        type: "variety_suggestion",
+        priority: "low",
+        title: "Diverse Palate",
+        description: `You've drawn from ${cuisines.size} cuisines recently — nice range.`,
+        createdAt: new Date(),
+      };
+    }
+    if (cuisines.size <= 2) {
+      return {
+        id: `insight_cuisine_narrow_${Date.now()}`,
+        type: "variety_suggestion",
+        priority: "low",
+        title: "Cuisine Variety Is Narrow",
+        description: `Most of your recent meals come from just ${cuisines.size} cuisine${cuisines.size === 1 ? "" : "s"}.`,
+        recommendation:
+          "Try a new cuisine this week — the recipe generator can suggest one.",
+        createdAt: new Date(),
+      };
+    }
+    return null;
+  }
+
+  /**
+   * Congratulate the user on logging streaks.
+   */
+  private buildStreakInsight(entries: FoodDiaryEntry[]): FoodInsight | null {
+    const streak = this.calculateCurrentStreak(entries);
+    if (streak < 3) return null;
+    const title =
+      streak >= 30
+        ? "30+ Day Streak!"
+        : streak >= 14
+          ? "Two-Week Streak"
+          : streak >= 7
+            ? "One-Week Streak"
+            : "3-Day Streak";
+    return {
+      id: `insight_streak_${streak}_${Date.now()}`,
+      type: "positive_pattern",
+      priority: "low",
+      title,
+      description: `You've logged something every day for ${streak} days in a row.`,
+      createdAt: new Date(),
+    };
   }
 
   // ============================================================

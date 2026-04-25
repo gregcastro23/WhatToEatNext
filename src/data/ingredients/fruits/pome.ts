@@ -31,7 +31,7 @@ const rawPome = {
     },
     season: ["fall", "winter"],
     qualities: ["crisp", "sweet", "tart", "versatile", "refreshing"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -181,7 +181,8 @@ const rawPome = {
       Scandinavian: "Apple soup, compotes with cardamom",
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.7, sour: 0.4, bitter: 0.1, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   pear: {
       description: "A delicate pome fruit (*Pyrus communis*) that ripens from the inside out, transforming from crunchy to buttery-soft. Its high sugar content and delicate floral notes make it excellent for eating raw, poaching in wine, or pairing with sharp blue cheeses.",
@@ -212,7 +213,7 @@ const rawPome = {
     },
     season: ["fall", "winter"],
     qualities: ["juicy", "sweet", "fragrant", "delicate", "elegant"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -355,7 +356,8 @@ const rawPome = {
       "Asian Fusion": "Pear in ginger syrup, Asian-spiced poached pears",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   quince: {
       description: "An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).",
@@ -386,7 +388,7 @@ const rawPome = {
     },
     season: ["fall"],
     qualities: ["astringent", "fragrant", "firm", "transformative", "aromatic"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -514,7 +516,8 @@ const rawPome = {
       "Middle Eastern": "Traditional accompaniment to meat dishes",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   asian_pear: {
       description: "A crisp, exceptionally juicy fruit (*Pyrus pyrifolia*) that looks like a round apple but retains the delicate, floral sweetness of a pear. Unlike European pears, they do not soften after picking; their granular, water-dense texture makes them perfect for eating raw or grating into Korean meat marinades to tenderize beef.",
@@ -541,7 +544,7 @@ const rawPome = {
     },
     season: ["late summer", "fall"],
     qualities: ["crisp", "juicy", "refreshing", "fragrant", "delicate"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -658,7 +661,8 @@ const rawPome = {
       "Modern Western": "Gourmet salads, cheese pairings, specialty produce",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   medlar: {
       description: "A sweet edible plant product, medlar delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
@@ -685,7 +689,7 @@ const rawPome = {
     },
     season: ["late fall", "early winter"],
     qualities: ["complex", "unusual", "earthy", "historical", "transformative"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -799,7 +803,8 @@ const rawPome = {
       Modern: "Revival interest among historical food enthusiasts",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   loquat: {
       description: "A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.",
@@ -826,7 +831,7 @@ const rawPome = {
     },
     season: ["spring"],
     qualities: ["sweet-tart", "fragrant", "floral", "refreshing", "unique"],
-    category: "fruits",
+    category: "fruit",
     subCategory: "pome",
     nutritionalProfile: {
       serving_size: "100g",
@@ -945,7 +950,8 @@ const rawPome = {
       California: "Heritage tree often found in old gardens and homesteads",
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
-      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] }
+      culinaryProfile: { flavorProfile: { primary: ["sweet"], secondary: ["acidic", "aromatic"], notes: "Ripeness drives use: firm/underripe for savory, ripe for desserts, overripe for purees." }, cookingMethods: ["raw", "roast", "poach", "jam", "dehydrate"], cuisineAffinity: ["Mediterranean", "tropical", "European", "Asian"], preparationTips: ["Taste for ripeness before committing to a technique.", "Acid balances sweetness; salt amplifies both."] },
+      pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
 };
 

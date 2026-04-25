@@ -9,8 +9,8 @@ const rawSalts = {
     alchemicalProperties: { Spirit: 0.08, Essence: 0.15, Matter: 0.90, Substance: 0.92 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
-      favorableZodiac: ["Virgo", "Gemini", "Cancer"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["virgo", "gemini", "cancer"],
+      seasonalAffinity: ["fall"],
     },
     qualities: ["delicate", "moist", "mineral"],
     nutritionalProfile: {
@@ -30,7 +30,7 @@ const rawSalts = {
       minerals: { calcium: 0.01, magnesium: 0.01 },
     },
     origin: ["France", "Portugal"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "salt",
     varieties: {
       Guérande: {
@@ -511,7 +511,7 @@ const rawSalts = {
       minerals: {},
     },
     origin: ["United Kingdom"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "salt",
     varieties: {
       Smoked: {
@@ -621,11 +621,11 @@ const rawSalts = {
         },
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        "new moon": {
           elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ["Best for brining"],
         },
-        fullMoon: {
+        "full moon": {
           elementalBoost: { Water: 0.2 },
           preparationTips: ["Ideal for finishing dishes"],
         },
@@ -649,7 +649,7 @@ const rawSalts = {
       minerals: { magnesium: 0.02, calcium: 0.01 },
     },
     origin: ["Various"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "salt",
     varieties: {
       Smoked: {
@@ -699,7 +699,7 @@ const rawSalts = {
     alchemicalProperties: { Spirit: 0.10, Essence: 0.10, Matter: 0.95, Substance: 0.95 },
     astrologicalProfile: {
       planetaryRuler: "Mars",
-      zodiacRuler: "Aries",
+      zodiacRuler: "aries",
       element: "Earth",
       energyType: "Grounding",
       lunarPhaseModifiers: {
@@ -1090,7 +1090,7 @@ const rawSalts = {
       minerals: { iodine: 0.47 },
     },
     origin: ["Global"],
-    category: "seasonings",
+    category: "seasoning",
     subCategory: "salt",
     culinaryApplications: {
       cooking: {

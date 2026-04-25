@@ -14,7 +14,7 @@ const rawFlaxseed = {
       },
     },
     qualities: ["gelatinous", "omega-rich", "nutty", "gluten-free", "binding"],
-    category: "grains",
+    category: "grain",
     origin: ["Middle East", "Mediterranean", "widely cultivated worldwide"],
     varieties: {
       golden: {

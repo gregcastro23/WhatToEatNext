@@ -8,10 +8,10 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "avocado",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
     qualities: ["creamy", "rich", "nutritious", "versatile"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
+      favorableZodiac: ["taurus", "leo", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -45,11 +45,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "lemon juice",
     elementalProperties: { Fire: 0.3, Water: 0.45, Earth: 0.05, Air: 0.2 },
     qualities: ["acidic", "bright", "refreshing", "versatile"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15ml)",
@@ -77,11 +77,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "banana",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["sweet", "creamy", "nutritious", "energizing"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 medium (118g)",
@@ -109,10 +109,10 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "orange zest",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.1, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "bright", "versatile"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
-      favorableZodiac: ["Leo", "Sagittarius", "Aries"],
+      favorableZodiac: ["leo", "sagittarius", "aries"],
       seasonalAffinity: ["winter"],
     },
     nutritionalProfile: {
@@ -141,11 +141,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "lemon zest",
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.1, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "bright", "versatile"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (6g)",
@@ -173,11 +173,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "lemon",
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.05, Air: 0.25 },
     qualities: ["sour", "bright", "refreshing", "cleansing"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 medium (58g)",
@@ -205,10 +205,10 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "apples",
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     qualities: ["sweet", "crisp", "juicy", "versatile"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["Taurus", "Libra", "Sagittarius"],
+      favorableZodiac: ["taurus", "libra", "sagittarius"],
       seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
@@ -237,10 +237,10 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "ripe mangoes",
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.1, Air: 0.2 },
     qualities: ["sweet", "tropical", "juicy", "aromatic"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Venus"],
-      favorableZodiac: ["Leo", "Taurus", "Libra"],
+      favorableZodiac: ["leo", "taurus", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -269,10 +269,10 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "strawberry preserves",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
     qualities: ["sweet", "fruity", "spreadable"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
+      favorableZodiac: ["taurus", "leo", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -301,11 +301,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "Niçoise olives",
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.35, Air: 0.2 },
     qualities: ["briny", "savory", "Mediterranean"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],
-      favorableZodiac: ["Capricorn", "Taurus", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["capricorn", "taurus", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "10 olives (30g)",
@@ -333,11 +333,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "olive oil",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 },
     qualities: ["rich", "fruity", "versatile", "healthy"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["Taurus", "Leo", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "leo", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (14g)",
@@ -365,10 +365,10 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "grape leaves",
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.3, Air: 0.25 },
     qualities: ["tangy", "tender", "Mediterranean"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
-      favorableZodiac: ["Taurus", "Gemini", "Libra"],
+      favorableZodiac: ["taurus", "gemini", "libra"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -398,11 +398,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "coconut chutney",
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.25, Air: 0.2 },
     qualities: ["creamy", "tangy", "aromatic", "Indian"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "2 tbsp (30g)",
@@ -430,11 +430,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "lime juice",
     elementalProperties: { Fire: 0.3, Water: 0.45, Earth: 0.05, Air: 0.2 },
     qualities: ["acidic", "bright", "refreshing", "tropical"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Virgo"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "virgo"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 tbsp (15ml)",
@@ -462,11 +462,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "coconut milk",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["creamy", "rich", "tropical", "versatile"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Pisces"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "pisces"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 cup (240ml)",
@@ -499,11 +499,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "ripe bananas",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["sweet", "soft", "nutritious", "energizing"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Libra"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["taurus", "cancer", "libra"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 medium (118g)",
@@ -531,11 +531,11 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "lime",
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.05, Air: 0.25 },
     qualities: ["sour", "bright", "refreshing", "tropical"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mercury"],
-      favorableZodiac: ["Leo", "Gemini", "Aries"],
-      seasonalAffinity: ["all"],
+      favorableZodiac: ["leo", "gemini", "aries"],
+      seasonalAffinity: ["fall"],
     },
     nutritionalProfile: {
       serving_size: "1 medium (67g)",
@@ -563,10 +563,10 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "lemongrass",
     elementalProperties: { Fire: 0.3, Water: 0.25, Earth: 0.15, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "tropical", "fragrant"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Sun"],
-      favorableZodiac: ["Gemini", "Leo", "Virgo"],
+      favorableZodiac: ["gemini", "leo", "virgo"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {
@@ -595,10 +595,10 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
     name: "banana flower",
     elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
     qualities: ["tender", "mild", "nutritious", "tropical"],
-    category: "fruits",
+    category: "fruit",
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["Taurus", "Cancer", "Pisces"],
+      favorableZodiac: ["taurus", "cancer", "pisces"],
       seasonalAffinity: ["summer"],
     },
     nutritionalProfile: {

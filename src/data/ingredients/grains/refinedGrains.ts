@@ -15,7 +15,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["light", "clean", "simple", "versatile", "neutral"],
-    category: "grains",
+    category: "grain",
     nutritionalProfile: {
       serving_size: "1 cup cooked (158g)",
       calories: 206,
@@ -70,25 +70,25 @@ const rawRefinedGrains = {
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Earth: 0.1, Water: 0.05 },
         preparationTips: [
           "Good for simple preparations",
           "Enhanced absorbency",
         ],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Water: 0.15, Air: 0.05 },
         preparationTips: [
           "Rice fluffs perfectly",
           "Best time for aromatic varieties",
         ],
       },
-      waxingCrescent: {
+      "waxing crescent": {
         elementalBoost: { Air: 0.1, Earth: 0.05 },
         preparationTips: ["Good for rice puddings", "Enhances subtle flavors"],
       },
-      waxingGibbous: {
+      "waxing gibbous": {
         elementalBoost: { Water: 0.1, Air: 0.1 },
         preparationTips: ["Excellent for risotto", "Creamy texture enhanced"],
       },
@@ -112,7 +112,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["smooth", "versatile", "firm", "golden", "structured"],
-    category: "grains",
+    category: "grain",
     nutritionalProfile: {
       serving_size: "1 cup (167g)",
       calories: 601,
@@ -179,25 +179,25 @@ const rawRefinedGrains = {
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Earth: 0.15 },
         preparationTips: [
           "Good for foundations of dishes",
           "Best structure for pasta",
         ],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Air: 0.15, Water: 0.05 },
         preparationTips: ["Ideal for desserts", "Enhanced moisture absorption"],
       },
-      firstQuarter: {
+      "first quarter": {
         elementalBoost: { Earth: 0.1, Fire: 0.1 },
         preparationTips: [
           "Perfect for bread making",
           "Creates excellent texture",
         ],
       },
-      lastQuarter: {
+      "last quarter": {
         elementalBoost: { Earth: 0.1, Air: 0.1 },
         preparationTips: ["Good for couscous", "Creates light, fluffy texture"],
       },
@@ -225,7 +225,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["tender", "mild", "versatile", "creamy", "nutritious"],
-    category: "grains",
+    category: "grain",
     nutritionalProfile: {
       serving_size: "1 cup cooked (157g)",
       calories: 176,
@@ -277,28 +277,28 @@ const rawRefinedGrains = {
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Earth: 0.1, Water: 0.1 },
         preparationTips: [
           "Good for foundation of soups",
           "Absorbs flavors well",
         ],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Water: 0.2 },
         preparationTips: [
           "Creates exceptionally creamy texture",
           "Best for risotto-style dishes",
         ],
       },
-      waxingGibbous: {
+      "waxing gibbous": {
         elementalBoost: { Water: 0.15, Earth: 0.05 },
         preparationTips: [
           "Excellent for hearty stews",
           "Develops rich mouthfeel",
         ],
       },
-      waningCrescent: {
+      "waning crescent": {
         elementalBoost: { Earth: 0.15, Air: 0.05 },
         preparationTips: ["Good for salads", "Enhanced nutty flavor"],
       },
@@ -322,7 +322,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["refined", "hearty", "versatile", "nutty", "ancient"],
-    category: "grains",
+    category: "grain",
     nutritionalProfile: {
       serving_size: "1 cup cooked (170g)",
       calories: 220,
@@ -376,28 +376,28 @@ const rawRefinedGrains = {
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Earth: 0.15, Air: 0.05 },
         preparationTips: [
           "Good for new beginnings",
           "Ideal for lighter preparations",
         ],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Air: 0.1, Water: 0.1 },
         preparationTips: [
           "Enhanced nutty flavors",
           "Best for showcasing the grain",
         ],
       },
-      firstQuarter: {
+      "first quarter": {
         elementalBoost: { Earth: 0.1, Fire: 0.05 },
         preparationTips: [
           "Good for hearty dishes",
           "Warming properties enhanced",
         ],
       },
-      waningGibbous: {
+      "waning gibbous": {
         elementalBoost: { Air: 0.1, Earth: 0.1 },
         preparationTips: [
           "Excellent for salads",
@@ -424,7 +424,7 @@ const rawRefinedGrains = {
       },
     },
     qualities: ["versatile", "mild", "smooth", "sweet", "adaptable"],
-    category: "grains",
+    category: "grain",
     nutritionalProfile: {
       serving_size: "1 cup (122g)",
       calories: 442,
@@ -485,25 +485,25 @@ const rawRefinedGrains = {
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Earth: 0.1, Fire: 0.1 },
         preparationTips: ["Good for delicate baking", "Enhanced sweeter notes"],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Fire: 0.15, Air: 0.05 },
         preparationTips: [
           "Perfect for crispy applications",
           "Browning enhanced",
         ],
       },
-      waxingCrescent: {
+      "waxing crescent": {
         elementalBoost: { Earth: 0.1, Water: 0.05 },
         preparationTips: [
           "Good for creamy preparations",
           "Moisture retention improved",
         ],
       },
-      lastQuarter: {
+      "last quarter": {
         elementalBoost: { Fire: 0.1, Earth: 0.1 },
         preparationTips: ["Excellent for breading", "Creates optimal texture"],
       },
@@ -533,7 +533,7 @@ const rawRefinedGrains = {
       "adaptable",
       "foundational",
     ],
-    category: "grains",
+    category: "grain",
     nutritionalProfile: {
       serving_size: "1 cup (125g)",
       calories: 455,
@@ -602,28 +602,28 @@ const rawRefinedGrains = {
       },
     },
     lunarPhaseModifiers: {
-      newMoon: {
+      "new moon": {
         elementalBoost: { Earth: 0.1, Air: 0.1 },
         preparationTips: [
           "Good for starting new baking projects",
           "Enhanced rising properties",
         ],
       },
-      fullMoon: {
+      "full moon": {
         elementalBoost: { Air: 0.15, Water: 0.05 },
         preparationTips: [
           "Peak rising power for bread",
           "Best gluten development",
         ],
       },
-      waxingCrescent: {
+      "waxing crescent": {
         elementalBoost: { Air: 0.1, Earth: 0.05 },
         preparationTips: [
           "Good for delicate pastries",
           "Creates tender textures",
         ],
       },
-      waningGibbous: {
+      "waning gibbous": {
         elementalBoost: { Earth: 0.15 },
         preparationTips: [
           "Excellent for hearty baked goods",

@@ -14,7 +14,7 @@ const rawBuckwheat = {
       },
     },
     qualities: ["earthy", "robust", "gluten-free", "hearty", "nutty"],
-    category: "grains",
+    category: "grain",
     origin: ["Central Asia", "Eastern Europe", "Russia"],
     varieties: {
       flour: {

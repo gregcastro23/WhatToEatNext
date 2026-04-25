@@ -199,9 +199,9 @@ function TokenHeroCard({
   const Icon = cfg.icon;
   const total = alchData
     ? (alchData.quantities.Spirit || 0) +
-      (alchData.quantities.Essence || 0) +
-      (alchData.quantities.Matter || 0) +
-      (alchData.quantities.Substance || 0)
+    (alchData.quantities.Essence || 0) +
+    (alchData.quantities.Matter || 0) +
+    (alchData.quantities.Substance || 0)
     : 0;
   const share = total > 0 ? (liveValue / total) * 100 : 0;
   const maxVal = 10;
@@ -334,7 +334,7 @@ function MomentumTideDisplay({ momentum }: { momentum: Record<string, number> | 
                 {value.toFixed(4)}°/hr
               </div>
               <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
-                <motion.div 
+                <motion.div
                   className={`h-full ${isAccelerating ? 'bg-amber-500' : 'bg-blue-500'}`}
                   initial={{ width: 0 }}
                   animate={{ width: `${width}%` }}
@@ -479,9 +479,9 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
 
   const totalANumber = alchData
     ? (alchData.quantities.Spirit || 0) +
-      (alchData.quantities.Essence || 0) +
-      (alchData.quantities.Matter || 0) +
-      (alchData.quantities.Substance || 0)
+    (alchData.quantities.Essence || 0) +
+    (alchData.quantities.Matter || 0) +
+    (alchData.quantities.Substance || 0)
     : 0;
 
   return (
@@ -603,11 +603,11 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
                 "Claim Cosmic Yield"
               )}
             </motion.button>
-          ) : (
+          ) : balances ? (
             <div className="px-4 py-2 rounded-full text-[9px] font-bold text-white/20 border border-white/5 uppercase tracking-widest">
               Claimed Today ✓
             </div>
-          )}
+          ) : null}
         </div>
 
         {economyError && (
@@ -761,7 +761,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
               First Claim Available
             </p>
             <p className="text-[11px] text-white/40 leading-relaxed">
-              Claim your first Cosmic Yield to initialize your token ledger. 
+              Claim your first Cosmic Yield to initialize your token ledger.
               Daily yields are weighted by your natal chart. Complete birth data for optimal yields.
             </p>
           </div>
