@@ -3,6 +3,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
+import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnergyVisualizer';
+import { CompositeEnergySkeleton } from '@/components/commensal/skeletons';
+import { useGroupRecommendations } from '@/hooks/useCommensalRecommendations';
 
 /* ─── Types ────────────────────────────────────────────── */
 
@@ -491,34 +494,12 @@ function GroupRecommendationsPanel({
   allMembers: GroupMember[];
   linkedCommensals: LinkedCommensal[];
 }) {
-  const [result, setResult] = useState<GroupRecommendationResult | null>(null);
-  const [loading, setLoading] = useState(false);
   const [strategy, setStrategy] = useState<'average' | 'minimum' | 'consensus'>('average');
-
-  const fetchRecs = useCallback(async () => {
-    if (!commensalIds.length && !linkedUserIds.length) return;
-    setLoading(true);
-    try {
-      const res = await fetch('/api/group-recommendations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ commensalIds, linkedUserIds, strategy }),
-      });
-      if (!res.ok) return;
-      const data = await res.json();
-      if (data.success) setResult(data);
-    } catch {
-      // swallow
-    } finally {
-      setLoading(false);
-    }
-  }, [commensalIds, linkedUserIds, strategy]);
-
-  useEffect(() => {
-    if (commensalIds.length > 0 || linkedUserIds.length > 0) void fetchRecs();
-    else setResult(null);
-  }, [commensalIds, linkedUserIds, fetchRecs]);
+  const { result, loading, refetch } = useGroupRecommendations({
+    commensalIds,
+    linkedUserIds,
+    strategy,
+  });
 
   if (!commensalIds.length && !linkedUserIds.length) return null;
 
@@ -552,7 +533,7 @@ function GroupRecommendationsPanel({
             <option value="consensus">Consensus</option>
           </select>
           <button
-            onClick={() => void fetchRecs()}
+            onClick={() => void refetch()}
             disabled={loading}
             className="px-3 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium hover:bg-purple-700 disabled:opacity-60 transition-colors"
           >
@@ -561,31 +542,11 @@ function GroupRecommendationsPanel({
         </div>
       </div>
 
-      {loading && (
-        <div className="text-center py-6 text-sm text-gray-400">
-          Calculating group harmony...
-        </div>
-      )}
+      {loading && <CompositeEnergySkeleton theme="light" />}
 
       {result && !loading && (
         <>
-          {/* Composite summary */}
-          <div className="grid grid-cols-3 gap-2">
-            {(['Spirit', 'Essence', 'Matter', 'Substance'] as const).map((prop) => (
-              <div key={prop} className="bg-gray-50 rounded-lg p-2 text-center">
-                <div className="text-xs text-gray-500">{prop}</div>
-                <div className="text-base font-bold text-purple-700">
-                  {(result.composite.alchemicalProperties[prop] ?? 0).toFixed(1)}
-                </div>
-              </div>
-            ))}
-            <div className="bg-orange-50 rounded-lg p-2 text-center">
-              <div className="text-xs text-gray-500">Group Element</div>
-              <div className="text-base font-bold text-orange-700">
-                {ELEMENT_EMOJI[result.composite.dominantElement]} {result.composite.dominantElement}
-              </div>
-            </div>
-          </div>
+          <CompositeEnergyVisualizer composite={result.composite} theme="light" />
 
           {/* Top cuisine recommendations */}
           <div className="space-y-2">
