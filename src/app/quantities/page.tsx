@@ -20,6 +20,8 @@ import { QuestPanel } from "@/components/economy/QuestPanel";
 import { TokenRainParticles } from "@/components/economy/TokenRainParticles";
 import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";
 import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
+import { QuantityContextStrip } from "@/components/QuantityContext";
+import { AlchemicalStatisticsProvider } from "@/contexts/AlchemicalStatisticsContext";
 import { usePremium } from "@/contexts/PremiumContext";
 import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
 import type {
@@ -30,6 +32,16 @@ import type {
 
 const AlchmQuantitiesTrends = dynamic(
   () => import("@/components/alchm-quantities-trends"),
+  { ssr: false }
+);
+
+const AlchmQuantitiesStatistics = dynamic(
+  () => import("@/components/alchm-quantities-statistics"),
+  { ssr: false }
+);
+
+const HistoricalEchoes = dynamic(
+  () => import("@/components/HistoricalEchoes"),
   { ssr: false }
 );
 
@@ -125,7 +137,7 @@ const TOKEN_CONFIG = [
 
 // ─── Tab Definition ───────────────────────────────────────────────────────────
 
-type Tab = "economy" | "quantities" | "kinetics" | "aspects" | "trends" | "quests";
+type Tab = "economy" | "quantities" | "kinetics" | "aspects" | "trends" | "statistics" | "quests";
 
 const VALID_TABS: Set<Tab> = new Set([
   "economy",
@@ -133,6 +145,7 @@ const VALID_TABS: Set<Tab> = new Set([
   "kinetics",
   "aspects",
   "trends",
+  "statistics",
   "quests",
 ]);
 
@@ -142,6 +155,7 @@ const TABS: Array<{ id: Tab; label: string; icon: string }> = [
   { id: "kinetics", label: "Kinetics", icon: "⚡" },
   { id: "aspects", label: "Aspects", icon: "☌" },
   { id: "trends", label: "Trends", icon: "📈" },
+  { id: "statistics", label: "Statistics", icon: "📊" },
   { id: "quests", label: "Quests", icon: "🎯" },
 ];
 
@@ -256,6 +270,12 @@ function TokenHeroCard({
           <div className="text-[10px] text-white/20 font-mono mt-0.5">
             {share.toFixed(1)}% of total A# · via {cfg.planet}
           </div>
+          <QuantityContextStrip
+            path={`esms.${cfg.key}`}
+            value={liveValue}
+            stroke={cfg.chartStroke}
+            className="mt-2"
+          />
         </div>
 
         {/* Progress bar for live value */}
@@ -632,6 +652,12 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
               <p className="text-white/20 text-xs mt-2 italic">
                 Spirit + Essence + Matter + Substance — live from planetary positions
               </p>
+              <QuantityContextStrip
+                path="aNumber"
+                value={totalANumber}
+                stroke="#fbbf24"
+                className="mt-3"
+              />
             </div>
             <FaCoins className="w-8 h-8 text-amber-400/30" />
           </div>
@@ -674,24 +700,42 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
           {alchData ? (
             <>
               {[
-                { label: "Heat", val: alchData.heat, color: "text-orange-400" },
-                { label: "Entropy", val: alchData.entropy, color: "text-red-400" },
-                { label: "Reactivity", val: alchData.reactivity, color: "text-purple-400" },
-                { label: "GregsEnergy", val: alchData.energy, color: "text-emerald-400" },
-              ].map(({ label, val, color }) => (
-                <div key={label} className="flex items-center justify-between">
-                  <span className="text-[10px] text-white/30 font-medium">{label}</span>
-                  <span className={`text-sm font-mono font-bold ${color} tabular-nums`}>
-                    {(val ?? 0).toFixed(4)}
-                  </span>
+                { label: "Heat", val: alchData.heat, color: "text-orange-400", path: "thermo.heat", stroke: "#fb923c" },
+                { label: "Entropy", val: alchData.entropy, color: "text-red-400", path: "thermo.entropy", stroke: "#f43f5e" },
+                { label: "Reactivity", val: alchData.reactivity, color: "text-purple-400", path: "thermo.reactivity", stroke: "#a78bfa" },
+                { label: "GregsEnergy", val: alchData.energy, color: "text-emerald-400", path: "thermo.gregsEnergy", stroke: "#34d399" },
+              ].map(({ label, val, color, path, stroke }) => (
+                <div key={label} className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-white/30 font-medium">{label}</span>
+                    <span className={`text-sm font-mono font-bold ${color} tabular-nums`}>
+                      {(val ?? 0).toFixed(4)}
+                    </span>
+                  </div>
+                  <QuantityContextStrip
+                    path={path}
+                    value={val ?? 0}
+                    stroke={stroke}
+                    showRange={false}
+                    className="justify-end"
+                  />
                 </div>
               ))}
               <div className="h-px bg-white/5 mt-2" />
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] text-white/30 font-medium">K<sub>alchm</sub></span>
-                <span className="text-sm font-mono font-bold text-amber-400 tabular-nums">
-                  {(alchData.kalchm ?? 0).toFixed(4)}
-                </span>
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-white/30 font-medium">K<sub>alchm</sub></span>
+                  <span className="text-sm font-mono font-bold text-amber-400 tabular-nums">
+                    {(alchData.kalchm ?? 0).toFixed(4)}
+                  </span>
+                </div>
+                <QuantityContextStrip
+                  path="thermo.kalchm"
+                  value={alchData.kalchm ?? 0}
+                  stroke="#fbbf24"
+                  showRange={false}
+                  className="justify-end"
+                />
               </div>
             </>
           ) : (
@@ -816,7 +860,9 @@ function SectionCard({
 export default function QuantitiesPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#09090f]" />}>
-      <QuantitiesPageContent />
+      <AlchemicalStatisticsProvider defaultPeriod="month">
+        <QuantitiesPageContent />
+      </AlchemicalStatisticsProvider>
     </Suspense>
   );
 }
@@ -998,6 +1044,21 @@ function QuantitiesPageContent() {
               </div>
             )}
 
+            {activeTab === "statistics" && (
+              <SectionCard
+                title="Statistical Atlas"
+                subtitle="Means, standard deviations, and wavefunction envelopes — retroactively calculated from real planetary positions"
+                icon="📊"
+                gradientFrom="rgba(251,191,36,0.08)"
+                gradientTo="rgba(139,92,246,0.05)"
+                borderColor="border-amber-500/20"
+              >
+                <Suspense fallback={<Spinner />}>
+                  <AlchmQuantitiesStatistics />
+                </Suspense>
+              </SectionCard>
+            )}
+
             {activeTab === "trends" && (
               <div className="space-y-6">
                 <Suspense fallback={<Spinner />}>
@@ -1090,6 +1151,13 @@ function QuantitiesPageContent() {
             )}
           </motion.div>
         </AnimatePresence>
+
+        {/* ── Historical Echoes (always visible at the bottom) ── */}
+        <div className="mt-16 pt-10 border-t border-white/5">
+          <Suspense fallback={<Spinner />}>
+            <HistoricalEchoes />
+          </Suspense>
+        </div>
 
         {/* ── Token Rain Splash overlay ── */}
         <TokenRainParticles
