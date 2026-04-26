@@ -313,7 +313,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     // Refresh planetary positions every 30 minutes
     const interval = setInterval(() => {
       void fetchLivePlanetaryPositions();
-    }, 30 * 60 * 1000);
+    }, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []); // Run once on mount
   // Compute isDaytime from current hour

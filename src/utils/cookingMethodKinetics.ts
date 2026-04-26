@@ -282,7 +282,7 @@ interface MethodKineticsInput {
   /** Optional kinetic profile from method data (overrides default mapping) */
   kineticProfile?: CookingMethodKineticProfile;
   /** Current planetary positions for astrological modulation */
-  planetaryPositions?: Record<string, string>;
+  planetaryPositions?: Record<string, any>;
 }
 
 /**
@@ -323,15 +323,20 @@ const SIGN_ELEMENT: Record<string, string> = {
  */
 function getPlanetaryElementBoost(
   elementalEffect: Record<string, number>,
-  planetaryPositions?: Record<string, string>,
+  planetaryPositions?: Record<string, any>,
 ): number {
   if (!planetaryPositions) return 1.0;
 
   // Count elements from planetary positions
   const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   for (const planet of Object.keys(planetaryPositions)) {
-    const sign = planetaryPositions[planet];
-    const element = SIGN_ELEMENT[sign];
+    const data = planetaryPositions[planet];
+    const sign = typeof data === 'string' ? data : data?.sign;
+    if (!sign) continue;
+
+    // Normalize sign (some data comes capitalized, some camelCase)
+    const normalizedSign = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
+    const element = SIGN_ELEMENT[normalizedSign];
     if (element) elementCounts[element]++;
   }
 
@@ -382,6 +387,33 @@ export function calculateMethodSpecificKinetics(
   const planetaryBoost = getPlanetaryElementBoost(elementalEffect, planetaryPositions);
   const monicaValue = monica ?? 1.0;
 
+  // High Resolution Sub-Arcminute Modifiers
+  let velocityMultiplier = 1.0;
+  let retrogradeResistance = 0.0;
+
+  if (planetaryPositions) {
+    let validCount = 0;
+    let retroCount = 0;
+    let speedSum = 0;
+
+    for (const key of Object.keys(planetaryPositions)) {
+      const p = planetaryPositions[key];
+      if (typeof p === 'object' && p !== null) {
+        validCount++;
+        if (p.isRetrograde) retroCount++;
+        const speed = p.longitudeSpeed ?? (p.arcminutesPerDay ? p.arcminutesPerDay / 60 : 0);
+        speedSum += Math.abs(speed);
+      }
+    }
+
+    if (validCount > 0) {
+      // Increase kinetic resistance gently linearly as planetary bodies turn retrograde (max ~0.25+ at high retrograde loads)
+      retrogradeResistance = (retroCount / validCount) * 0.4;
+      // Multiply velocity slightly based on cumulative planetary speeds, increasing fast methods when transits fly by.
+      velocityMultiplier = 1.0 + (speedSum * 0.003);
+    }
+  }
+
   // ── 1. Charge (Q) ────────────────────────────────────────────────────
   // Q = Matter + Substance (from transformed ESMS)
   const charge = Math.max(0.01, transformedESMS.Matter + transformedESMS.Substance);
@@ -395,8 +427,9 @@ export function calculateMethodSpecificKinetics(
   const currentFlow = profile.current * thermodynamics.reactivity * planetaryBoost;
 
   // ── 4. Power (P = I × V) ────────────────────────────────────────────
-  // Total energy transfer rate, reduced by resistance
-  const power = currentFlow * potentialDifference * (1 - profile.resistance * 0.3);
+  // Total energy transfer rate, reduced by resistance + sub-arcminute macro retrograde checks!
+  const adjustedResistance = Math.min(0.95, (profile.resistance * 0.3) + retrogradeResistance);
+  const power = currentFlow * potentialDifference * (1 - adjustedResistance);
 
   // ── 5. Velocity per element ──────────────────────────────────────────
   // Each element's transformation speed = elemental emphasis × velocity factor
@@ -405,7 +438,7 @@ export function calculateMethodSpecificKinetics(
 
   for (const element of elements) {
     const emphasis = elementalEffect[element] ?? 0;
-    velocity[element] = emphasis * profile.velocityFactor * planetaryBoost;
+    velocity[element] = emphasis * profile.velocityFactor * planetaryBoost * velocityMultiplier;
   }
 
   // ── 6. Inertia ──────────────────────────────────────────────────────

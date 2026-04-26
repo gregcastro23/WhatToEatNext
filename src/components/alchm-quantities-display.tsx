@@ -41,6 +41,42 @@ export default function AlchmQuantitiesDisplay() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Helper for Z-Score contextualization
+  const getZScoreBadge = (value: number, stat?: { mean: number; stdDev: number }) => {
+    if (!stat || stat.stdDev === 0) return null;
+    const zScore = (value - stat.mean) / stat.stdDev;
+
+    let color = "text-gray-400 bg-gray-900/30 border-gray-700/50";
+    let text = "Average";
+
+    if (zScore > 2.0) {
+      color = "text-red-400 bg-red-900/30 border-red-500/50";
+      text = `+${zScore.toFixed(1)}σ Ext. High`;
+    } else if (zScore > 1.0) {
+      color = "text-orange-400 bg-orange-900/30 border-orange-500/50";
+      text = `+${zScore.toFixed(1)}σ High`;
+    } else if (zScore > 0.5) {
+      color = "text-yellow-400 bg-yellow-900/30 border-yellow-500/50";
+      text = `+${zScore.toFixed(1)}σ Mod. High`;
+    } else if (zScore < -2.0) {
+      color = "text-blue-400 bg-blue-900/30 border-blue-500/50";
+      text = `${zScore.toFixed(1)}σ Ext. Low`;
+    } else if (zScore < -1.0) {
+      color = "text-cyan-400 bg-cyan-900/30 border-cyan-500/50";
+      text = `${zScore.toFixed(1)}σ Low`;
+    } else if (zScore < -0.5) {
+      color = "text-teal-400 bg-teal-900/30 border-teal-500/50";
+      text = `${zScore.toFixed(1)}σ Mod. Low`;
+    }
+
+    return (
+      <div className={`mt-1.5 text-[0.65rem] font-medium px-1.5 py-0.5 rounded border inline-block ${color}`}>
+        {text}
+      </div>
+    );
+  };
+
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -58,7 +94,7 @@ export default function AlchmQuantitiesDisplay() {
 
   useEffect(() => {
     void fetchData();
-    const interval = setInterval(() => { void fetchData(); }, 30000); // Update every 30 seconds
+    const interval = setInterval(() => { void fetchData(); }, 300000); // Update every 5 minutes
     return () => clearInterval(interval);
   }, []);
 
@@ -111,11 +147,10 @@ export default function AlchmQuantitiesDisplay() {
           </h3>
           {data.isDiurnal != null && (
             <div
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold ${
-                data.isDiurnal
-                  ? "bg-amber-900/30 border-amber-500/40 text-amber-300"
-                  : "bg-indigo-900/40 border-indigo-500/40 text-indigo-300"
-              }`}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold ${data.isDiurnal
+                ? "bg-amber-900/30 border-amber-500/40 text-amber-300"
+                : "bg-indigo-900/40 border-indigo-500/40 text-indigo-300"
+                }`}
             >
               {data.isDiurnal ? (
                 <FaSun className="h-3.5 w-3.5" />
@@ -222,50 +257,56 @@ export default function AlchmQuantitiesDisplay() {
 
       {/* Thermodynamics Summary */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-        <div className="p-3 bg-cyan-900/20 border border-cyan-500/30 rounded-lg text-center">
+        <div className="p-3 bg-cyan-900/20 border border-cyan-500/30 rounded-lg text-center flex flex-col items-center">
           <div className="font-semibold text-gray-300">Heat</div>
           <div className="text-lg text-cyan-300">
             {(data.heat ?? 0).toFixed(4)}
           </div>
+          {getZScoreBadge(data.heat ?? 0, (data as any).historicalContext?.metrics?.heat)}
         </div>
-        <div className="p-3 bg-orange-900/20 border border-orange-500/30 rounded-lg text-center">
+        <div className="p-3 bg-orange-900/20 border border-orange-500/30 rounded-lg text-center flex flex-col items-center">
           <div className="font-semibold text-gray-300">Entropy</div>
           <div className="text-lg text-orange-300">
             {(data.entropy ?? 0).toFixed(4)}
           </div>
+          {getZScoreBadge(data.entropy ?? 0, (data as any).historicalContext?.metrics?.entropy)}
         </div>
-        <div className="p-3 bg-purple-900/20 border border-purple-500/30 rounded-lg text-center">
+        <div className="p-3 bg-purple-900/20 border border-purple-500/30 rounded-lg text-center flex flex-col items-center">
           <div className="font-semibold text-gray-300">Reactivity</div>
           <div className="text-lg text-purple-300">
             {(data.reactivity ?? 0).toFixed(4)}
           </div>
+          {getZScoreBadge(data.reactivity ?? 0, (data as any).historicalContext?.metrics?.reactivity)}
         </div>
-        <div className="p-3 bg-green-900/20 border border-green-500/30 rounded-lg text-center">
+        <div className="p-3 bg-green-900/20 border border-green-500/30 rounded-lg text-center flex flex-col items-center">
           <div className="font-semibold text-gray-300">Energy</div>
           <div className="text-lg text-green-300">
             {(data.energy ?? 0).toFixed(4)}
           </div>
+          {/* Energy maps to Spirit/Essence/Matter/Substance essentially in calculation but we can mock or map later */}
         </div>
       </div>
 
       {/* Alchemical Constants */}
       <div className="grid grid-cols-2 gap-4 text-sm">
-        <div className="p-3 bg-amber-900/20 border border-amber-500/30 rounded-lg text-center">
+        <div className="p-3 bg-amber-900/20 border border-amber-500/30 rounded-lg text-center flex flex-col items-center">
           <div className="font-semibold text-gray-300">
             K<sub>alchm</sub>
           </div>
           <div className="text-lg text-amber-300">
-            {(data.kalchm ?? 0).toFixed(4) ?? "N/A"}
+            {((data.kalchm ?? 0) !== 0 ? (data.kalchm ?? 0).toFixed(4) : "N/A")}
           </div>
+          {getZScoreBadge(data.kalchm ?? 0, (data as any).historicalContext?.metrics?.kalchm)}
           <div className="text-xs text-gray-500 mt-1">
             Alchemical Equilibrium
           </div>
         </div>
-        <div className="p-3 bg-pink-900/20 border border-pink-500/30 rounded-lg text-center">
+        <div className="p-3 bg-pink-900/20 border border-pink-500/30 rounded-lg text-center flex flex-col items-center">
           <div className="font-semibold text-gray-300">Monica</div>
           <div className="text-lg text-pink-300">
-            {(data.monica ?? 0).toFixed(4) ?? "N/A"}
+            {((data.monica ?? 0) !== 0 ? (data.monica ?? 0).toFixed(4) : "N/A")}
           </div>
+          {getZScoreBadge(data.monica ?? 0, (data as any).historicalContext?.metrics?.monica)}
           <div className="text-xs text-gray-500 mt-1">
             Dynamic System Constant
           </div>

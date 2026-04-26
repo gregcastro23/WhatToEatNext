@@ -40,12 +40,12 @@ const ASPECT_NAMES: Record<string, string> = {
 /** Tailwind classes for each aspect type */
 function aspectStyle(type: string): { border: string; text: string; bg: string } {
   switch (type) {
-    case "trine":       return { border: "border-emerald-500/40", text: "text-emerald-300", bg: "bg-emerald-900/20" };
-    case "sextile":     return { border: "border-teal-500/40",    text: "text-teal-300",    bg: "bg-teal-900/20"    };
-    case "conjunction": return { border: "border-amber-500/40",   text: "text-amber-300",   bg: "bg-amber-900/20"  };
-    case "square":      return { border: "border-red-500/40",     text: "text-red-300",     bg: "bg-red-900/20"    };
-    case "opposition":  return { border: "border-orange-500/40",  text: "text-orange-300",  bg: "bg-orange-900/20" };
-    default:            return { border: "border-gray-600/40",    text: "text-gray-400",    bg: "bg-gray-800/20"   };
+    case "trine": return { border: "border-emerald-500/40", text: "text-emerald-300", bg: "bg-emerald-900/20" };
+    case "sextile": return { border: "border-teal-500/40", text: "text-teal-300", bg: "bg-teal-900/20" };
+    case "conjunction": return { border: "border-amber-500/40", text: "text-amber-300", bg: "bg-amber-900/20" };
+    case "square": return { border: "border-red-500/40", text: "text-red-300", bg: "bg-red-900/20" };
+    case "opposition": return { border: "border-orange-500/40", text: "text-orange-300", bg: "bg-orange-900/20" };
+    default: return { border: "border-gray-600/40", text: "text-gray-400", bg: "bg-gray-800/20" };
   }
 }
 
@@ -73,9 +73,8 @@ function StrengthBar({ strength, applying, type }: { strength: number; applying:
   return (
     <div className="h-1.5 w-full bg-gray-900/40 rounded-full overflow-hidden mt-1">
       <div
-        className={`h-full rounded-full transition-all duration-700 ${
-          applying ? "bg-gradient-to-r from-amber-500 to-yellow-400" : "bg-gradient-to-r from-gray-600 to-gray-500"
-        }`}
+        className={`h-full rounded-full transition-all duration-700 ${applying ? "bg-gradient-to-r from-amber-500 to-yellow-400" : "bg-gradient-to-r from-gray-600 to-gray-500"
+          }`}
         style={{ width: pct }}
       />
     </div>
@@ -89,7 +88,7 @@ function AspectCard({ aspect }: { aspect: AspectEntry }) {
   const glyph1 = PLANET_GLYPHS[aspect.planet1] ?? "🪐";
   const glyph2 = PLANET_GLYPHS[aspect.planet2] ?? "🪐";
   const symbol = ASPECT_SYMBOLS[aspect.type] ?? "·";
-  const name   = ASPECT_NAMES[aspect.type] ?? aspect.type;
+  const name = ASPECT_NAMES[aspect.type] ?? aspect.type;
 
   return (
     <div className={`p-3 rounded-lg border ${style.border} ${style.bg}`}>
@@ -174,7 +173,7 @@ export default function PlanetaryAspectsDisplay() {
   useEffect(() => {
     void fetchData();
     // Aspects change slowly — refresh every 2 minutes
-    const iv = setInterval(() => { void fetchData(); }, 120_000);
+    const iv = setInterval(() => { void fetchData(); }, 300_000);
     return () => clearInterval(iv);
   }, []);
 
@@ -202,7 +201,7 @@ export default function PlanetaryAspectsDisplay() {
     return true;
   });
 
-  const applyingCount   = data.aspects.filter((a) => a.applying).length;
+  const applyingCount = data.aspects.filter((a) => a.applying).length;
   const separatingCount = data.aspects.filter((a) => !a.applying).length;
 
   return (
@@ -214,17 +213,16 @@ export default function PlanetaryAspectsDisplay() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-3 py-1 rounded-full border transition-colors ${
-                filter === f
+              className={`px-3 py-1 rounded-full border transition-colors ${filter === f
                   ? "bg-indigo-700/50 border-indigo-400/60 text-indigo-200"
                   : "bg-gray-800/40 border-gray-700/40 text-gray-400 hover:border-indigo-600/40"
-              }`}
+                }`}
             >
               {f === "all"
                 ? `All (${data.aspects.length})`
                 : f === "applying"
-                ? `Applying (${applyingCount})`
-                : `Separating (${separatingCount})`}
+                  ? `Applying (${applyingCount})`
+                  : `Separating (${separatingCount})`}
             </button>
           ))}
         </div>

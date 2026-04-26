@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { FaHeartbeat, FaChartLine, FaBolt, FaTachometerAlt } from "react-icons/fa";
 
 interface ESMSKinetics {
-  velocity:     { Spirit: number; Essence: number; Matter: number; Substance: number };
+  velocity: { Spirit: number; Essence: number; Matter: number; Substance: number };
   acceleration: { Spirit: number; Essence: number; Matter: number; Substance: number };
-  momentum:     { Spirit: number; Essence: number; Matter: number; Substance: number };
+  momentum: { Spirit: number; Essence: number; Matter: number; Substance: number };
 }
 
 interface CircuitData {
@@ -111,6 +111,41 @@ function CircuitStat({
   );
 }
 
+// Helper for Z-Score contextualization
+const getZScoreBadge = (value: number, stat?: { mean: number; stdDev: number }) => {
+  if (!stat || stat.stdDev === 0) return null;
+  const zScore = (value - stat.mean) / stat.stdDev;
+
+  let color = "text-gray-400";
+  let text = "Avg";
+
+  if (zScore > 2.0) {
+    color = "text-red-400";
+    text = `+${zScore.toFixed(1)}σ Ext`;
+  } else if (zScore > 1.0) {
+    color = "text-orange-400";
+    text = `+${zScore.toFixed(1)}σ High`;
+  } else if (zScore > 0.5) {
+    color = "text-yellow-400";
+    text = `+${zScore.toFixed(1)}σ H`;
+  } else if (zScore < -2.0) {
+    color = "text-blue-400";
+    text = `${zScore.toFixed(1)}σ Ext Low`;
+  } else if (zScore < -1.0) {
+    color = "text-cyan-400";
+    text = `${zScore.toFixed(1)}σ Low`;
+  } else if (zScore < -0.5) {
+    color = "text-teal-400";
+    text = `${zScore.toFixed(1)}σ L`;
+  }
+
+  return (
+    <div className={`mt-0.5 text-[0.6rem] font-medium ${color}`}>
+      {text}
+    </div>
+  );
+};
+
 export default function AlchmKinetics() {
   const [apiData, setApiData] = useState<ApiData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -122,7 +157,7 @@ export default function AlchmKinetics() {
         if (!response.ok) return;
         const data = await response.json();
         if (data.kinetics && data.circuit) {
-          setApiData({ kinetics: data.kinetics, circuit: data.circuit });
+          setApiData({ kinetics: data.kinetics, circuit: data.circuit, historicalContext: data.historicalContext } as any);
         }
       } catch (error) {
         console.error("Failed to fetch kinetics:", error);
@@ -132,7 +167,7 @@ export default function AlchmKinetics() {
     };
 
     void fetchData();
-    const interval = setInterval(() => { void fetchData(); }, 30000);
+    const interval = setInterval(() => { void fetchData(); }, 300000);
     return () => clearInterval(interval);
   }, []);
 
@@ -155,9 +190,9 @@ export default function AlchmKinetics() {
   const { kinetics, circuit } = apiData;
 
   // Normalise each metric group so progress bars are always visible
-  const velW  = normalise(kinetics.velocity);
-  const accW  = normalise(kinetics.acceleration);
-  const momW  = normalise(kinetics.momentum);
+  const velW = normalise(kinetics.velocity);
+  const accW = normalise(kinetics.acceleration);
+  const momW = normalise(kinetics.momentum);
 
   return (
     <div className="space-y-6">
@@ -220,35 +255,48 @@ export default function AlchmKinetics() {
           P = IV Circuit Model
         </h4>
         <div className="grid grid-cols-2 gap-2">
-          <CircuitStat label="Charge Q = M+Sub"  value={circuit.charge}              unit="u"  />
-          <CircuitStat label="Potential ΔV"       value={circuit.potentialDifference}           />
-          <CircuitStat label="Current Flow I"     value={circuit.currentFlow}        unit="A"  />
-          <CircuitStat label="Power P = IV"       value={circuit.power}                        />
-          <CircuitStat label="Inertia"            value={circuit.inertia}                       />
-          <CircuitStat label="|Force|"            value={circuit.forceMagnitude}                />
+          <div className="flex flex-col">
+            <CircuitStat label="Charge Q = M+Sub" value={circuit.charge} unit="u" />
+            {getZScoreBadge(circuit.charge, (apiData as any).historicalContext?.metrics?.charge)}
+          </div>
+          <div className="flex flex-col">
+            <CircuitStat label="Potential ΔV" value={circuit.potentialDifference} />
+          </div>
+          <div className="flex flex-col">
+            <CircuitStat label="Current Flow I" value={circuit.currentFlow} unit="A" />
+            {getZScoreBadge(circuit.currentFlow, (apiData as any).historicalContext?.metrics?.currentFlow)}
+          </div>
+          <div className="flex flex-col">
+            <CircuitStat label="Power P = IV" value={circuit.power} />
+            {getZScoreBadge(circuit.power, (apiData as any).historicalContext?.metrics?.power)}
+          </div>
+          <div className="flex flex-col">
+            <CircuitStat label="Inertia" value={circuit.inertia} />
+          </div>
+          <div className="flex flex-col">
+            <CircuitStat label="|Force|" value={circuit.forceMagnitude} />
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div className="p-3 bg-black/20 rounded-lg border border-cyan-900/40 text-center">
             <div className="text-xs text-gray-400 mb-1">Force Class</div>
-            <div className={`text-sm font-semibold capitalize ${
-              circuit.forceClassification === "accelerating"
-                ? "text-green-400"
-                : circuit.forceClassification === "decelerating"
+            <div className={`text-sm font-semibold capitalize ${circuit.forceClassification === "accelerating"
+              ? "text-green-400"
+              : circuit.forceClassification === "decelerating"
                 ? "text-red-400"
                 : "text-yellow-400"
-            }`}>
+              }`}>
               {circuit.forceClassification}
             </div>
           </div>
           <div className="p-3 bg-black/20 rounded-lg border border-cyan-900/40 text-center">
             <div className="text-xs text-gray-400 mb-1">Thermal Direction</div>
-            <div className={`text-sm font-semibold capitalize ${
-              circuit.thermalDirection === "heating"
-                ? "text-orange-400"
-                : circuit.thermalDirection === "cooling"
+            <div className={`text-sm font-semibold capitalize ${circuit.thermalDirection === "heating"
+              ? "text-orange-400"
+              : circuit.thermalDirection === "cooling"
                 ? "text-blue-400"
                 : "text-gray-400"
-            }`}>
+              }`}>
               {circuit.thermalDirection}
             </div>
           </div>

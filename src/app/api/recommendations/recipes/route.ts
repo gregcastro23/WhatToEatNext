@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import type { Recipe } from "@/types/recipe";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
+import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
+import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 
 export const dynamic = "force-dynamic";
 
@@ -47,13 +48,20 @@ export async function GET(request: Request) {
         });
 
         // Score recipes based on thermodynamic alignment to the live moment
+        const historicalStats = await getCachedHistoricalStats();
+        const metrics = historicalStats?.metrics;
+
+        const projectedHeatTarget = projectZScoreTarget(heat, metrics?.heat);
+        const projectedEntropyTarget = projectZScoreTarget(entropy, metrics?.entropy);
+        const projectedReactivityTarget = projectZScoreTarget(reactivity, metrics?.reactivity);
+
         const scoredRecipes = matchingRecipes.map(recipe => {
             const rAsAny = recipe as any;
             const rHeat = rAsAny.thermodynamicProperties?.heat ?? 0.5;
             const rEntropy = rAsAny.thermodynamicProperties?.entropy ?? 0.5;
             const rReactivity = rAsAny.thermodynamicProperties?.reactivity ?? 0.5;
 
-            const dist = Math.abs(rHeat - heat) + Math.abs(rEntropy - entropy) + Math.abs(rReactivity - reactivity);
+            const dist = Math.abs(rHeat - projectedHeatTarget) + Math.abs(rEntropy - projectedEntropyTarget) + Math.abs(rReactivity - projectedReactivityTarget);
             const matchScore = Math.max(0, 100 - (dist / 3) * 100);
 
             // We'll also return elemental properties for display
