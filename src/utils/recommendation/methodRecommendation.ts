@@ -1,20 +1,20 @@
 import { _logger } from "@/lib/logger";
 import type {
-    BasicThermodynamicProperties,
-    CookingMethodProfile,
-    Element,
-    ElementalProperties,
-    LunarPhase,
-    MethodRecommendation,
-    MethodRecommendationOptions,
-    PlanetaryAspect
+  BasicThermodynamicProperties,
+  CookingMethodProfile,
+  Element,
+  ElementalProperties,
+  LunarPhase,
+  MethodRecommendation,
+  MethodRecommendationOptions,
+  PlanetaryAspect
 } from "@/types/alchemy";
 import { _COOKING_METHOD_THERMODYNAMICS } from "@/types/alchemy";
 import type { AstrologicalState } from "@/types/celestial";
 import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
 import {
-    allCookingMethods,
-    cookingMethods as detailedCookingMethods
+  allCookingMethods,
+  cookingMethods as detailedCookingMethods
 } from "../../data/cooking";
 import { getCurrentSeason } from "../../data/integrations/seasonal";
 import { culturalCookingMethods } from "../culturalMethodsAggregator";
@@ -179,8 +179,8 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 culturalOrigin: methodData.culturalOrigin,
                 astrologicalInfluences: methodData.astrologicalInfluences,
                 duration: {
-                  min: (methodData.duration as { min?: number }).min || 0,
-                  max: (methodData.duration as { max?: number }).max || 0,
+                  min: methodData.duration ? (methodData.duration as { min?: number }).min || 0 : 0,
+                  max: methodData.duration ? (methodData.duration as { max?: number }).max || 0 : 0,
                 },
                 suitable_for: (methodData.bestFor as string[]) || [],
                 benefits: [],
@@ -214,18 +214,18 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           culturalOrigin: methodData.culturalOrigin,
           astrologicalInfluences: {
             favorableZodiac:
-              (methodData.astrologicalInfluences.favorableZodiac as any[]) ||
+              (methodData.astrologicalInfluences?.favorableZodiac as any[]) ||
               [],
             unfavorableZodiac:
-              (methodData.astrologicalInfluences.unfavorableZodiac as any[]) ||
+              (methodData.astrologicalInfluences?.unfavorableZodiac as any[]) ||
               [],
             dominantPlanets:
-              (methodData.astrologicalInfluences.dominantPlanets as string[]) ||
+              (methodData.astrologicalInfluences?.dominantPlanets as string[]) ||
               [],
           },
           duration: {
-            min: (methodData.duration as { min?: number }).min || 0,
-            max: (methodData.duration as { max?: number }).max || 0,
+            min: methodData.duration ? (methodData.duration as { min?: number }).min || 0 : 0,
+            max: methodData.duration ? (methodData.duration as { max?: number }).max || 0 : 0,
           },
           suitable_for: (methodData.bestFor as string[]) || [],
           benefits: [],
@@ -252,7 +252,7 @@ export function getMethodThermodynamics(
   // 1. Check the detailed data source first
   const detailedMethodData =
     detailedCookingMethods[
-      methodNameLower as keyof typeof detailedCookingMethods
+    methodNameLower as keyof typeof detailedCookingMethods
     ];
   if (detailedMethodData.thermodynamicProperties) {
     return {
@@ -279,7 +279,7 @@ export function getMethodThermodynamics(
   // 3. Check the explicitly defined mapping constant
   const constantThermoData =
     _COOKING_METHOD_THERMODYNAMICS[
-      methodNameLower as keyof typeof _COOKING_METHOD_THERMODYNAMICS
+    methodNameLower as keyof typeof _COOKING_METHOD_THERMODYNAMICS
     ];
   if (constantThermoData) {
     return constantThermoData;
@@ -532,8 +532,8 @@ export function getRecommendedCookingMethods(
 
     // Zodiac compatibility (20% weight)
     const astrologicalInfluences = methodData.astrologicalInfluences;
-    const favorableZodiac = astrologicalInfluences.favorableZodiac as string[];
-    if (currentZodiac && favorableZodiac) {
+    const favorableZodiac = (astrologicalInfluences?.favorableZodiac as string[]) || [];
+    if (currentZodiac && favorableZodiac.length > 0) {
       const zodiacMatch = favorableZodiac.includes(currentZodiac);
       if (zodiacMatch) {
         score += 0.2;
@@ -542,8 +542,8 @@ export function getRecommendedCookingMethods(
     }
 
     // Planetary compatibility (15% weight)
-    const dominantPlanets = astrologicalInfluences.dominantPlanets as string[];
-    if (planets && dominantPlanets) {
+    const dominantPlanets = (astrologicalInfluences?.dominantPlanets as string[]) || [];
+    if (planets && dominantPlanets.length > 0) {
       const planetMatch = planets.some((planet) =>
         dominantPlanets.includes(planet),
       );
@@ -554,7 +554,7 @@ export function getRecommendedCookingMethods(
     }
 
     // Seasonal compatibility (10% weight)
-    const seasonalPreference = methodData.seasonalPreference as string[];
+    const seasonalPreference = (methodData.seasonalPreference as string[]) || [];
     if (seasonalPreference.includes(season)) {
       score += 0.1;
       reasons.push(`Perfect for ${season}`);
@@ -899,22 +899,22 @@ export function getHolisticCookingRecommendations(
       undefined, // zodiac sign
       undefined, // planets
       (season as "spring" | "summer" | "autumn" | "fall" | "winter" | "all") ||
-        "spring",
+      "spring",
     );
 
     // Filter by available methods if provided
     const filteredRecs =
       (availableMethods || []).length > 0
         ? (recommendations || []).filter((rec) =>
-            (availableMethods || []).some((method) =>
-              areSimilarMethods(
-                String(
-                  (rec as any).method || (rec as any).name || (rec as any).id,
-                ),
-                method,
+          (availableMethods || []).some((method) =>
+            areSimilarMethods(
+              String(
+                (rec as any).method || (rec as any).name || (rec as any).id,
               ),
+              method,
             ),
-          )
+          ),
+        )
         : recommendations;
 
     // Format the results with safe property access
@@ -928,7 +928,7 @@ export function getHolisticCookingRecommendations(
       compatibility: (Number((rec as any).score) || 0) * 100,
       reason: includeReasons
         ? String(((rec as any).reasons as string[])[0]) ||
-          `Good match for ${ingredient.name}`
+        `Good match for ${ingredient.name}`
         : undefined,
     })) as any;
   } catch (error) {
