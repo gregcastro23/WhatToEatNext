@@ -3,8 +3,8 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { defaultState, _AlchemicalContext } from "./context";
 import type {
-    // AlchemicalAction,
-    AlchemicalContextType, AlchemicalState
+  // AlchemicalAction,
+  AlchemicalContextType, AlchemicalState
 } from "./types";
 import type { ReactNode } from "react";
 
@@ -242,8 +242,8 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
         // Helper to fetch for a specific date
         const fetchForDate = async (d: Date) => {
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 8000);
-          
+          const timeoutId = setTimeout(() => controller.abort(), 12000);
+
           const params = new URLSearchParams({
             year: d.getUTCFullYear().toString(),
             month: (d.getUTCMonth() + 1).toString(),
@@ -295,7 +295,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
           setPlanetaryPositions(currentPos);
           setNormalizedPositions(currentPos);
           dispatch({ type: "UPDATE_PLANETARY_POSITIONS", payload: currentPos });
-          
+
           if (historicalPos) {
             setHistoricalPositions(historicalPos);
             dispatch({ type: "UPDATE_HISTORICAL_POSITIONS", payload: historicalPos });
@@ -337,7 +337,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       const response = await fetch("/api/astrologize", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(8000),
+        signal: AbortSignal.timeout(12000),
       });
       if (!response.ok) throw new Error(`API returned ${response.status}`);
       const data = await response.json();
@@ -399,7 +399,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     getThermodynamicState,
     updatePlanetaryPositions: updatePlanetaryPositionsDirectly,
     refreshPlanetaryPositions: refreshPlanetaryPositionsAsync,
-    setDaytime: () => {},
+    setDaytime: () => { },
     updateState: (updates) => dispatch({ type: "UPDATE_ASTROLOGICAL_STATE", payload: updates }),
   } as any;
   logger.debug("AlchemicalProvider rendered with state:", {
