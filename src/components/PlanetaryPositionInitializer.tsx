@@ -3,7 +3,7 @@
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import type { CelestialPosition} from '@/types/celestial';
+import type { CelestialPosition } from '@/types/celestial';
 import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
 import { createLogger } from '@/utils/logger';
 // Create a component-specific logger
@@ -63,18 +63,18 @@ const PlanetaryPositionInitializer: React.FC = () => {
     try {
       setRetryStatus(prev => ({ ...prev, isRetrying: true }));
       logger.info(`Attempt #${currentStatus.count + 1} to refresh planetary positions`);
-      
+
       const positions = await refreshPlanetaryPositions();
-      
+
       if (positions && Object.keys(positions).length > 0) {
         // Validate that the response has the minimum required planets
         const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
         const hasMissingPlanets = requiredPlanets.some(planet => !positions[planet]);
-        
+
         if (hasMissingPlanets) {
           throw new Error('Incomplete planetary data received');
         }
-        
+
         logger.info('Successfully updated planetary positions', {
           // @ts-expect-error - Auto-fixed by script
           sunPosition: positions.sun?.sign,
@@ -82,7 +82,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
           moonPosition: positions.moon?.sign,
           timestamp: new Date().toISOString()
         });
-        
+
         setLastUpdateTime(new Date());
         setUpdateError(null);
         setRetryStatus({
@@ -97,22 +97,22 @@ const PlanetaryPositionInitializer: React.FC = () => {
         throw new Error('Received empty or invalid positions');
       }
     } catch (error) {
-      const errorMessage = error instanceof Error 
-        ? error.message 
+      const errorMessage = error instanceof Error
+        ? error.message
         : 'Unknown error fetching planetary positions';
-      
+
       logger.error(`Attempt #${currentStatus.count + 1} failed:`, {
         error: errorMessage,
         retryCount: currentStatus.count + 1,
         timestamp: new Date().toISOString()
       });
-      
+
       // Only update error state if it's different to prevent update loops
       setUpdateError(prevError => {
         if (prevError === errorMessage) return prevError;
         return errorMessage;
       });
-      
+
       // Move the fallback positions to a useEffect that depends on updateError
       // This prevents calling it directly here, which might cause loops
       // We'll use the retry status instead to trigger the fallback
@@ -123,7 +123,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
         lastAttempt: Date.now(),
         needsFallback: true
       }));
-      
+
       return false;
     }
   }, [refreshPlanetaryPositions]);
@@ -132,7 +132,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
   const applyFallbackPositions = useCallback((): void => {
     const now = new Date();
     logger.warn(`Applying fallback positions for ${now.toISOString()}...`);
-    
+
     // Use fixed/current positions from March 2025
     const positions: PlanetaryPositions = {
       sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
@@ -149,11 +149,11 @@ const PlanetaryPositionInitializer: React.FC = () => {
       southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
       ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false }
     };
-    
+
     try {
       updatePlanetaryPositions(positions);
       logger.info('Successfully applied fallback planetary positions');
-      
+
       setRetryStatus(prev => ({
         ...prev,
         usingFallback: true,
@@ -175,30 +175,26 @@ const PlanetaryPositionInitializer: React.FC = () => {
   useEffect(() => {
     // Initialize the alchemical engine
     initializeAlchemicalEngine();
-    
+
     try {
       // Apply fallback positions immediately to ensure data is shown
       applyFallbackPositions();
-      
+
       // Then try to get actual positions
       const getInitialPositions = async (): Promise<void> => {
         await attemptPositionUpdate();
       };
-      
+
       void getInitialPositions();
     } catch (error) {
       logger.error('Error during component initialization:', error);
       // Make sure fallback is applied even if initialization fails
       applyFallbackPositions();
     }
-    
-    // Set up regular refresh interval (every 15 minutes)
-    const refreshInterval = setInterval(() => {
-      if (!retryStatusRef.current.isRetrying) {
-        void attemptPositionUpdate();
-      }
-    }, 15 * 60 * 1000);
-    
+
+    // The application relies on AlchemicalContext for ongoing planetary telemetry refreshes.
+    // We do not run a duplicate interval here to prevent race conditions.
+
     // Set up exponential backoff retry for failures. Read retryStatus via
     // the ref so the effect can safely have stable deps (mounting once, not
     // rerunning whenever retryStatus changes).
@@ -224,7 +220,6 @@ const PlanetaryPositionInitializer: React.FC = () => {
     }, 60 * 1000); // Check every minute if we should retry
 
     return () => {
-      clearInterval(refreshInterval);
       clearInterval(retryInterval);
     };
   }, [applyFallbackPositions, attemptPositionUpdate]);
@@ -251,16 +246,15 @@ const PlanetaryPositionInitializer: React.FC = () => {
             </p>
           </div>
         </div>
-        <button 
+        <button
           onClick={() => {
             void attemptPositionUpdate(true);
           }}
           disabled={retryStatus.isRetrying}
-          className={`px-3 py-1 rounded text-xs flex items-center ${
-            retryStatus.isRetrying 
-              ? 'bg-gray-200 text-gray-500' 
+          className={`px-3 py-1 rounded text-xs flex items-center ${retryStatus.isRetrying
+              ? 'bg-gray-200 text-gray-500'
               : 'bg-yellow-100 hover:bg-yellow-200 text-yellow-800'
-          }`}
+            }`}
           aria-label="Retry connection"
         >
           <RefreshCw className={`h-3 w-3 mr-1 ${retryStatus.isRetrying ? 'animate-spin' : ''}`} />

@@ -32,6 +32,7 @@
     "ingredients:fill-missing-profiles": "TS_NODE_PROJECT=scripts/tsconfig.json node --loader ts-node/esm --no-warnings --max-old-space-size=4096 scripts/fillIngredientMissingProfiles.ts",
     "ingredients:generate-recipe-coverage": "TS_NODE_PROJECT=scripts/tsconfig.json node --loader ts-node/esm --no-warnings --max-old-space-size=4096 scripts/generateRecipeCoverageIngredients.ts",
     "build:ingredient-recipe-index": "TS_NODE_PROJECT=scripts/tsconfig.json node --loader ts-node/esm --no-warnings --max-old-space-size=4096 scripts/buildIngredientRecipeIndex.ts",
+    "build:alchemical-samples": "npx tsx scripts/generateAlchemicalSamples.ts",
     "types:api": "bash scripts/generate-api-types.sh",
     "generate-types": "bash scripts/generate-api-types.sh",
     "predev": "node scripts/check-node-version.cjs",

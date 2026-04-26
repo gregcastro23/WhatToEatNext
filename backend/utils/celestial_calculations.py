@@ -1,5 +1,7 @@
 import datetime
 from typing import Dict, Any, Optional
+from functools import lru_cache
+from fastapi import HTTPException
 
 # Assuming swisseph and ephem are installed and available
 try:
@@ -12,6 +14,7 @@ try:
 except ImportError:
     ephem = None
 
+@lru_cache(maxsize=1024)
 def calculate_planetary_positions_swisseph(
     year: int, month: int, day: int, hour: int = 0, minute: int = 0,
     latitude: float = 0.0, longitude: float = 0.0,
@@ -201,6 +204,7 @@ def calculate_planetary_positions_swisseph(
         # Fallback to pyephem
         return calculate_planetary_positions_pyephem(year, month, day, hour, minute, latitude, longitude, zodiac_system)
 
+@lru_cache(maxsize=1024)
 def calculate_planetary_positions_pyephem(
     year: int, month: int, day: int, hour: int = 0, minute: int = 0,
     latitude: float = 0.0, longitude: float = 0.0,

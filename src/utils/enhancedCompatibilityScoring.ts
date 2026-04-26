@@ -25,6 +25,17 @@ export interface ThermodynamicState {
   monica?: number;
 }
 
+export interface HistoricalMetrics {
+  heat?: { mean: number; stdDev: number };
+  entropy?: { mean: number; stdDev: number };
+  reactivity?: { mean: number; stdDev: number };
+  power?: { mean: number; stdDev: number };
+  currentFlow?: { mean: number; stdDev: number };
+  charge?: { mean: number; stdDev: number };
+  kalchm?: { mean: number; stdDev: number };
+  monica?: { mean: number; stdDev: number };
+}
+
 export interface KineticState {
   power: number;
   currentFlow: number;
@@ -103,12 +114,23 @@ function logarithmicCompatibility(value1: number, value2: number): number {
 }
 
 /**
+ * Projects a raw tightly-compressed metric into a widened 0.1-0.9 distribution
+ * targeting extreme bounds, based on its standard deviation Z-Score.
+ */
+export function projectZScoreTarget(value: number, metric?: { mean: number; stdDev: number }): number {
+  if (!metric || metric.stdDev === 0) return value;
+  const zScore = (value - metric.mean) / metric.stdDev;
+  return Math.max(0.1, Math.min(0.9, 0.5 + (zScore * 0.15)));
+}
+
+/**
  * Calculate thermodynamic compatibility between two states
  * Uses sophisticated non-linear functions for better differentiation
  */
 export function calculateThermodynamicCompatibility(
   userState: ThermodynamicState,
   itemState: ThermodynamicState,
+  historicalMetrics?: HistoricalMetrics,
 ): {
   overall: number;
   heatCompatibility: number;
@@ -118,23 +140,29 @@ export function calculateThermodynamicCompatibility(
   kalchmCompatibility: number;
   monicaCompatibility: number;
 } {
+  const userHeatTarget = projectZScoreTarget(userState.heat, historicalMetrics?.heat);
+  const userEntropyTarget = projectZScoreTarget(userState.entropy, historicalMetrics?.entropy);
+  const userReactivityTarget = projectZScoreTarget(userState.reactivity, historicalMetrics?.reactivity);
+  const userKalchmTarget = userState.kalchm ? projectZScoreTarget(userState.kalchm, historicalMetrics?.kalchm) : undefined;
+  const userMonicaTarget = userState.monica ? projectZScoreTarget(userState.monica, historicalMetrics?.monica) : undefined;
+
   // Heat compatibility - exponential (sensitive to differences)
   const heatCompatibility = exponentialCompatibility(
-    userState.heat,
+    userHeatTarget,
     itemState.heat,
     3.0, // Higher sensitivity for heat
   );
 
   // Entropy compatibility - sigmoid (rewards close matches)
   const entropyCompatibility = sigmoidCompatibility(
-    userState.entropy,
+    userEntropyTarget,
     itemState.entropy,
     4.0,
   );
 
   // Reactivity compatibility - exponential (moderate sensitivity)
   const reactivityCompatibility = exponentialCompatibility(
-    userState.reactivity,
+    userReactivityTarget,
     itemState.reactivity,
     2.5,
   );
@@ -151,14 +179,14 @@ export function calculateThermodynamicCompatibility(
 
   // Kalchm compatibility - logarithmic (can vary widely)
   const kalchmCompatibility =
-    userState.kalchm && itemState.kalchm
-      ? logarithmicCompatibility(userState.kalchm, itemState.kalchm)
+    userKalchmTarget && itemState.kalchm
+      ? logarithmicCompatibility(userKalchmTarget, itemState.kalchm)
       : 0.5;
 
   // Monica compatibility - exponential
   const monicaCompatibility =
-    userState.monica && itemState.monica
-      ? exponentialCompatibility(userState.monica, itemState.monica, 2.0)
+    userMonicaTarget && itemState.monica
+      ? exponentialCompatibility(userMonicaTarget, itemState.monica, 2.0)
       : 0.5;
 
   // Weighted overall compatibility
@@ -196,6 +224,7 @@ export function calculateThermodynamicCompatibility(
 export function calculateKineticCompatibility(
   userKinetics: KineticState,
   itemKinetics: KineticState,
+  historicalMetrics?: HistoricalMetrics,
 ): {
   overall: number;
   powerCompatibility: number;
@@ -203,16 +232,20 @@ export function calculateKineticCompatibility(
   chargeCompatibility: number;
   momentumCompatibility: number;
 } {
+  const userPowerTarget = projectZScoreTarget(userKinetics.power, historicalMetrics?.power);
+  const userCurrentTarget = projectZScoreTarget(userKinetics.currentFlow, historicalMetrics?.currentFlow);
+  const userChargeTarget = projectZScoreTarget(userKinetics.charge, historicalMetrics?.charge);
+
   // Power compatibility (P = I × V)
   const powerCompatibility = exponentialCompatibility(
-    userKinetics.power,
+    userPowerTarget,
     itemKinetics.power,
     2.5,
   );
 
   // Current flow compatibility
   const currentCompatibility = exponentialCompatibility(
-    userKinetics.currentFlow,
+    userCurrentTarget,
     itemKinetics.currentFlow,
     2.0,
   );
@@ -231,7 +264,7 @@ export function calculateKineticCompatibility(
 
   // Charge compatibility
   const chargeCompatibility = exponentialCompatibility(
-    userKinetics.charge,
+    userChargeTarget,
     itemKinetics.charge,
     2.0,
   );
@@ -328,16 +361,19 @@ export function calculateEnhancedCompatibility(
     kinetic: KineticState;
     elemental: ElementalProperties;
   },
+  historicalMetrics?: HistoricalMetrics,
 ): EnhancedCompatibilityResult {
   // Calculate individual compatibility scores
   const thermoCompat = calculateThermodynamicCompatibility(
     userState.thermodynamic,
     itemState.thermodynamic,
+    historicalMetrics,
   );
 
   const kineticCompat = calculateKineticCompatibility(
     userState.kinetic,
     itemState.kinetic,
+    historicalMetrics,
   );
 
   const elementalCompat = calculateEnhancedElementalCompatibility(

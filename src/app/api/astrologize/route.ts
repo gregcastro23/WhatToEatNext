@@ -20,6 +20,7 @@ import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/ast
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const RAILWAY_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
@@ -90,7 +91,7 @@ async function fetchFromRailway(params: PlanetaryRequest): Promise<RailwayPositi
         latitude: params.latitude,
         longitude: params.longitude,
       }),
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(4000),
     });
 
     if (!response.ok) {

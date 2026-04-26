@@ -42,6 +42,7 @@ import {
   calculateMonicaConstant,
   calculateMonicaOptimizationScore,
 } from "@/utils/monicaKalchmCalculations";
+import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import {
   calculateHarmonyIndex,
@@ -92,6 +93,18 @@ type ExpandedTab = "overview" | "thermo" | "kinetics" | "conditions" | "recipes"
 interface CurrentMomentPayload {
   success: boolean;
   timestamp: string;
+  historicalContext?: {
+    metrics: {
+      heat?: { mean: number; stdDev: number };
+      entropy?: { mean: number; stdDev: number };
+      reactivity?: { mean: number; stdDev: number };
+      charge?: { mean: number; stdDev: number };
+      power?: { mean: number; stdDev: number };
+      currentFlow?: { mean: number; stdDev: number };
+      kalchm?: { mean: number; stdDev: number };
+      monica?: { mean: number; stdDev: number };
+    };
+  };
   quantities: {
     Spirit: number;
     Essence: number;
@@ -521,7 +534,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           gregsEnergy,
           monica,
           kineticProfile: (method as any).kineticProfile,
-          planetaryPositions,
+          planetaryPositions: (contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0) ? contextPlanetaryPositions : planetaryPositions,
         });
       } catch { /* skip */ }
 
@@ -533,17 +546,23 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
       const kProfile = getKineticProfile(id, (method as any).kineticProfile);
       const referenceProfile = METHOD_PHYSICAL_REFERENCE[id];
-      const thermoAlignmentScore = currentMoment
+
+      const projHeat = currentMoment ? projectZScoreTarget(currentMoment.heat ?? 0.5, currentMoment.historicalContext?.metrics?.heat) : null;
+      const projEntropy = currentMoment ? projectZScoreTarget(currentMoment.entropy ?? 0.5, currentMoment.historicalContext?.metrics?.entropy) : null;
+      const projReactivity = currentMoment ? projectZScoreTarget(currentMoment.reactivity ?? 0.5, currentMoment.historicalContext?.metrics?.reactivity) : null;
+
+      const thermoAlignmentScore = projHeat !== null
         ? Math.max(
           0,
           100 -
-          ((Math.abs((currentMoment.heat ?? 0.5) - methodThermo.heat) +
-            Math.abs((currentMoment.entropy ?? 0.5) - methodThermo.entropy) +
-            Math.abs((currentMoment.reactivity ?? 0.5) - methodThermo.reactivity)) /
+          ((Math.abs(projHeat - methodThermo.heat) +
+            Math.abs(projEntropy! - methodThermo.entropy) +
+            Math.abs(projReactivity! - methodThermo.reactivity)) /
             3) *
           100,
         )
         : null;
+
       const methodPowerProxy = Math.max(0, Math.min(1, kProfile.voltage * kProfile.current * (1 - kProfile.resistance)));
       const currentPowerProxy = currentMoment
         ? Math.max(0, Math.min(1, Math.abs(currentMoment.circuit.power) * 20))
@@ -964,12 +983,12 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
               <div className="mt-4 flex gap-3">
                 <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${kinetics.forceClassification === "accelerating" ? "bg-green-100 text-green-700"
-                    : kinetics.forceClassification === "balanced" ? "bg-blue-100 text-blue-700"
-                      : "bg-orange-100 text-orange-700"
+                  : kinetics.forceClassification === "balanced" ? "bg-blue-100 text-blue-700"
+                    : "bg-orange-100 text-orange-700"
                   }`}>{kinetics.forceClassification}</span>
                 <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${kinetics.thermalDirection === "heating" ? "bg-red-100 text-red-700"
-                    : kinetics.thermalDirection === "cooling" ? "bg-blue-100 text-blue-700"
-                      : "bg-white/10 text-gray-300"
+                  : kinetics.thermalDirection === "cooling" ? "bg-blue-100 text-blue-700"
+                    : "bg-white/10 text-gray-300"
                   }`}>
                   {kinetics.thermalDirection === "heating" ? "🔥" : kinetics.thermalDirection === "cooling" ? "❄️" : "➖"} {kinetics.thermalDirection}
                 </span>
@@ -1047,8 +1066,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm text-center">
               <div className="text-xs text-gray-500 mb-1">Timing</div>
               <span className={`inline-block rounded-full px-4 py-2 text-sm font-bold ${timing === "quick" ? "bg-yellow-100 text-yellow-800"
-                  : timing === "slow" ? "bg-blue-100 text-blue-800"
-                    : "bg-green-100 text-green-800"
+                : timing === "slow" ? "bg-blue-100 text-blue-800"
+                  : "bg-green-100 text-green-800"
                 }`}>{String(timing).toUpperCase()}</span>
               {mods?.timingAdjustment !== 0 && (
                 <div className="mt-2 text-xs text-gray-400">Monica: {mods.timingAdjustment >= 0 ? "+" : ""}{mods.timingAdjustment.toFixed(0)} min</div>
@@ -1284,8 +1303,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             key={cat.id}
             onClick={() => { setSelectedCategory(cat.id); setExpandedMethod(null); setCompareSelections([]); }}
             className={`rounded-lg px-4 py-2 text-sm font-bold transition-all duration-200 ${selectedCategory === cat.id
-                ? "bg-gray-900 text-white shadow-lg scale-105"
-                : "bg-transparent text-gray-300 border border-white/10 hover:border-gray-400 hover:shadow"
+              ? "bg-gray-900 text-white shadow-lg scale-105"
+              : "bg-transparent text-gray-300 border border-white/10 hover:border-gray-400 hover:shadow"
               }`}
           >
             <span className="mr-1.5">{cat.icon}</span>{cat.name}
@@ -1319,8 +1338,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                 key={label}
                 onClick={() => setUserIntent(key)}
                 className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${userIntent === key
-                    ? "bg-indigo-100 text-indigo-700 shadow-sm ring-1 ring-indigo-300"
-                    : "text-gray-500 hover:bg-white/10"
+                  ? "bg-indigo-100 text-indigo-700 shadow-sm ring-1 ring-indigo-300"
+                  : "text-gray-500 hover:bg-white/10"
                   }`}
               >
                 {icon} {label}
@@ -1333,8 +1352,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         <button
           onClick={() => { setCompareMode(!compareMode); if (compareMode) setCompareSelections([]); }}
           className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${compareMode
-              ? "bg-indigo-600 text-white shadow-md"
-              : "bg-white/10 text-gray-400 hover:bg-gray-200"
+            ? "bg-indigo-600 text-white shadow-md"
+            : "bg-white/10 text-gray-400 hover:bg-gray-200"
             }`}
         >
           {compareMode ? "✔ Compare On" : "↔ Compare"}
@@ -1368,10 +1387,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
             <div
               key={method.id}
               className={`rounded-xl border transition-all duration-300 ${isCompareSelected
-                  ? "border-2 border-indigo-400 shadow-lg bg-indigo-50/30"
-                  : isExpanded
-                    ? `border-2 ${pillarColors?.border || "border-purple-300"} shadow-xl bg-gradient-to-br from-gray-50 to-white`
-                    : "border-white/10 bg-transparent hover:border-white/10 hover:shadow-md"
+                ? "border-2 border-indigo-400 shadow-lg bg-indigo-50/30"
+                : isExpanded
+                  ? `border-2 ${pillarColors?.border || "border-purple-300"} shadow-xl bg-gradient-to-br from-gray-50 to-white`
+                  : "border-white/10 bg-transparent hover:border-white/10 hover:shadow-md"
                 }`}
             >
               {/* -- Collapsed Card (always visible) -- */}
@@ -1450,8 +1469,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                         key={tab.key}
                         onClick={(e) => { e.stopPropagation(); setExpandedTab(tab.key); }}
                         className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${expandedTab === tab.key
-                            ? "bg-gray-900 text-white shadow"
-                            : "text-gray-500 hover:bg-white/10"
+                          ? "bg-gray-900 text-white shadow"
+                          : "text-gray-500 hover:bg-white/10"
                           }`}
                       >
                         {tab.icon} {tab.label}

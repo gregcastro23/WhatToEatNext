@@ -655,6 +655,11 @@ function _calculateAspectMethodAffinity(
 
     const methodData = method as unknown as any;
     const methodName = String(methodData.name || "").toLowerCase();
+
+    // Scale intensity based on the exactness of the aspect
+    // Peak strength = 1.0 at 0º orb, trails off to 0.0 at 8º orb
+    const strength = aspect.strength ?? Math.max(0, 1 - (Math.abs(aspect.orb) / 8));
+
     if (aspect.type === "conjunction" || aspect.type === "trine") {
       // Harmonious aspects favor gentle, harmonious cooking methods
       if (
@@ -662,7 +667,7 @@ function _calculateAspectMethodAffinity(
         methodName.includes("poach") ||
         methodName.includes("simmer")
       ) {
-        affinity = 0.8;
+        affinity = 0.5 + (0.45 * strength); // Scales up to 0.95 at peak accuracy
       }
     } else if (aspect.type === "square" || aspect.type === "opposition") {
       // Challenging aspects favor more intense cooking methods
@@ -671,7 +676,7 @@ function _calculateAspectMethodAffinity(
         methodName.includes("fry") ||
         methodName.includes("sear")
       ) {
-        affinity = 0.8;
+        affinity = 0.5 + (0.45 * strength); // Scales up to 0.95 at peak accuracy
       }
     }
 

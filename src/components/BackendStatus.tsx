@@ -8,6 +8,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 
 // Simple logger fallback
 const _logger = {
@@ -22,6 +23,7 @@ interface ServiceStatus {
 }
 
 export const BackendStatus: React.FC = () => {
+  const alchemicalContext = useAlchemical();
   const [services, setServices] = useState<ServiceStatus[]>([
     { service: "Alchemical Core", status: "loading" },
     { service: "Kitchen Intelligence", status: "loading" },
@@ -59,12 +61,17 @@ export const BackendStatus: React.FC = () => {
     try {
       // Demo elemental calculation with backend
       const elementsStart = performance.now();
-      const elements = { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2 };
+      const elements = alchemicalContext?.getCurrentElementalBalance?.() ?? { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2 };
       const elementsTime = performance.now() - elementsStart;
 
       // Demo planetary data
       const planetaryStart = performance.now();
-      const planetary = { dominant_planet: "Sun", influence_strength: 0.7 };
+
+      const dominantPlanet = Object.keys(alchemicalContext?.planetaryPositions || {}).length > 0
+        ? Object.keys(alchemicalContext!.planetaryPositions)[0]
+        : "Sun";
+
+      const planetary = { dominant_planet: dominantPlanet, influence_strength: 0.7 };
       const planetaryTime = performance.now() - planetaryStart;
 
       // Demo recipe recommendations

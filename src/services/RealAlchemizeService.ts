@@ -388,6 +388,206 @@ export function alchemize(
   };
 }
 /**
+ * Per-planet contribution to the alchemize totals at a single moment.
+ * - `esms`     : raw Spirit/Essence/Matter/Substance contributed by this planet
+ *                (alchemy × dignityMultiplier × alchmWeight).
+ * - `elements` : Fire/Water/Earth/Air contributed (sign-element × 0.6 + sect-element × 0.4).
+ * - `signElement` / `sectElement` : the two elemental sources that blended.
+ * - `alchmWeight` / `dignityMultiplier` : the scalars applied this moment.
+ */
+export interface PerPlanetBreakdown {
+  esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
+  elements: { Fire: number; Water: number; Earth: number; Air: number };
+  sign: string;
+  signElement: string;
+  sectElement: string;
+  alchmWeight: number;
+  dignityMultiplier: number;
+}
+
+export type DetailedAlchemicalResult = StandardizedAlchemicalResult & {
+  /** Each contributing planet's decomposition. Keyed by planet name. */
+  perPlanet: Record<string, PerPlanetBreakdown>;
+};
+
+/**
+ * Same calculation as {@link alchemize}, but additionally returns the
+ * per-planet contribution to ESMS and to each element. Used by the
+ * pre-computation pipeline and the statistics layer.
+ *
+ * Logic is intentionally a near-clone of {@link alchemize} so its outputs are
+ * bit-identical; if you change one, change the other. (We could share an
+ * inner helper, but the duplication keeps each function independently
+ * auditable, which the team has preferred for this critical path.)
+ */
+export function alchemizeDetailed(
+  planetaryPositions: Record<string, PlanetaryPosition>,
+  historicalPositions: Record<string, PlanetaryPosition> | null = null,
+  date: Date = new Date(),
+): DetailedAlchemicalResult {
+  const totals = {
+    Spirit: 0,
+    Essence: 0,
+    Matter: 0,
+    Substance: 0,
+    Fire: 0,
+    Water: 0,
+    Air: 0,
+    Earth: 0,
+  };
+  const planetaryAlchemy: Record<
+    string,
+    { Spirit: number; Essence: number; Matter: number; Substance: number }
+  > = {
+    Sun: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
+    Moon: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Mercury: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 },
+    Venus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Mars: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Jupiter: { Spirit: 1, Essence: 1, Matter: 0, Substance: 0 },
+    Saturn: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 },
+    Uranus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
+    Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    Ascendant: { Spirit: 1, Essence: 1, Matter: 1, Substance: 1 },
+  };
+  const diurnal = isSectDiurnal(date);
+  const planetaryMomentum: Record<string, number> = {};
+  const perPlanet: Record<string, PerPlanetBreakdown> = {};
+  const SIGN_WEIGHT = 0.6;
+  const SECT_WEIGHT = 0.4;
+
+  for (const [planet, position] of Object.entries(planetaryPositions)) {
+    const alchemy = planetaryAlchemy[planet];
+    const period = PLANET_ALCHM_PERIODS[planet] ?? 1.0;
+    const alchmWeight = planet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);
+
+    const dignity = alchemy ? getPlanetaryDignity(planet, position.sign) : 0;
+    const dignityMultiplier = Math.max(0.5, 1.0 + dignity * 0.15);
+
+    const planetEsms = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+    if (alchemy) {
+      planetEsms.Spirit = alchemy.Spirit * dignityMultiplier * alchmWeight;
+      planetEsms.Essence = alchemy.Essence * dignityMultiplier * alchmWeight;
+      planetEsms.Matter = alchemy.Matter * dignityMultiplier * alchmWeight;
+      planetEsms.Substance = alchemy.Substance * dignityMultiplier * alchmWeight;
+      totals.Spirit += planetEsms.Spirit;
+      totals.Essence += planetEsms.Essence;
+      totals.Matter += planetEsms.Matter;
+      totals.Substance += planetEsms.Substance;
+    }
+
+    const signElement = getZodiacElement(position.sign);
+    const sectElement = getPlanetarySectElement(planet, diurnal);
+    const planetElements = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const addElement = (el: string, weight: number) => {
+      if (el === "Fire") {
+        totals.Fire += weight;
+        planetElements.Fire += weight;
+      } else if (el === "Water") {
+        totals.Water += weight;
+        planetElements.Water += weight;
+      } else if (el === "Air") {
+        totals.Air += weight;
+        planetElements.Air += weight;
+      } else if (el === "Earth") {
+        totals.Earth += weight;
+        planetElements.Earth += weight;
+      }
+    };
+    addElement(signElement, SIGN_WEIGHT);
+    addElement(sectElement, SECT_WEIGHT);
+
+    if (historicalPositions && historicalPositions[planet]) {
+      const histPos = historicalPositions[planet];
+      let delta =
+        (position.exactLongitude || (position.degree + position.minute / 60)) -
+        (histPos.exactLongitude || (histPos.degree + histPos.minute / 60));
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      planetaryMomentum[planet] = delta * alchmWeight;
+    } else {
+      planetaryMomentum[planet] = 0;
+    }
+
+    perPlanet[planet] = {
+      esms: planetEsms,
+      elements: planetElements,
+      sign: String(position.sign ?? "").toLowerCase(),
+      signElement,
+      sectElement,
+      alchmWeight,
+      dignityMultiplier,
+    };
+  }
+
+  const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = totals;
+  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
+  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
+  const heat = heatNum / (heatDen || 1);
+  const entropyNum =
+    Math.pow(Spirit, 2) +
+    Math.pow(Substance, 2) +
+    Math.pow(Fire, 2) +
+    Math.pow(Air, 2);
+  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
+  const entropy = entropyNum / (entropyDen || 1);
+  const reactivityNum =
+    Math.pow(Spirit, 2) +
+    Math.pow(Substance, 2) +
+    Math.pow(Essence, 2) +
+    Math.pow(Fire, 2) +
+    Math.pow(Air, 2) +
+    Math.pow(Water, 2);
+  const reactivity = reactivityNum / (Matter || 1) + Math.pow(Earth, 2);
+  const gregsEnergy = heat - entropy * reactivity;
+  const kalchm =
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
+    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
+  let monica = 1.0;
+  if (kalchm > 0 && isFinite(kalchm)) {
+    const lnK = Math.log(kalchm);
+    if (lnK !== 0 && reactivity !== 0) {
+      monica = -gregsEnergy / (reactivity * lnK);
+    }
+  }
+
+  const elements = { Fire, Water, Air, Earth };
+  const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
+  const score = Math.min(
+    1.0,
+    Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20),
+  );
+  const elementalSum = Math.max(1, Fire + Water + Air + Earth);
+
+  return {
+    elementalProperties: {
+      Fire: Fire / elementalSum,
+      Water: Water / elementalSum,
+      Earth: Earth / elementalSum,
+      Air: Air / elementalSum,
+    },
+    thermodynamicProperties: { heat, entropy, reactivity, gregsEnergy },
+    esms: { Spirit, Essence, Matter, Substance },
+    planetaryMomentum,
+    kalchm,
+    monica,
+    score,
+    normalized: true,
+    confidence: 0.8,
+    metadata: {
+      source: "alchemizeDetailed",
+      dominantElement,
+      dominantModality: "Cardinal",
+      sunSign: planetaryPositions["Sun"]?.sign || "",
+      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign || "aries"),
+      isDiurnal: diurnal,
+    },
+    perPlanet,
+  };
+}
+
+/**
  * Load planetary positions from the extracted data file
  */
 export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {

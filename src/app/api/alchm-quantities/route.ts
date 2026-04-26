@@ -13,12 +13,13 @@ import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
+import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 
 const logger = createLogger("AlchmQuantitiesAPI");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-export const revalidate = 0;
+export const revalidate = 300;
 
 type EsmsKey = "Spirit" | "Essence" | "Matter" | "Substance";
 
@@ -144,6 +145,9 @@ export async function GET() {
     const acceleration = buildAcceleration(velocity, velocityPrev, 1);
     const momentum = buildMomentum(quantities, velocity);
 
+    // Fetch ISR 30-day historical context aggressively without blocking math calculation
+    const historicalContext = await getCachedHistoricalStats();
+
     const heat = round(nowAlch.thermodynamicProperties.heat, 6);
     const entropy = round(nowAlch.thermodynamicProperties.entropy, 6);
     const reactivity = round(nowAlch.thermodynamicProperties.reactivity, 6);
@@ -159,8 +163,8 @@ export async function GET() {
       Math.max(
         1,
         quantities.Matter +
-          quantities.Substance +
-          nowAlch.elementalProperties.Earth * 10,
+        quantities.Substance +
+        nowAlch.elementalProperties.Earth * 10,
       ),
       6,
     );
@@ -232,6 +236,7 @@ export async function GET() {
       // Preserve prior field for any older consumers
       alchemical: quantities,
       planetaryMomentum: nowAlch.planetaryMomentum,
+      historicalContext: historicalContext || undefined,
     };
 
     const validated = AlchmQuantitiesApiResponseSchema.safeParse(payload);
@@ -249,11 +254,7 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(validated.data, {
-      headers: {
-        "Cache-Control": "no-store, max-age=0, must-revalidate",
-      },
-    });
+    return NextResponse.json(validated.data);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     const stack = error instanceof Error ? error.stack : "No stack";

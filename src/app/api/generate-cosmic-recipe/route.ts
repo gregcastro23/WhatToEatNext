@@ -22,6 +22,9 @@ import {
   normalizeCuisineName,
 } from "@/utils/cuisine/cuisineIndex";
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
+import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
+import { alchemize } from "@/services/RealAlchemizeService";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -168,6 +171,44 @@ export async function POST(request: Request) {
       `Project-indexed ingredients strongest in ${dominantElement}: ${topIngredients.join(", ")}.`,
     );
   }
+
+  // Inject Alchemical Z-Score Rarity Matrix
+  const planetarySigns: Record<string, string> = {};
+  const normalizedPositions: Record<string, any> = {};
+  Object.entries(raw).forEach(([planet, pos]) => {
+    const p = pos as any;
+    planetarySigns[planet] = typeof p.sign === "string" ? p.sign : String(p.sign);
+    normalizedPositions[planet] = {
+      sign: String(p.sign ?? "").toLowerCase(),
+      degree: Number(p.degree) || 0,
+      minute: Number(p.minute) || 0,
+      isRetrograde: Boolean(p.isRetrograde),
+    };
+  });
+  const esms = calculateAlchemicalFromPlanets(planetarySigns);
+  const alchemized = alchemize(normalizedPositions);
+  const stats = await getCachedHistoricalStats();
+
+  const formatZ = (val: number, stat?: { mean: number, stdDev: number }) => {
+    if (!stat || stat.stdDev === 0) return "Average";
+    const z = (val - stat.mean) / stat.stdDev;
+    if (z > 2.0) return `Extreme High (+${z.toFixed(2)}σ)`;
+    if (z > 1.0) return `Elevated (+${z.toFixed(2)}σ)`;
+    if (z < -2.0) return `Extreme Low (${z.toFixed(2)}σ)`;
+    if (z < -1.0) return `Reduced (${z.toFixed(2)}σ)`;
+    return "Average";
+  };
+
+  if (stats?.metrics && alchemized?.thermodynamicProperties) {
+    const thermo = alchemized.thermodynamicProperties;
+    const heatZ = formatZ(thermo.heat ?? 0.5, stats.metrics.heat);
+    const entropyZ = formatZ(thermo.entropy ?? 0.5, stats.metrics.entropy);
+    const reactivityZ = formatZ(thermo.reactivity ?? 0.5, stats.metrics.reactivity);
+    groundingLines.push(
+      `Current Thermodynamic Rarity (30-day baseline): Heat is ${heatZ}, Entropy is ${entropyZ}, Reactivity is ${reactivityZ}. Modify the physical intensity of ingredients and cooking method precisely to match these statistical extremes. If Extreme, make the recipe Extreme.`
+    );
+  }
+
   const groundingBlock = groundingLines.length > 0 ? `\n${groundingLines.join("\n")}\n` : "";
 
   const systemPrompt = `You are an expert alchemical chef and astrologer for Alchm Kitchen.

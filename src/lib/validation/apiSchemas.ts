@@ -154,6 +154,31 @@ const EsmsKineticsSchema = z.object({
   Substance: z.number(),
 });
 
+const StatSummarySchema = z.object({
+  mean: z.number(),
+  variance: z.number(),
+  stdDev: z.number()
+});
+
+const HistoricalContextSchema = z.object({
+  timeframeDays: z.number(),
+  dataPoints: z.number(),
+  metrics: z.object({
+    Spirit: StatSummarySchema,
+    Essence: StatSummarySchema,
+    Matter: StatSummarySchema,
+    Substance: StatSummarySchema,
+    heat: StatSummarySchema,
+    entropy: StatSummarySchema,
+    reactivity: StatSummarySchema,
+    kalchm: StatSummarySchema,
+    monica: StatSummarySchema,
+    charge: StatSummarySchema,
+    power: StatSummarySchema,
+    currentFlow: StatSummarySchema,
+  })
+});
+
 export const AlchmQuantitiesApiResponseSchema = z.object({
   success: z.literal(true),
   timestamp: z.string(),
@@ -193,6 +218,7 @@ export const AlchmQuantitiesApiResponseSchema = z.object({
   }),
   alchemical: EsmsQuantitiesSchema,
   planetaryMomentum: z.record(z.string(), z.number()),
+  historicalContext: HistoricalContextSchema.optional(),
 });
 
 export type AlchmQuantitiesApiResponse = z.infer<

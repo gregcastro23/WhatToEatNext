@@ -12,7 +12,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 import httpx
 import asyncio
@@ -520,7 +520,59 @@ async def calculate_planetary_positions(request: PlanetaryPositionsRequest):
             }
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to calculate planetary positions: {str(e)}")
+        logger.error(f"Error calculating planetary positions: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class BulkPlanetaryPositionsRequest(BaseModel):
+    start_date: str  # ISO format "2026-03-26T00:00:00Z"
+    end_date: str    # ISO format
+    interval_hours: Optional[int] = 24
+    latitude: Optional[float] = 0.0
+    longitude: Optional[float] = 0.0
+    zodiacSystem: Optional[str] = "tropical"
+
+@app.post("/api/planetary/positions/bulk")
+async def calculate_bulk_planetary_positions(request: BulkPlanetaryPositionsRequest):
+    """
+    Calculate planetary positions over a timeframe using Swiss Ephemeris.
+    Used for historical aggregation and standard deviation benchmarking.
+    """
+    try:
+        start_dt = datetime.fromisoformat(request.start_date.replace('Z', '+00:00'))
+        end_dt = datetime.fromisoformat(request.end_date.replace('Z', '+00:00'))
+        
+        interval = max(1, request.interval_hours)
+        
+        results = {}
+        current_dt = start_dt
+        
+        iterations = 0
+        while current_dt <= end_dt and iterations < 180:
+            res = calculate_planetary_positions_swisseph(
+                current_dt.year, current_dt.month, current_dt.day, 
+                current_dt.hour, current_dt.minute, 
+                request.latitude, request.longitude, request.zodiacSystem
+            )
+            
+            iso_key = current_dt.isoformat()
+            results[iso_key] = res["positions"]
+            
+            current_dt += timedelta(hours=interval)
+            iterations += 1
+            
+        return {
+            "success": True,
+            "data": results,
+            "metadata": {
+                "source": "swisseph" if swe else "ephem",
+                "count": iterations,
+                "interval_hours": interval
+            }
+        }
+    except Exception as e:
+        logger.error(f"Failed to compute bulk planetary positions: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/planetary/positions")
 async def calculate_planetary_positions_get(
