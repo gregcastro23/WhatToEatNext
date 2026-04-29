@@ -496,7 +496,7 @@ export class EnhancedRecommendationService {
         diversityBonus: 0.5,
       };
 
-      const composite_score =
+      const compositeScore =
         astrologicalAlignment * 0.45 +
         alchemicalAlignment * 0.3 +
         elementalMatch * 0.15 +
@@ -525,7 +525,7 @@ export class EnhancedRecommendationService {
 
       return {
         recipe,
-        score: Math.max(0, Math.min(1, composite_score)),
+        score: Math.max(0, Math.min(1, compositeScore)),
         scoreBreakdown: breakdown,
         reason,
       };
@@ -581,7 +581,7 @@ export class EnhancedRecommendationService {
     let presets: FoodSearchResult[] = [];
     try {
       const mod = await import("@/services/FoodDiaryService");
-      const all = await mod.foodDiaryService.getQuickFoodPresets();
+      const all = mod.foodDiaryService.getQuickFoodPresets();
       presets = all.map((p) => ({
         id: p.id,
         name: p.name,

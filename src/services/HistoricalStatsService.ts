@@ -60,7 +60,7 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
         logger.info(`Fetching trailing 30 days bulk positions from ${start.toISOString()} to ${end.toISOString()}`);
 
         // 12-hour resolution yields 60 datapoints, an ideal statistical volume
-        const interval_hours = 12;
+        const intervalHours = 12;
 
         // Timeout controller since we're calling external Python backend
         const controller = new AbortController();
@@ -72,7 +72,7 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
             body: JSON.stringify({
                 start_date: start.toISOString(),
                 end_date: end.toISOString(),
-                interval_hours,
+                interval_hours: intervalHours,
                 zodiacSystem: "tropical"
             }),
             signal: controller.signal

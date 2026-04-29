@@ -19,6 +19,13 @@ interface CuisineRec {
   reasons: string[];
 }
 
+interface GroupRecommendationResult {
+  composite: CompositeNatalChart;
+  recommendations: CuisineRec[];
+  memberCount: number;
+  strategy: string;
+}
+
 interface SearchResult {
   id: string;
   name: string;
@@ -492,7 +499,11 @@ function GroupRecommendationsPanel({
     commensalIds,
     linkedUserIds,
     strategy,
-  });
+  }) as {
+    result: GroupRecommendationResult | null;
+    loading: boolean;
+    refetch: () => Promise<void>;
+  };
 
   if (!commensalIds.length && !linkedUserIds.length) return null;
 
@@ -1003,4 +1014,4 @@ export const CommensalManager: React.FC = () => {
       </div>
     </div>
   );
-};
+}

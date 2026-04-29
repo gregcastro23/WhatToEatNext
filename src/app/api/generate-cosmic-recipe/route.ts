@@ -185,7 +185,7 @@ export async function POST(request: Request) {
       isRetrograde: Boolean(p.isRetrograde),
     };
   });
-  const _esms = calculateAlchemicalFromPlanets(planetarySigns);
+  const esms = calculateAlchemicalFromPlanets(planetarySigns);
   const alchemized = alchemize(normalizedPositions);
   const stats = await getCachedHistoricalStats();
 
@@ -206,6 +206,9 @@ export async function POST(request: Request) {
     const reactivityZ = formatZ(thermo.reactivity ?? 0.5, stats.metrics.reactivity);
     groundingLines.push(
       `Current Thermodynamic Rarity (30-day baseline): Heat is ${heatZ}, Entropy is ${entropyZ}, Reactivity is ${reactivityZ}. Modify the physical intensity of ingredients and cooking method precisely to match these statistical extremes. If Extreme, make the recipe Extreme.`
+    );
+    groundingLines.push(
+      `Current ESMS Baseline Yields: Spirit ${esms.Spirit.toFixed(2)}, Essence ${esms.Essence.toFixed(2)}, Matter ${esms.Matter.toFixed(2)}, Substance ${esms.Substance.toFixed(2)}.`
     );
   }
 
