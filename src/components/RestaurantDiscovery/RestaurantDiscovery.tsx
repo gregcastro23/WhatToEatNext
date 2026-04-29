@@ -10,6 +10,9 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useToast } from "@/components/ToastProvider";
+import { useUser } from "@/contexts/UserContext";
+import type { SavedRestaurant } from "@/types/restaurant";
 import type { AlchmScoredRestaurant, RestaurantSearchResponse } from "@/types/yelp";
 
 interface RestaurantDiscoveryProps {
@@ -60,6 +63,11 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }
 
+interface SavedRestaurantsPrefs {
+  savedRestaurants?: SavedRestaurant[];
+  [k: string]: unknown;
+}
+
 export function RestaurantDiscovery({
   cuisineType,
   userLatitude,
@@ -74,6 +82,112 @@ export function RestaurantDiscovery({
   );
   const [locationError, setLocationError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const { currentUser, updateProfile } = useUser();
+  const { showToast } = useToast();
+
+  // Hydrate saved restaurant IDs from user prefs (logged-in) or localStorage (anon).
+  useEffect(() => {
+    const ids = new Set<string>();
+    const prefs = currentUser?.preferences as SavedRestaurantsPrefs | undefined;
+    prefs?.savedRestaurants?.forEach((r) => {
+      if (r.externalId) ids.add(r.externalId);
+    });
+    if (typeof window !== "undefined") {
+      try {
+        const raw = window.localStorage.getItem("userFoodPreferences");
+        if (raw) {
+          const parsed = JSON.parse(raw) as SavedRestaurantsPrefs;
+          parsed.savedRestaurants?.forEach((r) => {
+            if (r.externalId) ids.add(r.externalId);
+          });
+        }
+      } catch {
+        // ignore malformed localStorage
+      }
+    }
+    setSavedIds(ids);
+  }, [currentUser]);
+
+  const saveRestaurant = useCallback(
+    async (entry: AlchmScoredRestaurant, source: "yelp" | "foursquare") => {
+      const { business } = entry;
+      if (savedIds.has(business.id)) return;
+
+      const restaurant: SavedRestaurant = {
+        id: `${source}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
+        name: business.name,
+        cuisine: business.categories[0]?.title || cuisineType || "Restaurant",
+        location:
+          [business.location.city, business.location.state]
+            .filter(Boolean)
+            .join(", ") || undefined,
+        address:
+          business.location.display_address.join(", ") ||
+          business.location.address1 ||
+          undefined,
+        menuItems: [],
+        rating: business.rating,
+        source,
+        externalId: business.id,
+        addedAt: new Date().toISOString(),
+      };
+
+      // Optimistic UI
+      setSavedIds((prev) => {
+        const next = new Set(prev);
+        next.add(business.id);
+        return next;
+      });
+
+      // Persist to user profile when logged in.
+      if (currentUser?.userId) {
+        const currentPrefs =
+          (currentUser.preferences as SavedRestaurantsPrefs | undefined) ?? {};
+        const newSaved = [...(currentPrefs.savedRestaurants ?? []), restaurant];
+        try {
+          await updateProfile({
+            preferences: { ...currentPrefs, savedRestaurants: newSaved },
+          });
+        } catch (err) {
+          // Roll back optimistic state on failure
+          setSavedIds((prev) => {
+            const next = new Set(prev);
+            next.delete(business.id);
+            return next;
+          });
+          showToast(
+            err instanceof Error ? err.message : "Failed to save restaurant",
+            "error",
+          );
+          return;
+        }
+      }
+
+      // Always also write to localStorage so anon users + ProfilePage fallback see it.
+      if (typeof window !== "undefined") {
+        try {
+          const raw = window.localStorage.getItem("userFoodPreferences");
+          const parsed: SavedRestaurantsPrefs = raw
+            ? (JSON.parse(raw) as SavedRestaurantsPrefs)
+            : {};
+          parsed.savedRestaurants = [
+            ...(parsed.savedRestaurants ?? []),
+            restaurant,
+          ];
+          window.localStorage.setItem(
+            "userFoodPreferences",
+            JSON.stringify(parsed),
+          );
+        } catch {
+          // ignore quota / parse errors
+        }
+      }
+
+      showToast(`Saved ${business.name} to your restaurants`, "success");
+    },
+    [cuisineType, currentUser, savedIds, showToast, updateProfile],
+  );
 
   // Sync coords when parent provides them
   useEffect(() => {
@@ -148,7 +262,10 @@ export function RestaurantDiscovery({
 
         const data = (await res.json()) as RestaurantSearchResponse;
 
-        if (data.error === "Yelp integration not configured") {
+        if (
+          data.error === "Yelp integration not configured" ||
+          data.error === "Restaurant discovery is not configured."
+        ) {
           setStatus({ kind: "not-configured" });
           return;
         }
@@ -249,9 +366,10 @@ export function RestaurantDiscovery({
       )}
 
       {status.kind === "not-configured" && (
-        <div className="rounded-lg bg-white/60 border border-amber-200 p-3 text-xs text-amber-900">
-          Restaurant discovery isn't configured yet. Add{" "}
-          <code className="font-mono bg-amber-100 px-1 rounded">YELP_API_KEY</code> to enable.
+        <div className="rounded-lg bg-white/60 border border-amber-200 p-3 text-xs text-amber-900 leading-snug">
+          Restaurant discovery isn&apos;t configured yet. Add{" "}
+          <code className="font-mono bg-amber-100 px-1 rounded">YELP_API_KEY</code> for cosmic-scored results, or{" "}
+          <code className="font-mono bg-amber-100 px-1 rounded">FOURSQUARE_API_KEY</code> for unscored fallback.
         </div>
       )}
 
@@ -268,83 +386,115 @@ export function RestaurantDiscovery({
       )}
 
       {status.kind === "ready" && (
-        <ul className="space-y-2">
-          {status.data.restaurants.map((entry) => {
-            const { business } = entry;
-            const decoration = ELEMENT_DECORATION[entry.dominantElement];
-            const distance = metersToMiles(business.distance);
-            const scorePct = Math.round(entry.alchmScore * 100);
-            const reasons = entry.matchReasons.slice(0, 2);
+        <>
+          {status.data.source === "foursquare" && status.data.sourceNotice && (
+            <div className="mb-3 rounded-lg border border-amber-300 bg-amber-100/60 p-2.5 text-[11px] text-amber-900 leading-snug">
+              ✦ {status.data.sourceNotice}
+            </div>
+          )}
+          <ul className="space-y-2">
+            {status.data.restaurants.map((entry) => {
+              const { business } = entry;
+              const source = status.data.source ?? "yelp";
+              const isScored = source === "yelp";
+              const decoration = ELEMENT_DECORATION[entry.dominantElement];
+              const distance = metersToMiles(business.distance);
+              const scorePct = Math.round(entry.alchmScore * 100);
+              const reasons = entry.matchReasons.slice(0, 2);
+              const isSaved = savedIds.has(business.id);
 
-            return (
-              <li
-                key={business.id}
-                className="flex items-start gap-3 p-3 rounded-lg bg-white border border-amber-100 shadow-sm hover:border-amber-300 transition-colors"
-              >
-                {/* Score badge */}
-                <div className="flex-shrink-0 flex flex-col items-center">
-                  <div className="px-2 py-1 rounded-md bg-gradient-to-br from-amber-400 to-amber-600 text-white text-xs font-extrabold shadow-sm">
-                    {scorePct}% <span aria-hidden>✦</span>
-                  </div>
-                  <span
-                    className={`mt-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-semibold ${decoration.chipClass}`}
-                    title={`${decoration.label} dominant`}
-                  >
-                    <span aria-hidden>{decoration.emoji}</span>
-                    {decoration.label}
-                  </span>
-                </div>
-
-                {/* Details */}
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-bold text-gray-800 truncate">
-                    {business.name}
-                  </h4>
-                  <div className="flex flex-wrap items-center gap-x-2 text-[11px] text-gray-500 mt-0.5">
-                    {typeof business.rating === "number" && (
-                      <span className="text-amber-600 font-semibold">
-                        ★ {business.rating.toFixed(1)}
-                      </span>
-                    )}
-                    {business.review_count > 0 && (
-                      <span className="text-gray-400">
-                        ({business.review_count})
-                      </span>
-                    )}
-                    {business.price && (
-                      <span className="text-emerald-600 font-medium">
-                        {business.price}
-                      </span>
-                    )}
-                    {distance && <span>· {distance}</span>}
-                  </div>
-                  {reasons.length > 0 && (
-                    <ul className="mt-1 space-y-0.5">
-                      {reasons.map((reason, i) => (
-                        <li
-                          key={i}
-                          className="text-[11px] text-amber-800 italic leading-snug"
-                        >
-                          — {reason}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-
-                {/* CTA */}
-                <a
-                  href={business.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-shrink-0 self-center px-3 py-2 bg-amber-600 text-white text-xs font-bold rounded-lg hover:bg-amber-700 transition-colors whitespace-nowrap"
+              return (
+                <li
+                  key={business.id}
+                  className="flex items-start gap-3 p-3 rounded-lg bg-white border border-amber-100 shadow-sm hover:border-amber-300 transition-colors"
                 >
-                  Order it →
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+                  {/* Score / source badge */}
+                  <div className="flex-shrink-0 flex flex-col items-center">
+                    {isScored ? (
+                      <>
+                        <div className="px-2 py-1 rounded-md bg-gradient-to-br from-amber-400 to-amber-600 text-white text-xs font-extrabold shadow-sm">
+                          {scorePct}% <span aria-hidden>✦</span>
+                        </div>
+                        <span
+                          className={`mt-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-semibold ${decoration.chipClass}`}
+                          title={`${decoration.label} dominant`}
+                        >
+                          <span aria-hidden>{decoration.emoji}</span>
+                          {decoration.label}
+                        </span>
+                      </>
+                    ) : (
+                      <div className="px-2 py-1 rounded-md bg-blue-100 text-blue-700 text-[10px] font-bold border border-blue-200">
+                        Foursquare
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Details */}
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-bold text-gray-800 truncate">
+                      {business.name}
+                    </h4>
+                    <div className="flex flex-wrap items-center gap-x-2 text-[11px] text-gray-500 mt-0.5">
+                      {typeof business.rating === "number" && business.rating > 0 && (
+                        <span className="text-amber-600 font-semibold">
+                          ★ {business.rating.toFixed(1)}
+                        </span>
+                      )}
+                      {business.review_count > 0 && (
+                        <span className="text-gray-400">
+                          ({business.review_count})
+                        </span>
+                      )}
+                      {business.price && (
+                        <span className="text-emerald-600 font-medium">
+                          {business.price}
+                        </span>
+                      )}
+                      {distance && <span>· {distance}</span>}
+                    </div>
+                    {isScored && reasons.length > 0 && (
+                      <ul className="mt-1 space-y-0.5">
+                        {reasons.map((reason, i) => (
+                          <li
+                            key={i}
+                            className="text-[11px] text-amber-800 italic leading-snug"
+                          >
+                            — {reason}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+
+                  {/* CTAs */}
+                  <div className="flex-shrink-0 self-center flex flex-col gap-1.5">
+                    <a
+                      href={business.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 bg-amber-600 text-white text-xs font-bold rounded-lg hover:bg-amber-700 transition-colors whitespace-nowrap text-center"
+                    >
+                      Order it →
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => void saveRestaurant(entry, source)}
+                      disabled={isSaved}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
+                        isSaved
+                          ? "bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default"
+                          : "bg-white text-purple-700 border border-purple-200 hover:bg-purple-50"
+                      }`}
+                    >
+                      {isSaved ? "✓ Saved" : "+ Save"}
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </>
       )}
 
       {/* Cosmic context line */}
@@ -354,8 +504,13 @@ export function RestaurantDiscovery({
         </p>
       )}
 
-      {/* Yelp ToS attribution */}
-      {(status.kind === "ready" || status.kind === "empty") && (
+      {/* Provider attribution */}
+      {status.kind === "ready" && (
+        <p className="mt-2 text-[10px] text-gray-400 text-center">
+          Powered by {status.data.source === "foursquare" ? "Foursquare" : "Yelp"}
+        </p>
+      )}
+      {status.kind === "empty" && (
         <p className="mt-2 text-[10px] text-gray-400 text-center">
           Powered by Yelp
         </p>

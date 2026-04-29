@@ -4,6 +4,8 @@ import Link from "next/link";
 import React from "react";
 import SignInModal from "@/components/auth/SignInModal";
 import TokenShopModal from "@/components/economy/TokenShopModal";
+import { GroceryCartButton } from "@/components/grocery-cart/GroceryCartButton";
+import { GroceryCartDrawer } from "@/components/grocery-cart/GroceryCartDrawer";
 import MobileNavToggle from "@/components/nav/MobileNavToggle";
 import NavAuthLink from "@/components/nav/NavAuthLink";
 import NotificationBell from "@/components/nav/NotificationBell";
@@ -77,6 +79,7 @@ export default function RootLayout({
                 <div className="flex flex-col items-center xl:items-end flex-grow w-full xl:w-2/3">
                   <div className="flex items-center gap-3 w-full justify-end mb-4 xl:mb-6">
                     <ThemeToggle compact />
+                    <GroceryCartButton />
                     <NotificationBell />
                     {/* Hamburger toggle for mobile */}
                     <MobileNavToggle>
@@ -246,6 +249,7 @@ export default function RootLayout({
           </footer>
           <SignInModal />
           <TokenShopModal />
+          <GroceryCartDrawer />
         </ClientProviders>
         <Analytics />
       </body>

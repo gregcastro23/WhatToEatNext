@@ -2,11 +2,15 @@
 'use client';
 
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
-import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import { useToast } from '@/components/ToastProvider';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-// @ts-expect-error - Auto-fixed by script
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
+import { useGroceryCart } from '@/contexts/GroceryCartContext';
+// @ts-expect-error - Auto-fixed by script
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
 import { _transformCuisines as transformCuisines, _sortByAlchemicalCompatibility as sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
@@ -84,6 +88,63 @@ export default function CuisineRecommender() {
   const [topRecommendedSauces, setTopRecommendedSauces] = useState<any[]>([]);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
+  const recipesSectionRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
+  const { addRecipe: addRecipeToGroceryCart, open: openGroceryCart } = useGroceryCart();
+  const { showToast } = useToast();
+
+  const handleViewRecipes = useCallback((cuisineId: string) => {
+    setSelectedCuisine(cuisineId);
+    setShowCuisineDetails(true);
+    requestAnimationFrame(() => {
+      recipesSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, []);
+
+  const handleOrderCuisine = useCallback((cuisineName: string) => {
+    router.push(`/restaurants?cuisine=${encodeURIComponent(cuisineName)}`);
+  }, [router]);
+
+  const buildRecipeHref = useCallback((recipe: any): string | null => {
+    const slug = recipe?.id || recipe?.name;
+    if (!slug) return null;
+    return `/recipes/${encodeURIComponent(String(slug))}`;
+  }, []);
+
+  const handleAddRecipeToCart = useCallback((recipe: any) => {
+    if (!recipe) return;
+    const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
+    const normalized = ingredients
+      .map((ing: any) => {
+        if (!ing) return null;
+        if (typeof ing === 'string') {
+          return { name: ing, amount: 1, unit: 'each' };
+        }
+        return {
+          name: ing.name,
+          amount: typeof ing.amount === 'number' ? ing.amount : 1,
+          unit: ing.unit || 'each',
+          category: ing.category,
+          notes: ing.notes,
+        };
+      })
+      .filter((x: any) => x && x.name);
+
+    if (normalized.length === 0) {
+      showToast('This recipe has no ingredients to add.', 'warning');
+      return;
+    }
+
+    const baseServings = Number(recipe.servingSize ?? recipe.numberOfServings ?? recipe.servings) || 1;
+    const recipeId = String(recipe.id || recipe.name);
+    addRecipeToGroceryCart(
+      { id: recipeId, name: recipe.name, baseServings, ingredients: normalized },
+      baseServings,
+    );
+    showToast(`Added ${normalized.length} ingredient${normalized.length === 1 ? '' : 's'} from ${recipe.name}`, 'success', {
+      action: { label: 'View cart', onClick: openGroceryCart },
+    });
+  }, [addRecipeToGroceryCart, openGroceryCart, showToast]);
   
   // Get elemental profile from current astrological state instead of using placeholder values
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] = useState<ElementalProperties>(
@@ -640,10 +701,28 @@ export default function CuisineRecommender() {
           </div>
           
           <p className="text-sm text-gray-600 mb-3">{selectedCuisineData.description}</p>
-          
+
+          {/* Cuisine action buttons: cook it (recipes) or order it (restaurants) */}
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            <button
+              type="button"
+              onClick={() => handleViewRecipes(selectedCuisineData.id)}
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-bold shadow-sm hover:from-amber-400 hover:to-orange-400 transition-all"
+            >
+              <span aria-hidden>🥘</span> Recipes
+            </button>
+            <button
+              type="button"
+              onClick={() => handleOrderCuisine(selectedCuisineData.name)}
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg bg-gradient-to-r from-rose-500 to-purple-500 text-white text-sm font-bold shadow-sm hover:from-rose-400 hover:to-purple-400 transition-all"
+            >
+              <span aria-hidden>📍</span> Order Local
+            </button>
+          </div>
+
           {/* Recipe Recommendations - Shown Immediately */}
           {cuisineRecipes.length > 0 ? (
-            <div className="mt-2">
+            <div ref={recipesSectionRef} className="mt-2">
               <h4 className="text-xs uppercase font-medium text-gray-500 mb-2">Recipes</h4>
               <div className="grid grid-cols-2 gap-2">
                 {cuisineRecipes.slice(0, showAllRecipes ? undefined : 5).map((recipe, index) => (
@@ -784,6 +863,28 @@ export default function CuisineRecommender() {
                             <p>{Array.isArray(recipe.astrologicalInfluences) ? recipe.astrologicalInfluences.join(', ') : recipe.astrologicalInfluences}</p>
                           </div>
                         )}
+
+                        {/* Recipe sub-card actions: open full page, add to grocery cart */}
+                        <div className="mt-3 pt-2 border-t border-gray-100 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
+                          {buildRecipeHref(recipe) && (
+                            <Link
+                              href={buildRecipeHref(recipe) as string}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-blue-600 text-white text-[11px] font-semibold hover:bg-blue-500 transition-colors"
+                            >
+                              View full recipe →
+                            </Link>
+                          )}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAddRecipeToCart(recipe);
+                            }}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-orange-600 text-white text-[11px] font-semibold hover:bg-orange-500 transition-colors"
+                          >
+                            🛒 Add to grocery cart
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
