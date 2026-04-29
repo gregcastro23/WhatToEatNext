@@ -114,6 +114,9 @@ export const CreateFoodDiaryEntrySchema = z.object({
   elementalProperties: ElementalPropertiesSchema.optional(),
   notes: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  price: z.number().optional(),
+  store: z.string().optional(),
+  quality: z.string().optional(),
 });
 
 export type ParsedCreateFoodDiaryEntry = z.infer<typeof CreateFoodDiaryEntrySchema>;

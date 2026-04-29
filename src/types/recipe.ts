@@ -517,6 +517,7 @@ export interface RecipeSearchCriteria {
 export interface ingredient {
   id: string;
   name: string;
+  description?: string;
   category: string;
   nutritionalProfile?: NutritionalSummary;
   servingSize?: number;

@@ -6,6 +6,7 @@
  */
 
 export { default as QuickFoodInput } from "./QuickFoodInput";
+export { AddToDiaryModal } from "./AddToDiaryModal";
 export { default as FoodRating, StarDisplay } from "./FoodRating";
 export { default as FoodDiaryView } from "./FoodDiaryView";
 export { default as NutritionDashboard } from "./NutritionDashboard";

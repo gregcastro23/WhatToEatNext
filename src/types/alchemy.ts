@@ -689,6 +689,7 @@ export interface NutritionPreferences {
 export interface Ingredient {
   id: string;
   name: string;
+  description?: string;
   category: string;
   elementalProperties: ElementalProperties;
   nutritionalProfile?: NutritionalProfile;

@@ -102,6 +102,11 @@ CREATE TABLE food_diary_entries (
     is_favorite BOOLEAN DEFAULT false,
     tags TEXT[] DEFAULT '{}',
 
+    -- Sourcing & Details
+    price DECIMAL(10,2),
+    store VARCHAR(255),
+    quality VARCHAR(50),
+
     -- Astrological context at time of eating
     astrological_context JSONB DEFAULT '{}',
     -- { dominantPlanet, zodiacSign, lunarPhase, planetaryHour }

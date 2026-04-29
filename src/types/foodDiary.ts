@@ -137,6 +137,11 @@ export interface FoodDiaryEntry {
   notes?: string;
   wouldEatAgain?: boolean;
 
+  // Ingredient sourcing & details
+  price?: number;
+  store?: string;
+  quality?: string;
+
   // Astrological context (captured at entry time)
   astrologicalContext?: {
     dominantPlanet?: string;
@@ -170,6 +175,9 @@ export interface CreateFoodDiaryEntryInput {
   elementalProperties?: ElementalProperties;
   notes?: string;
   tags?: string[];
+  price?: number;
+  store?: string;
+  quality?: string;
 }
 
 /**
@@ -185,6 +193,9 @@ export interface UpdateFoodDiaryEntryInput {
   wouldEatAgain?: boolean;
   isFavorite?: boolean;
   tags?: string[];
+  price?: number;
+  store?: string;
+  quality?: string;
 }
 
 /**
