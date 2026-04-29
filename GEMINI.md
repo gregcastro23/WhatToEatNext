@@ -17,7 +17,17 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 - **Build Status**: ✅ **BUILDING ON RAILWAY** (93s build time)
 - **Latest Milestone**: Backend decoupled from Vercel for better performance and reliability.
 
-### 🚀 **MAJOR CHANGES (Version 2.0.0)**
+### 🚀 **MAJOR CHANGES (Version 2.1.0)**
+
+#### **Food Diary & Economy Integration**
+- ✅ **"What I Ate Today" Logging**: Fully integrated `AddToDiaryModal` onto `IngredientCard` and `RecipeCard` components.
+- ✅ **Procurement Tracking**: Schema expanded to track ingredient `price`, `store`, `quality`, and precise `quantity`.
+- ✅ **ESMS Logging Rewards**: Logging foods now automatically triggers the `TokenEconomyService` and `QuestService`, proportionally awarding ESMS tokens based on the intrinsic Fire, Water, Earth, and Air elemental properties of the consumed item.
+
+#### **Alchemical Dark Theme & UI Polish**
+- ✅ **Glassmorphism Enhancements**: Rebuilt Food Tracking page, components, and Commensal tools using the rich, space-themed `bg-[#08080e]` Alchemical Dark Theme.
+- ✅ **Ingredient Transparency**: Ingredient cards now display full descriptions (with fallback to `ingredientSummaries`), detailed ESMS values, elemental distribution bars, planetary rulers, and modalities.
+- ✅ **Zero Errors Validation**: Completed a rigorous type-checking and linting sweep (`yarn verify`) ensuring 0 errors and 0 warnings remain across the entire codebase.
 
 #### **Railway Backend Migration**
 - ✅ **Decoupling**: Backend moved from Vercel to a standalone Railway service.
