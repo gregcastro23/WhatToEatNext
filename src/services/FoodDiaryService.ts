@@ -35,6 +35,8 @@ import type { MealType } from "@/types/menuPlanner";
 import type { NutritionalSummary } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
 import { getNutritionTrackingService } from "./NutritionTrackingService";
+import { tokenEconomy } from "./TokenEconomyService";
+import { reportQuestEventBestEffort } from "./questEventReporter";
 
 // Check if we should use database (only in server-side contexts with DB available)
 const isServerWithDB = (): boolean => {
@@ -2552,12 +2554,12 @@ class FoodDiaryService {
             date, meal_type, time, serving_amount, serving_unit, serving_grams,
             serving_description, quantity, calories, protein, carbs, fat, fiber,
             sugar, sodium, nutrition_confidence, elemental_fire, elemental_water,
-            elemental_earth, elemental_air, notes, tags, is_favorite,
+            elemental_earth, elemental_air, notes, tags, price, store, quality, is_favorite,
             astrological_context, created_at, updated_at
           ) VALUES (
             $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,
             $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26,
-            $27, $28, $29, $30, $31, $32
+            $27, $28, $29, $30, $31, $32, $33, $34, $35
           )`,
           [
             entryId,
@@ -2588,6 +2590,9 @@ class FoodDiaryService {
             input.elementalProperties?.Air || null,
             input.notes || null,
             input.tags || [],
+            input.price || null,
+            input.store || null,
+            input.quality || null,
             false,
             JSON.stringify(astrologicalContext),
             now,
@@ -2616,6 +2621,40 @@ class FoodDiaryService {
       entryId,
       food: input.foodName,
     });
+
+    // ─── Post-Creation Rewards & Quests ───────────────────────────────
+    try {
+      // 1. ESMS Rewards based on ingredient stats
+      if (entry.elementalProperties) {
+        const rewardScale = 0.5; // Award 50% of elemental stats as tokens
+        const credits = [
+          { tokenType: "Spirit" as any, amount: Math.round((entry.elementalProperties.Fire || 0) * 10 * rewardScale) / 10 },
+          { tokenType: "Essence" as any, amount: Math.round((entry.elementalProperties.Water || 0) * 10 * rewardScale) / 10 },
+          { tokenType: "Matter" as any, amount: Math.round((entry.elementalProperties.Earth || 0) * 10 * rewardScale) / 10 },
+          { tokenType: "Substance" as any, amount: Math.round((entry.elementalProperties.Air || 0) * 10 * rewardScale) / 10 },
+        ].filter(c => c.amount > 0);
+
+        if (credits.length > 0) {
+          await tokenEconomy.creditMultipleTokens(userId, credits, "alchemical_log", {
+            sourceId: entryId,
+            description: `Alchemical Log: ${entry.foodName}`,
+            idempotencyKey: `log_reward_${entryId}`,
+          });
+        }
+      }
+
+      // 2. Quest Reporting
+      await reportQuestEventBestEffort(userId, "log_meal");
+      await reportQuestEventBestEffort(userId, `log_${entry.mealType}`);
+      
+      const stats = await this.getStats(userId);
+      if (stats.trackingStreak >= 3) {
+        await reportQuestEventBestEffort(userId, `log_streak_${stats.trackingStreak}_days`);
+      }
+    } catch (err) {
+      _logger.warn("Post-creation rewards/quests failed", err as any);
+    }
+
     return entry;
   }
 
@@ -2690,6 +2729,9 @@ class FoodDiaryService {
       wouldEatAgain: row.would_eat_again,
       isFavorite: row.is_favorite,
       tags: row.tags || [],
+      price: row.price ? parseFloat(row.price) : undefined,
+      store: row.store,
+      quality: row.quality,
       astrologicalContext:
         typeof row.astrological_context === "string"
           ? JSON.parse(row.astrological_context)
@@ -2740,6 +2782,9 @@ class FoodDiaryService {
       entry.wouldEatAgain = input.wouldEatAgain;
     if (input.isFavorite !== undefined) entry.isFavorite = input.isFavorite;
     if (input.tags !== undefined) entry.tags = input.tags;
+    if (input.price !== undefined) entry.price = input.price;
+    if (input.store !== undefined) entry.store = input.store;
+    if (input.quality !== undefined) entry.quality = input.quality;
 
     entry.updatedAt = new Date();
     this.entries.set(input.id, entry);

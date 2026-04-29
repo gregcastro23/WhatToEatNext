@@ -23,6 +23,7 @@ export type TransactionSourceType =
   | "premium_purchase"
   | "transmutation"
   | "streak_bonus"
+  | "alchemical_log"
   | "admin";
 
 // ─── Token Balances ────────────────────────────────────────────────────
