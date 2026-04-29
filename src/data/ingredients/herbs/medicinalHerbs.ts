@@ -5,6 +5,7 @@ const rawMedicinalHerbs = {
   echinacea: {
       description: "A genus of herbaceous flowering plants in the daisy family, traditionally used by Native Americans for its purported immune-boosting properties. When brewed as a tea or tincture, it provides an earthy, slightly floral, and numbing sensation on the tongue due to its high concentration of alkamides.",
     name: "Echinacea",
+    season: ["spring", "summer"],
     elementalProperties: { Earth: 0.3, Fire: 0.4, Air: 0.2, Water: 0.1 },
     alchemicalProperties: { Spirit: 0.32, Essence: 0.21, Matter: 0.24, Substance: 0.23 },
     astrologicalProfile: {
@@ -331,6 +332,8 @@ const rawMedicinalHerbs = {
   elderberry: {
       description: "The tiny, dark purple-black berries of the *Sambucus* tree. They are mildly toxic when raw and must be cooked, which transforms their astringent, earthy flavor into a deeply complex, floral, and rich syrup utilized in cordials, jams, and medicinal tinctures.",
     name: "Elderberry",
+    origin: ["Europe", "North America"],
+    season: ["late summer"],
     elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.27, Air: 0.27 },
     alchemicalProperties: { Spirit: 0.16, Essence: 0.26, Matter: 0.29, Substance: 0.29 },
     astrologicalProfile: {
@@ -369,6 +372,8 @@ const rawMedicinalHerbs = {
   chamomile: {
       description: "The delicate, daisy-like flowers of the *Matricaria* family, most commonly dried and consumed as a tisane (herbal tea). They impart a remarkably gentle, floral, and distinctively apple-like sweetness that infuses beautifully into light custards, panna cottas, and clear broths.",
     name: "Chamomile",
+    origin: ["Cultivated worldwide"],
+    season: ["spring", "summer"],
     elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.18, Air: 0.36 },
     alchemicalProperties: { Spirit: 0.20, Essence: 0.29, Matter: 0.25, Substance: 0.26 },
     astrologicalProfile: {

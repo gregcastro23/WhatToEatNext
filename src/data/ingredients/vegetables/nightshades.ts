@@ -307,6 +307,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   eggplant: {
       description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.",
     name: "eggplant",
+    origin: ["South Asia (India)"],
     category: "vegetable",
     subcategory: "nightshade",
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
@@ -349,6 +350,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   tomato_paste: {
       description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes it the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize whole. Sun-dried tomatoes concentrate sweetness and umami dramatically; rehydrate in warm water or oil.",
     name: "tomato paste",
+    origin: ["Western South America", "Mesoamerica"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.40,
@@ -389,6 +392,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   cherry_tomatoes: {
       description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes them the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce well into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize beautifully whole. Salt sliced tomatoes 20 min before serving to draw out water and concentrate flavor.",
     name: "cherry tomatoes",
+    origin: ["South America"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.32,
@@ -414,6 +419,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   tomato_sauce: {
       description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes it the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize whole. Sun-dried tomatoes concentrate sweetness and umami dramatically; rehydrate in warm water or oil.",
     name: "tomato sauce",
+    origin: ["Western South America", "Mesoamerica"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.28,
@@ -439,6 +446,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   eggplants: {
       description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.\n\n**Selection & Storage:** Select eggplants with smooth, shiny, deeply colored skin that feel heavy for their size; the stem should be bright green. They are sensitive to both heat and extreme cold; store in a cool, dark place or in the crisper drawer for only a few days.",
     name: "eggplants",
+    origin: ["South Asia (India)"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.10,
@@ -464,6 +473,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   large_eggplant: {
       description: "A spongy, absorbent nightshade fruit (*Solanum melongena*) with a slightly bitter, complex flavor and a texture that ranges from meaty to silkily creamy when cooked. Its cellular structure acts like a sponge, readily soaking up cooking oils and rich sauces in dishes like curries and parmigianas.\n\n**Selection & Storage:** Select eggplants with smooth, shiny, deeply colored skin that feel heavy for their size; the stem should be bright green. They are sensitive to both heat and extreme cold; store in a cool, dark place or in the crisper drawer for only a few days.",
     name: "large eggplant",
+    origin: ["South Asia (India)"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.10,
@@ -489,6 +500,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   tomatoes: {
       description: "The fruit of *Solanum lycopersicum*, botanically a berry, culinarily a vegetable — packed with glutamic acid that makes them the umami champion among garden produce. Flavor peaks when fully ripe and at room temperature; refrigeration below 55°F permanently damages aromatic compounds. Paste and plum varieties reduce well into sauces; beefsteak and heirloom eat best raw; cherry and grape tomatoes caramelize beautifully whole. Salt sliced tomatoes 20 min before serving to draw out water and concentrate flavor.",
     name: "tomatoes",
+    origin: ["South America"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.30,
@@ -514,6 +527,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   bell_peppers: {
       description: "A sweet, non-spicy fruit of the capsicum family (*Capsicum annuum*) that is botanically a berry but treated as a culinary vegetable. Green peppers are harvested early and taste grassy and slightly bitter, while red, yellow, and orange varieties are fully ripe, offering a fruity sweetness and high Vitamin C content.\n\n**Selection & Storage:** Choose peppers that are firm, heavy for their size, and boast smooth, taut, brightly colored skin without soft spots. Store them unwashed in the crisper drawer, where they will last for a week to ten days.",
     name: "bell peppers",
+    origin: ["Central and South America"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.22,
@@ -554,6 +569,8 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   green_peppers: {
       description: "Green Peppers is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "green peppers",
+    origin: ["South India"],
+    season: ["all"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.22,

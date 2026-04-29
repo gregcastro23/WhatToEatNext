@@ -7,6 +7,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   thyme: {
       description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.",
     name: "thyme",
+    origin: ["Mediterranean"],
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "earthy", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -39,6 +41,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   fresh_thyme: {
       description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.\n\n**Selection & Storage:** Look for bright green, fragrant sprigs without woody or dried-out tips. Store fresh thyme wrapped loosely in a damp paper towel inside a plastic bag in the refrigerator's crisper drawer.",
     name: "fresh thyme",
+    origin: ["Mediterranean"],
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -69,6 +73,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   sage: {
       description: "A hardy herb (*Salvia officinalis*) with velvety, grey-green leaves and a highly assertive, pine-like, and slightly astringent aroma. Because its flavor is so robust and somewhat resinous, it pairs perfectly with fatty meats like pork and sausage, or browned butter sauces.",
     name: "sage",
+    origin: ["Mediterranean"],
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -99,6 +105,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   fresh_mint: {
       description: "A rapidly spreading, aromatic herb (*Mentha*) characterized by the cooling compound menthol. It provides a sharp, refreshing contrast to rich or spicy dishes, and is utilized globally in everything from Middle Eastern lamb marinades to Southeast Asian salads and sweet desserts.\n\n**Selection & Storage:** Look for perky, bright green leaves without dark spots or wilting. Store unwashed mint wrapped in a lightly damp paper towel inside a plastic bag in the crisper drawer.",
     name: "fresh mint",
+    origin: ["Mediterranean", "Western Asia"],
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -129,6 +137,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   fresh_sage: {
       description: "A hardy herb (*Salvia officinalis*) with velvety, grey-green leaves and a highly assertive, pine-like, and slightly astringent aroma. Because its flavor is so robust and somewhat resinous, it pairs perfectly with fatty meats like pork and sausage, or browned butter sauces.\n\n**Selection & Storage:** Look for fresh, pliable leaves that are fuzzy and aromatic; avoid dried-out or black-spotted leaves. Store wrapped in a slightly damp paper towel in a plastic bag in the refrigerator.",
     name: "fresh sage",
+    origin: ["Mediterranean"],
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -159,6 +169,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   bay_leaf: {
       description: "The aromatic leaf of the sweet bay tree (*Laurus nobilis*), typically used dried. When simmered in liquid for an extended period, it releases complex, woodsy, floral, and slightly menthol notes that add essential savory depth to soups, stews, and braises.",
     name: "bay leaf",
+    origin: ["Mediterranean (Asia Minor)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -189,6 +201,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   flat_leaf_parsley: {
       description: "A mild, grassy, and slightly bitter herb (*Petroselinum crispum*) available in curly (best for garnishing) and flat-leaf (best for cooking) varieties. Its clean, mineral-rich flavor acts as a culinary palate cleanser, cutting through heavy fats and brightening rich stews and sauces.\n\n**Selection & Storage:** Choose bunches with vibrant, dark green leaves and firm stems. Store it by trimming the ends and placing the stems in a jar of water in the refrigerator, covered loosely with a plastic bag.",
     name: "flat-leaf parsley",
+    origin: ["Mediterranean"],
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -219,6 +233,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   oregano: {
       description: "A robust, highly aromatic herb (*Origanum vulgare*) essential to Mediterranean and Mexican cuisines. Unlike delicate herbs, its pungent, slightly bitter, and peppery flavor actually deepens and improves when dried, making it a powerful seasoning for tomato sauces and grilled meats.",
     name: "oregano",
+    origin: ["Mediterranean (Greece)"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "peppery", "Mediterranean"],
     category: "culinary_herb",
@@ -251,6 +267,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   parsley: {
       description: "A mild, grassy, and slightly bitter herb (*Petroselinum crispum*) available in curly (best for garnishing) and flat-leaf (best for cooking) varieties. Its clean, mineral-rich flavor acts as a culinary palate cleanser, cutting through heavy fats and brightening rich stews and sauces.",
     name: "parsley",
+    origin: ["Mediterranean"],
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["fresh", "bright", "versatile"],
     category: "culinary_herb",
@@ -283,6 +301,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   mint: {
       description: "A rapidly spreading, aromatic herb (*Mentha*) characterized by the cooling compound menthol. It provides a sharp, refreshing contrast to rich or spicy dishes, and is utilized globally in everything from Middle Eastern lamb marinades to Southeast Asian salads and sweet desserts.",
     name: "mint",
+    origin: ["Mediterranean", "Western Asia"],
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -313,6 +333,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   dill: {
       description: "A feathery, delicate herb (*Anethum graveolens*) with a distinctively clean, grassy flavor featuring notes of anise and celery. It pairs classicly with mild, sweet ingredients like seafood, cucumbers, and yogurt, and its seeds are essential for pickling.",
     name: "dill",
+    origin: ["Mediterranean", "Russia"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "fresh", "culinary", "medicinal"],
     category: "culinary_herb",
@@ -344,6 +366,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   rosemary: {
       description: "A fragrant, evergreen shrub (*Salvia rosmarinus*) of the mint family known for its needle-like leaves and robust, pine-and-citrus aroma. Its essential oils contain rosmarinic acid, a powerful antioxidant that helps preserve the flavor and freshness of the foods it's cooked with, making it a classic pairing for roasted meats and root vegetables.\\n\\n",
     name: "rosemary",
+    origin: ["Mediterranean"],
+    season: ["all"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "piney", "robust"],
     category: "culinary_herb",
@@ -377,6 +401,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   fresh_basil: {
       description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.\n\n**Selection & Storage:** Choose vibrant, unblemished leaves; avoid any with black spots. Store fresh basil like a bouquet of flowers: stems in a glass of water at room temperature, loosely covered with a plastic bag.",
     name: "fresh basil",
+    origin: ["South Asia (India)", "Southeast Asia"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "sweet", "Italian"],
     category: "culinary_herb",
@@ -409,6 +435,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   cilantro: {
       description: "A delicate, leafy green herb (*Coriandrum sativum*) known for its bright, citrusy, and slightly peppery flavor (though a genetic trait makes it taste like soap to some). It loses its flavor entirely when cooked, so it is used exclusively as a fresh garnish or pounded into raw salsas and chutneys.",
     name: "cilantro",
+    origin: ["Mediterranean", "Western Asia"],
+    season: ["spring", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.15, Air: 0.45 },
     qualities: ["aromatic", "citrusy", "fresh"],
     category: "culinary_herb",

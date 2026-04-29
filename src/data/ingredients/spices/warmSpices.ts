@@ -5,6 +5,7 @@ const rawWarmSpices = {
   cinnamon: {
       description: "A warm, sweet spice derived from the inner bark of trees (*Cinnamomum*). Cassia cinnamon is strong, spicy, and common in baking, while true \"Ceylon\" cinnamon is softer, more floral, and delicate; both provide a deep, aromatic warmth that enhances both sweet pastries and savory curries.",
     name: "Cinnamon",
+    season: ["all"],
     elementalProperties: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 }, // ← Pattern GG-5: Added missing Water property
     astrologicalProfile: {
       planetaryRuler: "Sun",
@@ -38,7 +39,6 @@ const rawWarmSpices = {
       "cardamom",
       "ginger",
     ],
-    season: "winter",
     nutritionalProfile: {
       serving_size: "1 tsp ground",
       calories: 6,

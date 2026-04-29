@@ -5,6 +5,8 @@ import type { IngredientMapping } from "@/data/ingredients/types";
 export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping>> = {
   "thit_kho_tau": {
     name: "thit kho tau",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Thit Kho Tau is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -46,6 +48,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "lau_thai": {
     name: "lau thai",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Lau Thai is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -87,6 +91,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "thit_kho_t_u": {
     name: "thit kho t u",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Thit Kho T U is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -128,6 +134,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "lau_th_i": {
     name: "lau th i",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Lau Th I is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -169,6 +177,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mirin": {
     name: "mirin",
+    origin: ["Japan"],
+    season: ["all"],
     provenance: "generated",
     description: "Sweet Japanese rice wine used to add gloss, mild sweetness, and aroma in sauces, braises, and tare.",
     category: "seasoning",
@@ -210,6 +220,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "active_dry_yeast": {
     name: "active dry yeast",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Granulated dehydrated yeast used for bread fermentation; typically bloomed in warm liquid before mixing.",
     category: "seasoning",
@@ -251,6 +263,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cornstarch": {
     name: "cornstarch",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Refined corn starch used to thicken sauces, stabilize batters, and improve crispness in frying.",
     category: "grain",
@@ -292,6 +306,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "oyster_sauce": {
     name: "oyster sauce",
+    origin: ["China (Guangdong)"],
+    season: ["all"],
     provenance: "generated",
     description: "Concentrated savory sauce made from oyster extract and seasonings, used for umami depth and glossy stir-fry finishes.",
     category: "seasoning",
@@ -333,6 +349,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "shaoxing_wine": {
     name: "shaoxing wine",
+    origin: ["China (Shaoxing)"],
+    season: ["all"],
     provenance: "generated",
     description: "Chinese rice wine used for aromatic depth, deglazing, and reducing perceived meat or seafood odors in cooking.",
     category: "seasoning",
@@ -374,6 +392,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "alchemical_binding_agent": {
     name: "alchemical binding agent",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Schema stand-in for recipe-specific binder or emulsifier. Replace with concrete ingredient names during recipe curation.",
     category: "seasoning",
@@ -415,6 +435,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "neutral_oil": {
     name: "neutral oil",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Refined low-aroma oil (e.g., canola, grapeseed, sunflower) used for high-heat frying or when no flavor contribution from fat is desired.",
     category: "oil",
@@ -456,6 +478,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "white_vinegar": {
     name: "white vinegar",
+    origin: ["Worldwide industrial production"],
+    season: ["all"],
     provenance: "generated",
     description: "Neutral distilled vinegar with sharp acetic acidity used for pickling, cleaning flavor profiles, and brightening sauces.",
     category: "vinegar",
@@ -497,6 +521,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "corn_tortillas": {
     name: "corn tortillas",
+    origin: ["Mesoamerica"],
+    season: ["summer"],
     provenance: "generated",
     description: "Nixtamalized corn flatbreads used in tacos, enchiladas, tostadas, and layered casseroles.",
     category: "grain",
@@ -538,6 +564,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "five_spice_powder": {
     name: "five spice powder",
+    origin: ["China"],
+    season: ["all"],
     provenance: "generated",
     description: "Chinese spice blend balancing sweet, warm, and numbing notes; commonly includes star anise, fennel, clove, cinnamon, and pepper.",
     category: "spice",
@@ -579,6 +607,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "firm_tofu": {
     name: "firm tofu",
+    origin: ["China"],
+    season: ["all"],
     provenance: "generated",
     description: "Pressable tofu with moderate water content that holds shape in stir-fries, braises, and pan-searing.",
     category: "protein",
@@ -620,6 +650,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cayenne_pepper": {
     name: "cayenne pepper",
+    origin: ["Central and South America"],
+    season: ["all"],
     provenance: "generated",
     description: "Hot red chili powder used for direct, fast-building capsaicin heat.",
     category: "spice",
@@ -661,6 +693,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "queso_fresco": {
     name: "queso fresco",
+    origin: ["Mexico", "Central America"],
+    season: ["all"],
     provenance: "generated",
     description: "Fresh crumbly Mexican cheese used as a salty, cooling finish for beans, tortillas, and chiles.",
     category: "dairy",
@@ -702,6 +736,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bird_eye_chilies": {
     name: "bird eye chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Small, very hot chiles common in Southeast Asian cooking, used fresh or pounded into pastes.",
     category: "spice",
@@ -744,6 +780,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bird_s_eye_chilies": {
     name: "bird s eye chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Alternate spelling variant for bird's eye chilies; treated as the same high-heat chili ingredient.",
     category: "spice",
@@ -786,6 +824,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "white_bread": {
     name: "white bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Refined wheat bread used for crumbs, soaks, sandwiches, and structure in fillings or meat mixtures.",
     category: "grain",
@@ -827,6 +867,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "capers": {
     name: "capers",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Capers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -868,6 +910,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sichuan_peppercorns": {
     name: "sichuan peppercorns",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Citrusy, numbing spice from prickly ash husks used for ma la profile and aromatic lift.",
     category: "spice",
@@ -909,6 +953,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_red_chilies": {
     name: "dried red chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Air-dried red chiles used whole, crushed, or rehydrated for layered heat and color.",
     category: "spice",
@@ -950,6 +996,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "garni": {
     name: "garni",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Shorthand for herb bouquet components (e.g., bouquet garni) used to infuse stocks and braises.",
     category: "culinary_herb",
@@ -991,6 +1039,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "oil": {
     name: "oil",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Generic recipe oil token used when a source recipe does not specify olive, canola, or another named fat. Treat as neutral cooking oil unless a regional context indicates otherwise.",
     category: "oil",
@@ -1032,6 +1082,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "frying_oil": {
     name: "frying oil",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Oil specified for deep or shallow frying where smoke point and oxidation stability are primary constraints.",
     category: "oil",
@@ -1073,6 +1125,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bamboo_skewers": {
     name: "bamboo skewers",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Bamboo Skewers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "vegetable",
@@ -1114,6 +1168,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chili_flakes": {
     name: "chili flakes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Crushed dried chili fragments used as finishing heat or infused in oil.",
     category: "spice",
@@ -1155,6 +1211,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "radishes": {
     name: "radishes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Crisp pungent roots used raw for bite or pickled for acidity and crunch.",
     category: "vegetable",
@@ -1196,6 +1254,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "black_peppercorns": {
     name: "black peppercorns",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Black Peppercorns is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -1237,6 +1297,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ice": {
     name: "ice",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Frozen water used for chilling, textural contrast, and dessert beverages rather than as a nutritional ingredient.",
     category: "seasoning",
@@ -1278,6 +1340,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "corn": {
     name: "corn",
+    origin: ["Mesoamerica"],
+    season: ["summer"],
     provenance: "generated",
     description: "Whole corn kernels or cut corn used as a starchy-sweet base ingredient across soups, stews, tortillas, and salads.",
     category: "grain",
@@ -1319,6 +1383,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "limes": {
     name: "limes",
+    origin: ["Southeast Asia", "India"],
+    season: ["summer", "fall"],
     provenance: "generated",
     description: "Limes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "fruit",
@@ -1360,6 +1426,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "achiote_paste": {
     name: "achiote paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Achiote Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -1401,6 +1469,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ancho_chilies": {
     name: "ancho chilies",
+    origin: ["Mexico"],
+    season: ["all"],
     provenance: "generated",
     description: "Ancho Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -1442,6 +1512,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "allspice": {
     name: "allspice",
+    origin: ["Caribbean", "Central America"],
+    season: ["all"],
     provenance: "generated",
     description: "Warm spice from dried Pimenta berries with flavor notes of clove, cinnamon, and nutmeg.",
     category: "spice",
@@ -1483,6 +1555,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "red_curry_paste": {
     name: "red curry paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Red Curry Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -1524,6 +1598,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "harissa_paste": {
     name: "harissa paste",
+    origin: ["North Africa (Tunisia)"],
+    season: ["all"],
     provenance: "generated",
     description: "Harissa Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -1565,6 +1641,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "raisins": {
     name: "raisins",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried grapes used for concentrated sweetness and chew in savory rice dishes, breads, and desserts.",
     category: "fruit",
@@ -1606,6 +1684,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "worcestershire_sauce": {
     name: "worcestershire sauce",
+    origin: ["England (Worcester)"],
+    season: ["all"],
     provenance: "generated",
     description: "A highly complex, fermented liquid condiment created in England, featuring a base of vinegar flavored with molasses, sugar, salt, anchovies, tamarind, onion, and garlic. It provides an immediate hit of umami, tang, and sweetness, excelling as a marinade for beef or a seasoning for bloody marys.\n\n**Selection & Storage:** Highly stable due to its vinegar and salt content; store in a cool, dark pantry.",
     category: "misc",
@@ -1647,6 +1727,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "hot_sauce": {
     name: "hot sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Hot Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -1688,6 +1770,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "heavy_whipping_cream": {
     name: "heavy whipping cream",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Heavy Whipping Cream is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -1729,6 +1813,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "hoisin_sauce": {
     name: "hoisin sauce",
+    origin: ["China"],
+    season: ["all"],
     provenance: "generated",
     description: "A thick, fragrant sauce commonly used in Cantonese cuisine as a glaze for meat or a dipping sauce. It is sweet and salty, primarily made from fermented soybeans, garlic, five-spice powder, and sugar, offering a flavor profile similar to a Chinese BBQ sauce.\n\n**Selection & Storage:** Once opened, store tightly sealed in the refrigerator, where it will last for many months.",
     category: "misc",
@@ -1770,6 +1856,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bamboo_shoots": {
     name: "bamboo shoots",
+    origin: ["East and Southeast Asia"],
+    season: ["spring"],
     provenance: "generated",
     description: "Bamboo Shoots is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "vegetable",
@@ -1811,6 +1899,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sauerkraut": {
     name: "sauerkraut",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Finely shredded cabbage that has been fermented by various lactic acid bacteria, including *Leuconostoc*, *Lactobacillus*, and *Pediococcus*. This anaerobic fermentation converts the cabbage's natural sugars into lactic acid, providing a long shelf life and a distinctively sharp, sour tang.\n\n**Selection & Storage:** For the most health benefits, purchase unpasteurized sauerkraut found in the refrigerated section. Keep tightly sealed in the fridge, ensuring the cabbage remains submerged in its brine.",
     category: "misc",
@@ -1852,6 +1942,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cloves": {
     name: "cloves",
+    origin: ["Indonesia"],
+    season: ["all"],
     provenance: "generated",
     description: "Highly aromatic dried flower buds used in tiny quantities for warm, sweet, and medicinal spice notes.",
     category: "spice",
@@ -1893,6 +1985,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "asafoetida_hing": {
     name: "asafoetida hing",
+    origin: ["Western Asia (Iran, Afghanistan)"],
+    season: ["all"],
     provenance: "generated",
     description: "Asafoetida Hing is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -1934,6 +2028,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kasuri_methi": {
     name: "kasuri methi",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kasuri Methi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -1975,6 +2071,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pepper": {
     name: "pepper",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Generic pepper token, most often meaning black pepper in savory recipes. Use as a baseline pungent spice unless the recipe specifies a pepper type.",
     category: "spice",
@@ -2016,6 +2114,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "marsala_wine": {
     name: "marsala wine",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Marsala Wine is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -2057,6 +2157,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "golden_raisins": {
     name: "golden raisins",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Golden Raisins is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "fruit",
@@ -2098,6 +2200,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nori_seaweed": {
     name: "nori seaweed",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nori Seaweed is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -2139,6 +2243,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fresh_ramen_noodles": {
     name: "fresh ramen noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Fresh Ramen Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -2180,6 +2286,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_soba_noodles": {
     name: "dried soba noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Soba Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -2221,6 +2329,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "wasabi": {
     name: "wasabi",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "The grated rhizome of a Japanese semi-aquatic plant (*Eutrema japonicum*). It produces volatile allyl isothiocyanate compounds when its cells are ruptured, delivering a fierce, vaporous heat that aggressively attacks the sinuses before dissipating completely within seconds.\n\n**Selection & Storage:** Real fresh wasabi is rare and must be grated immediately before serving, as its flavor vanishes in 15 minutes. Most commercial 'wasabi' is a stable mixture of horseradish, mustard, and green food coloring.",
     category: "misc",
@@ -2262,6 +2372,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mixed_seafood": {
     name: "mixed seafood",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mixed Seafood is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -2303,6 +2415,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "doenjang": {
     name: "doenjang",
+    origin: ["Korea"],
+    season: ["all"],
     provenance: "generated",
     description: "Doenjang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -2344,6 +2458,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "aromatic_catalyst": {
     name: "aromatic catalyst",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Aromatic Catalyst is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -2385,6 +2501,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ancho_chiles": {
     name: "ancho chiles",
+    origin: ["Mexico"],
+    season: ["all"],
     provenance: "generated",
     description: "Ancho Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -2426,6 +2544,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pasilla_chilies": {
     name: "pasilla chilies",
+    origin: ["Mexico"],
+    season: ["all"],
     provenance: "generated",
     description: "Pasilla Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -2467,6 +2587,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "poblano_peppers": {
     name: "poblano peppers",
+    origin: ["Mexico (Puebla)"],
+    season: ["summer", "fall"],
     provenance: "generated",
     description: "Poblano Peppers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -2508,6 +2630,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "guajillo_chilies": {
     name: "guajillo chilies",
+    origin: ["Mexico"],
+    season: ["all"],
     provenance: "generated",
     description: "Guajillo Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -2549,6 +2673,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tahini": {
     name: "tahini",
+    origin: ["Levant"],
+    season: ["all"],
     provenance: "generated",
     description: "Ground sesame seed paste used for emulsions, sauces, dips, and nutty richness.",
     category: "seasoning",
@@ -2590,6 +2716,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "raw_tahini": {
     name: "raw tahini",
+    origin: ["Levant"],
+    season: ["all"],
     provenance: "generated",
     description: "Unroasted sesame paste with lighter bitterness and grassy sesame aroma compared with roasted tahini.",
     category: "seasoning",
@@ -2632,6 +2760,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "green_curry_paste": {
     name: "green curry paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Green Curry Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -2673,6 +2803,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "niter_kibbeh": {
     name: "niter kibbeh",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Niter Kibbeh is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -2714,6 +2846,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "scotch_bonnet_pepper": {
     name: "scotch bonnet pepper",
+    origin: ["Caribbean"],
+    season: ["summer"],
     provenance: "generated",
     description: "Scotch Bonnet Pepper is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -2755,6 +2889,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "red_pepper_flakes": {
     name: "red pepper flakes",
+    origin: ["Mesoamerica"],
+    season: ["all"],
     provenance: "generated",
     description: "Red Pepper Flakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -2796,6 +2932,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "peri_peri_sauce": {
     name: "peri peri sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Peri Peri Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -2837,6 +2975,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "unsliced_white_bread": {
     name: "unsliced white bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Unsliced White Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -2878,6 +3018,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "habanero_pepper": {
     name: "habanero pepper",
+    origin: ["Yucatán Peninsula"],
+    season: ["summer", "fall"],
     provenance: "generated",
     description: "Habanero Pepper is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -2919,6 +3061,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cream_of_tartar": {
     name: "cream of tartar",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cream Of Tartar is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -2960,6 +3104,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "american_cheese": {
     name: "american cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "American Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -3001,6 +3147,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "creole_seasoning": {
     name: "creole seasoning",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Creole Seasoning is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3042,6 +3190,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cornmeal": {
     name: "cornmeal",
+    origin: ["Mesoamerica"],
+    season: ["all"],
     provenance: "generated",
     description: "A coarse flour ground from dried maize (corn). Depending on the grind (fine, medium, or coarse), it provides structural integrity, a crunchy texture, and a sweet, earthy flavor to baked goods like cornbread, or serves as a crispy breading for fried fish.\n\n**Selection & Storage:** Stone-ground cornmeal retains the germ and spoils faster than degerminated cornmeal. Keep stone-ground varieties in the refrigerator or freezer in an airtight container.",
     category: "vegetable",
@@ -3083,6 +3233,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "wheat_starch": {
     name: "wheat starch",
+    origin: ["Fertile Crescent"],
+    season: ["all"],
     provenance: "generated",
     description: "Wheat Starch is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -3124,6 +3276,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "silken_tofu": {
     name: "silken tofu",
+    origin: ["China", "Japan"],
+    season: ["all"],
     provenance: "generated",
     description: "Silken Tofu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -3165,6 +3319,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fresh_wheat_noodles": {
     name: "fresh wheat noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "High-moisture wheat noodles used in stir-fry and soup formats where chew and elasticity are important.",
     category: "grain",
@@ -3206,6 +3362,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "shellfish": {
     name: "shellfish",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Shellfish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -3247,6 +3405,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "toulouse_sausage": {
     name: "toulouse sausage",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Toulouse Sausage is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -3288,6 +3448,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kalamata_olives": {
     name: "kalamata olives",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kalamata Olives is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3329,6 +3491,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pita_breads": {
     name: "pita breads",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Plural entry for pocket flatbreads used for wraps, dips, and baked chips.",
     category: "grain",
@@ -3371,6 +3535,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "biryani_masala": {
     name: "biryani masala",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Biryani Masala is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -3412,6 +3578,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cashew_paste": {
     name: "cashew paste",
+    origin: ["South America (Brazil)"],
+    season: ["all"],
     provenance: "generated",
     description: "Cashew Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3453,6 +3621,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "spaghetti": {
     name: "spaghetti",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "A long, thin, solid cylindrical pasta shape originating in Italy. Its high surface-area-to-volume ratio makes it exceptionally well-suited for clinging to loose, oil- or butter-based sauces (like Aglio e Olio) and smooth tomato sauces that can evenly coat the long strands.\n\n**Selection & Storage:** High-quality dried spaghetti will have a rough, matte texture (bronze-die extruded) rather than a smooth, shiny one, allowing sauces to adhere better. Store in a dry pantry.",
     category: "grain",
@@ -3494,6 +3664,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "guanciale": {
     name: "guanciale",
+    origin: ["Italy"],
+    season: ["all"],
     provenance: "generated",
     description: "An Italian cured meat prepared from pork jowl or cheeks. It is fundamentally similar to pancetta but boasts a significantly higher ratio of fat to meat, providing an incredibly rich, melt-in-the-mouth texture and a more robust, porky flavor essential for authentic Spaghetti alla Carbonara.\n\n**Selection & Storage:** Usually sold in blocks. Store tightly wrapped in the refrigerator, and dice it directly before rendering it in a cold pan.",
     category: "misc",
@@ -3535,6 +3707,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "strong_espresso": {
     name: "strong espresso",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Strong Espresso is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3576,6 +3750,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "savoiardi_ladyfingers": {
     name: "savoiardi ladyfingers",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Savoiardi Ladyfingers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3617,6 +3793,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "unsweetened_cocoa_powder": {
     name: "unsweetened cocoa powder",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Unsweetened Cocoa Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3658,6 +3836,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "yakisoba_noodles": {
     name: "yakisoba noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Yakisoba Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -3699,6 +3879,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "yakisoba_sauce": {
     name: "yakisoba sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Yakisoba Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3740,6 +3922,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ajitsuke_tamago": {
     name: "ajitsuke tamago",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Ajitsuke Tamago is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3781,6 +3965,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tentsuyu": {
     name: "tentsuyu",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tentsuyu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3822,6 +4008,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tenkasu_tempura_scraps": {
     name: "tenkasu tempura scraps",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tenkasu Tempura Scraps is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3863,6 +4051,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "okonomiyaki_sauce": {
     name: "okonomiyaki sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Okonomiyaki Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3904,6 +4094,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "katsuobushi_bonito_flakes": {
     name: "katsuobushi bonito flakes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Katsuobushi Bonito Flakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -3945,6 +4137,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "shirataki_noodles": {
     name: "shirataki noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Shirataki Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -3986,6 +4180,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kamaboko": {
     name: "kamaboko",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kamaboko is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4027,6 +4223,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "somyeon_thin_wheat_noodles": {
     name: "somyeon thin wheat noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Somyeon Thin Wheat Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -4068,6 +4266,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "medium_firm_tofu": {
     name: "medium firm tofu",
+    origin: ["China"],
+    season: ["all"],
     provenance: "generated",
     description: "Tofu texture between soft and firm, suitable for soups, braises, and gentle stir-fries.",
     category: "protein",
@@ -4109,6 +4309,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "gim_roasted_seaweed": {
     name: "gim roasted seaweed",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Gim Roasted Seaweed is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4150,6 +4352,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dangmyeon": {
     name: "dangmyeon",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dangmyeon is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4191,6 +4395,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "eomuk_fish_cakes": {
     name: "eomuk fish cakes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Eomuk Fish Cakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -4232,6 +4438,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tomatillos": {
     name: "tomatillos",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tomatillos is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4273,6 +4481,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "crema_mexicana": {
     name: "crema mexicana",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Crema Mexicana is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4314,6 +4524,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "lard": {
     name: "lard",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Rendered pork fat used for frying, pastry shortening, and savory depth in traditional regional cooking.",
     category: "oil",
@@ -4355,6 +4567,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "guajillo_chiles": {
     name: "guajillo chiles",
+    origin: ["Mexico"],
+    season: ["all"],
     provenance: "generated",
     description: "Guajillo Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -4396,6 +4610,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mulato_chilies": {
     name: "mulato chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mulato Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -4437,6 +4653,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fresh_epazote": {
     name: "fresh epazote",
+    origin: ["Mexico", "Central America"],
+    season: ["summer"],
     provenance: "generated",
     description: "Fresh Epazote is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4478,6 +4696,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mexican_crema": {
     name: "mexican crema",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mexican Crema is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4519,6 +4739,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pita_bread": {
     name: "pita bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Leavened Middle Eastern flatbread used for stuffing, dipping, and as a starch base.",
     category: "grain",
@@ -4561,6 +4783,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "shawarma_spice_blend": {
     name: "shawarma spice blend",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Shawarma Spice Blend is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -4602,6 +4826,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pickle_brine": {
     name: "pickle brine",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pickle Brine is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4643,6 +4869,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tvorog_farmers_cheese": {
     name: "tvorog farmers cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "Tvorog Farmers Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -4684,6 +4912,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nam_prik_pao": {
     name: "nam prik pao",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nam Prik Pao is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4725,6 +4955,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bird_s_eye_chili": {
     name: "bird s eye chili",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Bird S Eye Chili is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -4766,6 +4998,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "massaman_curry_paste": {
     name: "massaman curry paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Massaman Curry Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -4807,6 +5041,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "long_red_chilies": {
     name: "long red chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Long Red Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -4848,6 +5084,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_chili_flakes": {
     name: "dried chili flakes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Shelf-stable crushed dried chiles used for controlled background heat.",
     category: "spice",
@@ -4890,6 +5128,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "toppings_matrix": {
     name: "toppings matrix",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Toppings Matrix is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4931,6 +5171,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "hale_s_blue_boy_syrup": {
     name: "hale s blue boy syrup",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Hale S Blue Boy Syrup is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -4972,6 +5214,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "vietnamese_baguettes": {
     name: "vietnamese baguettes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Vietnamese Baguettes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5013,6 +5257,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "leftover_dry_injera": {
     name: "leftover dry injera",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Leftover Dry Injera is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5054,6 +5300,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "scotch_bonnet": {
     name: "scotch bonnet",
+    origin: ["Caribbean"],
+    season: ["summer"],
     provenance: "generated",
     description: "Scotch Bonnet is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5095,6 +5343,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "scotch_bonnet_peppers_ata_rodo": {
     name: "scotch bonnet peppers ata rodo",
+    origin: ["Caribbean"],
+    season: ["summer"],
     provenance: "generated",
     description: "Scotch Bonnet Peppers Ata Rodo is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -5136,6 +5386,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "habanero": {
     name: "habanero",
+    origin: ["Yucatán Peninsula"],
+    season: ["summer", "fall"],
     provenance: "generated",
     description: "A small, lantern-shaped chili (*Capsicum chinense*) known for its intense heat (100,000 - 350,000 Scoville units) and highly distinctive, floral, and fruity flavor profile. They are essential to Caribbean and Yucatán cuisines, where their severe heat is balanced by sweet tropical fruits like mango.\n\n**Selection & Storage:** Choose firm, brilliantly colored peppers (usually orange or red) without soft spots. Store in a paper bag in the refrigerator, and always wear gloves when handling.",
     category: "misc",
@@ -5177,6 +5429,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "macaroni": {
     name: "macaroni",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "A short, tubular pasta shape, often curved (elbow macaroni). The hollow center is specifically designed to trap loose, creamy, or chunky sauces, making it the globally accepted standard for dense, dairy-heavy baked dishes like macaroni and cheese.\n\n**Selection & Storage:** Choose pasta with a consistent color and no broken pieces. Store in an airtight container or its original packaging in a cool, dry place.",
     category: "misc",
@@ -5218,6 +5472,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "vegetable_stock": {
     name: "vegetable stock",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Vegetable Stock is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5259,6 +5515,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "vermicelli": {
     name: "vermicelli",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Thin noodles (wheat or rice depending on cuisine) used in soups, stir-fries, and cold dishes.",
     category: "grain",
@@ -5300,6 +5558,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "crushed_wheat_frik": {
     name: "crushed wheat frik",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Crushed Wheat Frik is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5341,6 +5601,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "harissa": {
     name: "harissa",
+    origin: ["North Africa (Tunisia)"],
+    season: ["all"],
     provenance: "generated",
     description: "A vibrant, spicy, and aromatic chili paste originating from the Maghreb region of North Africa. It is traditionally composed of roasted red peppers, Baklouti chilies, garlic, caraway, coriander, and cumin, pounded into a paste with olive oil to create an intensely flavorful, earthy condiment.\n\n**Selection & Storage:** High-quality harissa comes in tubes or jars. Once opened, top the paste with a thin layer of olive oil to seal out air, and keep refrigerated.",
     category: "spice",
@@ -5382,6 +5644,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "brick_pastry_sheets": {
     name: "brick pastry sheets",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Brick Pastry Sheets is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5423,6 +5687,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ogbono_seeds": {
     name: "ogbono seeds",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Ogbono Seeds is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5464,6 +5730,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "collard_greens": {
     name: "collard greens",
+    origin: ["Eastern Mediterranean", "Asia Minor"],
+    season: ["fall", "winter", "early spring"],
     provenance: "generated",
     description: "A robust, wide-leafed member of the cabbage family (*Brassica oleracea*). Because their leaves are incredibly tough and fibrous, they require long, slow braising (traditionally with smoked meats and acidic vinegar) to break down into a tender, deeply savory, and silky side dish.\n\n**Selection & Storage:** Choose bunches with dark green, broad leaves and firm stems. Store unwashed in the crisper drawer; they are quite hardy and will last up to a week.",
     category: "misc",
@@ -5505,6 +5773,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ndol_leaves_bitterleaf": {
     name: "ndol leaves bitterleaf",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Ndol Leaves Bitterleaf is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "culinary_herb",
@@ -5546,6 +5816,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "couscous": {
     name: "couscous",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tiny granules of rolled durum wheat semolina, common in North African cuisine. Because the granules are pre-steamed and dried during the manufacturing process, it cooks incredibly fast—often just requiring a brief steep in boiling water to hydrate and fluff into a light, airy side dish.\n\n**Selection & Storage:** Look for uniform granules; Moroccan couscous is tiny, while Israeli (pearl) couscous is larger and requires simmering. Store in an airtight container in a dark pantry.",
     category: "misc",
@@ -5587,6 +5859,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "durban_curry_masala": {
     name: "durban curry masala",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Durban Curry Masala is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -5628,6 +5902,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mitmita": {
     name: "mitmita",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mitmita is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5669,6 +5945,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kuli_kuli_powder": {
     name: "kuli kuli powder",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kuli Kuli Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5710,6 +5988,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bitterleaves": {
     name: "bitterleaves",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Bitterleaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "culinary_herb",
@@ -5751,6 +6031,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "vinegar_white": {
     name: "vinegar white",
+    origin: ["Western Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Vinegar White is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "vinegar",
@@ -5792,6 +6074,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sourdough_bread": {
     name: "sourdough bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sourdough Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -5833,6 +6117,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "leeks": {
     name: "leeks",
+    origin: ["Mediterranean"],
+    season: ["fall", "winter", "spring"],
     provenance: "generated",
     description: "Leeks is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5874,6 +6160,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fresh_berries": {
     name: "fresh berries",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Fresh Berries is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5915,6 +6203,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sweet_pickle_relish": {
     name: "sweet pickle relish",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sweet Pickle Relish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -5956,6 +6246,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "watercress": {
     name: "watercress",
+    origin: ["Europe", "Asia"],
+    season: ["spring", "summer"],
     provenance: "generated",
     description: "A rapidly growing, aquatic leafy green (*Nasturtium officinale*) related to mustard and radish. It delivers a sharp, explosive, and peppery bite that acts as a brilliant, astringent palate cleanser when paired with rich steaks or creamy tea sandwiches.\n\n**Selection & Storage:** It is highly perishable. Look for perky, bright green leaves, and store the stems submerged in a glass of water in the refrigerator, loosely covered with a plastic bag.",
     category: "misc",
@@ -5997,6 +6289,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "top_split_hot_dog_buns": {
     name: "top split hot dog buns",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Top Split Hot Dog Buns is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6038,6 +6332,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "thick_cut_sourdough": {
     name: "thick cut sourdough",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Thick Cut Sourdough is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6079,6 +6375,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_navy_beans": {
     name: "dried navy beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Navy Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -6120,6 +6418,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cube_steak": {
     name: "cube steak",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cube Steak is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6161,6 +6461,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "andouille_sausage": {
     name: "andouille sausage",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Andouille Sausage is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -6202,6 +6504,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "italian_sausage": {
     name: "italian sausage",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Italian Sausage is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -6243,6 +6547,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "hoagie_rolls": {
     name: "hoagie rolls",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Hoagie Rolls is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6284,6 +6590,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "provolone_cheese": {
     name: "provolone cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "Provolone Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -6325,6 +6633,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pie_dough": {
     name: "pie dough",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pie Dough is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6366,6 +6676,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cedar_grilling_plank": {
     name: "cedar grilling plank",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cedar Grilling Plank is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6407,6 +6719,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "youtiao_fried_dough": {
     name: "youtiao fried dough",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Youtiao Fried Dough is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6448,6 +6762,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tianmianjiang_sweet_bean_sauce": {
     name: "tianmianjiang sweet bean sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tianmianjiang Sweet Bean Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -6489,6 +6805,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "baocui_crispy_fried_cracker": {
     name: "baocui crispy fried cracker",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Baocui Crispy Fried Cracker is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6530,6 +6848,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fresh_chinese_wheat_noodles": {
     name: "fresh chinese wheat noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Fresh Chinese Wheat Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -6571,6 +6891,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sui_mi_ya_cai": {
     name: "sui mi ya cai",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sui Mi Ya Cai is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6612,6 +6934,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chinese_sesame_paste": {
     name: "chinese sesame paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chinese Sesame Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6653,6 +6977,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pixian_doubanjiang": {
     name: "pixian doubanjiang",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pixian Doubanjiang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6694,6 +7020,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "square_wonton_wrappers": {
     name: "square wonton wrappers",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Square Wonton Wrappers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6735,6 +7063,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "supreme_broth_gao_tang": {
     name: "supreme broth gao tang",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Supreme Broth Gao Tang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6776,6 +7106,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chili_paste": {
     name: "chili paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chili Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -6817,6 +7149,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "doubanjiang": {
     name: "doubanjiang",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Doubanjiang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6858,6 +7192,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "black_tea_leaves": {
     name: "black tea leaves",
+    origin: ["China", "India"],
+    season: ["all"],
     provenance: "generated",
     description: "Black Tea Leaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "culinary_herb",
@@ -6899,6 +7235,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "maltose_syrup": {
     name: "maltose syrup",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Maltose Syrup is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -6940,6 +7278,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sweet_bean_sauce": {
     name: "sweet bean sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sweet Bean Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -6981,6 +7321,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "doubanjiang_spicy_broad_bean_paste": {
     name: "doubanjiang spicy broad bean paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Doubanjiang Spicy Broad Bean Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -7022,6 +7364,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "red_fermented_tofu": {
     name: "red fermented tofu",
+    origin: ["China"],
+    season: ["all"],
     provenance: "generated",
     description: "Red Fermented Tofu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -7063,6 +7407,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sesame_paste": {
     name: "sesame paste",
+    origin: ["Africa"],
+    season: ["all"],
     provenance: "generated",
     description: "Sesame Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7104,6 +7450,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sichuan_peppercorn_powder": {
     name: "sichuan peppercorn powder",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sichuan Peppercorn Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -7145,6 +7493,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "flank_steak": {
     name: "flank steak",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Flank Steak is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7186,6 +7536,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "wheat_starch_tang_mian_fen": {
     name: "wheat starch tang mian fen",
+    origin: ["Fertile Crescent"],
+    season: ["all"],
     provenance: "generated",
     description: "Wheat Starch Tang Mian Fen is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -7227,6 +7579,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "doubanjiang_spicy_bean_paste": {
     name: "doubanjiang spicy bean paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Doubanjiang Spicy Bean Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -7268,6 +7622,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sweet_bean_sauce_tianmianjiang": {
     name: "sweet bean sauce tianmianjiang",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sweet Bean Sauce Tianmianjiang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -7309,6 +7665,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "thick_fresh_wheat_noodles": {
     name: "thick fresh wheat noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Thick Fresh Wheat Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -7350,6 +7708,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "wonton_wrappers": {
     name: "wonton wrappers",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Wonton Wrappers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7391,6 +7751,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "croissant_au_beurre": {
     name: "croissant au beurre",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Croissant Au Beurre is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7432,6 +7794,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cafe_au_lait": {
     name: "cafe au lait",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cafe Au Lait is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7473,6 +7837,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "jambon_de_paris_high_quality_cooked_ham": {
     name: "jambon de paris high quality cooked ham",
+    origin: ["Europe", "East Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Jambon De Paris High Quality Cooked Ham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7514,6 +7880,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "croutons": {
     name: "croutons",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Croutons is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7555,6 +7923,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "jambon_blanc_cooked_ham": {
     name: "jambon blanc cooked ham",
+    origin: ["Europe", "East Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Jambon Blanc Cooked Ham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7596,6 +7966,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "gruyere": {
     name: "gruyere",
+    origin: ["Switzerland (Fribourg)"],
+    season: ["all"],
     provenance: "generated",
     description: "A firm, raw cow's milk cheese from Switzerland, renowned as one of the finest melting cheeses in the world due to its high water-to-oil ratio. It possesses a complex flavor profile that is sweet but slightly salty, with profound notes of earth, mushrooms, and toasted nuts.\n\n**Selection & Storage:** Look for a dense, slightly granular paste; older varieties will have small cracks and a darker color. Store wrapped in parchment or wax paper in the warmest part of the refrigerator.",
     category: "misc",
@@ -7637,6 +8009,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "escargots": {
     name: "escargots",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Escargots is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7678,6 +8052,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ni_u00e7oise_olives": {
     name: "ni u00e7oise olives",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Ni U00e7oise Olives is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7719,6 +8095,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dover_sole": {
     name: "dover sole",
+    origin: ["Atlantic Ocean"],
+    season: ["spring", "summer"],
     provenance: "generated",
     description: "Dover Sole is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7760,6 +8138,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sausages": {
     name: "sausages",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sausages is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -7801,6 +8181,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "juniper_berries": {
     name: "juniper berries",
+    origin: ["Northern Europe", "North America"],
+    season: ["fall"],
     provenance: "generated",
     description: "Juniper Berries is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7842,6 +8224,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "marrow_bone": {
     name: "marrow bone",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Marrow Bone is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -7883,6 +8267,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "leek": {
     name: "leek",
+    origin: ["Mediterranean", "Middle East"],
+    season: ["fall", "winter", "spring"],
     provenance: "generated",
     description: "A mild, sweet member of the onion family (*Allium ampeloprasum*) characterized by its tightly bundled cylindrical stem of broad, flat leaves. Unlike onions, leeks do not form a bulb and offer a subtle, grassy sweetness that thickens and enriches soups and braises.\n\n**Selection & Storage:** Select leeks with crisp, brightly colored green tops and a pristine white base. Because dirt easily gets trapped between the layers, slice and wash them thoroughly before cooking. Refrigerate unwashed leeks loosely wrapped in plastic for up to two weeks.",
     category: "misc",
@@ -7924,6 +8310,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mixed_firm_and_flaky_fish": {
     name: "mixed firm and flaky fish",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mixed Firm And Flaky Fish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -7965,6 +8353,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fish_stock": {
     name: "fish stock",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Fish Stock is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -8006,6 +8396,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "white_haricot_beans": {
     name: "white haricot beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "White Haricot Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -8047,6 +8439,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_white_tarbais_beans": {
     name: "dried white tarbais beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried White Tarbais Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -8088,6 +8482,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "red_burgundy_wine": {
     name: "red burgundy wine",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Red Burgundy Wine is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8129,6 +8525,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "small_bony_fish_for_stock": {
     name: "small bony fish for stock",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Small Bony Fish For Stock is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -8170,6 +8568,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "rouille": {
     name: "rouille",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Rouille is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8211,6 +8611,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "piperade": {
     name: "piperade",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Piperade is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8252,6 +8654,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "creme_patissiere": {
     name: "creme patissiere",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Creme Patissiere is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8293,6 +8697,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "wooden_skewers": {
     name: "wooden skewers",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Wooden Skewers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8334,6 +8740,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "greek_pita_bread": {
     name: "greek pita bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Greek Pita Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -8375,6 +8783,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kefalotyri_cheese": {
     name: "kefalotyri cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "Kefalotyri Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -8416,6 +8826,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "vegetable_broth": {
     name: "vegetable broth",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Savory vegetable stock used as a liquid flavor base in soups, braises, and grain cooking.",
     category: "seasoning",
@@ -8457,6 +8869,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kefalograviera_cheese": {
     name: "kefalograviera cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "Kefalograviera Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -8498,6 +8912,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "orzo_pasta": {
     name: "orzo pasta",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Orzo Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8539,6 +8955,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "stale_bread": {
     name: "stale bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Stale Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -8580,6 +8998,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pastitsio_pasta_misko_no_2": {
     name: "pastitsio pasta misko no 2",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pastitsio Pasta Misko No 2 is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8621,6 +9041,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_currants": {
     name: "dried currants",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Currants is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8662,6 +9084,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "allspice_berries": {
     name: "allspice berries",
+    origin: ["Caribbean", "Central America"],
+    season: ["all"],
     provenance: "generated",
     description: "Allspice Berries is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -8703,6 +9127,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kritharaki_greek_orzo_pasta": {
     name: "kritharaki greek orzo pasta",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kritharaki Greek Orzo Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8744,6 +9170,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kefalotyri": {
     name: "kefalotyri",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kefalotyri is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8785,6 +9213,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_gigantes_beans": {
     name: "dried gigantes beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Gigantes Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -8826,6 +9256,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "stale_white_bread": {
     name: "stale white bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Stale White Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -8867,6 +9299,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "phyllo_pastry": {
     name: "phyllo pastry",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Phyllo Pastry is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8908,6 +9342,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pastitsio_pasta": {
     name: "pastitsio pasta",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pastitsio Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8949,6 +9385,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "currants": {
     name: "currants",
+    origin: ["Europe"],
+    season: ["summer"],
     provenance: "generated",
     description: "Currants is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -8990,6 +9428,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fenugreek_seeds": {
     name: "fenugreek seeds",
+    origin: ["Western Asia", "Mediterranean"],
+    season: ["all"],
     provenance: "generated",
     description: "Fenugreek Seeds is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9031,6 +9471,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kasuri_methi_dried_fenugreek_leaves": {
     name: "kasuri methi dried fenugreek leaves",
+    origin: ["Western Asia", "Mediterranean"],
+    season: ["winter", "spring"],
     provenance: "generated",
     description: "Kasuri Methi Dried Fenugreek Leaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "culinary_herb",
@@ -9072,6 +9514,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sev": {
     name: "sev",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sev is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9113,6 +9557,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mutton": {
     name: "mutton",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mutton is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9154,6 +9600,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "red_chilies": {
     name: "red chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Generic ripe red chili pepper entry used for fresh heat and bright pepper aroma.",
     category: "spice",
@@ -9195,6 +9643,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "whole_green_gram_moong_dal": {
     name: "whole green gram moong dal",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Whole Green Gram Moong Dal is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9236,6 +9686,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cooking_oil": {
     name: "cooking oil",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cooking Oil is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "oil",
@@ -9277,6 +9729,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "green_chili_paste": {
     name: "green chili paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Green Chili Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -9318,6 +9772,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nihari_masala": {
     name: "nihari masala",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nihari Masala is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -9359,6 +9815,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cashews": {
     name: "cashews",
+    origin: ["South America"],
+    season: ["all"],
     provenance: "generated",
     description: "Cashews is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9400,6 +9858,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chana_masala_powder": {
     name: "chana masala powder",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chana Masala Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -9441,6 +9901,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "carom_seeds_ajwain": {
     name: "carom seeds ajwain",
+    origin: ["South Asia", "Western Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Carom Seeds Ajwain is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9482,6 +9944,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "amchur": {
     name: "amchur",
+    origin: ["South Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Amchur is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9523,6 +9987,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "raisins_and_cashews": {
     name: "raisins and cashews",
+    origin: ["South America"],
+    season: ["all"],
     provenance: "generated",
     description: "Raisins And Cashews is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "fruit",
@@ -9564,6 +10030,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "crispy_puris": {
     name: "crispy puris",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Crispy Puris is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9605,6 +10073,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pav_bhaji_masala": {
     name: "pav bhaji masala",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pav Bhaji Masala is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -9646,6 +10116,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pav_rolls": {
     name: "pav rolls",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pav Rolls is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9687,6 +10159,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tiger_prawns": {
     name: "tiger prawns",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tiger Prawns is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9728,6 +10202,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bydagi_chilies": {
     name: "bydagi chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Bydagi Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -9769,6 +10245,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ajwain_carom_seeds": {
     name: "ajwain carom seeds",
+    origin: ["South Asia", "Western Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Ajwain Carom Seeds is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9810,6 +10288,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "khoya_mawa": {
     name: "khoya mawa",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Khoya Mawa is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9851,6 +10331,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tikka_masala_spice_blend": {
     name: "tikka masala spice blend",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tikka Masala Spice Blend is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -9892,6 +10374,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_fenugreek_leaves_kasuri_methi": {
     name: "dried fenugreek leaves kasuri methi",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Fenugreek Leaves Kasuri Methi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "culinary_herb",
@@ -9933,6 +10417,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "khoya": {
     name: "khoya",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Khoya is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -9974,6 +10460,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "espresso": {
     name: "espresso",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Espresso is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10015,6 +10503,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "high_quality_cocoa_powder": {
     name: "high quality cocoa powder",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "High Quality Cocoa Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10056,6 +10546,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cantuccini_biscotti": {
     name: "cantuccini biscotti",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cantuccini Biscotti is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10097,6 +10589,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "stale_crusty_bread_ideally_saltless_tuscan_bread": {
     name: "stale crusty bread ideally saltless tuscan bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Stale Crusty Bread Ideally Saltless Tuscan Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -10138,6 +10632,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cannellini_beans": {
     name: "cannellini beans",
+    origin: ["Italy"],
+    season: ["all"],
     provenance: "generated",
     description: "Cannellini Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -10179,6 +10675,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "stale_tuscan_bread": {
     name: "stale tuscan bread",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Stale Tuscan Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -10220,6 +10718,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_borlotti": {
     name: "dried borlotti",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Borlotti is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10261,6 +10761,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ditalini": {
     name: "ditalini",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Ditalini is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10302,6 +10804,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fresh_yeast": {
     name: "fresh yeast",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Compressed baker's yeast used for active fermentation in breads and enriched doughs, with high activity and shorter shelf life than dry yeast.",
     category: "seasoning",
@@ -10343,6 +10847,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "olives": {
     name: "olives",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Brined or cured olive fruit used for saline bitterness and fat-like richness in Mediterranean and Middle Eastern dishes.",
     category: "fruit",
@@ -10384,6 +10890,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pici_pasta": {
     name: "pici pasta",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pici Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10425,6 +10933,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "green_olives": {
     name: "green olives",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Green Olives is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10466,6 +10976,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "vinegar": {
     name: "vinegar",
+    origin: ["Western Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Generic vinegar token used for acid balance, pickling, and deglazing when a specific vinegar type is not named.",
     category: "vinegar",
@@ -10507,6 +11019,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "oil_for_frying": {
     name: "oil for frying",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Oil For Frying is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "oil",
@@ -10548,6 +11062,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "puntarelle": {
     name: "puntarelle",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Puntarelle is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10589,6 +11105,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "taleggio_cheese": {
     name: "taleggio cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "Taleggio Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -10630,6 +11148,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bolognese_rag": {
     name: "bolognese rag",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Bolognese Rag is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10671,6 +11191,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "gremolata": {
     name: "gremolata",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Gremolata is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10712,6 +11234,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "prosciutto_di_parma": {
     name: "prosciutto di parma",
+    origin: ["Italy (Parma, San Daniele)"],
+    season: ["all"],
     provenance: "generated",
     description: "Prosciutto Di Parma is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10753,6 +11277,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cocoa_powder": {
     name: "cocoa powder",
+    origin: ["Mesoamerica"],
+    season: ["all"],
     provenance: "generated",
     description: "The dry, solid remains of roasted cacao beans after the fatty cocoa butter has been pressed out. Natural cocoa powder is acidic and sharp, while 'Dutch-processed' cocoa has been treated with an alkali to neutralize its acidity, resulting in a darker color and a smoother, milder chocolate flavor.\n\n**Selection & Storage:** Check your recipe to see if it requires Dutch-processed or natural cocoa powder, as they react differently with leavening agents. Store in an airtight container in a dark pantry.",
     category: "misc",
@@ -10794,6 +11320,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sea_bass": {
     name: "sea bass",
+    origin: ["Mediterranean", "Atlantic"],
+    season: ["fall", "winter"],
     provenance: "generated",
     description: "Sea Bass is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10835,6 +11363,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tonnarelli": {
     name: "tonnarelli",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tonnarelli is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10876,6 +11406,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "instant_yeast": {
     name: "instant yeast",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Instant Yeast is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -10917,6 +11449,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "savoiardi_ladyfinger_biscuits": {
     name: "savoiardi ladyfinger biscuits",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Savoiardi Ladyfinger Biscuits is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10958,6 +11492,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dextrose": {
     name: "dextrose",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dextrose is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -10999,6 +11535,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "locust_bean_gum": {
     name: "locust bean gum",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Locust Bean Gum is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -11040,6 +11578,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "active_lieveto_madre_stiff_sourdough_starter": {
     name: "active lieveto madre stiff sourdough starter",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Active Lieveto Madre Stiff Sourdough Starter is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11081,6 +11621,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "miso_soup": {
     name: "miso soup",
+    origin: ["Japan"],
+    season: ["all"],
     provenance: "generated",
     description: "Miso Soup is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11122,6 +11664,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kobachi_side_dish": {
     name: "kobachi side dish",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kobachi Side Dish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11163,6 +11707,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ham": {
     name: "ham",
+    origin: ["Europe", "East Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Ham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11204,6 +11750,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "edamame_beans": {
     name: "edamame beans",
+    origin: ["East Asia"],
+    season: ["summer", "fall"],
     provenance: "generated",
     description: "Edamame Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -11245,6 +11793,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "katsuobushi": {
     name: "katsuobushi",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Katsuobushi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11286,6 +11836,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tsuyu_noodle_sauce": {
     name: "tsuyu noodle sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tsuyu Noodle Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -11327,6 +11879,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "toasted_nori": {
     name: "toasted nori",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Toasted Nori is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11368,6 +11922,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "wasabi_paste": {
     name: "wasabi paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Wasabi Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11409,6 +11965,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "shoyu_tare": {
     name: "shoyu tare",
+    origin: ["Japan"],
+    season: ["all"],
     provenance: "generated",
     description: "Shoyu Tare is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11450,6 +12008,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "white_miso_paste_shiro_miso": {
     name: "white miso paste shiro miso",
+    origin: ["Japan"],
+    season: ["all"],
     provenance: "generated",
     description: "White Miso Paste Shiro Miso is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11491,6 +12051,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_wakame_seaweed": {
     name: "dried wakame seaweed",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Wakame Seaweed is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11532,6 +12094,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "aonori_dried_green_seaweed_flakes": {
     name: "aonori dried green seaweed flakes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Aonori Dried Green Seaweed Flakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11573,6 +12137,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cooked_octopus_tako": {
     name: "cooked octopus tako",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cooked Octopus Tako is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11614,6 +12180,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "takoyaki_sauce": {
     name: "takoyaki sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Takoyaki Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11655,6 +12223,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mentsuyu_dipping_sauce": {
     name: "mentsuyu dipping sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mentsuyu Dipping Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11696,6 +12266,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "hot_green_tea_sencha": {
     name: "hot green tea sencha",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Hot Green Tea Sencha is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11737,6 +12309,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nori_strips": {
     name: "nori strips",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nori Strips is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11778,6 +12352,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "shungiku_chrysanthemum_greens": {
     name: "shungiku chrysanthemum greens",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Shungiku Chrysanthemum Greens is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11819,6 +12395,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "alkaline_wheat_noodles": {
     name: "alkaline wheat noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Alkaline Wheat Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -11860,6 +12438,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tare_sauce": {
     name: "tare sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tare Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11901,6 +12481,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tenkasu": {
     name: "tenkasu",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tenkasu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11942,6 +12524,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "katsuobushi_and_aonori": {
     name: "katsuobushi and aonori",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Katsuobushi And Aonori is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -11983,6 +12567,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fresh": {
     name: "fresh",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "A modifier token indicating freshness (e.g., fresh herbs, fresh chilies) rather than a standalone ingredient. Resolve to the primary ingredient named in context.",
     category: "seasoning",
@@ -12024,6 +12610,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tonkatsu_sauce": {
     name: "tonkatsu sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tonkatsu Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12065,6 +12653,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mitsuba": {
     name: "mitsuba",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mitsuba is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12106,6 +12696,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "white_miso_paste": {
     name: "white miso paste",
+    origin: ["Japan"],
+    season: ["all"],
     provenance: "generated",
     description: "White Miso Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12147,6 +12739,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nori": {
     name: "nori",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "An edible red algae (*Pyropia*) that is shredded, pulped, and pressed into thin, dark green sheets (much like the paper-making process). It offers a deeply savory, slightly sweet, and distinctively roasted oceanic flavor, functioning as the structural wrap for sushi rolls and onigiri.\n\n**Selection & Storage:** Nori absorbs ambient moisture instantly, turning tough and chewy. Store in a highly airtight container or zip-top bag with a desiccant packet.",
     category: "misc",
@@ -12188,6 +12782,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "naengmyeon_noodles": {
     name: "naengmyeon noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Naengmyeon Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -12229,6 +12825,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dongchimi_brine": {
     name: "dongchimi brine",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dongchimi Brine is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12270,6 +12868,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "korean_pancake_mix": {
     name: "korean pancake mix",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Korean Pancake Mix is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12311,6 +12911,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "red_chili_pepper": {
     name: "red chili pepper",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Red Chili Pepper is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -12352,6 +12954,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "garaetteok": {
     name: "garaetteok",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Garaetteok is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12393,6 +12997,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fish_cakes_eomuk": {
     name: "fish cakes eomuk",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Fish Cakes Eomuk is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -12434,6 +13040,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "jajangmyeon_noodles": {
     name: "jajangmyeon noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Jajangmyeon Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -12475,6 +13083,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chunjang": {
     name: "chunjang",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chunjang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12516,6 +13126,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cornstarch_slurry": {
     name: "cornstarch slurry",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cornstarch Slurry is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -12557,6 +13169,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "core_element_of_haemul_pajeon": {
     name: "core element of haemul pajeon",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Core Element Of Haemul Pajeon is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12598,6 +13212,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "alchemical_spice": {
     name: "alchemical spice",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Alchemical Spice is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -12639,6 +13255,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pancake_mix": {
     name: "pancake mix",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pancake Mix is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12680,6 +13298,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "danmuji_yellow_pickled_radish": {
     name: "danmuji yellow pickled radish",
+    origin: ["China", "Southeast Asia"],
+    season: ["spring", "fall"],
     provenance: "generated",
     description: "Danmuji Yellow Pickled Radish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "vegetable",
@@ -12721,6 +13341,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "round_mandu_wrappers": {
     name: "round mandu wrappers",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Round Mandu Wrappers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12762,6 +13384,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chili_pepper": {
     name: "chili pepper",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chili Pepper is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -12803,6 +13427,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chestnuts": {
     name: "chestnuts",
+    origin: ["Europe"],
+    season: ["fall"],
     provenance: "generated",
     description: "Chestnuts is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12844,6 +13470,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "jujubes_dried_dates": {
     name: "jujubes dried dates",
+    origin: ["Middle East"],
+    season: ["fall", "winter"],
     provenance: "generated",
     description: "Jujubes Dried Dates is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12885,6 +13513,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "extra_firm_tofu": {
     name: "extra firm tofu",
+    origin: ["China"],
+    season: ["all"],
     provenance: "generated",
     description: "Low-moisture tofu ideal for high-heat searing, grilling, and crisp textures after pressing.",
     category: "protein",
@@ -12926,6 +13556,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "spam": {
     name: "spam",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Spam is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -12967,6 +13599,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "instant_ramen_noodles": {
     name: "instant ramen noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Instant Ramen Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -13008,6 +13642,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "hot_dogs": {
     name: "hot dogs",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Hot Dogs is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13049,6 +13685,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "baked_beans": {
     name: "baked beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Baked Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -13090,6 +13728,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fresh_ginseng": {
     name: "fresh ginseng",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Fresh Ginseng is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13131,6 +13771,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_jujubes": {
     name: "dried jujubes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Jujubes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13172,6 +13814,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_astragalus_root": {
     name: "dried astragalus root",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Astragalus Root is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13213,6 +13857,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mochi": {
     name: "mochi",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mochi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13254,6 +13900,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "primary_ingredient_for_hotteok": {
     name: "primary ingredient for hotteok",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Primary Ingredient For Hotteok is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13295,6 +13943,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "primary_ingredient_for_songpyeon": {
     name: "primary ingredient for songpyeon",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Primary Ingredient For Songpyeon is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13336,6 +13986,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "primary_ingredient_for_japchae": {
     name: "primary ingredient for japchae",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Primary Ingredient For Japchae is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13377,6 +14029,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "jalapeno": {
     name: "jalapeno",
+    origin: ["Mexico (Veracruz)"],
+    season: ["summer"],
     provenance: "generated",
     description: "A medium-sized chili pepper (*Capsicum annuum*) offering a bright, grassy, and vegetal flavor accompanied by moderate heat (2,500 - 8,000 Scoville units). When green, they are sharp and crisp; as they ripen to red, they develop a sweeter, deeper flavor profile before being smoke-dried into chipotles.\n\n**Selection & Storage:** Look for firm, shiny peppers. Small white lines (corking) indicate a more mature, often hotter pepper. Store unwashed in a paper bag in the crisper drawer.",
     category: "misc",
@@ -13418,6 +14072,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "stale_corn_tortillas": {
     name: "stale corn tortillas",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Stale Corn Tortillas is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -13459,6 +14115,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "epazote": {
     name: "epazote",
+    origin: ["Mexico", "Central America"],
+    season: ["summer"],
     provenance: "generated",
     description: "Epazote is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13500,6 +14158,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bolillo_rolls": {
     name: "bolillo rolls",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Bolillo Rolls is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13541,6 +14201,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "refried_beans": {
     name: "refried beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Refried Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -13582,6 +14244,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pico_de_gallo": {
     name: "pico de gallo",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Pico De Gallo is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13623,6 +14287,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chiltomate_sauce": {
     name: "chiltomate sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chiltomate Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13664,6 +14330,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cooked_ham": {
     name: "cooked ham",
+    origin: ["Europe", "East Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "Cooked Ham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13705,6 +14373,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "serrano_chilies": {
     name: "serrano chilies",
+    origin: ["Mexico"],
+    season: ["summer"],
     provenance: "generated",
     description: "Serrano Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -13746,6 +14416,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tlayudas": {
     name: "tlayudas",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tlayudas is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13787,6 +14459,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "oaxaca_cheese": {
     name: "oaxaca cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "Oaxaca Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -13828,6 +14502,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chorizo": {
     name: "chorizo",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "A highly seasoned pork sausage available in two drastically different styles. Spanish chorizo is cured, hard, and deeply flavored with smoked paprika (pimentón), while Mexican chorizo is fresh, uncured, and aggressively seasoned with chili peppers and vinegar, requiring cooking before eating.\n\n**Selection & Storage:** Spanish (cured) chorizo can be stored at room temperature until sliced. Mexican (fresh) chorizo must be kept refrigerated and cooked thoroughly.",
     category: "misc",
@@ -13869,6 +14545,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "roma": {
     name: "roma",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Roma is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13910,6 +14588,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "hass": {
     name: "hass",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Hass is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13951,6 +14631,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "salsa_roja": {
     name: "salsa roja",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Salsa Roja is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -13992,6 +14674,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nopales": {
     name: "nopales",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nopales is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -14033,6 +14717,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cotija_cheese": {
     name: "cotija cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "Cotija Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -14074,6 +14760,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chile_powder": {
     name: "chile powder",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chile Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -14115,6 +14803,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "juice": {
     name: "juice",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Generic juice token typically used for citrus acidity, fruit sweetness, or marinade moisture. Resolve to citrus, vegetable, or fruit source from recipe context.",
     category: "seasoning",
@@ -14156,6 +14846,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "fideo_pasta": {
     name: "fideo pasta",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Fideo Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -14197,6 +14889,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mulato_chiles": {
     name: "mulato chiles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mulato Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -14238,6 +14932,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "pasilla_chiles": {
     name: "pasilla chiles",
+    origin: ["Mexico"],
+    season: ["all"],
     provenance: "generated",
     description: "Pasilla Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -14279,6 +14975,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "corn_tortilla": {
     name: "corn tortilla",
+    origin: ["Mesoamerica"],
+    season: ["summer"],
     provenance: "generated",
     description: "Single corn tortilla entry for recipe rows that use singular ingredient naming.",
     category: "grain",
@@ -14321,6 +15019,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "jalapenos": {
     name: "jalapenos",
+    origin: ["Mexico (Veracruz)"],
+    season: ["summer"],
     provenance: "generated",
     description: "Jalapenos is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -14362,6 +15062,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "serrano_chiles": {
     name: "serrano chiles",
+    origin: ["Mexico"],
+    season: ["summer"],
     provenance: "generated",
     description: "Serrano Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -14403,6 +15105,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cascabel_chilies": {
     name: "cascabel chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cascabel Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -14444,6 +15148,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "salsa_verde": {
     name: "salsa verde",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Salsa Verde is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -14485,6 +15191,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "dried_corn_husks": {
     name: "dried corn husks",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried Corn Husks is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "vegetable",
@@ -14526,6 +15234,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "yucatecan_limes": {
     name: "yucatecan limes",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Yucatecan Limes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "fruit",
@@ -14567,6 +15277,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chilhuacle_negro_chilies": {
     name: "chilhuacle negro chilies",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chilhuacle Negro Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -14608,6 +15320,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tajin": {
     name: "tajin",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tajin is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -14649,6 +15363,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chamoy_sauce": {
     name: "chamoy sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chamoy Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -14690,6 +15406,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cotija_cheese_crumbled": {
     name: "cotija cheese crumbled",
+    origin: ["Mexico (Michoacán)"],
+    season: ["all"],
     provenance: "generated",
     description: "Cotija Cheese Crumbled is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -14731,6 +15449,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ancho": {
     name: "ancho",
+    origin: ["Mexico"],
+    season: ["all"],
     provenance: "generated",
     description: "Dried poblano chile used for mild heat, earthy sweetness, and deep red-brown sauces.",
     category: "spice",
@@ -14772,6 +15492,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "aleppo_pepper_flakes": {
     name: "aleppo pepper flakes",
+    origin: ["Syria", "Turkey"],
+    season: ["all"],
     provenance: "generated",
     description: "Aleppo Pepper Flakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -14813,6 +15535,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "laurel_leaves": {
     name: "laurel leaves",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Laurel Leaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "culinary_herb",
@@ -14854,6 +15578,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sumac": {
     name: "sumac",
+    origin: ["Western Asia", "Mediterranean"],
+    season: ["all"],
     provenance: "generated",
     description: "Sumac is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -14895,6 +15621,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bulgur": {
     name: "bulgur",
+    origin: ["Western Asia"],
+    season: ["all"],
     provenance: "generated",
     description: "A whole grain made from cracked parboiled groats of several different wheat species, most often durum wheat. Because it has been parboiled, it cooks very quickly and offers a deeply nutty flavor and a satisfying, chewy texture, serving as the foundational ingredient in Middle Eastern tabbouleh.\n\n**Selection & Storage:** Available in different grinds (fine for salads, coarse for pilafs). Store in an airtight container in the pantry, or in the refrigerator to prolong its shelf life.",
     category: "misc",
@@ -14936,6 +15664,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "molokhia_leaves": {
     name: "molokhia leaves",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Molokhia Leaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "culinary_herb",
@@ -14977,6 +15707,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "b_u00e9chamel_sauce": {
     name: "b u00e9chamel sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "B U00e9chamel Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15018,6 +15750,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "shrak": {
     name: "shrak",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Shrak is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15059,6 +15793,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "hawaij": {
     name: "hawaij",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Hawaij is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15100,6 +15836,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kataifi_pastry": {
     name: "kataifi pastry",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kataifi Pastry is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15141,6 +15879,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nabulsi": {
     name: "nabulsi",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nabulsi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15182,6 +15922,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "neutral_frying_oil": {
     name: "neutral frying oil",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Neutral Frying Oil is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "oil",
@@ -15223,6 +15965,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tahini_sauce": {
     name: "tahini sauce",
+    origin: ["Levant"],
+    season: ["all"],
     provenance: "generated",
     description: "Tahini Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15264,6 +16008,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kitchen_towel": {
     name: "kitchen towel",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kitchen Towel is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15305,6 +16051,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tvorog_farmer_s_cheese": {
     name: "tvorog farmer s cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
+    season: ["all"],
     provenance: "generated",
     description: "Tvorog Farmer S Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "dairy",
@@ -15346,6 +16094,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "berry_preserves": {
     name: "berry preserves",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Berry Preserves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "fruit",
@@ -15387,6 +16137,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kefir": {
     name: "kefir",
+    origin: ["Caucasus"],
+    season: ["all"],
     provenance: "generated",
     description: "A highly probiotic, fermented milk drink with a consistency similar to thin yogurt. It is cultured using 'kefir grains' (a symbiotic matrix of bacteria and yeast), resulting in a tart, slightly effervescent beverage that makes a superb tenderizing marinade for poultry.\n\n**Selection & Storage:** Choose plain, unsweetened kefir for cooking applications. It has a relatively long shelf life due to its acidity; store it tightly sealed in the refrigerator.",
     category: "misc",
@@ -15428,6 +16180,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "small_fish": {
     name: "small fish",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Small whole fish used for broths, sauces, frying, and fermented preparations. Flavor intensity and salinity vary by species and preservation method.",
     category: "protein",
@@ -15469,6 +16223,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "prized_fish": {
     name: "prized fish",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Prized Fish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -15510,6 +16266,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "vodka": {
     name: "vodka",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "A clear, highly distilled liquor composed primarily of water and ethanol, designed to be flavorless. In cooking, it is used purely for its chemical properties: it halts the development of gluten in pie crusts (yielding a flakier dough) and binds water to oil in tomato cream sauces (Penne alla Vodka).\n\n**Selection & Storage:** Store upright at room temperature; it is highly stable and will not degrade.",
     category: "misc",
@@ -15551,6 +16309,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mixed_cured_meats": {
     name: "mixed cured meats",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mixed Cured Meats is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15592,6 +16352,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "black_olives": {
     name: "black olives",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Black Olives is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15633,6 +16395,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cooked_meat": {
     name: "cooked meat",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Prepared meat component carried into soups, rice dishes, or wraps as a pre-cooked protein ingredient.",
     category: "protein",
@@ -15674,6 +16438,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "filling": {
     name: "filling",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Filling is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15715,6 +16481,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "for_glaze": {
     name: "for glaze",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "For Glaze is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15756,6 +16524,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cold_kvas": {
     name: "cold kvas",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cold Kvas is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15797,6 +16567,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sriracha": {
     name: "sriracha",
+    origin: ["Thailand"],
+    season: ["all"],
     provenance: "generated",
     description: "A Thai-style hot sauce made from a paste of chili peppers, distilled vinegar, garlic, sugar, and salt. Unlike fermented hot sauces (like Tabasco), Sriracha relies on a balance of bright acidity, pronounced garlic, and moderate sweetness to deliver a highly versatile, viscous heat.\n\n**Selection & Storage:** Its high acid, salt, and sugar content make it highly stable. It can be stored at room temperature, though refrigeration will prevent its color from darkening over time.",
     category: "misc",
@@ -15838,6 +16610,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "finely_sliced": {
     name: "finely sliced",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Finely Sliced is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15879,6 +16653,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "panang_curry_paste": {
     name: "panang curry paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Panang Curry Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -15920,6 +16696,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "torn": {
     name: "torn",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Torn is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -15961,6 +16739,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "beaten": {
     name: "beaten",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Beaten is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16002,6 +16782,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nam_prik_pao_thai_chili_jam": {
     name: "nam prik pao thai chili jam",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nam Prik Pao Thai Chili Jam is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -16043,6 +16825,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "preserved_radish_chai_poh": {
     name: "preserved radish chai poh",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Preserved Radish Chai Poh is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "vegetable",
@@ -16084,6 +16868,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "canned_bamboo_shoots": {
     name: "canned bamboo shoots",
+    origin: ["East and Southeast Asia"],
+    season: ["spring"],
     provenance: "generated",
     description: "Canned Bamboo Shoots is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "vegetable",
@@ -16125,6 +16911,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "gaeng_panang_neua": {
     name: "gaeng panang neua",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Gaeng Panang Neua is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16166,6 +16954,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "khao_soi_gai": {
     name: "khao soi gai",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Khao Soi Gai is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16207,6 +16997,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tub_tim_grob": {
     name: "tub tim grob",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tub Tim Grob is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16248,6 +17040,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bua_loi": {
     name: "bua loi",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Bua Loi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16289,6 +17083,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sangkaya_fak_thong": {
     name: "sangkaya fak thong",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sangkaya Fak Thong is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16330,6 +17126,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "kluay_tod": {
     name: "kluay tod",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Kluay Tod is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16371,6 +17169,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "youtiao_quay": {
     name: "youtiao quay",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Youtiao Quay is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16412,6 +17212,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nuoc_cham": {
     name: "nuoc cham",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nuoc Cham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16453,6 +17255,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ch_l_a": {
     name: "ch l a",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Ch L A is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16494,6 +17298,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "banh_mi_p_la": {
     name: "banh mi p la",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Banh Mi P La is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16535,6 +17341,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "chao": {
     name: "chao",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Chao is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16576,6 +17384,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nuoc_mau": {
     name: "nuoc mau",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nuoc Mau is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16617,6 +17427,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "m_m_ru_c": {
     name: "m m ru c",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "M M Ru C is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16658,6 +17470,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "annatto_oil": {
     name: "annatto oil",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Annatto Oil is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "oil",
@@ -16699,6 +17513,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "tapioca_noodles": {
     name: "tapioca noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Tapioca Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -16740,6 +17556,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "catfish_steaks": {
     name: "catfish steaks",
+    origin: ["Worldwide freshwater"],
+    season: ["spring", "summer"],
     provenance: "generated",
     description: "Catfish Steaks is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -16781,6 +17599,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "liver_p_t": {
     name: "liver p t",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Liver P T is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16822,6 +17642,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "snakehead_fish": {
     name: "snakehead fish",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Snakehead Fish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -16863,6 +17685,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "vietnamese_baguettes_banh_mi": {
     name: "vietnamese baguettes banh mi",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Vietnamese Baguettes Banh Mi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16904,6 +17728,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nuoc_cham_dipping_sauce": {
     name: "nuoc cham dipping sauce",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nuoc Cham Dipping Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -16945,6 +17771,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "sa_te_chili_paste": {
     name: "sa te chili paste",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Sa Te Chili Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "spice",
@@ -16986,6 +17814,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cao_lau_noodles": {
     name: "cao lau noodles",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cao Lau Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "grain",
@@ -17027,6 +17857,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "red_adzuki_beans": {
     name: "red adzuki beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Red Adzuki Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "protein",
@@ -17068,6 +17900,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ch_ba_mau": {
     name: "ch ba mau",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Ch Ba Mau is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17109,6 +17943,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "ndole_leaves_bitterleaf": {
     name: "ndole leaves bitterleaf",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Ndole Leaves Bitterleaf is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "culinary_herb",
@@ -17150,6 +17986,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "bolognese_ragu": {
     name: "bolognese ragu",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Bolognese Ragu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17191,6 +18029,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nuoc_cha_m": {
     name: "nuoc cha m",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nuoc Cha M is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17232,6 +18072,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cha_lua": {
     name: "cha lua",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cha Lua is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17273,6 +18115,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "banh_mi_op_la": {
     name: "banh mi op la",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Banh Mi Op La is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17314,6 +18158,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "cha_o": {
     name: "cha o",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Cha O is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17355,6 +18201,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "nuoc_ma_u": {
     name: "nuoc ma u",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Nuoc Ma U is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17396,6 +18244,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "mam_ruo_c": {
     name: "mam ruo c",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Mam Ruo C is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17437,6 +18287,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "liver_pate": {
     name: "liver pate",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Liver Pate is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",
@@ -17478,6 +18330,8 @@ export const recipeCoverageIngredients: Record<string, Partial<IngredientMapping
   },
   "che_ba_mau": {
     name: "che ba mau",
+    origin: ["Worldwide"],
+    season: ["all"],
     provenance: "generated",
     description: "Che Ba Mau is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
     category: "misc",

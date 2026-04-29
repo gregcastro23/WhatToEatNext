@@ -159,6 +159,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   raspberry: {
       description: "A delicate, aggregate fruit (*Rubus idaeus*) composed of tightly packed drupelets around a hollow core. They are highly aromatic and naturally tart, meaning their bright flavor holds up beautifully against intense, rich counterparts like dark chocolate or heavy cream.",
     name: "Raspberry",
+    origin: ["Europe", "North America"],
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
@@ -236,6 +237,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   strawberry: {
       description: "A fragrant, deeply red accessory fruit (*Fragaria × ananassa*) bearing its seeds on the outside. Known for a perfect balance of malic acid and natural sugars, they soften quickly when cooked and release their vibrant juices, making them ideal for macerating, purees, and delicate desserts.",
     name: "Strawberry",
+    origin: ["Europe", "Americas"],
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
@@ -307,6 +309,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   blackberry: {
       description: "An aggregate fruit (*Rubus*) composed of many tiny, juice-filled drupelets. They provide a complex, earthy, and slightly tart flavor with a noticeable seed crunch, cooking down beautifully into rich, dark jams and reductions that pair surprisingly well with game meats.",
     name: "Blackberry",
+    origin: ["Europe", "North America"],
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
@@ -379,6 +382,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   cranberry: {
       description: "A small, exceptionally tart, and astringent berry (*Vaccinium macrocarpon*) native to North American bogs. Because of their intense acidity and low sugar content, they are rarely eaten raw; instead, they are cooked with sugar to create brightly colored, pectin-rich sauces that cut through rich holiday roasts.",
     name: "Cranberry",
+    origin: ["North America"],
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
@@ -451,6 +455,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   gooseberry: {
       description: "A small, tart berry (*Ribes uva-crispa*) with translucent skin, often green or pale red, featuring faint vertical striping. Their sharp acidity makes them a classic ingredient in traditional British baking (like fools and crumbles) and a sharp, pectin-rich pairing for fatty fish like mackerel.",
     name: "Gooseberry",
+    origin: ["Europe", "Western Asia"],
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Mercury"],
@@ -516,6 +521,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   elderberry: {
       description: "The tiny, dark purple-black berries of the *Sambucus* tree. They are mildly toxic when raw and must be cooked, which transforms their astringent, earthy flavor into a deeply complex, floral, and rich syrup utilized in cordials, jams, and medicinal tinctures.",
     name: "Elderberry",
+    origin: ["Europe", "North America"],
     elementalProperties: { Water: 0.3, Air: 0.3, Earth: 0.3, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
@@ -581,6 +587,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   mulberry: {
       description: "A highly perishable, elongated berry (*Morus*) resembling an elongated blackberry. They offer an intensely sweet, earthy, and slightly woodsy flavor without the sharp tartness of other berries, though their delicate structure makes them difficult to transport commercially.",
     name: "Mulberry",
+    origin: ["Cultivated worldwide"],
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
@@ -646,6 +653,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   goji_berry: {
       description: "The bright red-orange fruit of the *Lycium barbarum* shrub, typically sold dried. They possess a complex, slightly sour, and earthy sweetness (reminiscent of a cross between a cranberry and a cherry tomato), commonly steeped in Chinese healing broths or used as a nutrient-dense topping for oatmeal.",
     name: "Goji Berry",
+    origin: ["China"],
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
@@ -718,6 +726,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   acai_berry: {
       description: "A small, dark purple fruit (*Euterpe oleracea*) native to the Amazon rainforest. Highly perishable when fresh, it is usually sold as a frozen puree or freeze-dried powder, providing an earthy, unsweetened flavor profile with deep notes of blackberry and dark, unsweetened chocolate.",
     name: "Acai Berry",
+    origin: ["South America (Amazon)"],
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
@@ -790,6 +799,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   currant_red: {
       description: "Tiny, intensely flavored berries (*Ribes*) available in red, black, and white varieties. Blackcurrants are incredibly musky, earthy, and tart (often made into cassis), while red and white currants are brighter, more acidic, and commonly used to make crystal-clear, pectin-heavy jellies.\n\n**Selection & Storage:** Choose firm, plump clusters attached to their stems. Store unwashed in the refrigerator and use within a few days.",
     name: "Red Currant",
+    origin: ["Europe"],
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Venus"],
@@ -855,6 +865,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
   currant_black: {
       description: "Tiny, intensely flavored berries (*Ribes*) available in red, black, and white varieties. Blackcurrants are incredibly musky, earthy, and tart (often made into cassis), while red and white currants are brighter, more acidic, and commonly used to make crystal-clear, pectin-heavy jellies.\n\n**Selection & Storage:** Choose firm, plump clusters attached to their stems. Store unwashed in the refrigerator and use within a few days.",
     name: "Black Currant",
+    origin: ["Europe"],
     elementalProperties: { Water: 0.3, Earth: 0.4, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Venus"],

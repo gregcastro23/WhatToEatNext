@@ -5,6 +5,8 @@ const rawAromaticHerbs = {
   thyme: {
       description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.",
     name: "Thyme",
+    origin: ["Mediterranean"],
+    season: ["spring", "summer", "fall"],
     category: "culinary_herb",
     subCategory: "aromatic",
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
@@ -60,6 +62,8 @@ const rawAromaticHerbs = {
   rosemary: {
       description: "A fragrant, evergreen shrub (*Salvia rosmarinus*) of the mint family known for its needle-like leaves and robust, pine-and-citrus aroma. Its essential oils contain rosmarinic acid, a powerful antioxidant that helps preserve the flavor and freshness of the foods it's cooked with, making it a classic pairing for roasted meats and root vegetables.\\n\\n",
     name: "Rosemary",
+    origin: ["Mediterranean"],
+    season: ["all"],
     category: "culinary_herb",
     subCategory: "aromatic",
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
@@ -128,6 +132,8 @@ const rawAromaticHerbs = {
   basil: {
       description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.",
     name: "Basil",
+    origin: ["South Asia (India)", "Southeast Asia"],
+    season: ["summer"],
     category: "culinary_herb",
     subCategory: "aromatic",
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.2, Water: 0 },

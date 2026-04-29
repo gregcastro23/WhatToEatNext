@@ -441,6 +441,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   za_atar: {
       description: "A vibrant, aromatic Middle Eastern spice blend featuring a base of dried wild thyme or oregano mixed with toasted sesame seeds, salt, and the defining tart, citrusy zing of sumac. It provides a profoundly earthy, nutty, and bright flavor profile perfect for dusting over hummus, flatbreads, or roasted chicken.",
     name: "Za Atar",
+    season: ["all"],
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["earthy", "tangy", "aromatic"],
     origin: ["Levant"],
@@ -511,6 +512,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   curry_powder: {
       description: "A Western commercial spice blend designed to approximate the complex flavors of Indian cuisine. It typically features a brightly colored base of turmeric, rounded out with sweet and earthy spices like coriander, cumin, fenugreek, and varying amounts of chili pepper for heat.",
     name: "Curry Powder",
+    season: ["all"],
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["warming", "complex", "pungent"],
     origin: ["British-Indian"],
@@ -578,6 +580,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   berbere: {
       description: "A fiery, complex, and highly aromatic spice blend that forms the foundational flavor profile of Ethiopian and Eritrean cuisines. It is a deeply red, textured mix typically containing chili peppers, garlic, ginger, basil, korarima, rue, ajwain or radhuni, nigella, and fenugreek, offering immense savory depth and sustained heat.",
     name: "Berbere",
+    season: ["all"],
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     qualities: ["hot", "complex", "earthy"],
     origin: ["Ethiopia"],
@@ -640,6 +643,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   dukkah: {
       description: "A traditional Egyptian condiment consisting of a coarse mixture of roasted nuts (usually hazelnuts), sesame seeds, coriander, cumin, and salt. It provides an immediate, incredibly satisfying, crunchy, and savory-spicy burst of flavor, traditionally eaten by dipping bread in olive oil and then into the mixture.",
     name: "Dukkah",
+    season: ["all"],
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ["nutty", "aromatic", "crunchy"],
     origin: ["Egypt"],
@@ -702,6 +706,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   shichimi_togarashi: {
       description: "A traditional Japanese seven-spice blend designed to add bright, complex heat and texture to noodles and soups. While recipes vary, it almost universally includes coarsely ground red chili pepper, sansho (Japanese pepper), roasted orange peel, black and white sesame seeds, hemp seed, ginger, and nori (seaweed).",
     name: "Shichimi Togarashi",
+    season: ["all"],
     elementalProperties: { Fire: 0.61, Water: 0.13, Earth: 0.13, Air: 0.13 },
     qualities: ["spicy", "citrusy", "nutty"],
     origin: ["Japan"],
@@ -765,6 +770,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   baharat: {
       description: "Baharat is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "Baharat",
+    season: ["all"],
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ["warming", "aromatic", "complex"],
     origin: ["Middle East"],
@@ -827,6 +833,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   jerk_seasoning: {
       description: "A highly assertive, intensely spicy, and aromatic dry rub or wet marinade originating in Jamaica. It is fundamentally defined by the fiery heat of Scotch bonnet peppers paired with the warm, sweet, and woodsy depth of allspice (pimento), thyme, and scallions, creating a deeply complex crust on grilled meats.",
     name: "Jerk Seasoning",
+    season: ["all"],
     elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ["hot", "pungent", "aromatic"],
     origin: ["Jamaica"],

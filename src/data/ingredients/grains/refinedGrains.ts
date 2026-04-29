@@ -5,6 +5,8 @@ const rawRefinedGrains = {
   white_rice: {
       description: "A starchy cereal grain (*Oryza sativa*) that has been milled to remove its husk, bran, and germ. Because only the starchy endosperm remains, it cooks quickly, has a mild, clean flavor, and yields a fluffy, soft texture that acts as a neutral sponge for rich sauces and curries.",
     name: "White Rice",
+    origin: ["East Asia"],
+    season: ["all"],
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
@@ -102,6 +104,8 @@ const rawRefinedGrains = {
   semolina: {
       description: "A coarse, pale-yellow flour milled from hard durum wheat (*Triticum durum*). Its extraordinarily high protein content and coarse grind make it the international standard for creating structured, resilient dried pasta, and it provides a gritty, satisfying crunch when dusted on pizza peels.",
     name: "Semolina",
+    origin: ["Mediterranean"],
+    season: ["all"],
     elementalProperties: { Fire: 0.18, Water: 0.09, Earth: 0.37, Air: 0.36 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
@@ -211,6 +215,8 @@ const rawRefinedGrains = {
   pearl_barley: {
       description: "A form of barley (*Hordeum vulgare*) that has been scoured (pearled) to remove both its inedible outer hull and its bran layer. This processing significantly reduces its cooking time and allows it to release massive amounts of viscous starches, perfectly thickening heavy winter beef stews and risottos.",
     name: "Pearl Barley",
+    origin: ["Fertile Crescent"],
+    season: ["all"],
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
@@ -312,6 +318,8 @@ const rawRefinedGrains = {
   polished_farro: {
       description: "An ancient wheat grain (*Triticum dicoccum*) that has undergone 'pearling' to completely remove its tough bran layer. While this reduces its nutritional density compared to whole farro, it drastically cuts the cooking time to under 20 minutes, yielding a soft, starchy grain perfect for quick risottos (farrotto).",
     name: "Polished Farro",
+    origin: ["Fertile Crescent", "Italy"],
+    season: ["all"],
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
@@ -414,6 +422,8 @@ const rawRefinedGrains = {
   white_cornmeal: {
       description: "A coarse flour milled from dried white dent corn. Compared to yellow cornmeal, it offers a more delicate, less aggressively sweet, and slightly more floral flavor profile, serving as the foundational ingredient for Southern US staples like grits and traditional cornbread.",
     name: "White Cornmeal",
+    origin: ["Mesoamerica"],
+    season: ["all"],
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
@@ -517,6 +527,8 @@ const rawRefinedGrains = {
   all_purpose_flour: {
       description: "A mid-protein (10–12%) wheat flour blended from hard and soft varieties to perform acceptably across most baked goods — the Swiss Army knife of American baking. Less chewy than bread flour and less tender than cake flour, it sits in the middle of the gluten spectrum. Bleached versions cook more predictably in cakes; unbleached has slightly more protein and a mellower cream color. Store airtight in cool, dry conditions; refrigerate for long-term use to deter pantry pests.",
     name: "All-Purpose Flour",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],

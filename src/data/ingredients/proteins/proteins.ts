@@ -6,6 +6,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   eggs: {
       description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening in a single package. Yolks carry fat, lecithin (an emulsifier), and most of the flavor; whites are primarily water and coagulable proteins (ovalbumin, ovotransferrin) that unfold and bond when heated or whipped. Fresh eggs peel poorly when hard-boiled; slightly older eggs shed shells cleanly. Store pointed-end-down at 35–40°F.",
     name: "eggs",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -38,6 +40,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   ground_beef: {
       description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "ground beef",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "hearty", "savory"],
     category: "protein",
@@ -70,6 +74,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   grilled_chicken: {
       description: "A globally ubiquitous poultry (*Gallus gallus domesticus*) prized for its mild flavor and versatility. Its culinary behavior depends on the cut: lean, fast-cooking breast meat dries out easily, while fat- and collagen-rich thighs and drumsticks become unctuous and tender with slow braising or high-heat roasting.\n\n**Selection & Storage:** Fresh chicken should have pinkish, firm flesh, white fat, and no strong odor. Store in the coldest part of the refrigerator (usually the bottom shelf) in its original packaging for 1-2 days, or freeze for longer storage.",
     name: "grilled chicken",
+    origin: ["Southeast Asia (jungle fowl)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "versatile", "high-protein"],
     category: "protein",
@@ -102,6 +108,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   hard_boiled_eggs: {
       description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening in a single package. Yolks carry fat, lecithin (an emulsifier), and most of the flavor; whites are primarily water and coagulable proteins (ovalbumin, ovotransferrin) that unfold and bond when heated or whipped. Fresh eggs peel poorly when hard-boiled; slightly older eggs shed shells cleanly. Store pointed-end-down at 35–40°F.",
     name: "hard-boiled eggs",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -133,6 +141,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   pork_ribs: {
       description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork ribs",
+    origin: ["East Asia (domestication)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -163,6 +173,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   chicken_pieces: {
       description: "A globally ubiquitous poultry (*Gallus gallus domesticus*) prized for its mild flavor and versatility. Its culinary behavior depends on the cut: lean, fast-cooking breast meat dries out easily, while fat- and collagen-rich thighs and drumsticks become unctuous and tender with slow braising or high-heat roasting.\n\n**Selection & Storage:** Fresh chicken should have pinkish, firm flesh, white fat, and no strong odor. Store in the coldest part of the refrigerator (usually the bottom shelf) in its original packaging for 1-2 days, or freeze for longer storage.",
     name: "chicken pieces",
+    origin: ["Southeast Asia (jungle fowl)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -193,6 +205,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   salmon_fillet: {
       description: "A silver-skinned, anadromous fish (*Salmo salar*) celebrated for its rich, buttery texture and high concentration of heart-healthy omega-3 fatty acids (EPA and DHA). Its distinct pink-to-orange flesh color comes from astaxanthin, a powerful antioxidant derived from its natural diet.\\n\\n**Selection & Storage:** Fresh fillets should look moist and brightly colored without dry edges, and smell faintly of the clean ocean, never \"fishy.\" When buying whole fish, look for clear, bright eyes and bright red gills. Keep refrigerated over ice and consume within a day or two of purchase.",
     name: "salmon fillet",
+    origin: ["North Atlantic", "North Pacific"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["omega-rich", "flaky", "nutritious"],
     category: "protein",
@@ -225,6 +239,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   beef_chuck_roast: {
       description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef chuck roast",
+    origin: ["Worldwide pastoral cultures"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -255,6 +271,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   soybeans: {
       description: "Soybeans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "soybeans",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -285,6 +303,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   soft_tofu: {
       description: "A highly versatile, plant-based protein made by coagulating soy milk and pressing the resulting curds into blocks. Its neutral flavor acts as a blank canvas; silken tofu is ideal for blending into smoothies or delicate soups, while firm or extra-firm tofu holds its shape for frying, baking, or stir-frying.\n\n**Selection & Storage:** Choose firmness based on your recipe needs. Once opened, store unused tofu submerged in fresh water in an airtight container in the refrigerator, changing the water daily.",
     name: "soft tofu",
+    origin: ["China"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["mild", "plant-based", "versatile"],
     category: "protein",
@@ -323,6 +343,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   har_gow__shrimp_dumplings_: {
       description: "A widely consumed crustacean known for its sweet, briny flavor and firm, snappy texture. They cook incredibly fast—turning pink and opaque in minutes as heat denatures their proteins—and become tough and rubbery if exposed to high heat for too long.\n\n**Selection & Storage:** Look for firm bodies attached tightly to their shells with a clean, mild saltwater scent; avoid any with black spots (melanosis) on their shells or a smell of ammonia. Store over ice in the refrigerator and consume within a day.",
     name: "har gow (shrimp dumplings)",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -353,6 +375,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   siu_mai__pork_dumplings_: {
       description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "siu mai (pork dumplings)",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -383,6 +407,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   fresh_eggs: {
       description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening in a single package. Yolks carry fat, lecithin (an emulsifier), and most of the flavor; whites are primarily water and coagulable proteins (ovalbumin, ovotransferrin) that unfold and bond when heated or whipped. Fresh eggs peel poorly when hard-boiled; slightly older eggs shed shells cleanly. Store pointed-end-down at 35–40°F.",
     name: "fresh eggs",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -413,6 +439,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   vanilla_bean: {
       description: "A profoundly complex spice derived from the cured pods of orchids in the genus *Vanilla*. It contains hundreds of distinct flavor compounds (primarily vanillin) that provide a rich, sweet, and woody floral aroma, acting as a foundational flavor enhancer in nearly all sweet baking.\n\n**Selection & Storage:** Look for plump, dark, and pliable pods that smell highly aromatic; dry, brittle beans have lost their essential oils. Store beans tightly wrapped or submerged in alcohol (to make extract) in a cool, dark place.",
     name: "vanilla bean",
+    origin: ["Mexico"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["aromatic", "sweet", "flavorful"],
     category: "spice",
@@ -443,6 +471,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   oil_packed_tuna: {
       description: "A large, fast-swimming predatory fish (*Thunnini tribe*) with dense, meaty, and dark red flesh resulting from high levels of myoglobin. Its steak-like texture and rich, robust flavor make it a premium ingredient served raw as sushi, quickly seared, or high-quality oil-packed in cans.\n\n**Selection & Storage:** Fresh tuna steaks should be deep red, firm, and glossy with a clean ocean scent, lacking any strong \"fishy\" odor or brown spots. Keep heavily iced or in the coldest part of the fridge and consume the same day.",
     name: "oil-packed tuna",
+    origin: ["Worldwide warm seas"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -473,6 +503,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   beef_stock: {
       description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef stock",
+    origin: ["Worldwide pastoral cultures"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["flavorful", "base", "nourishing"],
     category: "protein",
@@ -503,6 +535,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   chicken: {
       description: "A globally ubiquitous poultry (*Gallus gallus domesticus*) prized for its mild flavor and versatility. Its culinary behavior depends on the cut: lean, fast-cooking breast meat dries out easily, while fat- and collagen-rich thighs and drumsticks become unctuous and tender with slow braising or high-heat roasting.",
     name: "chicken",
+    origin: ["Southeast Asia (jungle fowl)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -533,6 +567,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   beef_chuck: {
       description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef chuck",
+    origin: ["Worldwide pastoral cultures"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -563,6 +599,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   egg_yolks: {
       description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening. The yolk carries fat, lecithin (an emulsifier), and most of the flavor; the white is water plus coagulable proteins that unfold and bond when heated or whipped. Temperature control matters: yolks coagulate ~149°F, whites ~145°F, so gentle heat and timing dictate whether you get a silky custard or a rubbery scramble.",
     name: "egg yolks",
+    origin: ["Southeast Asia (chicken)", "Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "emulsifying", "nutritious"],
     category: "protein",
@@ -593,6 +631,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   pork: {
       description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.",
     name: "pork",
+    origin: ["East Asia (domestication)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "flavorful", "versatile"],
     category: "protein",
@@ -623,6 +663,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   white_beans: {
       description: "White Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "white beans",
+    origin: ["Mesoamerica"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "fiber-rich"],
     category: "protein",
@@ -654,6 +696,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   yellow_lentils: {
       description: "Hulled and split lentils (*Lens culinaris*), often referred to as Moong Dal when derived from mung beans or Chana Dal when derived from chickpeas. Without their seed coats, they disintegrate completely when boiled, creating a remarkably thick, creamy, and mildly sweet puree essential for Indian dals.",
     name: "yellow lentils",
+    origin: ["Western Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "quick-cooking"],
     category: "protein",
@@ -685,6 +729,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   black_lentils: {
       description: "A tiny, lens-shaped legume (*Lens culinaris*) that cooks much faster than other beans because it does not require soaking. Brown and green lentils hold their shape well for salads, while red and yellow varieties break down into a thick, comforting porridge (like dal) when simmered.\n\n**Selection & Storage:** Look for uniformly colored, debris-free lentils. Store dried lentils in an airtight container in a cool, dark place, where they will retain their best quality for up to a year.",
     name: "black lentils",
+    origin: ["South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "earthy"],
     category: "protein",
@@ -716,6 +762,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   kidney_beans: {
       description: "Kidney Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "kidney beans",
+    origin: ["Mesoamerica"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "robust"],
     category: "protein",
@@ -747,6 +795,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   egg: {
       description: "The reproductive ovum of *Gallus gallus domesticus* — one of cooking's most versatile ingredients, delivering structure, aeration, emulsification, binding, and thickening. The yolk carries fat, lecithin (an emulsifier), and most of the flavor; the white is water plus coagulable proteins that unfold and bond when heated or whipped. Temperature control matters: yolks coagulate ~149°F, whites ~145°F, so gentle heat and timing dictate whether you get a silky custard or a rubbery scramble.",
     name: "egg",
+    origin: ["Southeast Asia (chicken)", "Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -777,6 +827,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   parmigiano_reggiano: {
       description: "Parmigiano-Reggiano is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "Parmigiano-Reggiano",
+    origin: ["Italy (Emilia-Romagna)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "savory", "nutritious"],
     category: "dairy",
@@ -807,6 +859,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   chicken_thigh: {
       description: "A globally ubiquitous poultry (*Gallus gallus domesticus*) prized for its mild flavor and versatility. Its culinary behavior depends on the cut: lean, fast-cooking breast meat dries out easily, while fat- and collagen-rich thighs and drumsticks become unctuous and tender with slow braising or high-heat roasting.\n\n**Selection & Storage:** Fresh chicken should have pinkish, firm flesh, white fat, and no strong odor. Store in the coldest part of the refrigerator (usually the bottom shelf) in its original packaging for 1-2 days, or freeze for longer storage.",
     name: "chicken thigh",
+    origin: ["Southeast Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["flavorful", "juicy", "protein-rich"],
     category: "protein",
@@ -837,6 +891,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   pork_belly: {
       description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork belly",
+    origin: ["East Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "fatty", "flavorful"],
     category: "protein",
@@ -867,6 +923,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   beef_sirloin: {
       description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef sirloin",
+    origin: ["Worldwide pastoral cultures"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "protein-rich", "savory"],
     category: "protein",
@@ -897,6 +955,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   pork_spine: {
       description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork spine",
+    origin: ["East Asia (domestication)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["base", "flavorful", "sustaining"],
     category: "protein",
@@ -927,6 +987,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   bean_sprouts: {
       description: "The crisp, tender shoots of germinated beans—most commonly mung beans (*Vigna radiata*) or soybeans. They are a staple in East and Southeast Asian cuisines, prized for contributing a refreshing, watery crunch to stir-fries, noodle dishes, and fresh spring rolls. Because their delicate cell walls break down quickly under heat, they are typically added at the very end of cooking or served raw as a textural garnish.",
     name: "bean sprouts",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["crunchy", "fresh", "light"],
     category: "vegetable",
@@ -957,6 +1019,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   fava_beans: {
       description: "Fava Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "fava beans",
+    origin: ["Mediterranean"],
+    season: ["spring"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -988,6 +1052,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   brown_lentils: {
       description: "Small, lens-shaped legumes (*Lens culinaris*) that are left whole with their seed coat intact. They offer an incredibly mild, earthy flavor and hold their shape moderately well during cooking, making them a highly versatile, quick-cooking base for warm salads, vegetarian shepherd's pies, and hearty soups.",
     name: "brown lentils",
+    origin: ["Western Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "earthy"],
     category: "protein",
@@ -1019,6 +1085,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   buckwheat_groats: {
       description: "A nutrient-dense pseudocereal (*Fagopyrum esculentum*) that is completely unrelated to wheat and naturally gluten-free. It provides an aggressively earthy, nutty, and slightly bitter flavor, and is the essential ingredient in Japanese soba noodles and French Breton galettes (crepes).\n\n**Selection & Storage:** Available as whole groats (which can be toasted into 'kasha') or ground flour. Store in an airtight container in a cool, dark pantry or the refrigerator.",
     name: "buckwheat groats",
+    origin: ["Central Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "grain",
@@ -1049,6 +1117,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   white_fish: {
       description: "White Fish is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "white fish",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["lean", "protein-rich", "versatile"],
     category: "protein",
@@ -1080,6 +1150,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   long_beans: {
       description: "Long Beans is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "long beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["crunchy", "fresh", "light"],
     category: "vegetable",
@@ -1110,6 +1182,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   red_beans: {
       description: "Red Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "red beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "sustaining", "nutritious"],
     category: "protein",
@@ -1141,6 +1215,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   beef_bones: {
       description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef bones",
+    origin: ["Worldwide pastoral cultures"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "base", "nourishing"],
     category: "protein",
@@ -1171,6 +1247,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   ground_pork: {
       description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "ground pork",
+    origin: ["East Asia (domestication)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["rich", "savory", "versatile"],
     category: "protein",
@@ -1201,6 +1279,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   fish_sauce: {
       description: "An amber-colored liquid condiment derived from fish (usually anchovies) that have been coated in salt and fermented for up to two years. It provides an intense, pungent burst of pure umami (glutamate) and salt that mellows and adds incredible savory depth when cooked into Southeast Asian curries and stir-fries.",
     name: "fish sauce",
+    origin: ["Southeast Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["umami", "pungent", "savory"],
     category: "seasoning",
@@ -1231,6 +1311,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   beef_shank: {
       description: "The culinary name for meat from cattle (*Bos taurus*), offering deep, savory, and rich umami flavors due to high concentrations of amino acids. High-collagen cuts (like chuck) require long, slow cooking to break down into tender gelatin, while tender, low-activity cuts (like loin) excel at fast, high heat.\n\n**Selection & Storage:** Look for bright, cherry-red meat with even, white marbling (intramuscular fat) and no gray or brown spots. Store tightly wrapped in the coldest part of the refrigerator for up to 3-5 days.",
     name: "beef shank",
+    origin: ["Worldwide pastoral cultures"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["tough", "flavorful", "sustaining"],
     category: "protein",
@@ -1261,6 +1343,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   pork_knuckles: {
       description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork knuckles",
+    origin: ["East Asia (domestication)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["collagen-rich", "flavorful", "tough"],
     category: "protein",
@@ -1291,6 +1375,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   pork_chops: {
       description: "The culinary name for the meat of the domestic pig (*Sus domesticus*), known for its sweet, mild flavor and exceptional fat-rendering qualities. Its versatility ranges from lean tenderloins that require careful, quick cooking to fatty shoulders that braise into meltingly tender pulled pork.\n\n**Selection & Storage:** Fresh pork should have a pinkish-red color, firm texture, and bright white fat without any sour odors. Store raw cuts tightly wrapped in the coldest part of the refrigerator for 3-5 days.",
     name: "pork chops",
+    origin: ["East Asia (domestication)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["versatile", "protein-rich", "savory"],
     category: "protein",
@@ -1321,6 +1407,8 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
   mung_beans: {
       description: "Mung Beans is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "mung beans",
+    origin: ["Worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     qualities: ["protein-rich", "cooling", "nutritious"],
     category: "protein",

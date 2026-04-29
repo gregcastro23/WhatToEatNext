@@ -341,22 +341,22 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
       <div className="text-center mb-8">
         <h2
           id="dynamic-cuisine-heading"
-          className="text-3xl font-bold text-gray-900 mb-3"
+          className="text-3xl font-bold text-white mb-3"
         >
           Cuisines Aligned with the Cosmos
         </h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-400 max-w-2xl mx-auto">
           Recommendations powered by real-time planetary positions. Updated{" "}
           {getTimeAgo(lastUpdated)}.
         </p>
 
         {/* Live indicator */}
-        <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full">
+        <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-emerald-900/30 border border-emerald-700/50 rounded-full">
           <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
           </span>
-          <span className="text-sm font-medium text-green-800">
+          <span className="text-sm font-medium text-emerald-300">
             Live planetary scoring
           </span>
         </div>
@@ -387,7 +387,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
             <div className="mt-8">
               <button
                 onClick={() => setShowAllCuisines(!showAllCuisines)}
-                className="mx-auto flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                className="mx-auto flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-slate-300 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700/50 rounded-lg transition-colors"
               >
                 {showAllCuisines
                   ? "Show fewer"
@@ -421,7 +421,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
         <button
           onClick={() => { void loadRecommendations(); }}
           disabled={isLoading}
-          className="px-6 py-3 bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors inline-flex items-center gap-2"
+          className="px-6 py-3 bg-purple-700 hover:bg-purple-600 disabled:bg-slate-700 text-white rounded-lg font-medium transition-colors inline-flex items-center gap-2"
         >
           <span className={isLoading ? "animate-spin inline-block" : ""}>
             &#x21bb;

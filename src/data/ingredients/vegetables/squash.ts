@@ -5,6 +5,7 @@ const rawSquash = {
   "butternut squash": {
       description: "Butternut Squash is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "Butternut squash",
+    origin: ["North America", "Mesoamerica"],
     elementalProperties: {
       Earth: 0.4,
       Water: 0.3,
@@ -75,6 +76,7 @@ const rawSquash = {
   zucchini: {
       description: "A fast-growing summer squash (*Cucurbita pepo*) with a thin, edible dark green skin and high water content. Its mild, slightly sweet flavor makes it highly versatile, suitable for raw ribbons in salads, quick sautéing, or baking into moist breads.",
     name: "zucchini",
+    origin: ["Mesoamerica", "Italy (modern variety)"],
     elementalProperties: {
       Fire: 0.4204917086683852,
       Water: 0.5121388172829056,
@@ -132,6 +134,7 @@ const rawSquash = {
   pumpkin: {
       description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.",
     name: "Pumpkin",
+    origin: ["North America"],
     elementalProperties: {
       Earth: 0.5,
       Water: 0.2,
@@ -202,6 +205,7 @@ const rawSquash = {
   "acorn squash": {
       description: "Acorn Squash is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "Acorn squash",
+    origin: ["North America"],
     elementalProperties: {
       Earth: 0.4,
       Water: 0.3,

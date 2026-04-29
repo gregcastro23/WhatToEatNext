@@ -5,6 +5,7 @@ const rawBuckwheat = {
   buckwheat: {
       description: "A nutrient-dense pseudocereal (*Fagopyrum esculentum*) that is completely unrelated to wheat and naturally gluten-free. It provides an aggressively earthy, nutty, and slightly bitter flavor, and is the essential ingredient in Japanese soba noodles and French Breton galettes (crepes).",
     name: "Buckwheat",
+    season: ["all"],
     elementalProperties: { Earth: 0.4, Water: 0.1, Air: 0.2, Fire: 0.3 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],

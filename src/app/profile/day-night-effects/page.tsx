@@ -9,7 +9,7 @@ import { PLANETARY_SECTARIAN_ELEMENTS, PLANETARY_SECTARIAN_ESMS, isSectDiurnal, 
 
 export default function DayNightEffectsPage() {
   const { profileData, isLoading } = useProfile();
-  const { isDiurnal: appIsDiurnal, setThemeBase } = useTheme();
+  const { isDiurnal: appIsDiurnal, setPreference } = useTheme();
   
   // Local state to toggle views independent of the global theme, though we can sync them
   const [viewDiurnal, setViewDiurnal] = useState(appIsDiurnal);
@@ -55,7 +55,7 @@ export default function DayNightEffectsPage() {
   const toggleView = () => {
     setViewDiurnal(!viewDiurnal);
     // Sync with app theme to show visual change across app if desired
-    setThemeBase(!viewDiurnal);
+    setPreference(!viewDiurnal ? 'light' : 'dark');
   };
 
   const getHighestESMS = (esms: any) => {

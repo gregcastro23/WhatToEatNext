@@ -5,6 +5,8 @@ const rawFungi: Record<string, Partial<IngredientMapping>> = {
   mushrooms: {
       description: "The fleshy, spore-bearing fruiting body of a fungus (e.g., *Agaricus bisporus*). They are composed largely of chitin and water, and contain immense amounts of glutamate, lending a profoundly deep, savory, and meaty umami flavor to dishes, especially when roasted or sautéed until deeply browned.\n\n**Selection & Storage:** Select firm, dry mushrooms without slimy spots or excessive bruising. Store them in a paper bag in the main compartment of the refrigerator, as plastic traps moisture and accelerates rot.",
     name: "mushrooms",
+    origin: ["Cultivated worldwide"],
+    season: ["varies by variety"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.35,
@@ -29,6 +31,8 @@ const rawFungi: Record<string, Partial<IngredientMapping>> = {
   cremini_mushrooms: {
       description: "The adolescent stage of the *Agaricus bisporus* mushroom (between a white button and a mature portobello). They are light brown, firmer than white buttons, and offer a deeper, more pronounced earthy flavor, making them an excellent, versatile upgrade for sautés and stews.\n\n**Selection & Storage:** Choose firm mushrooms with tightly closed caps (where the veil completely covers the gills). Store unwashed in a paper bag in the refrigerator.",
     name: "cremini mushrooms",
+    origin: ["Europe", "North America"],
+    season: ["fall", "winter"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.30,

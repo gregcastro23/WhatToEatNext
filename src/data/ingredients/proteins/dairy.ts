@@ -4,6 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawDairy = {
   greek_yogurt: {
     name: "Greek Yogurt",
+    origin: ["Greece"],
     description:
       "Strained yogurt with higher protein content and thick texture.",
     category: "dairy",
@@ -213,6 +214,7 @@ const rawDairy = {
 },
   cottage_cheese: {
     name: "Cottage Cheese",
+    origin: ["Northern Europe"],
     description:
       "Fresh cheese curd product with mild flavor and varying textures.",
     category: "dairy",
@@ -444,6 +446,7 @@ const rawDairy = {
 },
   ricotta: {
     name: "Ricotta",
+    origin: ["Italy"],
     description:
       "Soft, mild Italian whey cheese with small, fluffy curds and versatile applications.",
     category: "dairy",
@@ -655,6 +658,7 @@ const rawDairy = {
 },
   cream_cheese: {
     name: "Cream Cheese",
+    origin: ["United States"],
     description:
       "Soft, spreadable fresh cheese with mild flavor and smooth texture.",
     category: "dairy",
@@ -881,6 +885,7 @@ const rawDairy = {
 },
   milk: {
     name: "Milk",
+    origin: ["Worldwide pastoral cultures"],
     description:
       "Liquid secreted by mammary glands of cows (most commonly *Bos taurus*), providing protein (whey, casein), fat, calcium, and lactose. Pasteurized and homogenized for retail, or left raw for traditional cheeses. Whole milk is ~3.25% fat; 2%, 1%, and skim progressively reduce fat. The foundation of nearly every cheese, butter, yogurt, and cream. Grass-fed milks carry a deeper flavor and higher omega-3/CLA content than commodity milks.",
     category: "dairy",
@@ -935,6 +940,7 @@ const rawDairy = {
 },
   buttermilk: {
     name: "Buttermilk",
+    origin: ["Western Asia (originated)", "Worldwide"],
     description:
       "Tangy cultured dairy product made by fermenting low-fat milk with *Lactococcus* and related cultures (modern commercial buttermilk) or the liquid left after churning butter (traditional). Thick, creamy, pleasantly sour. Essential for tender biscuits, pancakes, fried chicken marinades, ranch dressing, and soda bread — its acidity activates baking soda for lift and tenderizes gluten.",
     category: "dairy",
@@ -986,6 +992,7 @@ const rawDairy = {
 },
   butter: {
     name: "Butter",
+    origin: ["Western Asia"],
     description:
       "Rich, yellow-gold dairy fat produced by churning cream until the fat globules separate from the buttermilk. Typically 80–85% fat, with water and milk solids making up the rest. The foundation of French cooking — melts, browns, emulsifies, enriches, glazes, and flakes pastry. European butters (82%+ fat) deliver richer flavor and flakier results; cultured butters add tang and complexity. Grass-fed butter (Kerrygold, Vermont Creamery) carries deeper yellow color and more complex dairy notes.",
     category: "dairy",
@@ -1045,6 +1052,7 @@ const rawDairy = {
 },
   goat_cheese: {
     name: "Goat Cheese",
+    origin: ["Western Asia", "Africa"],
     description:
       "Cheese made from goat's milk (*Capra aegagrus hircus*) with a distinctive tangy, earthy, slightly barnyard flavor and creamy, crumbly-to-spreadable texture. Fresh chèvre is young, bright, and spreadable; aged crottins develop bold pungency and mold rinds. Lower in lactose than cow's milk cheese. A Mediterranean and French staple — the star of warm goat-cheese salad, Greek feta (technically sheep/goat blend), and countless cheeseboards.",
     category: "dairy",
@@ -1098,6 +1106,7 @@ const rawDairy = {
 },
   cheddar_cheese: {
     name: "Cheddar Cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
     description:
       "Hard cow's-milk cheese originally from the village of Cheddar, Somerset, England. Made via the distinctive 'cheddaring' process: curds are stacked, pressed, and turned repeatedly to expel whey. Flavor develops from mild and buttery (young, 2–3 months) through sharp and crystalline (aged 18+ months). Aged farmhouse cheddars (Cabot Clothbound, Montgomery's, Keen's) are among the world's great cheeses. Essential for grilled cheese, macaroni and cheese, Welsh rarebit, and classic cheeseboards.",
     category: "dairy",
@@ -1152,6 +1161,7 @@ const rawDairy = {
 },
   blue_cheese: {
     name: "Blue Cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
     description:
       "Family of cheeses veined with blue or blue-green *Penicillium roqueforti* or *P. glaucum* mold, which develops during aging and contributes the distinctive sharp, salty, pungent flavor. The three classics: French Roquefort (sheep's milk, cave-aged in Aveyron), Italian Gorgonzola (cow's milk, from Piedmont/Lombardy), and English Stilton (cow's milk, PDO-protected). Creamy to crumbly texture. Essential on cheeseboards, in wedge salads, and melted into sauces for steak or pasta.",
     category: "dairy",
@@ -1206,6 +1216,7 @@ const rawDairy = {
 },
   heavy_cream: {
     name: "Heavy Cream",
+    origin: ["Worldwide"],
     description:
       "Cow's milk cream with at least 36% butterfat — rich enough to whip to stable peaks and beat into butter. Essential for whipped cream, pastry cream, ganache, Alfredo sauce, and any preparation requiring the creamy body that milk alone can't deliver. Higher-fat cream is more stable under heat (less prone to breaking) than lower-fat half-and-half. Pasture-raised versions carry deeper flavor and color.",
     category: "dairy",
@@ -1259,6 +1270,7 @@ const rawDairy = {
 },
   sour_cream: {
     name: "Sour Cream",
+    origin: ["Eastern Europe"],
     description:
       "Cultured cream (typically 18–20% fat) fermented with lactic-acid bacteria to a thick, tangy, spoonable consistency. A staple of American, Eastern European, and Mexican cooking. Dollops beautifully on baked potatoes, borscht, chili, and enchiladas; works as the base for sour-cream coffee cake; stabilizes mashed potatoes and adds tender moisture to quick breads. A close cousin of crème fraîche, which is richer (30%+ fat) and gentler-tangy.",
     category: "dairy",
@@ -1313,6 +1325,7 @@ const rawDairy = {
 },
   cold_butter: {
     name: "Cold Butter",
+    origin: ["Western Asia"],
     description:
       "Butter straight from the fridge at 34–40°F (1–4°C), firm and pliable enough to cut into flour without melting. Essential state for flaky pastry (pie dough, biscuits, scones) and laminated dough (croissants, puff) — tiny pieces of cold butter melt in the oven, releasing steam that creates distinct, separated layers. The rule is simple: cold butter = flaky; warm butter = dense.",
     category: "dairy",
@@ -1354,6 +1367,7 @@ const rawDairy = {
 },
   parmesan: {
     name: "Parmesan (Parmigiano-Reggiano)",
+    origin: ["Italy"],
     description:
       "Italian hard, granular cheese — PDO-protected when from Parma, Reggio Emilia, Modena, Bologna, or Mantua. Aged 12–36+ months from raw cow's milk, developing crunchy calcium-lactate crystals and an unmistakable deeply savory, nutty, fruity flavor. The 'King of Cheeses' — shaved over pasta, risotto, salads, and soups; the essential umami boost. Rinds add incredible depth to stocks and minestrone. American-made 'Parmesan' is not the same thing; look for the pin-dot rind mark of genuine Parmigiano-Reggiano.",
     category: "dairy",
@@ -1407,6 +1421,7 @@ const rawDairy = {
 },
   chocolate_ice_cream: {
     name: "Chocolate Ice Cream",
+    origin: ["Worldwide"],
     description:
       "Frozen dairy dessert built on a custard or Philadelphia-style base flavored with cocoa and/or melted chocolate. Premium versions use heavy cream, egg yolks, sugar, and high-percentage dark chocolate; lower-tier versions use more air (overrun) and stabilizers. French/custard styles are richer and denser; American/Philadelphia styles are cleaner and more chocolate-forward. A beloved flavor worldwide.",
     category: "dairy",
@@ -1455,6 +1470,7 @@ const rawDairy = {
 },
   evaporated_milk: {
     name: "Evaporated Milk",
+    origin: ["Worldwide pastoral cultures"],
     description:
       "Shelf-stable cow's milk with ~60% of its water removed through gentle simmering under vacuum, then canned and sterilized. Concentrates protein, fat, and calcium; develops a subtle caramelized, slightly cooked flavor. Not the same as sweetened condensed milk (which has added sugar). Classic ingredient in Latin American tres leches, pumpkin pie, creamy mac and cheese, and fudge. Reconstitute 1:1 with water for regular-strength milk in a pinch.",
     category: "dairy",
@@ -1503,6 +1519,7 @@ const rawDairy = {
 },
   butter_croissant: {
     name: "Butter Croissant",
+    origin: ["Western Asia"],
     description:
       "Classic French laminated viennoiserie: yeasted dough layered with cold butter through a series of folds (tourage) that creates 27+ distinct layers of dough and butter. Baked until shatteringly crisp outside, tender and honey-combed inside. A true butter croissant uses only butter — margarine versions lack the flavor and snap. Considered here as a dairy preparation because butter is structurally foundational. Best eaten within hours of baking.",
     category: "bakery",
@@ -1551,6 +1568,7 @@ const rawDairy = {
 },
   french_butter: {
     name: "French Butter",
+    origin: ["Western Asia"],
     description:
       "European-style butter (82%+ butterfat by French law) often cultured before churning for a tangy, complex flavor. The gold standard for pastry (flakier croissants, more tender pie crust) and sauces. Beurre de Charentes-Poitou, Échiré, and Isigny Sainte-Mère are the most celebrated. Noticeably more expensive than American butter (80% fat), and noticeably better for cooking where butter is the star.",
     category: "dairy",
@@ -1599,6 +1617,7 @@ const rawDairy = {
 },
   whole_milk: {
     name: "Whole Milk",
+    origin: ["Worldwide"],
     description:
       "Cow's milk with approximately 3.25% butterfat — the full, unmodified fat content. Richer mouthfeel and better at carrying fat-soluble flavors than reduced-fat milks. Essential in baking (tender crumb), coffee drinks (stable microfoam), béchamel, and custards. Grass-fed whole milk has deeper color and higher omega-3/CLA content. Raw (unpasteurized) whole milk, where legal, has the fullest flavor but carries food-safety considerations.",
     category: "dairy",
@@ -1647,6 +1666,7 @@ const rawDairy = {
 },
   unsalted_butter: {
     name: "Unsalted Butter",
+    origin: ["Western Asia"],
     description:
       "Butter churned without added salt — the baker's and pastry chef's standard, because it allows precise control over salt in the finished product. Typically 80% butterfat in the U.S., 82%+ in European versions. Also called 'sweet butter,' though it's not sweetened — the name refers to the absence of salt. Cleaner, purer dairy flavor than salted butter; spoils faster (salt is a preservative) so turn it over more often or freeze.",
     category: "dairy",
@@ -1695,6 +1715,7 @@ const rawDairy = {
 },
   clarified_butter: {
     name: "Clarified Butter / Ghee",
+    origin: ["Western Asia"],
     description:
       "Butter melted and gently cooked to separate the golden butterfat from the water and milk solids; the pure fat is strained and used. Ghee (Indian-style) takes this further by simmering until the milk solids brown, imparting a nutty, caramelized flavor. Without milk solids to burn, clarified butter tolerates much higher heat than regular butter (up to ~485°F/250°C). Essential for Indian cooking, Middle Eastern sweets, drawn butter for seafood, and any high-heat sauté requiring butter flavor.",
     category: "dairy",
@@ -1752,6 +1773,7 @@ const rawDairy = {
 },
   gruy_re_cheese: {
     name: "Gruyère Cheese",
+    origin: ["Western Asia (Fertile Crescent)"],
     description:
       "Hard Swiss cow's-milk cheese from the canton of Fribourg, aged 5–12 months. Dense, firm, nutty, slightly sweet with mushroom and caramel undertones in older wheels. The definitive melting cheese — essential for fondue, French onion soup gratinée, Croque Monsieur, and quiche Lorraine. Deep complexity makes it equally delicious straight from the cheeseboard. PDO-protected; true Gruyère AOP comes only from Switzerland, though similar 'Alpine-style' cheeses are made elsewhere.",
     category: "dairy",
@@ -1805,6 +1827,7 @@ const rawDairy = {
 },
   vanilla_ice_cream: {
     name: "Vanilla Ice Cream",
+    origin: ["Mexico (Totonac region)"],
     description:
       "Frozen dairy dessert flavored with vanilla — bean, paste, or extract. The quintessential flavor, against which all others are measured. Premium versions use real Madagascar or Tahitian vanilla beans (visible specks), egg-yolk custard base, and minimal air (low overrun); budget versions lean on artificial vanillin, stabilizers, and high overrun. Pair with nearly any dessert — pie à la mode, affogato, banana split. Equally satisfying eaten straight from the pint.",
     category: "dairy",
@@ -1858,6 +1881,7 @@ const rawDairy = {
 },
   yogurt: {
     name: "Yogurt",
+    origin: ["Western Asia", "Central Asia"],
     description:
       "Cultured milk product made by fermenting milk with *Lactobacillus bulgaricus* and *Streptococcus thermophilus* at ~110°F (43°C) for several hours. Thick, tangy, probiotic-rich. Regular (non-Greek) yogurt is lighter and pourable; Greek yogurt is strained for thicker texture and higher protein; Icelandic skyr is even thicker. A staple from Greek tzatziki to Indian raita, Bulgarian ayran, and American parfaits. Live-culture yogurts support gut health.",
     category: "dairy",
@@ -1912,6 +1936,7 @@ const rawDairy = {
 },
   mozzarella: {
     name: "Mozzarella",
+    origin: ["Italy (Campania)"],
     description:
       "Fresh Italian pasta-filata cheese — curds are heated and stretched to create a smooth, elastic, moist white cheese with a delicate milky flavor. Traditional *mozzarella di bufala* is made from water buffalo milk; *fior di latte* is made from cow's milk. Fresh mozzarella is stored in brine or whey; drier aged varieties (low-moisture mozzarella) are the standard for pizza. Essential for Caprese salad, margherita pizza, and pasta al forno.",
     category: "dairy",
