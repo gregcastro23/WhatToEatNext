@@ -1646,6 +1646,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       weeklyBudget,
       syncWithLunarCycle,
       generationPreferences,
+      currentUser?.userId,
     ],
   );
 

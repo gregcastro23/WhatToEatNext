@@ -57,7 +57,7 @@ export const BackendStatus: React.FC = () => {
   }, []);
 
   // Demo backend calculations
-  const runDemoCalculations = async () => {
+  const runDemoCalculations = useCallback(async () => {
     try {
       // Demo elemental calculation with backend
       const elementsStart = performance.now();
@@ -104,7 +104,7 @@ export const BackendStatus: React.FC = () => {
         recommendations: { total_count: 0, responseTime: 2, fallback: true },
       });
     }
-  };
+  }, [alchemicalContext]);
 
   useEffect(() => {
     void checkHealth();
@@ -113,7 +113,7 @@ export const BackendStatus: React.FC = () => {
     // Periodic health checks
     const interval = setInterval(() => void checkHealth(), 30000);
     return () => clearInterval(interval);
-  }, [checkHealth]);
+  }, [checkHealth, runDemoCalculations]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

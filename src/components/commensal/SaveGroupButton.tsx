@@ -102,7 +102,7 @@ export function SaveGroupButton({
       )}
       {isSaved && (
         <p className="text-xs text-emerald-200">
-          Saved. Find it under your profile's dining groups.
+          Saved. Find it under your profile&apos;s dining groups.
         </p>
       )}
     </div>

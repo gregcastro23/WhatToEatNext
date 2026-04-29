@@ -58,8 +58,9 @@ export function RecommendedRecipeCard({
           </span>
           {!compact && (
             <div className="flex items-center gap-2 mt-2">
-              <label className="text-xs text-purple-300/80">Servings</label>
+              <label htmlFor={`servings-range-${recipe.id}`} className="text-xs text-purple-300/80">Servings</label>
               <input
+                id={`servings-range-${recipe.id}`}
                 type="range"
                 min={1}
                 max={10}

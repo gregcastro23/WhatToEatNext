@@ -370,7 +370,7 @@ export default function AlchmQuantitiesStatistics() {
             Per-Planet Contribution
           </h3>
           <span className="text-[10px] text-white/30">
-            Each planet's share of ESMS and elements over the period
+            Each planet&apos;s share of ESMS and elements over the period
           </span>
           <div className="flex-1 h-px bg-white/5" />
         </div>
@@ -438,8 +438,8 @@ export default function AlchmQuantitiesStatistics() {
       {/* Footer */}
       <p className="text-[9px] text-white/20 font-mono italic">
         Statistics computed from {stats.sampleCount} pre-generated samples at{" "}
-        {stats.intervalHours}h resolution. The "wavefunction" overlay is a
-        Gaussian implied by the period's μ and σ — its breadth IS the standard
+        {stats.intervalHours}h resolution. The &quot;wavefunction&quot; overlay is a
+        Gaussian implied by the period&apos;s μ and σ — its breadth IS the standard
         deviation of every quantity.
       </p>
     </div>

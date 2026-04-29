@@ -615,7 +615,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
     // Sort by Harmony Index (primary sort for all focus modes)
     return methods.sort((a, b) => b.harmony.harmonyIndex - a.harmony.harmonyIndex);
-  }, [selectedCategory, planetaryPositions, focusMode, userIntent, currentMoment]);
+  }, [selectedCategory, planetaryPositions, contextPlanetaryPositions, focusMode, userIntent, currentMoment]);
 
 
   const loadAlignedRecipes = useCallback(async (methodId: string) => {
@@ -682,7 +682,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
   useEffect(() => {
     if (expandedTab === "recipes" && expandedMethod) {
-      loadAlignedRecipes(expandedMethod);
+      void loadAlignedRecipes(expandedMethod);
     }
   }, [expandedTab, expandedMethod, loadAlignedRecipes]);
 

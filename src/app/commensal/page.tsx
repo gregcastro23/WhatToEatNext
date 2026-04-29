@@ -61,8 +61,9 @@ function GuestForm({ onAdd }: GuestFormProps) {
     >
       <h3 className="text-lg font-semibold mb-4 text-purple-100">Add Commensal</h3>
       <div className="mb-3">
-        <label className="block text-xs text-purple-300/80 mb-1">Name</label>
+        <label htmlFor="commensal-name" className="block text-xs text-purple-300/80 mb-1">Name</label>
         <input
+          id="commensal-name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -72,8 +73,9 @@ function GuestForm({ onAdd }: GuestFormProps) {
       </div>
       <div className="space-y-3 mb-4">
         <div>
-          <label className="block text-xs text-purple-300/80 mb-1">Birth date &amp; time *</label>
+          <label htmlFor="commensal-datetime" className="block text-xs text-purple-300/80 mb-1">Birth date &amp; time *</label>
           <input
+            id="commensal-datetime"
             type="datetime-local"
             value={dateTime}
             onChange={(e) => setDateTime(e.target.value)}
@@ -82,7 +84,7 @@ function GuestForm({ onAdd }: GuestFormProps) {
           />
         </div>
         <div>
-          <label className="block text-xs text-purple-300/80 mb-1">Birth location *</label>
+          <div className="block text-xs text-purple-300/80 mb-1">Birth location *</div>
           <LocationSearch
             onLocationSelect={(loc) => {
               setLatitude(loc.latitude.toString());
