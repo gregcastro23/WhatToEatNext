@@ -6,6 +6,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ToastProvider } from "@/components/ToastProvider";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { AlchemicalDataProvider } from "@/contexts/AlchemicalDataContext";
+import { GroceryCartProvider } from "@/contexts/GroceryCartContext";
 import { PremiumProvider } from "@/contexts/PremiumContext";
 import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -21,7 +22,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               <PremiumProvider>
                 <AlchemicalDataProvider>
                   <AlchemicalProvider>
-                    <RecipeBuilderProvider>{children}</RecipeBuilderProvider>
+                    <RecipeBuilderProvider>
+                      <GroceryCartProvider>{children}</GroceryCartProvider>
+                    </RecipeBuilderProvider>
                   </AlchemicalProvider>
                 </AlchemicalDataProvider>
               </PremiumProvider>

@@ -14,6 +14,8 @@ import { RiffOnThisLink } from "@/components/recipes/RiffOnThisLink";
 import { SocialSection } from "@/components/recipes/SocialSection";
 import { TechniqueModal } from "@/components/recipes/TechniqueModal";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
+import { useToast } from "@/components/ToastProvider";
+import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import type { Recipe } from "@/types/recipe";
 import { adaptRecipe, type DietaryMode } from "@/utils/dietaryAdaptation";
 import { analyzeTimeShortcuts, type TimeBudget } from "@/utils/timeShortcuts";
@@ -697,6 +699,41 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const baseServings = useMemo(() => getBaseServings(recipe), [recipe]);
   const scale = servings / baseServings;
 
+  const { addRecipe: addRecipeToGroceryCart, open: openGroceryCart } = useGroceryCart();
+  const { showToast } = useToast();
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  const handleAddToGroceryCart = useCallback(() => {
+    if (!recipe || !recipe.ingredients || recipe.ingredients.length === 0) {
+      showToast("This recipe has no ingredients to add.", "warning");
+      return;
+    }
+    const normalized = recipe.ingredients
+      .filter((ing) => ing && ing.name)
+      .map((ing) => ({
+        name: ing.name,
+        amount: typeof ing.amount === "number" ? ing.amount : 1,
+        unit: ing.unit || "each",
+        category: ing.category,
+        notes: ing.notes,
+      }));
+    addRecipeToGroceryCart(
+      {
+        id: String(recipe.id || recipe.name),
+        name: recipe.name,
+        baseServings,
+        ingredients: normalized,
+      },
+      servings,
+    );
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
+    showToast(
+      `Added ${normalized.length} ingredient${normalized.length === 1 ? "" : "s"} for ${servings} serving${servings === 1 ? "" : "s"}`,
+      "success",
+      { action: { label: "View cart", onClick: openGroceryCart } },
+    );
+  }, [recipe, baseServings, servings, addRecipeToGroceryCart, openGroceryCart, showToast]);
 
   const handleCopyRecipe = useCallback(async () => {
     if (!recipe) return;
@@ -838,6 +875,28 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             </div>
 
             <AddToMealPlanButton recipe={recipe} servings={servings} />
+
+            <button
+              type="button"
+              onClick={handleAddToGroceryCart}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 ${
+                addedToCart
+                  ? "bg-emerald-500/20 border border-emerald-500/50 text-emerald-300"
+                  : "bg-gradient-to-r from-orange-500 to-amber-500 border border-orange-400/50 text-white hover:from-orange-400 hover:to-amber-400"
+              }`}
+            >
+              {addedToCart ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                  Added to cart
+                </>
+              ) : (
+                <>
+                  <span aria-hidden>🛒</span>
+                  Add to grocery cart
+                </>
+              )}
+            </button>
 
             <RiffOnThisLink recipe={recipe} />
 

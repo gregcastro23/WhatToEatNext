@@ -12,27 +12,29 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { yelpService } from "@/services/yelpService";
-import type {
-  RestaurantSearchResponse,
-  CosmicContext,
-} from "@/types/yelp";
+import type { ElementalProperties } from "@/types/alchemy";
 import type {
   AstrologicalState,
   Element,
   AlchemicalProperties,
   Planet,
 } from "@/types/celestial";
-import type { ElementalProperties } from "@/types/alchemy";
+import type {
+  AlchmScoredRestaurant,
+  RestaurantSearchResponse,
+  CosmicContext,
+  YelpBusiness,
+} from "@/types/yelp";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
-import { getTimeFactors } from "@/utils/time";
+import { getLunarPhaseFromDate } from "@/utils/lunarPhaseUtils";
 import {
   aggregateEnhancedZodiacElementals,
   calculateAlchemicalFromPlanets,
   isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
-import { getLunarPhaseFromDate } from "@/utils/lunarPhaseUtils";
+import { getTimeFactors } from "@/utils/time";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 // Note: Removed `runtime = 'edge'` - Cloudflare Workers are already edge functions
@@ -254,6 +256,116 @@ function buildAstrologicalState(now: Date = new Date()): {
   return { state, cosmicContext, alchemicalProperties, diurnal };
 }
 
+// ─── Foursquare fallback (used by POST when Yelp is unavailable) ───────────
+
+interface FoursquareNearbyRaw {
+  fsq_id?: string;
+  name?: string;
+  location?: {
+    formatted_address?: string;
+    locality?: string;
+    region?: string;
+    address?: string;
+  };
+  categories?: Array<{ name?: string }>;
+  rating?: number;
+  distance?: number;
+  geocodes?: { main?: { latitude?: number; longitude?: number } };
+  link?: string;
+}
+
+/**
+ * Fetches restaurants near (lat,lng) for the given cuisine via Foursquare
+ * Places v3 and shapes them into AlchmScoredRestaurant entries with neutral
+ * scoring (Foursquare doesn't provide the cosmic alignment data we use).
+ *
+ * Returns null when Foursquare is unconfigured or returns no usable results.
+ */
+async function fetchFoursquareFallback(
+  cuisineType: string,
+  latitude: number,
+  longitude: number,
+  radiusMeters: number,
+  limit: number,
+): Promise<AlchmScoredRestaurant[] | null> {
+  const apiKey = process.env.FOURSQUARE_API_KEY;
+  if (!apiKey) return null;
+
+  try {
+    const params = new URLSearchParams();
+    params.set("query", cuisineType);
+    params.set("ll", `${latitude},${longitude}`);
+    params.set("radius", String(Math.min(Math.max(radiusMeters, 100), 100000)));
+    params.set("categories", RESTAURANT_CATEGORY_ID);
+    params.set(
+      "fields",
+      "fsq_id,name,location,categories,rating,distance,geocodes,link",
+    );
+    params.set("limit", String(Math.min(Math.max(limit, 1), 50)));
+
+    const response = await fetch(`${FOURSQUARE_BASE}?${params.toString()}`, {
+      headers: { Authorization: apiKey, Accept: "application/json" },
+    });
+    if (!response.ok) return null;
+
+    const data = (await response.json()) as { results?: FoursquareNearbyRaw[] };
+    const results = data.results ?? [];
+    if (results.length === 0) return null;
+
+    return results
+      .filter((p): p is FoursquareNearbyRaw & { fsq_id: string; name: string } =>
+        Boolean(p.fsq_id && p.name),
+      )
+      .map((place): AlchmScoredRestaurant => {
+        const business: YelpBusiness = {
+          id: place.fsq_id,
+          name: place.name,
+          // Foursquare's deep-link to place detail; falls back to a search URL
+          url:
+            place.link
+              ? `https://foursquare.com${place.link}`
+              : `https://foursquare.com/v/${place.fsq_id}`,
+          phone: "",
+          rating: typeof place.rating === "number" ? place.rating / 2 : 0,
+          review_count: 0,
+          distance: typeof place.distance === "number" ? place.distance : undefined,
+          categories: (place.categories ?? [])
+            .filter((c): c is { name: string } => typeof c.name === "string")
+            .map((c) => ({ alias: c.name.toLowerCase(), title: c.name })),
+          location: {
+            address1: place.location?.address ?? "",
+            city: place.location?.locality ?? "",
+            state: place.location?.region ?? "",
+            zip_code: "",
+            display_address: place.location?.formatted_address
+              ? [place.location.formatted_address]
+              : [],
+          },
+          coordinates: {
+            latitude: place.geocodes?.main?.latitude ?? latitude,
+            longitude: place.geocodes?.main?.longitude ?? longitude,
+          },
+          is_closed: false,
+        };
+
+        return {
+          business,
+          alchmScore: 0,
+          elementalMatch: 0,
+          planetaryAlignment: 0,
+          monicaCompatibility: 0,
+          dominantElement: "Earth",
+          matchReasons: [
+            `${cuisineType} match from Foursquare — cosmic scoring unavailable`,
+          ],
+          cuisineElement: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        };
+      });
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(request: NextRequest) {
   let body: ScoredSearchBody;
   try {
@@ -295,58 +407,71 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Graceful degradation when Yelp isn't configured
-  if (!yelpService.isConfigured()) {
-    return NextResponse.json(
-      {
-        restaurants: [],
-        cosmicContext: emptyCosmicContext(),
-        error: "Yelp integration not configured",
-      } satisfies RestaurantSearchResponse,
-      { status: 200 },
-    );
-  }
-
   const built = buildAstrologicalState();
-  if (!built) {
-    return NextResponse.json(
-      {
-        restaurants: [],
-        cosmicContext: emptyCosmicContext(),
-        error:
-          "Planetary positions unavailable — cannot compute alchemical scoring",
-      } satisfies RestaurantSearchResponse,
-      { status: 503 },
-    );
-  }
-  const { state, cosmicContext, alchemicalProperties, diurnal } = built;
+  const cosmicContext = built?.cosmicContext ?? emptyCosmicContext();
 
-  const { data, error } = await yelpService.getScoredRestaurants({
+  // Try Yelp first when configured + planetary state is available.
+  if (yelpService.isConfigured() && built) {
+    const { data } = await yelpService.getScoredRestaurants({
+      cuisineType,
+      latitude,
+      longitude,
+      astrologicalState: built.state,
+      alchemicalProperties: built.alchemicalProperties,
+      diurnal: built.diurnal,
+      radius,
+      limit,
+    });
+
+    if (data && data.length > 0) {
+      return NextResponse.json(
+        {
+          restaurants: data.slice(0, 5),
+          cosmicContext,
+          source: "yelp",
+        } satisfies RestaurantSearchResponse,
+        { status: 200 },
+      );
+    }
+  }
+
+  // Foursquare fallback — covers: Yelp unconfigured, Yelp errored, Yelp empty,
+  // or planetary state unavailable. No cosmic scoring on these results.
+  const radiusMeters = typeof radius === "number" ? radius : 8000;
+  const foursquare = await fetchFoursquareFallback(
     cuisineType,
     latitude,
     longitude,
-    astrologicalState: state,
-    alchemicalProperties,
-    diurnal,
-    radius,
+    radiusMeters,
     limit,
-  });
+  );
 
-  if (!data) {
+  if (foursquare && foursquare.length > 0) {
+    const reason = !yelpService.isConfigured()
+      ? "Yelp not configured — showing Foursquare results without cosmic scoring."
+      : !built
+        ? "Planetary positions unavailable — showing Foursquare results without cosmic scoring."
+        : "Yelp returned no matches — showing Foursquare results without cosmic scoring.";
+
     return NextResponse.json(
       {
-        restaurants: [],
+        restaurants: foursquare.slice(0, 5),
         cosmicContext,
-        error: error ?? "Yelp search failed",
+        source: "foursquare",
+        sourceNotice: reason,
       } satisfies RestaurantSearchResponse,
       { status: 200 },
     );
   }
 
+  // Neither provider returned anything we can show.
   return NextResponse.json(
     {
-      restaurants: data.slice(0, 5),
+      restaurants: [],
       cosmicContext,
+      error: !yelpService.isConfigured() && !process.env.FOURSQUARE_API_KEY
+        ? "Restaurant discovery is not configured."
+        : "No restaurants found.",
     } satisfies RestaurantSearchResponse,
     { status: 200 },
   );

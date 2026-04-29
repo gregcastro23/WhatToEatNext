@@ -70,8 +70,18 @@ export interface CosmicContext {
   dominantElement: string;
 }
 
+/** Provider that produced the restaurant results in a discovery response. */
+export type RestaurantDiscoverySource = "yelp" | "foursquare";
+
 export interface RestaurantSearchResponse {
   restaurants: AlchmScoredRestaurant[];
   cosmicContext: CosmicContext;
+  /** Provider that produced these results. Foursquare results are unscored. */
+  source?: RestaurantDiscoverySource;
+  /**
+   * Note shown to the user when scoring/precision is degraded
+   * (e.g. Yelp unavailable, falling back to Foursquare without alchm scoring).
+   */
+  sourceNotice?: string;
   error?: string;
 }
