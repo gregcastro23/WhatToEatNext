@@ -25,8 +25,8 @@ import { cuisinesMap } from "@/data/cuisines";
 import { allSauces, type Sauce as DataSauce } from "@/data/sauces";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
-import { aggregateIngredientElementals } from "@/utils/hierarchicalRecipeCalculations";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
+import { aggregateIngredientElementals } from "@/utils/hierarchicalRecipeCalculations";
 import {
   calculateThermodynamicMetrics,
   elementalToAlchemicalApproximation

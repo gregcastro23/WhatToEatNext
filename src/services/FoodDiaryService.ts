@@ -35,8 +35,8 @@ import type { MealType } from "@/types/menuPlanner";
 import type { NutritionalSummary } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
 import { getNutritionTrackingService } from "./NutritionTrackingService";
-import { tokenEconomy } from "./TokenEconomyService";
 import { reportQuestEventBestEffort } from "./questEventReporter";
+import { tokenEconomy } from "./TokenEconomyService";
 
 // Check if we should use database (only in server-side contexts with DB available)
 const isServerWithDB = (): boolean => {

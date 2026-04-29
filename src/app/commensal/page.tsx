@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnergyVisualizer';
 import { CookingMethodsList } from '@/components/commensal/CookingMethodsList';
 import { RecommendedRecipeCard } from '@/components/commensal/RecommendedRecipeCard';
@@ -14,6 +13,7 @@ import {
   RecipeSkeleton,
   RestaurantSkeleton,
 } from '@/components/commensal/skeletons';
+import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import {
   useGuestRecommendations,
   type SearchLocation,
@@ -191,9 +191,9 @@ export default function CommensalPage() {
             </div>
 
             <div className="glass-card-premium rounded-2xl p-5 border border-white/10">
-              <label className="block text-xs uppercase tracking-wider text-purple-300/80 mb-2">
+              <div className="block text-xs uppercase tracking-wider text-purple-300/80 mb-2">
                 Restaurant search location
-              </label>
+              </div>
               <LocationSearch
                 placeholder="City for nearby restaurants…"
                 onLocationSelect={(loc) =>

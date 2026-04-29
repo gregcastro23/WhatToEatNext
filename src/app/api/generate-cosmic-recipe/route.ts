@@ -7,7 +7,9 @@ import { openai } from "@ai-sdk/openai";
 import { streamObject } from "ai";
 import { auth } from "@/lib/auth/auth";
 import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
+import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
+import { alchemize } from "@/services/RealAlchemizeService";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
@@ -22,8 +24,6 @@ import {
   normalizeCuisineName,
 } from "@/utils/cuisine/cuisineIndex";
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
-import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
-import { alchemize } from "@/services/RealAlchemizeService";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 export const dynamic = "force-dynamic";
@@ -185,7 +185,7 @@ export async function POST(request: Request) {
       isRetrograde: Boolean(p.isRetrograde),
     };
   });
-  const esms = calculateAlchemicalFromPlanets(planetarySigns);
+  const _esms = calculateAlchemicalFromPlanets(planetarySigns);
   const alchemized = alchemize(normalizedPositions);
   const stats = await getCachedHistoricalStats();
 

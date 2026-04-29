@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useFoodDiary } from "@/hooks/useFoodDiary";
-import type { MealType } from "@/types/menuPlanner";
 import type { Ingredient, RecipeIngredient } from "@/types";
+import type { MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 
 interface AddToDiaryModalProps {
@@ -64,10 +64,11 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
 
         <p className="text-sm text-gray-600 mb-4 font-medium">{item.name}</p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={(e) => { void handleSubmit(e); }} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Meal Type</label>
+            <label htmlFor="mealType" className="block text-sm font-medium text-gray-700 mb-1">Meal Type</label>
             <select
+              id="mealType"
               value={mealType}
               onChange={(e) => setMealType(e.target.value as MealType)}
               className="w-full border border-gray-300 rounded-lg p-2 focus:ring-amber-500 focus:border-amber-500"
@@ -80,8 +81,9 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity (servings)</label>
+            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">Quantity (servings)</label>
             <input
+              id="quantity"
               type="number"
               step="0.5"
               min="0.5"
@@ -94,8 +96,9 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
           {itemType === "ingredient" && (
             <>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Price Paid ($)</label>
+                <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">Price Paid ($)</label>
                 <input
+                  id="price"
                   type="number"
                   step="0.01"
                   min="0"
@@ -106,8 +109,9 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Store / Source</label>
+                <label htmlFor="store" className="block text-sm font-medium text-gray-700 mb-1">Store / Source</label>
                 <input
+                  id="store"
                   type="text"
                   value={store}
                   onChange={(e) => setStore(e.target.value)}
@@ -116,8 +120,9 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Quality / Grade</label>
+                <label htmlFor="quality" className="block text-sm font-medium text-gray-700 mb-1">Quality / Grade</label>
                 <input
+                  id="quality"
                   type="text"
                   value={quality}
                   onChange={(e) => setQuality(e.target.value)}

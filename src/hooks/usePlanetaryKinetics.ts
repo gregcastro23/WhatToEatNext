@@ -25,13 +25,13 @@ import type {
   KineticsResponse,
   TemporalFoodRecommendation,
 } from "@/types/kinetics";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import {
   calculateOptimalPortions,
   getAspectEnhancedRecommendations,
   getElementalFoodRecommendations,
   getTemporalFoodRecommendations,
 } from "@/utils/kineticsFoodMatcher";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
 export interface UsePlanetaryKineticsOptions {
   location?: KineticsLocation;

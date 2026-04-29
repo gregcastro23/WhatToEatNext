@@ -11,8 +11,8 @@
 import React, { useState, useMemo } from "react";
 import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
 import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
-import { RestaurantDiscovery } from "@/components/RestaurantDiscovery";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
+import { RestaurantDiscovery } from "@/components/RestaurantDiscovery";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import { instacartService } from "@/services/InstacartService";

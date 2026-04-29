@@ -22,7 +22,8 @@ import {
   useRef,
   useState,
 } from "react";
-
+import type { CookingMethodSummary } from "@/components/commensal/CookingMethodsList";
+import type { ScoredRecipeView } from "@/components/commensal/RecommendedRecipeCard";
 import {
   CommensalRecommendationServiceError,
   fetchGroupRecommendations,
@@ -33,8 +34,6 @@ import {
   type GroupRecommendationResult,
   type GuestInput,
 } from "@/services/commensalRecommendationService";
-import type { CookingMethodSummary } from "@/components/commensal/CookingMethodsList";
-import type { ScoredRecipeView } from "@/components/commensal/RecommendedRecipeCard";
 import type {
   BirthData,
   CompositeNatalChart,

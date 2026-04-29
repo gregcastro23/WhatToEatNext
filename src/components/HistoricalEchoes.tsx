@@ -155,7 +155,7 @@ export default function HistoricalEchoes() {
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    void (async () => {
       setLoading(true);
       setError(null);
       try {

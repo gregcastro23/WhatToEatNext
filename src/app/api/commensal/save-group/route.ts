@@ -12,7 +12,6 @@
  */
 
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
@@ -23,6 +22,7 @@ import type {
   GroupMember,
   NatalChart,
 } from "@/types/natalChart";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

@@ -281,7 +281,7 @@ export default function QuickFoodInput({
               <div className="space-y-6">
                 {/* Quantity */}
                 <div>
-                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3">Serving Quantity</label>
+                  <label htmlFor="quick-quantity" className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3">Serving Quantity</label>
                   <div className="flex items-center gap-6 bg-white/5 p-3 rounded-2xl border border-white/5">
                     <button
                       onClick={() => setQuantity(Math.max(0.5, quantity - 0.5))}
@@ -290,6 +290,7 @@ export default function QuickFoodInput({
                       —
                     </button>
                     <input
+                      id="quick-quantity"
                       type="number"
                       value={quantity}
                       onChange={(e) => setQuantity(Math.max(0.5, parseFloat(e.target.value) || 0.5))}
@@ -308,8 +309,9 @@ export default function QuickFoodInput({
                 {/* Sourcing Details (The New Fields) */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Cost ($)</label>
+                    <label htmlFor="quick-price" className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Cost ($)</label>
                     <input
+                      id="quick-price"
                       type="number"
                       placeholder="0.00"
                       value={price}
@@ -318,8 +320,9 @@ export default function QuickFoodInput({
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Source</label>
+                    <label htmlFor="quick-store" className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Source</label>
                     <input
+                      id="quick-store"
                       type="text"
                       placeholder="Market"
                       value={store}
@@ -330,8 +333,9 @@ export default function QuickFoodInput({
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Quality Grade</label>
+                  <label htmlFor="quick-quality" className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Quality Grade</label>
                   <input
+                    id="quick-quality"
                     type="text"
                     placeholder="e.g. Organic, Artisanal"
                     value={quality}

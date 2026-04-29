@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 
 export const dynamic = "force-dynamic";

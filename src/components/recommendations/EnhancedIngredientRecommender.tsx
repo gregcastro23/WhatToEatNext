@@ -274,7 +274,7 @@ function calculateLunarScore(astroProfile: any, lunarPhase?: string): number {
   // Try several key shapes
   const match =
     modifiers[phase] ||
-    modifiers[lunarPhase as string] ||
+    modifiers[lunarPhase] ||
     modifiers[String(lunarPhase).toLowerCase()];
   if (!match) return 0.5;
   const potency = typeof match.potencyMultiplier === "number"
@@ -716,7 +716,7 @@ export const EnhancedIngredientRecommender: React.FC<
               ing.alchemicalProperties as any,
               {
                 astrologicalProfile: (ing as any).astrologicalProfile,
-                qualities: ing.qualities as string[] | undefined,
+                qualities: ing.qualities,
                 kineticsImpact: (ing as any).kineticsImpact,
               },
               astroCtx,

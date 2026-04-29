@@ -1,6 +1,6 @@
+import { unstable_cache } from "next/cache";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
-import { unstable_cache } from "next/cache";
 
 const logger = createLogger("HistoricalStatsService");
 
@@ -92,11 +92,11 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
         const dateKeys = Object.keys(payload.data).sort();
 
         // We need 'prev' positions for `alchemize`, so we take the first as reference and drop it
-        const datasets: {
+        const datasets: Array<{
             date: Date;
             positions: any;
             prevPositions: any;
-        }[] = [];
+        }> = [];
 
         for (let i = 1; i < dateKeys.length; i++) {
             datasets.push({

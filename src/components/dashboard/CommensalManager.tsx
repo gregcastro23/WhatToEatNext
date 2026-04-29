@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { LocationSearch } from '@/components/onboarding/LocationSearch';
-import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
 import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnergyVisualizer';
 import { CompositeEnergySkeleton } from '@/components/commensal/skeletons';
+import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { useGroupRecommendations } from '@/hooks/useCommensalRecommendations';
+import type { GroupMember, DiningGroup, CompositeNatalChart, LinkedCommensal } from '@/types/natalChart';
 
 /* ─── Types ────────────────────────────────────────────── */
 
@@ -17,13 +17,6 @@ interface CuisineRec {
   dominantElement: string;
   memberScores: Array<{ memberId: string; memberName: string; score: number }>;
   reasons: string[];
-}
-
-interface GroupRecommendationResult {
-  composite: CompositeNatalChart;
-  recommendations: CuisineRec[];
-  memberCount: number;
-  strategy: string;
 }
 
 interface SearchResult {

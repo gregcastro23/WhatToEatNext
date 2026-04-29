@@ -68,7 +68,7 @@ export const BackendStatus: React.FC = () => {
       const planetaryStart = performance.now();
 
       const dominantPlanet = Object.keys(alchemicalContext?.planetaryPositions || {}).length > 0
-        ? Object.keys(alchemicalContext!.planetaryPositions)[0]
+        ? Object.keys(alchemicalContext.planetaryPositions)[0]
         : "Sun";
 
       const planetary = { dominant_planet: dominantPlanet, influence_strength: 0.7 };

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { calculateNatalChart } from "@/services/natalChartService";
-import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import { EnhancedRecommendationService } from "@/services/EnhancedRecommendationService";
-import { getCuisineRecommendations } from "@/utils/cuisineRecommender";
-import { getRecommendedCookingMethods } from "@/utils/recommendation/methodRecommendation";
+import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
+import { calculateNatalChart } from "@/services/natalChartService";
 import type { ElementalProperties as AlchemyElementalProperties } from "@/types/alchemy";
 import type { BirthData, GroupMember } from "@/types/natalChart";
+import { getCuisineRecommendations } from "@/utils/cuisineRecommender";
+import { getRecommendedCookingMethods } from "@/utils/recommendation/methodRecommendation";
 
 interface GuestInput {
   name: string;

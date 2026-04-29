@@ -57,7 +57,7 @@ function FlavorBars({ cuisineName }: { cuisineName: string }) {
   return (
     <div className="space-y-1 mt-2">
       {FLAVOR_ORDER.map((key) => {
-        const value = fp[key as keyof typeof fp] ?? 0;
+        const value = fp[key] ?? 0;
         const meta = FLAVOR_LABELS[key];
         return (
           <div key={key} className="flex items-center gap-2">
@@ -84,7 +84,7 @@ function TopFlavorPills({ cuisineName }: { cuisineName: string }) {
   const fp = profile.flavorProfiles;
 
   const sorted = FLAVOR_ORDER
-    .map((k) => ({ key: k, val: fp[k as keyof typeof fp] ?? 0 }))
+    .map((k) => ({ key: k, val: fp[k] ?? 0 }))
     .sort((a, b) => b.val - a.val)
     .slice(0, 3)
     .filter((x) => x.val >= 0.35);

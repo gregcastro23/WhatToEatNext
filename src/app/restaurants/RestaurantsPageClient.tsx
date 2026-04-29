@@ -24,7 +24,7 @@ const POPULAR_CUISINES = [
 
 export default function RestaurantsPageClient() {
   const params = useSearchParams();
-  const initial = params.get("cuisine") ?? "";
+  const initial = params?.get("cuisine") ?? "";
   const [cuisine, setCuisine] = useState(initial);
   const [draft, setDraft] = useState(initial);
 

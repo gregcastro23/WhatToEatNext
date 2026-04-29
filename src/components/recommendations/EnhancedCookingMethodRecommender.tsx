@@ -31,18 +31,20 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
+import type { MethodPhysicalReference } from "@/data/cooking/physicalReference";
+import { METHOD_PHYSICAL_REFERENCE } from "@/data/cooking/physicalReference";
 import type {
   AlchemicalProperties,
   ElementalProperties,
 } from "@/types/celestial";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { calculateMethodSpecificKinetics, getKineticProfile } from "@/utils/cookingMethodKinetics";
+import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 import {
   calculateKAlchm,
   calculateMonicaConstant,
   calculateMonicaOptimizationScore,
 } from "@/utils/monicaKalchmCalculations";
-import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import {
   calculateHarmonyIndex,
@@ -50,7 +52,6 @@ import {
   type UserIntent,
   type HarmonyResult as _HarmonyResult,
 } from "@/utils/resonanceGapScoring";
-import { METHOD_PHYSICAL_REFERENCE, MethodPhysicalReference } from "@/data/cooking/physicalReference";
 
 
 

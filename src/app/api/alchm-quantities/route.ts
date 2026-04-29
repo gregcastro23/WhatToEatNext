@@ -6,6 +6,7 @@
  */
 import { NextResponse } from "next/server";
 import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
+import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
 import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
@@ -13,7 +14,6 @@ import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
-import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 
 const logger = createLogger("AlchmQuantitiesAPI");
 

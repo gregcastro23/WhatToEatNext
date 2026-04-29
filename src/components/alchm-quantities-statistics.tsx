@@ -10,15 +10,15 @@
 "use client";
 
 import {
-  PERIOD_LABELS,
-  STAT_PERIODS,
-  useAlchemicalStatistics,
-} from "@/contexts/AlchemicalStatisticsContext";
-import {
   QuantitySparkline,
   QuantityWavefunction,
   QuantityZBadge,
 } from "@/components/QuantityContext";
+import {
+  PERIOD_LABELS,
+  STAT_PERIODS,
+  useAlchemicalStatistics,
+} from "@/contexts/AlchemicalStatisticsContext";
 import { classifyZScore } from "@/utils/statisticsCalculations";
 
 const ESMS_KEYS = ["Spirit", "Essence", "Matter", "Substance"] as const;
@@ -99,9 +99,9 @@ function StatCard({
   p10: number;
   p90: number;
   spark: number[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   hist: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   ctx: any;
   color: string;
   unit?: string;

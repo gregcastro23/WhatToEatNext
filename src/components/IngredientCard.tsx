@@ -6,10 +6,10 @@
  */
 
 import React, { useState } from "react";
+import { ingredientSummaries } from "@/data/ingredients/ingredientSummaries";
 import type { Ingredient, RecipeIngredient } from "@/types";
 import { isRecipeIngredient, getDominantElement } from "@/utils/ingredientUtils";
 import { AddToDiaryModal } from "./food-diary/AddToDiaryModal";
-import { ingredientSummaries } from "@/data/ingredients/ingredientSummaries";
 
 interface IngredientCardProps {
   ingredient: Ingredient | RecipeIngredient;
@@ -127,10 +127,10 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                       el === "Water" ? "bg-blue-500" : 
                       el === "Earth" ? "bg-emerald-600" : "bg-slate-300"
                     }`}
-                    style={{ width: `${(val as number) * 100}%` }}
+                    style={{ width: `${(val) * 100}%` }}
                   />
                 </div>
-                <span className="text-[10px] w-8 text-right text-gray-300">{Math.round((val as number) * 100)}%</span>
+                <span className="text-[10px] w-8 text-right text-gray-300">{Math.round((val) * 100)}%</span>
               </div>
             ))}
           </div>

@@ -9,24 +9,24 @@
  * elemental match or Monica calculation.
  */
 
-import type {
-  YelpBusiness,
-  YelpSearchParams,
-  YelpSearchResponse,
-  AlchmScoredRestaurant,
-} from "@/types/yelp";
 import type { ElementalProperties } from "@/types/alchemy";
 import type {
   AstrologicalState,
   Element,
   AlchemicalProperties,
 } from "@/types/celestial";
+import type {
+  YelpBusiness,
+  YelpSearchParams,
+  YelpSearchResponse,
+  AlchmScoredRestaurant,
+} from "@/types/yelp";
 import { calculateElementalMatch } from "@/utils/cuisineRecommender";
+import { createLogger } from "@/utils/logger";
 import {
   calculateThermodynamicMetrics,
 } from "@/utils/monicaKalchmCalculations";
 import { PLANETARY_SECTARIAN_ALCHEMICAL } from "@/utils/planetaryAlchemyMapping";
-import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("YelpService");
 

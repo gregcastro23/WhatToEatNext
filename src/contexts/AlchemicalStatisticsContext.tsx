@@ -182,7 +182,7 @@ export function useQuantityContext(
     const stats = allPeriods[period];
     if (!stats) return null;
     const parts = path.split(".");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     let cursor: any = stats;
     for (const part of parts) {
       if (cursor == null) return null;

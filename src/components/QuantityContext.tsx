@@ -22,16 +22,16 @@
 
 import { useMemo } from "react";
 import {
-  classifyZScore,
-  type ContextualValue,
-  type Histogram,
-} from "@/utils/statisticsCalculations";
-import {
   PERIOD_LABELS,
   STAT_PERIODS,
   useAlchemicalStatistics,
   useQuantityContext,
 } from "@/contexts/AlchemicalStatisticsContext";
+import {
+  classifyZScore,
+  type ContextualValue,
+  type Histogram,
+} from "@/utils/statisticsCalculations";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
