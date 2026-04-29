@@ -160,6 +160,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   artichoke: {
       description: "The large, unopened flower bud of a thistle plant (*Cynara cardunculus*). Harvesting the tender, meaty 'heart' requires navigating tough, fibrous outer leaves and a fuzzy 'choke.' They contain cynarin, a unique compound that inhibits sweet receptors on the tongue, making water and subsequently eaten foods taste artificially sweet.",
     name: "artichoke",
+    origin: ["Mediterranean (North Africa)"],
     elementalProperties: {
       Fire: 0.1,
       Water: 0.7,
@@ -192,6 +193,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   cucumber: {
       description: "A cylindrical, water-dense fruit (*Cucumis sativus*) eaten as a culinary vegetable. Composed of over 95% water, cucumbers provide essential crispness, hydration, and a cooling, melon-like aroma to salads, cold soups, and pickles. English and Persian varieties are bred to have thin, edible skins and fewer seeds, whereas standard slicing cucumbers have thicker, waxy skins that often benefit from peeling. Salting them before use draws out excess water and concentrates their flavor.",
     name: "cucumber",
+    origin: ["South Asia (India)"],
     elementalProperties: {
       Fire: 0.1,
       Water: 0.8,
@@ -227,6 +229,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   okra: {
       description: "A warm-season vegetable (*Abelmoschus esculentus*) known for its edible green seed pods. It is famous (or infamous) for its mucilaginous interior, which naturally thickens complex stews like gumbo; high-heat applications like deep-frying or roasting effectively eliminate this slick texture while retaining a mild, grassy flavor.",
     name: "okra",
+    origin: ["Africa (Ethiopia region)"],
     elementalProperties: {
       Fire: 0.2,
       Water: 0.3,
@@ -259,6 +262,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   zucchini: {
       description: "A fast-growing summer squash (*Cucurbita pepo*) with a thin, edible dark green skin and high water content. Its mild, slightly sweet flavor makes it highly versatile, suitable for raw ribbons in salads, quick sautéing, or baking into moist breads.",
     name: "zucchini",
+    origin: ["Mesoamerica", "Italy (modern variety)"],
     elementalProperties: {
       Fire: 0.1,
       Water: 0.7,
@@ -291,6 +295,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   fennel: {
       description: "A bulbous, layered vegetable (*Foeniculum vulgare*) of the carrot family with feathery fronds. It offers a crisp texture and a sweet, distinctively anise or licorice-like flavor that mellows and caramelizes beautifully when braised or roasted, pairing exceptionally well with seafood.",
     name: "fennel",
+    origin: ["Mediterranean"],
     elementalProperties: {
       Fire: 0.1,
       Water: 0.3,
@@ -323,6 +328,8 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   celery: {
       description: "A crunchy, fibrous marshland plant (*Apium graveolens*) known for its high water content and distinctively vegetal, slightly salty flavor. As a core component of the classic French mirepoix and Cajun holy trinity, it provides essential aromatic depth to stocks, soups, and braises.",
     name: "celery",
+    origin: ["Mediterranean"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.15,
@@ -347,6 +354,8 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   peas: {
       description: "Small, spherical, sweet seeds (*Pisum sativum*) grown inside a pod. Garden peas (or English peas) are shelled for their starchy, incredibly sweet interior, which degrades rapidly into bland starches after picking, making frozen peas generally superior to out-of-season fresh ones.\n\n**Selection & Storage:** For fresh peas, choose firm, bright green, and plump pods. Keep unwashed pods in a perforated plastic bag in the refrigerator and shell them immediately before use.",
     name: "peas",
+    origin: ["Mediterranean"],
+    season: ["spring"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.14,
@@ -371,6 +380,8 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   fresh_peas: {
       description: "Small, spherical, sweet seeds (*Pisum sativum*) grown inside a pod. Garden peas (or English peas) are shelled for their starchy, incredibly sweet interior, which degrades rapidly into bland starches after picking, making frozen peas generally superior to out-of-season fresh ones.\n\n**Selection & Storage:** For fresh peas, choose firm, bright green, and plump pods. Keep unwashed pods in a perforated plastic bag in the refrigerator and shell them immediately before use.",
     name: "fresh peas",
+    origin: ["Mediterranean"],
+    season: ["spring"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.14,
@@ -395,6 +406,8 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   sweet_corn: {
       description: "A large grain plant (*Zea mays*) primarily consumed as a sweet vegetable when picked young (sweet corn). Its kernels are packed with natural sugars that immediately begin converting to complex starches upon harvesting, which is why fresh, seasonal corn has an unparalleled, milky sweetness.\n\n**Selection & Storage:** Look for husks that are bright green and tightly wrapped, with pale, slightly sticky silk. Eat as soon as possible after purchasing, storing unhusked in the refrigerator in the meantime.",
     name: "sweet corn",
+    origin: ["Mesoamerica"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.14,
@@ -419,6 +432,8 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   corn_on_the_cob: {
       description: "A large grain plant (*Zea mays*) primarily consumed as a sweet vegetable when picked young (sweet corn). Its kernels are packed with natural sugars that immediately begin converting to complex starches upon harvesting, which is why fresh, seasonal corn has an unparalleled, milky sweetness.\n\n**Selection & Storage:** Look for husks that are bright green and tightly wrapped, with pale, slightly sticky silk. Eat as soon as possible after purchasing, storing unhusked in the refrigerator in the meantime.",
     name: "corn on the cob",
+    origin: ["Mesoamerica"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.14,
@@ -443,6 +458,8 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
   green_beans: {
       description: "Also known as string beans or snap beans (*Phaseolus vulgaris*), these are unripe, tender pods enclosing small, immature seeds. They have a fresh, grassy sweetness and a firm snap that is best preserved through quick cooking methods like blanching or stir-frying.\n\n**Selection & Storage:** Look for vibrant green beans that snap cleanly when bent. Store them unwashed in a plastic bag or container in the crisper drawer for up to a week.",
     name: "green beans",
+    origin: ["Central and South America"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     alchemicalProperties: {
       Spirit: 0.15,

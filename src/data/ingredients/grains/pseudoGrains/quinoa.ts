@@ -5,6 +5,7 @@ const rawQuinoa = {
   quinoa: {
       description: "A pseudocereal seed (*Chenopodium quinoa*) from the amaranth family, revered for containing all nine essential amino acids (a complete protein). It cooks quickly, yielding a fluffy, slightly crunchy texture and a distinctively earthy, nutty flavor that works perfectly in salads and grain bowls.",
     name: "Quinoa",
+    season: ["all"],
     elementalProperties: { Earth: 0.3, Water: 0.2, Air: 0.3, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],

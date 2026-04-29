@@ -5,6 +5,7 @@ const rawAromatics = {
   onion: {
       description: "A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds that, when exposed to heat, undergo the Maillard reaction to create deep, sweet, and complex flavors ranging from sharp when raw to caramel-like when slow-cooked.",
     name: "Onion",
+    season: ["all"],
     elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.55, Essence: 0.50, Matter: 0.55, Substance: 0.45 },
     astrologicalProfile: {
@@ -67,6 +68,7 @@ const rawAromatics = {
   garlic: {
       description: "A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows into a deep, sweet nuttiness when roasted or sautéed.\\n\\n",
     name: "Garlic",
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
     alchemicalProperties: { Spirit: 0.82, Essence: 0.55, Matter: 0.45, Substance: 0.38 },
     astrologicalProfile: {
@@ -129,6 +131,7 @@ const rawAromatics = {
   ginger: {
       description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
     name: "Ginger",
+    season: ["all"],
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
     alchemicalProperties: { Spirit: 0.85, Essence: 0.58, Matter: 0.40, Substance: 0.35 },
     astrologicalProfile: {
@@ -210,6 +213,7 @@ const rawAromatics = {
   lemongrass: {
       description: "A tall, fibrous tropical grass (*Cymbopogon citratus*) with a tough outer stalk and a tender, highly aromatic inner core. It provides a complex, bright, and floral citrus flavor without the sharp acidity of lemon juice, making it indispensable in Southeast Asian curries and soups.",
     name: "Lemongrass",
+    season: ["summer"],
     elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 },
     alchemicalProperties: { Spirit: 0.78, Essence: 0.65, Matter: 0.15, Substance: 0.18 },
     astrologicalProfile: {
@@ -276,6 +280,7 @@ const rawAromatics = {
   shallot: {
       description: "A small, teardrop-shaped allium (*Allium cepa var. aggregatum*) that grows in clusters similar to garlic. It offers a more delicate, sweeter, and less pungent flavor profile than standard onions, making it the classic choice for refined sauces, vinaigrettes, and raw applications.",
     name: "Shallot",
+    season: ["summer", "fall"],
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.48, Essence: 0.52, Matter: 0.48, Substance: 0.40 },
     astrologicalProfile: {
@@ -332,6 +337,7 @@ const rawAromatics = {
   scallion: {
       description: "Also known as green onions (*Allium fistulosum*), these alliums are harvested before a bulb forms. They offer a dual flavor profile: the white bases provide a sharp, pungent onion bite, while the hollow green tops deliver a fresh, herbaceous flavor ideal for garnishing.",
     name: "Scallion",
+    season: ["spring", "summer", "fall"],
     elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.38, Essence: 0.62, Matter: 0.22, Substance: 0.25 },
     astrologicalProfile: {
@@ -388,6 +394,7 @@ const rawAromatics = {
   saffron: {
       description: "The world's most expensive spice, consisting of the dried crimson stigmas of the *Crocus sativus* flower. It imparts a brilliant golden-yellow hue and a highly complex, honey-like, floral, and slightly metallic or earthy flavor, making it the defining characteristic of classic dishes like paella and risotto alla milanese.",
     name: "Saffron",
+    season: ["fall"],
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
     alchemicalProperties: { Spirit: 0.90, Essence: 0.70, Matter: 0.08, Substance: 0.10 },
     astrologicalProfile: {

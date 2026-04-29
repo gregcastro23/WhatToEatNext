@@ -138,32 +138,53 @@ const styles = `
   margin-bottom: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  color: #f1f5f9;
+  background-color: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="light"] .ingredient-card {
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
 }
 
 .ingredient-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .ingredient-name {
   margin-top: 0;
   margin-bottom: 8px;
   font-size: 1.2rem;
+  color: inherit;
+  font-weight: 600;
 }
 
 .ingredient-amount {
   font-size: 1rem;
   margin-bottom: 12px;
+  color: inherit;
 }
 
 .ingredient-prep {
   font-style: italic;
+  color: rgba(241, 245, 249, 0.75);
+}
+
+[data-theme="light"] .ingredient-prep {
+  color: #475569;
 }
 
 .ingredient-optional {
   font-style: italic;
-  color: #666;
+  color: rgba(241, 245, 249, 0.65);
   margin-top: 8px;
+}
+
+[data-theme="light"] .ingredient-optional {
+  color: #64748b;
 }
 
 .element-bars {
@@ -179,12 +200,14 @@ const styles = `
 .element-label {
   width: 50px;
   font-size: 0.8rem;
+  color: inherit;
 }
 
 .element-value {
   margin-left: 8px;
   font-size: 0.8rem;
   width: 40px;
+  color: inherit;
 }
 
 .bar {
@@ -210,27 +233,53 @@ const styles = `
   background: linear-gradient(to right, #f0f8ff, #b0c4de);
 }
 
+/* Dark theme: subtle tinted backgrounds with bright accent borders */
 .element-fire {
+  background-color: rgba(127, 29, 29, 0.35);
+  border-left: 4px solid #f97316;
+}
+
+.element-water {
+  background-color: rgba(30, 58, 138, 0.35);
+  border-left: 4px solid #38bdf8;
+}
+
+.element-earth {
+  background-color: rgba(20, 83, 45, 0.35);
+  border-left: 4px solid #84cc16;
+}
+
+.element-air {
+  background-color: rgba(15, 23, 42, 0.45);
+  border-left: 4px solid #cbd5e1;
+}
+
+.element-balanced {
+  background-color: rgba(30, 41, 59, 0.45);
+  border-left: 4px solid #a1a1aa;
+}
+
+[data-theme="light"] .element-fire {
   background-color: #fff0e8;
   border-left: 4px solid #ff4500;
 }
 
-.element-water {
+[data-theme="light"] .element-water {
   background-color: #e8f4ff;
   border-left: 4px solid #1e90ff;
 }
 
-.element-earth {
+[data-theme="light"] .element-earth {
   background-color: #f0f2e8;
   border-left: 4px solid #556b2f;
 }
 
-.element-air {
+[data-theme="light"] .element-air {
   background-color: #f8faff;
   border-left: 4px solid #b0c4de;
 }
 
-.element-balanced {
+[data-theme="light"] .element-balanced {
   background-color: #f9f9f9;
   border-left: 4px solid #a9a9a9;
 }
@@ -239,19 +288,25 @@ const styles = `
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #666;
+  color: rgba(241, 245, 249, 0.7);
   margin-top: 12px;
+}
+
+[data-theme="light"] .ingredient-category {
+  color: #64748b;
 }
 
 .ingredient-qualities {
   font-size: 0.9rem;
   margin-top: 8px;
   font-style: italic;
+  color: inherit;
 }
 
 .ingredient-seasonality {
   font-size: 0.9rem;
   margin-top: 8px;
+  color: inherit;
 }
 `;
 

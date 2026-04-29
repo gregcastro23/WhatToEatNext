@@ -5,6 +5,7 @@ const rawStoneFruit = {
   peach: {
       description: "A velvety stone fruit (*Prunus persica*) known for its juicy, fragrant, and profoundly sweet flesh balanced by a subtle acidity. When cooked, its natural sugars caramelize beautifully, making it an ideal candidate for both rustic baked cobblers and grilling to pair with savory meats.",
     name: "Peach",
+    origin: ["China"],
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
       Spirit: 0.38,
@@ -64,6 +65,7 @@ const rawStoneFruit = {
   plum: {
       description: "A smooth-skinned stone fruit (*Prunus domestica*) that comes in a wide variety of colors and sizes. The skin provides a sharp, tannic tartness that perfectly balances the incredibly sweet, jammy interior, making it excellent for reductions, sauces, and raw eating.",
     name: "Plum",
+    origin: ["Eurasia"],
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
       Spirit: 0.32,
@@ -123,6 +125,7 @@ const rawStoneFruit = {
   apricot: {
       description: "A small, golden-orange stone fruit (*Prunus armeniaca*) with a velvety skin and a delicate, sweet-tart flavor profile. Because fresh apricots have a very short shelf life and subtle flavor, they are frequently dried, which concentrates their natural sugars and bright acidity, making them a staple in Middle Eastern tagines and baking.",
     name: "Apricot",
+    origin: ["Central Asia (Armenia)"],
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
       Spirit: 0.42,
@@ -175,6 +178,7 @@ const rawStoneFruit = {
   cherry: {
       description: "A small, fleshy drupe (*Prunus avium*) that ranges from bright red and tart to dark mahogany and intensely sweet. Because they retain their structure well when heated, they are versatile in both sweet applications (pies, jams) and savory reductions (pairing classically with duck or pork).",
     name: "Cherry",
+    origin: ["Western Asia", "Europe"],
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
       Spirit: 0.35,
@@ -227,6 +231,7 @@ const rawStoneFruit = {
   nectarine: {
       description: "A smooth-skinned, genetic mutation of the peach (*Prunus persica var. nucipersica*). Lacking the fuzzy trichomes of a peach, nectarines often have a slightly firmer texture and a sharper, more pronounced acidity, making them excellent candidates for raw slicing, salads, or high-heat grilling.",
     name: "Nectarine",
+    origin: ["China"],
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     alchemicalProperties: {
       Spirit: 0.36,
@@ -279,6 +284,7 @@ const rawStoneFruit = {
   greengage: {
       description: "A cultivar of plum (*Prunus domestica subsp. italica*) featuring a pale, green-yellow skin even when fully ripe. They are widely considered to be the finest dessert plum in the world, boasting an unimaginably rich, honeyed sweetness and a dense, jammy texture.",
     name: "Greengage",
+    origin: ["Cultivated worldwide"],
     elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 },
     alchemicalProperties: {
       Spirit: 0.25,
@@ -331,6 +337,7 @@ const rawStoneFruit = {
   damson: {
       description: "A small, oval plum (*Prunus insititia*) with dark blue-black skin and yellow-green flesh. Because it is highly astringent and tart when raw, it is almost exclusively cooked down into intensely flavored, deeply colored jams, jellies, and traditional fruit cheeses.",
     name: "Damson",
+    origin: ["Cultivated worldwide"],
     elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 },
     alchemicalProperties: {
       Spirit: 0.28,

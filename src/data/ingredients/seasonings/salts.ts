@@ -607,6 +607,7 @@ const rawSalts = {
   sea_salt: {
       description: "A broad category of salt obtained directly through the evaporation of seawater, rather than mined from subterranean rock deposits. While it is chemically mostly sodium chloride, it retains trace oceanic minerals (like magnesium and calcium) that provide a slightly more complex, 'briny' flavor profile than highly refined table salt.",
     name: "Sea Salt",
+    season: ["all"],
     elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.05, Essence: 0.18, Matter: 0.92, Substance: 0.95 },
     astrologicalProfile: {
@@ -695,6 +696,7 @@ const rawSalts = {
   himalayan_salt: {
       description: "A rock salt mined from the Punjab region of Pakistan, characterized by its distinct pink color, which is derived from trace minerals like iron, magnesium, and calcium. While nutrally similar to table salt, its large, coarse crystals make it an excellent visual and textural finishing salt.",
     name: "Himalayan Salt",
+    season: ["all"],
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
     alchemicalProperties: { Spirit: 0.10, Essence: 0.10, Matter: 0.95, Substance: 0.95 },
     astrologicalProfile: {
@@ -990,6 +992,7 @@ const rawSalts = {
   kosher_salt: {
       description: "A coarse-grained, additive-free salt that features large, irregular, flat crystals. Originally designed for the Jewish dietary practice of dry-brining (koshering) meat, its large surface area draws out moisture effectively and makes it exceptionally easy for chefs to pinch and accurately judge quantities by feel, compared to dense table salt.",
     name: "Kosher Salt",
+    season: ["all"],
     elementalProperties: { Earth: 0.6, Water: 0.2, Air: 0.1, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.03, Essence: 0.08, Matter: 0.92, Substance: 0.95 },
     qualities: ["clean", "consistent", "pure"],
@@ -1070,6 +1073,7 @@ const rawSalts = {
   table_salt: {
       description: "A highly refined, fine-grained salt consisting of nearly 100% pure sodium chloride, typically mined from underground salt deposits. Because its grains are uniformly small and dense, it dissolves instantly in water, though it is incredibly easy to over-salt dishes if measuring by volume instead of weight.",
     name: "Table Salt",
+    season: ["all"],
     elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.02, Essence: 0.05, Matter: 0.95, Substance: 0.98 },
     qualities: ["basic", "refined", "uniform"],

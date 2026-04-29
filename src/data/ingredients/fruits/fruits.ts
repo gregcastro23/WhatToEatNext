@@ -6,6 +6,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   avocado: {
       description: "A unique fruit (*Persea americana*) characterized by its extraordinarily high fat content (mostly monounsaturated oleic acid) and creamy, buttery texture. Its mild, slightly nutty flavor acts as a perfect canvas for acids and salts, making it a staple in both savory dishes and vegan baking.",
     name: "avocado",
+    origin: ["Cultivated worldwide"],
+    season: ["varies by variety"],
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
     qualities: ["creamy", "rich", "nutritious", "versatile"],
     category: "fruit",
@@ -43,6 +45,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   lemon_juice: {
       description: "The oval yellow citrus fruit (*Citrus × limon*) delivering 5–6% citric acid plus fragrant d-limonene in the peel — essentially a complete seasoning of acid, aroma, and brightness in one package. Meyer lemons are sweeter with floral notes; Eureka and Lisbon are standard supermarket varieties. Use the whole fruit: zest for aroma (before juicing — the tool ruins the peel otherwise), juice for acid, rind for preserved lemons. Rolling the lemon before cutting breaks internal membranes and yields more juice.",
     name: "lemon juice",
+    origin: ["South Asia", "Mediterranean (cultivated)"],
+    season: ["winter", "spring"],
     elementalProperties: { Fire: 0.3, Water: 0.45, Earth: 0.05, Air: 0.2 },
     qualities: ["acidic", "bright", "refreshing", "versatile"],
     category: "fruit",
@@ -75,6 +79,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   banana: {
       description: "A tropical, starch-rich berry (*Musa spp.*) that converts its starches to easily digestible sugars as it ripens, indicated by its skin turning from green to yellow to spotted brown. This enzymatic transformation drastically alters its culinary use, moving from a firm snack to a sweet, mushy base for baking.",
     name: "banana",
+    origin: ["Southeast Asia", "Papua New Guinea"],
+    season: ["all"],
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["sweet", "creamy", "nutritious", "energizing"],
     category: "fruit",
@@ -107,6 +113,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   orange_zest: {
       description: "A sweet citrus fruit (*Citrus × sinensis*) prized for its balanced sweetness and acidity. Its juice adds bright, floral sugar to marinades and sauces, while its zest, rich in essential oils, provides pure orange aroma without altering the liquid balance of baked goods.\n\n**Selection & Storage:** Look for oranges that feel heavy for their size with smooth, firm, and vibrantly colored skin. They can be kept at room temperature for a few days, but will last up to a month loose in the refrigerator.",
     name: "orange zest",
+    origin: ["Southern China", "Southeast Asia"],
+    season: ["winter"],
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.1, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "bright", "versatile"],
     category: "fruit",
@@ -139,6 +147,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   lemon_zest: {
       description: "The oval yellow citrus fruit (*Citrus × limon*) delivering 5–6% citric acid plus fragrant d-limonene in the peel — essentially a complete seasoning of acid, aroma, and brightness in one package. Meyer lemons are sweeter with floral notes; Eureka and Lisbon are standard supermarket varieties. Use the whole fruit: zest for aroma (before juicing — the tool ruins the peel otherwise), juice for acid, rind for preserved lemons. Rolling the lemon before cutting breaks internal membranes and yields more juice.",
     name: "lemon zest",
+    origin: ["South Asia", "Mediterranean (cultivated)"],
+    season: ["winter", "spring"],
     elementalProperties: { Fire: 0.35, Water: 0.25, Earth: 0.1, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "bright", "versatile"],
     category: "fruit",
@@ -171,6 +181,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   lemon: {
       description: "An intensely sour, acidic citrus fruit (*Citrus limon*) that serves as a fundamental culinary brightener. Its juice provides citric acid to balance rich fats and tenderize proteins, while its zest (the yellow outer skin) contains essential oils that deliver pure floral-citrus aroma without the tartness.",
     name: "lemon",
+    origin: ["South Asia", "Mediterranean (cultivated)"],
+    season: ["winter", "spring"],
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.05, Air: 0.25 },
     qualities: ["sour", "bright", "refreshing", "cleansing"],
     category: "fruit",
@@ -203,6 +215,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   apples: {
       description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.\n\n**Selection & Storage:** Look for firm apples with vibrant coloring and smooth skin that feel heavy for their size. Store them in the crisper drawer of the refrigerator to maintain their crispness, as they soften ten times faster at room temperature.",
     name: "apples",
+    origin: ["Central Asia (Kazakhstan)"],
+    season: ["fall"],
     elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     qualities: ["sweet", "crisp", "juicy", "versatile"],
     category: "fruit",
@@ -235,6 +249,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   ripe_mangoes: {
       description: "A sweet edible plant product, ripe mangoes delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "ripe mangoes",
+    origin: ["Cultivated worldwide"],
+    season: ["varies by variety"],
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.1, Air: 0.2 },
     qualities: ["sweet", "tropical", "juicy", "aromatic"],
     category: "fruit",
@@ -267,6 +283,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   strawberry_preserves: {
       description: "A fragrant, deeply red accessory fruit (*Fragaria × ananassa*) bearing its seeds on the outside. Known for a perfect balance of malic acid and natural sugars, they soften quickly when cooked and release their vibrant juices, making them ideal for macerating, purees, and delicate desserts.\n\n**Selection & Storage:** Choose plump, uniformly red berries with fresh, bright green caps; they do not ripen after being picked. Store unwashed in the refrigerator in a container lined with paper towels, and consume within two to three days.",
     name: "strawberry preserves",
+    origin: ["Europe", "Americas"],
+    season: ["spring", "summer"],
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
     qualities: ["sweet", "fruity", "spreadable"],
     category: "fruit",
@@ -299,6 +317,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   ni_oise_olives: {
       description: "A sweet edible plant product, ni oise olives delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Niçoise olives",
+    origin: ["Cultivated worldwide"],
+    season: ["varies by variety"],
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.35, Air: 0.2 },
     qualities: ["briny", "savory", "Mediterranean"],
     category: "fruit",
@@ -331,6 +351,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
       description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
     name: "olive oil",
+    origin: ["Mediterranean"],
+    season: ["all"],
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 },
     qualities: ["rich", "fruity", "versatile", "healthy"],
     category: "fruit",
@@ -363,6 +385,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   grape_leaves: {
       description: "Small, spherical berries (*Vitis vinifera*) that grow in clusters, offering a crisp snap and a burst of sweet-tart juice. With a high ratio of skin-to-flesh, they provide complex tannins and sugars that make them perfect for eating raw, roasting to concentrate their flavor, or fermenting into wine.\n\n**Selection & Storage:** Look for plump, firm grapes tightly attached to pliable, green stems. Store unwashed in a perforated plastic bag in the refrigerator crisper drawer.",
     name: "grape leaves",
+    origin: ["Western Asia", "Mediterranean"],
+    season: ["fall"],
     elementalProperties: { Fire: 0.15, Water: 0.3, Earth: 0.3, Air: 0.25 },
     qualities: ["tangy", "tender", "Mediterranean"],
     category: "fruit",
@@ -396,6 +420,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   coconut_chutney: {
       description: "A large, hard-shelled seed (*Cocos nucifera*) containing sweet, clear water and rich, fatty white meat. Its high concentration of saturated lauric acid gives coconut milk, cream, and oil a uniquely rich, tropical flavor that forms the creamy base of many Southeast Asian and Indian curries.\n\n**Selection & Storage:** Shake whole coconuts to ensure they sound full of water; avoid any with cracks or damp eyes. Store whole coconuts at room temperature, but refrigerate any extracted meat or water.",
     name: "coconut chutney",
+    origin: ["Indo-Pacific"],
+    season: ["all"],
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.25, Air: 0.2 },
     qualities: ["creamy", "tangy", "aromatic", "Indian"],
     category: "fruit",
@@ -428,6 +454,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   lime_juice: {
       description: "A highly acidic, tropical citrus fruit (*Citrus × aurantiifolia*) whose juice provides a sharper, more floral acidity than lemon. It is essential in cuisines around the equator (Latin American, Southeast Asian) as its bright acidity 'cooks' raw fish in ceviche and balances intense chili heat.\n\n**Selection & Storage:** Select limes that are dark green, heavy for their size, and give slightly when squeezed; hard limes will yield little juice. Store them loose in the refrigerator crisper drawer for up to a month.",
     name: "lime juice",
+    origin: ["Southeast Asia", "India"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.3, Water: 0.45, Earth: 0.05, Air: 0.2 },
     qualities: ["acidic", "bright", "refreshing", "tropical"],
     category: "fruit",
@@ -460,6 +488,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   coconut_milk: {
       description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "coconut milk",
+    origin: ["Indo-Pacific"],
+    season: ["all"],
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.25, Air: 0.15 },
     qualities: ["creamy", "rich", "tropical", "versatile"],
     category: "fruit",
@@ -497,6 +527,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   ripe_bananas: {
       description: "A tropical, starch-rich berry (*Musa spp.*) that converts its starches to easily digestible sugars as it ripens, indicated by its skin turning from green to yellow to spotted brown. This enzymatic transformation drastically alters its culinary use, moving from a firm snack to a sweet, mushy base for baking.\n\n**Selection & Storage:** Choose bananas based on your immediate need: green for later, yellow for eating, or heavily spotted for baking. Store at room temperature; refrigerating will turn the skin black but keep the flesh firm longer.",
     name: "ripe bananas",
+    origin: ["Cultivated worldwide"],
+    season: ["varies by variety"],
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["sweet", "soft", "nutritious", "energizing"],
     category: "fruit",
@@ -529,6 +561,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   lime: {
       description: "A highly acidic, tropical citrus fruit (*Citrus × aurantiifolia*) whose juice provides a sharper, more floral acidity than lemon. It is essential in cuisines around the equator (Latin American, Southeast Asian) as its bright acidity 'cooks' raw fish in ceviche and balances intense chili heat.",
     name: "lime",
+    origin: ["Southeast Asia", "India"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.25, Water: 0.45, Earth: 0.05, Air: 0.25 },
     qualities: ["sour", "bright", "refreshing", "tropical"],
     category: "fruit",
@@ -561,6 +595,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   lemongrass: {
       description: "A tall, fibrous tropical grass (*Cymbopogon citratus*) with a tough outer stalk and a tender, highly aromatic inner core. It provides a complex, bright, and floral citrus flavor without the sharp acidity of lemon juice, making it indispensable in Southeast Asian curries and soups.",
     name: "lemongrass",
+    origin: ["South and Southeast Asia"],
+    season: ["summer"],
     elementalProperties: { Fire: 0.3, Water: 0.25, Earth: 0.15, Air: 0.3 },
     qualities: ["aromatic", "citrusy", "tropical", "fragrant"],
     category: "fruit",
@@ -593,6 +629,8 @@ const rawFruits: Record<string, Partial<IngredientMapping>> = {
   banana_flower: {
       description: "The massive, tear-shaped, purplish-red blossom that hangs at the end of a cluster of bananas. Commonly used in Southeast Asian and Indian cuisines, its tender inner bracts provide a crunchy, flaky texture and a mild, slightly bitter, and highly astringent flavor that mimics the texture of artichoke hearts or fish.",
     name: "banana flower",
+    origin: ["Southeast Asia", "Papua New Guinea"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
     qualities: ["tender", "mild", "nutritious", "tropical"],
     category: "fruit",

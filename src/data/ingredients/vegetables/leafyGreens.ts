@@ -267,6 +267,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   "swiss chard": {
       description: "Swiss Chard is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "Swiss chard",
+    origin: ["Mediterranean", "Sicily"],
     elementalProperties: { Water: 0.39, Earth: 0.33, Air: 0.21, Fire: 0.07 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
@@ -310,6 +311,8 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   lettuce: {
       description: "A leafy herbaceous plant (*Lactuca sativa*), primarily cultivated for its crisp, hydrating leaves. Iceberg and romaine varieties provide high water content and structural crunch that resists wilting under heavy dressings, while butterhead and loose-leaf types offer delicate, tender textures. Although typically consumed raw in salads or as a cooling counterpoint in sandwiches, hearty varieties like romaine can be lightly grilled or braised to develop surprising smoky depth.",
     name: "lettuce",
+    origin: ["Cultivated worldwide"],
+    season: ["varies by variety"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetable",
@@ -328,6 +331,8 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   romaine_lettuce: {
       description: "A leafy herbaceous plant (*Lactuca sativa*), primarily cultivated for its crisp, hydrating leaves. Iceberg and romaine varieties provide high water content and structural crunch that resists wilting under heavy dressings, while butterhead and loose-leaf types offer delicate, tender textures. Although typically consumed raw in salads or as a cooling counterpoint in sandwiches, hearty varieties like romaine can be lightly grilled or braised to develop surprising smoky depth.",
     name: "romaine lettuce",
+    origin: ["Mediterranean"],
+    season: ["spring", "fall"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetable",
@@ -346,6 +351,8 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   lettuce_leaves: {
       description: "A leafy herbaceous plant (*Lactuca sativa*), primarily cultivated for its crisp, hydrating leaves. Iceberg and romaine varieties provide high water content and structural crunch that resists wilting under heavy dressings, while butterhead and loose-leaf types offer delicate, tender textures. Although typically consumed raw in salads or as a cooling counterpoint in sandwiches, hearty varieties like romaine can be lightly grilled or braised to develop surprising smoky depth.",
     name: "lettuce leaves",
+    origin: ["Cultivated worldwide"],
+    season: ["varies by variety"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetable",

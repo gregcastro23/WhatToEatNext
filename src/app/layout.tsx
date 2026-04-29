@@ -9,6 +9,7 @@ import NavAuthLink from "@/components/nav/NavAuthLink";
 import NotificationBell from "@/components/nav/NotificationBell";
 import PremiumLink from "@/components/nav/PremiumLink";
 import PayPalButton from "@/components/PayPalButton";
+import ThemeToggle from "@/components/ThemeToggle";
 import ClientProviders from "./ClientProviders";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -75,6 +76,7 @@ export default function RootLayout({
                 {/* Right Side: Navigation & Icons */}
                 <div className="flex flex-col items-center xl:items-end flex-grow w-full xl:w-2/3">
                   <div className="flex items-center gap-3 w-full justify-end mb-4 xl:mb-6">
+                    <ThemeToggle compact />
                     <NotificationBell />
                     {/* Hamburger toggle for mobile */}
                     <MobileNavToggle>

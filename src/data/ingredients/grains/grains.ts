@@ -6,6 +6,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   flour: {
       description: "A powder made by grinding raw grains, roots, beans, nuts, or seeds, though most commonly refers to wheat. Its specific culinary use is dictated by its protein content: high-protein bread flour forms strong gluten networks for chewy breads, while low-protein cake flour yields tender, delicate crumb structures.",
     name: "flour",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -49,6 +51,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "rice",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -81,6 +85,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   all_purpose_flour: {
       description: "A mid-protein (10–12%) wheat flour blended from hard and soft varieties to perform acceptably across most baked goods — the Swiss Army knife of American baking. Less chewy than bread flour and less tender than cake flour, it sits in the middle of the gluten spectrum. Bleached versions cook more predictably in cakes; unbleached has slightly more protein and a mellower cream color. Store airtight in cool, dry conditions; refrigerate for long-term use to deter pantry pests.",
     name: "all-purpose flour",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -113,6 +119,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   whole_grain_bread: {
       description: "A staple food prepared from a dough of flour and water, usually baked. The inclusion of leavening agents (like yeast or sourdough starter) traps carbon dioxide gases within a gluten network, transforming a dense paste into a light, aerated, and highly absorbent sponge.\n\n**Selection & Storage:** Fresh artisanal bread should have a hard, shatteringly crisp crust and a soft interior. Store fresh bread in a paper bag at room temperature for a day or two, or slice and freeze it; never refrigerate bread, as the cold accelerates the staling (retrogradation) process.",
     name: "whole grain bread",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -145,6 +153,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   steel_cut_oats: {
       description: "A resilient cereal grain (*Avena sativa*) valued for its high soluble fiber (beta-glucan), which creates a creamy, viscous texture when boiled in liquids. Rolled oats are steamed and flattened for quicker cooking, while steel-cut oats retain more texture and require longer simmering.\n\n**Selection & Storage:** Look for oats that smell slightly sweet and toasty. Because they contain natural fats that can go rancid, store them in a cool, dark pantry in an airtight container, or refrigerate for long-term storage.",
     name: "steel-cut oats",
+    origin: ["Northern Europe"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -183,6 +193,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   breadcrumbs: {
       description: "Breadcrumbs is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "breadcrumbs",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -215,6 +227,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   arborio_rice: {
       description: "An Italian short-grain rice (*Oryza sativa*) named after the town of Arborio in the Po Valley. Its exterior is rich in amylopectin starch, which dissolves slowly during constant stirring to create the signature, creamy, suspension characteristic of classic risotto, while the interior maintains a firm 'al dente' bite.",
     name: "arborio rice",
+    origin: ["Italy (Po Valley)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -247,6 +261,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   bread_stuffing: {
       description: "A staple food prepared from a dough of flour and water, usually baked. The inclusion of leavening agents (like yeast or sourdough starter) traps carbon dioxide gases within a gluten network, transforming a dense paste into a light, aerated, and highly absorbent sponge.\n\n**Selection & Storage:** Fresh artisanal bread should have a hard, shatteringly crisp crust and a soft interior. Store fresh bread in a paper bag at room temperature for a day or two, or slice and freeze it; never refrigerate bread, as the cold accelerates the staling (retrogradation) process.",
     name: "bread stuffing",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -279,6 +295,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   cheong_fun__rice_noodle_rolls_: {
       description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "cheong fun (rice noodle rolls)",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -311,6 +329,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   glutinous_rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "glutinous rice",
+    origin: ["Southeast Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -343,6 +363,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   rustic_bread: {
       description: "A staple food prepared from a dough of flour and water, usually baked. The inclusion of leavening agents (like yeast or sourdough starter) traps carbon dioxide gases within a gluten network, transforming a dense paste into a light, aerated, and highly absorbent sponge.\n\n**Selection & Storage:** Fresh artisanal bread should have a hard, shatteringly crisp crust and a soft interior. Store fresh bread in a paper bag at room temperature for a day or two, or slice and freeze it; never refrigerate bread, as the cold accelerates the staling (retrogradation) process.",
     name: "rustic bread",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -375,6 +397,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   white_sandwich_bread: {
       description: "A staple food prepared from a dough of flour and water, usually baked. The inclusion of leavening agents (like yeast or sourdough starter) traps carbon dioxide gases within a gluten network, transforming a dense paste into a light, aerated, and highly absorbent sponge.\n\n**Selection & Storage:** Fresh artisanal bread should have a hard, shatteringly crisp crust and a soft interior. Store fresh bread in a paper bag at room temperature for a day or two, or slice and freeze it; never refrigerate bread, as the cold accelerates the staling (retrogradation) process.",
     name: "white sandwich bread",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -407,6 +431,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   idli_rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "idli rice",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -439,6 +465,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   flattened_rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "flattened rice",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -471,6 +499,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   basmati_rice: {
       description: "A highly aromatic, extra-long-grain rice originating from the Indian subcontinent. It undergoes an aging process before milling to reduce its moisture content, ensuring that when cooked, the grains elongate dramatically and remain completely separate, fluffy, and dry—perfect for biryanis.",
     name: "basmati rice",
+    origin: ["South Asia (Punjab region)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -503,6 +533,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   steamed_rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "steamed rice",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -535,6 +567,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   sushi_rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "sushi rice",
+    origin: ["Japan"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -567,6 +601,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   short_grain_rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "short grain rice",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -599,6 +635,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   sliced_rice_cakes: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "sliced rice cakes",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -631,6 +669,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   rice_cakes: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "rice cakes",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -663,6 +703,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   rice_flour: {
       description: "The powder produced by milling raw grains, roots, beans, nuts, or seeds — most commonly wheat (*Triticum aestivum*). Its behavior in baking is governed by protein content: high-protein bread flour (12–14%) develops strong gluten networks for chewy yeasted breads, while low-protein cake flour (7–9%) yields tender, delicate crumb. Whole-grain flours include the bran and germ, adding fiber, fat, and perishability that demands cool storage to prevent rancidity.",
     name: "rice flour",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -695,6 +737,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   flatbread: {
       description: "Flatbread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "flatbread",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -727,6 +771,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   jasmine_rice: {
       description: "A fragrant, long-grain rice (*Oryza sativa*) primarily cultivated in Thailand. It contains the aromatic compound 2-acetyl-1-pyrroline, which gives it a deeply floral, pandan-like, and slightly buttery aroma that perfectly complements the rich coconut curries of Southeast Asia.",
     name: "jasmine rice",
+    origin: ["Thailand"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -759,6 +805,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   glass_noodles: {
       description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "glass noodles",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -791,6 +839,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   rice_noodles: {
       description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "rice noodles",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -823,6 +873,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   sticky_rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "sticky rice",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -855,6 +907,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   tapioca_flour: {
       description: "The powder produced by milling raw grains, roots, beans, nuts, or seeds — most commonly wheat (*Triticum aestivum*). Its behavior in baking is governed by protein content: high-protein bread flour (12–14%) develops strong gluten networks for chewy yeasted breads, while low-protein cake flour (7–9%) yields tender, delicate crumb. Whole-grain flours include the bran and germ, adding fiber, fat, and perishability that demands cool storage to prevent rancidity.",
     name: "tapioca flour",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -887,6 +941,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   glutinous_rice_flour: {
       description: "The powder produced by milling raw grains, roots, beans, nuts, or seeds — most commonly wheat (*Triticum aestivum*). Its behavior in baking is governed by protein content: high-protein bread flour (12–14%) develops strong gluten networks for chewy yeasted breads, while low-protein cake flour (7–9%) yields tender, delicate crumb. Whole-grain flours include the bran and germ, adding fiber, fat, and perishability that demands cool storage to prevent rancidity.",
     name: "glutinous rice flour",
+    origin: ["Southeast Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -919,6 +975,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   thick_rice_noodles: {
       description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "thick rice noodles",
+    origin: ["Cultivated worldwide"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",
@@ -951,6 +1009,8 @@ const rawGrains: Record<string, Partial<IngredientMapping>> = {
   broken_rice: {
       description: "The edible starchy seed of *Oryza sativa* (Asian rice) or *O. glaberrima* (African rice), domesticated over 10,000 years ago and now feeding more than half the global population. Its culinary behavior depends on amylose-to-amylopectin starch ratio: long-grain varieties stay separate and fluffy; medium and short-grain grow creamy or sticky; glutinous rice turns fully chewy. Technique matters — rinse until water runs clear, then use the appropriate water ratio and resting period for the target texture.",
     name: "broken rice",
+    origin: ["East and South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     qualities: ["carbohydrate-rich", "sustaining", "versatile"],
     category: "grain",

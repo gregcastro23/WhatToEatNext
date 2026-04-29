@@ -5,6 +5,7 @@ const rawMelons = {
   watermelon: {
       description: "A massive, vining fruit (*Citrullus lanatus*) that is roughly 92% water, known for its crisp, refreshing, and subtly sweet pink or red flesh. Its extremely high water content and delicate flavor make it best suited for raw applications, from fruit salads to chilled soups like gazpacho.",
     name: "Watermelon",
+    origin: ["Africa (Sudan)"],
     elementalProperties: {
       Water: 0.8,
       Fire: 0.1,
@@ -195,6 +196,7 @@ const rawMelons = {
   cantaloupe: {
       description: "A highly aromatic, orange-fleshed melon (*Cucumis melo var. cantalupensis*) characterized by its rough, webbed rind. Its high water content and sweet, slightly musky floral flavor make it a refreshing raw snack, pairing classically with salty cured meats like prosciutto.",
     name: "Cantaloupe",
+    origin: ["South Asia", "Africa"],
     elementalProperties: {
       Water: 0.6,
       Earth: 0.2,
@@ -348,6 +350,7 @@ const rawMelons = {
   honeydew: {
       description: "A smooth-skinned, pale green melon (*Cucumis melo inodorus*) with a crisp texture and a mild, exceptionally sweet flavor. While less aggressively aromatic than cantaloupe, its clean, honey-like sweetness makes it a versatile base for chilled soups and fruit salads.",
     name: "Honeydew",
+    origin: ["Western Asia", "Africa"],
     elementalProperties: {
       Water: 0.7,
       Air: 0.2,
@@ -509,6 +512,7 @@ const rawMelons = {
   casaba: {
       description: "A sweet edible plant product, casaba delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Casaba",
+    origin: ["Cultivated worldwide"],
     elementalProperties: {
       Water: 0.6,
       Earth: 0.3,
@@ -648,6 +652,7 @@ const rawMelons = {
   crenshaw: {
       description: "A sweet edible plant product, crenshaw delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Crenshaw",
+    origin: ["Cultivated worldwide"],
     elementalProperties: {
       Water: 0.5,
       Earth: 0.3,
@@ -778,6 +783,7 @@ const rawMelons = {
   persian_melon: {
       description: "A large, ancient variety of melon (*Cucumis melo*) closely related to the cantaloupe, featuring a dark green, un-netted rind. It offers an intensely sweet, dense, and floral orange flesh that is profoundly fragrant, requiring no accompaniment beyond a squeeze of fresh lime juice.",
     name: "Persian Melon",
+    origin: ["Cultivated worldwide"],
     elementalProperties: {
       Water: 0.6,
       Earth: 0.2,
@@ -917,6 +923,7 @@ const rawMelons = {
   winter_melon: {
       description: "A massive, vine-grown fruit (*Benincasa hispida*) covered in a waxy, chalky coating that allows it to be stored for many months. While technically a fruit, it is treated strictly as a vegetable in Asian cooking, featuring a dense, stark-white flesh that absorbs profound amounts of broth in long-simmering soups.",
     name: "Winter Melon",
+    origin: ["Cultivated worldwide"],
     elementalProperties: {
       Water: 0.6,
       Earth: 0.3,
@@ -1066,6 +1073,7 @@ const rawMelons = {
   galia: {
       description: "A sweet edible plant product, galia delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Galia Melon",
+    origin: ["Israel"],
     elementalProperties: {
       Water: 0.6,
       Air: 0.2,

@@ -5,6 +5,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   heirloom_carrot: {
       description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
     name: "Heirloom Carrot",
+    origin: ["Persia (Afghanistan region)"],
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Saturn"],
@@ -42,6 +43,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   black_radish: {
       description: "A large, winter root vegetable (*Raphanus sativus var. niger*) with a tough, coal-black exterior and a stark white interior. It possesses a remarkably sharp, aggressively spicy, and pungent bite when raw, which mellows dramatically into a sweet, earthy flavor when roasted or braised.",
     name: "Black Radish",
+    origin: ["China", "Southeast Asia"],
     elementalProperties: { Earth: 0.6, Fire: 0.25, Air: 0.1, Water: 0.05 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mars"],
@@ -223,6 +225,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   ginger: {
       description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
     name: "Ginger",
+    origin: ["Maritime Southeast Asia"],
     elementalProperties: { Fire: 0.6, Earth: 0.2, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Sun"],
@@ -260,6 +263,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   jerusalem_artichoke: {
       description: "Also known as a sunchoke, this lumpy tuber (*Helianthus tuberosus*) is actually the root of a species of sunflower. It provides a sweet, intensely nutty flavor and a texture that ranges from water-chestnut crunchy when raw, to remarkably creamy and silken when roasted or pureed.",
     name: "Jerusalem Artichoke",
+    origin: ["Mediterranean (North Africa)"],
     elementalProperties: { Earth: 0.55, Water: 0.25, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
@@ -297,6 +301,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   carrots: {
       description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
     name: "carrots",
+    origin: ["Persia"],
+    season: ["fall", "winter", "spring"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetable",
@@ -315,6 +321,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   parsnips: {
       description: "A pale, cream-colored root vegetable (*Pastinaca sativa*) closely related to the carrot. It is profoundly starchy and packs an intense, woody sweetness with distinct notes of nutmeg and spiced cider, making it ideal for roasting until deeply caramelized.\n\n**Selection & Storage:** Choose small to medium parsnips; very large ones often have a tough, woody core that must be removed. Store unwashed in a plastic bag in the refrigerator.",
     name: "parsnips",
+    origin: ["Eurasia"],
+    season: ["fall", "winter"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetable",

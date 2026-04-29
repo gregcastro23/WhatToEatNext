@@ -6,6 +6,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   ginger: {
       description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
     name: "ginger",
+    origin: ["Maritime Southeast Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
     category: "spice",
@@ -37,6 +39,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   cinnamon: {
       description: "A warm, sweet spice derived from the inner bark of trees (*Cinnamomum*). Cassia cinnamon is strong, spicy, and common in baking, while true \"Ceylon\" cinnamon is softer, more floral, and delicate; both provide a deep, aromatic warmth that enhances both sweet pastries and savory curries.",
     name: "cinnamon",
+    origin: ["Sri Lanka", "Southeast Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
     category: "spice",
@@ -68,6 +72,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   nutmeg: {
       description: "The hard, inner seed of the fruit from a tropical evergreen (*Myristica fragrans*). It possesses an intensely warm, sweet, and slightly woody flavor that is classically paired with dairy (like in béchamel or eggnog) or baked goods to add depth and warmth.",
     name: "nutmeg",
+    origin: ["Indonesia (Banda Islands)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
     category: "spice",
@@ -99,6 +105,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   paprika: {
       description: "A vibrantly red spice made from dried and ground sweet peppers (*Capsicum annuum*). Sweet paprika provides a mild, fruity earthiness and brilliant color, while smoked paprika (Pimentón de la Vera) adds a profound, deep wood-smoke flavor that instantly imparts a 'cooked over fire' quality to any dish.",
     name: "paprika",
+    origin: ["Central America", "Hungary (cultivated)"],
+    season: ["all"],
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
     category: "spice",
@@ -130,6 +138,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   red_bean_paste: {
       description: "Red Bean Paste is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "red bean paste",
+    origin: ["Tropical and subtropical regions"],
+    season: ["all"],
     elementalProperties: { Fire: 0.25, Water: 0.2, Earth: 0.4, Air: 0.15 },
     qualities: ["sweet", "earthy", "dense"],
     category: "spice",
@@ -161,6 +171,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   curry_leaves: {
       description: "Curry Leaves is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "curry leaves",
+    origin: ["South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.35, Water: 0.1, Earth: 0.2, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "preservative", "warming"],
     category: "spice",
@@ -192,6 +204,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   mustard_seeds: {
       description: "Tiny, round seeds of various mustard plants (*Brassica* and *Sinapis*) available in yellow, brown, and black varieties. The seeds themselves have no heat until crushed and mixed with a cold liquid, which triggers an enzyme reaction creating the sharp, pungent compound allyl isothiocyanate.\n\n**Selection & Storage:** Yellow seeds are the mildest, while black and brown are much sharper and more pungent. Store whole seeds in an airtight container in a dark pantry, as they keep indefinitely.",
     name: "mustard seeds",
+    origin: ["Mediterranean", "South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["pungent", "hot", "flavorful"],
     category: "spice",
@@ -228,6 +242,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   turmeric: {
       description: "A bright yellow-orange rhizome (*Curcuma longa*) of the ginger family, containing the powerful anti-inflammatory compound curcumin. It offers a distinctly earthy, slightly bitter, and mustard-like flavor, and is primarily used to impart a brilliant golden color to curries, rice, and mustards.",
     name: "turmeric",
+    origin: ["South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.25, Air: 0.3 },
     qualities: ["aromatic", "flavorful", "healing", "warming"],
     category: "spice",
@@ -259,6 +275,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   green_chilies: {
       description: "Green Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "green chilies",
+    origin: ["Tropical and subtropical regions"],
+    season: ["all"],
     elementalProperties: { Fire: 0.55, Water: 0.1, Earth: 0.1, Air: 0.25 },
     qualities: ["spicy", "pungent", "vibrant"],
     category: "spice",
@@ -290,6 +308,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   chole_masala: {
       description: "Chole Masala is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "chole masala",
+    origin: ["Tropical and subtropical regions"],
+    season: ["all"],
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "flavorful", "warming"],
     category: "spice",
@@ -321,6 +341,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   chaat_masala: {
       description: "Chaat Masala is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "chaat masala",
+    origin: ["Tropical and subtropical regions"],
+    season: ["all"],
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.2, Air: 0.35 },
     qualities: ["tangy", "aromatic", "flavorful"],
     category: "spice",
@@ -352,6 +374,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   cumin_seeds: {
       description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
     name: "cumin seeds",
+    origin: ["Western Asia", "Mediterranean"],
+    season: ["all"],
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.3, Air: 0.25 },
     qualities: ["earthy", "warm", "pungent"],
     category: "spice",
@@ -383,6 +407,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   garam_masala: {
       description: "A deeply warming, complex spice blend originating from the Indian subcontinent, translating roughly to 'hot spices' (referring to metabolic heat, not chili spice). It typically contains heavily aromatic, sweet spices like cardamom, cinnamon, clove, cumin, and nutmeg, and is usually added near the end of cooking to preserve its aromatics.",
     name: "garam masala",
+    origin: ["South Asia"],
+    season: ["all"],
     elementalProperties: { Fire: 0.45, Water: 0.05, Earth: 0.15, Air: 0.35 },
     qualities: ["aromatic", "warming", "complex"],
     category: "spice",
@@ -414,6 +440,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   cardamom: {
       description: "A highly aromatic, resinous spice (*Elettaria cardamomum*) enclosed in small green or black pods. Green cardamom offers a complex, cooling, eucalyptus-and-citrus sweetness essential for Scandinavian baking and Indian sweets, while black cardamom is heavily smoked and deeply savory.",
     name: "cardamom",
+    origin: ["South India", "Sri Lanka"],
+    season: ["all"],
     elementalProperties: { Fire: 0.35, Water: 0.05, Earth: 0.2, Air: 0.4 },
     qualities: ["aromatic", "flavorful", "warming"],
     category: "spice",
@@ -445,6 +473,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   saffron: {
       description: "The world's most expensive spice, consisting of the dried crimson stigmas of the *Crocus sativus* flower. It imparts a brilliant golden-yellow hue and a highly complex, honey-like, floral, and slightly metallic or earthy flavor, making it the defining characteristic of classic dishes like paella and risotto alla milanese.",
     name: "saffron",
+    origin: ["Western Asia (Iran, Greece)"],
+    season: ["fall"],
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.2, Air: 0.3 },
     qualities: ["aromatic", "luxurious", "coloring"],
     category: "spice",
@@ -476,6 +506,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   curry_roux: {
       description: "Curry Roux is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "curry roux",
+    origin: ["Tropical and subtropical regions"],
+    season: ["all"],
     elementalProperties: { Fire: 0.35, Water: 0.15, Earth: 0.3, Air: 0.2 },
     qualities: ["aromatic", "flavorful", "thickening"],
     category: "spice",
@@ -507,6 +539,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   chili_powder: {
       description: "A generic term that can refer either to pure ground dried chilies (like cayenne or ancho) or to a Tex-Mex spice blend containing ground chilies, cumin, oregano, and garlic powder. It provides earthy warmth, savory depth, and varying levels of capsaicin-driven heat depending on the chilies used.",
     name: "chili powder",
+    origin: ["Mesoamerica"],
+    season: ["all"],
     elementalProperties: { Fire: 0.55, Water: 0.05, Earth: 0.15, Air: 0.25 },
     qualities: ["spicy", "flavorful", "warming"],
     category: "spice",
@@ -538,6 +572,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   cumin: {
       description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
     name: "cumin",
+    origin: ["Western Asia", "Mediterranean"],
+    season: ["all"],
     elementalProperties: { Fire: 0.4, Water: 0.05, Earth: 0.3, Air: 0.25 },
     qualities: ["earthy", "warm", "pungent"],
     category: "spice",
@@ -569,6 +605,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   coriander: {
       description: "The dried seeds of the cilantro plant (*Coriandrum sativum*), yielding a completely different flavor profile than its leaves. The seeds provide a warm, floral, and slightly citrusy sweetness that is a crucial balancing component in heavy, spicy curry blends and pickling brines.",
     name: "coriander",
+    origin: ["Mediterranean"],
+    season: ["spring", "fall"],
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.3, Air: 0.3 },
     qualities: ["citrusy", "aromatic", "flavorful"],
     category: "spice",
@@ -600,6 +638,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   thai_chilies: {
       description: "Thai Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "Thai chilies",
+    origin: ["Tropical and subtropical regions"],
+    season: ["all"],
     elementalProperties: { Fire: 0.6, Water: 0.05, Earth: 0.1, Air: 0.25 },
     qualities: ["very spicy", "pungent", "vibrant"],
     category: "spice",
@@ -631,6 +671,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
   shrimp_paste: {
       description: "A widely consumed crustacean known for its sweet, briny flavor and firm, snappy texture. They cook incredibly fast—turning pink and opaque in minutes as heat denatures their proteins—and become tough and rubbery if exposed to high heat for too long.\n\n**Selection & Storage:** Look for firm bodies attached tightly to their shells with a clean, mild saltwater scent; avoid any with black spots (melanosis) on their shells or a smell of ammonia. Store over ice in the refrigerator and consume within a day.",
     name: "shrimp paste",
+    origin: ["Worldwide warm waters"],
+    season: ["summer", "fall"],
     elementalProperties: { Fire: 0.2, Water: 0.35, Earth: 0.3, Air: 0.15 },
     qualities: ["umami", "pungent", "savory"],
     category: "spice",

@@ -5,6 +5,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
   cauliflower: {
       description: "A versatile, mildly sweet cruciferous vegetable (*Brassica oleracea var. botrytis*) composed of undeveloped flower buds. Its neutral flavor and dense structure make it a culinary chameleon, easily absorbing strong spices, roasting to a nutty caramelization, or pureeing into a creamy, starch-free mash.",
     name: "Cauliflower",
+    origin: ["Cultivated worldwide"],
 
     // Base elemental properties (unscaled)
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
@@ -238,6 +239,8 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
   cabbage: {
       description: "A tightly packed, leafy biennial (*Brassica oleracea*) that is a cornerstone of global preservation through fermentation (like sauerkraut and kimchi). Rich in sulfur compounds, it transforms from crisp and peppery when raw to profoundly sweet and tender when slowly braised or roasted.",
     name: "cabbage",
+    origin: ["Cultivated worldwide"],
+    season: ["varies by variety"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["crunchy", "mild", "versatile"],
     category: "vegetable",
@@ -271,6 +274,8 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
   napa_cabbage: {
       description: "A tightly packed, leafy biennial (*Brassica oleracea*) that is a cornerstone of global preservation through fermentation (like sauerkraut and kimchi). Rich in sulfur compounds, it transforms from crisp and peppery when raw to profoundly sweet and tender when slowly braised or roasted.\n\n**Selection & Storage:** Select heads that feel heavy for their size with tight, unblemished outer leaves. Whole cabbage is remarkably resilient and can be stored loose in the crisper drawer for several weeks.",
     name: "napa cabbage",
+    origin: ["China (Beijing region)"],
+    season: ["fall", "winter"],
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
     qualities: ["nutritious", "versatile", "fresh"],
     category: "vegetable",
