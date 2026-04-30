@@ -2874,6 +2874,11 @@ class FoodDiaryService {
 
         query += ` ORDER BY date DESC, time DESC`;
 
+        if (filters?.limit) {
+          query += ` LIMIT $${paramIndex++}`;
+          params.push(filters.limit);
+        }
+
         const result = await db.executeQuery(query, params);
         return result.rows.map((row: any) => this.rowToFoodDiaryEntry(row));
       } catch (error) {
@@ -2894,12 +2899,18 @@ class FoodDiaryService {
     }
 
     // Sort by date and time descending
-    return entries.sort((a, b) => {
+    const sorted = entries.sort((a, b) => {
       const dateCompare =
         new Date(b.date).getTime() - new Date(a.date).getTime();
       if (dateCompare !== 0) return dateCompare;
       return b.time.localeCompare(a.time);
     });
+
+    if (filters?.limit) {
+      return sorted.slice(0, filters.limit);
+    }
+
+    return sorted;
   }
 
   /**

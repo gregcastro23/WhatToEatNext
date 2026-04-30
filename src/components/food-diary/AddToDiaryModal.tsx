@@ -7,8 +7,8 @@ import type { MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 
 interface AddToDiaryModalProps {
-  item: Ingredient | RecipeIngredient | Recipe;
-  itemType: "ingredient" | "recipe";
+  item: Ingredient | RecipeIngredient | Recipe | any;
+  itemType: "ingredient" | "recipe" | "restaurant";
   onClose: () => void;
 }
 
@@ -26,10 +26,14 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
     const now = new Date();
     const time = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
 
+    let foodSource: "recipe" | "manual" | "custom" | "restaurant" = "custom";
+    if (itemType === "recipe") foodSource = "recipe";
+    if (itemType === "restaurant") foodSource = "restaurant";
+
     await addEntry({
-      foodName: item.name,
-      foodSource: itemType === "recipe" ? "recipe" : "custom",
-      sourceId: item.id || undefined,
+      foodName: itemType === "restaurant" ? item.business.name : item.name,
+      foodSource,
+      sourceId: itemType === "restaurant" ? item.business.id : (item.id || undefined),
       date: new Date(),
       mealType,
       time,
@@ -41,19 +45,19 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
       },
       quantity: Number(quantity) || 1,
       price: price === "" ? undefined : Number(price),
-      store: store || undefined,
+      store: store || (itemType === "restaurant" ? item.business.name : undefined),
       quality: quality || undefined,
-      elementalProperties: (item as any).elementalProperties,
+      elementalProperties: item.elementalProperties,
     });
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4 text-gray-900">
       <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-4">
-          <h4 className="text-lg font-semibold text-gray-900">
-            Log {itemType === "recipe" ? "Recipe" : "Ingredient"}
+          <h4 className="text-lg font-semibold">
+            Log {itemType === "restaurant" ? "Meal" : (itemType === "recipe" ? "Recipe" : "Ingredient")}
           </h4>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,7 +66,9 @@ export function AddToDiaryModal({ item, itemType, onClose }: AddToDiaryModalProp
           </button>
         </div>
 
-        <p className="text-sm text-gray-600 mb-4 font-medium">{item.name}</p>
+        <p className="text-sm text-gray-600 mb-4 font-medium">
+          {itemType === "restaurant" ? item.business.name : item.name}
+        </p>
 
         <form onSubmit={(e) => { void handleSubmit(e); }} className="space-y-4">
           <div>

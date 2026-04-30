@@ -10,6 +10,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AddToDiaryModal } from "@/components/food-diary/AddToDiaryModal";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
 import type { SavedRestaurant } from "@/types/restaurant";
@@ -85,6 +86,7 @@ export function RestaurantDiscovery({
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const { currentUser, updateProfile } = useUser();
   const { showToast } = useToast();
+  const [loggingItem, setLoggingItem] = useState<AlchmScoredRestaurant | null>(null);
 
   // Hydrate saved restaurant IDs from user prefs (logged-in) or localStorage (anon).
   useEffect(() => {
@@ -489,12 +491,27 @@ export function RestaurantDiscovery({
                     >
                       {isSaved ? "✓ Saved" : "+ Save"}
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => setLoggingItem(entry)}
+                      className="px-3 py-1.5 bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold hover:bg-amber-200 transition-colors whitespace-nowrap text-center"
+                    >
+                      + Log
+                    </button>
                   </div>
                 </li>
               );
             })}
           </ul>
         </>
+      )}
+
+      {loggingItem && (
+        <AddToDiaryModal
+          item={loggingItem}
+          itemType="restaurant"
+          onClose={() => setLoggingItem(null)}
+        />
       )}
 
       {/* Cosmic context line */}

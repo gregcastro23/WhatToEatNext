@@ -7,6 +7,7 @@ import { openai } from "@ai-sdk/openai";
 import { streamObject } from "ai";
 import { auth } from "@/lib/auth/auth";
 import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
+import { foodDiaryService } from "@/services/FoodDiaryService";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { alchemize } from "@/services/RealAlchemizeService";
@@ -172,6 +173,13 @@ export async function POST(request: Request) {
     );
   }
 
+  // Fetch recent history for personalization
+  const recentEntries = await foodDiaryService.getEntries(userId, { limit: 10 });
+  const recentFoods = recentEntries.map(e => e.foodName).join(", ");
+  const historyNote = recentFoods 
+    ? `User recently consumed: ${recentFoods}. Ensure variety or complementary pairings.`
+    : "";
+
   // Inject Alchemical Z-Score Rarity Matrix
   const planetarySigns: Record<string, string> = {};
   const normalizedPositions: Record<string, any> = {};
@@ -218,6 +226,7 @@ export async function POST(request: Request) {
 Current planetary positions: ${currentSky}.
 Dominant element today: ${dominantElement}.
 ${birthChartNote}
+${historyNote}
 Diet preference: ${diet || "omnivore"}.
 ${ingredientsMain?.length ? `Preferred main ingredients: ${ingredientsMain.join(", ")}.` : ""}
 ${disallowedIngredients?.length ? `Never use: ${disallowedIngredients.join(", ")}.` : ""}${groundingBlock}

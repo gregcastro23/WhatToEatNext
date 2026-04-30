@@ -17,6 +17,7 @@ import type { NutritionalSummary} from "./nutrition";
 export type FoodSource =
   | "recipe" // From app recipes
   | "custom" // User-entered custom food
+  | "restaurant" // Logged from restaurant discovery
   | "barcode" // Scanned barcode (future)
   | "search" // FDC database search
   | "quick" // Quick-add common foods
@@ -369,6 +370,7 @@ export interface FoodDiaryFilters {
   searchQuery?: string;
   isFavorite?: boolean;
   tags?: string[];
+  limit?: number;
 }
 
 /**
