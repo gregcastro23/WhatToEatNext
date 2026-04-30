@@ -39,17 +39,39 @@ export const BackendStatus: React.FC = () => {
   // Check backend health
   const checkHealth = useCallback(async () => {
     try {
-      // Mock health check - replace with actual API call
-      setServices((prev) =>
-        prev.map((s) => ({
-          ...s,
-          status: "offline" as const,
-          responseTime: Math.random() * 100,
-          lastCheck: new Date().toISOString(),
-        })),
-      );
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://whattoeatnext-production.up.railway.app";
+      
+      const [nextRes, pyRes] = await Promise.allSettled([
+        fetch("/api/health"),
+        fetch(`${backendUrl}/health`)
+      ]);
+
+      const newServices: ServiceStatus[] = [
+        { 
+          service: "Alchemical Core (Vercel)", 
+          status: nextRes.status === "fulfilled" && nextRes.value.ok ? "healthy" : "offline",
+          lastCheck: new Date().toISOString()
+        },
+        { 
+          service: "Kitchen Intelligence (Railway)", 
+          status: pyRes.status === "fulfilled" && pyRes.value.ok ? "healthy" : "offline",
+          lastCheck: new Date().toISOString()
+        }
+      ];
+
+      // Add database status if Next.js reported it
+      if (nextRes.status === "fulfilled" && nextRes.value.ok) {
+        const data = await nextRes.value.json();
+        newServices.push({
+          service: "Neon Database",
+          status: data.services?.database === "healthy" ? "healthy" : "offline",
+          lastCheck: data.timestamp
+        });
+      }
+
+      setServices(newServices);
     } catch (_error) {
-      _logger.info("Backend services offline - using fallback mode");
+      _logger.info("Backend status check failed");
       setServices((prev) =>
         prev.map((s) => ({ ...s, status: "offline" as const })),
       );
@@ -59,49 +81,43 @@ export const BackendStatus: React.FC = () => {
   // Demo backend calculations
   const runDemoCalculations = useCallback(async () => {
     try {
-      // Demo elemental calculation with backend
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://whattoeatnext-production.up.railway.app";
+      
+      // Real elemental calculation check
       const elementsStart = performance.now();
-      const elements = alchemicalContext?.getCurrentElementalBalance?.() ?? { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2 };
+      const elements = alchemicalContext?.getCurrentElementalBalance?.() || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const elementsTime = performance.now() - elementsStart;
 
-      // Demo planetary data
+      // Real planetary data check
       const planetaryStart = performance.now();
-
-      const dominantPlanet = Object.keys(alchemicalContext?.planetaryPositions || {}).length > 0
-        ? Object.keys(alchemicalContext.planetaryPositions)[0]
-        : "Sun";
-
-      const planetary = { dominant_planet: dominantPlanet, influence_strength: 0.7 };
+      const planRes = await fetch(`${backendUrl}/api/planetary/positions`);
+      const planData = await planRes.json();
       const planetaryTime = performance.now() - planetaryStart;
 
-      // Demo recipe recommendations
+      // Real recipe recommendations check (using a common method as anchor)
       const recStart = performance.now();
-      const recommendations = { total_count: 3, recommendations: [] };
+      const recRes = await fetch("/api/recommendations/recipes?method=sauteing");
+      const recData = await recRes.json();
       const recTime = performance.now() - recStart;
 
       setDemoResults({
         elements: { ...elements, responseTime: elementsTime },
-        planetary: { ...planetary, responseTime: planetaryTime },
-        recommendations: { ...recommendations, responseTime: recTime },
+        planetary: { 
+          dominant_planet: planData.metadata?.dominant_planet || "Unknown",
+          influence_strength: planData.metadata?.influence_strength || 0,
+          responseTime: planetaryTime 
+        },
+        recommendations: { 
+          total_count: recData.recipes?.length || 0, 
+          responseTime: recTime 
+        },
       });
-    } catch (_error) {
-      _logger.info("Demo using fallback calculations");
+    } catch (err) {
+      _logger.info(`Demo calculations failed: ${(err as Error).message}`);
       setDemoResults({
-        elements: {
-          Fire: 0.3,
-          Water: 0.25,
-          Earth: 0.25,
-          Air: 0.2,
-          responseTime: 5,
-          fallback: true,
-        },
-        planetary: {
-          dominant_planet: "Sun",
-          influence_strength: 0.7,
-          responseTime: 3,
-          fallback: true,
-        },
-        recommendations: { total_count: 0, responseTime: 2, fallback: true },
+        elements: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25, responseTime: 0, fallback: true },
+        planetary: { dominant_planet: "Sun", influence_strength: 0.5, responseTime: 0, fallback: true },
+        recommendations: { total_count: 0, responseTime: 0, fallback: true },
       });
     }
   }, [alchemicalContext]);

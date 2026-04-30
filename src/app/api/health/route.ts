@@ -4,21 +4,31 @@
  */
 
 import { NextResponse } from "next/server";
+import { checkDatabaseHealth } from "@/lib/database";
 
 export async function GET() {
   try {
+    let dbStatus = "unavailable";
+    
+    try {
+      const isHealthy = await checkDatabaseHealth();
+      dbStatus = isHealthy ? "healthy" : "error";
+    } catch (err) {
+      console.error("[Health] DB check failed:", err);
+      dbStatus = "error";
+    }
+
     // Basic health checks
     const healthStatus = {
-      status: "healthy",
+      status: dbStatus === "healthy" ? "healthy" : "degraded",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
-      memory: process.memoryUsage(),
-      version: process.env.npm_package_version || "1.0.0",
+      version: process.env.npm_package_version || "2.1.0",
       environment: process.env.NODE_ENV || "development",
       services: {
-        database: "not_applicable", // We don't use a database
-        cache: "memory", // Using in-memory cache
-        external_apis: "available", // Assume available unless we check
+        database: dbStatus,
+        cache: "memory",
+        external_apis: "checking...",
       },
     };
 

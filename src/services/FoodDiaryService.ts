@@ -2791,6 +2791,52 @@ class FoodDiaryService {
     this.invalidateCache(userId);
     this.saveToStorage();
 
+    // PostgreSQL Persistence
+    const db = await getDbModule();
+    if (db) {
+      try {
+        await db.executeQuery(
+          `UPDATE food_diary_entries
+           SET serving_amount = $1, serving_unit = $2, serving_grams = $3,
+               serving_description = $4, quantity = $5, calories = $6,
+               protein = $7, carbs = $8, fat = $9, fiber = $10,
+               sugar = $11, sodium = $12, rating = $13, mood_tags = $14,
+               notes = $15, would_eat_again = $16, is_favorite = $17,
+               tags = $18, price = $19, store = $20, quality = $21,
+               updated_at = $22
+           WHERE id = $23 AND user_id = $24`,
+          [
+            entry.serving.amount,
+            entry.serving.unit,
+            entry.serving.grams || null,
+            entry.serving.description || null,
+            entry.quantity,
+            entry.nutrition.calories || null,
+            entry.nutrition.protein || null,
+            entry.nutrition.carbs || null,
+            entry.nutrition.fat || null,
+            entry.nutrition.fiber || null,
+            entry.nutrition.sugar || null,
+            entry.nutrition.sodium || null,
+            entry.rating || null,
+            entry.moodTags || [],
+            entry.notes || null,
+            entry.wouldEatAgain ?? null,
+            entry.isFavorite,
+            entry.tags || [],
+            entry.price || null,
+            entry.store || null,
+            entry.quality || null,
+            entry.updatedAt,
+            entry.id,
+            userId,
+          ],
+        );
+      } catch (error) {
+        _logger.warn("PostgreSQL updateEntry failed:", error as any);
+      }
+    }
+
     _logger.info("Food diary entry updated", { userId, entryId: input.id });
     return entry;
   }
@@ -2808,6 +2854,19 @@ class FoodDiaryService {
     this.removeFromUserIndex(userId, entryId);
     this.invalidateCache(userId);
     this.saveToStorage();
+
+    // PostgreSQL Persistence
+    const db = await getDbModule();
+    if (db) {
+      try {
+        await db.executeQuery(
+          `DELETE FROM food_diary_entries WHERE id = $1 AND user_id = $2`,
+          [entryId, userId],
+        );
+      } catch (error) {
+        _logger.warn("PostgreSQL deleteEntry failed:", error as any);
+      }
+    }
 
     _logger.info("Food diary entry deleted", { userId, entryId });
     return true;
