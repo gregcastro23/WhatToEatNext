@@ -254,6 +254,22 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
               </div>
               <div className="text-xs text-slate-500">{cuisine.optimalTiming}</div>
             </div>
+
+            {/* Action Buttons */}
+            <div className="grid grid-cols-2 gap-2 mt-3" onClick={(e) => e.preventDefault()}>
+              <Link
+                href={`/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}
+                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-amber-500/80 to-orange-500/80 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold shadow-sm transition-all border border-orange-400/50"
+              >
+                <span aria-hidden>🥘</span> Cook It
+              </Link>
+              <Link
+                href={`/restaurants?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}
+                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-rose-500/80 to-purple-500/80 hover:from-rose-500 hover:to-purple-500 text-white text-xs font-bold shadow-sm transition-all border border-purple-400/50"
+              >
+                <span aria-hidden>📍</span> Order It
+              </Link>
+            </div>
           </div>
 
           {/* Hover Preview */}

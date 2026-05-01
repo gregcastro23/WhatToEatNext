@@ -10,6 +10,7 @@ import { useToast } from '@/components/ToastProvider';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 import { useGroceryCart } from '@/contexts/GroceryCartContext';
+import { instacartService } from '@/services/instacartService';
 // @ts-expect-error - Auto-fixed by script
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
@@ -88,6 +89,8 @@ export default function CuisineRecommender() {
   const [topRecommendedSauces, setTopRecommendedSauces] = useState<any[]>([]);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
+  const [instacartLoading, setInstacartLoading] = useState<string | null>(null);
+  const [instacartError, setInstacartError] = useState<string | null>(null);
   const recipesSectionRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const { addRecipe: addRecipeToGroceryCart, open: openGroceryCart } = useGroceryCart();
@@ -104,6 +107,40 @@ export default function CuisineRecommender() {
   const handleOrderCuisine = useCallback((cuisineName: string) => {
     router.push(`/restaurants?cuisine=${encodeURIComponent(cuisineName)}`);
   }, [router]);
+
+  const handleShopOnInstacart = async (recipe: any) => {
+    setInstacartLoading(recipe.id || recipe.name);
+    setInstacartError(null);
+    try {
+      const parseCookingTime = (t?: string): number | undefined => {
+        if (!t) return undefined;
+        const mins = parseInt(t, 10);
+        return isNaN(mins) ? undefined : mins;
+      };
+
+      const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients.map((ing: any) => {
+        if (typeof ing === 'string') return { name: ing, amount: 1, unit: 'each' };
+        return { name: ing.name, amount: ing.amount || 1, unit: ing.unit || 'each' };
+      }).filter((x: any) => x && x.name) : [];
+
+      const url = await instacartService.createRecipePage({
+        id: String(recipe.id || recipe.name),
+        name: recipe.name,
+        ingredients,
+        instructions: recipe.instructions,
+        servings: recipe.servingSize || recipe.numberOfServings || 4,
+        cookingTime: parseCookingTime(recipe.timeToMake || recipe.cookTime),
+        inventory: [],
+      });
+      window.open(url, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to create recipe page";
+      setInstacartError(message);
+      showToast(message, "error");
+    } finally {
+      setInstacartLoading(null);
+    }
+  };
 
   const buildRecipeHref = useCallback((recipe: any): string | null => {
     const slug = recipe?.id || recipe?.name;
@@ -864,7 +901,7 @@ export default function CuisineRecommender() {
                           </div>
                         )}
 
-                        {/* Recipe sub-card actions: open full page, add to grocery cart */}
+                        {/* Recipe sub-card actions: open full page, add to grocery cart, shop on Instacart */}
                         <div className="mt-3 pt-2 border-t border-gray-100 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
                           {buildRecipeHref(recipe) && (
                             <Link
@@ -883,6 +920,17 @@ export default function CuisineRecommender() {
                             className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-orange-600 text-white text-[11px] font-semibold hover:bg-orange-500 transition-colors"
                           >
                             🛒 Add to grocery cart
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              void handleShopOnInstacart(recipe);
+                            }}
+                            disabled={instacartLoading === (recipe.id || recipe.name)}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-[#43B02A] text-white text-[11px] font-semibold hover:bg-[#38941f] transition-colors disabled:opacity-50"
+                          >
+                            {instacartLoading === (recipe.id || recipe.name) ? "⟳ Creating..." : "🥕 Shop on Instacart"}
                           </button>
                         </div>
                       </div>
