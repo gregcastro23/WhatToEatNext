@@ -83,7 +83,7 @@ export default function RootLayout({
                     <NotificationBell />
                     {/* Hamburger toggle for mobile */}
                     <MobileNavToggle>
-                      <Link href="/#cuisines" className="px-4 py-3 rounded-xl bg-purple-900/50 hover:bg-purple-800/70 text-purple-200 hover:text-white font-semibold text-sm border border-purple-500/30 transition-all">🍽️ Cuisines</Link>
+                      <Link href="/cuisines" className="px-4 py-3 rounded-xl bg-purple-900/50 hover:bg-purple-800/70 text-purple-200 hover:text-white font-semibold text-sm border border-purple-500/30 transition-all">🍽️ Cuisines</Link>
                       <Link href="/#ingredients" className="px-4 py-3 rounded-xl bg-green-900/40 hover:bg-green-800/60 text-green-200 hover:text-white font-semibold text-sm border border-green-500/30 transition-all">🥬 Ingredients</Link>
                       <Link href="/cooking-methods" className="px-4 py-3 rounded-xl bg-orange-900/40 hover:bg-orange-800/60 text-orange-200 hover:text-white font-semibold text-sm border border-orange-500/30 transition-all">🔥 Cooking Methods</Link>
                       <Link href="/menu-planner" className="px-4 py-3 rounded-xl bg-purple-900/50 hover:bg-purple-800/70 text-purple-200 hover:text-white font-semibold text-sm border border-purple-500/30 transition-all">📅 Menu Planner</Link>
@@ -104,7 +104,7 @@ export default function RootLayout({
                     className="hidden xl:flex flex-wrap justify-end gap-3 w-full"
                     aria-label="Main navigation"
                   >
-                    <Link href="/#cuisines" className="px-3 py-2 rounded-lg bg-purple-900/50 hover:bg-purple-800/70 text-purple-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-500/30" aria-label="Explore cuisines">🍽️ Cuisines</Link>
+                    <Link href="/cuisines" className="px-3 py-2 rounded-lg bg-purple-900/50 hover:bg-purple-800/70 text-purple-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-500/30" aria-label="Explore cuisines">🍽️ Cuisines</Link>
                     <Link href="/#ingredients" className="px-3 py-2 rounded-lg bg-green-900/40 hover:bg-green-800/60 text-green-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-500/30" aria-label="Browse ingredients">🥬 Ingredients</Link>
                     <Link href="/cooking-methods" className="px-3 py-2 rounded-lg bg-orange-900/40 hover:bg-orange-800/60 text-orange-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-orange-500/30" aria-label="Discover cooking methods">🔥 Cooking Methods</Link>
                     <Link href="/menu-planner" className="px-3 py-2 rounded-lg bg-purple-900/50 hover:bg-purple-800/70 text-purple-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-500/30" aria-label="Plan your weekly menu">📅 Menu Planner</Link>
@@ -144,7 +144,7 @@ export default function RootLayout({
                   <ul className="space-y-2 text-sm">
                     <li>
                       <Link
-                        href="/#cuisines"
+                        href="/cuisines"
                         className="text-gray-300 hover:text-purple-300 transition-colors"
                       >
                         🍽️ Cuisines

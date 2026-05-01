@@ -32,7 +32,7 @@ export default function RestaurantsPageClient() {
     <main className="min-h-screen bg-[#08080e] text-white">
       <div className="max-w-4xl mx-auto px-4 pt-8 pb-16">
         <Link
-          href="/#cuisines"
+          href="/cuisines"
           className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-orange-300 transition-colors mb-6"
         >
           ← Back to cuisines

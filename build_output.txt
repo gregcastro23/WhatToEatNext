@@ -1,0 +1,312 @@
+
+> what-to-eat-next@2.0.0 prebuild
+> node scripts/check-node-version.cjs
+
+Node version v20.19.3 satisfies >=22 (Relaxed for v20)
+
+> what-to-eat-next@2.0.0 build
+> next build
+
+   ▲ Next.js 15.5.15
+   - Environments: .env.local, .env.production, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+ ✓ (pwa) Compiling for server...
+ ✓ (pwa) Compiling for server...
+ ✓ (pwa) Compiling for client (static)...
+ ○ (pwa) Service worker: /Users/GregCastro/Desktop/WhatToEatNext/public/sw.js
+ ○ (pwa)   URL: /sw.js
+ ○ (pwa)   Scope: /
+ ✓ Compiled successfully in 13.4s
+   Linting and checking validity of types ...
+
+./src/app/api/alchm-quantities/echoes/route.ts
+14:1  Warning: `@/utils/historicalEchoFinder` import should occur before import of `@/utils/logger`  import/order
+
+./src/app/api/alchm-quantities/route.ts
+16:1  Warning: `@/services/HistoricalStatsService` import should occur before import of `@/services/RealAlchemizeService`  import/order
+
+./src/app/api/alchm-quantities/statistics/route.ts
+14:1  Warning: `@/utils/alchemicalSampleLookup` import should occur before import of `@/utils/logger`  import/order
+
+./src/app/api/commensal/guest-recommendations/route.ts
+3:1  Warning: `@/services/groupNatalChartService` import should occur before import of `@/services/natalChartService`  import/order
+4:1  Warning: `@/services/EnhancedRecommendationService` import should occur before import of `@/services/natalChartService`  import/order
+7:1  Warning: `@/types/alchemy` type import should occur before import of `@/utils/cuisineRecommender`  import/order
+8:1  Warning: `@/types/natalChart` type import should occur before import of `@/utils/cuisineRecommender`  import/order
+
+./src/app/api/commensal/save-group/route.ts
+15:1  Warning: `next/server` type import should occur after type import of `@/types/natalChart`  import/order
+
+./src/app/api/generate-cosmic-recipe/route.ts
+25:1  Warning: `@/services/HistoricalStatsService` import should occur before import of `@/services/questEventReporter`  import/order
+26:1  Warning: `@/services/RealAlchemizeService` import should occur before import of `@/services/subscriptionService`  import/order
+188:9  Warning: 'esms' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/api/recommendations/recipes/route.ts
+3:1  Warning: `@/services/HistoricalStatsService` import should occur before import of `@/services/LocalRecipeService`  import/order
+
+./src/app/commensal/page.tsx
+4:1  Warning: `@/components/onboarding/LocationSearch` import should occur after import of `@/components/commensal/skeletons`  import/order
+64:9  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+75:11  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+85:11  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+194:15  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+
+./src/components/BackendStatus.tsx
+71:23  Warning: This assertion is unnecessary since it does not change the type of the expression.  @typescript-eslint/no-unnecessary-type-assertion
+116:6  Warning: React Hook useEffect has a missing dependency: 'runDemoCalculations'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/HistoricalEchoes.tsx
+158:5  Warning: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
+
+./src/components/IngredientCard.tsx
+12:1  Warning: `@/data/ingredients/ingredientSummaries` import should occur before type import of `@/types`  import/order
+130:41  Warning: This assertion is unnecessary since it does not change the type of the expression.  @typescript-eslint/no-unnecessary-type-assertion
+133:89  Warning: This assertion is unnecessary since it does not change the type of the expression.  @typescript-eslint/no-unnecessary-type-assertion
+
+./src/components/QuantityContext.tsx
+29:1  Warning: `@/contexts/AlchemicalStatisticsContext` import should occur before import of `@/utils/statisticsCalculations`  import/order
+
+./src/components/alchm-quantities-statistics.tsx
+17:1  Warning: `@/components/QuantityContext` import should occur before import of `@/contexts/AlchemicalStatisticsContext`  import/order
+102:3  Warning: Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any').
+104:3  Warning: Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any').
+373:24  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+441:48  Warning: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+441:61  Warning: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+442:39  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/commensal/CompositeEnergyVisualizer.tsx
+4:1  Warning: `next/dynamic` import should occur before import of `react`  import/order
+
+./src/components/commensal/RecommendedRecipeCard.tsx
+61:15  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+
+./src/components/commensal/SaveGroupButton.tsx
+4:1  Warning: `next-auth/react` import should occur before import of `react`  import/order
+105:44  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/components/commensal/SignInPrompt.tsx
+3:1  Warning: `react` import should occur after import of `next-auth/react`  import/order
+
+./src/components/dashboard/CommensalManager.tsx
+4:1  Warning: `@/components/onboarding/LocationSearch` import should occur after import of `@/components/commensal/skeletons`  import/order
+5:1  Warning: `@/types/natalChart` type import should occur after import of `@/hooks/useCommensalRecommendations`  import/order
+22:11  Warning: 'GroupRecommendationResult' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/food-diary/AddToDiaryModal.tsx
+6:1  Warning: `@/types` type import should occur before type import of `@/types/menuPlanner`  import/order
+67:24  Warning: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
+69:13  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+83:13  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+97:17  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+109:17  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+119:17  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+
+./src/components/food-diary/QuickFoodInput.tsx
+284:19  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+311:21  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+321:21  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+333:19  Warning: A form label must be associated with a control.  jsx-a11y/label-has-associated-control
+
+./src/components/recommendations/EnhancedCookingMethodRecommender.tsx
+45:1  Warning: `@/utils/enhancedCompatibilityScoring` import should occur before import of `@/utils/monicaKalchmCalculations`  import/order
+53:1  Warning: Imports "MethodPhysicalReference" are only used as type.  @typescript-eslint/consistent-type-imports
+53:1  Warning: `@/data/cooking/physicalReference` import should occur before type import of `@/types/celestial`  import/order
+617:6  Warning: React Hook useMemo has a missing dependency: 'contextPlanetaryPositions'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+684:7  Warning: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
+
+./src/contexts/AlchemicalStatisticsContext.tsx
+185:5  Warning: Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any').
+
+./src/contexts/MenuPlannerContext.tsx
+1640:5  Warning: React Hook useCallback has a missing dependency: 'currentUser.userId'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/hooks/useCommensalRecommendations.ts
+18:1  Warning: There should be no empty line between import groups  import/order
+26:1  Warning: `@/services/commensalRecommendationService` import should occur after type import of `@/components/commensal/RecommendedRecipeCard`  import/order
+
+./src/hooks/usePlanetaryKinetics.ts
+34:1  Warning: `@/utils/astrology/positions` import should occur before import of `@/utils/kineticsFoodMatcher`  import/order
+
+./src/services/EnhancedRecommendationService.ts
+499:13  Warning: Variable name `composite_score` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+584:19  Warning: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
+
+./src/services/FoodDiaryService.ts
+39:1  Warning: `./questEventReporter` import should occur before import of `./TokenEconomyService`  import/order
+
+./src/services/HistoricalStatsService.ts
+3:1  Warning: `next/cache` import should occur before import of `@/services/RealAlchemizeService`  import/order
+63:15  Warning: Variable name `interval_hours` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+95:25  Warning: Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead.  @typescript-eslint/array-type
+
+./src/utils/cuisine/cuisineSauceProfiler.ts
+29:1  Warning: `@/utils/elemental/normalization` import should occur before import of `@/utils/hierarchicalRecipeCalculations`  import/order
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+[WARN] Database recipes table returned 0 rows, gracefully resolving local hardcoded payload fallback
+   Generating static pages (0/602) ...
+   Generating static pages (150/602) 
+   Generating static pages (300/602) 
+   Generating static pages (451/602) 
+ ✓ Generating static pages (602/602)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                                   Size  First Load JS
+┌ ƒ /                                                                      3.31 kB         152 kB
+├ ƒ /_not-found                                                              378 B         106 kB
+├ ƒ /admin                                                                 1.66 kB         111 kB
+├ ƒ /admin/settings                                                        1.19 kB         107 kB
+├ ƒ /admin/users                                                            2.6 kB         108 kB
+├ ƒ /api                                                                     378 B         106 kB
+├ ƒ /api/admin/dashboard                                                     378 B         106 kB
+├ ƒ /api/admin/send-test-email                                               378 B         106 kB
+├ ƒ /api/admin/users                                                         378 B         106 kB
+├ ƒ /api/admin/users/[userId]                                                378 B         106 kB
+├ ƒ /api/admin/users/[userId]/status                                         378 B         106 kB
+├ ƒ /api/alchemize                                                           378 B         106 kB
+├ ƒ /api/alchm-quantities                                                    378 B         106 kB
+├ ƒ /api/alchm-quantities/aspects                                            378 B         106 kB
+├ ƒ /api/alchm-quantities/echoes                                             378 B         106 kB
+├ ƒ /api/alchm-quantities/planetary                                          378 B         106 kB
+├ ƒ /api/alchm-quantities/statistics                                         378 B         106 kB
+├ ƒ /api/alchm-quantities/trends                                             378 B         106 kB
+├ ƒ /api/astrological/recipe-recommendations-by-chart                        378 B         106 kB
+├ ƒ /api/astrologize                                                         378 B         106 kB
+├ ƒ /api/astrology                                                           378 B         106 kB
+├ ƒ /api/auth/[...nextauth]                                                  378 B         106 kB
+├ ƒ /api/commensal/guest-recommendations                                     378 B         106 kB
+├ ƒ /api/commensal/save-group                                                378 B         106 kB
+├ ƒ /api/commensals                                                          378 B         106 kB
+├ ƒ /api/commensals/accept                                                   378 B         106 kB
+├ ƒ /api/commensals/reject                                                   378 B         106 kB
+├ ƒ /api/commensals/request                                                  378 B         106 kB
+├ ƒ /api/cuisines/recommend                                                  378 B         106 kB
+├ ƒ /api/current-moment                                                      378 B         106 kB
+├ ƒ /api/debug/natal-chart                                                   378 B         106 kB
+├ ƒ /api/economy/balance                                                     378 B         106 kB
+├ ƒ /api/economy/claim-daily                                                 378 B         106 kB
+├ ƒ /api/economy/purchase                                                    378 B         106 kB
+├ ƒ /api/economy/shop                                                        378 B         106 kB
+├ ƒ /api/economy/transactions                                                378 B         106 kB
+├ ƒ /api/economy/transmute                                                   378 B         106 kB
+├ ƒ /api/food-diary                                                          378 B         106 kB
+├ ƒ /api/food-diary/[entryId]                                                378 B         106 kB
+├ ƒ /api/food-diary/[entryId]/rate                                           378 B         106 kB
+├ ƒ /api/food-diary/insights                                                 378 B         106 kB
+├ ƒ /api/food-diary/quick-foods                                              378 B         106 kB
+├ ƒ /api/food-diary/search                                                   378 B         106 kB
+├ ƒ /api/food-lab                                                            378 B         106 kB
+├ ƒ /api/food-lab/[entryId]                                                  378 B         106 kB
+├ ƒ /api/food-lab/share/[shareToken]                                         378 B         106 kB
+├ ƒ /api/food-lab/upload                                                     378 B         106 kB
+├ ƒ /api/generate-cosmic-recipe                                              378 B         106 kB
+├ ƒ /api/geocoding                                                           378 B         106 kB
+├ ƒ /api/group-recommendations                                               378 B         106 kB
+├ ƒ /api/group/compatibility                                                 378 B         106 kB
+├ ƒ /api/group/recommendations                                               378 B         106 kB
+├ ƒ /api/health                                                              378 B         106 kB
+├ ƒ /api/ingredients/[name]                                                  378 B         106 kB
+├ ƒ /api/instacart/price-estimate                                            378 B         106 kB
+├ ƒ /api/instacart/recipe                                                    378 B         106 kB
+├ ƒ /api/instacart/retailers                                                 378 B         106 kB
+├ ƒ /api/instacart/shopping-list                                             378 B         106 kB
+├ ƒ /api/meal-plan/balance                                                   378 B         106 kB
+├ ƒ /api/menu-planner/menus                                                  378 B         106 kB
+├ ƒ /api/menu-planner/templates                                              378 B         106 kB
+├ ƒ /api/nanobanana/generate                                                 378 B         106 kB
+├ ƒ /api/notifications                                                       378 B         106 kB
+├ ƒ /api/notifications/[id]/read                                             378 B         106 kB
+├ ƒ /api/notifications/generate-insight                                      378 B         106 kB
+├ ƒ /api/notifications/read-all                                              378 B         106 kB
+├ ƒ /api/onboarding                                                          378 B         106 kB
+├ ƒ /api/personalized-recommendations                                        378 B         106 kB
+├ ƒ /api/philosophers-stone/positions                                        378 B         106 kB
+├ ƒ /api/planetary-positions                                                 378 B         106 kB
+├ ƒ /api/planetary-rectification                                             378 B         106 kB
+├ ƒ /api/premium-table                                                       378 B         106 kB
+├ ƒ /api/quests                                                              378 B         106 kB
+├ ƒ /api/quests/claim                                                        378 B         106 kB
+├ ƒ /api/quests/masters-pantry                                               378 B         106 kB
+├ ƒ /api/quests/streak                                                       378 B         106 kB
+├ ƒ /api/recipes                                                             378 B         106 kB
+├ ƒ /api/recipes/[recipeId]                                                  791 B         106 kB
+├ ƒ /api/recipes/[recipeId]/community-tips                                   378 B         106 kB
+├ ƒ /api/recipes/[recipeId]/discover                                         378 B         106 kB
+├ ƒ /api/recipes/audit                                                       378 B         106 kB
+├ ƒ /api/recipes/refine                                                      378 B         106 kB
+├ ƒ /api/recommendations/generate                                            378 B         106 kB
+├ ƒ /api/recommendations/recipes                                             378 B         106 kB
+├ ƒ /api/restaurants/search                                                  378 B         106 kB
+├ ƒ /api/sessions                                                            378 B         106 kB
+├ ƒ /api/stripe/checkout                                                     378 B         106 kB
+├ ƒ /api/stripe/portal                                                       378 B         106 kB
+├ ƒ /api/stripe/webhook                                                      378 B         106 kB
+├ ƒ /api/subscription                                                        378 B         106 kB
+├ ƒ /api/subscription/usage                                                  378 B         106 kB
+├ ƒ /api/techniques/[name]                                                   378 B         106 kB
+├ ƒ /api/transmutation_recommendations                                       378 B         106 kB
+├ ƒ /api/user/charts                                                         378 B         106 kB
+├ ƒ /api/user/commensals                                                     378 B         106 kB
+├ ƒ /api/user/commensals/[commensalId]                                       378 B         106 kB
+├ ƒ /api/user/dining-groups                                                  378 B         106 kB
+├ ƒ /api/user/dining-groups/[groupId]                                        378 B         106 kB
+├ ƒ /api/user/profile                                                        378 B         106 kB
+├ ƒ /api/user/subscription                                                   378 B         106 kB
+├ ƒ /api/users/me/meal-plan                                                  378 B         106 kB
+├ ƒ /api/users/me/recipes/[recipeId]                                         378 B         106 kB
+├ ƒ /api/users/me/recipes/custom                                             378 B         106 kB
+├ ƒ /api/users/search                                                        378 B         106 kB
+├ ƒ /api/zodiac-calendar                                                     378 B         106 kB
+├ ƒ /auth/error                                                            1.79 kB         111 kB
+├ ƒ /birth-chart                                                             203 B         116 kB
+├ ƒ /commensal                                                             5.92 kB         123 kB
+├ ƒ /cooking-methods                                                       1.94 kB         108 kB
+├ ƒ /cooking-methods/[method]                                                166 B         109 kB
+├ ƒ /cosmic-recipe                                                         45.4 kB         235 kB
+├ ƒ /current-chart                                                         1.61 kB         115 kB
+├ ƒ /food-tracking                                                         42.7 kB         269 kB
+├ ƒ /generated-recipe/[id]                                                 3.81 kB         113 kB
+├ ƒ /login                                                                 2.74 kB         112 kB
+├ ƒ /meal-plan                                                             5.99 kB         229 kB
+├ ƒ /meal-plan/groceries                                                   3.06 kB         115 kB
+├ ƒ /menu-planner                                                           100 kB         489 kB
+├ ƒ /onboarding                                                            4.01 kB         113 kB
+├ ƒ /pantry                                                                4.94 kB         114 kB
+├ ƒ /planetary-chart                                                       11.5 kB         122 kB
+├ ƒ /premium                                                               4.34 kB         113 kB
+├ ƒ /premium-table                                                         4.73 kB         157 kB
+├ ƒ /profile                                                               55.2 kB         268 kB
+├ ƒ /profile/birthchart                                                     2.8 kB         118 kB
+├ ƒ /profile/budget                                                        1.46 kB         111 kB
+├ ƒ /profile/day-night-effects                                             7.06 kB         145 kB
+├ ƒ /profile/preferences                                                    3.1 kB         115 kB
+├ ƒ /quantities                                                            17.1 kB         178 kB
+├ ƒ /recipe-builder                                                        9.03 kB         126 kB
+├ ƒ /recipe-generator                                                        13 kB         145 kB
+├ ƒ /recipes                                                               8.54 kB         142 kB
+├ ● /recipes/[recipeId]                                                    35.3 kB         258 kB
+├   ├ /recipes/african-breakfast-spring-authentic-east-african-mandazi
+├   ├ /recipes/african-breakfast-spring-authentic-north-african-shakshuka
+├   ├ /recipes/african-breakfast-spring-authentic-egyptian-ful-medames
+├   └ [+576 more paths]
+├ ƒ /restaurant-creator                                                     7.8 kB         120 kB
+├ ○ /robots.txt                                                              378 B         106 kB
+├ ƒ /sauces                                                                 275 kB        1.09 MB
+└ ○ /sitemap.xml                                                             378 B         106 kB
++ First Load JS shared by all                                               106 kB
+  ├ chunks/4696-ea06deb9598eb759.js                                          48 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js                                    54.2 kB
+  └ other shared chunks (total)                                            3.37 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

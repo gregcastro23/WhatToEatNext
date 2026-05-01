@@ -1,0 +1,110 @@
+
+> what-to-eat-next@2.0.0 lint
+> eslint --config eslint.config.mjs src --max-warnings=10000
+
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/alchm-quantities/echoes/route.ts
+  14:1  warning  `@/utils/historicalEchoFinder` import should occur before import of `@/utils/logger`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/alchm-quantities/route.ts
+  16:1  warning  `@/services/HistoricalStatsService` import should occur before import of `@/services/RealAlchemizeService`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/alchm-quantities/statistics/route.ts
+  14:1  warning  `@/utils/alchemicalSampleLookup` import should occur before import of `@/utils/logger`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/commensal/guest-recommendations/route.ts
+  3:1  warning  `@/services/groupNatalChartService` import should occur before import of `@/services/natalChartService`         import/order
+  4:1  warning  `@/services/EnhancedRecommendationService` import should occur before import of `@/services/natalChartService`  import/order
+  7:1  warning  `@/types/alchemy` type import should occur before import of `@/utils/cuisineRecommender`                        import/order
+  8:1  warning  `@/types/natalChart` type import should occur before import of `@/utils/cuisineRecommender`                     import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/commensal/save-group/route.ts
+  15:1  warning  `next/server` type import should occur after type import of `@/types/natalChart`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/generate-cosmic-recipe/route.ts
+   25:1  warning  `@/services/HistoricalStatsService` import should occur before import of `@/services/questEventReporter`  import/order
+   26:1  warning  `@/services/RealAlchemizeService` import should occur before import of `@/services/subscriptionService`   import/order
+  188:9  warning  'esms' is assigned a value but never used. Allowed unused vars must match /^_/u                           @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/recommendations/recipes/route.ts
+  3:1  warning  `@/services/HistoricalStatsService` import should occur before import of `@/services/LocalRecipeService`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/app/commensal/page.tsx
+    4:1   warning  `@/components/onboarding/LocationSearch` import should occur after import of `@/components/commensal/skeletons`  import/order
+   64:9   warning  A form label must be associated with a control                                                                   jsx-a11y/label-has-associated-control
+   75:11  warning  A form label must be associated with a control                                                                   jsx-a11y/label-has-associated-control
+   85:11  warning  A form label must be associated with a control                                                                   jsx-a11y/label-has-associated-control
+  194:15  warning  A form label must be associated with a control                                                                   jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/BackendStatus.tsx
+   71:23  warning  This assertion is unnecessary since it does not change the type of the expression                                       @typescript-eslint/no-unnecessary-type-assertion
+  116:6   warning  React Hook useEffect has a missing dependency: 'runDemoCalculations'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/HistoricalEchoes.tsx
+  158:5  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/QuantityContext.tsx
+  29:1  warning  `@/contexts/AlchemicalStatisticsContext` import should occur before import of `@/utils/statisticsCalculations`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/alchm-quantities-statistics.tsx
+   17:1   warning  `@/components/QuantityContext` import should occur before import of `@/contexts/AlchemicalStatisticsContext`  import/order
+  102:3   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  104:3   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  373:24  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                               react/no-unescaped-entities
+  441:48  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                               react/no-unescaped-entities
+  441:61  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                               react/no-unescaped-entities
+  442:39  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                               react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/commensal/CompositeEnergyVisualizer.tsx
+  4:1  warning  `next/dynamic` import should occur before import of `react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/commensal/RecommendedRecipeCard.tsx
+  61:15  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/commensal/SaveGroupButton.tsx
+    4:1   warning  `next-auth/react` import should occur before import of `react`   import/order
+  105:44  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/commensal/SignInPrompt.tsx
+  3:1  warning  `react` import should occur after import of `next-auth/react`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/dashboard/CommensalManager.tsx
+   4:1   warning  `@/components/onboarding/LocationSearch` import should occur after import of `@/components/commensal/skeletons`  import/order
+   5:1   warning  `@/types/natalChart` type import should occur after import of `@/hooks/useCommensalRecommendations`              import/order
+  22:11  warning  'GroupRecommendationResult' is defined but never used. Allowed unused vars must match /^_/u                      @typescript-eslint/no-unused-vars
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/components/recommendations/EnhancedCookingMethodRecommender.tsx
+   45:1  warning  `@/utils/enhancedCompatibilityScoring` import should occur before import of `@/utils/monicaKalchmCalculations`                                                      import/order
+   53:1  warning  Imports "MethodPhysicalReference" are only used as type                                                                                                             @typescript-eslint/consistent-type-imports
+   53:1  warning  `@/data/cooking/physicalReference` import should occur before type import of `@/types/celestial`                                                                    import/order
+  617:6  warning  React Hook useMemo has a missing dependency: 'contextPlanetaryPositions'. Either include it or remove the dependency array                                          react-hooks/exhaustive-deps
+  684:7  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/AlchemicalStatisticsContext.tsx
+  185:5  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/MenuPlannerContext.tsx
+  1640:5  warning  React Hook useCallback has a missing dependency: 'currentUser.userId'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useCommensalRecommendations.ts
+  18:1  warning  There should be no empty line between import groups                                                                                  import/order
+  26:1  warning  `@/services/commensalRecommendationService` import should occur after type import of `@/components/commensal/RecommendedRecipeCard`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/usePlanetaryKinetics.ts
+  34:1  warning  `@/utils/astrology/positions` import should occur before import of `@/utils/kineticsFoodMatcher`  import/order
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/EnhancedRecommendationService.ts
+  499:13  warning  Variable name `composite_score` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+  584:19  warning  Unexpected `await` of a non-Promise (non-"Thenable") value                                                  @typescript-eslint/await-thenable
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/services/HistoricalStatsService.ts
+   3:1   warning  `next/cache` import should occur before import of `@/services/RealAlchemizeService`                        import/order
+  63:15  warning  Variable name `interval_hours` must match one of the following formats: camelCase, PascalCase, UPPER_CASE  @typescript-eslint/naming-convention
+  95:25  warning  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead                           @typescript-eslint/array-type
+
+/Users/GregCastro/Desktop/WhatToEatNext/src/utils/cuisine/cuisineSauceProfiler.ts
+  29:1  warning  `@/utils/elemental/normalization` import should occur before import of `@/utils/hierarchicalRecipeCalculations`  import/order
+
+✖ 52 problems (0 errors, 52 warnings)
+  0 errors and 32 warnings potentially fixable with the `--fix` option.
+
