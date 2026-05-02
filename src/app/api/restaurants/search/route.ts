@@ -60,6 +60,7 @@ interface FoursquarePlaceRaw {
   }>;
   rating?: number;
   distance?: number;
+  link?: string;
 }
 
 export async function GET(request: NextRequest) {
@@ -93,7 +94,7 @@ export async function GET(request: NextRequest) {
     if (query) params.set("query", query);
     if (near) params.set("near", near);
     params.set("categories", RESTAURANT_CATEGORY_ID);
-    params.set("fields", "fsq_id,name,location,categories,rating,distance");
+    params.set("fields", "fsq_id,name,location,categories,rating,distance,link");
     params.set("limit", "15");
 
     const response = await fetch(`${FOURSQUARE_BASE}?${params.toString()}`, {
@@ -131,6 +132,7 @@ export async function GET(request: NextRequest) {
       })),
       rating: place.rating,
       distance: place.distance,
+      link: place.link ? `https://foursquare.com${place.link}` : undefined,
     }));
 
     return NextResponse.json({ success: true, results });

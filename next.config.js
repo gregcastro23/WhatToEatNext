@@ -19,6 +19,7 @@ const getSecurityHeaders = () => {
     "https://r2cdn.perplexity.ai",
     "https://vercel.live",
     "https://*.vercel.live",
+    "https://static.cloudflareinsights.com",
   ];
 
   const connectSrcParts = [
@@ -26,6 +27,8 @@ const getSecurityHeaders = () => {
     "https://vercel.live",
     "https://*.vercel.live",
     "https://accounts.google.com",
+    "https://static.cloudflareinsights.com",
+    "https://cloudflareinsights.com",
     "https:",
   ];
 
@@ -63,7 +66,7 @@ const getSecurityHeaders = () => {
     },
     {
       key: "Permissions-Policy",
-      value: "camera=(), microphone=(), geolocation=()",
+      value: "camera=(), microphone=(), geolocation=(self)",
     },
   ];
 };
@@ -164,6 +167,7 @@ const withPWA = withPWAInit({
   aggressiveFrontEndNavCaching: true,
   workboxOptions: {
     disableDevLogs: true,
+    exclude: [/dynamic-css-manifest\.json$/],
   },
 });
 

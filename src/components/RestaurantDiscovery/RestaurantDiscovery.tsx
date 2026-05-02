@@ -116,6 +116,15 @@ export function RestaurantDiscovery({
       const { business } = entry;
       if (savedIds.has(business.id)) return;
 
+      // eslint-disable-next-line no-alert
+      const dish = window.prompt(`Saving ${business.name}. What's your favorite dish here? (Optional)`);
+      const menuItems = dish && dish.trim() ? [{
+        id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+        name: dish.trim(),
+        category: "Mains" as const,
+        dietaryTags: [],
+      }] : [];
+
       const restaurant: SavedRestaurant = {
         id: `${source}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
         name: business.name,
@@ -128,10 +137,11 @@ export function RestaurantDiscovery({
           business.location.display_address.join(", ") ||
           business.location.address1 ||
           undefined,
-        menuItems: [],
+        menuItems,
         rating: business.rating,
         source,
         externalId: business.id,
+        url: business.url,
         addedAt: new Date().toISOString(),
       };
 

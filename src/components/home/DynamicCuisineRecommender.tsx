@@ -180,14 +180,21 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
       const data = await response.json();
       console.log("DynamicCuisineRecommender: API response received:", data.source);
 
-      if (data.success && data.recommendations) {
+      if (data.success) {
         // Map API response to our component's format
-        const apiCuisines: string[] = Array.isArray(data.recommendations.cuisines)
-          ? data.recommendations.cuisines
-          : Array.isArray(data.recommendations)
-            ? data.recommendations
-            : [];
+        // The backend might return cuisines in several possible fields depending on the engine
+        const apiCuisines: string[] = 
+          Array.isArray(data.recommendations?.cuisines) ? data.recommendations.cuisines :
+          Array.isArray(data.cuisines) ? data.cuisines :
+          Array.isArray(data.topCuisines) ? data.topCuisines :
+          Array.isArray(data.recommendations) ? data.recommendations :
+          [];
+        
         const recipeCounts = data.recipeCounts || {};
+
+        if (apiCuisines.length === 0) {
+          console.warn("DynamicCuisineRecommender: API response contained no cuisines. Raw data:", data);
+        }
 
         // If we got a valid response with cuisines, use it
         if (apiCuisines.length > 0) {
@@ -197,8 +204,13 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
             const nameLower = def.name.toLowerCase();
             const count = recipeCounts[nameLower] || 0;
 
-            const isRecommended = apiCuisines.includes(def.name);
-            const recommendationIndex = apiCuisines.indexOf(def.name);
+            const isRecommended = apiCuisines.some(c => 
+              typeof c === 'string' && c.toLowerCase() === nameLower
+            );
+            
+            const recommendationIndex = apiCuisines.findIndex(c => 
+              typeof c === 'string' && c.toLowerCase() === nameLower
+            );
 
             let score = 70; // Default
             if (isRecommended) {
@@ -214,7 +226,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
               reasoning: CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`,
               recipeCount: count,
               optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
-              topRecipes: [], // We'll populate this later if needed
+              topRecipes: [],
               isRetrograde: false
             });
           }
@@ -222,14 +234,14 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
           mapped.sort((a, b) => b.score - a.score);
           setRecommendations(mapped);
           setLastUpdated(new Date());
-          console.log(`DynamicCuisineRecommender: Successfully mapped ${mapped.length} cuisines from API`);
+          console.log(`DynamicCuisineRecommender: Successfully mapped ${mapped.length} cuisines from API (${data.source})`);
           setIsLoading(false);
           return;
         }
       }
 
       // If we reach here, the API response was not in the expected format — trigger legacy fallback
-      throw new Error("API response lacked usable cuisine data");
+      throw new Error("API response lacked usable cuisine data or success=false");
 
     } catch (error) {
       console.warn("DynamicCuisineRecommender: API call failed, falling back to legacy logic:", error);
