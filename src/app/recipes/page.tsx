@@ -167,12 +167,12 @@ function RecipesPageContent() {
             <p className="text-gray-400 mb-8 max-w-md mx-auto">
               Select a cuisine from the home page to see recipes sorted by your current planetary alignment.
             </p>
-            <a
+            <Link
               href="/"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-700 transition-colors"
             >
               ← Back to Home
-            </a>
+            </Link>
           </div>
         ) : recipes.length === 0 ? (
           <div className="text-center py-12">

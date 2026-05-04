@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
       if (el) elementCounts[el]++;
     });
 
-    const currentSign = (positions["Sun"]?.sign ?? "aries") as string;
+    const currentSign = positions["Sun"]?.sign ?? "aries";
     const lunarPhaseValue = calculateLunarPhase();
     const lunarPhase = getLunarPhaseName(lunarPhaseValue);
 
