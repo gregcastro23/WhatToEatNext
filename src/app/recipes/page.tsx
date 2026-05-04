@@ -124,9 +124,9 @@ function RecipesPageContent() {
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">
-            {displayCuisine} Recipes
+            {cuisine ? `${displayCuisine} Recipes` : "Recipes"}
           </h1>
-          {!isLoading && (
+          {!isLoading && cuisine && (
             <div className="flex flex-col items-center gap-4">
               <p className="text-lg text-gray-400">
                 {recipes.length} recipes
@@ -134,8 +134,8 @@ function RecipesPageContent() {
                   ? " - consulting the heavens..."
                   : " sorted by current planetary alignment"}
               </p>
-              
-              {cuisine && recipes.length > 0 && (
+
+              {recipes.length > 0 && (
                 <button
                   onClick={() => { void handleRefine(); }}
                   disabled={isRefining || isLoading || isScoring}
@@ -159,6 +159,20 @@ function RecipesPageContent() {
                 className="glass-card-premium rounded-2xl border border-white/8 animate-pulse h-48"
               />
             ))}
+          </div>
+        ) : !cuisine ? (
+          <div className="text-center py-20">
+            <p className="text-6xl mb-6">🍽️</p>
+            <h2 className="text-2xl font-bold text-white mb-3">Choose a Cuisine to Explore</h2>
+            <p className="text-gray-400 mb-8 max-w-md mx-auto">
+              Select a cuisine from the home page to see recipes sorted by your current planetary alignment.
+            </p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-700 transition-colors"
+            >
+              ← Back to Home
+            </Link>
           </div>
         ) : recipes.length === 0 ? (
           <div className="text-center py-12">

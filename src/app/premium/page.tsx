@@ -11,7 +11,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { usePremium } from "@/contexts/PremiumContext";
 import {
   TIER_LIMITS,
@@ -39,7 +39,7 @@ const TIER_STYLES: Record<
   },
 };
 
-export default function PremiumPage() {
+function PremiumPageContent() {
   const { data: session, status: authStatus } = useSession();
   const {
     subscription,
@@ -333,5 +333,17 @@ export default function PremiumPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PremiumPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+      </div>
+    }>
+      <PremiumPageContent />
+    </Suspense>
   );
 }

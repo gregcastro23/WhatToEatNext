@@ -12,15 +12,23 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function PUT(request: NextRequest) {
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
+  try {
+    const userId = await getUserIdFromRequest(request);
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
+      );
+    }
+
+    const count = await notificationDatabase.markAllAsRead(userId);
+
+    return NextResponse.json({ success: true, count });
+  } catch (error) {
+    console.error("[notifications/read-all] Error:", error);
     return NextResponse.json(
-      { success: false, message: "Authentication required" },
-      { status: 401 },
+      { success: false, message: "Failed to mark notifications as read" },
+      { status: 500 },
     );
   }
-
-  const count = await notificationDatabase.markAllAsRead(userId);
-
-  return NextResponse.json({ success: true, count });
 }

@@ -13,22 +13,30 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
-    return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
-  }
+  try {
+    const userId = await getUserIdFromRequest(request);
+    if (!userId) {
+      return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
+    }
 
-  const { searchParams } = new URL(request.url);
-  const query = searchParams.get("q");
+    const { searchParams } = new URL(request.url);
+    const query = searchParams.get("q");
 
-  if (!query || query.length < 3) {
+    if (!query || query.length < 3) {
+      return NextResponse.json(
+        { success: false, message: "Query must be at least 3 characters" },
+        { status: 400 },
+      );
+    }
+
+    const users = await commensalDatabase.searchUsers(query, userId, 10);
+
+    return NextResponse.json({ success: true, users });
+  } catch (error) {
+    console.error("[users/search] Error:", error);
     return NextResponse.json(
-      { success: false, message: "Query must be at least 3 characters" },
-      { status: 400 },
+      { success: false, message: "Failed to search users" },
+      { status: 500 },
     );
   }
-
-  const users = await commensalDatabase.searchUsers(query, userId, 10);
-
-  return NextResponse.json({ success: true, users });
 }
