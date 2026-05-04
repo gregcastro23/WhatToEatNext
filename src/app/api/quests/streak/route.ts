@@ -13,25 +13,33 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
+  try {
+    const userId = await getUserIdFromRequest(request);
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
+      );
+    }
+
+    const streak = await streakService.getStreak(userId);
+    const isAlive = await streakService.isStreakAlive(userId);
+    const currentMultiplier = getStreakMultiplier(streak.currentStreak);
+
+    return NextResponse.json({
+      success: true,
+      streak,
+      isAlive,
+      currentMultiplier: Math.round(currentMultiplier * 100) / 100,
+      nextMilestone: getNextMilestone(streak.currentStreak),
+    });
+  } catch (error) {
+    console.error("[quests/streak] Error:", error);
     return NextResponse.json(
-      { success: false, message: "Authentication required" },
-      { status: 401 },
+      { success: false, message: "Failed to fetch streak data" },
+      { status: 500 },
     );
   }
-
-  const streak = await streakService.getStreak(userId);
-  const isAlive = await streakService.isStreakAlive(userId);
-  const currentMultiplier = getStreakMultiplier(streak.currentStreak);
-
-  return NextResponse.json({
-    success: true,
-    streak,
-    isAlive,
-    currentMultiplier: Math.round(currentMultiplier * 100) / 100,
-    nextMilestone: getNextMilestone(streak.currentStreak),
-  });
 }
 
 function getNextMilestone(current: number): { days: number; label: string } | null {
