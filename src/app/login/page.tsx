@@ -8,7 +8,7 @@ function LoginContent() {
   const { status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadingTooLong, setLoadingTooLong] = useState(false);
 
@@ -43,14 +43,14 @@ function LoginContent() {
     }
   }, [searchParams]);
 
-  const handleGoogleSignIn = async () => {
-    setIsSigningIn(true);
+  const handleSignIn = async (provider: string) => {
+    setIsSigningIn(provider);
     setError(null);
     try {
-      await signIn('google', { callbackUrl: '/profile' });
+      await signIn(provider, { callbackUrl: '/profile' });
     } catch {
       setError('Something went wrong. Please try again.');
-      setIsSigningIn(false);
+      setIsSigningIn(null);
     }
   };
 
@@ -101,29 +101,51 @@ function LoginContent() {
             </div>
           )}
 
-          {/* Google Sign-In Button */}
-          <button
-            disabled={isSigningIn}
-            onClick={() => { void handleGoogleSignIn(); }}
-            className="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-semibold rounded-2xl text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-[#0A0A0F] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:-translate-y-0.5 active:translate-y-0"
-          >
-            {isSigningIn ? (
-              <span className="flex items-center gap-3">
-                <span className="animate-spin h-5 w-5 border-2 border-gray-800 border-t-transparent rounded-full" />
-                <span>Connecting...</span>
-              </span>
-            ) : (
-              <span className="flex items-center gap-3">
-                <svg className="w-5 h-5 transition-transform group-hover:scale-110 duration-300" viewBox="0 0 24 24">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-                Continue with Google
-              </span>
-            )}
-          </button>
+          {/* Sign-In Buttons */}
+          <div className="space-y-3">
+            <button
+              disabled={!!isSigningIn}
+              onClick={() => { void handleSignIn('google'); }}
+              className="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-semibold rounded-2xl text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-[#0A0A0F] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:-translate-y-0.5 active:translate-y-0"
+            >
+              {isSigningIn === 'google' ? (
+                <span className="flex items-center gap-3">
+                  <span className="animate-spin h-5 w-5 border-2 border-gray-800 border-t-transparent rounded-full" />
+                  <span>Connecting...</span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-3">
+                  <svg className="w-5 h-5 transition-transform group-hover:scale-110 duration-300" viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                  Continue with Google
+                </span>
+              )}
+            </button>
+
+            <button
+              disabled={!!isSigningIn}
+              onClick={() => { void handleSignIn('amazon'); }}
+              className="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-semibold rounded-2xl text-black bg-[#FF9900] hover:bg-[#FFB347] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:ring-offset-[#0A0A0F] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(255,153,0,0.15)] hover:shadow-[0_0_25px_rgba(255,153,0,0.25)] hover:-translate-y-0.5 active:translate-y-0"
+            >
+              {isSigningIn === 'amazon' ? (
+                <span className="flex items-center gap-3">
+                  <span className="animate-spin h-5 w-5 border-2 border-gray-800 border-t-transparent rounded-full" />
+                  <span>Connecting...</span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-3">
+                  <svg className="w-5 h-5 transition-transform group-hover:scale-110 duration-300" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M.045 18.02c.071-.116.178-.221.322-.314C2.271 16.3 4.548 15.147 7.009 14.232c.122-.046.186.017.226.074.132.194.346.382.479.557.089.118.038.182-.065.228-2.015.896-3.907 1.899-5.646 3.086-.078.053-.124.063-.162-.01a4.063 4.063 0 0 1-.396-.647c-.043-.084-.036-.148.045-.224l.555-.484zM6.09 19.633c.22-.4.463-.759.73-1.09.157-.195.254-.167.393-.015 1.088 1.178 2.387 1.826 3.9 1.992.612.067 1.227.045 1.84-.08 1.39-.282 2.137-1.257 2.2-2.686.048-1.082-.36-1.93-1.24-2.584-.642-.478-1.384-.79-2.157-1.032a17.14 17.14 0 0 1-1.953-.752c-1.266-.573-2.315-1.364-2.94-2.658-.354-.733-.5-1.517-.428-2.337.109-1.24.657-2.27 1.6-3.078C9.197 4.35 10.6 3.88 12.183 3.88c1.27 0 2.438.319 3.493.932.146.085.185.166.113.326-.12.265-.226.54-.31.824-.063.212-.13.225-.33.116a6.378 6.378 0 0 0-3.14-.762c-.956.028-1.822.28-2.574.828-1.078.787-1.49 1.84-1.321 3.104.108.806.548 1.435 1.183 1.933.593.466 1.274.788 1.986 1.047.859.312 1.738.582 2.57.961 1.121.51 2.073 1.2 2.673 2.307.4.738.554 1.537.503 2.375-.08 1.306-.555 2.404-1.5 3.29-.691.647-1.51 1.07-2.434 1.307-.654.167-1.32.217-1.994.174-1.503-.096-2.827-.637-3.982-1.572-.065-.053-.136-.1-.203-.154l-.055.003z" />
+                  </svg>
+                  Continue with Amazon
+                </span>
+              )}
+            </button>
+          </div>
 
           {loadingTooLong && (
             <p className="mt-4 text-xs text-orange-400/80 text-center animate-pulse">

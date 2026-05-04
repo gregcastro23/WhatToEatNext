@@ -32,15 +32,46 @@ function getAuthSecret(): string | undefined {
   return undefined;
 }
 
-export const authConfig = {
-  secret: getAuthSecret(),
-  trustHost: true, // Unconditionally trust host for v5 compatibility across all platforms
-  providers: [
+function buildProviders() {
+  const providers: any[] = [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
-  ],
+  ];
+
+  if (process.env.AUTH_AMAZON_ID && process.env.AUTH_AMAZON_SECRET) {
+    providers.push({
+      id: "amazon",
+      name: "Amazon",
+      type: "oauth",
+      clientId: process.env.AUTH_AMAZON_ID,
+      clientSecret: process.env.AUTH_AMAZON_SECRET,
+      authorization: {
+        url: "https://www.amazon.com/ap/oa",
+        params: { scope: "profile" },
+      },
+      token: "https://api.amazon.com/auth/o2/token",
+      userinfo: "https://api.amazon.com/user/profile",
+      profile(profile: any) {
+        return {
+          id: profile.user_id,
+          name: profile.name,
+          email: profile.email,
+          image: null,
+        };
+      },
+      style: { bg: "#FF9900", text: "#000" },
+    } as any);
+  }
+
+  return providers;
+}
+
+export const authConfig = {
+  secret: getAuthSecret(),
+  trustHost: true,
+  providers: buildProviders(),
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days - keep users logged in

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * RestaurantDiscovery — "Order it" parallel to the Instacart "Cook it" CTA.
+ * RestaurantDiscovery — "Order it" parallel to the Amazon "Cook it" CTA.
  *
  * Fetches alchm-scored restaurants from POST /api/restaurants/search using
  * Yelp Fusion under the hood. The Yelp API key never reaches the client.

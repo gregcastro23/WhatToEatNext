@@ -1,3 +1,5 @@
+// DEPRECATED: Retained pending Instacart production API key approval. Do not call from UI.
+// Checkout is now handled by the Amazon Associates Cart POST form (src/data/amazon).
 /**
  * Instacart Shopping List API Route
  *
