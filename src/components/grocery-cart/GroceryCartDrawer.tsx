@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
+import { AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 
 export function GroceryCartDrawer() {
   const {
@@ -12,24 +13,30 @@ export function GroceryCartDrawer() {
     removeItem,
     updateQuantity,
     clear,
-    checkoutToInstacart,
+    checkoutToAmazon,
+    unmappedItems,
   } = useGroceryCart();
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     setCheckingOut(true);
     try {
-      const url = await checkoutToInstacart();
-      showToast("Opening Instacart with your cart...", "success");
-      window.open(url, "_blank", "noopener,noreferrer");
+      const count = checkoutToAmazon();
+      if (count === 0) {
+        showToast("No items could be matched to Amazon products.", "error");
+      } else {
+        showToast(`Opening Amazon with ${count} item${count !== 1 ? "s" : ""} in your cart...`, "success");
+      }
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Failed to send to Instacart.";
+      const msg = err instanceof Error ? err.message : "Failed to send to Amazon.";
       showToast(msg, "error");
     } finally {
       setCheckingOut(false);
     }
   };
+
+  const mappedCount = items.length - unmappedItems.length;
 
   return (
     <>
@@ -92,8 +99,23 @@ export function GroceryCartDrawer() {
                 >
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold text-white capitalize truncate">
-                        {item.name}
+                      <div className="flex items-center gap-2">
+                        <div className="text-sm font-semibold text-white capitalize truncate">
+                          {item.name}
+                        </div>
+                        {item.asin ? (
+                          <span className="shrink-0 w-2 h-2 rounded-full bg-green-400" title="Available on Amazon" />
+                        ) : (
+                          <a
+                            href={`https://www.amazon.com/s?k=${encodeURIComponent(item.name + " grocery")}&tag=${AMAZON_ASSOCIATE_TAG}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="shrink-0 text-[9px] text-yellow-400 hover:text-yellow-300 underline"
+                            title="Search on Amazon"
+                          >
+                            search
+                          </a>
+                        )}
                       </div>
                       <div className="mt-1 flex items-center gap-2">
                         <button
@@ -149,20 +171,42 @@ export function GroceryCartDrawer() {
         {/* Footer actions */}
         {items.length > 0 && (
           <div className="border-t border-purple-500/30 p-4 space-y-2 bg-black/40">
+            {unmappedItems.length > 0 && (
+              <div className="mb-2">
+                <p className="text-xs text-yellow-400/80 mb-1">
+                  {unmappedItems.length} item{unmappedItems.length !== 1 ? "s" : ""} not auto-matched (yellow dot):
+                </p>
+                <div className="flex flex-wrap gap-1">
+                  {unmappedItems.map((item) => (
+                    <a
+                      key={item.id}
+                      href={`https://www.amazon.com/s?k=${encodeURIComponent(item.name + " grocery")}&tag=${AMAZON_ASSOCIATE_TAG}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/20 text-[10px] text-yellow-300 hover:bg-yellow-500/20 transition-colors"
+                    >
+                      {item.name}
+                      <span className="text-yellow-500/60">&#8599;</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
             <button
               type="button"
-              onClick={() => void handleCheckout()}
-              disabled={checkingOut}
+              onClick={handleCheckout}
+              disabled={checkingOut || mappedCount === 0}
               className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm hover:from-orange-400 hover:to-amber-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {checkingOut ? (
                 <>
                   <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                  Sending to Instacart...
+                  Sending to Amazon...
                 </>
               ) : (
                 <>
-                  <span aria-hidden>🛍️</span> Checkout with Instacart
+                  <AmazonIcon />
+                  Checkout with Amazon ({mappedCount} item{mappedCount !== 1 ? "s" : ""})
                 </>
               )}
             </button>
@@ -177,6 +221,14 @@ export function GroceryCartDrawer() {
         )}
       </aside>
     </>
+  );
+}
+
+function AmazonIcon() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M.045 18.02c.071-.116.178-.221.322-.314C2.271 16.3 4.548 15.147 7.009 14.232c.122-.046.186.017.226.074.132.194.346.382.479.557.089.118.038.182-.065.228-2.015.896-3.907 1.899-5.646 3.086-.078.053-.124.063-.162-.01a4.063 4.063 0 0 1-.396-.647c-.043-.084-.036-.148.045-.224l.555-.484zM6.09 19.633c.22-.4.463-.759.73-1.09.157-.195.254-.167.393-.015 1.088 1.178 2.387 1.826 3.9 1.992.612.067 1.227.045 1.84-.08 1.39-.282 2.137-1.257 2.2-2.686.048-1.082-.36-1.93-1.24-2.584-.642-.478-1.384-.79-2.157-1.032a17.14 17.14 0 0 1-1.953-.752c-1.266-.573-2.315-1.364-2.94-2.658-.354-.733-.5-1.517-.428-2.337.109-1.24.657-2.27 1.6-3.078C9.197 4.35 10.6 3.88 12.183 3.88c1.27 0 2.438.319 3.493.932.146.085.185.166.113.326-.12.265-.226.54-.31.824-.063.212-.13.225-.33.116a6.378 6.378 0 0 0-3.14-.762c-.956.028-1.822.28-2.574.828-1.078.787-1.49 1.84-1.321 3.104.108.806.548 1.435 1.183 1.933.593.466 1.274.788 1.986 1.047.859.312 1.738.582 2.57.961 1.121.51 2.073 1.2 2.673 2.307.4.738.554 1.537.503 2.375-.08 1.306-.555 2.404-1.5 3.29-.691.647-1.51 1.07-2.434 1.307-.654.167-1.32.217-1.994.174-1.503-.096-2.827-.637-3.982-1.572-.065-.053-.136-.1-.203-.154l-.055.003z" />
+    </svg>
   );
 }
 

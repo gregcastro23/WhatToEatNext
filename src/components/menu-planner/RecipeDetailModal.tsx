@@ -15,7 +15,7 @@ import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { RestaurantDiscovery } from "@/components/RestaurantDiscovery";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
-import { instacartService } from "@/services/InstacartService";
+import { resolveAsin, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import type { DietaryMode } from "@/utils/dietaryAdaptation";
@@ -148,9 +148,8 @@ export default function RecipeDetailModal({
   const [dietaryMode, setDietaryMode] = useState<DietaryMode | null>(null);
   const [timeBudget, setTimeBudget] = useState<TimeBudget | null>(null);
 
-  // Instacart recipe page state
-  const [instacartLoading, setInstacartLoading] = useState(false);
-  const [instacartError, setInstacartError] = useState<string | null>(null);
+  const [amazonLoading, setAmazonLoading] = useState(false);
+  const [amazonError, setAmazonError] = useState<string | null>(null);
 
   const {
     isFavorite,
@@ -168,43 +167,60 @@ export default function RecipeDetailModal({
       markViewed(recipe.id);
       setNoteText(getRecipeNote(recipe.id));
       setServingMultiplier(1);
-      setInstacartError(null);
+      setAmazonError(null);
       setDietaryMode(null);
       setTimeBudget(null);
     }
   }, [isOpen, recipe.id, markViewed, getRecipeNote]);
 
-  // Handle "Shop This Recipe" on Instacart
-  const handleShopOnInstacart = async () => {
-    setInstacartLoading(true);
-    setInstacartError(null);
+  const handleShopOnAmazon = () => {
+    setAmazonLoading(true);
+    setAmazonError(null);
     try {
-      // Parse timeToMake string (e.g. "30 min", "1h 15m") to minutes number
-      const parseCookingTime = (t?: string): number | undefined => {
-        if (!t) return undefined;
-        const mins = parseInt(t, 10);
-        return isNaN(mins) ? undefined : mins;
-      };
+      const items = recipe.ingredients
+        .map((ing) => ({ name: ing.name, asin: resolveAsin(ing.name) }))
+        .filter((x) => x.asin);
 
-      const url = await instacartService.createRecipePage({
-        id: recipe.id,
-        name: recipe.name,
-        ingredients: recipe.ingredients.map((ing) => ({
-          name: ing.name,
-          amount: ing.amount,
-          unit: ing.unit,
-        })),
-        instructions: recipe.instructions,
-        servings: recipe.servingSize || recipe.numberOfServings || 4,
-        cookingTime: parseCookingTime(recipe.timeToMake),
-        inventory,
+      if (items.length === 0) {
+        setAmazonError("No ingredients could be matched to Amazon products.");
+        return;
+      }
+
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "https://www.amazon.com/gp/aws/cart/add.html";
+      form.target = "_blank";
+      form.style.display = "none";
+
+      const tagInput = document.createElement("input");
+      tagInput.type = "hidden";
+      tagInput.name = "AssociateTag";
+      tagInput.value = AMAZON_ASSOCIATE_TAG;
+      form.appendChild(tagInput);
+
+      items.forEach((item, idx) => {
+        const pos = idx + 1;
+        const asinInput = document.createElement("input");
+        asinInput.type = "hidden";
+        asinInput.name = `ASIN.${pos}`;
+        asinInput.value = item.asin!;
+        form.appendChild(asinInput);
+
+        const qtyInput = document.createElement("input");
+        qtyInput.type = "hidden";
+        qtyInput.name = `Quantity.${pos}`;
+        qtyInput.value = "1";
+        form.appendChild(qtyInput);
       });
-      window.open(url, "_blank", "noopener,noreferrer");
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Failed to create recipe page";
-      setInstacartError(message);
+      const message = error instanceof Error ? error.message : "Failed to open Amazon";
+      setAmazonError(message);
     } finally {
-      setInstacartLoading(false);
+      setAmazonLoading(false);
     }
   };
 
@@ -423,24 +439,24 @@ export default function RecipeDetailModal({
                     Cook it
                   </div>
                   <button
-                    onClick={() => { void handleShopOnInstacart(); }}
-                    disabled={instacartLoading}
-                    className="px-4 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    onClick={handleShopOnAmazon}
+                    disabled={amazonLoading}
+                    className="px-4 py-2 bg-[#FF9900] text-black rounded-lg hover:bg-[#FFB347] text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                   >
-                    {instacartLoading ? (
+                    {amazonLoading ? (
                       <>
                         <span className="animate-spin inline-block">⟳</span>
-                        Creating recipe page...
+                        Opening Amazon...
                       </>
                     ) : (
                       <>
                         <span>🛒</span>
-                        Shop This Recipe on Instacart
+                        Shop This Recipe on Amazon
                       </>
                     )}
                   </button>
-                  {instacartError && (
-                    <p className="text-xs text-red-500 mt-1">{instacartError}</p>
+                  {amazonError && (
+                    <p className="text-xs text-red-500 mt-1">{amazonError}</p>
                   )}
 
                   {/* Order it — Yelp-powered alchm-scored restaurants */}

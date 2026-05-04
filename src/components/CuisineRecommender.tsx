@@ -10,7 +10,7 @@ import { useToast } from '@/components/ToastProvider';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 import { useGroceryCart } from '@/contexts/GroceryCartContext';
-import { instacartService } from '@/services/instacartService';
+import { resolveAsin, AMAZON_ASSOCIATE_TAG } from '@/data/amazon';
 // @ts-expect-error - Auto-fixed by script
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
@@ -89,8 +89,7 @@ export default function CuisineRecommender() {
   const [topRecommendedSauces, setTopRecommendedSauces] = useState<any[]>([]);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
-  const [instacartLoading, setInstacartLoading] = useState<string | null>(null);
-  const [instacartError, setInstacartError] = useState<string | null>(null);
+  const [amazonLoading, setAmazonLoading] = useState<string | null>(null);
   const recipesSectionRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const { addRecipe: addRecipeToGroceryCart, open: openGroceryCart } = useGroceryCart();
@@ -108,37 +107,54 @@ export default function CuisineRecommender() {
     router.push(`/restaurants?cuisine=${encodeURIComponent(cuisineName)}`);
   }, [router]);
 
-  const handleShopOnInstacart = async (recipe: any) => {
-    setInstacartLoading(recipe.id || recipe.name);
-    setInstacartError(null);
+  const handleShopOnAmazon = (recipe: any) => {
+    setAmazonLoading(recipe.id || recipe.name);
     try {
-      const parseCookingTime = (t?: string): number | undefined => {
-        if (!t) return undefined;
-        const mins = parseInt(t, 10);
-        return isNaN(mins) ? undefined : mins;
-      };
-
       const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients.map((ing: any) => {
-        if (typeof ing === 'string') return { name: ing, amount: 1, unit: 'each' };
-        return { name: ing.name, amount: ing.amount || 1, unit: ing.unit || 'each' };
-      }).filter((x: any) => x && x.name) : [];
+        const name = typeof ing === 'string' ? ing : ing.name;
+        return name ? { name, asin: resolveAsin(name) } : null;
+      }).filter((x: any) => x && x.asin) : [];
 
-      const url = await instacartService.createRecipePage({
-        id: String(recipe.id || recipe.name),
-        name: recipe.name,
-        ingredients,
-        instructions: recipe.instructions,
-        servings: recipe.servingSize || recipe.numberOfServings || 4,
-        cookingTime: parseCookingTime(recipe.timeToMake || recipe.cookTime),
-        inventory: [],
+      if (ingredients.length === 0) {
+        showToast("No ingredients could be matched to Amazon products.", "error");
+        return;
+      }
+
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "https://www.amazon.com/gp/aws/cart/add.html";
+      form.target = "_blank";
+      form.style.display = "none";
+
+      const tagInput = document.createElement("input");
+      tagInput.type = "hidden";
+      tagInput.name = "AssociateTag";
+      tagInput.value = AMAZON_ASSOCIATE_TAG;
+      form.appendChild(tagInput);
+
+      ingredients.forEach((item: any, idx: number) => {
+        const pos = idx + 1;
+        const asinInput = document.createElement("input");
+        asinInput.type = "hidden";
+        asinInput.name = `ASIN.${pos}`;
+        asinInput.value = item.asin;
+        form.appendChild(asinInput);
+
+        const qtyInput = document.createElement("input");
+        qtyInput.type = "hidden";
+        qtyInput.name = `Quantity.${pos}`;
+        qtyInput.value = "1";
+        form.appendChild(qtyInput);
       });
-      window.open(url, "_blank", "noopener,noreferrer");
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Failed to create recipe page";
-      setInstacartError(message);
+      const message = error instanceof Error ? error.message : "Failed to open Amazon";
       showToast(message, "error");
     } finally {
-      setInstacartLoading(null);
+      setAmazonLoading(null);
     }
   };
 
@@ -901,7 +917,7 @@ export default function CuisineRecommender() {
                           </div>
                         )}
 
-                        {/* Recipe sub-card actions: open full page, add to grocery cart, shop on Instacart */}
+                        {/* Recipe sub-card actions: open full page, add to grocery cart, shop on Amazon */}
                         <div className="mt-3 pt-2 border-t border-gray-100 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
                           {buildRecipeHref(recipe) && (
                             <Link
@@ -925,12 +941,12 @@ export default function CuisineRecommender() {
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
-                              void handleShopOnInstacart(recipe);
+                              handleShopOnAmazon(recipe);
                             }}
-                            disabled={instacartLoading === (recipe.id || recipe.name)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-[#43B02A] text-white text-[11px] font-semibold hover:bg-[#38941f] transition-colors disabled:opacity-50"
+                            disabled={amazonLoading === (recipe.id || recipe.name)}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-[#FF9900] text-black text-[11px] font-semibold hover:bg-[#FFB347] transition-colors disabled:opacity-50"
                           >
-                            {instacartLoading === (recipe.id || recipe.name) ? "⟳ Creating..." : "🥕 Shop on Instacart"}
+                            {amazonLoading === (recipe.id || recipe.name) ? "⟳ Opening..." : "🛒 Shop on Amazon"}
                           </button>
                         </div>
                       </div>

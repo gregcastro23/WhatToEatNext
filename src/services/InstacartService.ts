@@ -1,12 +1,17 @@
 /**
  * Instacart Developer Platform Service
  *
- * Production-grade singleton that orchestrates all IDP API calls
- * through our server-side Next.js routes:
+ * RETAINED FOR: retailer discovery and price intelligence ONLY.
+ * Checkout is handled by the Amazon Associates integration in `src/data/amazon`.
+ * Do not add new checkout flows here.
  *
- *   /api/instacart/shopping-list  → POST /idp/v1/products/products_link
- *   /api/instacart/recipe         → POST /idp/v1/products/recipe
- *   /api/instacart/retailers      → GET  /idp/v1/retailers
+ * Active capabilities:
+ *   /api/instacart/retailers       → GET  /idp/v1/retailers (hyperlocal store discovery)
+ *   /api/instacart/price-estimate  → price intelligence for budget planning
+ *
+ * Deprecated capabilities (pending Instacart production API key review):
+ *   /api/instacart/shopping-list   → replaced by Amazon Cart POST form
+ *   /api/instacart/recipe          → replaced by Amazon Cart POST form
  *
  * The API key lives server-side only (INSTACART_API_KEY) — never exposed
  * to the client. This service calls our own API routes which proxy to IDP.

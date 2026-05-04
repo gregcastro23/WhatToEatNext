@@ -15,6 +15,7 @@
  */
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
+import { CookingEquipmentPanel } from "@/components/CookingEquipmentPanel";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import type { KineticMetrics } from "@/calculations/kinetics";
 import {
@@ -89,7 +90,7 @@ interface CategoryConfig {
   methods: Record<string, MethodData>;
 }
 
-type ExpandedTab = "overview" | "thermo" | "kinetics" | "conditions" | "recipes";
+type ExpandedTab = "overview" | "thermo" | "kinetics" | "conditions" | "recipes" | "equipment";
 
 interface CurrentMomentPayload {
   success: boolean;
@@ -692,6 +693,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     { key: "kinetics", label: "Kinetics", icon: "⚡" },
     { key: "conditions", label: "Conditions", icon: "🎯" },
     { key: "recipes", label: "Aligned Recipes", icon: "🍱" },
+    { key: "equipment", label: "Equipment", icon: "🛒" },
   ];
 
   const renderRecipesTab = (method: (typeof currentMethods)[0]) => {
@@ -1485,6 +1487,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                   {expandedTab === "kinetics" && renderKineticsTab(method)}
                   {expandedTab === "conditions" && renderConditionsTab(method)}
                   {expandedTab === "recipes" && renderRecipesTab(method)}
+                  {expandedTab === "equipment" && (
+                    <CookingEquipmentPanel methodKey={method.id} methodName={method.name} />
+                  )}
                 </div>
               )}
 
