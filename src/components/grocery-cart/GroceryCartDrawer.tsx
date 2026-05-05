@@ -107,7 +107,7 @@ export function GroceryCartDrawer() {
                           <span className="shrink-0 w-2 h-2 rounded-full bg-green-400" title="Available on Amazon" />
                         ) : (
                           <a
-                            href={`https://www.amazon.com/s?k=${encodeURIComponent(item.name + " grocery")}&tag=${AMAZON_ASSOCIATE_TAG}`}
+                            href={`https://www.amazon.com/s?k=${encodeURIComponent(`${item.name} grocery`)}&tag=${AMAZON_ASSOCIATE_TAG}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="shrink-0 text-[9px] text-yellow-400 hover:text-yellow-300 underline"
@@ -180,7 +180,7 @@ export function GroceryCartDrawer() {
                   {unmappedItems.map((item) => (
                     <a
                       key={item.id}
-                      href={`https://www.amazon.com/s?k=${encodeURIComponent(item.name + " grocery")}&tag=${AMAZON_ASSOCIATE_TAG}`}
+                      href={`https://www.amazon.com/s?k=${encodeURIComponent(`${item.name} grocery`)}&tag=${AMAZON_ASSOCIATE_TAG}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/20 text-[10px] text-yellow-300 hover:bg-yellow-500/20 transition-colors"

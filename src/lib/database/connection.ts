@@ -1,8 +1,8 @@
 import 'server-only';
-import { Pool, types } from "@neondatabase/serverless";
+import { Pool, types } from "pg";
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
-import type { PoolClient, QueryResult } from "@neondatabase/serverless";
+import type { PoolClient, QueryResult } from "pg";
 
 /**
  * Database Connection Layer - Phase 1 Infrastructure Migration

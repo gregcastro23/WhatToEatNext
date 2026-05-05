@@ -10,8 +10,8 @@
 
 import { useState, useMemo } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import { reportQuestEvent } from "@/lib/questReporter";
 import { resolveAsin, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
+import { reportQuestEvent } from "@/lib/questReporter";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { createLogger } from "@/utils/logger";

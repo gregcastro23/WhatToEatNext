@@ -1,5 +1,5 @@
-import { executeQuery } from "@/lib/database/connection";
 import { NextResponse } from "next/server";
+import { executeQuery } from "@/lib/database/connection";
 
 interface IngredientAsin {
   ingredient_name: string;

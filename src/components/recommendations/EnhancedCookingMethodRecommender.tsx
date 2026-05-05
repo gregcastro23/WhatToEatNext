@@ -15,9 +15,9 @@
  */
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
-import { CookingEquipmentPanel } from "@/components/CookingEquipmentPanel";
 import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import type { KineticMetrics } from "@/calculations/kinetics";
+import { CookingEquipmentPanel } from "@/components/CookingEquipmentPanel";
 import {
   ALCHEMICAL_PILLARS,
   calculateOptimalCookingConditions,

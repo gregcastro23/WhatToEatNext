@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
-import { getEquipmentForMethod, type CookingEquipment } from "@/data/amazon/equipmentAsins";
+import { getEquipmentForMethod } from "@/data/amazon/equipmentAsins";
 
 interface CookingEquipmentPanelProps {
   methodKey: string;
@@ -125,8 +125,10 @@ export function CookingEquipmentPanel({ methodKey, methodName }: CookingEquipmen
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {items.map((item) => (
+                  // eslint-disable-next-line jsx-a11y/label-has-associated-control
                   <label
                     key={item.asin}
+                    htmlFor={`equip-${item.asin}`}
                     className={`flex items-start gap-2 rounded-lg border p-2.5 cursor-pointer transition-colors ${
                       selectedItems.has(item.asin)
                         ? "border-orange-400/60 bg-orange-500/10"
@@ -134,6 +136,7 @@ export function CookingEquipmentPanel({ methodKey, methodName }: CookingEquipmen
                     }`}
                   >
                     <input
+                      id={`equip-${item.asin}`}
                       type="checkbox"
                       checked={selectedItems.has(item.asin)}
                       onChange={() => toggleItem(item.asin)}

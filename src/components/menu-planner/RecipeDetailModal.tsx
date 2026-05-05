@@ -14,8 +14,8 @@ import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { RestaurantDiscovery } from "@/components/RestaurantDiscovery";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import { resolveAsin, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
+import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import type { DietaryMode } from "@/utils/dietaryAdaptation";
@@ -178,11 +178,12 @@ export default function RecipeDetailModal({
     setAmazonError(null);
     try {
       const items = recipe.ingredients
+        .filter((ing) => !inventory.includes(ing.name.toLowerCase()))
         .map((ing) => ({ name: ing.name, asin: resolveAsin(ing.name) }))
         .filter((x) => x.asin);
 
       if (items.length === 0) {
-        setAmazonError("No ingredients could be matched to Amazon products.");
+        setAmazonError("No ingredients could be matched to Amazon products (or all are in inventory).");
         return;
       }
 
