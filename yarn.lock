@@ -3137,7 +3137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neondatabase/serverless@npm:^1.0.2":
+"@neondatabase/serverless@npm:^1.1.0":
   version: 1.1.0
   resolution: "@neondatabase/serverless@npm:1.1.0"
   checksum: 15fcae150fc5b1c6fb3da86a717c02587d49535b9ed1fe74b2f495c7392196a16c345a8f75e789a7637d2c1b4cda05e9a53a6c754849201888a6033af3cfcd6b
@@ -4106,6 +4106,15 @@ __metadata:
   version: 0.0.6
   resolution: "@types/use-sync-external-store@npm:0.0.6"
   checksum: a95ce330668501ad9b1c5b7f2b14872ad201e552a0e567787b8f1588b22c7040c7c3d80f142cbb9f92d13c4ea41c46af57a20f2af4edf27f224d352abcfe4049
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:^8.18.1":
+  version: 8.18.1
+  resolution: "@types/ws@npm:8.18.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: 0331b14cde388e2805af66cad3e3f51857db8e68ed91e5b99750915e96fe7572e58296dc99999331bbcf08f0ff00a227a0bb214e991f53c2a5aca7b0e71173fa
   languageName: node
   linkType: hard
 
@@ -14013,7 +14022,7 @@ next-auth@beta:
     "@ducanh2912/next-pwa": ^10.2.9
     "@eslint/js": ^9.39.1
     "@hookform/resolvers": ^5.2.2
-    "@neondatabase/serverless": ^1.0.2
+    "@neondatabase/serverless": ^1.1.0
     "@opentelemetry/api": ^1.9.1
     "@opentelemetry/api-logs": ^0.214.0
     "@opentelemetry/instrumentation": ^0.214.0
@@ -14033,6 +14042,7 @@ next-auth@beta:
     "@types/pg": ^8
     "@types/react": ^19.0.5
     "@types/react-dom": ^19.0.2
+    "@types/ws": ^8.18.1
     "@typescript-eslint/eslint-plugin": 8.58.1
     "@typescript-eslint/parser": 8.58.1
     "@typescript-eslint/utils": 8.58.1
@@ -14093,6 +14103,7 @@ next-auth@beta:
     ts-morph: ^27.0.2
     ts-node: ^10.9.2
     typescript: 5.7.3
+    ws: ^8.20.0
     zod: ^4.3.6
   languageName: unknown
   linkType: soft
@@ -14520,7 +14531,7 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.18.0":
+"ws@npm:^8.18.0, ws@npm:^8.20.0":
   version: 8.20.0
   resolution: "ws@npm:8.20.0"
   peerDependencies:

@@ -1,8 +1,14 @@
 import 'server-only';
-import { Pool, types } from "pg";
+import { Pool, types, neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
-import type { PoolClient, QueryResult } from "pg";
+import type { PoolClient, QueryResult } from "@neondatabase/serverless";
+
+// Polyfill WebSocket for Node.js environments (fixes ErrorEvent on serverless functions)
+if (typeof WebSocket === 'undefined') {
+  neonConfig.webSocketConstructor = ws;
+}
 
 /**
  * Database Connection Layer - Phase 1 Infrastructure Migration
