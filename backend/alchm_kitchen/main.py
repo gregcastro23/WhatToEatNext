@@ -179,8 +179,20 @@ for origin in ["https://alchm.kitchen", "https://www.alchm.kitchen"]:
         CORS_ALLOWED_ORIGINS.append(origin)
 
 # Add wildcard if empty or explicitly requested
+# NOTE: If allow_credentials is True, allow_origins cannot be ["*"]
 if not CORS_ALLOWED_ORIGINS or "*" in CORS_ALLOWED_ORIGINS:
-    CORS_ALLOWED_ORIGINS = ["*"]
+    # If we have a wildcard but need credentials, we should use a more specific list
+    # or set allow_credentials=False. For this app, we'll fallback to the default origins.
+    if "*" in CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS = [o for o in CORS_ALLOWED_ORIGINS if o != "*"]
+    
+    if not CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS = [
+            "https://alchm.kitchen",
+            "https://v0-alchm-kitchen.vercel.app",
+            "http://localhost:3000",
+            "http://localhost:3001"
+        ]
 
 app.add_middleware(
     CORSMiddleware,
