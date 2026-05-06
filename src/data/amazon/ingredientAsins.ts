@@ -368,7 +368,7 @@ export function resolveAsin(ingredientName: string): string | null {
   if (normalized.endsWith("s")) {
     // ies -> y (berries -> berry)
     if (normalized.endsWith("ies")) {
-      const singularY = normalized.slice(0, -3) + "y";
+      const singularY = `${normalized.slice(0, -3)}y`;
       if (ingredientAsins[singularY]) return ingredientAsins[singularY];
     }
     // es -> e (potatoes -> potato, tomatoes -> tomato)

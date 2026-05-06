@@ -15,7 +15,7 @@ export async function GET(
   const { recipeId } = await params;
   
   // 1. Try relational query first
-  let result = await executeQuery<IngredientAsin>(
+  const result = await executeQuery<IngredientAsin>(
     `SELECT
        i.name AS ingredient_name,
        i.amazon_asin AS asin,

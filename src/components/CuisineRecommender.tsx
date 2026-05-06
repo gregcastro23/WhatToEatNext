@@ -11,7 +11,6 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 import { useGroceryCart } from '@/contexts/GroceryCartContext';
 import { resolveAsin, AMAZON_ASSOCIATE_TAG, getStandardizedQuantity } from "@/data/amazon";
-
 // @ts-expect-error - Auto-fixed by script
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';

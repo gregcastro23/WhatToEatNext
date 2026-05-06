@@ -1,9 +1,10 @@
 import 'server-only';
 import pkg from 'pg';
-const { Pool: PoolValue, types } = pkg;
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
 import type { Pool, PoolClient, QueryResult } from "pg";
+
+const { Pool: PoolValue, types } = pkg;
 
 // Note: neonConfig is no longer used as we are using standard pg
 
