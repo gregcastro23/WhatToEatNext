@@ -23,15 +23,20 @@
 - **Hono for Edge/Backend:** While the backend is currently FastAPI (Python), a migration to `Hono` (TypeScript) should be considered if the goal is to unify the stack. `Hono` is extremely fast, has built-in Zod support, and runs efficiently on Edge (Vercel/Cloudflare).
 - **CORS Preflight Fix:** Resolved the `400 Bad Request` on `OPTIONS` by ensuring `allow_credentials=True` is never paired with `allow_origins=["*"]`.
 
-### 2.2 Migration Strategy (Short Term)
+### 2.2 Reliability Layer (NEW)
+- **Fetch with Retry:** Implemented a unified `fetchWithRetry` utility with exponential backoff to handle intermittent `NetworkError` and `400` status codes.
+- **Increased Timeouts:** Bumped frontend and API route timeouts to **15-20 seconds** to accommodate serverless cold starts (Railway/Neon) and complex SQL aggregations.
+- **Graceful Degradation:** Refined fallback logic to ensure components like `DynamicCuisineRecommender` transition smoothly to local calculations if the backend remains unresponsive after retries.
+
+### 2.3 Migration Strategy (Short Term)
 - **Bulk Inserts:** Rewrite migration scripts to use bulk `INSERT` statements. This can reduce migration time from minutes to seconds.
 - **Transaction Batching:** Group related inserts into single transactions.
 
-### 2.3 Application Data Access (Medium Term)
+### 2.4 Application Data Access (Medium Term)
 - **Server-Side Caching:** Implement a caching layer (e.g., Redis) for the recipe catalog.
 - **Materialized Views:** Create a materialized view that pre-calculates the complex `RECIPE_QUERY` JSON to avoid expensive joins on every read.
 
-### 2.4 Architecture & Schema (Long Term)
+### 2.5 Architecture & Schema (Long Term)
 - **Denormalization:** Store ingredient summaries directly in the `recipes` table to eliminate joins for list views.
 - **Edge Data:** Use globally distributed caching to minimize cold start latency for end-users.
 

@@ -7,6 +7,7 @@ import type {
   AlchemicalContextType, AlchemicalState
 } from "./types";
 import type { ReactNode } from "react";
+import { fetchWithRetry } from "@/utils/apiUtils";
 
 /**
  * Alchemical Context Provider - Minimal Recovery Version
@@ -241,9 +242,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
         // Helper to fetch for a specific date
         const fetchForDate = async (d: Date) => {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 12000);
-
           const params = new URLSearchParams({
             year: d.getUTCFullYear().toString(),
             month: (d.getUTCMonth() + 1).toString(),
@@ -252,12 +250,12 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
             minute: d.getUTCMinutes().toString(),
           });
 
-          const response = await fetch(`/api/astrologize?${params.toString()}`, {
+          const response = await fetchWithRetry(`/api/astrologize?${params.toString()}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-            signal: controller.signal,
+            timeout: 20000,
+            retries: 2,
           });
-          clearTimeout(timeoutId);
           if (!response.ok) throw new Error(`API returned ${response.status}`);
           return response.json();
         };
@@ -334,10 +332,11 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   const refreshPlanetaryPositionsAsync = useCallback(async (): Promise<Record<string, unknown>> => {
     try {
       setIsLoading(true);
-      const response = await fetch("/api/astrologize", {
+      const response = await fetchWithRetry("/api/astrologize", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(12000),
+        timeout: 20000,
+        retries: 2,
       });
       if (!response.ok) throw new Error(`API returned ${response.status}`);
       const data = await response.json();
