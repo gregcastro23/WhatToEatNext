@@ -38,67 +38,22 @@ const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
 
 const RECIPE_QUERY = `
   SELECT
-    r.*,
+    r.id,
+    r.name,
+    r.description,
+    r.cuisine,
+    r.category,
+    r.prep_time_minutes,
+    r.cook_time_minutes,
+    r.servings,
     r.dietary_tags::text[] AS dietary_tags,
-    COALESCE(
-      (
-        SELECT json_agg(
-          json_build_object(
-            'id', ri.id,
-            'name', i.name,
-            'amount', COALESCE(ri.quantity, 0),
-            'unit', COALESCE(ri.unit, ''),
-            'optional', COALESCE(ri.is_optional, false),
-            'notes', ri.preparation_notes,
-            'category', i.category
-          )
-          ORDER BY ri.order_index
-        )
-        FROM recipe_ingredients ri
-        JOIN ingredients i ON i.id = ri.ingredient_id
-        WHERE ri.recipe_id = r.id AND i.is_active = true
-      ),
-      '[]'::json
-    ) AS ingredients,
-    COALESCE(
-      (
-        SELECT rc.time_of_day
-        FROM recipe_contexts rc
-        WHERE rc.recipe_id = r.id
-        LIMIT 1
-      ),
-      ARRAY[]::text[]
-    ) AS meal_types,
-    COALESCE(
-      (
-        SELECT rc.recommended_seasons::text[]
-        FROM recipe_contexts rc
-        WHERE rc.recipe_id = r.id
-        LIMIT 1
-      ),
-      ARRAY[]::text[]
-    ) AS seasons,
-    COALESCE(
-      (
-        SELECT json_build_object(
-          'Fire', ep.fire,
-          'Water', ep.water,
-          'Earth', ep.earth,
-          'Air', ep.air
-        )
-        FROM elemental_properties ep
-        WHERE ep.entity_type = 'recipe' AND ep.entity_id = r.id
-        LIMIT 1
-      ),
-      json_build_object(
-        'Fire', 0.25,
-        'Water', 0.25,
-        'Earth', 0.25,
-        'Air', 0.25
-      )
-    ) AS elemental_properties
+    r.allergens::text[] AS allergens,
+    r.nutritional_profile,
+    r.created_at,
+    r.updated_at,
+    r.read_model
   FROM recipes r
-  WHERE 1=1 -- r.is_public flag bypassed for migration compatibility
+  WHERE r.is_public = true
 `;
 
 function parseJsonValue<T>(value: unknown, fallback: T): T {
@@ -160,7 +115,7 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
       }
 
       const record = ingredient as Record<string, unknown>;
-      const name = typeof record.name === "string" ? record.name : null;
+      const name = typeof record.name === "string" ? record.name : (record.ingredient as string);
       if (!name) {
         return null;
       }
@@ -168,33 +123,15 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
       return {
         id: typeof record.id === "string" ? record.id : undefined,
         name,
-        amount: Number(record.amount ?? 0),
+        amount: Number(record.amount ?? record.quantity ?? 0),
         unit: typeof record.unit === "string" ? record.unit : "",
         optional: Boolean(record.optional),
-        notes: typeof record.notes === "string" ? record.notes : undefined,
+        notes: typeof record.notes === "string" ? record.notes : (record.preparation as string),
         category:
           typeof record.category === "string" ? record.category : undefined,
       } as RecipeIngredient;
     })
     .filter((ingredient): ingredient is RecipeIngredient => Boolean(ingredient));
-}
-
-function normalizeElementalProperties(value: unknown): ElementalProperties {
-  const parsed = parseJsonValue<Record<string, unknown>>(
-    value,
-    DEFAULT_ELEMENTAL_PROPERTIES,
-  );
-
-  return {
-    Fire: Number(parsed.Fire ?? parsed.fire ?? DEFAULT_ELEMENTAL_PROPERTIES.Fire),
-    Water: Number(
-      parsed.Water ?? parsed.water ?? DEFAULT_ELEMENTAL_PROPERTIES.Water,
-    ),
-    Earth: Number(
-      parsed.Earth ?? parsed.earth ?? DEFAULT_ELEMENTAL_PROPERTIES.Earth,
-    ),
-    Air: Number(parsed.Air ?? parsed.air ?? DEFAULT_ELEMENTAL_PROPERTIES.Air),
-  };
 }
 
 function hasDietaryTag(tags: string[] | null | undefined, tag: string): boolean {
@@ -203,7 +140,61 @@ function hasDietaryTag(tags: string[] | null | undefined, tag: string): boolean 
   );
 }
 
-function mapRowToRecipe(row: DbRecipeRow): Recipe {
+function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
+  // Prefer the denormalized read_model for performance and data consistency
+  if (row.read_model) {
+    const rm = row.read_model;
+    const dietaryTags = rm.dietary_tags || row.dietary_tags || [];
+    
+    // Extract seasons from nested contexts if available
+    let seasons: string[] = [];
+    if (Array.isArray(rm.contexts)) {
+      seasons = rm.contexts.flatMap((c: any) => c.seasonal || []);
+    }
+    
+    // Extract meal types from nested contexts (timeOfDay)
+    let mealTypes: string[] = [];
+    if (Array.isArray(rm.contexts)) {
+      mealTypes = rm.contexts.flatMap((c: any) => c.timeOfDay || []);
+    }
+    if (mealTypes.length === 0 && rm.category) {
+      mealTypes = [rm.category];
+    }
+
+    return {
+      id: rm.id || row.id,
+      name: rm.name || row.name,
+      description: rm.description || row.description || undefined,
+      cuisine: rm.cuisine || row.cuisine || undefined,
+      ingredients: normalizeIngredients(rm.ingredients),
+      instructions: normalizeInstructions(rm.instructions),
+      prepTime: String(rm.prep_time_minutes ?? row.prep_time_minutes ?? 0),
+      cookTime: String(rm.cook_time_minutes ?? row.cook_time_minutes ?? 0),
+      totalTime: String((rm.prep_time_minutes ?? 0) + (rm.cook_time_minutes ?? 0)),
+      timeToMake: `${(rm.prep_time_minutes ?? 0) + (rm.cook_time_minutes ?? 0)} minutes`,
+      servingSize: rm.servings ?? row.servings ?? undefined,
+      numberOfServings: rm.servings ?? row.servings ?? undefined,
+      mealType: mealTypes,
+      season: seasons.length ? seasons : undefined,
+      elementalProperties: {
+        Fire: rm.elemental_properties?.fire ?? rm.elemental_properties?.Fire ?? 0.25,
+        Water: rm.elemental_properties?.water ?? rm.elemental_properties?.Water ?? 0.25,
+        Earth: rm.elemental_properties?.earth ?? rm.elemental_properties?.Earth ?? 0.25,
+        Air: rm.elemental_properties?.air ?? rm.elemental_properties?.Air ?? 0.25,
+      },
+      allergens: rm.allergens || row.allergens || [],
+      isVegetarian: hasDietaryTag(dietaryTags, "vegetarian"),
+      isVegan: hasDietaryTag(dietaryTags, "vegan"),
+      isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree") || hasDietaryTag(dietaryTags, "gluten-free"),
+      isDairyFree: hasDietaryTag(dietaryTags, "dairyfree") || hasDietaryTag(dietaryTags, "dairy-free"),
+      nutrition: rm.nutritional_profile || row.nutritional_profile || undefined,
+      tags: dietaryTags,
+      createdAt: row.created_at ? new Date(row.created_at).toISOString() : undefined,
+      updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : undefined,
+    };
+  }
+
+  // Fallback to legacy row-based mapping if read_model is missing
   const dietaryTags = row.dietary_tags || [];
   const prepTime = row.prep_time_minutes ?? 0;
   const cookTime = row.cook_time_minutes ?? 0;
@@ -224,7 +215,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     numberOfServings: row.servings ?? undefined,
     mealType: mealTypes,
     season: row.seasons || undefined,
-    elementalProperties: normalizeElementalProperties(row.elemental_properties),
+    elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES, // Legacy fallback
     allergens: row.allergens || [],
     isVegetarian: hasDietaryTag(dietaryTags, "vegetarian"),
     isVegan: hasDietaryTag(dietaryTags, "vegan"),

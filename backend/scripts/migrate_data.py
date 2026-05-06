@@ -99,8 +99,15 @@ class DataMigrator:
             with get_db_session() as session:
                 # Process and insert ingredients
                 items = ingredients_data.values() if isinstance(ingredients_data, dict) else ingredients_data
-                for ingredient_info in items:
+                for i, ingredient_info in enumerate(items):
                     self._migrate_single_ingredient(session, ingredient_info)
+                    
+                    # Batch commit every 50 ingredients
+                    if i % 50 == 0 and not self.dry_run:
+                        session.commit()
+
+                if not self.dry_run:
+                    session.commit()
 
         except Exception as e:
             self.errors.append(f"Failed to migrate ingredients: {e}")
@@ -150,9 +157,7 @@ class DataMigrator:
             if 'astrological_profile' in data:
                 self._migrate_planetary_influences(session, 'ingredient', str(ingredient.id), data['astrological_profile'])
 
-            if not self.dry_run:
-                session.commit()
-
+            # Success, but we don't commit here anymore, it's done in batches in migrate_ingredients
             self.stats.successful += 1
 
         except Exception as e:
@@ -189,7 +194,7 @@ class DataMigrator:
                     entity_id=entity_id,
                     planet=planet,
                     influence_strength=0.8,  # Default high influence
-                    is_primary=(planet == ruling_planets[0])
+                    is_primary=(len(ruling_planets) > 0 and planet == ruling_planets[0])
                 )
                 if not self.dry_run:
                     session.add(influence)
@@ -215,8 +220,15 @@ class DataMigrator:
             with get_db_session() as session:
                 # Process and insert recipes
                 items = recipes_data.values() if isinstance(recipes_data, dict) else recipes_data
-                for recipe_data in items:
+                for i, recipe_data in enumerate(items):
                     self._migrate_single_recipe(session, recipe_data)
+                    
+                    # Batch commit every 20 recipes (nested objects make it heavier)
+                    if i % 20 == 0 and not self.dry_run:
+                        session.commit()
+
+                if not self.dry_run:
+                    session.commit()
 
         except Exception as e:
             self.errors.append(f"Failed to migrate recipes: {e}")
@@ -302,9 +314,41 @@ class DataMigrator:
             if any(key in data for key in ['lunar', 'seasonal', 'time_of_day']):
                 self._migrate_recipe_contexts(session, str(recipe.id), data)
 
+            # Build and store read_model (Denormalized)
             if not self.dry_run:
-                session.commit()
+                # Refresh to get nested data if needed, though session is local
+                read_model = {
+                    "id": str(recipe.id),
+                    "name": recipe.name,
+                    "description": recipe.description,
+                    "cuisine": recipe.cuisine,
+                    "category": recipe.category,
+                    "instructions": recipe.instructions,
+                    "prep_time_minutes": recipe.prep_time_minutes,
+                    "cook_time_minutes": recipe.cook_time_minutes,
+                    "servings": recipe.servings,
+                    "dietary_tags": recipe.dietary_tags,
+                    "allergens": recipe.allergens,
+                    "nutritional_profile": recipe.nutritional_profile,
+                    "ingredients": [
+                        {
+                            "name": ri.ingredient.name,
+                            "quantity": ri.quantity,
+                            "unit": ri.unit,
+                            "preparation": ri.preparation_notes
+                        } for ri in recipe.ingredients if ri.ingredient
+                    ],
+                    "contexts": [
+                        {
+                            "lunar": ctx.recommended_moon_phases,
+                            "seasonal": ctx.recommended_seasons,
+                            "timeOfDay": ctx.time_of_day
+                        } for ctx in recipe.contexts
+                    ]
+                }
+                recipe.read_model = read_model
 
+            # Success, but we don't commit here anymore, it's done in batches in migrate_recipes
             self.stats.successful += 1
 
         except Exception as e:
