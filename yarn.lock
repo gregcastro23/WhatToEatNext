@@ -3137,13 +3137,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neondatabase/serverless@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@neondatabase/serverless@npm:1.1.0"
-  checksum: 15fcae150fc5b1c6fb3da86a717c02587d49535b9ed1fe74b2f495c7392196a16c345a8f75e789a7637d2c1b4cda05e9a53a6c754849201888a6033af3cfcd6b
-  languageName: node
-  linkType: hard
-
 "@next/env@npm:15.5.15":
   version: 15.5.15
   resolution: "@next/env@npm:15.5.15"
@@ -14022,7 +14015,6 @@ next-auth@beta:
     "@ducanh2912/next-pwa": ^10.2.9
     "@eslint/js": ^9.39.1
     "@hookform/resolvers": ^5.2.2
-    "@neondatabase/serverless": ^1.1.0
     "@opentelemetry/api": ^1.9.1
     "@opentelemetry/api-logs": ^0.214.0
     "@opentelemetry/instrumentation": ^0.214.0
