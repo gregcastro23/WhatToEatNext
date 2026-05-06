@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useCallback, useEffect, useReducer, useState } from "react";
+import { fetchWithRetry } from "@/utils/apiUtils";
 import { defaultState, _AlchemicalContext } from "./context";
 import type {
   // AlchemicalAction,
   AlchemicalContextType, AlchemicalState
 } from "./types";
 import type { ReactNode } from "react";
-import { fetchWithRetry } from "@/utils/apiUtils";
 
 /**
  * Alchemical Context Provider - Minimal Recovery Version
@@ -253,18 +253,23 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
           const response = await fetchWithRetry(`/api/astrologize?${params.toString()}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-            timeout: 20000,
+            timeout: 30000,
             retries: 2,
           });
           if (!response.ok) throw new Error(`API returned ${response.status}`);
           return response.json();
         };
 
-        // Parallel fetch for batches
-        const [currentData, historicalData] = await Promise.all([
-          fetchForDate(now),
-          fetchForDate(oneHourAgo)
-        ]);
+        // Serial fetch to avoid backend contention during startup
+        const currentData = await fetchForDate(now);
+        
+        let historicalData = null;
+        try {
+          // Fetch historical data sequentially after current data
+          historicalData = await fetchForDate(oneHourAgo);
+        } catch (histErr) {
+          logger.warn("Historical fetch failed, continuing with current data only:", histErr);
+        }
 
         const extractPositions = (data: any) => {
           if (!data.success || !data._celestialBodies) return null;
@@ -335,7 +340,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       const response = await fetchWithRetry("/api/astrologize", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        timeout: 20000,
+        timeout: 30000,
         retries: 2,
       });
       if (!response.ok) throw new Error(`API returned ${response.status}`);
