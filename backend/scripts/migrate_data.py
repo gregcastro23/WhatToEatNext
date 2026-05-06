@@ -53,7 +53,7 @@ Migration Summary:
 - Failed: {self.failed}
 - Skipped: {self.skipped}
 - Duration: {self.duration:.2f}s
-- Success Rate: {(self.successful / self.total_processed * 100):.1f}% if self.total_processed > 0 else 0
+- Success Rate: {(self.successful / self.total_processed * 100) if self.total_processed > 0 else 0:.1f}%
 """
 
 class DataMigrationError(Exception):
@@ -86,7 +86,7 @@ class DataMigrator:
         self.log("Starting ingredient migration...")
 
         # Use sample data for now
-        sample_data_path = backend_dir / "data" / "sample" / "ingredients.json"
+        sample_data_path = backend_dir / "alchm_kitchen" / "data" / "json" / "ingredients.json"
 
         if not sample_data_path.exists():
             self.log("Sample ingredient data not found. Run create_sample_data.py first.", "ERROR")
@@ -98,7 +98,8 @@ class DataMigrator:
 
             with get_db_session() as session:
                 # Process and insert ingredients
-                for ingredient_info in ingredients_data:
+                items = ingredients_data.values() if isinstance(ingredients_data, dict) else ingredients_data
+                for ingredient_info in items:
                     self._migrate_single_ingredient(session, ingredient_info)
 
         except Exception as e:
@@ -201,7 +202,7 @@ class DataMigrator:
         self.log("Starting recipe migration...")
 
         # Use sample data for now
-        sample_data_path = backend_dir / "data" / "sample" / "recipes.json"
+        sample_data_path = backend_dir / "alchm_kitchen" / "data" / "json" / "recipes.json"
 
         if not sample_data_path.exists():
             self.log("Sample recipe data not found. Run create_sample_data.py first.", "ERROR")
@@ -213,7 +214,8 @@ class DataMigrator:
 
             with get_db_session() as session:
                 # Process and insert recipes
-                for recipe_data in recipes_data:
+                items = recipes_data.values() if isinstance(recipes_data, dict) else recipes_data
+                for recipe_data in items:
                     self._migrate_single_recipe(session, recipe_data)
 
         except Exception as e:
@@ -233,10 +235,31 @@ class DataMigrator:
                 return
 
             # Create recipe record
+            cuisine_raw = data.get('cuisine', 'General')
+            # Map lowercase to Enum values
+            cuisine_map = {
+                'african': 'African',
+                'american': 'American',
+                'chinese': 'Chinese',
+                'french': 'French',
+                'greek': 'Greek',
+                'indian': 'Indian',
+                'italian': 'Italian',
+                'japanese': 'Japanese',
+                'korean': 'Korean',
+                'mexican': 'Mexican',
+                'middle-eastern': 'Middle Eastern',
+                'middle eastern': 'Middle Eastern',
+                'russian': 'Russian',
+                'thai': 'Thai',
+                'vietnamese': 'Vietnamese'
+            }
+            cuisine = cuisine_map.get(cuisine_raw.lower(), cuisine_raw.title())
+
             recipe = Recipe(
                 name=name,
                 description=data.get('description'),
-                cuisine=data.get('cuisine', 'General'),
+                cuisine=cuisine,
                 category=data.get('category', 'main'),
                 instructions=data.get('instructions', {}),
                 prep_time_minutes=data.get('prep_time_minutes', 30),
