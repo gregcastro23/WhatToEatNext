@@ -115,4 +115,42 @@ To achieve sub-100ms performance and maximum reliability, we should move from a 
 3. **Deprecate Python:** Port the remaining Python-specific logic (pyswisseph) to a specialized TS worker or optimize the existing TS library.
 
 ---
+
+## 6. Architecture Comparison: Cloudflare vs. Railway
+
+Choosing between a Cloudflare-native stack and an enhanced Railway stack depends on whether we prioritize **Global Latency (Cloudflare)** or **Compute Power (Railway)**.
+
+### 6.1 Option A: Cloudflare Pages + Workers (The "Edge" Path)
+This move replaces Vercel + Railway with a single unified platform.
+
+*   **Pros:**
+    *   **Zero Cold Starts:** Workers start in milliseconds compared to Railway's container startup (~5-10s).
+    *   **Sub-10ms Latency:** Your API logic runs in the same data center as the user.
+    *   **Cost:** The free tier is generous for high-volume, low-CPU requests.
+*   **Cons:**
+    *   **Memory/CPU Limits:** Cloudflare Workers (Free) have a **128MB memory limit** and **10ms CPU time** limit. The 21MB `cuisines.json` could easily crash a worker or exceed the time limit during parsing.
+    *   **No Python:** You would have to port 100% of the Python backend to TypeScript.
+
+### 6.2 Option B: Railway + Local Postgres + Redis (The "Power" Path)
+This enhances your current stack by moving everything "under one roof" in Railway.
+
+*   **How it helps:** Right now, your backend (Railway) and DB (Neon) are in different physical networks. Every query has to "leave the house" and come back.
+*   **The Change:** Deploy a Postgres and Redis instance *inside* your Railway project.
+*   **Pros:**
+    *   **Sub-1ms DB Latency:** The backend talks to the DB over a local internal network. No more 45ms round-trips.
+    *   **High Memory:** You can give the backend 1GB+ of RAM to keep that 21MB JSON cache "hot."
+    *   **Simplifies Logic:** No need to port Python; just optimize the data access.
+*   **Cons:**
+    *   **Centralized:** Users in London or Tokyo still have to talk to a server in US-East.
+
+### 6.3 Verdict: Which is better for Alchm.kitchen?
+
+1.  **For the Recipe Catalog:** **Cloudflare KV** is the winner. It's too big for Postgres joins but perfect for a globally distributed JSON store.
+2.  **For the Alchemy Engine:** **Railway** is the winner. The complex calculations and large data structures (Zodiac mappings, Ephemeris data) will frequently hit the Cloudflare Free Tier limits.
+
+**Recommended Hybrid Approach:**
+*   Keep the **Relational DB and Python Logic** on **Railway** (but use local Postgres/Redis on Railway to kill the Neon latency).
+*   Move **Static Content (Recipes/Ingredients)** to **Cloudflare KV** to ensure the "Menu of the Moment" loads instantly for everyone.
+
+---
 *Created: May 5, 2026 | Prepared by: Gemini CLI*
