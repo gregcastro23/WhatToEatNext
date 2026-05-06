@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
-import { executeQuery } from "@/lib/database/connection";
+import { NextResponse } from \"next/server\";
+import { executeQuery } from \"@/lib/database/connection\";
+import { resolveAsin } from \"@/data/amazon\";
 
 interface IngredientAsin {
   ingredient_name: string;
@@ -26,16 +27,20 @@ export async function GET(
   );
 
   const items = result.rows
-    .filter((row) => row.asin !== null)
-    .map((row) => ({
-      asin: row.asin!,
-      quantity: row.default_quantity,
-      name: row.ingredient_name,
-    }));
+    .map((row) => {
+      const asin = row.asin || resolveAsin(row.ingredient_name);
+      return {
+        asin,
+        quantity: row.default_quantity,
+        name: row.ingredient_name,
+      };
+    })
+    .filter((item) => item.asin !== null);
 
   const missing = result.rows
-    .filter((row) => row.asin === null)
+    .filter((row) => !row.asin && resolveAsin(row.ingredient_name) === null)
     .map((row) => row.ingredient_name);
 
   return NextResponse.json({ items, missing });
 }
+

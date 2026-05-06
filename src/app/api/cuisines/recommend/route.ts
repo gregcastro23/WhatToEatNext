@@ -144,6 +144,7 @@ async function handleRequest(request: Request) {
         elementDistribution: backendData.elementDistribution,
         cuisines:           backendData.cuisines,
         topCuisines:        backendData.topCuisines,
+        cuisineRecommendations: backendData.cuisine_recommendations,
         recipeCounts,
         calculatedAt: new Date().toISOString(),
       });

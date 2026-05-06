@@ -1,5 +1,6 @@
-import { executeQuery } from "@/lib/database/connection";
-import { AmazonCartForm } from "./AmazonCartForm";
+import { executeQuery } from \"@/lib/database/connection\";
+import { AmazonCartForm } from \"./AmazonCartForm\";
+import { resolveAsin } from \"@/data/amazon\";
 
 interface IngredientRow {
   ingredient_name: string;
@@ -25,16 +26,17 @@ export async function RecipeAmazonCart({ recipeId }: RecipeAmazonCartProps) {
   );
 
   const items = result.rows
-    .filter((row) => row.asin !== null)
     .map((row) => ({
-      asin: row.asin!,
+      asin: row.asin || resolveAsin(row.ingredient_name),
       quantity: row.default_quantity,
       name: row.ingredient_name,
-    }));
+    }))
+    .filter((item) => item.asin !== null) as any[];
 
   const missing = result.rows
-    .filter((row) => row.asin === null)
+    .filter((row) => !row.asin && resolveAsin(row.ingredient_name) === null)
     .map((row) => row.ingredient_name);
+
 
   return (
     <div className="space-y-4">
