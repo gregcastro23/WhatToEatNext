@@ -9,9 +9,9 @@ interface IngredientAsin {
 
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ recipeId: string }> },
 ) {
-  const { id } = await params;
+  const { recipeId } = await params;
 
   const result = await executeQuery<IngredientAsin>(
     `SELECT
@@ -22,7 +22,7 @@ export async function GET(
      JOIN ingredients i ON i.id = ri.ingredient_id
      WHERE ri.recipe_id = $1
      ORDER BY i.name`,
-    [id],
+    [recipeId],
   );
 
   const items = result.rows
