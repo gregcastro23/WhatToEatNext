@@ -39,6 +39,7 @@ const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
 const RECIPE_QUERY = `
   SELECT
     r.*,
+    r.dietary_tags::text[] AS dietary_tags,
     COALESCE(
       (
         SELECT json_agg(
