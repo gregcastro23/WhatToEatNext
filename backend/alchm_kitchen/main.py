@@ -1073,6 +1073,7 @@ async def get_current_moment_cuisine_recommendations(
                 else:
                     print(f"DEBUG: No cuisine data returned for {cuisine_id}")
             except Exception as e:
+                db.rollback()
                 print(f"Error processing cuisine {cuisine_id}: {e}")
                 # Continue with other cuisines even if one fails
 
@@ -1228,35 +1229,58 @@ async def get_nested_recipes_for_cuisine(cuisine_id: str, season: str,
             try:
                 # Get recipe ingredients
                 ingredients_result = db.execute(text("""
-                    SELECT i.name, ri.amount, ri.unit, ri.notes
+                    SELECT i.name, ri.quantity, ri.unit, ri.preparation_notes
                     FROM recipe_ingredients ri
-                    JOIN ingredients i ON ri.ingredient_id = i.id
+                    JOIN ingredients i ON i.id = ri.ingredient_id
                     WHERE ri.recipe_id = :recipe_id
-                    ORDER BY ri.sort_order
+                    ORDER BY ri.order_index
                 """), {"recipe_id": recipe.id})
-                ingredients = ingredients_result.fetchall()
+
+                ingredients_rows = ingredients_result.fetchall()
+
+                ingredients = []
+                if ingredients_rows:
+                    ingredients = [
+                        {
+                            "name": row[0],
+                            "amount": float(row[1]) if row[1] is not None else 1.0,
+                            "unit": row[2],
+                            "notes": row[3] or ""
+                        } for row in ingredients_rows
+                    ]
+                elif recipe.read_model and 'ingredients' in recipe.read_model:
+                    # Fallback to read_model if relational table is empty
+                    for ing in recipe.read_model['ingredients']:
+                        if isinstance(ing, str):
+                            ingredients.append({
+                                "name": ing,
+                                "amount": 1.0,
+                                "unit": "unit",
+                                "notes": ""
+                            })
+                        else:
+                            ingredients.append({
+                                "name": ing.get('name', 'Unknown'),
+                                "amount": float(ing.get('amount', 1.0)),
+                                "unit": ing.get('unit', 'unit'),
+                                "notes": ing.get('notes', '')
+                            })
 
                 nested_recipes.append({
                     "recipe_id": str(recipe.id),
                     "name": recipe.name,
                     "description": recipe.description,
-                    "prep_time": recipe.prep_time,
-                    "cook_time": recipe.cook_time,
+                    "prep_time": recipe.prep_time_minutes,
+                    "cook_time": recipe.cook_time_minutes,
                     "servings": recipe.servings,
-                    "difficulty": recipe.difficulty,
-                    "ingredients": [
-                        {
-                            "name": row[0],
-                            "amount": row[1],
-                            "unit": row[2],
-                            "notes": row[3]
-                        } for row in ingredients
-                    ],
+                    "difficulty": recipe.difficulty_level,
+                    "ingredients": ingredients,
                     "instructions": recipe.instructions or [],
                     "meal_type": meal_type or "general",
                     "seasonal_fit": f"Excellent {season} choice"
                 })
             except Exception as e:
+                db.rollback()
                 print(f"Error processing recipe {recipe.id}: {e}")
                 # Continue with other recipes even if one fails
 
