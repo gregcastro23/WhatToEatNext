@@ -14,7 +14,7 @@ import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { RestaurantDiscovery } from "@/components/RestaurantDiscovery";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import { resolveAsin, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
+import { resolveAsin, AMAZON_ASSOCIATE_TAG, getStandardizedQuantity } from "@/data/amazon";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
@@ -179,7 +179,11 @@ export default function RecipeDetailModal({
     try {
       const items = recipe.ingredients
         .filter((ing) => !inventory.includes(ing.name.toLowerCase()))
-        .map((ing) => ({ name: ing.name, asin: resolveAsin(ing.name) }))
+        .map((ing) => ({ 
+          name: ing.name, 
+          asin: resolveAsin(ing.name),
+          amount: (ing.amount || 1) * servingMultiplier
+        }))
         .filter((x) => x.asin);
 
       if (items.length === 0) {
@@ -199,6 +203,12 @@ export default function RecipeDetailModal({
       tagInput.value = AMAZON_ASSOCIATE_TAG;
       form.appendChild(tagInput);
 
+      const cartTypeInput = document.createElement("input");
+      cartTypeInput.type = "hidden";
+      cartTypeInput.name = "cart-type";
+      cartTypeInput.value = "fresh";
+      form.appendChild(cartTypeInput);
+
       items.forEach((item, idx) => {
         const pos = idx + 1;
         const asinInput = document.createElement("input");
@@ -210,7 +220,7 @@ export default function RecipeDetailModal({
         const qtyInput = document.createElement("input");
         qtyInput.type = "hidden";
         qtyInput.name = `Quantity.${pos}`;
-        qtyInput.value = "1";
+        qtyInput.value = String(getStandardizedQuantity(item.name, item.amount));
         form.appendChild(qtyInput);
       });
 

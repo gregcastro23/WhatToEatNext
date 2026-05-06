@@ -1,3 +1,4 @@
+import { resolveAsin, getStandardizedQuantity } from "@/data/amazon";
 import { executeQuery } from "@/lib/database/connection";
 import { AmazonCartForm } from "./AmazonCartForm";
 
@@ -12,6 +13,7 @@ interface RecipeAmazonCartProps {
 }
 
 export async function RecipeAmazonCart({ recipeId }: RecipeAmazonCartProps) {
+  // 1. Try relational query first
   const result = await executeQuery<IngredientRow>(
     `SELECT
        i.name AS ingredient_name,
@@ -24,17 +26,41 @@ export async function RecipeAmazonCart({ recipeId }: RecipeAmazonCartProps) {
     [recipeId],
   );
 
-  const items = result.rows
-    .filter((row) => row.asin !== null)
-    .map((row) => ({
-      asin: row.asin!,
-      quantity: row.default_quantity,
-      name: row.ingredient_name,
-    }));
+  let rawIngredients: Array<{ name: string; quantity: number; asin?: string | null }> = [];
 
-  const missing = result.rows
-    .filter((row) => row.asin === null)
-    .map((row) => row.ingredient_name);
+  if (result.rows.length > 0) {
+    rawIngredients = result.rows.map(r => ({
+      name: r.ingredient_name,
+      quantity: r.default_quantity,
+      asin: r.asin
+    }));
+  } else {
+    // 2. Fallback to read_model if relational table is empty
+    const recipeResult = await executeQuery(
+      `SELECT read_model FROM recipes WHERE id = $1`,
+      [recipeId]
+    );
+    
+    if (recipeResult.rows[0]?.read_model?.ingredients) {
+      rawIngredients = recipeResult.rows[0].read_model.ingredients.map((ing: any) => ({
+        name: typeof ing === 'string' ? ing : ing.name,
+        quantity: typeof ing === 'object' ? (ing.amount || 1) : 1
+      }));
+    }
+  }
+
+  const items = rawIngredients
+    .map((row) => ({
+      asin: row.asin || resolveAsin(row.name),
+      quantity: getStandardizedQuantity(row.name, row.quantity),
+      name: row.name,
+    }))
+    .filter((item) => item.asin !== null) as any[];
+
+  const missing = rawIngredients
+    .filter((row) => !row.asin && resolveAsin(row.name) === null)
+    .map((row) => row.name);
+
 
   return (
     <div className="space-y-4">

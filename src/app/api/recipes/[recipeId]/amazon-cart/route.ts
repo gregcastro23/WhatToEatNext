@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { resolveAsin, getStandardizedQuantity } from "@/data/amazon";
 import { executeQuery } from "@/lib/database/connection";
 
 interface IngredientAsin {
@@ -12,7 +13,8 @@ export async function GET(
   { params }: { params: Promise<{ recipeId: string }> },
 ) {
   const { recipeId } = await params;
-
+  
+  // 1. Try relational query first
   const result = await executeQuery<IngredientAsin>(
     `SELECT
        i.name AS ingredient_name,
@@ -25,17 +27,43 @@ export async function GET(
     [recipeId],
   );
 
-  const items = result.rows
-    .filter((row) => row.asin !== null)
-    .map((row) => ({
-      asin: row.asin!,
-      quantity: row.default_quantity,
-      name: row.ingredient_name,
-    }));
+  let rawIngredients: Array<{ name: string; quantity: number }> = [];
 
-  const missing = result.rows
-    .filter((row) => row.asin === null)
-    .map((row) => row.ingredient_name);
+  if (result.rows.length > 0) {
+    rawIngredients = result.rows.map(r => ({
+      name: r.ingredient_name,
+      quantity: r.default_quantity
+    }));
+  } else {
+    // 2. Fallback to read_model if relational table is empty
+    const recipeResult = await executeQuery(
+      `SELECT read_model FROM recipes WHERE id = $1`,
+      [recipeId]
+    );
+    
+    if (recipeResult.rows[0]?.read_model?.ingredients) {
+      rawIngredients = recipeResult.rows[0].read_model.ingredients.map((ing: any) => ({
+        name: typeof ing === 'string' ? ing : ing.name,
+        quantity: typeof ing === 'object' ? (ing.amount || 1) : 1
+      }));
+    }
+  }
+
+  const items = rawIngredients
+    .map((ing) => {
+      const asin = resolveAsin(ing.name);
+      return {
+        asin,
+        quantity: getStandardizedQuantity(ing.name, ing.quantity),
+        name: ing.name,
+      };
+    })
+    .filter((item) => item.asin !== null);
+
+  const missing = rawIngredients
+    .filter((ing) => resolveAsin(ing.name) === null)
+    .map((ing) => ing.name);
 
   return NextResponse.json({ items, missing });
 }
+

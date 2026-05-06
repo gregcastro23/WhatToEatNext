@@ -149,6 +149,7 @@ export const RailwayCuisinesResponseSchema = z
     // The backend may include scored cuisine lists
     cuisines: z.array(z.unknown()).optional(),
     topCuisines: z.array(z.unknown()).optional(),
+    cuisine_recommendations: z.array(z.unknown()).optional(),
   })
   .passthrough();
 

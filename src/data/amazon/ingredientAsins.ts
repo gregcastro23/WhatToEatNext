@@ -350,18 +350,43 @@ export const ingredientAsins: Record<string, string> = {
  * Attempts exact match first, then normalized match.
  */
 export function resolveAsin(ingredientName: string): string | null {
-  const normalized = ingredientName.toLowerCase().trim();
+  if (!ingredientName) return null;
+
+  let normalized = ingredientName.toLowerCase().trim();
+  
+  // 1. Check exact match immediately
   if (ingredientAsins[normalized]) return ingredientAsins[normalized];
 
-  // Try without trailing 's' (plural)
-  if (normalized.endsWith("s") && ingredientAsins[normalized.slice(0, -1)]) {
-    return ingredientAsins[normalized.slice(0, -1)];
+  // 2. Remove common culinary prefixes and suffixes
+  normalized = normalized
+    .replace(/^(fresh|dried|ground|powdered|organic|large|small|medium|cup|clove|teaspoon|tablespoon|lb|oz|g|kg|half)\s+/g, '')
+    .replace(/\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g, '');
+
+  if (ingredientAsins[normalized]) return ingredientAsins[normalized];
+
+  // 3. Handle plurals (s, es, ies)
+  if (normalized.endsWith("s")) {
+    // ies -> y (berries -> berry)
+    if (normalized.endsWith("ies")) {
+      const singularY = `${normalized.slice(0, -3)}y`;
+      if (ingredientAsins[singularY]) return ingredientAsins[singularY];
+    }
+    // es -> e (potatoes -> potato, tomatoes -> tomato)
+    if (normalized.endsWith("es")) {
+      const singularE = normalized.slice(0, -2);
+      if (ingredientAsins[singularE]) return ingredientAsins[singularE];
+    }
+    // s -> "" (onions -> onion)
+    const singularS = normalized.slice(0, -1);
+    if (ingredientAsins[singularS]) return ingredientAsins[singularS];
   }
 
-  // Try partial match on last word
+  // 4. Try partial match on last word (often the base ingredient)
   const words = normalized.split(/\s+/);
-  const lastWord = words[words.length - 1];
-  if (ingredientAsins[lastWord]) return ingredientAsins[lastWord];
+  if (words.length > 1) {
+    const lastWord = words[words.length - 1];
+    if (ingredientAsins[lastWord]) return ingredientAsins[lastWord];
+  }
 
   return null;
 }

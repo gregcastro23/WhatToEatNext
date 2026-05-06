@@ -1,14 +1,12 @@
 import 'server-only';
-import { Pool, types, neonConfig } from "@neondatabase/serverless";
-import ws from "ws";
+import pkg from 'pg';
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
-import type { PoolClient, QueryResult } from "@neondatabase/serverless";
+import type { Pool, PoolClient, QueryResult } from "pg";
 
-// Polyfill WebSocket for Node.js environments (fixes ErrorEvent on serverless functions)
-if (typeof WebSocket === 'undefined') {
-  neonConfig.webSocketConstructor = ws;
-}
+const { Pool: PoolValue, types } = pkg;
+
+// Note: neonConfig is no longer used as we are using standard pg
 
 /**
  * Database Connection Layer - Phase 1 Infrastructure Migration
@@ -65,8 +63,11 @@ function getDatabaseConfig(): DatabaseConfig {
       database: url.pathname.slice(1),
       user: url.username,
       password: url.password,
-      ssl: databaseConfig.environment === "production" && !hyperdriveUrl, // Hyperdrive often handles SSL internally
+      ssl: databaseConfig.environment === "production" && !hyperdriveUrl 
+        ? { rejectUnauthorized: false } 
+        : false, // Hyperdrive often handles SSL internally
       max: maxConnections,
+
       idleTimeoutMillis: idleTimeout,
       connectionTimeoutMillis: connectionTimeout,
     };
@@ -117,7 +118,7 @@ export function initializeDatabase(): Pool {
   // Note: neonConfig.fetchConnectionCache was removed — the option is deprecated
   // and always true in current @neondatabase/serverless.
 
-  pool = new Pool(config);
+  pool = new PoolValue(config);
   // Connection event handlers
   pool.on("connect", (_client: PoolClient) => {
     void logger.info("New database connection established", {

@@ -22,7 +22,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { AMAZON_ASSOCIATE_TAG, resolveAsin } from "@/data/amazon";
+import { AMAZON_ASSOCIATE_TAG, resolveAsin, getStandardizedQuantity } from "@/data/amazon";
 
 const STORAGE_KEY = "alchm:grocery-cart:v2";
 const AMAZON_CART_URL = "https://www.amazon.com/gp/aws/cart/add.html";
@@ -237,6 +237,12 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
     tagInput.value = AMAZON_ASSOCIATE_TAG;
     form.appendChild(tagInput);
 
+    const cartTypeInput = document.createElement("input");
+    cartTypeInput.type = "hidden";
+    cartTypeInput.name = "cart-type";
+    cartTypeInput.value = "fresh";
+    form.appendChild(cartTypeInput);
+
     cartItems.forEach((item, idx) => {
       const pos = idx + 1;
       const asinInput = document.createElement("input");
@@ -248,7 +254,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
       const qtyInput = document.createElement("input");
       qtyInput.type = "hidden";
       qtyInput.name = `Quantity.${pos}`;
-      qtyInput.value = String(Math.max(1, Math.ceil(item.quantity)));
+      qtyInput.value = String(getStandardizedQuantity(item.name, item.quantity));
       form.appendChild(qtyInput);
     });
 

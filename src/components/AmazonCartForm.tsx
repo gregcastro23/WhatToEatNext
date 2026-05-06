@@ -41,6 +41,7 @@ export function AmazonCartForm({
       onSubmit={() => setSubmitted(true)}
     >
       <input type="hidden" name="AssociateTag" value={associateTag} />
+      <input type="hidden" name="cart-type" value="fresh" />
 
       {validItems.map((item, idx) => {
         const position = idx + 1;

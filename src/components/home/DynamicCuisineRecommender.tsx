@@ -185,10 +185,11 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
       if (data.success) {
         // Map API response to our component's format
         // The backend might return cuisines in several possible fields depending on the engine
-        const apiCuisines: string[] = 
+        const apiCuisines: any[] = 
           Array.isArray(data.recommendations?.cuisines) ? data.recommendations.cuisines :
           Array.isArray(data.cuisines) ? data.cuisines :
           Array.isArray(data.topCuisines) ? data.topCuisines :
+          Array.isArray(data.cuisineRecommendations) ? data.cuisineRecommendations :
           Array.isArray(data.recommendations) ? data.recommendations :
           [];
         
@@ -206,13 +207,15 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
             const nameLower = def.name.toLowerCase();
             const count = recipeCounts[nameLower] || 0;
 
-            const isRecommended = apiCuisines.some(c => 
-              typeof c === 'string' && c.toLowerCase() === nameLower
-            );
+            const isRecommended = apiCuisines.some(c => {
+              const cName = typeof c === 'string' ? c : (c?.name || c?.cuisine_id || '');
+              return typeof cName === 'string' && cName.toLowerCase() === nameLower;
+            });
             
-            const recommendationIndex = apiCuisines.findIndex(c => 
-              typeof c === 'string' && c.toLowerCase() === nameLower
-            );
+            const recommendationIndex = apiCuisines.findIndex(c => {
+              const cName = typeof c === 'string' ? c : (c?.name || c?.cuisine_id || '');
+              return typeof cName === 'string' && cName.toLowerCase() === nameLower;
+            });
 
             let score = 70; // Default
             if (isRecommended) {

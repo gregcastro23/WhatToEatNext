@@ -10,7 +10,7 @@ import { useToast } from '@/components/ToastProvider';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAlchemicalData } from '@/contexts/AlchemicalDataContext';
 import { useGroceryCart } from '@/contexts/GroceryCartContext';
-import { resolveAsin, AMAZON_ASSOCIATE_TAG } from '@/data/amazon';
+import { resolveAsin, AMAZON_ASSOCIATE_TAG, getStandardizedQuantity } from "@/data/amazon";
 // @ts-expect-error - Auto-fixed by script
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
@@ -112,7 +112,8 @@ export default function CuisineRecommender() {
     try {
       const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients.map((ing: any) => {
         const name = typeof ing === 'string' ? ing : ing.name;
-        return name ? { name, asin: resolveAsin(name) } : null;
+        const amount = typeof ing === 'object' ? (ing.amount || 1) : 1;
+        return name ? { name, asin: resolveAsin(name), amount } : null;
       }).filter((x: any) => x && x.asin) : [];
 
       if (ingredients.length === 0) {
@@ -132,6 +133,12 @@ export default function CuisineRecommender() {
       tagInput.value = AMAZON_ASSOCIATE_TAG;
       form.appendChild(tagInput);
 
+      const cartTypeInput = document.createElement("input");
+      cartTypeInput.type = "hidden";
+      cartTypeInput.name = "cart-type";
+      cartTypeInput.value = "fresh";
+      form.appendChild(cartTypeInput);
+
       ingredients.forEach((item: any, idx: number) => {
         const pos = idx + 1;
         const asinInput = document.createElement("input");
@@ -143,7 +150,7 @@ export default function CuisineRecommender() {
         const qtyInput = document.createElement("input");
         qtyInput.type = "hidden";
         qtyInput.name = `Quantity.${pos}`;
-        qtyInput.value = "1";
+        qtyInput.value = String(getStandardizedQuantity(item.name, item.amount));
         form.appendChild(qtyInput);
       });
 
