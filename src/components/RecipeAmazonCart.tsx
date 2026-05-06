@@ -1,6 +1,6 @@
+import { resolveAsin } from "@/data/amazon";
 import { executeQuery } from "@/lib/database/connection";
 import { AmazonCartForm } from "./AmazonCartForm";
-import { resolveAsin } from "@/data/amazon";
 
 interface IngredientRow {
   ingredient_name: string;

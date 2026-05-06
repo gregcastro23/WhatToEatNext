@@ -1,7 +1,6 @@
 import 'server-only';
 import pkg from 'pg';
 const { Pool: PoolValue, types } = pkg;
-import ws from "ws";
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
 import type { Pool, PoolClient, QueryResult } from "pg";
