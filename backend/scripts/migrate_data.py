@@ -256,6 +256,24 @@ class DataMigrator:
             }
             cuisine = cuisine_map.get(cuisine_raw.lower(), cuisine_raw.title())
 
+            # Map dietary tags to Enum values
+            dietary_raw = data.get('dietary_tags', [])
+            dietary_map = {
+                'vegetarian': 'Vegetarian',
+                'vegan': 'Vegan',
+                'glutenfree': 'Gluten Free',
+                'dairyfree': 'Dairy Free',
+                'dairy-free': 'Dairy Free',
+                'gluten-free': 'Gluten Free',
+                'lowcarb': 'Low Carb',
+                'low-carb': 'Low Carb',
+                'paleo': 'Paleo',
+                'keto': 'Keto',
+                'halal': 'Halal',
+                'kosher': 'Kosher'
+            }
+            dietary_tags = [dietary_map.get(t.lower(), t.title()) for t in dietary_raw]
+
             recipe = Recipe(
                 name=name,
                 description=data.get('description'),
@@ -266,7 +284,7 @@ class DataMigrator:
                 cook_time_minutes=data.get('cook_time_minutes', 30),
                 servings=data.get('servings', 4),
                 difficulty_level=data.get('difficulty_level', 2),
-                dietary_tags=data.get('dietary_tags', []),
+                dietary_tags=dietary_tags,
                 allergens=data.get('allergens', []),
                 is_public=data.get('is_public', True),
                 is_verified=data.get('is_verified', False)
