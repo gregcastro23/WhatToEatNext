@@ -2,6 +2,7 @@
 alchm.kitchen - Unified Backend Service
 Handles recipe recommendations, alchemical calculations, and astrological insights
 Phase 1 Infrastructure Migration - September 26, 2025
+Phase 2 Stability Patch - May 6, 2026 (SQL Fixes & Transaction Safety)
 
 Architecture:
 - Calls Render alchemize API for planetary calculations

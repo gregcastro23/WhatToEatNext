@@ -1,10 +1,11 @@
 import 'server-only';
-import pkg from 'pg';
+import * as pg from 'pg';
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
-import type { Pool, PoolClient, QueryResult } from "pg";
 
-const { Pool: PoolValue, types } = pkg;
+// Robust import for pg Pool (handles CJS/ESM compatibility)
+const { Pool: PoolValue, types } = (pg.default as any) || pg;
+import type { Pool, PoolClient, QueryResult } from "pg";
 
 // Note: neonConfig is no longer used as we are using standard pg
 
@@ -63,9 +64,10 @@ function getDatabaseConfig(): DatabaseConfig {
       database: url.pathname.slice(1),
       user: url.username,
       password: url.password,
-      ssl: databaseConfig.environment === "production" && !hyperdriveUrl 
+      // Enable SSL for any remote connection (non-localhost)
+      ssl: url.hostname !== "localhost" && url.hostname !== "127.0.0.1"
         ? { rejectUnauthorized: false } 
-        : false, // Hyperdrive often handles SSL internally
+        : false,
       max: maxConnections,
 
       idleTimeoutMillis: idleTimeout,
