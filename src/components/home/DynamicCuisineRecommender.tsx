@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { getServerRecipes } from "@/actions/recipes";
-import { fetchWithRetry } from "@/utils/apiUtils";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
+import { fetchWithRetry } from "@/utils/apiUtils";
 import { CuisineCard, CuisineCardSkeleton } from "./CuisineCard";
 import type { DynamicCuisineRecommendation } from "./CuisineCard";
 
@@ -171,7 +171,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
       const response = await fetchWithRetry("/api/cuisines/recommend", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        timeout: 20000,
+        timeout: 30000,
         retries: 2,
       });
 

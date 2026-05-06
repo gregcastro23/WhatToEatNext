@@ -208,10 +208,13 @@ app.add_middleware(
 # ==========================================
 
 import json
+from functools import lru_cache
 
 DATA_JSON_PATH = os.path.join(os.path.dirname(__file__), "data", "json")
 
-def load_json_file(filename: str):
+@lru_cache(maxsize=32)
+def load_json_file_cached(filename: str):
+    """Load and parse a JSON file from disk with LRU caching."""
     full_path = os.path.join(DATA_JSON_PATH, filename)
     try:
         if os.path.exists(full_path):
@@ -221,6 +224,11 @@ def load_json_file(filename: str):
     except Exception as e:
         print(f"Error loading JSON data from {filename}: {e}")
         return None
+
+def load_json_file(filename: str):
+    """Public wrapper for JSON loading."""
+    # We use the cached version for performance
+    return load_json_file_cached(filename)
 
 @app.get("/api/v1/cuisines")
 async def get_all_cuisines():
