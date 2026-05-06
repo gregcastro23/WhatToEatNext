@@ -63,7 +63,7 @@ function getDatabaseConfig(): DatabaseConfig {
       database: url.pathname.slice(1),
       user: url.username,
       password: url.password,
-      ssl: databaseConfig.environment === \"production\" && !hyperdriveUrl 
+      ssl: databaseConfig.environment === "production" && !hyperdriveUrl 
         ? { rejectUnauthorized: false } 
         : false, // Hyperdrive often handles SSL internally
       max: maxConnections,

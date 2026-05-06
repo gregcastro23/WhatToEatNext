@@ -1,6 +1,6 @@
-import { NextResponse } from \"next/server\";
-import { executeQuery } from \"@/lib/database/connection\";
-import { resolveAsin } from \"@/data/amazon\";
+import { NextResponse } from "next/server";
+import { executeQuery } from "@/lib/database/connection";
+import { resolveAsin } from "@/data/amazon";
 
 interface IngredientAsin {
   ingredient_name: string;
