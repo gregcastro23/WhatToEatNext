@@ -18,15 +18,20 @@
 
 ## 2. Optimization Recommendations
 
-### 2.1 Migration Strategy (Short Term)
+### 2.1 Middleware & Type Safety (NEW)
+- **Zod Integration:** `zod` is already present in `package.json`. It should be strictly enforced for all frontend API responses and form validations to ensure data integrity before it reaches the UI.
+- **Hono for Edge/Backend:** While the backend is currently FastAPI (Python), a migration to `Hono` (TypeScript) should be considered if the goal is to unify the stack. `Hono` is extremely fast, has built-in Zod support, and runs efficiently on Edge (Vercel/Cloudflare).
+- **CORS Preflight Fix:** Resolved the `400 Bad Request` on `OPTIONS` by ensuring `allow_credentials=True` is never paired with `allow_origins=["*"]`.
+
+### 2.2 Migration Strategy (Short Term)
 - **Bulk Inserts:** Rewrite migration scripts to use bulk `INSERT` statements. This can reduce migration time from minutes to seconds.
 - **Transaction Batching:** Group related inserts into single transactions.
 
-### 2.2 Application Data Access (Medium Term)
+### 2.3 Application Data Access (Medium Term)
 - **Server-Side Caching:** Implement a caching layer (e.g., Redis) for the recipe catalog.
 - **Materialized Views:** Create a materialized view that pre-calculates the complex `RECIPE_QUERY` JSON to avoid expensive joins on every read.
 
-### 2.3 Architecture & Schema (Long Term)
+### 2.4 Architecture & Schema (Long Term)
 - **Denormalization:** Store ingredient summaries directly in the `recipes` table to eliminate joins for list views.
 - **Edge Data:** Use globally distributed caching to minimize cold start latency for end-users.
 
