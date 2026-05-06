@@ -1,10 +1,10 @@
 import 'server-only';
 import pkg from 'pg';
-const { Pool, types } = pkg;
+const { Pool: PoolValue, types } = pkg;
 import ws from "ws";
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
-import type { PoolClient, QueryResult } from "pg";
+import type { Pool, PoolClient, QueryResult } from "pg";
 
 // Note: neonConfig is no longer used as we are using standard pg
 
@@ -118,7 +118,7 @@ export function initializeDatabase(): Pool {
   // Note: neonConfig.fetchConnectionCache was removed — the option is deprecated
   // and always true in current @neondatabase/serverless.
 
-  pool = new Pool(config);
+  pool = new PoolValue(config);
   // Connection event handlers
   pool.on("connect", (_client: PoolClient) => {
     void logger.info("New database connection established", {
