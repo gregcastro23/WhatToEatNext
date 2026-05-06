@@ -43,7 +43,6 @@ const getSecurityHeaders = () => {
     "object-src 'none'",
     "frame-src 'self' https://accounts.google.com",
     "frame-ancestors 'none'",
-    "block-all-mixed-content",
     "upgrade-insecure-requests",
   ].join("; ");
 

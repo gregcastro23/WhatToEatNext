@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { getServerRecipes } from "@/actions/recipes";
+import { fetchWithRetry } from "@/utils/apiUtils";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { CuisineCard, CuisineCardSkeleton } from "./CuisineCard";
 import type { DynamicCuisineRecommendation } from "./CuisineCard";
@@ -167,10 +168,11 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
     console.log("DynamicCuisineRecommender: Starting to load recommendations from unified API...");
     try {
       // Phase 1: Call the unified API endpoint (which handles backend + local fallback)
-      const response = await fetch("/api/cuisines/recommend", {
+      const response = await fetchWithRetry("/api/cuisines/recommend", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(10000),
+        timeout: 20000,
+        retries: 2,
       });
 
       if (!response.ok) {

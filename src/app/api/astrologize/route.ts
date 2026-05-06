@@ -91,7 +91,7 @@ async function fetchFromRailway(params: PlanetaryRequest): Promise<RailwayPositi
         latitude: params.latitude,
         longitude: params.longitude,
       }),
-      signal: AbortSignal.timeout(4000),
+      signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {

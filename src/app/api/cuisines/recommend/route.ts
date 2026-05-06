@@ -71,7 +71,7 @@ async function fetchFromBackend(params: { zodiacSign?: string; season?: string; 
         "Content-Type": "application/json",
         ...(INTERNAL_SECRET ? { "X-Internal-Secret": INTERNAL_SECRET } : {}),
       },
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {
