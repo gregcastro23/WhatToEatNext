@@ -19,7 +19,7 @@
 		{
 			"binding": "HYPERDRIVE",
 			"id": "aac623732a954f19aba8ffdbc7278034",
-			"localConnectionString": "postgresql://neondb_owner:npg_kHLuO2D3wZEg@ep-patient-bread-amcjoqiw.c-5.us-east-1.aws.neon.tech/neondb"
+			"localConnectionString": "postgresql://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@tramway.proxy.rlwy.net:35670/railway"
 		}
 	]
 }

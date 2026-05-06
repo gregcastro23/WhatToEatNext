@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 const fs = require("fs");
 const path = require("path");
 
-const databaseUrl = "postgresql://neondb_owner:npg_kHLuO2D3wZEg@ep-patient-bread-amcjoqiw-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require";
+const databaseUrl = "postgresql://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@tramway.proxy.rlwy.net:35670/railway";
 
 async function applyMigration() {
   const pool = new Pool({

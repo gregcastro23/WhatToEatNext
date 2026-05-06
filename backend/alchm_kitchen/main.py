@@ -819,7 +819,7 @@ async def get_zodiac_based_recipes(
         # This is a complex query that joins multiple tables
         recipes_with_affinity = db.execute(text("""
             SELECT DISTINCT
-                r.id, r.name, r.description, r.cuisine,
+                r.id, r.name, r.description, r.cuisine, r.read_model,
                 AVG(za.affinity_strength) as avg_affinity,
                 COUNT(za.id) as ingredient_matches
             FROM recipes r
@@ -830,20 +830,24 @@ async def get_zodiac_based_recipes(
                 AND za.zodiac_sign = :zodiac_sign
                 AND za.affinity_strength >= 0.6
             WHERE r.is_public = true
-            GROUP BY r.id, r.name, r.description, r.cuisine
+            GROUP BY r.id, r.name, r.description, r.cuisine, r.read_model
             ORDER BY avg_affinity DESC, ingredient_matches DESC
             LIMIT :limit
         """), {"zodiac_sign": zodiac_sign, "limit": limit}).fetchall()
 
         recommendations = []
         for row in recipes_with_affinity:
-            recipe_id, name, description, cuisine, avg_affinity, ingredient_matches = row
+            recipe_id, name, description, cuisine, read_model, avg_affinity, ingredient_matches = row
 
-            recommendations.append({
-                "recipe_id": str(recipe_id),
+            recipe_data = read_model if read_model else {
+                "id": str(recipe_id),
                 "name": name,
                 "description": description,
-                "cuisine": cuisine,
+                "cuisine": cuisine
+            }
+
+            recommendations.append({
+                "recipe": recipe_data,
                 "zodiac_affinity_score": float(avg_affinity),
                 "matching_ingredients": ingredient_matches,
                 "reason": f"Contains {ingredient_matches} ingredient(s) harmonious with {zodiac_sign} energy"
@@ -879,7 +883,7 @@ async def get_seasonal_recipes(
         # Find recipes with seasonal ingredients
         seasonal_recipes = db.execute(text("""
             SELECT DISTINCT
-                r.id, r.name, r.description, r.cuisine,
+                r.id, r.name, r.description, r.cuisine, r.read_model,
                 AVG(sa.strength) as avg_seasonal_score,
                 COUNT(sa.id) as seasonal_ingredients
             FROM recipes r
@@ -890,20 +894,24 @@ async def get_seasonal_recipes(
                 AND sa.season = :season
                 AND sa.strength >= 0.7
             WHERE r.is_public = true
-            GROUP BY r.id, r.name, r.description, r.cuisine
+            GROUP BY r.id, r.name, r.description, r.cuisine, r.read_model
             ORDER BY avg_seasonal_score DESC, seasonal_ingredients DESC
             LIMIT :limit
         """), {"season": season, "limit": limit}).fetchall()
 
         recommendations = []
         for row in seasonal_recipes:
-            recipe_id, name, description, cuisine, avg_score, seasonal_ingredients = row
+            recipe_id, name, description, cuisine, read_model, avg_score, seasonal_ingredients = row
 
-            recommendations.append({
-                "recipe_id": str(recipe_id),
+            recipe_data = read_model if read_model else {
+                "id": str(recipe_id),
                 "name": name,
                 "description": description,
-                "cuisine": cuisine,
+                "cuisine": cuisine
+            }
+
+            recommendations.append({
+                "recipe": recipe_data,
                 "seasonal_score": float(avg_score),
                 "seasonal_ingredients": seasonal_ingredients,
                 "reason": f"Features {seasonal_ingredients} seasonal ingredient(s) perfect for {season}"
@@ -1368,6 +1376,7 @@ async def get_recipe_recommendations_by_chart(
                 r.name,
                 r.description,
                 r.cuisine,
+                r.read_model,
                 i.name as ingredient_name,
                 i.category as ingredient_category,
                 za.zodiac_sign,
@@ -1387,12 +1396,13 @@ async def get_recipe_recommendations_by_chart(
         recipe_scores = {}
 
         for row in results:
-            recipe_id, name, description, cuisine, ingredient_name, ingredient_category, zodiac_sign, affinity_strength = row
+            recipe_id, name, description, cuisine, read_model, ingredient_name, ingredient_category, zodiac_sign, affinity_strength = row
             if recipe_id not in recipe_scores:
                 recipe_scores[recipe_id] = {
                     "name": name,
                     "description": description,
                     "cuisine": cuisine,
+                    "read_model": read_model,
                     "weighted_environmental_score": 0,
                     "matching_ingredients": []
                 }
@@ -1531,25 +1541,38 @@ async def get_recipe_recommendations_by_chart(
                     if optimal_window:
                         break
 
-            # Get elemental properties for the recipe
-            elemental_properties = db.query(ElementalProperties).filter(
-                ElementalProperties.entity_type == 'recipe',
-                ElementalProperties.entity_id == recipe_id
-            ).first()
-
-            # Fetch full recipe object for calculations
-            full_recipe = db.query(Recipe).filter(Recipe.id == recipe_id).first()
+            # Use read_model for performance (avoiding N+1 queries)
+            read_model = data.get("read_model")
+            
+            # If we have a read_model, we can reconstruct the recipe object partially
+            # for the calculation functions, or we can use the data directly if they support dicts.
+            if read_model:
+                # Mock a recipe object that the calculation functions expect
+                class RecipeObj:
+                    def __init__(self, d):
+                        self.__dict__.update(d)
+                        self.id = d.get("id")
+                        # Ensure elementalProperties is available if stored in read_model
+                        self.elementalProperties = d.get("elemental_properties")
+                
+                full_recipe = RecipeObj(read_model)
+            else:
+                # Fallback to DB if read_model is missing (for older entries)
+                full_recipe = db.query(Recipe).filter(Recipe.id == recipe_id).first()
+                if full_recipe:
+                    elemental_properties = db.query(ElementalProperties).filter(
+                        ElementalProperties.entity_type == 'recipe',
+                        ElementalProperties.entity_id == recipe_id
+                    ).first()
+                    full_recipe.elementalProperties = {
+                        "Fire": elemental_properties.fire,
+                        "Water": elemental_properties.water,
+                        "Earth": elemental_properties.earth,
+                        "Air": elemental_properties.air,
+                    } if elemental_properties else None
+            
             if not full_recipe:
-                continue # Skip if recipe not found
-
-            # Temporarily assign elemental properties for calculation context
-            # In a real system, this would be passed explicitly or the recipe object would already have it
-            full_recipe.elementalProperties = {
-                "Fire": elemental_properties.fire,
-                "Water": elemental_properties.water,
-                "Earth": elemental_properties.earth,
-                "Air": elemental_properties.air,
-            } if elemental_properties else None
+                continue
 
             # Calculate Total Potency Score and Kinetic/Thermo ratings
             potency_scores_and_physics = calculate_total_potency_score(
