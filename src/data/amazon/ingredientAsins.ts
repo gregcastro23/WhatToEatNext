@@ -343,6 +343,44 @@ export const ingredientAsins: Record<string, string> = {
   "pinto beans": "B0787XHMPJ",
   "white beans": "B0787XHMPJ",
   "cannellini beans": "B0787XHMPJ",
+
+  // ─── Added Common Ingredients ──────────────────────────────────────
+  "chicken thigh": "B07BHKP7Y5",
+  "chicken thighs": "B07BHKP7Y5",
+  "chicken breast": "B07BHKP7Y5",
+  "chicken breasts": "B07BHKP7Y5",
+  "soy sauce": "B0005XOWUU",
+  "mirin": "B0005XOWUU",
+  "sake": "B0005XOWUU",
+  "rice vinegar": "B003VSCQQ6",
+  "sesame oil": "B003VSCQQ6",
+  "green onions": "B07PQ1C74B",
+  "scallions": "B07PQ1C74B",
+  "ginger": "B07V5H2JNY",
+  "garlic": "B0787YSB1Y",
+  "cilantro": "B07V5H3DMS",
+  "parsley": "B07V5H3DMS",
+  "egg": "B0787YC4M5",
+  "eggs": "B0787YC4M5",
+  "butter": "B0787X7MJ5",
+  "heavy cream": "B0787YC4M5",
+  "flour": "B0787XDSZL",
+  "sugar": "B0787XDSZL",
+  "salt": "B000EITYUU",
+  "pepper": "B006YOC0GC",
+  "black pepper": "B006YOC0GC",
+  "olive oil": "B004ULUVU4",
+  "vegetable oil": "B0014CZFSI",
+  "lemon": "B0787YSB1Y",
+  "lime": "B0787YSB1Y",
+  "potato": "B0787YC4M5",
+  "potatoes": "B0787YC4M5",
+  "tomato": "B0787XDSZL",
+  "tomatoes": "B0787XDSZL",
+  "onion": "B0787XCFMT",
+  "onions": "B0787XCFMT",
+  "carrot": "B0787Y4YCW",
+  "carrots": "B0787Y4YCW",
 };
 
 /**
@@ -350,18 +388,43 @@ export const ingredientAsins: Record<string, string> = {
  * Attempts exact match first, then normalized match.
  */
 export function resolveAsin(ingredientName: string): string | null {
-  const normalized = ingredientName.toLowerCase().trim();
+  if (!ingredientName) return null;
+
+  let normalized = ingredientName.toLowerCase().trim();
+  
+  // 1. Check exact match immediately
   if (ingredientAsins[normalized]) return ingredientAsins[normalized];
 
-  // Try without trailing 's' (plural)
-  if (normalized.endsWith("s") && ingredientAsins[normalized.slice(0, -1)]) {
-    return ingredientAsins[normalized.slice(0, -1)];
+  // 2. Remove common culinary prefixes and suffixes
+  normalized = normalized
+    .replace(/^(fresh|dried|ground|powdered|organic|large|small|medium|cup|clove|teaspoon|tablespoon|lb|oz|g|kg|half)\s+/g, '')
+    .replace(/\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g, '');
+
+  if (ingredientAsins[normalized]) return ingredientAsins[normalized];
+
+  // 3. Handle plurals (s, es, ies)
+  if (normalized.endsWith("s")) {
+    // ies -> y (berries -> berry)
+    if (normalized.endsWith("ies")) {
+      const singularY = normalized.slice(0, -3) + "y";
+      if (ingredientAsins[singularY]) return ingredientAsins[singularY];
+    }
+    // es -> e (potatoes -> potato, tomatoes -> tomato)
+    if (normalized.endsWith("es")) {
+      const singularE = normalized.slice(0, -2);
+      if (ingredientAsins[singularE]) return ingredientAsins[singularE];
+    }
+    // s -> "" (onions -> onion)
+    const singularS = normalized.slice(0, -1);
+    if (ingredientAsins[singularS]) return ingredientAsins[singularS];
   }
 
-  // Try partial match on last word
+  // 4. Try partial match on last word (often the base ingredient)
   const words = normalized.split(/\s+/);
-  const lastWord = words[words.length - 1];
-  if (ingredientAsins[lastWord]) return ingredientAsins[lastWord];
+  if (words.length > 1) {
+    const lastWord = words[words.length - 1];
+    if (ingredientAsins[lastWord]) return ingredientAsins[lastWord];
+  }
 
   return null;
 }
