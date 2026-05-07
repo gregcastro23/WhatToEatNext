@@ -12,64 +12,64 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ai-sdk/gateway@npm:3.0.104":
-  version: 3.0.104
-  resolution: "@ai-sdk/gateway@npm:3.0.104"
+"@ai-sdk/gateway@npm:3.0.110":
+  version: 3.0.110
+  resolution: "@ai-sdk/gateway@npm:3.0.110"
   dependencies:
-    "@ai-sdk/provider": 3.0.8
-    "@ai-sdk/provider-utils": 4.0.23
+    "@ai-sdk/provider": 3.0.10
+    "@ai-sdk/provider-utils": 4.0.26
     "@vercel/oidc": 3.2.0
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 6dbaee07928dbebea00f6014b9db16086bcacb757f5321ad22db5842413081038825477993022f552bdfa554c7722c7de46440454603f226d6f2eabace3ba103
+  checksum: eac0dbdf8d537b4085bbbdab6c76eb3f919fb558b9b9f66840972889d2107cacd5c46d0c998f4f5c34d47248dad75196654a553d904e97c4319f4a7a512a4ee3
   languageName: node
   linkType: hard
 
-"@ai-sdk/openai@npm:^3.0.52":
-  version: 3.0.53
-  resolution: "@ai-sdk/openai@npm:3.0.53"
+"@ai-sdk/openai@npm:^3.0.62":
+  version: 3.0.62
+  resolution: "@ai-sdk/openai@npm:3.0.62"
   dependencies:
-    "@ai-sdk/provider": 3.0.8
-    "@ai-sdk/provider-utils": 4.0.23
+    "@ai-sdk/provider": 3.0.10
+    "@ai-sdk/provider-utils": 4.0.26
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: de9bb2f630313bd2aaa448ff18cc8d688ce8aeee9bd6543c51c168a07de6f2853a6df64465dc8b9ebffcdb1142e2707d4c0e144e804864d51d6079c9eae2bff9
+  checksum: e77c24e5dbece8764d674b36eb1166b5c357ef79832fcb8b1fdafff65adf50970fbfeb3dcbb745250bb35c1bb2e7efecce123342eb8cbdcedb91083a562217c6
   languageName: node
   linkType: hard
 
-"@ai-sdk/provider-utils@npm:4.0.23":
-  version: 4.0.23
-  resolution: "@ai-sdk/provider-utils@npm:4.0.23"
+"@ai-sdk/provider-utils@npm:4.0.26":
+  version: 4.0.26
+  resolution: "@ai-sdk/provider-utils@npm:4.0.26"
   dependencies:
-    "@ai-sdk/provider": 3.0.8
+    "@ai-sdk/provider": 3.0.10
     "@standard-schema/spec": ^1.1.0
-    eventsource-parser: ^3.0.6
+    eventsource-parser: ^3.0.8
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 12e5a28e73df6c17d05a961ddf2d9ec86a59219e9b5c66eb550d0508d946b5774f7fc4dde8662f083340d472467f58c11478be48c18d9d606647152fc77103f0
+  checksum: 09e4b55174f3933f7218821b2b31a2f8d4da84480b92e0f96290742df8680421a7bd0de733dc67776109cdf016fffe13c708ef1ba64c80215971a31ce54862f7
   languageName: node
   linkType: hard
 
-"@ai-sdk/provider@npm:3.0.8":
-  version: 3.0.8
-  resolution: "@ai-sdk/provider@npm:3.0.8"
+"@ai-sdk/provider@npm:3.0.10":
+  version: 3.0.10
+  resolution: "@ai-sdk/provider@npm:3.0.10"
   dependencies:
     json-schema: ^0.4.0
-  checksum: cdc55caa9ab7836f03c8100ffe359ca57c6e22263238ac89181eaa6dfe6e1011f0c40652eed7ba597f127e1c09b0ab12a4bf6b19343621e5e74ed097c3c7125c
+  checksum: ab4f0f5d45991134fcd541bbaee750894063800c4eeb59524fb16c93cde069c6bb78aeadedbcc5cf70ac8b68ed76dc657185356347f23e88e22a6a18038e5bc8
   languageName: node
   linkType: hard
 
-"@ai-sdk/react@npm:^3.0.158":
-  version: 3.0.170
-  resolution: "@ai-sdk/react@npm:3.0.170"
+"@ai-sdk/react@npm:^3.0.177":
+  version: 3.0.177
+  resolution: "@ai-sdk/react@npm:3.0.177"
   dependencies:
-    "@ai-sdk/provider-utils": 4.0.23
-    ai: 6.0.168
+    "@ai-sdk/provider-utils": 4.0.26
+    ai: 6.0.175
     swr: ^2.2.5
     throttleit: 2.1.0
   peerDependencies:
     react: ^18 || ~19.0.1 || ~19.1.2 || ^19.2.1
-  checksum: 5eeea9fa3aeacd2f275c52d2634c21fb94a4f5bd7367c47311a424fd2fb1e477b36f51295d67a6bb9e58c730db094dd76cd503d3daca2ca95636e00312fc90ab
+  checksum: 1a6d6dbb012c00acd46de02002bd3594c90cb950b973be33fbdfa7da775b65ee1dc4b2d53f6fc154aec41fd70465b3514aa702e8120845aab59fb314905bf9a9
   languageName: node
   linkType: hard
 
@@ -92,9 +92,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ark-ui/react@npm:^5.34.1":
-  version: 5.36.1
-  resolution: "@ark-ui/react@npm:5.36.1"
+"@ark-ui/react@npm:5.36.2":
+  version: 5.36.2
+  resolution: "@ark-ui/react@npm:5.36.2"
   dependencies:
     "@internationalized/date": 3.12.0
     "@zag-js/accordion": 1.40.0
@@ -166,7 +166,7 @@ __metadata:
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: a0a1e4c036c5bbe2324babf0a4af8eb82e6b7bf5f21631a6e018c8f88f13ad1003a61cf8a3ab4afeac94597b16323017aa2c4f0c4001e4964f4256b9ef7a10a7
+  checksum: 6f9c7bcf0229a7edb34d7bf68750b422cf55ce6b09935efde5eaf720668d9d0ba1b676260c9a16829b9f0edb3aa8c2f68bd306d69849ff4d7f36199d681d2c37
   languageName: node
   linkType: hard
 
@@ -462,7 +462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.24.4, @babel/parser@npm:^7.26.7, @babel/parser@npm:^7.27.7, @babel/parser@npm:^7.28.6, @babel/parser@npm:^7.29.0, @babel/parser@npm:^7.29.2":
+"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.24.4, @babel/parser@npm:^7.26.7, @babel/parser@npm:^7.28.6, @babel/parser@npm:^7.29.0, @babel/parser@npm:^7.29.2":
   version: 7.29.2
   resolution: "@babel/parser@npm:7.29.2"
   dependencies:
@@ -470,6 +470,17 @@ __metadata:
   bin:
     parser: ./bin/babel-parser.js
   checksum: 25249623ffceb61beda0ba67776cf3957ffd49bef3005ccb81da3049db52115c91ad97c97da661b714f92d062e052d07bd2ba6cba6b5460f168ff38dabaf4d6d
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.29.3":
+  version: 7.29.3
+  resolution: "@babel/parser@npm:7.29.3"
+  dependencies:
+    "@babel/types": ^7.29.0
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 046f46996bf4053b6e29f8a7f420f9e0a2878593c1c9a9914a36faca23fc544a307c78a0101ba3ae98936ade68bdde686a83e1ab2b74c2ebb80dc4a9df48476d
   languageName: node
   linkType: hard
 
@@ -1511,11 +1522,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/react@npm:^3.27.0":
-  version: 3.34.0
-  resolution: "@chakra-ui/react@npm:3.34.0"
+"@chakra-ui/react@npm:^3.35.0":
+  version: 3.35.0
+  resolution: "@chakra-ui/react@npm:3.35.0"
   dependencies:
-    "@ark-ui/react": ^5.34.1
+    "@ark-ui/react": 5.36.2
     "@emotion/is-prop-valid": ^1.4.0
     "@emotion/serialize": ^1.3.3
     "@emotion/use-insertion-effect-with-fallbacks": ^1.2.0
@@ -1526,7 +1537,7 @@ __metadata:
     "@emotion/react": ">=11"
     react: ">=18"
     react-dom: ">=18"
-  checksum: 160f381339bdb57ff0a1fc11741ab1c5fae8f5f11d58edac0c5f0d1179131dffb4b521a595c88eeae718395b16de4f73a6e5eefa81569e8bc271cac3db32859d
+  checksum: 5e4e687dca4c1860a4a5a0e58b0beb45419c06d0af226981dbf4e4f729a3f2e15d8c099b05ed47d9c5ad91e503c6ecaac13ee1354e8e88f9b447e42a8348fb30
   languageName: node
   linkType: hard
 
@@ -3137,74 +3148,74 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/env@npm:15.5.15"
-  checksum: f07bf0f28bd71396e5f22328f4014fd64f4f7a175311d4d3e121797bd18f4635b8b906d4044709d20f5f55bdc2a6034dfa0acade4e152c1a733b61d4d08c500d
+"@next/env@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/env@npm:15.5.16"
+  checksum: 0991f57dd6b9b1ee5d15adc8d468c634c209c04d58824082ef78d90c1617902a3604dd1a83c49de66d22fed49f1f7f1a56db0a07c2c0644ae542a6ed3d027128
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:16.2.4":
-  version: 16.2.4
-  resolution: "@next/eslint-plugin-next@npm:16.2.4"
+"@next/eslint-plugin-next@npm:16.2.5":
+  version: 16.2.5
+  resolution: "@next/eslint-plugin-next@npm:16.2.5"
   dependencies:
     fast-glob: 3.3.1
-  checksum: 2fdf43562e88f56c54de38ff61a05a682617ce2b33c01834f90b09455f0aa67d330021842bdd74d57d0efe269d780cf340a538d001a8aaf721c57115216eddc2
+  checksum: ae9eab93ace8600fbb09e8a0c5b1f66841404532fa330ec27b8859b3318439dbb35365222105283f0a3bfb22fd159ffff153e5f438cf70592353bbeb8c977d6c
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/swc-darwin-arm64@npm:15.5.15"
+"@next/swc-darwin-arm64@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/swc-darwin-arm64@npm:15.5.16"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/swc-darwin-x64@npm:15.5.15"
+"@next/swc-darwin-x64@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/swc-darwin-x64@npm:15.5.16"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/swc-linux-arm64-gnu@npm:15.5.15"
+"@next/swc-linux-arm64-gnu@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/swc-linux-arm64-gnu@npm:15.5.16"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/swc-linux-arm64-musl@npm:15.5.15"
+"@next/swc-linux-arm64-musl@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/swc-linux-arm64-musl@npm:15.5.16"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/swc-linux-x64-gnu@npm:15.5.15"
+"@next/swc-linux-x64-gnu@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/swc-linux-x64-gnu@npm:15.5.16"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/swc-linux-x64-musl@npm:15.5.15"
+"@next/swc-linux-x64-musl@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/swc-linux-x64-musl@npm:15.5.16"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/swc-win32-arm64-msvc@npm:15.5.15"
+"@next/swc-win32-arm64-msvc@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/swc-win32-arm64-msvc@npm:15.5.16"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:15.5.15":
-  version: 15.5.15
-  resolution: "@next/swc-win32-x64-msvc@npm:15.5.15"
+"@next/swc-win32-x64-msvc@npm:15.5.16":
+  version: 15.5.16
+  resolution: "@next/swc-win32-x64-msvc@npm:15.5.16"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -3272,12 +3283,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/api-logs@npm:0.214.0, @opentelemetry/api-logs@npm:^0.214.0":
-  version: 0.214.0
-  resolution: "@opentelemetry/api-logs@npm:0.214.0"
+"@opentelemetry/api-logs@npm:0.217.0, @opentelemetry/api-logs@npm:^0.217.0":
+  version: 0.217.0
+  resolution: "@opentelemetry/api-logs@npm:0.217.0"
   dependencies:
     "@opentelemetry/api": ^1.3.0
-  checksum: 9d8603f0a1d728cddfcb26c7bac3fef8e032f19b5ffe7d30e7b2353292aee631db8e20050603662eeb33956ce0d911c4cad5ca90a955aebb266577a37f4c485e
+  checksum: 7681c10c388ff7765c1547ffa3894b30550596f079badc398ad94b4d8d0e7f66744fe1b00bfe04d515e70512f535167717ec106c364d705f1e3ce0fb4c6ebf96
   languageName: node
   linkType: hard
 
@@ -3295,101 +3306,78 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/core@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@opentelemetry/core@npm:2.6.1"
+"@opentelemetry/core@npm:2.7.1":
+  version: 2.7.1
+  resolution: "@opentelemetry/core@npm:2.7.1"
   dependencies:
     "@opentelemetry/semantic-conventions": ^1.29.0
   peerDependencies:
     "@opentelemetry/api": ">=1.0.0 <1.10.0"
-  checksum: 147aee12c095adca97869ff159c86556829e7f6a24d8aede43f28d2d49fdfbd37f719faba66d21159570adebe53b827b0bea419a2f2c58c4bf045c891da4c7a8
+  checksum: 80f40a776170fc1996550aeabc540138688ff0be50308fb2b2e587893fb102e34810def63573ee42a5d056f9905b96b03771e9ec3798ccd77db0465d9f020897
   languageName: node
   linkType: hard
 
-"@opentelemetry/core@npm:2.7.0":
-  version: 2.7.0
-  resolution: "@opentelemetry/core@npm:2.7.0"
+"@opentelemetry/instrumentation@npm:^0.217.0":
+  version: 0.217.0
+  resolution: "@opentelemetry/instrumentation@npm:0.217.0"
   dependencies:
-    "@opentelemetry/semantic-conventions": ^1.29.0
-  peerDependencies:
-    "@opentelemetry/api": ">=1.0.0 <1.10.0"
-  checksum: 77d2390751bf17135a594c79769113417b4a05ff10c8ecb8fca797a478910a8b16c74990c78e07efba5df86344da7bec23e9adc5ecfb80aa1965f77572a66462
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/instrumentation@npm:^0.214.0":
-  version: 0.214.0
-  resolution: "@opentelemetry/instrumentation@npm:0.214.0"
-  dependencies:
-    "@opentelemetry/api-logs": 0.214.0
+    "@opentelemetry/api-logs": 0.217.0
     import-in-the-middle: ^3.0.0
     require-in-the-middle: ^8.0.0
   peerDependencies:
     "@opentelemetry/api": ^1.3.0
-  checksum: d8e34e874d9ad4bdaa67482d6ab27f2bea58fe04a392d2be10f37d0b67aa3e4f45582645da53ccab47c8b12901cb6ecce5e8fc4622fe0cc3e5c4b03537e3533a
+  checksum: ba8062b34c7e9f0c0c5f00b030916ca13adc4f3da3df62e3b670e8a8a287a517ccd170a7a0cf68ef945f97fc8f42578d919b460b77728a803f3695c77176bf06
   languageName: node
   linkType: hard
 
-"@opentelemetry/resources@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@opentelemetry/resources@npm:2.6.1"
+"@opentelemetry/resources@npm:2.7.1, @opentelemetry/resources@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "@opentelemetry/resources@npm:2.7.1"
   dependencies:
-    "@opentelemetry/core": 2.6.1
+    "@opentelemetry/core": 2.7.1
     "@opentelemetry/semantic-conventions": ^1.29.0
   peerDependencies:
     "@opentelemetry/api": ">=1.3.0 <1.10.0"
-  checksum: e8425f712b5ee32403f814140bf43545b33d3bf9b077dcb31e6a70369dedb7b9cd5cc1ec45bd27bb056485566422642606045c5f9905a9e46dcd535390524806
+  checksum: 66286e13bfa40db2ce943441cebb2de68d840699a277fa6519e2c1f66b58eddaeb05ae9526f4878a9e83848f90ebe2a5273023d2c085380b5ef86ed6e535a172
   languageName: node
   linkType: hard
 
-"@opentelemetry/resources@npm:2.7.0, @opentelemetry/resources@npm:^2.6.1":
-  version: 2.7.0
-  resolution: "@opentelemetry/resources@npm:2.7.0"
+"@opentelemetry/sdk-logs@npm:^0.217.0":
+  version: 0.217.0
+  resolution: "@opentelemetry/sdk-logs@npm:0.217.0"
   dependencies:
-    "@opentelemetry/core": 2.7.0
-    "@opentelemetry/semantic-conventions": ^1.29.0
-  peerDependencies:
-    "@opentelemetry/api": ">=1.3.0 <1.10.0"
-  checksum: c0845868c0392b62581c393ee938c10189f53fa4b3c2729d702430c4e71a705450b97608742472180b08380e46bb5d5dbfe15f201682310cabb338135c071444
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/sdk-logs@npm:^0.214.0":
-  version: 0.214.0
-  resolution: "@opentelemetry/sdk-logs@npm:0.214.0"
-  dependencies:
-    "@opentelemetry/api-logs": 0.214.0
-    "@opentelemetry/core": 2.6.1
-    "@opentelemetry/resources": 2.6.1
+    "@opentelemetry/api-logs": 0.217.0
+    "@opentelemetry/core": 2.7.1
+    "@opentelemetry/resources": 2.7.1
     "@opentelemetry/semantic-conventions": ^1.29.0
   peerDependencies:
     "@opentelemetry/api": ">=1.4.0 <1.10.0"
-  checksum: 0782c3f9b0ecf649d029e2b89b365feb659a3336e8d831d6b6ade3a90b3ad29f362f288c9da8692249b67cb5cf69c090f3737fa100c872e03bc53dc77c00dde8
+  checksum: 2246fda9f6068031bdc0e4e6d8e293e55413394ff34b2241abd49449c8068cd0e8c79a56cb2fadd6b9f8e25c254691280dbfd3cff79c8daeddc3f14bc2fbe6eb
   languageName: node
   linkType: hard
 
-"@opentelemetry/sdk-metrics@npm:^2.6.1":
-  version: 2.7.0
-  resolution: "@opentelemetry/sdk-metrics@npm:2.7.0"
+"@opentelemetry/sdk-metrics@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "@opentelemetry/sdk-metrics@npm:2.7.1"
   dependencies:
-    "@opentelemetry/core": 2.7.0
-    "@opentelemetry/resources": 2.7.0
+    "@opentelemetry/core": 2.7.1
+    "@opentelemetry/resources": 2.7.1
   peerDependencies:
     "@opentelemetry/api": ">=1.9.0 <1.10.0"
-  checksum: 2f361588d817d6e8961169f77250266fc7e3e11d8ad2aa3716be0502119878396102116202a12a9685e49e8fccdb1795dda0d06675433ad60a23f0e5765936a3
+  checksum: d66a8d54565c8dccb39dc372a4d17f86465e5698af3995cace3533bd1bbc6a79634b3d0c2a93eea58fc6661354d4995ce414e1764c3d6876afc91852976abfe5
   languageName: node
   linkType: hard
 
-"@opentelemetry/sdk-trace-base@npm:^2.6.1":
-  version: 2.7.0
-  resolution: "@opentelemetry/sdk-trace-base@npm:2.7.0"
+"@opentelemetry/sdk-trace-base@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "@opentelemetry/sdk-trace-base@npm:2.7.1"
   dependencies:
-    "@opentelemetry/core": 2.7.0
-    "@opentelemetry/resources": 2.7.0
+    "@opentelemetry/core": 2.7.1
+    "@opentelemetry/resources": 2.7.1
     "@opentelemetry/semantic-conventions": ^1.29.0
   peerDependencies:
     "@opentelemetry/api": ">=1.3.0 <1.10.0"
-  checksum: 0b72fa61776d39cb0194f2467bb344f603ef4121a4c8adb4a51a30b8fbfef272cfd844f4819d7c4aa770903409d678f3697b49f46207502f744052be94864169
+  checksum: 0aa79f88a28d8e7e458cea0c5819c4547e7bef465555a94a5668fa3bf2b4dfd0b380fe3fb7856d1b9507cd4bfafe84d836ca59f418e45154020f2291adceb7b2
   languageName: node
   linkType: hard
 
@@ -3624,10 +3612,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:^9.1.0":
-  version: 9.2.0
-  resolution: "@stripe/stripe-js@npm:9.2.0"
-  checksum: 2a6edd77be149881ddd690bfe3cc992222d5bf42ef685d3837b3ba3fa12442db790d65b0fabb763189330bde9fd88dede57265cc41f338e92800ad91cc2fc5ee
+"@stripe/stripe-js@npm:^9.4.0":
+  version: 9.4.0
+  resolution: "@stripe/stripe-js@npm:9.4.0"
+  checksum: c633b6117986377f31df6b90b9464ccfe141f47aadd9db9fc405f936fad2fe8a6c665a174b2497d3aa9a3079b816d346940e5a32f9ad71641398da07273a21ac
   languageName: node
   linkType: hard
 
@@ -4127,26 +4115,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:8.58.1":
-  version: 8.58.1
-  resolution: "@typescript-eslint/eslint-plugin@npm:8.58.1"
-  dependencies:
-    "@eslint-community/regexpp": ^4.12.2
-    "@typescript-eslint/scope-manager": 8.58.1
-    "@typescript-eslint/type-utils": 8.58.1
-    "@typescript-eslint/utils": 8.58.1
-    "@typescript-eslint/visitor-keys": 8.58.1
-    ignore: ^7.0.5
-    natural-compare: ^1.4.0
-    ts-api-utils: ^2.5.0
-  peerDependencies:
-    "@typescript-eslint/parser": ^8.58.1
-    eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
-    typescript: ">=4.8.4 <6.1.0"
-  checksum: d1e858f9a8c07e1c61000d2af9ec8b5e3d7c252ff9239447cdf4a9665b8df4fd47a8f2af0d27fcd99088ec5e35f58cc240a9ac7f4de4f94b835ee1915b1ea1b3
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/eslint-plugin@npm:8.58.2":
   version: 8.58.2
   resolution: "@typescript-eslint/eslint-plugin@npm:8.58.2"
@@ -4167,19 +4135,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:8.58.1":
-  version: 8.58.1
-  resolution: "@typescript-eslint/parser@npm:8.58.1"
+"@typescript-eslint/eslint-plugin@npm:^8.59.2":
+  version: 8.59.2
+  resolution: "@typescript-eslint/eslint-plugin@npm:8.59.2"
   dependencies:
-    "@typescript-eslint/scope-manager": 8.58.1
-    "@typescript-eslint/types": 8.58.1
-    "@typescript-eslint/typescript-estree": 8.58.1
-    "@typescript-eslint/visitor-keys": 8.58.1
-    debug: ^4.4.3
+    "@eslint-community/regexpp": ^4.12.2
+    "@typescript-eslint/scope-manager": 8.59.2
+    "@typescript-eslint/type-utils": 8.59.2
+    "@typescript-eslint/utils": 8.59.2
+    "@typescript-eslint/visitor-keys": 8.59.2
+    ignore: ^7.0.5
+    natural-compare: ^1.4.0
+    ts-api-utils: ^2.5.0
   peerDependencies:
+    "@typescript-eslint/parser": ^8.59.2
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
     typescript: ">=4.8.4 <6.1.0"
-  checksum: 820c13575f5479c1021f0bb7a51d1f42cc1602f2f2606d7f5ddd7f5f54f8814d364c8aa96fe477f2c6eb49f4829ba603840da09885837f70140957d409f8a203
+  checksum: c18238066dc1c2641bf463be4f21bcf3f03c97557f5b147bf5306293b7fc498890b79ee99aab518c21acd1c5dc1d44485a30dc6a351176304213b1a6110889b0
   languageName: node
   linkType: hard
 
@@ -4196,6 +4168,22 @@ __metadata:
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
     typescript: ">=4.8.4 <6.1.0"
   checksum: 52eb1d0eebef49db5d1a1bbd6086952532a54058a6910c202c463f4551e137ba95263f097dfa29bb847180b52e07fd0cc460d55ad4b9ec3a5280e7268f46da31
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/parser@npm:^8.59.2":
+  version: 8.59.2
+  resolution: "@typescript-eslint/parser@npm:8.59.2"
+  dependencies:
+    "@typescript-eslint/scope-manager": 8.59.2
+    "@typescript-eslint/types": 8.59.2
+    "@typescript-eslint/typescript-estree": 8.59.2
+    "@typescript-eslint/visitor-keys": 8.59.2
+    debug: ^4.4.3
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+    typescript: ">=4.8.4 <6.1.0"
+  checksum: 03a784319dff60a51514bf786c20a41b3b2118d3d68aef06e5f1fddcb15da745a6dd30ed7066a505f270ef810f21bde391930c3efae6a62ed3d8901b868e42fe
   languageName: node
   linkType: hard
 
@@ -4240,22 +4228,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/type-utils@npm:8.58.1":
-  version: 8.58.1
-  resolution: "@typescript-eslint/type-utils@npm:8.58.1"
-  dependencies:
-    "@typescript-eslint/types": 8.58.1
-    "@typescript-eslint/typescript-estree": 8.58.1
-    "@typescript-eslint/utils": 8.58.1
-    debug: ^4.4.3
-    ts-api-utils: ^2.5.0
-  peerDependencies:
-    eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
-    typescript: ">=4.8.4 <6.1.0"
-  checksum: ab0ac8adf6e4edc777f1a2bbc4c8e5242d0cf3699ce70549a355d5b09ff024dd1669578b8696b963e1c103d4b9939522d34cb1a53fc36a1e1e449090230fcf3a
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/type-utils@npm:8.58.2":
   version: 8.58.2
   resolution: "@typescript-eslint/type-utils@npm:8.58.2"
@@ -4269,6 +4241,22 @@ __metadata:
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
     typescript: ">=4.8.4 <6.1.0"
   checksum: 42ae3e403afbed4e2dced1f2d197b9703c2975bc14c458a95fc10d3d7b075876cd32e9e3fe9096ebcd9ef251acfc51282ecc14f754bb1dd4da39c62332920746
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/type-utils@npm:8.59.2":
+  version: 8.59.2
+  resolution: "@typescript-eslint/type-utils@npm:8.59.2"
+  dependencies:
+    "@typescript-eslint/types": 8.59.2
+    "@typescript-eslint/typescript-estree": 8.59.2
+    "@typescript-eslint/utils": 8.59.2
+    debug: ^4.4.3
+    ts-api-utils: ^2.5.0
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+    typescript: ">=4.8.4 <6.1.0"
+  checksum: 01361634da6cb8b0f3dac39c06c79d58b806c4c3d838456a7b8efc714473461239dd7e45da485092c3f5dd01c559aba80926cb85d2dd0333ab80200e7af8f527
   languageName: node
   linkType: hard
 
@@ -4299,21 +4287,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.58.1":
-  version: 8.58.1
-  resolution: "@typescript-eslint/utils@npm:8.58.1"
-  dependencies:
-    "@eslint-community/eslint-utils": ^4.9.1
-    "@typescript-eslint/scope-manager": 8.58.1
-    "@typescript-eslint/types": 8.58.1
-    "@typescript-eslint/typescript-estree": 8.58.1
-  peerDependencies:
-    eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
-    typescript: ">=4.8.4 <6.1.0"
-  checksum: baf40d0dc1c0d36d8d46e4e1a664ea3ebd84d37abd33cd858bd7d8271dd0ba2078b3f3097ec9059c575025e8871889d6796155b1b077234ba644bd598199031b
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/utils@npm:8.58.2":
   version: 8.58.2
   resolution: "@typescript-eslint/utils@npm:8.58.2"
@@ -4326,6 +4299,21 @@ __metadata:
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
     typescript: ">=4.8.4 <6.1.0"
   checksum: 3cbf0fa4b05fa5478ec2383b6c918e6260fe67e0509b12cfa13469372216641e3ee5807ac8744984e3d15aacd1a4e30367d90c7b383672ce77b1ab287e3e0dd4
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/utils@npm:8.59.2, @typescript-eslint/utils@npm:^8.59.2":
+  version: 8.59.2
+  resolution: "@typescript-eslint/utils@npm:8.59.2"
+  dependencies:
+    "@eslint-community/eslint-utils": ^4.9.1
+    "@typescript-eslint/scope-manager": 8.59.2
+    "@typescript-eslint/types": 8.59.2
+    "@typescript-eslint/typescript-estree": 8.59.2
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+    typescript: ">=4.8.4 <6.1.0"
+  checksum: 2abd76745be94881b0636bb77bf0fe111bcf1f1fffedf822a67f41bd609a466d8c9cb7f57b553e212721eab123229c26b3ad0e603cbe771f1ddaefde08b64f6e
   languageName: node
   linkType: hard
 
@@ -5588,17 +5576,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ai@npm:6.0.168, ai@npm:^6.0.156":
-  version: 6.0.168
-  resolution: "ai@npm:6.0.168"
+"ai@npm:6.0.175, ai@npm:^6.0.175":
+  version: 6.0.175
+  resolution: "ai@npm:6.0.175"
   dependencies:
-    "@ai-sdk/gateway": 3.0.104
-    "@ai-sdk/provider": 3.0.8
-    "@ai-sdk/provider-utils": 4.0.23
+    "@ai-sdk/gateway": 3.0.110
+    "@ai-sdk/provider": 3.0.10
+    "@ai-sdk/provider-utils": 4.0.26
     "@opentelemetry/api": 1.9.0
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 485cb028705bdbca03626547ca102a63a521876a4b11d359930be148b8aeb43c7ec20238aca0c5578d94cf8eb8fd0bdf765dd1e0b3b9d29c24f814cccbd8a41a
+  checksum: 9cb094df96c45345cbdda86076230f70f2a5d10cf89cd80a6f6b2be01821b4e8e9b7538e9952d3c7be6baf026d8317212efeae93b1ba6ad6e98383717133c25c
   languageName: node
   linkType: hard
 
@@ -5905,24 +5893,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:10.4.27":
-  version: 10.4.27
-  resolution: "autoprefixer@npm:10.4.27"
-  dependencies:
-    browserslist: ^4.28.1
-    caniuse-lite: ^1.0.30001774
-    fraction.js: ^5.3.4
-    picocolors: ^1.1.1
-    postcss-value-parser: ^4.2.0
-  peerDependencies:
-    postcss: ^8.1.0
-  bin:
-    autoprefixer: bin/autoprefixer
-  checksum: 0f123252417886702dc7bb0adb4549ca58612ed3c264eceec276ae9e7c62b626944ca3373f4f3888ae296ae70f323b38600e6de32319bdd46eedad8b2ec06533
-  languageName: node
-  linkType: hard
-
-"autoprefixer@npm:^10.4.24":
+"autoprefixer@npm:^10.4.24, autoprefixer@npm:^10.5.0":
   version: 10.5.0
   resolution: "autoprefixer@npm:10.5.0"
   dependencies:
@@ -6324,7 +6295,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001579, caniuse-lite@npm:^1.0.30001774, caniuse-lite@npm:^1.0.30001782, caniuse-lite@npm:^1.0.30001787":
+"caniuse-lite@npm:^1.0.30001579, caniuse-lite@npm:^1.0.30001782, caniuse-lite@npm:^1.0.30001787":
   version: 1.0.30001788
   resolution: "caniuse-lite@npm:1.0.30001788"
   checksum: 66c57cf49b0d823423146f1136fba2cf297a716c3e0b417a1963b2683fc70f4e4c95de21225ecd1482d4327acb9f375d7885120be25fc449c82bdc7f0c0c5d85
@@ -7395,11 +7366,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:^16.2.3":
-  version: 16.2.4
-  resolution: "eslint-config-next@npm:16.2.4"
+"eslint-config-next@npm:^16.2.5":
+  version: 16.2.5
+  resolution: "eslint-config-next@npm:16.2.5"
   dependencies:
-    "@next/eslint-plugin-next": 16.2.4
+    "@next/eslint-plugin-next": 16.2.5
     eslint-import-resolver-node: ^0.3.6
     eslint-import-resolver-typescript: ^3.5.2
     eslint-plugin-import: ^2.32.0
@@ -7414,7 +7385,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: cf168e2adcb567efae72ff4b650dc906c6bdd493d8b6a6039964909499fa5b6770b14bbc624dac263d8bf5a25a8c58e8507cdc8f818978cf204ee31f8acbdd28
+  checksum: 0ea23ad6a8977c9c764e3ff18fb0e5329d68bf4d5840ddf4db3c3ec6566c59100c5335a2588f33fe7fd0e0ddffb377d17e6255554f19ed6060d5550b0aa704f7
   languageName: node
   linkType: hard
 
@@ -7748,7 +7719,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventsource-parser@npm:^3.0.6":
+"eventsource-parser@npm:^3.0.8":
   version: 3.0.8
   resolution: "eventsource-parser@npm:3.0.8"
   checksum: 161447c82324cb56f6feab0d5b4d6fbf9cf25563e1d971fa83f7f422242a16e42dd2b475a8d1d958e7c4340b424504f16ae5735e62eee0d3a12bca9dd68a29a8
@@ -8281,10 +8252,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^17.4.0":
-  version: 17.5.0
-  resolution: "globals@npm:17.5.0"
-  checksum: 934130da24e193cb7c6f3011f68818be869d30250b3ec2076dae712e0ce7e95c9d5c943a780e92fe99ecc86ed8be8b014e497354741782b78c21613c85e8a2bd
+"globals@npm:^17.6.0":
+  version: 17.6.0
+  resolution: "globals@npm:17.6.0"
+  checksum: 4f4e95e3c86d65653a2a1450968454f46eba648be1f14eb25ba460323486eefc930b545a0d5b01618719b424966d7d312095c5bee7c74c4c2af3abfc95582e4f
   languageName: node
   linkType: hard
 
@@ -9609,10 +9580,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^6.0.6, jose@npm:^6.1.3":
+"jose@npm:^6.0.6":
   version: 6.2.2
   resolution: "jose@npm:6.2.2"
   checksum: 37838e1654b2f76f939678d0528c82100156e12eb717bbce2c6e9fd136f83e8c960f9ffb3b675dcb768b6cdd56d5c806bf56f468f8edd8fb57b165c3f18f0902
+  languageName: node
+  linkType: hard
+
+"jose@npm:^6.2.3":
+  version: 6.2.3
+  resolution: "jose@npm:6.2.3"
+  checksum: 37d4bbeab2b4e25029c7d97fcc3ff4b57c07a8b2e60fff5ee0d92b07be3157f894d9cefc4412d2bdd6542d4a318f55a615952f2673846ab662d713d00f2ae2fb
   languageName: node
   linkType: hard
 
@@ -10030,12 +10008,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^1.8.0":
-  version: 1.8.0
-  resolution: "lucide-react@npm:1.8.0"
+"lucide-react@npm:^1.14.0":
+  version: 1.14.0
+  resolution: "lucide-react@npm:1.14.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: fe8fd168c827fb767bb22970c880a636d41b9ef5e7a9ef89b8f25e8ac35171c8454e9595ec77aae1f639eceb4c2c8b7e8e200c752a15bffdec5b2da786d3505b
+  checksum: 6db2fcc6d7545fabdec6f82db386f7f872a974aa0a4c508e6e23988055712286dccff2e0ef472ee5dc5f3852f1c3e916e84c92e52f049561b6829b6bc2f6483b
   languageName: node
   linkType: hard
 
@@ -10438,19 +10416,19 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"next@npm:^15.5.15":
-  version: 15.5.15
-  resolution: "next@npm:15.5.15"
+"next@npm:15.5.16":
+  version: 15.5.16
+  resolution: "next@npm:15.5.16"
   dependencies:
-    "@next/env": 15.5.15
-    "@next/swc-darwin-arm64": 15.5.15
-    "@next/swc-darwin-x64": 15.5.15
-    "@next/swc-linux-arm64-gnu": 15.5.15
-    "@next/swc-linux-arm64-musl": 15.5.15
-    "@next/swc-linux-x64-gnu": 15.5.15
-    "@next/swc-linux-x64-musl": 15.5.15
-    "@next/swc-win32-arm64-msvc": 15.5.15
-    "@next/swc-win32-x64-msvc": 15.5.15
+    "@next/env": 15.5.16
+    "@next/swc-darwin-arm64": 15.5.16
+    "@next/swc-darwin-x64": 15.5.16
+    "@next/swc-linux-arm64-gnu": 15.5.16
+    "@next/swc-linux-arm64-musl": 15.5.16
+    "@next/swc-linux-x64-gnu": 15.5.16
+    "@next/swc-linux-x64-musl": 15.5.16
+    "@next/swc-win32-arm64-msvc": 15.5.16
+    "@next/swc-win32-x64-msvc": 15.5.16
     "@swc/helpers": 0.5.15
     caniuse-lite: ^1.0.30001579
     postcss: 8.4.31
@@ -10493,7 +10471,7 @@ next-auth@beta:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: e65eaf1b2b755e132cfa1ca8df376471d8535dfa698f250bf0f433bfbf560b7e2b52cd7e26e56bd4998042d5bd7deee910c1df8cdb2dbb7a1a5bd4f3de56d8a5
+  checksum: 03b3f13f8f1cd73ceb227a36db81d35aeb945b7ab39d96b2aecf1e588624bcd9760dbc55a3fff4a52a769c8562e499ed1be49ac7e1c2f1deb27b915e55672742
   languageName: node
   linkType: hard
 
@@ -11620,17 +11598,6 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.5.9":
-  version: 8.5.9
-  resolution: "postcss@npm:8.5.9"
-  dependencies:
-    nanoid: ^3.3.11
-    picocolors: ^1.1.1
-    source-map-js: ^1.2.1
-  checksum: 0dcaa32d934fe97ad7b7da0113901f619258485c1906325ad7b873010ef09b83a6c2d52fe9e818c1c90eadcc9dc05870a9e34f34341696c7a07cfbb78b80946b
-  languageName: node
-  linkType: hard
-
 "postcss@npm:^8.4.47, postcss@npm:^8.5.10, postcss@npm:^8.5.8":
   version: 8.5.10
   resolution: "postcss@npm:8.5.10"
@@ -11639,6 +11606,17 @@ next-auth@beta:
     picocolors: ^1.1.1
     source-map-js: ^1.2.1
   checksum: 9af9cd7f2f0d4b8456f6710e48d586328433509b695911fda942c24ac4db4e62c6fed8c6c6d8c8258326285f669494c2c36a4ff84aa160f0586eb545e5258bf5
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.5.14":
+  version: 8.5.14
+  resolution: "postcss@npm:8.5.14"
+  dependencies:
+    nanoid: ^3.3.11
+    picocolors: ^1.1.1
+    source-map-js: ^1.2.1
+  checksum: ec17d1519cd997b43aceb82bfa959f380085591269e286c53d5ba76eb1989525e7cde106a44f1565516fcbb50f206eb1858cc2cd5e5aaea3a8ee793886c8232c
   languageName: node
   linkType: hard
 
@@ -11727,9 +11705,9 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:^0.7.2":
-  version: 0.7.2
-  resolution: "prettier-plugin-tailwindcss@npm:0.7.2"
+"prettier-plugin-tailwindcss@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "prettier-plugin-tailwindcss@npm:0.8.0"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
     "@prettier/plugin-hermes": "*"
@@ -11781,7 +11759,7 @@ next-auth@beta:
       optional: true
     prettier-plugin-svelte:
       optional: true
-  checksum: d93acdad895b7c59c68f4251a13640cd0b35fb906e7eb711c9880f773d220633508109fbf4cb63aee00cad0060648dafe647c5ff267197036c053be4b6ba3ed5
+  checksum: 244db9523019c09bb9e6a0a4659b7def77214de4212c5e3edb6422236fcea0eaa09dacf0ba07fd4edb40f88deeb98986b6064fa449ae1b915fba22b77e3fa28b
   languageName: node
   linkType: hard
 
@@ -11944,12 +11922,12 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.72.1":
-  version: 7.72.1
-  resolution: "react-hook-form@npm:7.72.1"
+"react-hook-form@npm:^7.75.0":
+  version: 7.75.0
+  resolution: "react-hook-form@npm:7.75.0"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 699dec543ae272a72845f4a612ff5b28e600e221521ba15fcafba79e6c6d124aaaa7cef906c56726fcb6daf4cf2c972fa6bf610bcaf09bea0cb070a064660593
+  checksum: 340db890db1c03575260d3a365f340c5115df159a18c1dc1e26bb0b313bcbac9c4af08bc8b7a80df152c323b4ae3a63cbeb6384a951d31e6b16055f89160b43e
   languageName: node
   linkType: hard
 
@@ -13059,15 +13037,15 @@ next-auth@beta:
   languageName: node
   linkType: hard
 
-"stripe@npm:^22.0.1":
-  version: 22.0.2
-  resolution: "stripe@npm:22.0.2"
+"stripe@npm:^22.1.1":
+  version: 22.1.1
+  resolution: "stripe@npm:22.1.1"
   peerDependencies:
     "@types/node": ">=18"
   peerDependenciesMeta:
     "@types/node":
       optional: true
-  checksum: 90b8bf8ccbb56da2ca77675a82aaf7e1bff46c47c5db52f5bddf93a44d71f366da362b4f256b299439257225042942008aefed8eb58c22f997c36679c499a14a
+  checksum: b0865040149c156b7b5042e37bc2324f443236996c92dc66cf8b340783187a372e5b3e9d8e3a826950eb152f82dbcb7657f7c5bbc78fbed4b7b026702876d4cc
   languageName: node
   linkType: hard
 
@@ -14006,23 +13984,23 @@ next-auth@beta:
   version: 0.0.0-use.local
   resolution: "what-to-eat-next@workspace:."
   dependencies:
-    "@ai-sdk/openai": ^3.0.52
-    "@ai-sdk/react": ^3.0.158
+    "@ai-sdk/openai": ^3.0.62
+    "@ai-sdk/react": ^3.0.177
     "@babel/core": ^7.26.0
-    "@babel/parser": ^7.27.7
+    "@babel/parser": ^7.29.3
     "@babel/plugin-transform-runtime": ^7.29.0
-    "@chakra-ui/react": ^3.27.0
+    "@chakra-ui/react": ^3.35.0
     "@ducanh2912/next-pwa": ^10.2.9
     "@eslint/js": ^9.39.1
     "@hookform/resolvers": ^5.2.2
     "@opentelemetry/api": ^1.9.1
-    "@opentelemetry/api-logs": ^0.214.0
-    "@opentelemetry/instrumentation": ^0.214.0
-    "@opentelemetry/resources": ^2.6.1
-    "@opentelemetry/sdk-logs": ^0.214.0
-    "@opentelemetry/sdk-metrics": ^2.6.1
-    "@opentelemetry/sdk-trace-base": ^2.6.1
-    "@stripe/stripe-js": ^9.1.0
+    "@opentelemetry/api-logs": ^0.217.0
+    "@opentelemetry/instrumentation": ^0.217.0
+    "@opentelemetry/resources": ^2.7.1
+    "@opentelemetry/sdk-logs": ^0.217.0
+    "@opentelemetry/sdk-metrics": ^2.7.1
+    "@opentelemetry/sdk-trace-base": ^2.7.1
+    "@stripe/stripe-js": ^9.4.0
     "@testing-library/dom": ^10.4.1
     "@testing-library/jest-dom": ^6.9.1
     "@testing-library/react": ^16.1.0
@@ -14035,18 +14013,18 @@ next-auth@beta:
     "@types/react": ^19.0.5
     "@types/react-dom": ^19.0.2
     "@types/ws": ^8.18.1
-    "@typescript-eslint/eslint-plugin": 8.58.1
-    "@typescript-eslint/parser": 8.58.1
-    "@typescript-eslint/utils": 8.58.1
+    "@typescript-eslint/eslint-plugin": ^8.59.2
+    "@typescript-eslint/parser": ^8.59.2
+    "@typescript-eslint/utils": ^8.59.2
     "@vercel/analytics": ^2.0.1
     "@vercel/otel": ^2.1.2
-    ai: ^6.0.156
+    ai: ^6.0.175
     astronomy-engine: ^2.1.17
-    autoprefixer: 10.4.27
+    autoprefixer: ^10.5.0
     bcryptjs: ^3.0.3
     clsx: ^2.1.1
     eslint: ^9.39.1
-    eslint-config-next: ^16.2.3
+    eslint-config-next: ^16.2.5
     eslint-import-resolver-typescript: ^4.4.4
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
@@ -14054,23 +14032,23 @@ next-auth@beta:
     eslint-plugin-react-hooks: ^7.0.1
     framer-motion: ^12.38.0
     glob: ^13.0.6
-    globals: ^17.4.0
+    globals: ^17.6.0
     husky: ^9.1.7
     jest: ^30.3.0
     jest-environment-jsdom: ^30.2.0
     jest-junit: ^16.0.0
-    jose: ^6.1.3
+    jose: ^6.2.3
     jsonwebtoken: ^9.0.3
-    lucide-react: ^1.8.0
+    lucide-react: ^1.14.0
     madge: ^8.0.0
-    next: ^15.5.15
+    next: 15.5.16
     next-auth: beta
-    nodemailer: ^8.0.5
+    nodemailer: ^8.0.7
     nodemon: ^3.1.10
     open: ^11.0.0
     openapi-typescript: ^7.9.1
     pg: ^8.16.3
-    postcss: 8.5.9
+    postcss: ^8.5.14
     postcss-custom-properties: ^15.0.1
     postcss-flexbugs-fixes: ^5.0.2
     postcss-import: ^16.1.0
@@ -14078,16 +14056,16 @@ next-auth@beta:
     postcss-preset-env: ^11.2.0
     postcss-simple-vars: ^7.0.1
     prettier: ^3.6.2
-    prettier-plugin-tailwindcss: ^0.7.2
+    prettier-plugin-tailwindcss: ^0.8.0
     react: 19.2.5
     react-dom: 19.2.5
     react-error-boundary: ^6.0.0
-    react-hook-form: ^7.72.1
+    react-hook-form: ^7.75.0
     react-icons: ^5.5.0
     recharts: ^3.8.1
     semver: ^7.7.1
     server-only: ^0.0.1
-    stripe: ^22.0.1
+    stripe: ^22.1.1
     suncalc: ^1.9.0
     tailwind-merge: ^3.3.1
     tailwindcss: ^3.4.1
@@ -14096,7 +14074,7 @@ next-auth@beta:
     ts-node: ^10.9.2
     typescript: 5.7.3
     ws: ^8.20.0
-    zod: ^4.3.6
+    zod: ^4.4.3
   languageName: unknown
   linkType: soft
 

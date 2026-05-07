@@ -249,14 +249,9 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 }> {
   const fs = await import("fs");
   const path = await import("path");
-  const glob = (await import("glob")).default as unknown as {
-    sync: (
-      pattern: string,
-      _options: { cwd: string; ignore: string[] },
-    ) => string[];
-  };
+  const { globSync } = await import("glob");
 
-  const tsFiles = glob.sync("**/*.{ts,tsx}", {
+  const tsFiles = globSync("**/*.{ts,tsx}", {
     cwd: projectRoot,
     ignore: ["node_modules/**", "dist/**", ".next/**", "coverage/**"],
   });

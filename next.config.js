@@ -106,6 +106,8 @@ const nextConfig = {
     ],
   },
 
+  turbopack: {},
+
   webpack: (config, { isServer, nextRuntime }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
