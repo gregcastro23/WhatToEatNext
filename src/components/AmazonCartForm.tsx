@@ -43,6 +43,7 @@ export function AmazonCartForm({
       <input type="hidden" name="AssociateTag" value={associateTag} />
       <input type="hidden" name="cart-type" value="fresh" />
       <input type="hidden" name="add" value="add" />
+      <input type="hidden" name="submit.add" value="1" />
 
       {validItems.map((item, idx) => {
         const position = idx + 1;

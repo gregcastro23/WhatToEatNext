@@ -241,7 +241,7 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
               reasoning: recommendationObj?.compatibility_reason || CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`,
               recipeCount: count,
               optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
-              topRecipes: topRecipes,
+              topRecipes,
               isRetrograde: false
             });
           }

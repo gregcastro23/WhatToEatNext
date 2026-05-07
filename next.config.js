@@ -19,7 +19,6 @@ const getSecurityHeaders = () => {
     "https://r2cdn.perplexity.ai",
     "https://vercel.live",
     "https://*.vercel.live",
-    "https://static.cloudflareinsights.com",
   ];
 
   const connectSrcParts = [
@@ -27,8 +26,6 @@ const getSecurityHeaders = () => {
     "https://vercel.live",
     "https://*.vercel.live",
     "https://accounts.google.com",
-    "https://static.cloudflareinsights.com",
-    "https://cloudflareinsights.com",
     "https:",
   ];
 
@@ -123,22 +120,6 @@ const nextConfig = {
         net: false,
         tls: false,
         dns: false,
-        "pg-native": false,
-      };
-    }
-
-    // Stub out modules that are not compatible with Edge Runtime.
-    // These modules use Node.js built-ins (stream, fs, path, crypto, net, etc.)
-    // that are not available in Cloudflare Workers.
-    if (nextRuntime === "edge") {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        // jose deflate - not needed for JWT sessions
-        "jose/dist/webapi/lib/deflate.js": false,
-        // nodemailer - uses stream, fs, path, crypto (use Resend API instead)
-        nodemailer: false,
-        // pg - PostgreSQL client (use dynamic imports in server-only code)
-        pg: false,
         "pg-native": false,
       };
     }

@@ -8,7 +8,7 @@
  * Associate Tag: cookingwi03f1-20
  */
 
-export const AMAZON_ASSOCIATE_TAG = "cookingwi03f1-20";
+export const AMAZON_ASSOCIATE_TAG = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG || "cookingwi03f1-20";
 
 export const ingredientAsins: Record<string, string> = {
   // ─── Vegetables ──────────────────────────────────────────────────────
@@ -79,6 +79,7 @@ export const ingredientAsins: Record<string, string> = {
   "radish": "B07PQ1D1BG",
   "watercress": "B07PQ1GYJ8",
   "bok choy": "B07PQ1FQJN",
+  "shallots": "B07BHKJ1LQ",
 
   // ─── Fruits ──────────────────────────────────────────────────────────
   "apple": "B0787YC45V",
@@ -361,7 +362,8 @@ export function resolveAsin(ingredientName: string): string | null {
   normalized = normalized
     .replace(/\s*\([^)]*\)/g, '') // Remove (parentheses) and content inside
     .replace(/^(fresh|dried|ground|powdered|organic|large|small|medium|cup|clove|teaspoon|tablespoon|lb|oz|g|kg|half)\s+/g, '')
-    .replace(/\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g, '');
+    .replace(/\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g, '')
+    .trim(); // Trim again after replacements
 
   if (ingredientAsins[normalized]) return ingredientAsins[normalized];
 

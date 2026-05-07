@@ -215,6 +215,12 @@ export default function RecipeDetailModal({
       addInput.value = "add";
       form.appendChild(addInput);
 
+      const submitAddInput = document.createElement("input");
+      submitAddInput.type = "hidden";
+      submitAddInput.name = "submit.add";
+      submitAddInput.value = "1";
+      form.appendChild(submitAddInput);
+
       items.forEach((item, idx) => {
         const pos = idx + 1;
         const asinInput = document.createElement("input");
