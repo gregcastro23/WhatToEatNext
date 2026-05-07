@@ -1,6 +1,6 @@
-# WhatToEatNext - Gemini AI Assistant Guide
+# WhatToEatNext - AI Assistant Guide (Alchm.kitchen)
 
-_Version: 2.1.0 | Last Updated: May 5, 2026_
+_Version: 2.2.0 | Last Updated: May 5, 2026_
 
 ## Project Overview
 
@@ -12,15 +12,16 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 - **Backend Hosting**: ✅ **RAILWAY** (Standalone Service)
 - **Frontend Hosting**: ✅ **VERCEL** (Next.js)
-- **Database**: ✅ **RAILWAY POSTGRES** (Migrated from Neon)
+- **Database**: ✅ **RAILWAY POSTGRES** (Migrated from Neon | Internal: `postgres.railway.internal`)
 - **Latency**: ✅ **SUB-1MS** (Internal Railway Networking)
 - **Recipe Catalog**: ✅ **579 recipes** with Denormalized Read Models
 - **Build Status**: ✅ **BUILDING ON RAILWAY** (Optimized with .railwayignore)
+- **Assets**: ✅ **OPTIMIZED** (Logo/Hero images reduced by 90%+)
 
 ### 🚀 **MAJOR CHANGES (Version 2.2.0)**
 
 #### **Read Model Optimization**
-- ✅ **Denormalized Recipes**: Added `read_model` JSONB column to `recipes` table.
+- ✅ **Denormalized Recipes**: Added `read_model` JSONB column to `recipes` table for high-speed delivery.
 - ✅ **Batch Queries**: Eliminated N+1 query bottlenecks in recommendation engines.
 - ✅ **10x Faster Migration**: Rewrote migration logic for bulk SQL inserts.
 
@@ -43,7 +44,7 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ### **Authentication System (NextAuth.js v5)**
 
-- **Provider**: Google OAuth only.
+- **Provider**: Google OAuth only (Server/Edge split config).
 - **Roles**: ADMIN, USER.
 
 ---
@@ -65,6 +66,7 @@ DATABASE_URL=postgresql://postgres:<password>@postgres.railway.internal:5432/rai
 AUTH_SECRET=<auth-secret>
 AUTH_GOOGLE_ID=<google-client-id>
 AUTH_GOOGLE_SECRET=<google-client-secret>
+AUTH_ADMIN_EMAIL=<admin-email>
 AUTH_URL=https://alchm.kitchen
 AUTH_TRUST_HOST=true
 
