@@ -149,7 +149,9 @@
     "batch-process:review": "yarn batch-process review",
     "batch-process:status": "yarn batch-process status",
     "batch-process:integration": "node --loader ts-node/esm src/scripts/batch-processing/integration.ts",
-    "vercel-ignore-build": "bash scripts/vercel-ignore-build.sh"
+    "vercel-ignore-build": "bash scripts/vercel-ignore-build.sh",
+    "sync:vercel": "bash scripts/sync-vercel-env.sh",
+    "sync:railway": "bash scripts/sync-railway-env.sh"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.52",

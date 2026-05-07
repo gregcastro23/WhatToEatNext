@@ -2,6 +2,7 @@ import 'server-only';
 import pkg from 'pg';
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
+import type { Pool, PoolClient, QueryResult } from "pg";
 
 // Robustly extract Pool and types from the pg package (handles various bundling scenarios)
 const PoolValue = (pkg as any).Pool || (pkg as any).default?.Pool || (pkg as unknown as any).Pool;
@@ -10,8 +11,6 @@ const types = (pkg as any).types || (pkg as any).default?.types || (pkg as unkno
 if (!PoolValue) {
   console.error("FATAL: pg.Pool is undefined. Environment might be incompatible with the current pg import strategy.");
 }
-
-import type { Pool, PoolClient, QueryResult } from "pg";
 
 // Note: neonConfig is no longer used as we are using standard pg
 
@@ -149,7 +148,7 @@ export function getDatabasePool(): Pool {
   if (!pool) {
     return initializeDatabase();
   }
-  return pool as Pool;
+  return pool;
 }
 // Close database connection pool
 export async function closeDatabase(): Promise<void> {

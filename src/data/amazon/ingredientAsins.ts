@@ -8,7 +8,7 @@
  * Associate Tag: cookingwi03f1-20
  */
 
-export const AMAZON_ASSOCIATE_TAG = "cookingwi03f1-20";
+export const AMAZON_ASSOCIATE_TAG = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG || "cookingwi03f1-20";
 
 export const ingredientAsins: Record<string, string> = {
   // ─── Vegetables ──────────────────────────────────────────────────────
@@ -79,22 +79,6 @@ export const ingredientAsins: Record<string, string> = {
   "radish": "B07PQ1D1BG",
   "watercress": "B07PQ1GYJ8",
   "bok choy": "B07PQ1FQJN",
-  "miso": "B0005XOWUU",
-  "miso paste": "B0005XOWUU",
-  "mirin": "B0005XOWUU",
-  "sake": "B0005XOWUU",
-  "dashi": "B0005XOWUU",
-  "soy sauce": "B0005XOWUU",
-  "shoyu": "B0005XOWUU",
-  "nori": "B0005XOWUU",
-  "wakame": "B0005XOWUU",
-  "wasabi": "B0005XOWUU",
-  "star anise": "B006YOC0GC",
-  "sichuan peppercorn": "B006YOC0GC",
-  "five spice": "B006YOC0GC",
-  "oyster sauce": "B0005XOWUU",
-  "hoisin sauce": "B0005XOWUU",
-  "shaoxing wine": "B0005XOWUU",
   "shallots": "B07BHKJ1LQ",
 
   // ─── Fruits ──────────────────────────────────────────────────────────
