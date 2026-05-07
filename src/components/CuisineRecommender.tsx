@@ -145,6 +145,12 @@ export default function CuisineRecommender() {
       addInput.value = "add";
       form.appendChild(addInput);
 
+      const submitAddInput = document.createElement("input");
+      submitAddInput.type = "hidden";
+      submitAddInput.name = "submit.add";
+      submitAddInput.value = "1";
+      form.appendChild(submitAddInput);
+
       ingredients.forEach((item: any, idx: number) => {
         const pos = idx + 1;
         const asinInput = document.createElement("input");

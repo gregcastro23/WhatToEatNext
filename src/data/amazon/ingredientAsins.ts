@@ -79,6 +79,23 @@ export const ingredientAsins: Record<string, string> = {
   "radish": "B07PQ1D1BG",
   "watercress": "B07PQ1GYJ8",
   "bok choy": "B07PQ1FQJN",
+  "miso": "B0005XOWUU",
+  "miso paste": "B0005XOWUU",
+  "mirin": "B0005XOWUU",
+  "sake": "B0005XOWUU",
+  "dashi": "B0005XOWUU",
+  "soy sauce": "B0005XOWUU",
+  "shoyu": "B0005XOWUU",
+  "nori": "B0005XOWUU",
+  "wakame": "B0005XOWUU",
+  "wasabi": "B0005XOWUU",
+  "star anise": "B006YOC0GC",
+  "sichuan peppercorn": "B006YOC0GC",
+  "five spice": "B006YOC0GC",
+  "oyster sauce": "B0005XOWUU",
+  "hoisin sauce": "B0005XOWUU",
+  "shaoxing wine": "B0005XOWUU",
+  "shallots": "B07BHKJ1LQ",
 
   // ─── Fruits ──────────────────────────────────────────────────────────
   "apple": "B0787YC45V",
@@ -361,7 +378,8 @@ export function resolveAsin(ingredientName: string): string | null {
   normalized = normalized
     .replace(/\s*\([^)]*\)/g, '') // Remove (parentheses) and content inside
     .replace(/^(fresh|dried|ground|powdered|organic|large|small|medium|cup|clove|teaspoon|tablespoon|lb|oz|g|kg|half)\s+/g, '')
-    .replace(/\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g, '');
+    .replace(/\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g, '')
+    .trim(); // Trim again after replacements
 
   if (ingredientAsins[normalized]) return ingredientAsins[normalized];
 

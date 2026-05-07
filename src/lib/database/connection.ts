@@ -7,6 +7,10 @@ import { databaseConfig } from "./config";
 const PoolValue = (pkg as any).Pool || (pkg as any).default?.Pool || (pkg as unknown as any).Pool;
 const types = (pkg as any).types || (pkg as any).default?.types || (pkg as unknown as any).types;
 
+if (!PoolValue) {
+  console.error("FATAL: pg.Pool is undefined. Environment might be incompatible with the current pg import strategy.");
+}
+
 import type { Pool, PoolClient, QueryResult } from "pg";
 
 // Note: neonConfig is no longer used as we are using standard pg
@@ -261,12 +265,18 @@ export async function executeQuery<_T extends any = any>(
     return result;
   } catch (error) {
     const executionTime = Date.now() - startTime;
+    const err = error as Error;
     void logger.error("Database query failed", {
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: err.message,
+      stack: err.stack,
       executionTime,
       query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
       paramCount: params.length,
     });
+    // Rethrow with better context if it's an ErrorEvent-like object
+    if ((error as any).type === 'error') {
+      throw new Error(`DB ErrorEvent: ${(error as any).message || 'Unknown connection error'}`);
+    }
     throw error;
   }
 }
