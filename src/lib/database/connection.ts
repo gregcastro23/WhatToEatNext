@@ -1,10 +1,12 @@
 import 'server-only';
-import * as pg from 'pg';
+import pkg from 'pg';
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
 
-// Robust import for pg Pool (handles CJS/ESM compatibility)
-const { Pool: PoolValue, types } = (pg.default as any) || pg;
+// Robustly extract Pool and types from the pg package (handles various bundling scenarios)
+const PoolValue = (pkg as any).Pool || (pkg as any).default?.Pool || (pkg as unknown as any).Pool;
+const types = (pkg as any).types || (pkg as any).default?.types || (pkg as unknown as any).types;
+
 import type { Pool, PoolClient, QueryResult } from "pg";
 
 // Note: neonConfig is no longer used as we are using standard pg
@@ -121,6 +123,11 @@ export function initializeDatabase(): Pool {
   // and always true in current @neondatabase/serverless.
 
   pool = new PoolValue(config);
+  
+  if (!pool) {
+    throw new Error("Failed to initialize database pool");
+  }
+
   // Connection event handlers
   pool.on("connect", (_client: PoolClient) => {
     void logger.info("New database connection established", {
@@ -169,7 +176,7 @@ export function getDatabasePool(): Pool {
   if (!pool) {
     return initializeDatabase();
   }
-  return pool;
+  return pool as Pool;
 }
 // Close database connection pool
 export async function closeDatabase(): Promise<void> {

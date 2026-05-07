@@ -343,54 +343,6 @@ export const ingredientAsins: Record<string, string> = {
   "pinto beans": "B0787XHMPJ",
   "white beans": "B0787XHMPJ",
   "cannellini beans": "B0787XHMPJ",
-  
-  // ─── French Essentials ──────────────────────────────────────────────
-  "shallot": "B0787XDSZL",
-  "shallots": "B0787XDSZL",
-  "butter": "B0787X7MJ5",
-  "heavy cream": "B0787YC4M5",
-  "crème fraîche": "B0787YC4M5",
-  "thyme": "B07V5H3DMS",
-  "tarragon": "B07V5H3DMS",
-  "rosemary": "B07V5H3DMS",
-  "parsley": "B07V5H3DMS",
-  "dijon mustard": "B0005XOWUU",
-  "white pepper": "B006YOC0GC",
-
-  // ─── Japanese Essentials ────────────────────────────────────────────
-  "miso": "B0005XOWUU",
-  "miso paste": "B0005XOWUU",
-  "mirin": "B0005XOWUU",
-  "sake": "B0005XOWUU",
-  "dashi": "B0005XOWUU",
-  "soy sauce": "B0005XOWUU",
-  "shoyu": "B0005XOWUU",
-  "rice vinegar": "B003VSCQQ6",
-  "sesame oil": "B003VSCQQ6",
-  "nori": "B0005XOWUU",
-  "wakame": "B0005XOWUU",
-  "tofu": "B0787XCFMT",
-  "shiitake": "B0787Y4YCW",
-  "shiitake mushrooms": "B0787Y4YCW",
-  "scallion": "B07PQ1C74B",
-  "scallions": "B07PQ1C74B",
-  "ginger": "B07V5H2JNY",
-  "wasabi": "B0005XOWUU",
-  "panko": "B0787XDSZL",
-  "salmon": "B07BHKP7Y5",
-
-  // ─── Chinese Essentials ─────────────────────────────────────────────
-  "star anise": "B006YOC0GC",
-  "sichuan peppercorn": "B006YOC0GC",
-  "five spice powder": "B006YOC0GC",
-  "oyster sauce": "B0005XOWUU",
-  "hoisin sauce": "B0005XOWUU",
-  "shaoxing wine": "B0005XOWUU",
-  "bok choy": "B0787XCFMT",
-  "water chestnuts": "B00BNXYKP2",
-  "bamboo shoots": "B00BNXYKP2",
-  "bean sprouts": "B0787XCFMT",
-  "rice noodles": "B0787XDSZL",
 };
 
 /**
@@ -405,8 +357,9 @@ export function resolveAsin(ingredientName: string): string | null {
   // 1. Check exact match immediately
   if (ingredientAsins[normalized]) return ingredientAsins[normalized];
 
-  // 2. Remove common culinary prefixes and suffixes
+  // 2. Remove common culinary prefixes and suffixes, and handle parentheses
   normalized = normalized
+    .replace(/\s*\([^)]*\)/g, '') // Remove (parentheses) and content inside
     .replace(/^(fresh|dried|ground|powdered|organic|large|small|medium|cup|clove|teaspoon|tablespoon|lb|oz|g|kg|half)\s+/g, '')
     .replace(/\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g, '');
 
@@ -429,11 +382,21 @@ export function resolveAsin(ingredientName: string): string | null {
     if (ingredientAsins[singularS]) return ingredientAsins[singularS];
   }
 
-  // 4. Try partial match on last word (often the base ingredient)
-  const words = normalized.split(/\s+/);
+  // 4. Try word-based matches
+  const words = normalized.split(/\s+/).filter(w => w.length > 2);
   if (words.length > 1) {
+    // Try last word (often the base ingredient: "white miso" -> "miso")
     const lastWord = words[words.length - 1];
     if (ingredientAsins[lastWord]) return ingredientAsins[lastWord];
+
+    // Try first word (often the base ingredient: "onion, yellow" -> "onion")
+    const firstWord = words[0];
+    if (ingredientAsins[firstWord]) return ingredientAsins[firstWord];
+
+    // Try any word
+    for (const word of words) {
+      if (ingredientAsins[word]) return ingredientAsins[word];
+    }
   }
 
   return null;
