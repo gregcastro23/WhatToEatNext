@@ -46,7 +46,6 @@ export interface DatabaseConfig {
 function getDatabaseConfig(): DatabaseConfig {
   const {
     databaseUrl,
-    hyperdriveUrl, // Cloudflare Hyperdrive binding
     host,
     port,
     database,
@@ -58,12 +57,9 @@ function getDatabaseConfig(): DatabaseConfig {
     connectionTimeout,
   } = databaseConfig;
 
-  // Use Hyperdrive if available (preferred for Cloudflare Workers)
-  const finalUrl = hyperdriveUrl || databaseUrl;
-
-  if (finalUrl) {
+  if (databaseUrl) {
     // Parse connection URL for cloud deployments
-    const url = new URL(finalUrl);
+    const url = new URL(databaseUrl);
     return {
       host: url.hostname,
       port: parseInt(url.port, 10) || 5432,
@@ -101,30 +97,7 @@ export function initializeDatabase(): Pool {
     return pool;
   }
   
-  // Detect Cloudflare Hyperdrive (Binding or Environment Variable)
-  // Note: OpenNext/Cloudflare usually provides bindings on process.env or globalThis
-  const isCloudflare = typeof process.env.HYPERDRIVE !== 'undefined' || typeof (globalThis as any).HYPERDRIVE !== 'undefined';
-  const hyperdriveBinding = (globalThis as any).HYPERDRIVE;
-  
   const config = getDatabaseConfig();
-
-  if (isCloudflare) {
-    // Prioritize Hyperdrive URL (Environment Variable) or Binding Connection String
-    const hyperdriveUrl = process.env.HYPERDRIVE_URL || (hyperdriveBinding ? hyperdriveBinding.connectionString : null);
-    
-    if (hyperdriveUrl) {
-      void logger.info("🔌 Initializing database via Cloudflare Hyperdrive proxy...");
-      const url = new URL(hyperdriveUrl);
-      config.host = url.hostname;
-      config.port = parseInt(url.port, 10) || 5432;
-      config.database = url.pathname.slice(1);
-      config.user = url.username;
-      config.password = url.password;
-      config.ssl = false; // Hyperdrive handles the secure connection to Neon internally
-    }
-  }
-  // Note: neonConfig.fetchConnectionCache was removed — the option is deprecated
-  // and always true in current @neondatabase/serverless.
 
   pool = new PoolValue(config);
   
@@ -137,7 +110,6 @@ export function initializeDatabase(): Pool {
     void logger.info("New database connection established", {
       database: config.database,
       host: config.host,
-      isHyperdrive: !!(isCloudflare && (process.env.HYPERDRIVE_URL || hyperdriveBinding)),
     });
   });
   pool.on("error", (err: Error, _client: PoolClient) => {
@@ -147,26 +119,23 @@ export function initializeDatabase(): Pool {
       database: config.database,
     });
   });
-  // Graceful shutdown handling — guarded because Cloudflare Workers
-  // don't support process signal events (process.on throws there).
-  try {
-    process.on("SIGINT", () => {
-      void (async () => {
-        void logger.info("Received SIGINT, closing database pool...");
-        await closeDatabase();
-        process.exit(0);
-      })();
-    });
-    process.on("SIGTERM", () => {
-      void (async () => {
-        void logger.info("Received SIGTERM, closing database pool...");
-        await closeDatabase();
-        process.exit(0);
-      })();
-    });
-  } catch {
-    // Cloudflare Workers / Edge environments don't support process signals
-  }
+  
+  // Graceful shutdown handling
+  process.on("SIGINT", () => {
+    void (async () => {
+      void logger.info("Received SIGINT, closing database pool...");
+      await closeDatabase();
+      process.exit(0);
+    })();
+  });
+  process.on("SIGTERM", () => {
+    void (async () => {
+      void logger.info("Received SIGTERM, closing database pool...");
+      await closeDatabase();
+      process.exit(0);
+    })();
+  });
+
   void logger.info("Database connection pool initialized", {
     database: config.database,
     host: config.host,

@@ -4,7 +4,6 @@
  *
  * Computes alchemical chart comparison and cuisine recommendations
  * from the user's natal chart vs. current planetary positions.
- * Previously a Cloudflare proxy stub — now a real implementation.
  */
 
 import { NextResponse } from "next/server";

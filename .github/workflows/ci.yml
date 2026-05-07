@@ -61,3 +61,19 @@ jobs:
         run: yarn install --no-immutable --network-timeout 300000
       - name: Run ${{ matrix.name }}
         run: ${{ matrix.command }}
+
+  deploy:
+    name: Deploy to Vercel
+    needs: [checks]
+    runs-on: ubuntu-latest
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/backend-migration') && github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-args: '--prod'
