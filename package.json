@@ -151,13 +151,16 @@
     "batch-process:integration": "node --loader ts-node/esm src/scripts/batch-processing/integration.ts",
     "vercel-ignore-build": "bash scripts/vercel-ignore-build.sh",
     "sync:vercel": "bash scripts/sync-vercel-env.sh",
-    "sync:railway": "bash scripts/sync-railway-env.sh"
+    "sync:railway": "bash scripts/sync-railway-env.sh",
+    "server:hono": "tsx src/server/hono-api.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.62",
     "@ai-sdk/react": "^3.0.177",
     "@chakra-ui/react": "^3.35.0",
     "@ducanh2912/next-pwa": "^10.2.9",
+    "@hono/node-server": "^2.0.1",
+    "@hono/zod-validator": "^0.7.6",
     "@hookform/resolvers": "^5.2.2",
     "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/api-logs": "^0.217.0",
@@ -176,6 +179,8 @@
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
+    "hono": "^4.12.18",
+    "ioredis": "^5.10.1",
     "jose": "^6.2.3",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^1.14.0",
@@ -207,6 +212,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.1.0",
     "@types/bcryptjs": "^3.0.0",
+    "@types/ioredis": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "20.19.39",
     "@types/nodemailer": "^8.0.0",
@@ -246,6 +252,7 @@
     "ts-jest": "^29.4.9",
     "ts-morph": "^27.0.2",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "5.7.3"
   },
   "packageManager": "yarn@3.6.4"

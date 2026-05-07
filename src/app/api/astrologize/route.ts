@@ -24,6 +24,25 @@ export const revalidate = 300;
 
 const RAILWAY_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
+const HONO_API_URL = process.env.HONO_API_URL;
+
+// ─── Hono Gateway ───────────────────────────────────────────────────────────
+
+async function fetchFromHono(params: PlanetaryRequest): Promise<AstrologizeResponse | null> {
+  if (!HONO_API_URL) return null;
+  try {
+    const response = await fetch(`${HONO_API_URL}/api/astrologize`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(params),
+      signal: AbortSignal.timeout(15000),
+    });
+    if (response.ok) return await response.json();
+  } catch (err) {
+    console.error("Hono Gateway proxy failed:", err instanceof Error ? err.message : "Unknown error");
+  }
+  return null;
+}
 
 // ─── Shared response body shape ──────────────────────────────────────────────
 
@@ -329,6 +348,9 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const params = parseParams(searchParams);
 
+  const honoData = await fetchFromHono(params);
+  if (honoData) return NextResponse.json(honoData);
+
   const railwayData = await fetchFromRailway(params);
   if (railwayData) return NextResponse.json(formatRailwayResponse(railwayData, params));
 
@@ -352,6 +374,9 @@ export async function POST(request: NextRequest) {
     }
 
     const params = parsed.data;
+
+    const honoData = await fetchFromHono(params);
+    if (honoData) return NextResponse.json(honoData);
 
     const railwayData = await fetchFromRailway(params);
     if (railwayData) return NextResponse.json(formatRailwayResponse(railwayData, params));

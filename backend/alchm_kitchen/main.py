@@ -592,8 +592,106 @@ async def calculate_bulk_planetary_positions(request: BulkPlanetaryPositionsRequ
             }
         }
     except Exception as e:
-        logger.error(f"Failed to compute bulk planetary positions: {e}")
+        print(f"Failed to compute bulk planetary positions: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+# ==========================================
+# INTERNAL SPECIALIZED ASTROLOGY ENDPOINTS
+# ==========================================
+
+@app.post("/internal/astrology/positions")
+async def internal_calculate_positions(request: PlanetaryPositionsRequest):
+    """
+    Internal high-performance endpoint for Hono API.
+    Calculates planetary positions with specialized speed and precision.
+    """
+    try:
+        now = datetime.now()
+        year = request.year if request.year is not None else now.year
+        month = request.month if request.month is not None else now.month
+        day = request.day if request.day is not None else now.day
+        hour = request.hour if request.hour is not None else 0
+        minute = request.minute if request.minute is not None else 0
+        latitude = request.latitude if request.latitude is not None else 0.0
+        longitude = request.longitude if request.longitude is not None else 0.0
+        zodiac_system = request.zodiacSystem or "tropical"
+
+        result = calculate_planetary_positions_swisseph(
+            year, month, day, hour, minute, latitude, longitude, zodiac_system
+        )
+        return result
+    except Exception as e:
+        print(f"Internal calculation failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+class EpochEchoRequest(BaseModel):
+    planet: str
+    target_longitude: float
+    max_lookback_years: Optional[int] = 200
+    precision_degrees: Optional[float] = 1.0
+
+@app.post("/internal/astrology/outer-epochs")
+async def internal_calculate_outer_epochs(request: EpochEchoRequest):
+    """
+    Specialized endpoint to find 'Epoch Echoes' for slow-moving outer planets.
+    Scans historical ephemeris to find the last time a planet was in a specific degree.
+    """
+    if not swe:
+        raise HTTPException(status_code=500, detail="pyswisseph not available")
+
+    planets_map = {
+        "Jupiter": swe.JUPITER,
+        "Saturn": swe.SATURN,
+        "Uranus": swe.URANUS,
+        "Neptune": swe.NEPTUNE,
+        "Pluto": swe.PLUTO,
+    }
+
+    if request.planet not in planets_map:
+        raise HTTPException(status_code=400, detail="Only outer planets supported for epoch echoes")
+
+    planet_id = planets_map[request.planet]
+    target = request.target_longitude % 360
+    
+    found_epochs = []
+    current_time = datetime.now()
+    
+    jd = swe.julday(current_time.year, current_time.month, current_time.day, current_time.hour)
+    
+    # Scanning logic for slow movers
+    step = 5 if request.planet in ["Jupiter", "Saturn"] else 20
+    max_lookback_jd = jd - (request.max_lookback_years * 365.25)
+    
+    curr_jd = jd
+    
+    while curr_jd > max_lookback_jd and len(found_epochs) < 3:
+        curr_jd -= step
+        res, _ = swe.calc_ut(curr_jd, planet_id, swe.FLG_SWIEPH)
+        pos = res[0] % 360
+        
+        # Approximate check
+        if abs(pos - target) < 2.0: # Wide orb for discovery
+             # Refine with binary search or smaller steps
+             refined_jd = curr_jd
+             # Return just the date components for simplicity
+             y, m, d, h = swe.revjul(refined_jd)
+             found_epochs.append({
+                 "year": y, "month": m, "day": d, "hour": h,
+                 "longitude": round(pos, 4)
+             })
+             # Skip backward significantly to avoid finding the same transit
+             curr_jd -= 365 # Skip roughly a year
+            
+    return {
+        "planet": request.planet,
+        "target_longitude": target,
+        "epochs": found_epochs,
+        "metadata": {
+            "max_lookback_years": request.max_lookback_years,
+            "precision_degrees": request.precision_degrees,
+            "source": "pyswisseph"
+        }
+    }
 
 @app.get("/api/planetary/positions")
 async def calculate_planetary_positions_get(
