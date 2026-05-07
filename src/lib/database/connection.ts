@@ -2,9 +2,12 @@ import 'server-only';
 import pkg from 'pg';
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
-import type { Pool, PoolClient, QueryResult } from "pg";
 
-const { Pool: PoolValue, types } = pkg;
+// Robustly extract Pool and types from the pg package (handles various bundling scenarios)
+const PoolValue = (pkg as any).Pool || (pkg as any).default?.Pool || (pkg as unknown as any).Pool;
+const types = (pkg as any).types || (pkg as any).default?.types || (pkg as unknown as any).types;
+
+import type { Pool, PoolClient, QueryResult } from "pg";
 
 // Note: neonConfig is no longer used as we are using standard pg
 
@@ -63,9 +66,10 @@ function getDatabaseConfig(): DatabaseConfig {
       database: url.pathname.slice(1),
       user: url.username,
       password: url.password,
-      ssl: databaseConfig.environment === "production" && !hyperdriveUrl 
+      // Enable SSL for any remote connection (non-localhost)
+      ssl: url.hostname !== "localhost" && url.hostname !== "127.0.0.1"
         ? { rejectUnauthorized: false } 
-        : false, // Hyperdrive often handles SSL internally
+        : false,
       max: maxConnections,
 
       idleTimeoutMillis: idleTimeout,
@@ -119,6 +123,11 @@ export function initializeDatabase(): Pool {
   // and always true in current @neondatabase/serverless.
 
   pool = new PoolValue(config);
+  
+  if (!pool) {
+    throw new Error("Failed to initialize database pool");
+  }
+
   // Connection event handlers
   pool.on("connect", (_client: PoolClient) => {
     void logger.info("New database connection established", {
@@ -167,7 +176,7 @@ export function getDatabasePool(): Pool {
   if (!pool) {
     return initializeDatabase();
   }
-  return pool;
+  return pool as Pool;
 }
 // Close database connection pool
 export async function closeDatabase(): Promise<void> {

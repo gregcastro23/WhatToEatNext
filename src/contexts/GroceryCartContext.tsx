@@ -243,6 +243,12 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
     cartTypeInput.value = "fresh";
     form.appendChild(cartTypeInput);
 
+    const addInput = document.createElement("input");
+    addInput.type = "hidden";
+    addInput.name = "add";
+    addInput.value = "add";
+    form.appendChild(addInput);
+
     cartItems.forEach((item, idx) => {
       const pos = idx + 1;
       const asinInput = document.createElement("input");

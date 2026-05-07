@@ -224,14 +224,24 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
               score = 60;
             }
 
+            // Get the actual recommendation object from the API response
+            const recommendationObj = recommendationIndex !== -1 ? apiCuisines[recommendationIndex] : null;
+            
+            // Map nested recipes if available
+            const topRecipes = (recommendationObj?.nested_recipes || []).map((r: any) => ({
+              id: r.recipe_id || r.id,
+              name: r.name,
+              matchScore: 95 // Backend recommends these highly
+            }));
+
             mapped.push({
               cuisine: def.name,
               score: Math.max(score, 1),
               planet: def.planet,
-              reasoning: CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`,
+              reasoning: recommendationObj?.compatibility_reason || CUISINE_QUALITIES[def.name] || `A fine ${def.name} selection.`,
               recipeCount: count,
               optimalTiming: OPTIMAL_TIMINGS[def.planet] || "Anytime today",
-              topRecipes: [],
+              topRecipes: topRecipes,
               isRetrograde: false
             });
           }

@@ -139,6 +139,12 @@ export default function CuisineRecommender() {
       cartTypeInput.value = "fresh";
       form.appendChild(cartTypeInput);
 
+      const addInput = document.createElement("input");
+      addInput.type = "hidden";
+      addInput.name = "add";
+      addInput.value = "add";
+      form.appendChild(addInput);
+
       ingredients.forEach((item: any, idx: number) => {
         const pos = idx + 1;
         const asinInput = document.createElement("input");

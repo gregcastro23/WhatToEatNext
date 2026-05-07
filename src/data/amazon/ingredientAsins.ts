@@ -357,8 +357,9 @@ export function resolveAsin(ingredientName: string): string | null {
   // 1. Check exact match immediately
   if (ingredientAsins[normalized]) return ingredientAsins[normalized];
 
-  // 2. Remove common culinary prefixes and suffixes
+  // 2. Remove common culinary prefixes and suffixes, and handle parentheses
   normalized = normalized
+    .replace(/\s*\([^)]*\)/g, '') // Remove (parentheses) and content inside
     .replace(/^(fresh|dried|ground|powdered|organic|large|small|medium|cup|clove|teaspoon|tablespoon|lb|oz|g|kg|half)\s+/g, '')
     .replace(/\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g, '');
 
@@ -381,11 +382,21 @@ export function resolveAsin(ingredientName: string): string | null {
     if (ingredientAsins[singularS]) return ingredientAsins[singularS];
   }
 
-  // 4. Try partial match on last word (often the base ingredient)
-  const words = normalized.split(/\s+/);
+  // 4. Try word-based matches
+  const words = normalized.split(/\s+/).filter(w => w.length > 2);
   if (words.length > 1) {
+    // Try last word (often the base ingredient: "white miso" -> "miso")
     const lastWord = words[words.length - 1];
     if (ingredientAsins[lastWord]) return ingredientAsins[lastWord];
+
+    // Try first word (often the base ingredient: "onion, yellow" -> "onion")
+    const firstWord = words[0];
+    if (ingredientAsins[firstWord]) return ingredientAsins[firstWord];
+
+    // Try any word
+    for (const word of words) {
+      if (ingredientAsins[word]) return ingredientAsins[word];
+    }
   }
 
   return null;
