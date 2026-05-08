@@ -9,6 +9,16 @@ import { validatePlanetaryPositions, quickValidate } from '../astrologicalValida
 import { validateElementalProperties, normalizeElementalProperties } from '../elementalValidation';
 
 describe('Astrological ESLint Rules Integration', () => {
+  let consoleWarnSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleWarnSpy.mockRestore();
+  });
+
   describe('Elemental Properties Validation', () => {
     test('validates correct elemental properties structure', () => {
       const validProperties = {
@@ -30,6 +40,9 @@ describe('Astrological ESLint Rules Integration', () => {
       };
 
       expect(validateElementalProperties(invalidProperties)).toBe(false);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("Element Fire value 1.5 must be between 0 and 1"),
+      );
     });
 
     test('normalizes partial elemental properties', () => {
@@ -59,10 +72,6 @@ describe('Astrological ESLint Rules Integration', () => {
       };
 
       const result = validatePlanetaryPositions(validPositions);
-      if (!result.isValid) {
-        console.log('Validation errors:', result.errors);
-        console.log('Validation warnings:', result.warnings);
-      }
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -90,7 +99,6 @@ describe('Astrological ESLint Rules Integration', () => {
       };
 
       const result = validatePlanetaryPositions(invalidPositions, { strictMode: true });
-      console.log('Strict mode result:', result);
 
       // In strict mode, invalid degrees should be errors
       expect(result.isValid).toBe(false);
@@ -98,8 +106,11 @@ describe('Astrological ESLint Rules Integration', () => {
 
       // Test non-strict mode for warnings
       const resultNonStrict = validatePlanetaryPositions(invalidPositions, { strictMode: false });
-      console.log('Non-strict mode result:', resultNonStrict);
       expect(resultNonStrict.warnings.length).toBeGreaterThan(0);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("[WARN]"),
+        expect.anything(),
+      );
     });
   });
 
@@ -116,9 +127,6 @@ describe('Astrological ESLint Rules Integration', () => {
       };
 
       const result = quickValidate(validPositions, 'planetary');
-      if (!result) {
-        console.log('Quick validation failed for:', validPositions);
-      }
       expect(result).toBe(true);
     });
 

@@ -1,20 +1,9 @@
 import type {
-  LunarPhaseWithSpaces,
   AstrologicalState,
   Element,
   ElementalProperties,
 } from "@/types/alchemy";
 import { AlchemicalEngineAdvanced } from "../alchemicalEngine";
-// Import types for NaturalInfluenceParams interface
-
-// Define NaturalInfluenceParams interface locally (matching alchemicalEngine.ts)
-interface NaturalInfluenceParams {
-  season: string;
-  moonPhase: LunarPhaseWithSpaces;
-  timeOfDay: string;
-  sunSign: any;
-  degreesInSign: number;
-}
 
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
 
@@ -374,7 +363,7 @@ export class AlchemicalEngine {
 
   calculateNaturalInfluences(params: unknown) {
     return (this.advanced as any).calculateNaturalInfluences(
-      params as NaturalInfluenceParams,
+      params,
     );
   }
 

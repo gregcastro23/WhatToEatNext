@@ -27,7 +27,7 @@ class IngredientMappingService {
    */
   mapRecipeIngredients(recipe: Recipe) {
     // Pattern, HH: Safe Recipe type casting for connectIngredientsToMappings with proper import resolution
-    return connectIngredientsToMappings(recipe as any);
+    return connectIngredientsToMappings(recipe);
   }
 
   /**
@@ -57,7 +57,7 @@ class IngredientMappingService {
 
     // Use the filter function with collected recipes
     return filterRecipesByIngredientMappings(
-      filteredRecipes as unknown as Recipe[],
+      filteredRecipes,
       options.elementalTarget,
       {
         required: options.requiredIngredients || [],
@@ -104,8 +104,8 @@ class IngredientMappingService {
           return false;
         // Check elemental similarity
         const similarity = this.calculateElementalSimilarity(
-          originalIngredient.elementalProperties as unknown as ElementalProperties,
-          mapping.elementalProperties as unknown as ElementalProperties,
+          originalIngredient.elementalProperties,
+          mapping.elementalProperties,
         );
 
         return similarity >= similarityThreshold;
@@ -113,8 +113,8 @@ class IngredientMappingService {
       .map(([name, mapping]) => ({
         name,
         similarity: this.calculateElementalSimilarity(
-          originalIngredient.elementalProperties as unknown as ElementalProperties,
-          mapping.elementalProperties as unknown as ElementalProperties,
+          originalIngredient.elementalProperties,
+          mapping.elementalProperties,
         ),
         mapping,
       }))

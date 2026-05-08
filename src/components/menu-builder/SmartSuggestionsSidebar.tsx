@@ -528,9 +528,7 @@ export default function SmartSuggestionsSidebar({
                             key={suggestion.id}
                             suggestion={suggestion}
                             onApply={
-                              onApplySuggestion as
-                                | ((s: ApplicableSuggestion) => void)
-                                | undefined
+                              onApplySuggestion
                             }
                           />
                         ))}

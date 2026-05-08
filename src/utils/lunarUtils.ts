@@ -11,21 +11,21 @@ export function convertToLunarPhase(
   // but TypeScript doesn't automatically recognize this compatibility
   switch (phase) {
     case "new moon":
-      return "new moon" as LunarPhase;
+      return "new moon";
     case "waxing crescent":
-      return "waxing crescent" as LunarPhase;
+      return "waxing crescent";
     case "first quarter":
-      return "first quarter" as LunarPhase;
+      return "first quarter";
     case "waxing gibbous":
-      return "waxing gibbous" as LunarPhase;
+      return "waxing gibbous";
     case "full moon":
-      return "full moon" as LunarPhase;
+      return "full moon";
     case "waning gibbous":
-      return "waning gibbous" as LunarPhase;
+      return "waning gibbous";
     case "last quarter":
-      return "last quarter" as LunarPhase;
+      return "last quarter";
     case "waning crescent":
-      return "waning crescent" as LunarPhase;
+      return "waning crescent";
     default:
       return undefined;
   }

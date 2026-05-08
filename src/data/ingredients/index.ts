@@ -187,7 +187,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
     name,
     category: ingredientData.category || "culinary_herb",
     elementalProperties: calculateElementalProperties(
-      ingredientData as unknown as Ingredient | UnifiedIngredient,
+      ingredientData,
     ),
     qualities: Array.isArray(ingredientData.qualities)
       ? ingredientData.qualities
@@ -209,7 +209,7 @@ const processIngredientCollection = (
   Object.entries(collection).reduce(
     (acc, [key, value]) => {
       try {
-        const processedIngredient = processIngredient(value as any, key);
+        const processedIngredient = processIngredient(value, key);
         // NOTE: Alchemical and thermodynamic properties are NOT calculated here.
         // Ingredients store ONLY elemental properties.
         // ESMS and thermodynamics are computed at the recipe/cuisine level with planetary context.

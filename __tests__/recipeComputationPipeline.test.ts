@@ -100,7 +100,7 @@ const sampleIngredients = [
   },
 ];
 
-const sampleCookingMethods = ["grilling", "seasoning"];
+const sampleCookingMethods = ["grilling", "roasting"];
 
 describe("Recipe Computation Pipeline", () => {
   describe("Core Computation Functions", () => {
@@ -268,6 +268,9 @@ describe("Recipe Computation Pipeline", () => {
 
     test("handles unknown cooking methods gracefully", () => {
       const baseElementals = { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 };
+      const consoleWarnSpy = jest
+        .spyOn(console, "warn")
+        .mockImplementation(() => {});
 
       const result = applyCookingMethodTransforms(baseElementals, [
         "unknown_method",
@@ -275,6 +278,11 @@ describe("Recipe Computation Pipeline", () => {
 
       // Should return unmodified properties for unknown methods
       expect(result).toEqual(baseElementals);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        "Unknown cooking method: unknown_method",
+      );
+
+      consoleWarnSpy.mockRestore();
     });
 
     test("applies multiple cooking methods sequentially", () => {

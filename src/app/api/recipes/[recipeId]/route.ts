@@ -65,7 +65,7 @@ export async function GET(request: Request, props: { params: Promise<{ recipeId:
       .filter((i) => i.category === "vegetable")
       .map((i) => i.name);
 
-    const cookingMethods = getCookingMethods(recipe as Record<string, unknown>);
+    const cookingMethods = getCookingMethods(recipe);
 
     const recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
       protein: proteins[0],

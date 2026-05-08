@@ -81,10 +81,7 @@ export class RecommendationService implements RecommendationServiceInterface {
       // requested compatibility threshold.
       if (criteria.planetaryPositions) {
         const planetaryElements = this.planetaryPositionsToElemental(
-          criteria.planetaryPositions as Record<
-            string,
-            { sign: string; degree: number }
-          >,
+          criteria.planetaryPositions,
         );
         filteredRecipes = filteredRecipes.filter((recipe) => {
           if (!recipe.elementalProperties) return false;

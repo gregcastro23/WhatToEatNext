@@ -202,7 +202,7 @@ class InitializationService {
         Water: alignmentData?.Water || 0.25,
         Earth: alignmentData?.Earth || 0.25,
         Air: alignmentData?.Air || 0.25,
-      } as CelestialData;
+      };
     } catch (error) {
       logger.error("Failed to calculate celestial influences: ", error);
       throw error;

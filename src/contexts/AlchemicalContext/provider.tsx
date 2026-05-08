@@ -16,15 +16,16 @@ import type { ReactNode } from "react";
  * planetary calculations, and elemental harmony tracking.
  */
 type AlchemicalAction = any; // Type not exported
+const isTestEnvironment = process.env.NODE_ENV === "test";
 // Structured logger for browser console visibility
 const logger = {
   debug: (message: string, ...args: any[]) => {
-    if (typeof window !== "undefined") {
+    if (!isTestEnvironment && typeof window !== "undefined") {
       console.log(`%c[AlchemicalProvider] ${message}`, "color: #9c27b0", ...args);
     }
   },
   info: (message: string, ...args: any[]) => {
-    if (typeof window !== "undefined") {
+    if (!isTestEnvironment && typeof window !== "undefined") {
       console.info(`%c[AlchemicalProvider] ${message}`, "color: #2196f3", ...args);
     }
   },
@@ -104,7 +105,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(alchemicalReducer, defaultState);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!isTestEnvironment);
   const [error, setError] = useState<string | null>(null);
   const isMountedRef = React.useRef(true);
   React.useEffect(() => {
@@ -233,6 +234,10 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   }, [state.currentSeason]);
   // Fetch real planetary positions from the astrologize API
   useEffect(() => {
+    if (isTestEnvironment || typeof fetch !== "function") {
+      return;
+    }
+
     const fetchLivePlanetaryPositions = async () => {
       try {
         const now = new Date();
@@ -335,6 +340,10 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   // Stable reference so consumer `useEffect`s that depend on it don't thrash
   // the astrologize endpoint on every provider re-render.
   const refreshPlanetaryPositionsAsync = useCallback(async (): Promise<Record<string, unknown>> => {
+    if (isTestEnvironment || typeof fetch !== "function") {
+      return planetaryPositionsRef.current;
+    }
+
     try {
       setIsLoading(true);
       const response = await fetchWithRetry("/api/astrologize", {

@@ -546,9 +546,9 @@ export default function EnhancedSauceRecommender() {
       cosmic: cosmicSync
         ? {
           zodiac: astroState.currentZodiac as string | undefined,
-          planetaryHour: (astroState.currentPlanetaryHour ?? planetaryHour) as string | undefined,
+          planetaryHour: (astroState.currentPlanetaryHour ?? planetaryHour),
           isDaytime,
-          lunarPhase: lunarPhase as string | undefined,
+          lunarPhase,
         }
         : undefined,
       cosmicWeight: cosmicSync ? 0.5 : 0,
@@ -856,7 +856,7 @@ export default function EnhancedSauceRecommender() {
               {SEASON_OPTIONS.map((s) => (
                 <button
                   key={s.key}
-                  onClick={() => setSeason(s.key as CuisineSauceContext["season"])}
+                  onClick={() => setSeason(s.key)}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${season === s.key
                       ? "bg-emerald-700 text-white"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"

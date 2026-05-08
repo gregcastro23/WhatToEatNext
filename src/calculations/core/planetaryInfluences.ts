@@ -247,7 +247,7 @@ export function getPlanetaryElementalInfluence(
   return (
     (PLANETARY_ELEMENTAL_MAPPINGS[timeKey][
       planetKey as keyof typeof PLANETARY_ELEMENTAL_MAPPINGS.diurnal
-    ] as keyof ElementalProperties) || "Fire"
+    ]) || "Fire"
   );
 }
 

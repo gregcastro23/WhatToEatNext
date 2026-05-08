@@ -11,6 +11,7 @@ import NavAuthLink from "@/components/nav/NavAuthLink";
 import NotificationBell from "@/components/nav/NotificationBell";
 import PremiumLink from "@/components/nav/PremiumLink";
 import PayPalButton from "@/components/PayPalButton";
+import PwaRegistration from "@/components/pwa/PwaRegistration";
 import ThemeToggle from "@/components/ThemeToggle";
 import ClientProviders from "./ClientProviders";
 import type { Metadata } from "next";
@@ -47,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans">
+        <PwaRegistration />
         <ClientProviders>
           <header className="relative bg-[#08080e] py-4 md:py-6 border-b border-purple-500/30 shadow-lg shadow-purple-900/20" style={{ backgroundImage: 'radial-gradient(ellipse at top center, rgba(109,40,217,0.12) 0%, transparent 60%)' }}>
             <div className="mx-auto max-w-[1400px] px-4 md:px-8">

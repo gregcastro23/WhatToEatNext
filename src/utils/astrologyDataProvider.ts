@@ -50,7 +50,7 @@ async function getPositionsFromAPI(): Promise<Record<
       },
       // Short timeout to prevent long waits
       signal: AbortSignal.timeout(3000),
-    } as any);
+    });
 
     if (!response.ok) {
       throw new Error(`API returned status ${response.status}`);

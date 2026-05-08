@@ -1230,8 +1230,8 @@ export class RecipeDataEnricher {
       ...recipe,
       elementalProperties: enrichment.elementalProperties,
       astrologicalInfluences: enrichment.planetaryInfluences,
-      season: enrichment.seasonalAlignment as any,
-      mealType: enrichment.mealTypes as any,
+      season: enrichment.seasonalAlignment,
+      mealType: enrichment.mealTypes,
       flavorProfile: enrichment.flavorProfile as any,
       nutrition: {
         calories: enrichment.nutritionEstimate.calories,

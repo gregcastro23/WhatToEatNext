@@ -266,7 +266,7 @@ export function applyBatchEnrichment(
           Air: 0.25,
         },
         ...recipe,
-      } as Recipe);
+      });
     }
   }
 

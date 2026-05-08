@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { alchemize } from "@/constants/alchemicalPillars";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
-import type { Planet, ZodiacSignType } from "@/types/celestial";
 import { logger } from "@/utils/logger";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -37,12 +36,12 @@ export async function GET(request: NextRequest) {
         const diurnal = isSectDiurnal(requestDate);
         
         const signMap: Record<string, string> = {};
-        for (const [planet, data] of Object.entries(planetaryPositions as any)) {
+        for (const [planet, data] of Object.entries(planetaryPositions)) {
           signMap[planet] = typeof data === 'object' && data !== null ? (data as any).sign : String(data);
         }
         
         const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
-          signMap as Record<Planet, ZodiacSignType>,
+          signMap,
           diurnal
         );
 
@@ -165,7 +164,7 @@ export async function POST(request: NextRequest) {
         }
         
         const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
-          signMap as Record<Planet, ZodiacSignType>,
+          signMap,
           diurnal
         );
         const thermodynamicMetrics = alchemize(planetaryPositions);

@@ -204,7 +204,7 @@ export function calculateThermodynamicCompatibility(
     entropyCompatibility,
     reactivityCompatibility,
     energyCompatibility,
-  } as any);
+  });
 
   return {
     overall,
@@ -292,7 +292,7 @@ export function calculateKineticCompatibility(
     overall,
     powerCompatibility,
     circuitCompatibility,
-  } as any);
+  });
 
   return {
     overall,
@@ -341,7 +341,7 @@ export function calculateEnhancedElementalCompatibility(
     water: waterCompat,
     earth: earthCompat,
     air: airCompat,
-  } as any);
+  });
 
   return overall;
 }
@@ -404,7 +404,7 @@ export function calculateEnhancedCompatibility(
     thermoCompat: thermoCompat.overall,
     kineticCompat: kineticCompat.overall,
     elementalCompat,
-  } as any);
+  });
 
   return {
     overallScore,

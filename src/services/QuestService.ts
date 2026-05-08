@@ -106,7 +106,7 @@ class QuestService {
         );
         return result.rows.map(rowToQuestDef);
       } catch (error) {
-        _logger.error("[QuestService] getActiveQuests failed:", error as any);
+        _logger.error("[QuestService] getActiveQuests failed:", error);
       }
     }
 
@@ -189,7 +189,7 @@ class QuestService {
           };
         }
       } catch (error) {
-        _logger.error("[QuestService] getUserQuestProgress failed:", error as any);
+        _logger.error("[QuestService] getUserQuestProgress failed:", error);
       }
     }
 
@@ -280,7 +280,7 @@ class QuestService {
           ],
         );
       } catch (error) {
-        _logger.error("[QuestService] incrementProgress DB failed:", error as any);
+        _logger.error("[QuestService] incrementProgress DB failed:", error);
       }
     }
 
@@ -310,7 +310,7 @@ class QuestService {
           }
         );
       } catch (err) {
-        _logger.error("[QuestService] Failed to create quest completion notification", err as any);
+        _logger.error("[QuestService] Failed to create quest completion notification", err);
       }
 
       return {
@@ -365,7 +365,7 @@ class QuestService {
           params,
         );
       } catch (error) {
-        _logger.error("[QuestService] claimQuestReward DB failed:", error as any);
+        _logger.error("[QuestService] claimQuestReward DB failed:", error);
         return { success: false, tokensAwarded: 0, tokenType: "", message: "Database error" };
       }
     }

@@ -219,7 +219,7 @@ export class CulinaryAstrologer {
             elementalAlignment: {},
             signatureModifications: {},
             astrologicalProfile: { rulingPlanets: [], aspectEnhancers: [] },
-          } as CuisineProfile),
+          }),
       ),
     };
   }
@@ -272,10 +272,7 @@ export class CulinaryAstrologer {
             astroState,
             dominant,
           ),
-          elementDistribution: recipe._elementalProperties as unknown as Record<
-            string,
-            number
-          >,
+          elementDistribution: recipe._elementalProperties,
           planetaryActivators,
         };
       })

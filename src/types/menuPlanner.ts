@@ -446,7 +446,7 @@ export function getPlanetaryDayCharacteristics(day: DayOfWeek): {
     },
   };
 
-  return characteristics[day as keyof typeof characteristics];
+  return characteristics[day];
 }
 
 /**

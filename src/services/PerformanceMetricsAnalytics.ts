@@ -155,7 +155,7 @@ export class PerformanceMetricsAnalytics {
       metrics: flat,
       timestamp: new Date().toISOString(),
       insights,
-      stats: stats as unknown as Record<string, number>,
+      stats,
     };
   }
 }

@@ -173,13 +173,13 @@ export const useAlchemicalRecommendations = ({
           });
 
         setTransformedIngredients(
-          adapter.getAllTransformedIngredients() as AlchemicalItem[],
+          adapter.getAllTransformedIngredients(),
         );
         setTransformedMethods(
-          adapter.getAllTransformedMethods() as AlchemicalItem[],
+          adapter.getAllTransformedMethods(),
         );
         setTransformedCuisines(
-          adapter.getAllTransformedCuisines() as AlchemicalItem[],
+          adapter.getAllTransformedCuisines(),
         );
 
         // Create an energetic profile for the current recommendations

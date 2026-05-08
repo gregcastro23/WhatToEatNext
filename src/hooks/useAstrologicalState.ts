@@ -285,5 +285,5 @@ export function useAstrologicalState(): AstrologyHookData {
     currentPlanetaryAlignment:
       astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
     lunarPhase: (lunarPhase || astroState.lunarPhase) as any,
-  } as AstrologyHookData;
+  };
 }

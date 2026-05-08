@@ -373,7 +373,7 @@ export const safeConvertToElementalProperties = (
 export const safeConvertToPlanetPosition = (
   value: unknown,
   fallback: PlanetPosition = {
-    sign: "aries" as never,
+    sign: "aries",
     degree: 0,
     minute: 0,
   },

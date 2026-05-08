@@ -50,10 +50,10 @@ export function useRealtimePlanetaryPositions(
     try {
       // Unified: PlanetaryPositionsService (API→engine fallback)
       const positions: { [key: string]: PlanetPosition } =
-        (await new PlanetaryPositionsService().getCurrent(
+        await new PlanetaryPositionsService().getCurrent(
           location,
           zodiacSystem,
-        )) as unknown as { [key: string]: PlanetPosition };
+        );
       const source = "positions-service";
 
       setState({
@@ -122,11 +122,11 @@ export function usePlanetaryPositionsForDate(
     try {
       // Unified: PlanetaryPositionsService for specific date
       const positions: { [key: string]: PlanetPosition } =
-        (await new PlanetaryPositionsService().getForDate(
+        await new PlanetaryPositionsService().getForDate(
           date,
           location,
           zodiacSystem,
-        )) as unknown as { [key: string]: PlanetPosition };
+        );
       const source = "positions-service-custom";
 
       setState({

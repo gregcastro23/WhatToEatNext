@@ -399,7 +399,7 @@ export class PlanetaryRecipeScorer {
 
     // Element match: recipe's dominant element aligns with zodiac element
     if (recipe.elementalProperties) {
-      const recipeElement = this.getDominantElement(recipe.elementalProperties as ElementalProperties);
+      const recipeElement = this.getDominantElement(recipe.elementalProperties);
       if (recipeElement === currentElement) {
         score += 0.2;
       }
@@ -425,7 +425,7 @@ export class PlanetaryRecipeScorer {
     // Check element affinity of current lunar phase against recipe elements
     const phaseAffinity = LUNAR_ELEMENT_AFFINITY[phaseLower];
     if (phaseAffinity && recipe.elementalProperties) {
-      const recipeElement = this.getDominantElement(recipe.elementalProperties as ElementalProperties);
+      const recipeElement = this.getDominantElement(recipe.elementalProperties);
       const affinityElement = this.getDominantElement(phaseAffinity as ElementalProperties);
       if (recipeElement === affinityElement) {
         score += 0.2;
@@ -486,7 +486,7 @@ export class PlanetaryRecipeScorer {
       } else if (aspectType === 'square' || aspectType === 'opposition') {
         const aspectElement = PLANET_ELEMENT[aspect.planets?.[0] || ''];
         if (aspectElement && recipe.elementalProperties) {
-          const recipeElement = this.getDominantElement(recipe.elementalProperties as ElementalProperties);
+          const recipeElement = this.getDominantElement(recipe.elementalProperties);
           if (this.isComplementaryElement(recipeElement, aspectElement)) {
             score += 0.05;
           }
@@ -579,8 +579,8 @@ export class PlanetaryRecipeScorer {
       }
 
       // If recipe's dominant element matches user's dominant, slight penalty
-      const userDominant = this.getDominantElement(natalElements as unknown as ElementalProperties);
-      const recipeDominant = this.getDominantElement(recipeElements as ElementalProperties);
+      const userDominant = this.getDominantElement(natalElements);
+      const recipeDominant = this.getDominantElement(recipeElements);
       if (userDominant === recipeDominant) {
         modifier -= 0.05;
       }
@@ -604,7 +604,7 @@ export class PlanetaryRecipeScorer {
     if (birthChart.ascendant) {
       const ascElement = ZODIAC_ELEMENT_MAP[birthChart.ascendant.toLowerCase()];
       if (ascElement && recipe.elementalProperties) {
-        const recipeElement = this.getDominantElement(recipe.elementalProperties as ElementalProperties);
+        const recipeElement = this.getDominantElement(recipe.elementalProperties);
         if (recipeElement === ascElement) {
           modifier += 0.1;
         }

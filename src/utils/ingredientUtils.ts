@@ -334,13 +334,13 @@ export function mapToIngredient(mapping: IngredientMappingType): Ingredient {
     category:
       (mapping.category as unknown as IngredientCategory) || "culinary_herb",
     elementalProperties:
-      (mapping.elementalProperties as unknown as ElementalProperties) || {
+      (mapping.elementalProperties) || {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25,
       },
-    qualities: (mapping.qualities as unknown as string[]) || [],
+    qualities: (mapping.qualities) || [],
     storage: (mapping.storage as unknown) || {
       duration: "unknown",
     },
@@ -381,13 +381,13 @@ export function ingredientToRecipeIngredient(
     amount,
     unit,
     category: ingredient.category || "culinary_herb",
-    elementalProperties: ingredient.elementalProperties as any,
+    elementalProperties: ingredient.elementalProperties,
     qualities: (ingredient as any).qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,
     // Include other relevant properties that exist in RecipeIngredient - safe property access
     origin: (ingredient as any).origin || undefined,
     seasonality: (ingredient as any).seasonality || undefined,
-  } as any;
+  };
 }
 
 /**

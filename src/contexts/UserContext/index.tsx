@@ -171,7 +171,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         handleAuthError();
       }
     } catch (err) {
-      logger.error("Failed to flush pending updates", err as any);
+      logger.error("Failed to flush pending updates", err);
     }
   }, [handleAuthError]);
 
@@ -202,7 +202,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             userId: profile.userId,
           });
         } catch (parseError) {
-          logger.error("Failed to parse stored profile", parseError as any);
+          logger.error("Failed to parse stored profile", parseError);
           localStorage.removeItem(STORAGE_KEY);
         }
       }
@@ -243,7 +243,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       }
     } catch (err) {
       setError("Failed to load user profile");
-      logger.error("Error loading profile: ", err as any);
+      logger.error("Error loading profile: ", err);
     } finally {
       setIsLoading(false);
     }
@@ -279,7 +279,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       }
     } catch (err) {
       setIsOffline(true);
-      logger.error("Failed to refresh profile from server", err as any);
+      logger.error("Failed to refresh profile from server", err);
     }
   }, [currentUser?.userId, handleAuthError]);
 
@@ -298,7 +298,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const updatedProfile: UserProfile = {
         ...baseProfile,
         ...data,
-      } as UserProfile;
+      };
 
       // If birthData is being updated, and we have a natal chart, recalculate stats
       if (data.birthData && updatedProfile.natalChart) {
@@ -339,7 +339,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           }
         }
       } catch (fetchError) {
-        logger.warn("Server update failed, saving locally", fetchError as any);
+        logger.warn("Server update failed, saving locally", fetchError);
         setIsOffline(true);
 
         // Queue update for later sync
@@ -369,7 +369,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       return updatedProfile;
     } catch (err) {
       setError("Failed to update profile");
-      logger.error("Error updating profile: ", err as any);
+      logger.error("Error updating profile: ", err);
       return null;
     } finally {
       setIsLoading(false);

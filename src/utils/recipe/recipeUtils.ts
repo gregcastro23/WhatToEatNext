@@ -393,7 +393,7 @@ export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
   return {
     ...recipe,
     score: defaultScore,
-  } as ScoredRecipe;
+  };
 }
 
 /**
@@ -453,7 +453,7 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
           name: ingredient,
           amount: 1,
           unit: "piece",
-        } as RecipeIngredient;
+        };
       }
 
       if (typeof ingredient === "object" && ingredient) {
@@ -463,14 +463,14 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
           unit: ingredient.unit || "piece",
           optional: ingredient.optional || false,
           preparation: ingredient.preparation || undefined,
-        } as RecipeIngredient;
+        };
       }
 
       return {
         name: "Unknown ingredient",
         amount: 1,
         unit: "piece",
-      } as RecipeIngredient;
+      };
     })
     .filter((ingredient) => ingredient.name !== "Unknown ingredient");
 }

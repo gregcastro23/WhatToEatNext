@@ -728,7 +728,7 @@ export class EnhancedIngredientsSystem {
         dataQuality,
         lastUpdated: new Date().toISOString(),
       },
-    } as EnhancedIngredient;
+    };
   }
   /**
    * Generate culinary properties for an ingredient

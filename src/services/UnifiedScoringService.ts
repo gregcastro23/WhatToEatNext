@@ -1042,7 +1042,7 @@ export class UnifiedScoringService {
       aspects: [],
       transits: { active: [], seasonal: {} as any },
       lunarPhase: {
-        name: "new moon" as LunarPhase,
+        name: "new moon",
         illumination: 0.5,
         effect: "Neutral",
       },
@@ -1064,7 +1064,7 @@ export class UnifiedScoringService {
       planetaryPositions: data.planets || ({} as any),
       aspects: data.aspects || ([] as any),
       dignity: data.dignity || ({} as any),
-    } as any;
+    };
   }
 
   /**

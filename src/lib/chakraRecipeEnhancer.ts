@@ -29,7 +29,7 @@ function getDominantElement(
 ): keyof ElementalProperties {
   return Object.entries(props).reduce((a, b) =>
     a[1] > b[1] ? a : b,
-  )[0] as keyof ElementalProperties;
+  )[0];
 }
 
 /**
@@ -144,7 +144,7 @@ export class ChakraRecipeEnhancer {
 
         const validatedPlanet = planetValidator(capitalizedName);
         if (validatedPlanet) {
-          planetaryHour = validatedPlanet as unknown as Planet;
+          planetaryHour = validatedPlanet;
         }
       }
     } catch (error) {
@@ -220,8 +220,8 @@ export class ChakraRecipeEnhancer {
         const recommendations =
           this.chakraService.getTarotRecommendationsForChakra(
             dominantChakra === "solarPlexus"
-              ? ("solarPlexus" as any)
-              : (dominantChakra as any),
+              ? ("solarPlexus")
+              : (dominantChakra),
             chakraEnergies[dominantChakra],
           );
 

@@ -180,7 +180,7 @@ export class IngredientFilterService {
   ): IngredientMapping[] {
     return ingredients.filter((ingredient) => {
       const nutrition = (ingredient.nutritionalProfile ||
-        ({} as NutritionData)) as NutritionData;
+        ({})) as NutritionData;
 
       // Check protein requirements
       if (

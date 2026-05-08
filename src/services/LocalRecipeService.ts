@@ -108,7 +108,7 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
   }
 
   return parsed
-    .map((ingredient) => {
+    .map((ingredient): RecipeIngredient | null => {
       if (!ingredient || typeof ingredient !== "object") {
         return null;
       }
@@ -128,7 +128,7 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
         notes: typeof record.notes === "string" ? record.notes : (record.preparation as string),
         category:
           typeof record.category === "string" ? record.category : undefined,
-      } as RecipeIngredient;
+      };
     })
     .filter((ingredient): ingredient is RecipeIngredient => Boolean(ingredient));
 }

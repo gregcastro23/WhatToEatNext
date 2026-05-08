@@ -18,7 +18,6 @@ import type { RulingPlanet } from "../constants/planets";
 import type {
   LunarPhase,
   PlanetaryAspect,
-  LunarPhaseWithSpaces,
 } from "../types/alchemy";
 import type { Recipe } from "../types/recipe";
 
@@ -173,7 +172,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces,
+      this.lunarPhase,
     );
   }
 
@@ -186,7 +185,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces,
+      this.lunarPhase,
     );
   }
 
@@ -199,7 +198,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces,
+      this.lunarPhase,
     );
   }
 

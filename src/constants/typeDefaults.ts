@@ -18,7 +18,6 @@ import type {
   AstrologicalStateType,
   ServiceResponseType,
 } from "../types/alchemy";
-import type { ZodiacSignType } from "../types/celestial";
 
 // ========== PHASE, 2: TYPE DEFAULTS ==========
 
@@ -130,16 +129,16 @@ export const _EmptyPlanetaryPositions: PlanetaryPositionsType = {} as const;
  * Basic planetary positions with default zodiac signs
  */
 export const DefaultPlanetaryPositions: PlanetaryPositionsType = {
-  Sun: { sign: "aries" as ZodiacSignType, degree: 0 },
-  Moon: { sign: "cancer" as ZodiacSignType, degree: 0 },
-  Mercury: { sign: "gemini" as ZodiacSignType, degree: 0 },
-  Venus: { sign: "taurus" as ZodiacSignType, degree: 0 },
-  Mars: { sign: "aries" as ZodiacSignType, degree: 0 },
-  Jupiter: { sign: "sagittarius" as ZodiacSignType, degree: 0 },
-  Saturn: { sign: "capricorn" as ZodiacSignType, degree: 0 },
-  Uranus: { sign: "aquarius" as ZodiacSignType, degree: 0 },
-  Neptune: { sign: "pisces" as ZodiacSignType, degree: 0 },
-  Pluto: { sign: "scorpio" as ZodiacSignType, degree: 0 },
+  Sun: { sign: "aries", degree: 0 },
+  Moon: { sign: "cancer", degree: 0 },
+  Mercury: { sign: "gemini", degree: 0 },
+  Venus: { sign: "taurus", degree: 0 },
+  Mars: { sign: "aries", degree: 0 },
+  Jupiter: { sign: "sagittarius", degree: 0 },
+  Saturn: { sign: "capricorn", degree: 0 },
+  Uranus: { sign: "aquarius", degree: 0 },
+  Neptune: { sign: "pisces", degree: 0 },
+  Pluto: { sign: "scorpio", degree: 0 },
 } as const;
 
 /**

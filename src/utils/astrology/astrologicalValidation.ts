@@ -383,7 +383,7 @@ export function validateAstrologicalElementalProperties(
       // Try to normalize the properties
       if (properties && typeof properties === "object") {
         correctedData = normalizeElementalProperties(
-          properties as Partial<ElementalProperties>,
+          properties,
         );
         warnings.push("Elemental properties were normalized to valid values");
       }

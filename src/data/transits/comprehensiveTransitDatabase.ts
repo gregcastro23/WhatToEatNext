@@ -8,7 +8,6 @@
  */
 
 import type {
-  AspectType,
   CelestialPosition,
   PlanetaryAspect,
 } from "@/types/celestial";
@@ -56,7 +55,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Sun",
             planet2: "Mars",
-            aspectType: "conjunction" as AspectType,
+            aspectType: "conjunction",
             orb: 2.5,
             influence: 0.9,
             description:
@@ -65,7 +64,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Mercury",
             planet2: "Venus",
-            aspectType: "conjunction" as AspectType,
+            aspectType: "conjunction",
             orb: 1.8,
             influence: 0.8,
             description:
@@ -173,7 +172,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Venus",
             planet2: "Jupiter",
-            aspectType: "trine" as AspectType,
+            aspectType: "trine",
             orb: 1.2,
             influence: 0.8,
             description:
@@ -182,7 +181,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Sun",
             planet2: "Uranus",
-            aspectType: "conjunction" as AspectType,
+            aspectType: "conjunction",
             orb: 3.1,
             influence: 0.7,
             description:
@@ -286,7 +285,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Mercury",
             planet2: "Jupiter",
-            aspectType: "conjunction" as AspectType,
+            aspectType: "conjunction",
             orb: 2.8,
             influence: 0.85,
             description:
@@ -295,7 +294,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Sun",
             planet2: "Venus",
-            aspectType: "trine" as AspectType,
+            aspectType: "trine",
             orb: 1.5,
             influence: 0.75,
             description:
@@ -393,7 +392,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
       {
         planet1: "Saturn",
         planet2: "Neptune",
-        aspectType: "square" as AspectType,
+        aspectType: "square",
         orb: 1.8,
         influence: 0.9,
         description:
@@ -431,7 +430,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Mercury",
             planet2: "Jupiter",
-            aspectType: "conjunction" as AspectType,
+            aspectType: "conjunction",
             orb: 3.1,
             influence: 0.85,
             description:
@@ -440,7 +439,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Sun",
             planet2: "Venus",
-            aspectType: "trine" as AspectType,
+            aspectType: "trine",
             orb: 2.8,
             influence: 0.75,
             description:
@@ -449,7 +448,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Mars",
             planet2: "Jupiter",
-            aspectType: "conjunction" as AspectType,
+            aspectType: "conjunction",
             orb: 1.2,
             influence: 0.9,
             description:
@@ -557,7 +556,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Moon",
             planet2: "Neptune",
-            aspectType: "trine" as AspectType,
+            aspectType: "trine",
             orb: 2.1,
             influence: 0.8,
             description:
@@ -566,7 +565,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: "Sun",
             planet2: "Saturn",
-            aspectType: "opposition" as AspectType,
+            aspectType: "opposition",
             orb: 1.8,
             influence: 0.7,
             description: "Balancing structure with emotional nourishment",

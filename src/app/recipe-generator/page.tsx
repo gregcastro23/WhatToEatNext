@@ -1197,7 +1197,7 @@ export default function RecipeGeneratorPage() {
         setHasGenerated(true);
         logger.info(`Generated ${deduped.length} unique recipes`);
       } catch (err) {
-        logger.error("Recipe generation failed:", err as any);
+        logger.error("Recipe generation failed:", err);
         setSuggestions([]);
         setHasGenerated(true);
       } finally {

@@ -30,6 +30,19 @@ import {
 } from './transitValidation';
 
 describe('Astrological Validation Utilities', () => {
+  let consoleWarnSpy: jest.SpyInstance;
+  let consoleLogSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleWarnSpy.mockRestore();
+    consoleLogSpy.mockRestore();
+  });
+
   const validPositions = {
     sun: { sign: 'aries', degree: 15.5, exactLongitude: 15.5, isRetrograde: false },
     moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false },
@@ -107,11 +120,17 @@ describe('Astrological Validation Utilities', () => {
     test('should reject missing elements', () => {
       const missingAir = { Fire: 0.5, Water: 0.3, Earth: 0.2 };
       expect(validateElementalProperties(missingAir)).toBe(false);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("Missing required element: Air"),
+      );
     });
 
     test('should reject invalid element values', () => {
       const invalidVal = { Fire: 1.5, Water: 0.1, Earth: 0.1, Air: 0.1 };
       expect(validateElementalProperties(invalidVal)).toBe(false);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("Element Fire value 1.5 must be between 0 and 1"),
+      );
     });
 
     test('should normalize elemental properties', () => {
@@ -182,6 +201,9 @@ describe('Astrological Validation Utilities', () => {
       expect(
         validateTransitDate('mars', invalidDate, 'aries', mockTransitDates as any),
       ).toBe(false);
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringContaining("[DEBUG]"),
+      );
     });
 
     test('should get current transit sign', () => {

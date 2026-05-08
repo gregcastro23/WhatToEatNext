@@ -160,7 +160,7 @@ export async function POST(request: NextRequest) {
         _logger.warn("[POST /api/onboarding] ⚠️ Position validation warnings:", validation.warnings);
       }
     } catch (error) {
-      _logger.error("[POST /api/onboarding] Planetary calculation failed", error as any);
+      _logger.error("[POST /api/onboarding] Planetary calculation failed", error);
       return NextResponse.json(
         { success: false, message: "Planetary calculation service unavailable. Please try again later." },
         { status: 503 },
@@ -212,7 +212,7 @@ export async function POST(request: NextRequest) {
       ...(name ? { name } : {}),
     };
 
-    const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates as any, user.email);
+    const updatedUser = await userDatabase.updateUserProfile(userId, profileUpdates, user.email);
     await reportQuestEventBestEffort(userId, "complete_onboarding");
 
     // Send admin notification about completed onboarding
@@ -229,7 +229,7 @@ export async function POST(request: NextRequest) {
         );
       }
     } catch (err) {
-      _logger.error("[POST /api/onboarding] Failed to send admin notification:", err as any);
+      _logger.error("[POST /api/onboarding] Failed to send admin notification:", err);
     }
 
     return NextResponse.json({
@@ -243,7 +243,7 @@ export async function POST(request: NextRequest) {
       natalChart,
     });
   } catch (error) {
-    _logger.error("[POST /api/onboarding] Onboarding error", error as any);
+    _logger.error("[POST /api/onboarding] Onboarding error", error);
     return NextResponse.json(
       { success: false, message: "Onboarding failed. Please try again." },
       { status: 500 },
@@ -271,7 +271,7 @@ export async function GET(request: NextRequest) {
       hasBirthData: !!user.profile.birthData,
     });
   } catch (error) {
-    _logger.error("[GET /api/onboarding] Failed to check status", error as any);
+    _logger.error("[GET /api/onboarding] Failed to check status", error);
     return NextResponse.json(
       { success: false, message: "Failed to check onboarding status" },
       { status: 500 },

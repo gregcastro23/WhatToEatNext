@@ -613,7 +613,7 @@ function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
       kalchmNutritionalBalance: 0.5,
       monicaNutritionalHarmony: 0.5,
     },
-  } as MonicaOptimizedRecipe;
+  };
 }
 
 // ===== DIETARY FILTER HELPERS =====

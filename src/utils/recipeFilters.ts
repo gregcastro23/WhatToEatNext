@@ -612,7 +612,7 @@ export function filterRecipesByIngredientMappings(
   // Process each recipe
   const results = recipes.map((recipe) => {
     // Find ingredient mappings
-    const mappedIngredients = connectIngredientsToMappings(recipe as any);
+    const mappedIngredients = connectIngredientsToMappings(recipe);
 
     // Calculate base match score;
     let score = 0.5; // Start with neutral score

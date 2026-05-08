@@ -124,8 +124,8 @@ export class PlanetaryKineticsClient {
 
       // Map full KineticMetrics to simplified client interface
       const data: KineticMetrics = {
-        velocity: fullMetrics.velocity as Record<string, number>,
-        momentum: fullMetrics.momentum as Record<string, number>,
+        velocity: fullMetrics.velocity,
+        momentum: fullMetrics.momentum,
         forceMagnitude: fullMetrics.forceMagnitude,
         power: fullMetrics.power,
         efficiency,

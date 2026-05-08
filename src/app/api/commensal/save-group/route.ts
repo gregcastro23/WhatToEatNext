@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     _logger.error(
       "[POST /api/commensal/save-group] Failed to update profile",
-      error as any,
+      error,
     );
     return NextResponse.json(
       {

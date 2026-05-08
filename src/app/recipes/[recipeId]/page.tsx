@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
-import type { Recipe } from "@/types/recipe";
 import RecipeClient from "./RecipeClient";
 
 export async function generateStaticParams() {
@@ -40,7 +39,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
     notFound();
   }
 
-  const recipe = rawRecipe as unknown as Recipe;
+  const recipe = rawRecipe;
 
   const proteins = (recipe.ingredients || [])
     .filter((i) => i.category === "protein")
@@ -49,7 +48,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
     .filter((i) => i.category === "vegetable")
     .map((i) => i.name);
 
-  const cookingMethods = getCookingMethods(recipe as Record<string, unknown>);
+  const cookingMethods = getCookingMethods(recipe);
 
   const recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
     protein: proteins[0],

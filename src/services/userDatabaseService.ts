@@ -139,7 +139,7 @@ class UserDatabaseService {
       } catch (error) {
         _logger.error(
           "PostgreSQL user creation failed:",
-          error as any,
+          error,
         );
         throw new Error("Failed to create user in database", { cause: error });
       }
@@ -177,7 +177,7 @@ class UserDatabaseService {
           return this.rowToUserWithProfile(row);
         }
       } catch (error) {
-        _logger.warn("PostgreSQL query failed, using in-memory:", error as any);
+        _logger.warn("PostgreSQL query failed, using in-memory:", error);
       }
     }
 
@@ -210,7 +210,7 @@ class UserDatabaseService {
         }
         return null; // Return null explicitly if not found in DB
       } catch (error) {
-        _logger.error("PostgreSQL query failed in getUserByEmail:", error as any);
+        _logger.error("PostgreSQL query failed in getUserByEmail:", error);
         throw new Error("Database lookup failed", { cause: error });
       }
     }
@@ -294,7 +294,7 @@ class UserDatabaseService {
 
         _logger.info("User profile updated in PostgreSQL:", { userId });
       } catch (error) {
-        _logger.error("PostgreSQL profile update failed:", error as any);
+        _logger.error("PostgreSQL profile update failed:", error);
       }
     }
 
@@ -350,7 +350,7 @@ class UserDatabaseService {
           );
         }
       } catch (error) {
-        _logger.error("PostgreSQL auth update failed:", error as any);
+        _logger.error("PostgreSQL auth update failed:", error);
       }
     }
 
@@ -381,7 +381,7 @@ class UserDatabaseService {
         );
         _logger.info("User role updated in PostgreSQL:", { userId, role });
       } catch (error) {
-        _logger.error("PostgreSQL role update failed:", error as any);
+        _logger.error("PostgreSQL role update failed:", error);
         return false;
       }
     }
@@ -410,7 +410,7 @@ class UserDatabaseService {
           return result.rows[0].onboarding_completed === true;
         }
       } catch (error) {
-        _logger.warn("PostgreSQL query failed:", error as any);
+        _logger.warn("PostgreSQL query failed:", error);
       }
     }
 
@@ -443,7 +443,7 @@ class UserDatabaseService {
           [userId],
         );
       } catch (error) {
-        _logger.error("PostgreSQL deactivation failed:", error as any);
+        _logger.error("PostgreSQL deactivation failed:", error);
       }
     }
 
@@ -468,7 +468,7 @@ class UserDatabaseService {
         );
         return parseInt(result.rows[0].count, 10);
       } catch (error) {
-        _logger.warn("PostgreSQL count failed:", error as any);
+        _logger.warn("PostgreSQL count failed:", error);
       }
     }
 
@@ -496,7 +496,7 @@ class UserDatabaseService {
 
         return result.rows.map((row: any) => this.rowToUserWithProfile(row));
       } catch (error) {
-        _logger.warn("PostgreSQL query failed, using in-memory:", error as any);
+        _logger.warn("PostgreSQL query failed, using in-memory:", error);
       }
     }
 
@@ -521,7 +521,7 @@ class UserDatabaseService {
         );
         return result.rows.length > 0;
       } catch (error) {
-        _logger.warn("PostgreSQL query failed:", error as any);
+        _logger.warn("PostgreSQL query failed:", error);
       }
     }
 

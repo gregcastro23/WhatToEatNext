@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
         if (honoResponse.ok) {
           const data = await honoResponse.json();
           // Still do lazy migration locally if it's not handled in Hono yet to preserve exact feature parity
-          const profile = data.profile as any;
+          const profile = data.profile;
           const natalChart = profile?.natalChart;
           if (natalChart?.planets?.length > 0 && natalChart?.birthData?.dateTime) {
             const needsMigration = natalChart.planets.some(
@@ -83,14 +83,14 @@ export async function GET(request: NextRequest) {
                   _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
                 );
               } catch (err) {
-                _logger.error("[GET /api/user/profile] Lazy migration failed", err as any);
+                _logger.error("[GET /api/user/profile] Lazy migration failed", err);
               }
             }
           }
           return NextResponse.json(data);
         }
       } catch (err) {
-        _logger.error("Hono Gateway proxy failed for user profile:", err as any);
+        _logger.error("Hono Gateway proxy failed for user profile:", err);
       }
     }
 
@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
             _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
           );
         } catch (err) {
-          _logger.error("[GET /api/user/profile] Lazy migration failed", err as any);
+          _logger.error("[GET /api/user/profile] Lazy migration failed", err);
         }
       }
     }
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
       profile: user.profile,
     });
   } catch (error) {
-    _logger.error("[GET /api/user/profile] Failed to get profile", error as any);
+    _logger.error("[GET /api/user/profile] Failed to get profile", error);
     return NextResponse.json(
       {
         success: false,
@@ -188,7 +188,7 @@ export async function PUT(request: NextRequest) {
           return NextResponse.json(data);
         }
       } catch (err) {
-        _logger.error("Hono Gateway proxy failed for user profile update:", err as any);
+        _logger.error("Hono Gateway proxy failed for user profile update:", err);
       }
     }
 
@@ -213,7 +213,7 @@ export async function PUT(request: NextRequest) {
       profile: updatedUser.profile,
     });
   } catch (error) {
-    _logger.error("[PUT /api/user/profile] Update profile error", error as any);
+    _logger.error("[PUT /api/user/profile] Update profile error", error);
     return NextResponse.json(
       {
         success: false,

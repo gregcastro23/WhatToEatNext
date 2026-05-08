@@ -195,7 +195,7 @@ function formatRailwayResponse(
   const positionsRecord = positionsData;
   const ascData =
     (positionsRecord.Ascendant as RailwayPlanetData | undefined) ??
-    (positionsRecord.ascendant as RailwayPlanetData | undefined);
+    (positionsRecord.ascendant);
 
   if (ascData) {
     const ascLong =

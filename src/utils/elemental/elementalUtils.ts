@@ -167,8 +167,8 @@ export function getDominantElement(
   return Object.entries(properties).reduce(
     (max, [element, value]) =>
       value > max.value
-        ? { element: element as "Fire" | "Water" | "Earth" | "Air", value }
+        ? { element, value }
         : max,
-    { element: "Fire" as keyof ElementalProperties, value: 0 },
+    { element: "Fire", value: 0 },
   ).element;
 }

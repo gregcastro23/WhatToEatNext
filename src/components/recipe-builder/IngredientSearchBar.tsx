@@ -245,7 +245,7 @@ export default function IngredientSearchBar({
       logger.info(`Loaded ${ingredients.length} ingredients for search`);
       return ingredients;
     } catch (error) {
-      logger.error("Failed to load ingredients:", error as any);
+      logger.error("Failed to load ingredients:", error);
       return [];
     }
   }, []);
@@ -297,7 +297,7 @@ export default function IngredientSearchBar({
         name: ing.name,
         category: ing.category,
         elementalProperties:
-          ing.elementalProperties as SelectedIngredient["elementalProperties"],
+          ing.elementalProperties,
       };
       addIngredient(selected);
     },

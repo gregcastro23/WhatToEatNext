@@ -648,7 +648,7 @@ export async function getIngredientRecommendations(
         flavorProfile: {},
         cuisine: "universal",
         regionalCuisine: "global",
-        season: "all" as Season,
+        season: "all",
         mealType: "any",
         timing: "flexible",
         duration: "standard",

@@ -311,7 +311,7 @@ export class UnifiedRecipeBuildingSystem {
           (acc, method) => ({ ...acc, [method.id || method.name]: method }),
           {},
         )
-      : (methodsArray as { [key: string]: EnhancedCookingMethod });
+      : (methodsArray);
     this.recipeCache = new Map();
   }
 
@@ -599,8 +599,8 @@ export class UnifiedRecipeBuildingSystem {
       recipe,
       ingredientSubstitutions as any,
       cookingMethodAdjustments as any,
-      timingAdjustments as any,
-      temperatureAdjustments as any,
+      timingAdjustments,
+      temperatureAdjustments,
       targetSeason as any,
     );
 
@@ -794,7 +794,7 @@ export class UnifiedRecipeBuildingSystem {
 
     return {
       recipe: baseRecipe.recipe,
-      planetaryAlignment: planetaryAlignment as any,
+      planetaryAlignment,
       optimalCookingTime,
       energeticProfile,
     };
@@ -2121,7 +2121,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Dominant elemental preference
     const domEl = dominantElement(
-      criteria.elementalPreference as Record<string, number> | undefined,
+      criteria.elementalPreference,
     );
     if (domEl === "Water") return ["Stew", "Steam"];
     if (domEl === "Fire") return ["Roast", "Grill"];
@@ -2292,7 +2292,7 @@ export class UnifiedRecipeBuildingSystem {
     const zodiac = (criteria.zodiacSign as string | undefined)?.toLowerCase();
     const lunarPhase = (criteria.lunarPhase as string | undefined)?.toLowerCase();
     const domEl = dominantElement(
-      criteria.elementalPreference as Record<string, number> | undefined,
+      criteria.elementalPreference,
     );
 
     const templateType =

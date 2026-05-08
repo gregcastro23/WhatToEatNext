@@ -168,12 +168,12 @@ function extractRecipesFromCuisines(): IndexedRecipe[] {
             dish as Record<string, unknown>,
           );
           if (normalized && hasNutritionData(normalized)) {
-            recipe.nutrition = normalized as Recipe["nutrition"];
+            recipe.nutrition = normalized;
             stats.fromSource++;
           } else {
             const computed = computeRecipeNutritionFromIngredients(recipe);
             if (computed && hasNutritionData(computed)) {
-              recipe.nutrition = computed as Recipe["nutrition"];
+              recipe.nutrition = computed;
               stats.fromIngredients++;
             } else {
               stats.missing++;

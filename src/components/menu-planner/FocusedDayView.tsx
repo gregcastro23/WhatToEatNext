@@ -520,7 +520,7 @@ function FocusedMealSlot({
           )}
           <div className="mt-3 pt-3 border-t border-gray-100">
             <RecipeNutritionQuickView
-              recipe={mealSlot.recipe! as any}
+              recipe={mealSlot.recipe!}
               servings={mealSlot.servings}
               compact
             />

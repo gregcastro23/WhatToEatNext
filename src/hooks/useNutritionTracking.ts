@@ -59,7 +59,7 @@ export function useNutritionTracking(
       4: [],
       5: [],
       6: [],
-    } as Record<DayOfWeek, MealSlot[]>;
+    };
 
     for (const meal of currentMenu.meals) {
       const day = meal.dayOfWeek;

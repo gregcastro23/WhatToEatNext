@@ -63,5 +63,5 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
       Earth: 0.7,
       Air: 0.6,
     },
-  } as ElementalAffinity;
+  };
 }

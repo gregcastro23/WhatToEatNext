@@ -25,7 +25,7 @@ export const _recipeCalculations = {
       (sum, [element, value]) =>
         sum +
         (value as any) *
-          cuisineElements[element as any as keyof typeof cuisineElements],
+          cuisineElements[element],
       0,
     );
 

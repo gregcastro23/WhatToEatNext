@@ -91,7 +91,7 @@ export function EnergyVisualization({
     >;
     return entries.reduce(
       (max, [element, level]) => (level > max.level ? { element, level } : max),
-      { element: "Fire" as keyof ElementalLevels, level: 0 },
+      { element: "Fire", level: 0 },
     );
   };
 

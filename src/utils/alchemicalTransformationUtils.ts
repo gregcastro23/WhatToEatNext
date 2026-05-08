@@ -248,7 +248,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (
   const methodNames = cookingMethods.map((method) => method.name);
   log.info("Method names to evaluate: ", {
     data: methodNames.join(", "),
-  } as any);
+  });
 
   // Use our enhanced holistic recommendations that include elemental character
   log.info(

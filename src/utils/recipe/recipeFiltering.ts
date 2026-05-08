@@ -339,13 +339,13 @@ export class RecipeFilter {
         return {
           ...recipe,
           score: Math.max(0.1, Math.min(2.0, score)), // Clamp score between 0.1 and 2.0
-        } as ScoredRecipe;
+        };
       } catch (error) {
         _logger.error("Error scoring recipe:", { recipe, error });
         return {
           ...recipe,
           score: 0.5,
-        } as ScoredRecipe;
+        };
       }
     });
   }

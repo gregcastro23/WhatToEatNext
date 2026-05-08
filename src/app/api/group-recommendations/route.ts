@@ -160,7 +160,7 @@ export async function POST(request: NextRequest) {
           memberInfo.push({ id: friend.userId, name: friend.name, element: dominantElement(el) });
         }
       } catch (err) {
-        _logger.error(`[POST /api/group-recommendations] Social DB error for user ${userId}`, err as any);
+        _logger.error(`[POST /api/group-recommendations] Social DB error for user ${userId}`, err);
         // Social DB unavailable — skip linked friends
       }
     }
@@ -248,7 +248,7 @@ export async function POST(request: NextRequest) {
       strategy,
     });
   } catch (error) {
-    _logger.error("[POST /api/group-recommendations] Compute error", error as any);
+    _logger.error("[POST /api/group-recommendations] Compute error", error);
     return NextResponse.json(
       { success: false, message: "Failed to compute group recommendations" },
       { status: 500 },

@@ -577,7 +577,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const harmony = calculateHarmonyIndex(
         {
           transformedESMS,
-          elementalEffect: method.elementalEffect as unknown as { Fire: number; Water: number; Earth: number; Air: number },
+          elementalEffect: method.elementalEffect,
           thermodynamics: methodThermo,
           gregsEnergy,
           kalchm,

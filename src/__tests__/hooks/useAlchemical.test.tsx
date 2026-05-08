@@ -3,17 +3,21 @@
  * outside of the AlchemicalProvider (the primary crash vector identified).
  */
 import React from "react";
-import { renderHook } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { useAlchemical, useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 
 describe("useAlchemical hook", () => {
-  it("returns context value when inside AlchemicalProvider", () => {
+  it("returns context value when inside AlchemicalProvider", async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <AlchemicalProvider>{children}</AlchemicalProvider>
     );
 
     const { result } = renderHook(() => useAlchemical(), { wrapper });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
 
     expect(result.current).toBeDefined();
     expect(result.current.state).toBeDefined();
@@ -61,12 +65,17 @@ describe("useAlchemical hook", () => {
 });
 
 describe("useAlchemicalSafe hook", () => {
-  it("returns context when inside provider", () => {
+  it("returns context when inside provider", async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <AlchemicalProvider>{children}</AlchemicalProvider>
     );
 
     const { result } = renderHook(() => useAlchemicalSafe(), { wrapper });
+
+    await waitFor(() => {
+      expect(result.current?.isLoading).toBe(false);
+    });
+
     expect(result.current).not.toBeNull();
     expect(result.current?.state).toBeDefined();
   });

@@ -414,6 +414,9 @@ export function calculateAspectESMSModifications(
 
   for (const aspect of aspects) {
     const effect = getAspectESMSEffect(aspect.planet1, aspect.planet2, aspect.type);
+    if (!effect) {
+      continue;
+    }
 
     // Scale effect by aspect strength (0-1, where 1 = exact aspect)
     const scaledEffect = aspect.strength || 1.0;

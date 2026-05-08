@@ -11,6 +11,7 @@ import {
   transformationMethods
 } from '@/data/cooking/methods';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import type { LunarPhase } from '@/types/alchemy';
 import type { CelestialPosition } from '@/types/celestial';
 import type { CookingMethodData } from '@/types/cookingMethod';
 import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
@@ -33,12 +34,30 @@ interface FormattedMethod {
 // The runtime alignment shape from useAstrologicalState uses lowercase planet keys
 // (see useAstrologicalState.ts:124-135), which is why we can't rely on the exported
 // PlanetaryAlignment type directly — it declares uppercase keys. Narrow locally.
-type RuntimePlanetaryAlignment = Record<string, CelestialPosition | undefined>;
+type RuntimeMoonPosition = CelestialPosition & { phase?: string };
+interface RuntimePlanetaryAlignment extends Record<string, CelestialPosition | RuntimeMoonPosition | undefined> {
+  moon?: RuntimeMoonPosition;
+}
 
 const fireSigns = ['Aries', 'Leo', 'Sagittarius'];
 const waterSigns = ['Cancer', 'Scorpio', 'Pisces'];
 const earthSigns = ['Taurus', 'Virgo', 'Capricorn'];
 const airSigns = ['Gemini', 'Libra', 'Aquarius'];
+const lunarPhases: LunarPhase[] = [
+  'new moon',
+  'waxing crescent',
+  'first quarter',
+  'waxing gibbous',
+  'full moon',
+  'waning gibbous',
+  'last quarter',
+  'waning crescent',
+];
+
+function normalizeLunarPhase(phase: string | undefined): LunarPhase {
+  const normalized = phase?.toLowerCase();
+  return lunarPhases.find((item) => item === normalized) ?? 'new moon';
+}
 
 export default function HomeMethodsComponent() {
   const { currentPlanetaryAlignment, loading } = useAstrologicalState();
@@ -49,7 +68,7 @@ export default function HomeMethodsComponent() {
     if (!loading && currentPlanetaryAlignment) {
       const alignment = currentPlanetaryAlignment as unknown as RuntimePlanetaryAlignment;
       const sunSign = alignment.sun?.sign ?? 'Aries';
-      const moonPhase = (alignment.moon as (CelestialPosition & { phase?: string }) | undefined)?.phase ?? 'New Moon';
+      const moonPhase = normalizeLunarPhase(alignment.moon?.phase);
 
       const astroState = {
         zodiacSign: sunSign,
@@ -79,7 +98,7 @@ export default function HomeMethodsComponent() {
           // the pattern used throughout cookingMethodRecommender.ts (lines 943, 998, 1053, 1894).
           const score = calculateMethodScore(
             method as unknown as Parameters<typeof calculateMethodScore>[0],
-            astroState as unknown as Parameters<typeof calculateMethodScore>[1]
+            astroState
           );
 
           const name = key.split('_')

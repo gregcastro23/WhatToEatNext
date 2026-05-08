@@ -287,11 +287,11 @@ export class ErrorTrackingEnterpriseSystem {
     for (const category of categories) {
       const currentCount = this.getErrorCountByCategory(
         currentSnapshot,
-        category as any,
+        category,
       );
       const previousCount = this.getErrorCountByCategory(
         previousSnapshot,
-        category as any,
+        category,
       );
       if (currentCount === 0 && previousCount === 0) continue;
       const changeRate =
@@ -308,7 +308,7 @@ export class ErrorTrackingEnterpriseSystem {
       );
       const confidence = Math.min(0.95, 0.5 + Math.abs(changeRate) * 0.5);
       trends.push({
-        category: category as any,
+        category,
         trendDirection,
         changeRate,
         predictedCount,
@@ -381,7 +381,7 @@ export class ErrorTrackingEnterpriseSystem {
       recommendations.push({
         recommendationId: `stability_${Date.now()}`,
         priority: "critical",
-        category: "other" as ErrorCategory,
+        category: "other",
         description:
           "Critical: Build stability below threshold - implement immediate fixes",
         estimatedImpact: Math.round(metrics.totalErrors * 0.2),
@@ -396,7 +396,7 @@ export class ErrorTrackingEnterpriseSystem {
       recommendations.push({
         recommendationId: `performance_${Date.now()}`,
         priority: "medium",
-        category: "other" as ErrorCategory,
+        category: "other",
         description:
           "Optimize error fixing velocity - consider batch processing",
         estimatedImpact: Math.round(metrics.totalErrors * 0.2),

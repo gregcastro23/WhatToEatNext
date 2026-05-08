@@ -124,7 +124,7 @@ export async function POST(request: Request) {
     skySnapshot.push(`${planet} in ${sign}${pos.isRetrograde ? " (R)" : ""}`);
   });
   const dominantElement: ClassicalElement = getDominantElementFromPositions(
-    raw as Record<string, { sign?: unknown }>,
+    raw,
   );
 
   const currentSky = skySnapshot.join(", ");

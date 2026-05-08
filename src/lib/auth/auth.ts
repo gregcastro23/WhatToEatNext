@@ -315,7 +315,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           
           if (dbUser) {
             token.userId = dbUser.id;
-            const isAdmin = dbUser.roles.includes(UserRole.ADMIN as never);
+            const isAdmin = dbUser.roles.includes(UserRole.ADMIN);
             token.role = isAdmin ? "admin" : "user";
             token.onboardingComplete = !!(
               dbUser.profile.birthData && dbUser.profile.natalChart

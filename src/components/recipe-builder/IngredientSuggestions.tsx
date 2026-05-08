@@ -150,7 +150,7 @@ function computeSuggestions(
     if (!suggestCategories.has(ingCategory)) continue;
 
     const ingDominant = getDominantElement(
-      ing.elementalProperties as Record<string, number>,
+      ing.elementalProperties,
     );
 
     let score = 0;
@@ -225,7 +225,7 @@ export default function IngredientSuggestions({
     addIngredient({
       name: ing.name,
       category: ing.category,
-      elementalProperties: ing.elementalProperties as SelectedIngredient["elementalProperties"],
+      elementalProperties: ing.elementalProperties,
     });
   };
 
@@ -233,7 +233,7 @@ export default function IngredientSuggestions({
   const lastSelected = selectedIngredients[selectedIngredients.length - 1];
   const _lastCategory = getCategoryType(lastSelected.category);
   const lastDominant = getDominantElement(
-    lastSelected.elementalProperties as Record<string, number>,
+    lastSelected.elementalProperties,
   );
 
   const planetKey = Object.entries(PLANET_ELEMENTS).find(

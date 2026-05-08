@@ -164,7 +164,7 @@ class ConfigurationServiceImpl {
   ): ConfigurationState[K] {
     const sectionData = this.currentConfig[section];
     if (typeof sectionData === "object" && sectionData !== null) {
-      return { ...sectionData } as ConfigurationState[K];
+      return { ...sectionData };
     }
     return sectionData;
   }
@@ -193,7 +193,7 @@ class ConfigurationServiceImpl {
         (this.currentConfig[section] as Record<string, unknown>)[key] = value;
         // Create update record
         const update: ConfigurationUpdate = {
-          section: section as ConfigurationUpdate["section"],
+          section,
           key,
           value,
           timestamp: Date.now(),

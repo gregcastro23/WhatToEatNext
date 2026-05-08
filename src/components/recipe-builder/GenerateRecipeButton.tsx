@@ -171,7 +171,7 @@ export default function GenerateRecipeButton({
       logger.info(`Generated ${recommendations.length} recipe suggestions`);
       onGenerated(recommendations);
     } catch (err) {
-      logger.error("Recipe generation failed:", err as any);
+      logger.error("Recipe generation failed:", err);
       onError?.("Could not generate recipes right now. Please try again.");
       onGenerated([]);
     } finally {

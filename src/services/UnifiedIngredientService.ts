@@ -379,7 +379,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       const planets = (_ingredient as any)?.astrologicalProperties?.planets;
       return Array.isArray(planets)
-        ? planets.includes(planet as unknown) // ← Pattern HH-1: Safe conversion via unknown
+        ? planets.includes(planet) // ← Pattern HH-1: Safe conversion via unknown
         : planets === (planet as unknown); // ← Pattern HH-1: Safe conversion via unknown
     });
   }
@@ -1070,10 +1070,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const signs = (ingredient as any)?.astrologicalProperties?.signs;
       return Array.isArray(signs)
         ? signs.includes(
-            currentZodiacSignType as unknown as Record<
-              string,
-              Record<string, string>
-            >,
+            currentZodiacSignType as unknown,
           )
         : signs ===
             (currentZodiacSignType as unknown as Record<
@@ -1098,7 +1095,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const planets = (ingredient as any)?.astrologicalProperties?.planets;
       return Array.isArray(planets)
         ? planets.includes(
-            planet as unknown as Record<string, Record<string, string>>,
+            planet,
           )
         : planets ===
             (planet as unknown as Record<string, Record<string, string>>);

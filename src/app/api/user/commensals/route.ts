@@ -18,6 +18,13 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+function unauthorizedResponse() {
+  return NextResponse.json(
+    { success: false, message: "Authentication required" },
+    { status: 401 },
+  );
+}
+
 const SIGN_TO_ELEMENT: Record<ZodiacSignType, Element> = {
   aries: "Fire", leo: "Fire", sagittarius: "Fire",
   taurus: "Earth", virgo: "Earth", capricorn: "Earth",
@@ -69,7 +76,7 @@ export async function GET(request: NextRequest) {
   const user = await getDatabaseUserFromRequest(request);
   if (!user) {
     _logger.warn("[GET /api/user/commensals] User not found or not authenticated");
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+    return unauthorizedResponse();
   }
 
   const legacyManual = user.profile.groupMembers || [];
@@ -100,7 +107,7 @@ export async function POST(request: NextRequest) {
 
   if (!user) {
     _logger.warn("[POST /api/user/commensals] User not found or not authenticated");
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+    return unauthorizedResponse();
   }
 
   let body: Record<string, unknown>;
@@ -134,7 +141,7 @@ export async function POST(request: NextRequest) {
       longitude: birthData.longitude,
     });
   } catch (error) {
-    _logger.error("[POST /api/user/commensals] Planetary calculation failed", error as any);
+    _logger.error("[POST /api/user/commensals] Planetary calculation failed", error);
     return NextResponse.json(
       { success: false, message: "Planetary calculation service unavailable. Please try again later." },
       { status: 503 },
@@ -190,7 +197,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, commensal: created }, { status: 201 });
   } catch (error) {
-    _logger.error("[POST /api/user/commensals] Failed to create companion", error as any);
+    _logger.error("[POST /api/user/commensals] Failed to create companion", error);
     return NextResponse.json({ success: false, message: "Failed to save companion chart" }, { status: 500 });
   }
 }

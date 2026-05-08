@@ -146,7 +146,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
           planetaryInfluences,
           minMatchScore,
         );
-      return recipes as unknown as Recipe[];
+      return recipes;
     } catch (error) {
       logger.error("Error getting recipes for planetary alignment", error);
       return [];

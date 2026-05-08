@@ -238,7 +238,7 @@ export default function CuisineRecommender() {
     const safeState = state?.astrologicalState || {};
     if (safeState?.elementalState) {
       // Use type assertion to ensure type compatibility
-      setCurrentMomentElementalProfile({...safeState.elementalState} as unknown as ElementalProperties);
+      setCurrentMomentElementalProfile({...safeState.elementalState});
     } else if (currentZodiac) {
       // If no elemental state but we have zodiac, calculate based on that
       const zodiacElements = calculateElementalProfileFromZodiac(currentZodiac as ZodiacSign, lunarPhase as LunarPhase);
@@ -510,7 +510,7 @@ export default function CuisineRecommender() {
         cuisinesArray,
         planetaryPositions,
         isDaytime,
-        currentZodiac as ZodiacSign || 'aries',
+        currentZodiac || 'aries',
         lunarPhase as LunarPhase || 'new moon'
       );
       
@@ -801,7 +801,7 @@ export default function CuisineRecommender() {
                   <div 
                     key={index} 
                     className="border rounded p-2 bg-white cursor-pointer hover:shadow-md transition-all duration-200"
-                    onClick={(event) => toggleRecipeExpansion(index, event as React.MouseEvent)}
+                    onClick={(event) => toggleRecipeExpansion(index, event)}
                   >
                     <div className="flex justify-between items-center mb-1">
                       <h5 className="font-medium text-sm">{recipe.name}</h5>

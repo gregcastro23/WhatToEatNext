@@ -262,7 +262,7 @@ export const elementalUtils = {
       dominant,
       balance: properties,
       characteristics: [this.getElementalCharacteristics(dominant)],
-    } as Partial<ElementalProfile>;
+    };
   },
 
   calculateBalance(properties: ElementalProperties): number {
@@ -414,7 +414,7 @@ export function fixIngredientMapping(
   ];
   for (const k of requiredKeys) {
     if (
-      !(k in ({ ...mapping, name, elementalProperties } as IngredientMapping))
+      !(k in ({ ...mapping, name, elementalProperties }))
     ) {
       throw new Error(
         `fixIngredientMapping: Missing required key '${String(k)}' for '${key}'`,
@@ -426,7 +426,7 @@ export function fixIngredientMapping(
     ...(mapping as IngredientMapping),
     name,
     elementalProperties,
-  } as IngredientMapping;
+  };
 }
 
 /**
@@ -439,7 +439,7 @@ export function fixIngredientMappings(
 ): Record<string, IngredientMapping> {
   const result: Record<string, IngredientMapping> = {};
   Object.entries(ingredients).forEach(([k, v]) => {
-    result[k] = fixIngredientMapping(v as Partial<IngredientMapping>, k);
+    result[k] = fixIngredientMapping(v, k);
   });
   return result;
 }

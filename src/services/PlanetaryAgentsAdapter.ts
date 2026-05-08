@@ -462,7 +462,7 @@ export class PlanetaryAgentsAdapter {
       data: {
         harmony: 0.75, // PLACEHOLDER: Should be calculated from group elemental properties
         powerAmplification: 1.2,
-        momentumFlow: "sustained" as any,
+        momentumFlow: "sustained",
         groupResonance: 0.8,
         individualContributions,
       },

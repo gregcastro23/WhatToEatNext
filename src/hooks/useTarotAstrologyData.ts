@@ -101,7 +101,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase
         ? adaptLunarPhase(
-            foodAssociationsLunarPhase as unknown as FoodAssociationsLunarPhase,
+            foodAssociationsLunarPhase,
           )
         : null;
     } catch (error) {
@@ -203,7 +203,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
               keywords: cards.majorCard.keywords,
               suit: "Major Arcana", // Major arcana cards don't have suits so use a placeholder
               number: 0, // Major arcana cards don't have numbers, so use 0
-            } as TarotCard)
+            })
           : null,
       });
     } catch (err) {
@@ -229,7 +229,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
             cardMap[planetName] = {
               name: arcanaName,
               energy: calculatePlanetaryEnergy(planetName), // Now references the hoisted function
-            } as TarotCard;
+            };
           }
         });
       }
@@ -307,11 +307,11 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       // Otherwise use a default lunar phase
       else {
         // Default to full moon as a fallback
-        setCurrentLunarPhase("full moon" as LunarPhaseWithSpaces);
+        setCurrentLunarPhase("full moon");
       }
     } catch (error) {
       logger.error("Error determining lunar phase", error);
-      setCurrentLunarPhase("full moon" as LunarPhaseWithSpaces);
+      setCurrentLunarPhase("full moon");
     }
   }, [foodAssociationsLunarPhase]);
   // Helper function to get element for major arcana

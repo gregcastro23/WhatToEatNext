@@ -87,7 +87,7 @@ export function useDragAndDrop(config: UseDragAndDropConfig) {
       draggedRecipe,
       dropTarget,
       isDragging,
-    } as DragState,
+    },
     isValidDrop,
     handleDragStart,
     handleDragEnd,

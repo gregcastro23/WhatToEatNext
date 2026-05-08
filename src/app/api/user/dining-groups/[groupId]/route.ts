@@ -13,6 +13,13 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+function unauthorizedResponse() {
+  return NextResponse.json(
+    { success: false, message: "Authentication required" },
+    { status: 401 },
+  );
+}
+
 /** PUT /api/user/dining-groups/[groupId] */
 export async function PUT(
   request: NextRequest,
@@ -22,7 +29,7 @@ export async function PUT(
   const user = await getDatabaseUserFromRequest(request);
   if (!user) {
     _logger.warn(`[PUT /api/user/dining-groups/${groupId}] User not found or not authenticated`);
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+    return unauthorizedResponse();
   }
 
   const groups = user.profile.diningGroups || [];
@@ -65,7 +72,7 @@ export async function PUT(
     await userDatabase.updateUserProfile(user.id, { diningGroups: groups });
     return NextResponse.json({ success: true, diningGroup: groups[idx] });
   } catch (error) {
-    _logger.error(`[PUT /api/user/dining-groups/${groupId}] Failed to update profile`, error as any);
+    _logger.error(`[PUT /api/user/dining-groups/${groupId}] Failed to update profile`, error);
     return NextResponse.json({ success: false, message: "Failed to update dining group" }, { status: 500 });
   }
 }
@@ -79,7 +86,7 @@ export async function DELETE(
   const user = await getDatabaseUserFromRequest(request);
   if (!user) {
     _logger.warn(`[DELETE /api/user/dining-groups/${groupId}] User not found or not authenticated`);
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+    return unauthorizedResponse();
   }
 
   const groups = user.profile.diningGroups || [];
@@ -93,7 +100,7 @@ export async function DELETE(
     await userDatabase.updateUserProfile(user.id, { diningGroups: filtered });
     return NextResponse.json({ success: true });
   } catch (error) {
-    _logger.error(`[DELETE /api/user/dining-groups/${groupId}] Failed to update profile`, error as any);
+    _logger.error(`[DELETE /api/user/dining-groups/${groupId}] Failed to update profile`, error);
     return NextResponse.json({ success: false, message: "Failed to remove dining group" }, { status: 500 });
   }
 }

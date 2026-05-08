@@ -49,7 +49,7 @@ export function getDominantElementFromPositions(
       typeof value === "string"
         ? value
         : typeof value === "object" && "sign" in value
-          ? String((value as { sign?: unknown }).sign ?? "")
+          ? String((value).sign ?? "")
           : "";
     const element = SIGN_TO_ELEMENT[raw.toLowerCase()];
     if (element) counts[element] += 1;

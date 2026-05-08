@@ -15,12 +15,12 @@ export class AspectsService {
           degree: Number((v as any)?.degree || 0),
         },
       ]),
-    ) as MinimalPositions;
+    );
   }
 
   static calculateFromPositions(positions: Record<string, PlanetaryPosition>) {
     const minimal = AspectsService.toMinimal(positions);
-    const { aspects, elementalEffects } = calculateAspects(minimal as any);
+    const { aspects, elementalEffects } = calculateAspects(minimal);
     return { aspects, elementalEffects };
   }
 }

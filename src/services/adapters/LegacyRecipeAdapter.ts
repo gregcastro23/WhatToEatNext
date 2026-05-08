@@ -53,12 +53,12 @@ export class LegacyRecipeAdapter {
     try {
       // ← Pattern HH-3: Safe type conversion for Recipe array
       const recipes = await unifiedRecipeService.getAllRecipes();
-      return recipes as unknown as Recipe[];
+      return recipes;
     } catch (error) {
       logger.error("Error in getAllRecipes:", error);
       // Fall back to LocalRecipeService if needed
       const recipes = await LocalRecipeService.getAllRecipes();
-      return recipes as unknown as Recipe[];
+      return recipes;
     }
   }
   /**
@@ -75,7 +75,7 @@ export class LegacyRecipeAdapter {
         criteriaData.query || JSON.stringify(criteria),
       );
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
-      return recipes as unknown as Recipe[];
+      return recipes;
     } catch (error) {
       logger.error("Error in searchRecipes:", error);
       // ✅ Pattern MM-1: Safe argument type conversion for string parameter
@@ -83,12 +83,12 @@ export class LegacyRecipeAdapter {
       const queryValue = criteriaData.query;
       if (queryValue && typeof queryValue === "string") {
         const recipes = await LocalRecipeService.searchRecipes(queryValue);
-        return recipes as unknown as Recipe[];
+        return recipes;
       } else if (criteria && typeof criteria === "object") {
         // Convert criteria object to search string
         const searchString = JSON.stringify(criteria).toLowerCase();
         const recipes = await LocalRecipeService.searchRecipes(searchString);
-        return recipes as unknown as Recipe[];
+        return recipes;
       }
       return [];
     }
@@ -100,12 +100,12 @@ export class LegacyRecipeAdapter {
     try {
       // ← Pattern HH-3: Safe type conversion for Recipe array, fixed method name
       const recipes = await unifiedRecipeService.getRecipesForCuisine(cuisine);
-      return recipes as unknown as Recipe[];
+      return recipes;
     } catch (error) {
       logger.error(`Error in getRecipesByCuisine for "${cuisine}":`, error);
       // Fall back to LocalRecipeService if needed
       const recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
-      return recipes as unknown as Recipe[];
+      return recipes;
     }
   }
   /**
@@ -118,7 +118,7 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe string conversion for zodiac search
       const searchQuery = `zodiac:${String(zodiacSign || "")}`;
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
-      return recipes as unknown as Recipe[];
+      return recipes;
     } catch (error) {
       logger.error(`Error in getRecipesByZodiac for "${zodiacSign}":`, error);
       // Simple fallback - get all recipes and filter
@@ -128,7 +128,7 @@ export class LegacyRecipeAdapter {
           influence.toLowerCase().includes(zodiacSign.toLowerCase()),
         ),
       );
-      return filtered as unknown as Recipe[];
+      return filtered;
     }
   }
   /**
@@ -147,17 +147,17 @@ export class LegacyRecipeAdapter {
         | undefined;
       if (methodCall) {
         const recipes = await methodCall(season);
-        return recipes as unknown as Recipe[];
+        return recipes;
       }
       // ✅ Pattern MM-1: Safe string conversion for season search
       const searchQuery = `season:${String(season || "")}`;
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
-      return recipes as unknown as Recipe[];
+      return recipes;
     } catch (error) {
       logger.error(`Error in getRecipesBySeason for "${season}":`, error);
       // Fall back to LocalRecipeService if needed
       const recipes = await LocalRecipeService.getRecipesBySeason(season);
-      return recipes as unknown as Recipe[];
+      return recipes;
     }
   }
   /**
@@ -178,12 +178,12 @@ export class LegacyRecipeAdapter {
         | undefined;
       if (lunarMethod) {
         const recipes = await lunarMethod(lunarPhase);
-        return recipes as unknown as Recipe[];
+        return recipes;
       }
       // ✅ Pattern MM-1: Safe string conversion for lunar search
       const searchQuery = `lunar:${String(lunarPhase || "").replace(" ", "-")}`;
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
-      return recipes as unknown as Recipe[];
+      return recipes;
     } catch (error) {
       logger.error(
         `Error in getRecipesByLunarPhase for "${lunarPhase}":`,
@@ -198,7 +198,7 @@ export class LegacyRecipeAdapter {
             .includes(lunarPhase.toLowerCase().replace(" ", "")),
         ),
       );
-      return filtered as unknown as Recipe[];
+      return filtered;
     }
   }
   /**
@@ -217,17 +217,17 @@ export class LegacyRecipeAdapter {
         | undefined;
       if (mealMethod) {
         const recipes = await mealMethod(mealType);
-        return recipes as unknown as Recipe[];
+        return recipes;
       }
       // ✅ Pattern MM-1: Safe string conversion for meal search
       const searchQuery = `meal:${String(mealType || "")}`;
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
-      return recipes as unknown as Recipe[];
+      return recipes;
     } catch (error) {
       logger.error(`Error in getRecipesByMealType for "${mealType}":`, error);
       // Fall back to LocalRecipeService if needed
       const recipes = await LocalRecipeService.getRecipesByMealType(mealType);
-      return recipes as unknown as Recipe[];
+      return recipes;
     }
   }
   /**

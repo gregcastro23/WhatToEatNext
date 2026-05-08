@@ -141,7 +141,7 @@ function getZodiacInfluences(recipe: Recipe): string[] {
 
 function getLunarPhases(recipe: Recipe): string[] {
   const lp = recipe.lunarPhaseInfluences;
-  if (Array.isArray(lp)) return lp as string[];
+  if (Array.isArray(lp)) return lp;
   return [];
 }
 

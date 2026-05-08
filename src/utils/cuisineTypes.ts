@@ -431,7 +431,7 @@ export function getPrimaryCuisineFromRegional(
   return (
     ((regionalToPrimary as Record<string, string>)[
       _regional
-    ] as PrimaryCuisineType) || ("Fusion" as PrimaryCuisineType)
+    ] as PrimaryCuisineType) || ("Fusion")
   );
 }
 

@@ -121,7 +121,7 @@ class DailyYieldService {
           return { positions, transitESMS };
         }
       } catch (error) {
-        _logger.error("[DailyYield] Failed to fetch ephemeris cache:", error as any);
+        _logger.error("[DailyYield] Failed to fetch ephemeris cache:", error);
       }
     }
 
@@ -159,7 +159,7 @@ class DailyYieldService {
         );
         _logger.info("[DailyYield] Ephemeris cached for", todayStr);
       } catch (error) {
-        _logger.error("[DailyYield] Failed to cache ephemeris:", error as any);
+        _logger.error("[DailyYield] Failed to cache ephemeris:", error);
       }
     }
   }
@@ -191,7 +191,7 @@ class DailyYieldService {
           };
         }
       } catch (error) {
-        _logger.warn("[DailyYield] Failed to read yield profile:", error as any);
+        _logger.warn("[DailyYield] Failed to read yield profile:", error);
       }
     }
 
@@ -216,7 +216,7 @@ class DailyYieldService {
           [userId, weights.spirit, weights.essence, weights.matter, weights.substance, chartHash],
         );
       } catch (error) {
-        _logger.warn("[DailyYield] Failed to cache yield weights:", error as any);
+        _logger.warn("[DailyYield] Failed to cache yield weights:", error);
       }
     }
 

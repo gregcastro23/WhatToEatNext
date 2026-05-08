@@ -153,7 +153,7 @@ export function useCircuitMetrics(
       scope,
       metrics: null,
       isLoading,
-    } as CircuitMetricsResult;
+    };
   }, [
     scope,
     id,

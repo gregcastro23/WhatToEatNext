@@ -112,7 +112,7 @@ function asStringArray(value: unknown): string[] | undefined {
     return strs.length ? strs : undefined;
   }
   if (value && typeof value === "object") {
-    return Object.keys(value as Record<string, unknown>);
+    return Object.keys(value);
   }
   return undefined;
 }

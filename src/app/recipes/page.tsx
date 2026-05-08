@@ -56,9 +56,9 @@ function RecipesPageContent() {
                 planetaryReason: result.planetaryReason,
                 recommendedTiming: result.recommendedTiming,
                 rulingPlanet: result.rulingPlanet,
-              } as Recipe;
+              };
             } catch {
-              return { ...r, score: 50 } as Recipe;
+              return { ...r, score: 50 };
             }
           }),
         );

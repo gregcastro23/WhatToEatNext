@@ -88,7 +88,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     cuisine: safeGetString((recipe as any).cuisine) || "",
     ingredients: validateAndNormalizeIngredients(
       Array.isArray(recipe.ingredients)
-        ? (recipe.ingredients as Array<Partial<RecipeIngredient>>)
+        ? (recipe.ingredients)
         : [],
     ),
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
@@ -442,7 +442,7 @@ class RecipeData {
       return ensureRecipeProperties({
         ...recipe,
         elementalProperties:
-          (withElementalProps.elementalProperties as ElementalProperties) || {
+          (withElementalProps.elementalProperties) || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,

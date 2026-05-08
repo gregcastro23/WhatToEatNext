@@ -95,7 +95,7 @@ class NotificationDatabaseService {
           return rowToNotification(result.rows[0]);
         }
       } catch (error) {
-        _logger.error("createNotification failed:", error as any);
+        _logger.error("createNotification failed:", error);
         return null;
       }
     }
@@ -133,7 +133,7 @@ class NotificationDatabaseService {
         );
         return result.rows.map(rowToNotification);
       } catch (error) {
-        _logger.error("getNotificationsForUser failed:", error as any);
+        _logger.error("getNotificationsForUser failed:", error);
         return [];
       }
     }
@@ -159,7 +159,7 @@ class NotificationDatabaseService {
         );
         return result.rows[0]?.count || 0;
       } catch (error) {
-        _logger.error("getUnreadCount failed:", error as any);
+        _logger.error("getUnreadCount failed:", error);
         return 0;
       }
     }
@@ -184,7 +184,7 @@ class NotificationDatabaseService {
         );
         return (result.rows?.length || 0) > 0;
       } catch (error) {
-        _logger.error("markAsRead failed:", error as any);
+        _logger.error("markAsRead failed:", error);
         return false;
       }
     }
@@ -210,7 +210,7 @@ class NotificationDatabaseService {
         );
         return result.rows?.length || 0;
       } catch (error) {
-        _logger.error("markAllAsRead failed:", error as any);
+        _logger.error("markAllAsRead failed:", error);
         return 0;
       }
     }
@@ -241,7 +241,7 @@ class NotificationDatabaseService {
         );
         return (result.rows?.length || 0) > 0;
       } catch (error) {
-        _logger.error("hasDailyInsightToday failed:", error as any);
+        _logger.error("hasDailyInsightToday failed:", error);
         return false;
       }
     }
@@ -264,7 +264,7 @@ class NotificationDatabaseService {
         );
         return result.rows?.length || 0;
       } catch (error) {
-        _logger.error("deleteExpired failed:", error as any);
+        _logger.error("deleteExpired failed:", error);
         return 0;
       }
     }

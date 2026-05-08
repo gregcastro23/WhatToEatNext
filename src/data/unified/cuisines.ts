@@ -391,7 +391,7 @@ export class CuisineEnhancer {
     );
     // Create enhanced cuisine (PRESERVES ALL EXISTING DATA)
     const enhancedCuisine = {
-      ...(cuisine as unknown as Record<string, unknown>), // Preserve ALL existing properties
+      ...(cuisine), // Preserve ALL existing properties
       // ADD new alchemical properties
       alchemicalProperties: {
         totalKalchm: kalchmAnalysis.totalKalchm,

@@ -133,7 +133,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25,
-          } as any),
+          }),
         name: id,
         description: "",
         duration: { min: 0, max: 60 },
@@ -173,7 +173,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                     Water: 0.25,
                     Earth: 0.25,
                     Air: 0.25,
-                  } as any),
+                  }),
                 toolsRequired: (methodData.toolsRequired as Element[]) || [],
                 bestFor: (methodData.bestFor as Element[]) || [],
                 culturalOrigin: methodData.culturalOrigin,
@@ -185,7 +185,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 suitable_for: (methodData.bestFor as string[]) || [],
                 benefits: [],
                 relatedToMainMethod: mainId,
-              } as any,
+              },
             ];
           }
           return methods;
@@ -208,7 +208,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25,
-            } as any),
+            }),
           toolsRequired: (methodData.toolsRequired as Element[]) || [],
           bestFor: (methodData.bestFor as Element[]) || [],
           culturalOrigin: methodData.culturalOrigin,
@@ -721,7 +721,7 @@ export function calculateMethodScore(
   if (astroState.aspects) {
     // ✅ Pattern MM-1: Type assertion to resolve PlanetaryAspect[] import mismatch
     const aspectAffinity = _calculateAspectMethodAffinity(
-      astroState.aspects as unknown as PlanetaryAspect[],
+      astroState.aspects,
       method as unknown as CookingMethodData,
     );
     score += aspectAffinity * 0.3;
@@ -744,7 +744,7 @@ export function getMethodElementalProfile(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25,
-    } as any)
+    })
   );
 }
 
@@ -762,14 +762,14 @@ export function createElementalProfileFromAstroState(
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25,
-  } as any);
+  });
 
   // Enhance the dominant element
   Object.keys(profile || {}).forEach((element) => {
     if (element === astroState.dominantElement) {
-      profile[element as Element] = Math.min(
+      profile[element] = Math.min(
         1.0,
-        profile[element as Element] + 0.3,
+        profile[element] + 0.3,
       );
     }
   });
@@ -828,7 +828,7 @@ export function getCookingMethodRecommendations(
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25,
-      } as any);
+      });
     const astrologicalInfluences =
       (methodData.astrologicalInfluences as unknown) || {};
     const description = String(

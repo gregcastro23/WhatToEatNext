@@ -82,7 +82,7 @@ export class PlanetaryPositionsService {
         err,
       );
       const raw = engGetAccurate(new Date());
-      const norm = normalizeFromEngine(raw as any);
+      const norm = normalizeFromEngine(raw);
       cache = { key, positions: norm, timestamp: Date.now() };
       return norm;
     }
@@ -116,7 +116,7 @@ export class PlanetaryPositionsService {
         err,
       );
       const raw = engGetAccurate(date);
-      const norm = normalizeFromEngine(raw as any);
+      const norm = normalizeFromEngine(raw);
       cache = { key, positions: norm, timestamp: Date.now() };
       return norm;
     }

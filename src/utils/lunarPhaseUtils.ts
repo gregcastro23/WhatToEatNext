@@ -334,7 +334,7 @@ export function convertToSpacesFormat(
  */
 export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
   const key: LunarPhaseWithUnderscores = phase.includes(" ")
-    ? _LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces]
+    ? _LUNAR_PHASE_MAPPING[phase]
     : (phase as unknown as LunarPhaseWithUnderscores);
   return LUNAR_PHASE_ELEMENTS[key];
 }

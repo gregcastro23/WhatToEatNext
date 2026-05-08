@@ -74,8 +74,8 @@ export class UnifiedScoringAdapter {
         seasonality: (ingredient.seasonality as any) || [],
         planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
         flavorProfile:
-          (ingredient.flavorProfile as Record<string, number>) || {},
-        culturalOrigins: (ingredient.culturalOrigins as string[]) || [],
+          (ingredient.flavorProfile) || {},
+        culturalOrigins: (ingredient.culturalOrigins) || [],
       },
       options: {
         debugMode: options.debugMode,
@@ -240,9 +240,9 @@ export class UnifiedScoringAdapter {
         name: cuisineName,
         type: "cuisine",
         elementalProperties: cuisineElementalProperties,
-        seasonality: [] as any,
+        seasonality: [],
         planetaryRulers: [] as Planet[],
-        flavorProfile: {} as Record<string, number>,
+        flavorProfile: {},
         culturalOrigins: [cuisineName],
       },
       options: {

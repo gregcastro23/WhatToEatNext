@@ -58,7 +58,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     recipe.tools = recipeData.tools;
   }
   if (recipeData.spiceLevel !== undefined) {
-    recipe.spiceLevel = recipeData.spiceLevel as Recipe["spiceLevel"];
+    recipe.spiceLevel = recipeData.spiceLevel;
   }
   if (recipeData.preparationNotes) {
     recipe.preparationNotes = recipeData.preparationNotes;
@@ -205,7 +205,7 @@ function normalizeElementalProperties(
   value: RecipeData["elementalProperties"],
 ): ElementalProperties {
   if (value && typeof value === "object") {
-    return createElementalProperties(value as Partial<ElementalProperties>);
+    return createElementalProperties(value);
   }
 
   return createElementalProperties({

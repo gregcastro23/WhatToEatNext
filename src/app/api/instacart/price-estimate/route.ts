@@ -68,7 +68,7 @@ export async function POST(req: Request) {
     });
 
   } catch (error) {
-    logger.error("Price probe error", error as Error);
+    logger.error("Price probe error", error);
     return NextResponse.json({ confidence: "low", error: "Internal probe failure" }, { status: 500 });
   }
 }

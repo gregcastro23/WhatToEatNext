@@ -85,7 +85,7 @@ function getDominantElement(
 ): keyof ElementalProperties {
   return Object.entries(props).sort(
     ([, a], [, b]) => b - a,
-  )[0][0] as keyof ElementalProperties;
+  )[0][0];
 }
 
 /**

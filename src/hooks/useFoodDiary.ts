@@ -131,6 +131,59 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [filters, setFilters] = useState<FoodDiaryFilters>({});
 
+  const getWeekStart = useCallback((date: Date) => {
+    const weekStart = new Date(date);
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+    weekStart.setHours(0, 0, 0, 0);
+    return weekStart;
+  }, []);
+
+  const loadCoreData = useCallback(async () => {
+    if (userId && userId !== "guest") {
+      // Fetch persisted entries from the API
+      const dateStr = selectedDate.toISOString().split("T")[0];
+      const res = await fetch(
+        `/api/food-diary?userId=${encodeURIComponent(userId)}&date=${dateStr}`,
+        { credentials: "include" },
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const entries = data.entries ?? [];
+        const summary = data.summary ?? null;
+        const [stats, favorites] = await Promise.all([
+          getServerStats(userId),
+          getServerFavorites(userId),
+        ]);
+
+        return {
+          entries,
+          dailySummary: summary,
+          stats,
+          favorites,
+        };
+      }
+    }
+
+    // Fallback: use Server Actions
+    const [entries, dailySummary, stats, favorites] = await Promise.all([
+      getServerDayEntries(userId, selectedDate),
+      getServerDailySummary(userId, selectedDate),
+      getServerStats(userId),
+      getServerFavorites(userId),
+    ]);
+
+    return {
+      entries,
+      dailySummary,
+      stats,
+      favorites,
+    };
+  }, [userId, selectedDate]);
+
+  const loadWeeklySummary = useCallback(async () => {
+    return getServerWeeklySummary(userId, getWeekStart(selectedDate));
+  }, [getWeekStart, selectedDate, userId]);
+
   /**
    * Load data for the current view.
    * Authenticated users fetch from the API (persisted DB); guests use in-memory service.
@@ -139,48 +192,23 @@ export function useFoodDiary(): UseFoodDiaryReturn {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      if (userId && userId !== "guest") {
-        // Fetch persisted entries from the API
-        const dateStr = selectedDate.toISOString().split("T")[0];
-        const res = await fetch(
-          `/api/food-diary?userId=${encodeURIComponent(userId)}&date=${dateStr}`,
-          { credentials: "include" },
-        );
-        if (res.ok) {
-          const data = await res.json();
-          const entries = data.entries ?? [];
-          const summary = data.summary ?? null;
-          const [stats, favorites] = await Promise.all([
-            getServerStats(userId),
-            getServerFavorites(userId),
-          ]);
-          setState((prev) => ({
-            ...prev,
-            entries,
-            dailySummary: summary,
-            stats,
-            favorites,
-            isLoading: false,
-          }));
-          return;
-        }
-      }
-
-      // Fallback: use Server Actions
-      const [entries, dailySummary, stats, favorites] = await Promise.all([
-        getServerDayEntries(userId, selectedDate),
-        getServerDailySummary(userId, selectedDate),
-        getServerStats(userId),
-        getServerFavorites(userId),
+      const [coreData, weeklySummaryResult] = await Promise.all([
+        loadCoreData(),
+        loadWeeklySummary()
+          .then((weeklySummary) => ({ weeklySummary }))
+          .catch((error) => {
+            console.error("Failed to load weekly summary:", error);
+            return { weeklySummary: null };
+          }),
       ]);
 
       setState((prev) => ({
         ...prev,
-        entries,
-        dailySummary,
-        stats,
-        favorites,
+        ...coreData,
+        weeklySummary:
+          weeklySummaryResult.weeklySummary ?? prev.weeklySummary,
         isLoading: false,
+        error: null,
       }));
     } catch (error) {
       setState((prev) => ({
@@ -190,37 +218,12 @@ export function useFoodDiary(): UseFoodDiaryReturn {
           error instanceof Error ? error.message : "Failed to load food diary",
       }));
     }
-  }, [userId, selectedDate]);
+  }, [loadCoreData, loadWeeklySummary]);
 
   // Load data on mount and when date changes
   useEffect(() => {
     void loadData();
   }, [loadData]);
-
-  /**
-   * Load weekly summary
-   */
-  const loadWeeklySummary = useCallback(async () => {
-    try {
-      // Get start of week (Sunday)
-      const weekStart = new Date(selectedDate);
-      weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-      weekStart.setHours(0, 0, 0, 0);
-
-      const weeklySummary = await getServerWeeklySummary(
-        userId,
-        weekStart,
-      );
-      setState((prev) => ({ ...prev, weeklySummary }));
-    } catch (error) {
-      console.error("Failed to load weekly summary:", error);
-    }
-  }, [userId, selectedDate]);
-
-  // Load weekly summary when week changes
-  useEffect(() => {
-    void loadWeeklySummary();
-  }, [loadWeeklySummary]);
 
   /**
    * Add a new entry.
@@ -478,8 +481,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
    */
   const refresh = useCallback(async () => {
     await loadData();
-    await loadWeeklySummary();
-  }, [loadData, loadWeeklySummary]);
+  }, [loadData]);
 
   /**
    * Refresh insights

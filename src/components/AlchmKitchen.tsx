@@ -104,7 +104,7 @@ export default function AlchmKitchen() {
           const cards = tarotUtils.getTarotCardsForDate(
             newDate,
             newPositions.sun && {
-              sign: (newPositions.sun.sign as string) || 'aries',
+              sign: (newPositions.sun.sign) || 'aries',
               degree: newPositions.sun.degree || 0,
             }
           );
@@ -171,7 +171,7 @@ export default function AlchmKitchen() {
             element: cards.minorCard.element,
             associatedRecipes: cards.minorCard.associatedRecipes,
           },
-          majorCard: cards.majorCard as any,
+          majorCard: cards.majorCard,
         });
 
         setFilteredRecipes(fetchedRecipes);

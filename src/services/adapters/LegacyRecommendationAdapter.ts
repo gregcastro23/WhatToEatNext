@@ -245,7 +245,7 @@ export class LegacyRecommendationAdapter {
   ) {
     try {
       return alchemicalRecommendationService.generateRecommendations(
-        planetaryPositions as any,
+        planetaryPositions,
         ingredients,
         cookingMethods as any,
       );
@@ -286,7 +286,7 @@ export class LegacyRecommendationAdapter {
   ) {
     try {
       return alchemicalRecommendationService.getRecipeRecommendations(
-        recipe as any,
+        recipe,
         planetaryPositions,
       );
     } catch (error) {

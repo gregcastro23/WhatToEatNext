@@ -35,14 +35,14 @@ export function useIngredientSearch() {
       setIsLoading(true);
       try {
         const ingredients = [
-          ...(getAllVegetables() as unknown as Ingredient[]),
-          ...(getAllProteins() as unknown as Ingredient[]),
-          ...(getAllHerbs() as unknown as Ingredient[]),
-          ...(getAllSpices() as unknown as Ingredient[]),
-          ...(getAllGrains() as unknown as Ingredient[]),
+          ...(getAllVegetables()),
+          ...(getAllProteins()),
+          ...(getAllHerbs()),
+          ...(getAllSpices()),
+          ...(getAllGrains()),
           ...(Object.values(ingredientsMap || {}).filter(
             Boolean,
-          ) as unknown as Ingredient[]),
+          )),
         ] as Ingredient[];
         // Remove duplicates by name
         const uniqueIngredients = ingredients.reduce((acc, ingredient) => {

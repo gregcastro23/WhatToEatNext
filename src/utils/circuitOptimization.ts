@@ -196,7 +196,7 @@ export function scoreRecipeCircuitCompatibility(
 
   // Type assertions for recipe properties (checked above)
   const alchemicalProps = recipe.alchemicalProperties as AlchemicalProperties;
-  const elementalProps = recipe.elementalProperties as ElementalProperties;
+  const elementalProps = recipe.elementalProperties;
 
   let score = 0;
 

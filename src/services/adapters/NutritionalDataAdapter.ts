@@ -145,7 +145,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           fat: 0,
           fiber: 0,
         },
-      } as import("@/types/alchemy").NutritionalProfile;
+      };
     }
   }
 
@@ -361,7 +361,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         season: String(season),
       });
       return {
-        element: "Fire" as Element,
+        element: "Fire",
         focusNutrients: [],
         seasonalFoods: [],
       };

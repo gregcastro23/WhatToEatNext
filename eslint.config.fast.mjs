@@ -116,7 +116,7 @@ export default [
       "@typescript-eslint/no-inferrable-types": "off", // DISABLED: Style preference
 
       // Best Practices
-      "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+      "@typescript-eslint/no-unnecessary-type-assertion": "error",
       "@typescript-eslint/no-unnecessary-condition": "off", // Too many false positives
       "@typescript-eslint/prefer-nullish-coalescing": "off", // Style preference
       "@typescript-eslint/prefer-optional-chain": "off", // 107 warnings - style preference

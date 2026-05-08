@@ -221,7 +221,7 @@ export function calculateRecipeCompatibility(
   state: AstrologicalState | null | undefined,
 ): RecipeCompatibilityResult {
   try {
-    const recipeElements = deriveElementalProperties(recipe as any);
+    const recipeElements = deriveElementalProperties(recipe);
     const stateElements = deriveStateElements(state);
 
     // Compress raw similarity into [0.7, 1.0] so this helper honors the

@@ -91,7 +91,7 @@ export function RestaurantDiscovery({
   // Hydrate saved restaurant IDs from user prefs (logged-in) or localStorage (anon).
   useEffect(() => {
     const ids = new Set<string>();
-    const prefs = currentUser?.preferences as SavedRestaurantsPrefs | undefined;
+    const prefs: SavedRestaurantsPrefs | undefined = currentUser?.preferences;
     prefs?.savedRestaurants?.forEach((r) => {
       if (r.externalId) ids.add(r.externalId);
     });
@@ -154,8 +154,8 @@ export function RestaurantDiscovery({
 
       // Persist to user profile when logged in.
       if (currentUser?.userId) {
-        const currentPrefs =
-          (currentUser.preferences as SavedRestaurantsPrefs | undefined) ?? {};
+        const currentPrefs: SavedRestaurantsPrefs =
+          currentUser.preferences ?? {};
         const newSaved = [...(currentPrefs.savedRestaurants ?? []), restaurant];
         try {
           await updateProfile({
