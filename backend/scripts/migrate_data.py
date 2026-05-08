@@ -332,11 +332,12 @@ class DataMigrator:
                     "nutritional_profile": recipe.nutritional_profile,
                     "ingredients": [
                         {
-                            "name": ri.ingredient.name,
-                            "quantity": ri.quantity,
-                            "unit": ri.unit,
-                            "preparation": ri.preparation_notes
-                        } for ri in recipe.ingredients if ri.ingredient
+                            "name": ing.get("name"),
+                            "amount": ing.get("amount", ing.get("quantity")),
+                            "unit": ing.get("unit"),
+                            "notes": ing.get("notes", ing.get("preparation")),
+                            "optional": ing.get("optional", False)
+                        } for ing in data.get("ingredients", [])
                     ],
                     "contexts": [
                         {
