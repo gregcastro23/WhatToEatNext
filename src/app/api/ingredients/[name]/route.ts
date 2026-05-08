@@ -12,6 +12,8 @@ import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
 
+const HONO_API_URL = process.env.HONO_API_URL;
+
 interface RelatedRecipe {
   id: string;
   name: string;
@@ -66,6 +68,20 @@ export async function GET(
 ) {
   try {
     const { name } = await props.params;
+
+    // Proxy to Hono if configured
+    if (HONO_API_URL) {
+      try {
+        const honoResponse = await fetch(`${HONO_API_URL}/api/ingredients/${name}`);
+        if (honoResponse.ok) {
+          const data = await honoResponse.json();
+          return NextResponse.json(data);
+        }
+      } catch (err) {
+        console.error(`Hono Gateway proxy failed for ingredient ${name}:`, err);
+      }
+    }
+
     const ingredientName = decodeURIComponent(name || "").trim();
     if (!ingredientName) {
       return NextResponse.json(

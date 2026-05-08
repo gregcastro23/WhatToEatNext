@@ -1,4 +1,3 @@
-import 'server-only';
 import pkg from 'pg';
 import { logger } from "../logger";
 import { databaseConfig } from "./config";
