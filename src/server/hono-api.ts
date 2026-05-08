@@ -148,7 +148,7 @@ app.put('/api/user/profile', async (c) => {
     const updatedUser = await userDatabase.updateUserProfile(
       userId,
       profileData,
-      user.email
+      (user as any).email
     );
 
     if (!updatedUser) {
@@ -190,7 +190,7 @@ app.get('/api/ingredients/:name', async (c) => {
     const allRecipes = await recipeService.getAllRecipes();
     const recipeMap = new Map(allRecipes.map((r) => [r.id, r]));
 
-    const relatedRecipes = [];
+    const relatedRecipes: any[] = [];
     for (const match of matches) {
       const recipe = recipeMap.get(match.recipeId);
       if (recipe) {
@@ -296,7 +296,7 @@ app.get('/api/recipes', async (c) => {
   const offset = parseInt(c.req.query('offset') || '0', 10);
 
   try {
-    let recipes = [];
+    let recipes: any[] = [];
     if (cuisine) {
       recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
     } else if (search) {
@@ -343,7 +343,7 @@ app.post('/api/recipes', async (c) => {
     const body = await c.req.json().catch(() => ({}));
     const { element, cuisine, search, limit = 20, offset = 0 } = body;
     
-    let recipes = [];
+    let recipes: any[] = [];
     if (cuisine) {
       recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
     } else if (search) {
