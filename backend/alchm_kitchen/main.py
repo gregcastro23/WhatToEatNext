@@ -1364,20 +1364,41 @@ async def get_current_moment_cuisine_recommendations(
 
         if not zodiac_sign or not season:
             try:
-                # Import and use current moment calculation
-                from src.utils.astrologyUtils import getCurrentAstrologicalState
-
-                current_state = await getCurrentAstrologicalState()
-                zodiac_sign = zodiac_sign or current_state.get('currentZodiac')
-                season = season or current_state.get('currentSeason')
+                # Use backend-native calculation
+                now = datetime.utcnow()
+                result = calculate_planetary_positions_swisseph(
+                    now.year, now.month, now.day, now.hour, now.minute,
+                    FOREST_HILLS_COORDINATES["latitude"],
+                    FOREST_HILLS_COORDINATES["longitude"],
+                    "tropical"
+                )
+                
+                if "positions" in result:
+                    sun_pos = result["positions"].get("Sun", {})
+                    zodiac_sign = zodiac_sign or sun_pos.get("sign")
+                
+                # Determine season from month
+                if not season:
+                    month = now.month
+                    if month in [3, 4, 5]: season = "Spring"
+                    elif month in [6, 7, 8]: season = "Summer"
+                    elif month in [9, 10, 11]: season = "Autumn"
+                    else: season = "Winter"
             except Exception as e:
+                print(f"Native astrological state calculation failed: {e}")
                 # Fallback to defaults
                 zodiac_sign = zodiac_sign or 'Libra'
                 season = season or 'Autumn'
 
         # Normalize and validate inputs
-        zodiac_sign = zodiac_sign.capitalize() if zodiac_sign else None
-        season = season.capitalize() if season else None
+        if zodiac_sign:
+            zodiac_sign = zodiac_sign.capitalize()
+        
+        if season:
+            season = season.capitalize()
+            # Map Fall to Autumn for database compatibility
+            if season == "Fall":
+                season = "Autumn"
         meal_type = meal_type.lower() if meal_type else None
 
         valid_signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
@@ -1451,18 +1472,24 @@ async def get_current_moment_cuisine_recommendations(
 async def calculate_cuisine_astrological_compatibility(zodiac_sign: str, season: str, db: Session) -> Dict[str, float]:
     """Calculate cuisine compatibility scores based on astrological factors."""
     scores = {}
+    zodiac_affinities = []
+    seasonal_assocs = []
 
-    # Zodiac affinity scores
-    zodiac_affinities = db.query(ZodiacAffinity).filter(
-        ZodiacAffinity.zodiac_sign == zodiac_sign,
-        ZodiacAffinity.affinity_strength > 0.5
-    ).all()
+    try:
+        # Zodiac affinity scores
+        zodiac_affinities = db.query(ZodiacAffinity).filter(
+            ZodiacAffinity.zodiac_sign == zodiac_sign,
+            ZodiacAffinity.affinity_strength > 0.5
+        ).all()
 
-    # Seasonal compatibility scores
-    seasonal_assocs = db.query(SeasonalAssociation).filter(
-        SeasonalAssociation.season == season,
-        SeasonalAssociation.strength > 0.6
-    ).all()
+        # Seasonal compatibility scores
+        seasonal_assocs = db.query(SeasonalAssociation).filter(
+            SeasonalAssociation.season == season,
+            SeasonalAssociation.strength > 0.6
+        ).all()
+    except Exception as e:
+        print(f"Database query failed in calculate_cuisine_astrological_compatibility: {e}")
+        # Continue with empty affinities/associations (will fall back to base weights)
 
     # Combine scores for each cuisine
     cuisine_weights = {
@@ -1475,15 +1502,17 @@ async def calculate_cuisine_astrological_compatibility(zodiac_sign: str, season:
     for cuisine_id, base_weight in cuisine_weights.items():
         # Calculate zodiac score
         zodiac_score = 0
-        cuisine_affinities = [a for a in zodiac_affinities if a.entity_type == 'cuisine' and str(a.entity_id) == cuisine_id]
-        if cuisine_affinities:
-            zodiac_score = max(a.affinity_strength for a in cuisine_affinities)
+        if zodiac_affinities:
+            cuisine_affinities = [a for a in zodiac_affinities if a.entity_type == 'cuisine' and str(a.entity_id) == cuisine_id]
+            if cuisine_affinities:
+                zodiac_score = max(a.affinity_strength for a in cuisine_affinities)
 
         # Calculate seasonal score
         seasonal_score = 0
-        cuisine_seasonals = [s for s in seasonal_assocs if s.entity_type == 'cuisine' and str(s.entity_id) == cuisine_id]
-        if cuisine_seasonals:
-            seasonal_score = max(s.strength for s in cuisine_seasonals)
+        if seasonal_assocs:
+            cuisine_seasonals = [s for s in seasonal_assocs if s.entity_type == 'cuisine' and str(s.entity_id) == cuisine_id]
+            if cuisine_seasonals:
+                seasonal_score = max(s.strength for s in cuisine_seasonals)
 
         # Combine scores with base weight
         combined_score = (zodiac_score * 0.4 + seasonal_score * 0.4 + base_weight * 0.2)
