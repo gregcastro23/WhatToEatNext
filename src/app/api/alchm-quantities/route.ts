@@ -242,6 +242,8 @@ export async function GET(request: Request) {
           const maxDiscrepancy = Math.max(discrepancy.Spirit, discrepancy.Essence, discrepancy.Matter, discrepancy.Substance);
           const status = maxDiscrepancy < 0.05 ? ("verified" as const) : ("rectified" as const);
 
+          const originalLocalQuantities = { ...quantities };
+
           // Rectify local quantities to match backend authoritative values if discrepancy is detected
           if (status === "rectified") {
             quantities.Spirit = backendQuantities.Spirit;
@@ -253,7 +255,7 @@ export async function GET(request: Request) {
           crossVerification = {
             success: true,
             backendUrl,
-            localQuantities: { ...quantities },
+            localQuantities: originalLocalQuantities,
             backendQuantities,
             discrepancy,
             status
