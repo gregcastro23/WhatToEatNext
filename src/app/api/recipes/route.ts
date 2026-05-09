@@ -3,6 +3,7 @@
  * Returns recipe catalog with optional filtering by element, cuisine, or search query.
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
@@ -11,6 +12,8 @@ export const runtime = "nodejs";
 const HONO_API_URL = process.env.HONO_API_URL;
 
 export async function GET(request: Request) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
+  if (!rl.allowed) return rl.response!;
   try {
     const url = new URL(request.url);
 
@@ -91,6 +94,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
+  if (!rl.allowed) return rl.response!;
   // Allow POST with body params as an alternative to GET query params
   try {
     const body = await request.json().catch(() => ({}));

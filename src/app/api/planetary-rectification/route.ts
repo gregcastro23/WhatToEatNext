@@ -4,12 +4,15 @@
  * based on life events (simplified solar arc rectification approach).
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "planetary-rectification" });
+  if (!rl.allowed) return rl.response!;
   const url = new URL(request.url);
   const dateStr = url.searchParams.get("date") || url.searchParams.get("birthDate");
   const lat = parseFloat(url.searchParams.get("latitude") || "40.7128");

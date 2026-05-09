@@ -4,6 +4,7 @@
  * Actions: current-period | monthly-calendar | year-map | degree-for-date
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 
 export const dynamic = "force-dynamic";
@@ -28,6 +29,8 @@ const SUN_INGRESS_2026: Array<{ sign: string; date: string }> = [
 ];
 
 export async function GET(request: Request) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "zodiac-calendar" });
+  if (!rl.allowed) return rl.response!;
   try {
     const url = new URL(request.url);
     const action = url.searchParams.get("action") || "current-period";
