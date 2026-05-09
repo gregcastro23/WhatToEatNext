@@ -1,17 +1,5 @@
 import { cookingMethods } from "@/data/cooking";
-import { african } from "@/data/cuisines/african";
-import { chinese } from "@/data/cuisines/chinese";
-import { french } from "@/data/cuisines/french";
-import { greek } from "@/data/cuisines/greek";
-import { indian } from "@/data/cuisines/indian";
-import { italian } from "@/data/cuisines/italian";
-import { japanese } from "@/data/cuisines/japanese";
-import { korean } from "@/data/cuisines/korean";
-import { mexican } from "@/data/cuisines/mexican";
-import { middleEastern } from "@/data/cuisines/middle-eastern";
-import { russian } from "@/data/cuisines/russian";
-import { thai } from "@/data/cuisines/thai";
-import { vietnamese } from "@/data/cuisines/vietnamese";
+import { CUISINES_METADATA, getCuisineData } from "@/data/cuisines/index";
 
 // Define a standardized cooking method interface to use across the app
 export interface CulturalCookingMethod {
@@ -141,65 +129,35 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
  * Extracts cooking techniques from all cuisine files and formats them
  * into a standardized structure
  */
-export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
-  const cuisines = [
-    { data: thai, name: "Thai" },
-    { data: vietnamese, name: "Vietnamese" },
-    { data: italian, name: "Italian" },
-    { data: chinese, name: "Chinese" },
-    { data: indian, name: "Indian" },
-    { data: japanese, name: "Japanese" },
-    { data: korean, name: "Korean" },
-    { data: mexican, name: "Mexican" },
-    { data: middleEastern, name: "Middle Eastern" },
-    { data: russian, name: "Russian" },
-    { data: greek, name: "Greek" },
-    { data: french, name: "French" },
-    { data: african, name: "African" },
-  ];
-
-  const methods: CulturalCookingMethod[] = [];
-  // Use a Set to track method names already added (case insensitive)
+export async function getCulturalCookingMethods(): Promise<CulturalCookingMethod[]> {
+  const cuisineKeys = Object.keys(CUISINES_METADATA);
+  const allMethods: CulturalCookingMethod[] = [];
   const addedMethods = new Set<string>();
-  // Keep track of method variations already mapped to main methods
   const methodVariationsMap: Record<string, Set<string>> = {};
 
-  // Group methods by main category for hierarchical organization
-  const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {};
+  for (const key of cuisineKeys) {
+    const cuisine = await getCuisineData(key);
+    if (!cuisine || !cuisine.cookingTechniques) continue;
 
-  // Extract cooking techniques from each cuisine
-  cuisines.forEach((cuisine) => {
-    if (!cuisine.data.cookingTechniques) return;
-
-    cuisine.data.cookingTechniques.forEach((technique) => {
-      // Generate a unique ID for each cooking method
+    cuisine.cookingTechniques.forEach((technique) => {
       const methodName = technique.name.toLowerCase();
       const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, "_")}`;
 
-      // Skip if this is a duplicate name/cuisine combination
       const caseInsensitiveKey = `${cuisine.name.toLowerCase()}: ${methodName.toLowerCase()}`;
-      if (addedMethods.has(caseInsensitiveKey)) {
-        return;
-      }
+      if (addedMethods.has(caseInsensitiveKey)) return;
       addedMethods.add(caseInsensitiveKey);
 
-      // Check if this method is a variation of a standard cooking method
-      // Use case-insensitive matching for technique mapping
       const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find(
-        ([key]) => methodName.toLowerCase() === key.toLowerCase(),
+        ([k]) => methodName.toLowerCase() === k.toLowerCase(),
       )?.[1];
 
-      // If this is a variation and we've already added a variation from this culture
-      // to this main method, skip it to avoid duplicates
       if (relatedMainMethod) {
         if (!methodVariationsMap[relatedMainMethod]) {
           methodVariationsMap[relatedMainMethod] = new Set<string>();
         }
 
         const culturalMethodKey = `${cuisine.name.toLowerCase()}: ${relatedMainMethod}`;
-        if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) {
-          return;
-        }
+        if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) return;
         methodVariationsMap[relatedMainMethod].add(culturalMethodKey);
       }
 
@@ -211,36 +169,24 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
         culturalOrigin: cuisine.name,
         toolsRequired: technique.toolsRequired,
         bestFor: technique.bestFor,
-        // Add relationship to main method if applicable
         relatedToMainMethod: relatedMainMethod,
         variationName: relatedMainMethod
           ? `${cuisine.name} ${technique.name}`
           : undefined,
-        // Add placeholder for astrological influences that we can map later
         astrologicalInfluences: {
           dominantPlanets: [],
         },
       };
 
-      methods.push(culturalMethod);
-
-      // Group method by main category for hierarchical organization
-      if (relatedMainMethod) {
-        if (!methodsByMainCategory[relatedMainMethod]) {
-          methodsByMainCategory[relatedMainMethod] = [];
-        }
-        methodsByMainCategory[relatedMainMethod].push(culturalMethod);
-      }
+      allMethods.push(culturalMethod);
     });
-  });
+  }
 
-  // Add basic astrological influences for methods that don't have them
-  methods.forEach((method) => {
+  allMethods.forEach((method) => {
     if (
       method.relatedToMainMethod &&
       cookingMethods[method.relatedToMainMethod]
     ) {
-      // Inherit some properties from the main method
       const mainMethod = cookingMethods[method.relatedToMainMethod];
       if (mainMethod.astrologicalInfluences) {
         method.astrologicalInfluences = {
@@ -255,24 +201,28 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
     }
   });
 
-  return methods;
+  return allMethods;
 }
 
-// Export a ready-to-use object with all cultural cooking methods
-export const culturalCookingMethods = extractCulturalCookingMethods();
+// Legacy export - empty array to avoid bundling large data.
+// Use getCulturalCookingMethods() instead.
+/** @deprecated Use getCulturalCookingMethods() instead */
+export const culturalCookingMethods: CulturalCookingMethod[] = [];
 
 // Helper to get methods by cultural origin
-export function getMethodsByCulture(culture: string): CulturalCookingMethod[] {
-  return culturalCookingMethods.filter(
+export async function getMethodsByCulture(culture: string): Promise<CulturalCookingMethod[]> {
+  const allMethods = await getCulturalCookingMethods();
+  return allMethods.filter(
     (method) => method.culturalOrigin.toLowerCase() === culture.toLowerCase(),
   );
 }
 
 // Helper to get cultural variations of a main cooking method
-export function getCulturalVariations(
+export async function getCulturalVariations(
   mainMethod: string,
-): CulturalCookingMethod[] {
-  return culturalCookingMethods.filter(
+): Promise<CulturalCookingMethod[]> {
+  const allMethods = await getCulturalCookingMethods();
+  return allMethods.filter(
     (method) => method.relatedToMainMethod === mainMethod,
   );
 }
@@ -281,7 +231,5 @@ export function getCulturalVariations(
 export function mapElementsToAstrology(
   methods: CulturalCookingMethod[],
 ): CulturalCookingMethod[] {
-  // This is where we could add logic to derive astrological influences from elemental properties
-  // For now, returning as-is
   return methods;
 }

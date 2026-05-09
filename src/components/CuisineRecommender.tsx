@@ -537,7 +537,7 @@ export default function CuisineRecommender() {
     }
   }, [cuisines, planetaryPositions, isDaytime, currentZodiac, lunarPhase, currentMomentElementalProfile, generateTopSauceRecommendations]);
 
-  const handleCuisineSelect = (cuisineId: string) => {
+  const handleCuisineSelect = async (cuisineId: string) => {
     if (selectedCuisine === cuisineId) {
       // If already selected, toggle showing details
       setShowCuisineDetails(!showCuisineDetails);
@@ -555,7 +555,7 @@ export default function CuisineRecommender() {
       setShowAllRecipes(false);
       
       // Get recipes for the selected cuisine
-      const recipes = getRecipesForCuisineMatch(selectedCuisineData.name, allRecipes || [], 10);
+      const recipes = await getRecipesForCuisineMatch(selectedCuisineData.name, allRecipes || [], 10);
       
       // Remove duplicates by name
       const uniqueRecipes = recipes.filter((recipe, index, self) => 

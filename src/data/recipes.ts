@@ -709,7 +709,7 @@ export const getBestRecipeMatches = async (
     try {
       const { getRecipesForCuisineMatch } =
         await import("./cuisineFlavorProfiles");
-      const matchedCuisineRecipes = getRecipesForCuisineMatch(
+      const matchedCuisineRecipes = await getRecipesForCuisineMatch(
         criteria.cuisine,
         [], // Empty array triggers direct LocalRecipeService use
         Math.max(limit * 2, 20), // Get more recipes for better filtering

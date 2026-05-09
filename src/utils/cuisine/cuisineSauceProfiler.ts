@@ -5,19 +5,6 @@
  * sauceRecommender pairing maps, regional cuisines, planetary resonance) with
  * the global sauce catalog (`allSauces`) and the intelligent recommender's
  * thermodynamic scoring.
- *
- * The result is a multi-axis scoring pipeline that ranks sauces by:
- *   • Cuisine authenticity   — mother → traditional → recommended → other
- *   • Dish pairing           — protein, vegetable, cooking method maps
- *   • Regional alignment     — region-specific preferences
- *   • Dietary fit            — vegetarian/vegan/GF/etc. preferences
- *   • Seasonal resonance     — sauce season vs. selected season
- *   • Astrological harmony   — sauce planets vs. cuisine + current moment
- *   • Elemental compatibility — cosine similarity with cuisine profile
- *   • Flavor-target match    — taste-axis (umami/spicy/sweet/sour/bitter/salty)
- *
- * All inputs are typed; outputs include detailed reasoning so the UI can
- * surface a transparent breakdown of "why this sauce".
  */
 
 import { cuisineFlavorProfiles } from "@/data/cuisineFlavorProfiles";
@@ -49,33 +36,20 @@ export type FlavorAxis =
 export interface CuisineSauceContext {
   /** Cuisine key as it appears in `cuisinesMap` (e.g. "Italian"). */
   cuisine: string;
-  /** Optional region (key from cuisine.regionalCuisines). */
   region?: string;
-  /** Protein category: beef, chicken, pork, fish, seafood, tofu, vegetarian, vegetables, etc. */
   protein?: string;
-  /** Vegetable category: leafy, root, nightshades, squash, mushroom, seaweed, etc. */
   vegetable?: string;
-  /** Cooking method: grilling, baking, frying, braising, steaming, etc. */
   cookingMethod?: string;
-  /** Dietary preferences. Multiple allowed; sauce must satisfy all selected. */
   dietary?: string[];
-  /** Season override. Defaults to detected season. */
   season?: "spring" | "summer" | "fall" | "autumn" | "winter" | "all";
-  /** Target flavor axes the user wants emphasized. */
   flavorTargets?: FlavorAxis[];
-  /** Sauce role relative to the dish. */
   role?: SauceRole;
-  /**
-   * Live planetary state (zodiac, hour, day/night). When provided, sauces
-   * resonating with the moment receive a small boost.
-   */
   cosmic?: {
     zodiac?: string;
     planetaryHour?: string;
     isDaytime?: boolean;
     lunarPhase?: string;
   };
-  /** Whether to weight cosmic fit. Defaults to false. */
   cosmicWeight?: number;
 }
 
@@ -102,13 +76,9 @@ export interface CuisineFingerprint {
 }
 
 export interface UnifiedSauce {
-  /** Stable id (allSauces key for global sauces, prefixed key for cuisine-only). */
   id: string;
-  /** Display name. */
   name: string;
-  /** Where the data comes from. */
   origin: "mother" | "traditional" | "global" | "named-only";
-  /** Owning cuisine key, if any. */
   ownerCuisine?: string;
   description?: string;
   base?: string;
@@ -129,7 +99,6 @@ export interface UnifiedSauce {
   alchemicalProperties?: { Spirit: number; Essence: number; Matter: number; Substance: number };
   thermodynamicProperties?: { heat: number; entropy: number; reactivity: number; gregsEnergy: number };
   nutritionalProfile?: DataSauce["nutritionalProfile"];
-  /** Has a fully-specified dataSauce entry in allSauces (for batch scaling, nutrition, etc.). */
   dataKey?: string;
 }
 
@@ -146,13 +115,9 @@ export interface ScoreBreakdown {
 
 export interface CuisineSauceResult {
   sauce: UnifiedSauce;
-  /** Final composite score in [0, 1]. */
   score: number;
-  /** Per-dimension scores. */
   breakdown: ScoreBreakdown;
-  /** Human-readable reasoning lines. */
   reasoning: string[];
-  /** Tags surfaced for UI badges. */
   tags: string[];
 }
 
@@ -161,17 +126,14 @@ export interface CuisineSauceResult {
 // ============================================================================
 
 /**
- * Look up a cuisine by user-facing name (case-insensitive, allowing common
- * normalizations like "Middle Eastern" → "middleEastern").
+ * Look up a cuisine by user-facing name (case-insensitive).
  */
-function resolveCuisine(key: string): { cuisine: Cuisine; canonicalKey: string } | null {
+function resolveCuisine(key: string, cuisinesMapData?: Record<string, any>): { cuisine: Cuisine; canonicalKey: string } | null {
   if (!key) return null;
-  const map = cuisinesMap as Record<string, Cuisine>;
+  const map = (cuisinesMapData || cuisinesMap) as Record<string, any>;
 
-  // Direct hit
   if (map[key]) return { cuisine: map[key], canonicalKey: key };
 
-  // Try titlecase, lowercase, no-space variants
   const titled = key
     .split(/\s+/)
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
@@ -181,23 +143,17 @@ function resolveCuisine(key: string): { cuisine: Cuisine; canonicalKey: string }
   const lower = key.toLowerCase();
   if (map[lower]) return { cuisine: map[lower], canonicalKey: lower };
 
-  // collapse spaces
   const collapsed = key.replace(/\s+/g, "");
   if (map[collapsed]) return { cuisine: map[collapsed], canonicalKey: collapsed };
 
   return null;
 }
 
-/**
- * Aggregate all human-readable axes for a cuisine into a single fingerprint
- * the UI can render (regions, diets, methods, etc.).
- */
-export function getCuisineFingerprint(cuisineKey: string): CuisineFingerprint | null {
-  const resolved = resolveCuisine(cuisineKey);
+export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Record<string, any>): CuisineFingerprint | null {
+  const resolved = resolveCuisine(cuisineKey, cuisinesMapData);
   if (!resolved) return null;
   const { cuisine, canonicalKey } = resolved;
 
-  // Try to enrich with cuisineFlavorProfiles (keyed lowercase usually)
   const profileKey = Object.keys(cuisineFlavorProfiles).find(
     (k) => k.toLowerCase() === canonicalKey.toLowerCase(),
   );
@@ -258,26 +214,14 @@ export function getCuisineFingerprint(cuisineKey: string): CuisineFingerprint | 
   };
 }
 
-/** All cuisines available for the recommender, in display order. */
-export function listCuisines(): Array<{ key: string; name: string }> {
+export function listCuisines(cuisinesMapData?: Record<string, any>): Array<{ key: string; name: string }> {
+  const map = (cuisinesMapData || cuisinesMap) as Record<string, any>;
   return [
-    "Italian",
-    "French",
-    "Japanese",
-    "Mexican",
-    "Thai",
-    "Chinese",
-    "Indian",
-    "Greek",
-    "Korean",
-    "Vietnamese",
-    "Middle Eastern",
-    "American",
-    "African",
-    "Russian",
+    "Italian", "French", "Japanese", "Mexican", "Thai", "Chinese", "Indian",
+    "Greek", "Korean", "Vietnamese", "Middle Eastern", "American", "African", "Russian",
   ]
-    .filter((k) => (cuisinesMap as Record<string, Cuisine>)[k])
-    .map((k) => ({ key: k, name: (cuisinesMap as Record<string, Cuisine>)[k].name || k }));
+    .filter((k) => map[k])
+    .map((k) => ({ key: k, name: map[k].name || k }));
 }
 
 // ============================================================================
@@ -292,7 +236,6 @@ const norm = (s: string) =>
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
 
-/** Build a quick lookup so name-references can be matched to data sauces. */
 function buildAllSauceIndex() {
   const byName = new Map<string, { key: string; sauce: DataSauce }>();
   const byKey = new Map<string, { key: string; sauce: DataSauce }>();
@@ -310,10 +253,6 @@ function findDataSauce(name: string): { key: string; sauce: DataSauce } | undefi
   return ALL_SAUCE_INDEX.byName.get(n) ?? ALL_SAUCE_INDEX.byKey.get(n);
 }
 
-/**
- * Convert a per-cuisine sauce object (mother or traditional) into a
- * UnifiedSauce, preferring richer data from `allSauces` when available.
- */
 function fromCuisineSauce(
   ownerCuisine: string,
   origin: "mother" | "traditional",
@@ -379,15 +318,10 @@ function fromGlobalSauce(key: string, sauce: DataSauce): UnifiedSauce {
   };
 }
 
-/**
- * Dynamically infuses a UnifiedSauce with cutting-edge elemental and
- * thermodynamic calculations if it has ingredients, replacing stagnant defaults.
- */
 function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
   const ingredientsArray = sauce.ingredients || sauce.keyIngredients || [];
   if (ingredientsArray.length === 0) return sauce;
 
-  // Create recipe-style ingredients for the aggregation engine
   const recipeIngs = ingredientsArray.map(name => ({
     name,
     amount: "1",
@@ -396,7 +330,6 @@ function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
 
   const rawElementals = aggregateIngredientElementals(recipeIngs as any);
 
-  // If zero (e.g. ingredients not recognized), fallback to existing
   if (rawElementals.Fire === 0 && rawElementals.Water === 0 && rawElementals.Earth === 0 && rawElementals.Air === 0) {
     return sauce;
   }
@@ -413,21 +346,10 @@ function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
   };
 }
 
-/**
- * Build the candidate pool for a given context. Pulls:
- *   - All mother + traditional sauces of the chosen cuisine (rich data)
- *   - All globally-cataloged sauces (rich data)
- *   - Named-only references from this cuisine's sauceRecommender that don't
- *     resolve to either of the above (placeholders so they still appear in
- *     authentic-pairing search results)
- *
- * Returns deduplicated UnifiedSauces keyed by normalized name.
- */
-export function buildCuisineSaucePool(cuisineKey: string): UnifiedSauce[] {
-  const resolved = resolveCuisine(cuisineKey);
+export function buildCuisineSaucePool(cuisineKey: string, cuisinesMapData?: Record<string, any>): UnifiedSauce[] {
+  const resolved = resolveCuisine(cuisineKey, cuisinesMapData);
   const pool = new Map<string, UnifiedSauce>();
 
-  // 1) Cuisine-specific mother + traditional sauces
   if (resolved) {
     const { cuisine, canonicalKey } = resolved;
     if (cuisine.motherSauces) {
@@ -446,9 +368,6 @@ export function buildCuisineSaucePool(cuisineKey: string): UnifiedSauce[] {
       }
     }
 
-    // 2) Named references from sauceRecommender — add as placeholders if
-    //    not already present (so they can still be returned for authentic
-    //    pairings even without rich data).
     const sr = cuisine.sauceRecommender;
     if (sr) {
       const allNamedRefs = new Set<string>();
@@ -481,7 +400,6 @@ export function buildCuisineSaucePool(cuisineKey: string): UnifiedSauce[] {
     }
   }
 
-  // 3) Global sauces from allSauces — add anything not already present
   for (const [key, sauce] of Object.entries(allSauces)) {
     const k = norm(sauce.name);
     if (!pool.has(k)) pool.set(k, enhanceSauceWithDynamicProperties(fromGlobalSauce(key, sauce)));
@@ -495,18 +413,10 @@ export function buildCuisineSaucePool(cuisineKey: string): UnifiedSauce[] {
 // ============================================================================
 
 const ZODIAC_TO_ELEMENT: Record<string, "Fire" | "Water" | "Earth" | "Air"> = {
-  aries: "Fire",
-  leo: "Fire",
-  sagittarius: "Fire",
-  taurus: "Earth",
-  virgo: "Earth",
-  capricorn: "Earth",
-  gemini: "Air",
-  libra: "Air",
-  aquarius: "Air",
-  cancer: "Water",
-  scorpio: "Water",
-  pisces: "Water",
+  aries: "Fire", leo: "Fire", sagittarius: "Fire",
+  taurus: "Earth", virgo: "Earth", capricorn: "Earth",
+  gemini: "Air", libra: "Air", aquarius: "Air",
+  cancer: "Water", scorpio: "Water", pisces: "Water",
 };
 
 function cosineSimilarity(a: ElementalProperties, b: ElementalProperties): number {
@@ -530,34 +440,20 @@ function nameMatchesAny(name: string, list: string[] | undefined): boolean {
 
 function applyRoleAdjustment(role: SauceRole, similarity: number): number {
   switch (role) {
-    case "complement":
-      return similarity;
-    case "contrast":
-      // Reward divergence, but not extreme
-      return 1 - Math.abs(similarity - 0.4);
-    case "enhance":
-      return Math.pow(similarity, 0.7); // amplify mid-similarity
-    case "balance":
-      // Best around mid similarity
-      return 1 - Math.abs(similarity - 0.6);
+    case "complement": return similarity;
+    case "contrast": return 1 - Math.abs(similarity - 0.4);
+    case "enhance": return Math.pow(similarity, 0.7);
+    case "balance": return 1 - Math.abs(similarity - 0.6);
   }
 }
 
-function flavorMatchScore(
-  sauce: UnifiedSauce,
-  targets: FlavorAxis[] | undefined,
-): { score: number; matched: FlavorAxis[] } {
+function flavorMatchScore(sauce: UnifiedSauce, targets: FlavorAxis[] | undefined): { score: number; matched: FlavorAxis[] } {
   if (!targets || targets.length === 0) return { score: 0.5, matched: [] };
   const matched: FlavorAxis[] = [];
-  const haystack = norm(
-    [
-      sauce.name,
-      sauce.description ?? "",
-      sauce.base ?? "",
-      ...(sauce.keyIngredients ?? []),
-      ...(sauce.variants ?? []),
-    ].join(" "),
-  );
+  const haystack = norm([
+    sauce.name, sauce.description ?? "", sauce.base ?? "",
+    ...(sauce.keyIngredients ?? []), ...(sauce.variants ?? []),
+  ].join(" "));
   const cues: Record<FlavorAxis, string[]> = {
     spicy: ["chile", "chili", "spicy", "hot", "pepper", "arrabiata", "wasabi", "yuzu kosho", "harissa"],
     sweet: ["sweet", "honey", "sugar", "mirin", "agrodolce", "teriyaki", "balsamic"],
@@ -580,83 +476,53 @@ function authenticityScore(sauce: UnifiedSauce, ctx: CuisineSauceContext): numbe
   }
   if (sauce.origin === "global" && sauce.ownerCuisine) {
     if (sauce.ownerCuisine.toLowerCase() === ctx.cuisine.toLowerCase()) return 0.85;
-    return 0.35; // Global sauce from a different cuisine
+    return 0.35;
   }
   return 0.4;
 }
 
-function dishPairingScore(
-  sauce: UnifiedSauce,
-  ctx: CuisineSauceContext,
-  cuisine: Cuisine | null,
-): { score: number; matches: string[] } {
+function dishPairingScore(sauce: UnifiedSauce, ctx: CuisineSauceContext, cuisine: Cuisine | null): { score: number; matches: string[] } {
   if (!cuisine || !cuisine.sauceRecommender) return { score: 0, matches: [] };
   const sr = cuisine.sauceRecommender;
   const matches: string[] = [];
-  let hits = 0;
-  let total = 0;
-
+  let hits = 0, total = 0;
   if (ctx.protein) {
     total += 1;
-    const list = sr.forProtein?.[ctx.protein.toLowerCase()];
-    if (nameMatchesAny(sauce.name, list)) {
-      hits += 1;
-      matches.push(`protein:${ctx.protein}`);
+    if (nameMatchesAny(sauce.name, sr.forProtein?.[ctx.protein.toLowerCase()])) {
+      hits += 1; matches.push(`protein:${ctx.protein}`);
     }
   }
   if (ctx.vegetable) {
     total += 1;
-    const list = sr.forVegetable?.[ctx.vegetable.toLowerCase()];
-    if (nameMatchesAny(sauce.name, list)) {
-      hits += 1;
-      matches.push(`vegetable:${ctx.vegetable}`);
+    if (nameMatchesAny(sauce.name, sr.forVegetable?.[ctx.vegetable.toLowerCase()])) {
+      hits += 1; matches.push(`vegetable:${ctx.vegetable}`);
     }
   }
   if (ctx.cookingMethod) {
     total += 1;
-    const list = sr.forCookingMethod?.[ctx.cookingMethod.toLowerCase()];
-    if (nameMatchesAny(sauce.name, list)) {
-      hits += 1;
-      matches.push(`method:${ctx.cookingMethod}`);
+    if (nameMatchesAny(sauce.name, sr.forCookingMethod?.[ctx.cookingMethod.toLowerCase()])) {
+      hits += 1; matches.push(`method:${ctx.cookingMethod}`);
     }
   }
-  if (total === 0) return { score: 0.5, matches }; // no constraints → neutral
+  if (total === 0) return { score: 0.5, matches };
   return { score: hits / total, matches };
 }
 
-function regionalScore(
-  sauce: UnifiedSauce,
-  ctx: CuisineSauceContext,
-  cuisine: Cuisine | null,
-): { score: number; matched: boolean } {
-  if (!ctx.region || !cuisine?.sauceRecommender?.byRegion) {
-    return { score: 0.5, matched: false };
-  }
-  const list = cuisine.sauceRecommender.byRegion[ctx.region.toLowerCase()];
-  const matched = nameMatchesAny(sauce.name, list);
+function regionalScore(sauce: UnifiedSauce, ctx: CuisineSauceContext, cuisine: Cuisine | null): { score: number; matched: boolean } {
+  if (!ctx.region || !cuisine?.sauceRecommender?.byRegion) return { score: 0.5, matched: false };
+  const matched = nameMatchesAny(sauce.name, cuisine.sauceRecommender.byRegion[ctx.region.toLowerCase()]);
   return { score: matched ? 1.0 : 0.3, matched };
 }
 
-function dietaryScore(
-  sauce: UnifiedSauce,
-  ctx: CuisineSauceContext,
-  cuisine: Cuisine | null,
-): { score: number; matched: string[]; failed: string[] } {
-  if (!ctx.dietary || ctx.dietary.length === 0)
-    return { score: 1, matched: [], failed: [] };
-  if (!cuisine?.sauceRecommender?.byDietary)
-    return { score: 0.5, matched: [], failed: [] };
-
-  const matched: string[] = [];
-  const failed: string[] = [];
+function dietaryScore(sauce: UnifiedSauce, ctx: CuisineSauceContext, cuisine: Cuisine | null): { score: number; matched: string[]; failed: string[] } {
+  if (!ctx.dietary || ctx.dietary.length === 0) return { score: 1, matched: [], failed: [] };
+  if (!cuisine?.sauceRecommender?.byDietary) return { score: 0.5, matched: [], failed: [] };
+  const matched: string[] = [], failed: string[] = [];
   for (const diet of ctx.dietary) {
-    const list = cuisine.sauceRecommender.byDietary[diet];
-    if (nameMatchesAny(sauce.name, list)) matched.push(diet);
+    if (nameMatchesAny(sauce.name, cuisine.sauceRecommender.byDietary[diet])) matched.push(diet);
     else failed.push(diet);
   }
-  // All required diets must match (or the sauce loses heavily)
-  const score =
-    failed.length === 0 ? 1 : Math.max(0, 1 - failed.length / ctx.dietary.length) * 0.4;
+  const score = failed.length === 0 ? 1 : Math.max(0, 1 - failed.length / ctx.dietary.length) * 0.4;
   return { score, matched, failed };
 }
 
@@ -666,66 +532,35 @@ function seasonalScore(sauce: UnifiedSauce, ctx: CuisineSauceContext): number {
   const s = sauce.seasonality.toLowerCase();
   if (s.includes("all")) return 1.0;
   if (season === "all") return 0.7;
-  // Seasonality strings are sometimes like "summer, autumn"
   return s.includes(season) ? 1.0 : 0.35;
 }
 
-function astrologicalScore(
-  sauce: UnifiedSauce,
-  ctx: CuisineSauceContext,
-  cuisinePlanetaryResonance: string[],
-): { score: number; bridges: string[] } {
+function astrologicalScore(sauce: UnifiedSauce, ctx: CuisineSauceContext, cuisinePlanetaryResonance: string[]): { score: number; bridges: string[] } {
   const sauceInfluences = (sauce.astrologicalInfluences ?? []).map(norm);
   if (sauceInfluences.length === 0) return { score: 0.5, bridges: [] };
-
   const bridges: string[] = [];
-
-  // Cuisine planetary resonance
   let cuisineHits = 0;
   for (const planet of cuisinePlanetaryResonance) {
     if (sauceInfluences.includes(norm(planet))) {
-      cuisineHits += 1;
-      bridges.push(`cuisine ${planet}`);
+      cuisineHits += 1; bridges.push(`cuisine ${planet}`);
     }
   }
-  const cuisineScore =
-    cuisinePlanetaryResonance.length === 0
-      ? 0.5
-      : Math.min(1, cuisineHits / cuisinePlanetaryResonance.length + 0.3);
-
-  // Cosmic moment
+  const cuisineScore = cuisinePlanetaryResonance.length === 0 ? 0.5 : Math.min(1, cuisineHits / cuisinePlanetaryResonance.length + 0.3);
   let cosmicScore = 0.5;
   if (ctx.cosmic) {
     const cosmicHits: string[] = [];
-    if (ctx.cosmic.planetaryHour && sauceInfluences.includes(norm(ctx.cosmic.planetaryHour))) {
-      cosmicHits.push(`hour ${ctx.cosmic.planetaryHour}`);
-    }
-    if (ctx.cosmic.zodiac && sauceInfluences.includes(norm(ctx.cosmic.zodiac))) {
-      cosmicHits.push(`sun ${ctx.cosmic.zodiac}`);
-    }
-    if (cosmicHits.length > 0) {
-      cosmicScore = Math.min(1, 0.6 + cosmicHits.length * 0.2);
-      bridges.push(...cosmicHits);
-    } else {
-      cosmicScore = 0.4;
-    }
+    if (ctx.cosmic.planetaryHour && sauceInfluences.includes(norm(ctx.cosmic.planetaryHour))) cosmicHits.push(`hour ${ctx.cosmic.planetaryHour}`);
+    if (ctx.cosmic.zodiac && sauceInfluences.includes(norm(ctx.cosmic.zodiac))) cosmicHits.push(`sun ${ctx.cosmic.zodiac}`);
+    if (cosmicHits.length > 0) { cosmicScore = Math.min(1, 0.6 + cosmicHits.length * 0.2); bridges.push(...cosmicHits); }
+    else cosmicScore = 0.4;
   }
   const w = ctx.cosmicWeight ?? 0.4;
   return { score: (1 - w) * cuisineScore + w * cosmicScore, bridges };
 }
 
-function elementalScore(
-  sauce: UnifiedSauce,
-  cuisine: Cuisine | null,
-  ctx: CuisineSauceContext,
-): { score: number; similarity: number } {
-  if (!sauce.elementalProperties || !cuisine?.elementalProperties) {
-    return { score: 0.5, similarity: 0.5 };
-  }
-  const sim = cosineSimilarity(
-    sauce.elementalProperties,
-    cuisine.elementalProperties as ElementalProperties,
-  );
+function elementalScore(sauce: UnifiedSauce, cuisine: Cuisine | null, ctx: CuisineSauceContext): { score: number; similarity: number } {
+  if (!sauce.elementalProperties || !cuisine?.elementalProperties) return { score: 0.5, similarity: 0.5 };
+  const sim = cosineSimilarity(sauce.elementalProperties, cuisine.elementalProperties as ElementalProperties);
   const adjusted = applyRoleAdjustment(ctx.role ?? "complement", sim);
   return { score: Math.max(0, Math.min(1, adjusted)), similarity: sim };
 }
@@ -735,70 +570,42 @@ function elementalScore(
 // ============================================================================
 
 const DEFAULT_WEIGHTS = {
-  cuisineAuthenticity: 0.22,
-  dishPairing: 0.20,
-  regionalMatch: 0.08,
-  dietaryFit: 0.08,
-  seasonalResonance: 0.10,
-  astrologicalHarmony: 0.12,
-  elementalCompatibility: 0.14,
-  flavorMatch: 0.06,
+  cuisineAuthenticity: 0.22, dishPairing: 0.20, regionalMatch: 0.08,
+  dietaryFit: 0.08, seasonalResonance: 0.10, astrologicalHarmony: 0.12,
+  elementalCompatibility: 0.14, flavorMatch: 0.06,
 };
 
 export interface RecommendOptions {
-  /** Exclude sauces from other cuisines entirely. Defaults to false. */
   strictCuisine?: boolean;
-  /** Maximum results returned. Defaults to 18. */
   maxResults?: number;
-  /** Minimum composite score, [0,1]. Defaults to 0. */
   minScore?: number;
-  /** Override scoring weights. */
   weightOverrides?: Partial<typeof DEFAULT_WEIGHTS>;
 }
 
-/**
- * Score every sauce in the unified pool against the supplied context.
- * Returns sorted, sliced results with detailed breakdowns.
- */
 export function recommendForCuisineContext(
   ctx: CuisineSauceContext,
   options: RecommendOptions = {},
+  cuisinesMapData?: Record<string, any>,
 ): CuisineSauceResult[] {
-  const resolved = resolveCuisine(ctx.cuisine);
+  const resolved = resolveCuisine(ctx.cuisine, cuisinesMapData);
   const cuisine = resolved?.cuisine ?? null;
-  const fingerprint = getCuisineFingerprint(ctx.cuisine);
+  const fingerprint = getCuisineFingerprint(ctx.cuisine, cuisinesMapData);
   const weights = { ...DEFAULT_WEIGHTS, ...(options.weightOverrides ?? {}) };
 
-  const pool = buildCuisineSaucePool(ctx.cuisine);
-
+  const pool = buildCuisineSaucePool(ctx.cuisine, cuisinesMapData);
   const results: CuisineSauceResult[] = [];
 
   for (const sauce of pool) {
-    if (
-      options.strictCuisine &&
-      sauce.ownerCuisine &&
-      sauce.ownerCuisine.toLowerCase() !== ctx.cuisine.toLowerCase()
-    ) {
-      continue;
-    }
+    if (options.strictCuisine && sauce.ownerCuisine && sauce.ownerCuisine.toLowerCase() !== ctx.cuisine.toLowerCase()) continue;
 
-    const reasoning: string[] = [];
-    const tags: string[] = [];
-
-    // Authenticity
+    const reasoning: string[] = [], tags: string[] = [];
     const authenticity = authenticityScore(sauce, ctx);
-    if (sauce.origin === "mother") {
-      reasoning.push(`Mother sauce of ${sauce.ownerCuisine} cuisine`);
-      tags.push("Mother sauce");
-    } else if (
-      sauce.ownerCuisine &&
-      sauce.ownerCuisine.toLowerCase() === ctx.cuisine.toLowerCase()
-    ) {
+    if (sauce.origin === "mother") { reasoning.push(`Mother sauce of ${sauce.ownerCuisine} cuisine`); tags.push("Mother sauce"); }
+    else if (sauce.ownerCuisine && sauce.ownerCuisine.toLowerCase() === ctx.cuisine.toLowerCase()) {
       reasoning.push(`Native to ${sauce.ownerCuisine} cuisine`);
       if (sauce.origin === "traditional") tags.push("Traditional");
     }
 
-    // Dish pairing
     const pairing = dishPairingScore(sauce, ctx, cuisine);
     pairing.matches.forEach((m) => {
       const [axis, val] = m.split(":");
@@ -806,62 +613,34 @@ export function recommendForCuisineContext(
       tags.push(`${axis}:${val}`);
     });
 
-    // Regional
     const regional = regionalScore(sauce, ctx, cuisine);
-    if (regional.matched) {
-      reasoning.push(`Featured in ${ctx.region} regional cuisine`);
-      tags.push(`region:${ctx.region}`);
-    }
+    if (regional.matched) { reasoning.push(`Featured in ${ctx.region} regional cuisine`); tags.push(`region:${ctx.region}`); }
 
-    // Dietary
     const dietary = dietaryScore(sauce, ctx, cuisine);
     dietary.matched.forEach((d) => tags.push(d));
-    if (dietary.failed.length > 0) {
-      reasoning.push(`May not satisfy: ${dietary.failed.join(", ")}`);
-    }
+    if (dietary.failed.length > 0) reasoning.push(`May not satisfy: ${dietary.failed.join(", ")}`);
 
-    // Seasonal
     const seasonal = seasonalScore(sauce, ctx);
-    if (sauce.seasonality && seasonal >= 0.9) {
-      reasoning.push(`In season (${sauce.seasonality})`);
-    }
+    if (sauce.seasonality && seasonal >= 0.9) reasoning.push(`In season (${sauce.seasonality})`);
 
-    // Astrological
     const astro = astrologicalScore(sauce, ctx, fingerprint?.planetaryResonance ?? []);
-    if (astro.bridges.length > 0) {
-      reasoning.push(
-        `Astrological resonance via ${astro.bridges.join(", ")}`,
-      );
-    }
+    if (astro.bridges.length > 0) reasoning.push(`Astrological resonance via ${astro.bridges.join(", ")}`);
 
-    // Elemental
     const elemental = elementalScore(sauce, cuisine, ctx);
-    if (elemental.similarity > 0.85) {
-      reasoning.push(`Elementally aligned with ${ctx.cuisine}`);
-    } else if (ctx.role === "contrast" && elemental.similarity < 0.5) {
-      reasoning.push(`Provides elemental contrast`);
-    }
+    if (elemental.similarity > 0.85) reasoning.push(`Elementally aligned with ${ctx.cuisine}`);
+    else if (ctx.role === "contrast" && elemental.similarity < 0.5) reasoning.push(`Provides elemental contrast`);
 
-    // Flavor
     const flavor = flavorMatchScore(sauce, ctx.flavorTargets);
     flavor.matched.forEach((m) => tags.push(`flavor:${m}`));
-    if (flavor.matched.length > 0) {
-      reasoning.push(`Hits target flavors: ${flavor.matched.join(", ")}`);
-    }
+    if (flavor.matched.length > 0) reasoning.push(`Hits target flavors: ${flavor.matched.join(", ")}`);
 
     const breakdown: ScoreBreakdown = {
-      cuisineAuthenticity: authenticity,
-      dishPairing: pairing.score,
-      regionalMatch: regional.score,
-      dietaryFit: dietary.score,
-      seasonalResonance: seasonal,
-      astrologicalHarmony: astro.score,
-      elementalCompatibility: elemental.score,
-      flavorMatch: flavor.score,
+      cuisineAuthenticity: authenticity, dishPairing: pairing.score, regionalMatch: regional.score,
+      dietaryFit: dietary.score, seasonalResonance: seasonal, astrologicalHarmony: astro.score,
+      elementalCompatibility: elemental.score, flavorMatch: flavor.score,
     };
 
-    const composite =
-      breakdown.cuisineAuthenticity * weights.cuisineAuthenticity +
+    const composite = breakdown.cuisineAuthenticity * weights.cuisineAuthenticity +
       breakdown.dishPairing * weights.dishPairing +
       breakdown.regionalMatch * weights.regionalMatch +
       breakdown.dietaryFit * weights.dietaryFit +
@@ -870,28 +649,16 @@ export function recommendForCuisineContext(
       breakdown.elementalCompatibility * weights.elementalCompatibility +
       breakdown.flavorMatch * weights.flavorMatch;
 
-    // Hard filter: dietary failure tanks the result completely
-    const dietaryHardFail =
-      ctx.dietary && ctx.dietary.length > 0 && dietary.failed.length === ctx.dietary.length;
-
+    const dietaryHardFail = ctx.dietary && ctx.dietary.length > 0 && dietary.failed.length === ctx.dietary.length;
     const score = dietaryHardFail ? composite * 0.3 : composite;
-
     if (score < (options.minScore ?? 0)) continue;
-
-    results.push({
-      sauce,
-      score,
-      breakdown,
-      reasoning,
-      tags,
-    });
+    results.push({ sauce, score, breakdown, reasoning, tags });
   }
 
   results.sort((a, b) => b.score - a.score);
   return results.slice(0, options.maxResults ?? 18);
 }
 
-/** Element of zodiac sign, used for cosmic-moment scoring outside this module. */
 export function elementOfZodiac(zodiac?: string): "Fire" | "Water" | "Earth" | "Air" | undefined {
   if (!zodiac) return undefined;
   return ZODIAC_TO_ELEMENT[zodiac.toLowerCase()];
