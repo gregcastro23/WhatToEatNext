@@ -8,7 +8,7 @@ export default async function CurrentChartPage() {
   const session = await auth();
 
   if (!session?.user?.email) {
-    redirect('/api/auth/signin');
+    redirect('/login');
   }
 
   const profile = await userDatabase.getUserByEmail(session.user.email);
