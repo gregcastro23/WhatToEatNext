@@ -203,25 +203,28 @@ export async function GET(request: Request) {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-        const response = await fetch(`${backendUrl}/api/alchemical/quantities`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${process.env.INTERNAL_API_SECRET || "882133EA-3D06-4DF2-A63C-F4114AB4EFBC"}`
-          },
-          body: JSON.stringify({
-            recipe: {
-              elementalProperties: nowAlch.elementalProperties,
-              nutritional_profile: {}
+        let response: Response;
+        try {
+          response = await fetch(`${backendUrl}/api/alchemical/quantities`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${process.env.INTERNAL_API_SECRET || "882133EA-3D06-4DF2-A63C-F4114AB4EFBC"}`
             },
-            kinetic_rating: round(power, 4),
-            planetary_hour_ruler: isDiurnalNow ? "Sun" : "Moon",
-            thermo_rating: round(heat, 4)
-          }),
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
+            body: JSON.stringify({
+              recipe: {
+                elementalProperties: nowAlch.elementalProperties,
+                nutritional_profile: {}
+              },
+              kinetic_rating: round(power, 4),
+              planetary_hour_ruler: isDiurnalNow ? "Sun" : "Moon",
+              thermo_rating: round(heat, 4)
+            }),
+            signal: controller.signal
+          });
+        } finally {
+          clearTimeout(timeoutId);
+        }
 
         if (response.ok) {
           const backendData = await response.json();

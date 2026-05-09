@@ -26,11 +26,14 @@ async function isBackendAvailable(): Promise<boolean> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-    const response = await fetch(`${BACKEND_URL}/health`, {
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
+    let response: Response;
+    try {
+      response = await fetch(`${BACKEND_URL}/health`, {
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
     return response.ok;
   } catch (error) {
     logger.debug("Backend health check failed:", error);
@@ -55,23 +58,26 @@ async function calculatePlanetaryPositionsBackend(
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-    const response = await fetch(`${BACKEND_URL}/api/planetary/positions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        year,
-        month,
-        day,
-        hour,
-        minute,
-        zodiacSystem,
-      }),
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
+    let response: Response;
+    try {
+      response = await fetch(`${BACKEND_URL}/api/planetary/positions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          year,
+          month,
+          day,
+          hour,
+          minute,
+          zodiacSystem,
+        }),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!response.ok) {
       throw new Error(`Backend returned ${response.status}`);

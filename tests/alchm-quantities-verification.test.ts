@@ -10,6 +10,14 @@ jest.mock("../src/services/HistoricalStatsService", () => ({
 import { GET } from "../src/app/api/alchm-quantities/route";
 
 const mockFetch = jest.fn();
+const originalFetch = global.fetch;
+let requestCounter = 0;
+
+const buildRequest = () =>
+  new Request("http://localhost/api/alchm-quantities", {
+    headers: { "x-real-ip": `test-${requestCounter++}` },
+  });
+
 global.fetch = mockFetch as any;
 
 describe("Cross-Backend Alchemical Quantities Verification Tests", () => {
@@ -26,6 +34,11 @@ describe("Cross-Backend Alchemical Quantities Verification Tests", () => {
 
   afterEach(() => {
     process.env = originalEnv;
+    mockFetch.mockReset();
+  });
+
+  afterAll(() => {
+    global.fetch = originalFetch;
   });
 
   test("should successfully verify local quantities against backend with negligible discrepancy", async () => {
@@ -39,7 +52,7 @@ describe("Cross-Backend Alchemical Quantities Verification Tests", () => {
       }),
     });
 
-    const response = await GET();
+    const response = await GET(buildRequest());
     expect(response).toBeDefined();
     
     const body = await response.json();
@@ -63,13 +76,14 @@ describe("Cross-Backend Alchemical Quantities Verification Tests", () => {
       }),
     });
 
-    const response = await GET();
+    const response = await GET(buildRequest());
     const body = await response.json();
     
     expect(body.success).toBe(true);
     expect(body.crossVerification).toBeDefined();
     expect(body.crossVerification.success).toBe(true);
     expect(body.crossVerification.status).toBe("rectified");
+    expect(body.crossVerification.localQuantities.Spirit).not.toBe(0.99);
     expect(body.quantities.Spirit).toBe(0.99);
     expect(body.quantities.Essence).toBe(0.99);
     expect(body.quantities.Matter).toBe(0.99);
@@ -82,7 +96,7 @@ describe("Cross-Backend Alchemical Quantities Verification Tests", () => {
       status: 500,
     });
 
-    const response = await GET();
+    const response = await GET(buildRequest());
     const body = await response.json();
     
     expect(body.success).toBe(true);
@@ -95,7 +109,7 @@ describe("Cross-Backend Alchemical Quantities Verification Tests", () => {
   test("should handle fetch throw/rejection and fall back safely to local values", async () => {
     mockFetch.mockRejectedValue(new Error("Network timeout"));
 
-    const response = await GET();
+    const response = await GET(buildRequest());
     const body = await response.json();
     
     expect(body.success).toBe(true);
