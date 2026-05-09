@@ -33,5 +33,7 @@ export const config = {
     "/admin/:path*",
     "/recipe-generator/:path*",
     "/planetary-chart/:path*",
+    "/restaurant-creator/:path*",
+    "/premium-table/:path*",
   ],
 };

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import type { Variants } from "framer-motion";
+import { PremiumGate } from "@/components/PremiumGate";
 
 function SectionLoader() {
   return (
@@ -67,21 +68,25 @@ export default function CuisinesPage() {
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-600/10 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20" />
             
             <div className="relative z-10">
-              <DynamicCuisineRecommender />
+              <PremiumGate feature="cuisineRecommender" showPreview>
+                <DynamicCuisineRecommender />
+              </PremiumGate>
             </div>
           </div>
         </motion.section>
 
-        <motion.section 
+        <motion.section
           variants={fadeInItem}
           className="mt-12"
         >
           <div className="glass-card-premium rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl shadow-orange-900/20 relative overflow-hidden bg-[#0c0c14]/80 backdrop-blur-xl">
             {/* Ambient Background Glow */}
             <div className="absolute top-1/2 left-1/2 w-full h-full bg-amber-600/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/2 -translate-y-1/2" />
-            
+
             <div className="relative z-10">
-              <EnhancedSauceRecommender />
+              <PremiumGate feature="cuisineRecommender" showPreview>
+                <EnhancedSauceRecommender />
+              </PremiumGate>
             </div>
           </div>
         </motion.section>

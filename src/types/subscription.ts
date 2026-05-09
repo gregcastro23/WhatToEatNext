@@ -49,6 +49,7 @@ export const TIER_LIMITS: Record<
     advancedPlanetaryCharts: boolean;
     foodLabBook: boolean;
     diningCompanions: boolean;
+    cuisineRecommender: boolean;
     price: number;
     stripePriceId: string | null;
   }
@@ -61,6 +62,7 @@ export const TIER_LIMITS: Record<
     advancedPlanetaryCharts: false,
     foodLabBook: true,
     diningCompanions: false,
+    cuisineRecommender: false,
     price: 0,
     stripePriceId: null,
   },
@@ -72,6 +74,7 @@ export const TIER_LIMITS: Record<
     advancedPlanetaryCharts: true,
     foodLabBook: true,
     diningCompanions: true,
+    cuisineRecommender: true,
     price: 5.00,
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID || null,
   },
