@@ -5,6 +5,7 @@
  * - alchm-kinetics
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
@@ -16,6 +17,8 @@ import {
 } from "@/utils/serverPlanetaryCalculations";
 
 const logger = createLogger("AlchmQuantitiesAPI");
+
+const ALCHM_QUANTITIES_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities" };
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -90,7 +93,9 @@ function buildMomentum(
   };
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const rl = rateLimit(request, ALCHM_QUANTITIES_LIMIT);
+  if (!rl.allowed) return rl.response!;
   try {
     const now = new Date();
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
@@ -362,6 +367,6 @@ export async function GET() {
   }
 }
 
-export async function POST() {
-  return GET();
+export async function POST(request: Request) {
+  return GET(request);
 }
