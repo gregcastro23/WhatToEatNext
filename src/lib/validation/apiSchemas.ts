@@ -141,6 +141,26 @@ export const OnboardingRequestSchema = z.object({
 
 export type ParsedOnboardingRequest = z.infer<typeof OnboardingRequestSchema>;
 
+// ─── Commensal Request ────────────────────────────────────────────────────────
+
+export const CommensalRequestSchema = z.object({
+  targetUserId: z.string().optional(),
+  email: z.string().email().optional()
+}).refine(data => data.targetUserId || data.email, {
+  message: "Either targetUserId or email must be provided",
+  path: ["targetUserId"]
+});
+
+// ─── User Profile Update ──────────────────────────────────────────────────────
+
+export const UserProfileUpdateSchema = z.object({
+  userId: z.string().optional(),
+  name: z.string().optional(),
+  birthData: BirthDataSchema.optional(),
+  natalChart: z.record(z.string(), z.unknown()).optional(),
+  preferences: z.record(z.string(), z.unknown()).optional(),
+}).passthrough();
+
 // ─── Alchm Quantities API (/api/alchm-quantities) ───────────────────────────
 
 const EsmsQuantitiesSchema = z.object({
@@ -222,6 +242,15 @@ export const AlchmQuantitiesApiResponseSchema = z.object({
   alchemical: EsmsQuantitiesSchema,
   planetaryMomentum: z.record(z.string(), z.number()),
   historicalContext: HistoricalContextSchema.optional(),
+  crossVerification: z.object({
+    success: z.boolean(),
+    backendUrl: z.string(),
+    localQuantities: EsmsQuantitiesSchema,
+    backendQuantities: EsmsQuantitiesSchema,
+    discrepancy: EsmsQuantitiesSchema,
+    status: z.enum(["verified", "rectified", "discrepant", "failed"]),
+    error: z.string().optional(),
+  }).optional(),
 });
 
 export type AlchmQuantitiesApiResponse = z.infer<

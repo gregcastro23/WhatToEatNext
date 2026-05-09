@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { CommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -23,12 +24,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
-    const { targetUserId: rawTargetUserId, email } = body as { targetUserId?: string; email?: string };
+    let rawBody;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON" },
+        { status: 400 },
+      );
+    }
+
+    const parsedBody = CommensalRequestSchema.safeParse(rawBody);
+    if (!parsedBody.success) {
+      return NextResponse.json(
+        { success: false, message: "Validation error", details: parsedBody.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
+
+    const { targetUserId: rawTargetUserId, email } = parsedBody.data;
 
     // Support lookup by email (replaces the old /api/friends/request flow)
     let targetUserId = rawTargetUserId;
-    if (!targetUserId && email && typeof email === "string") {
+    if (!targetUserId && email) {
       const found = await userDatabase.getUserByEmail(email.trim().toLowerCase());
       if (!found) {
         return NextResponse.json(

@@ -186,6 +186,97 @@ export async function GET() {
 
     const isDiurnalNow = isSectDiurnal(now);
 
+    // Cross-backend verification of quantities
+    let crossVerification: any = undefined;
+    const isVerificationEnabled =
+      process.env.CROSS_BACKEND_SYNC_ENABLED === "true" ||
+      process.env.CROSS_BACKEND_RECTIFICATION_ENABLED === "true";
+
+    if (isVerificationEnabled) {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://whattoeatnext-production.up.railway.app";
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+        const response = await fetch(`${backendUrl}/api/alchemical/quantities`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${process.env.INTERNAL_API_SECRET || "882133EA-3D06-4DF2-A63C-F4114AB4EFBC"}`
+          },
+          body: JSON.stringify({
+            recipe: {
+              elementalProperties: nowAlch.elementalProperties,
+              nutritional_profile: {}
+            },
+            kinetic_rating: round(power, 4),
+            planetary_hour_ruler: isDiurnalNow ? "Sun" : "Moon",
+            thermo_rating: round(heat, 4)
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const backendData = await response.json();
+          const backendQuantities = {
+            Spirit: round(backendData.spirit_score || 0),
+            Essence: round(backendData.essence_score || 0),
+            Matter: round(backendData.matter_score || 0),
+            Substance: round(backendData.substance_score || 0)
+          };
+
+          const discrepancy = {
+            Spirit: round(Math.abs(quantities.Spirit - backendQuantities.Spirit)),
+            Essence: round(Math.abs(quantities.Essence - backendQuantities.Essence)),
+            Matter: round(Math.abs(quantities.Matter - backendQuantities.Matter)),
+            Substance: round(Math.abs(quantities.Substance - backendQuantities.Substance))
+          };
+
+          const maxDiscrepancy = Math.max(discrepancy.Spirit, discrepancy.Essence, discrepancy.Matter, discrepancy.Substance);
+          const status = maxDiscrepancy < 0.05 ? ("verified" as const) : ("rectified" as const);
+
+          // Rectify local quantities to match backend authoritative values if discrepancy is detected
+          if (status === "rectified") {
+            quantities.Spirit = backendQuantities.Spirit;
+            quantities.Essence = backendQuantities.Essence;
+            quantities.Matter = backendQuantities.Matter;
+            quantities.Substance = backendQuantities.Substance;
+          }
+
+          crossVerification = {
+            success: true,
+            backendUrl,
+            localQuantities: { ...quantities },
+            backendQuantities,
+            discrepancy,
+            status
+          };
+        } else {
+          crossVerification = {
+            success: false,
+            backendUrl,
+            localQuantities: { ...quantities },
+            backendQuantities: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
+            discrepancy: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
+            status: "failed" as const,
+            error: `Backend returned HTTP ${response.status}`
+          };
+        }
+      } catch (err: any) {
+        crossVerification = {
+          success: false,
+          backendUrl,
+          localQuantities: { ...quantities },
+          backendQuantities: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
+          discrepancy: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
+          status: "failed" as const,
+          error: err.message || String(err)
+        };
+      }
+    }
+
     const payload = {
       success: true as const,
       timestamp: now.toISOString(),
@@ -237,6 +328,7 @@ export async function GET() {
       alchemical: quantities,
       planetaryMomentum: nowAlch.planetaryMomentum,
       historicalContext: historicalContext || undefined,
+      crossVerification,
     };
 
     const validated = AlchmQuantitiesApiResponseSchema.safeParse(payload);

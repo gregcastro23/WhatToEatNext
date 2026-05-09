@@ -11,6 +11,7 @@ import type { UserProfile } from "@/contexts/UserContext";
 import {
   getDatabaseUserFromRequest,
 } from "@/lib/auth/validateRequest";
+import { UserProfileUpdateSchema } from "@/lib/validation/apiSchemas";
 import { _logger } from "@/lib/logger";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -160,8 +161,25 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
-    const { userId: _bodyUserId, ...profileData } = body;
+    let rawBody;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON" },
+        { status: 400 },
+      );
+    }
+
+    const parsedBody = UserProfileUpdateSchema.safeParse(rawBody);
+    if (!parsedBody.success) {
+      return NextResponse.json(
+        { success: false, message: "Validation error", details: parsedBody.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
+
+    const { userId: _bodyUserId, ...profileData } = parsedBody.data;
 
     // Use authenticated user's ID
     const userId = user.id;
@@ -223,3 +241,4 @@ export async function PUT(request: NextRequest) {
     );
   }
 }
+
