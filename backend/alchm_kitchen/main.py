@@ -280,6 +280,7 @@ async def get_all_ingredients():
 # ==========================================
 
 @app.get("/health")
+@app.get("/api/v1/health")
 async def health_check(db: Session = Depends(get_db)):
     """Comprehensive health check including database connectivity."""
     db_status = "offline"

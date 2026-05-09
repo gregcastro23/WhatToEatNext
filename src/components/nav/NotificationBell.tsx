@@ -115,7 +115,7 @@ export default function NotificationBell() {
                         router.push('/profile?tab=quests');
                       } else {
                         setOpen(false);
-                        router.push('/dashboard');
+                        router.push('/profile');
                       }
                     }}
                     className="w-full text-left p-3 rounded-lg transition-all duration-150 hover:scale-[1.01]"

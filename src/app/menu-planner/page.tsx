@@ -279,6 +279,8 @@ function MenuPlannerContent() {
                 onClick={() => {
                   regenerateGroceryList();
                   setShowGroceryList(true);
+                  setIsWeeklyDashboardExpanded(false);
+                  setShowPosso(false);
                 }}
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:shadow-lg transition-all font-medium"
               >
@@ -288,6 +290,7 @@ function MenuPlannerContent() {
               <button
                 onClick={() => {
                   setIsWeeklyDashboardExpanded(!isWeeklyDashboardExpanded);
+                  setShowGroceryList(false);
                   // setShowNutritionDashboard(true); // Old modal behavior
                 }}
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:shadow-lg transition-all font-medium"
@@ -330,7 +333,7 @@ function MenuPlannerContent() {
           </div>
         </div>
         {/* Weekly Nutrition Dashboard (Sticky Top) */}
-        {weeklyNutrition && (
+        {weeklyNutrition && !showGroceryList && !showPosso && (
           <WeeklyNutritionDashboard
             weeklyData={weeklyNutrition}
             isExpanded={isWeeklyDashboardExpanded}

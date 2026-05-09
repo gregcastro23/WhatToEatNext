@@ -1620,7 +1620,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
                 dayOfWeek,
                 recommendation.mealType,
                 recommendation.recipe,
-                score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
+                1 // Default to 1 serving to avoid massive nutritional target overshoots
               );
               reportQuestEvent("generate_recipe");
             }

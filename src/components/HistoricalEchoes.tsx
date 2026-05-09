@@ -155,7 +155,7 @@ export default function HistoricalEchoes() {
 
   useEffect(() => {
     let cancelled = false;
-    void (async () => {
+    const fetchEcho = async () => {
       setLoading(true);
       setError(null);
       try {
@@ -169,7 +169,12 @@ export default function HistoricalEchoes() {
       } finally {
         if (!cancelled) setLoading(false);
       }
-    })();
+    };
+    
+    fetchEcho().catch((err) => {
+      console.error("Unhandled error in fetchEcho:", err);
+    });
+    
     return () => {
       cancelled = true;
     };

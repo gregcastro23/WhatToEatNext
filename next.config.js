@@ -59,6 +59,7 @@ const getSecurityHeaders = () => {
     "https://r2cdn.perplexity.ai",
     "https://vercel.live",
     "https://*.vercel.live",
+    "https://static.cloudflareinsights.com",
   ];
 
   const connectSrcParts = [

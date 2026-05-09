@@ -22,7 +22,10 @@ function RecipesPageContent() {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/recipes?cuisine=${encodeURIComponent(cuisine ?? "")}`);
+      const url = cuisine 
+        ? `/api/recipes?cuisine=${encodeURIComponent(cuisine)}`
+        : "/api/recipes";
+      const res = await fetch(url);
       if (!res.ok) {
         setRecipes([]);
         setIsLoading(false);
@@ -80,11 +83,7 @@ function RecipesPageContent() {
   }, [cuisine]);
 
   useEffect(() => {
-    if (cuisine) {
-      void fetchAndScoreRecipes();
-    } else {
-      setIsLoading(false);
-    }
+    void fetchAndScoreRecipes();
   }, [cuisine, fetchAndScoreRecipes]);
 
   const handleRefine = async () => {
@@ -118,16 +117,16 @@ function RecipesPageContent() {
 
   const displayCuisine = cuisine
     ? cuisine.charAt(0).toUpperCase() + cuisine.slice(1)
-    : "";
+    : "All";
 
   return (
     <main className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">
-            {cuisine ? `${displayCuisine} Recipes` : "Recipes"}
+            {displayCuisine} Recipes
           </h1>
-          {!isLoading && cuisine && (
+          {!isLoading && (
             <div className="flex flex-col items-center gap-4">
               <p className="text-lg text-gray-400">
                 {recipes.length} recipes
@@ -136,7 +135,7 @@ function RecipesPageContent() {
                   : " sorted by current planetary alignment"}
               </p>
 
-              {recipes.length > 0 && (
+              {recipes.length > 0 && cuisine && (
                 <button
                   onClick={() => { void handleRefine(); }}
                   disabled={isRefining || isLoading || isScoring}
@@ -161,12 +160,12 @@ function RecipesPageContent() {
               />
             ))}
           </div>
-        ) : !cuisine ? (
+        ) : recipes.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-6xl mb-6">🍽️</p>
-            <h2 className="text-2xl font-bold text-white mb-3">Choose a Cuisine to Explore</h2>
+            <h2 className="text-2xl font-bold text-white mb-3">No Recipes Found</h2>
             <p className="text-gray-400 mb-8 max-w-md mx-auto">
-              Select a cuisine from the home page to see recipes sorted by your current planetary alignment.
+              We couldn't find any recipes matching your selection. Try a different cuisine or check back later.
             </p>
             <Link
               href="/"
@@ -174,12 +173,6 @@ function RecipesPageContent() {
             >
               ← Back to Home
             </Link>
-          </div>
-        ) : recipes.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-xl text-gray-500">
-              No recipes found for {displayCuisine}.
-            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

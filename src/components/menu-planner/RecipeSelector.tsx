@@ -100,7 +100,7 @@ function RecipeCard({
 
       {/* Quick Info */}
       <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-2">
-        {recipe.prepTime && (
+        {recipe.prepTime && recipe.prepTime !== "0" && (
           <span className="flex items-center gap-1">
             <span>⏱️</span>
             {recipe.prepTime}

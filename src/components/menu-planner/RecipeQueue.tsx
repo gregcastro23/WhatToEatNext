@@ -101,7 +101,7 @@ function QueueItemCard({
 
       {/* Quick Info */}
       <div className="flex items-center gap-3 mb-2 text-xs text-gray-600">
-        {recipe.prepTime && (
+        {recipe.prepTime && recipe.prepTime !== "0" && (
           <div className="flex items-center gap-1">
             <span>⏱️</span>
             <span>{recipe.prepTime}</span>

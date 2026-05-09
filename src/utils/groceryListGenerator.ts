@@ -135,25 +135,31 @@ function convertToBaseUnit(
 function convertToDisplayUnit(
   amount: number,
   baseUnit: string,
+  category?: GroceryCategory,
 ): { amount: number; unit: string } {
   // Volume conversions (ml base)
   if (baseUnit === "ml") {
-    if (amount >= 3785) {
+    const isLiquid = category === "beverages";
+    
+    if (isLiquid && amount >= 3785) {
       return { amount: amount / 3785.41, unit: "gallon" };
     }
-    if (amount >= 946) {
+    if (isLiquid && amount >= 946) {
       return { amount: amount / 946.353, unit: "quart" };
     }
-    if (amount >= 473) {
+    if (isLiquid && amount >= 473) {
       return { amount: amount / 473.176, unit: "pint" };
     }
-    if (amount >= 237) {
+    
+    // Both liquids and dry goods can use cups
+    if (amount >= 236) {
       return { amount: amount / 236.588, unit: "cup" };
     }
-    if (amount >= 30) {
+    
+    if (isLiquid && amount >= 29) {
       return { amount: amount / 29.574, unit: "fl oz" };
     }
-    if (amount >= 15) {
+    if (amount >= 14) {
       return { amount: amount / 14.787, unit: "tbsp" };
     }
     return { amount: amount / 4.929, unit: "tsp" };
@@ -353,7 +359,7 @@ export function generateGroceryList(
         let displayUnit = data.baseUnit;
 
         if (convertUnits) {
-          const display = convertToDisplayUnit(data.baseAmount, data.baseUnit);
+          const display = convertToDisplayUnit(data.baseAmount, data.baseUnit, data.category);
           displayAmount = display.amount;
           displayUnit = display.unit;
         }

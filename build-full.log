@@ -1,0 +1,18 @@
+   ▲ Next.js 15.5.16
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 3.3s
+   Linting and checking validity of types ...
+
+./src/app/recipes/page.tsx
+168:24  Warning: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/contexts/MenuPlannerContext.tsx
+1617:21  Warning: 'score' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+Failed to compile.
+
+Type error: Cannot find module '../../src/app/api/test-error/route.js' or its corresponding type declarations.
+
+Next.js build worker exited with code: 1 and signal: null
