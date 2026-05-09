@@ -21,6 +21,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const targetTier = body.tier as SubscriptionTier;
+    const wantsTrial = body.trial === true;
 
     if (!targetTier || !TIER_LIMITS[targetTier]) {
       return NextResponse.json({ error: "Invalid tier" }, { status: 400 });
@@ -32,6 +33,16 @@ export async function POST(request: Request) {
         { error: "No Stripe price configured for this tier" },
         { status: 400 },
       );
+    }
+
+    // Trials are only offered to users who have never had a Stripe subscription.
+    // The presence of a stripeSubscriptionId means they've already used (or canceled) one.
+    let trialEligible = false;
+    if (wantsTrial && targetTier === "premium") {
+      const existing = await subscriptionService
+        .getOrCreateSubscription(session.user.id)
+        .catch(() => null);
+      trialEligible = !existing?.stripeSubscriptionId;
     }
 
     // Lazy-import Stripe to keep it server-only
@@ -61,15 +72,19 @@ export async function POST(request: Request) {
       customer: customerId,
       mode: "subscription",
       line_items: [{ price: tierConfig.stripePriceId, quantity: 1 }],
-      success_url: `${appUrl}/premium?checkout=success&tier=${targetTier}`,
+      success_url: `${appUrl}/premium?checkout=success&tier=${targetTier}${trialEligible ? "&trial=true" : ""}`,
       cancel_url: `${appUrl}/premium?checkout=canceled`,
+      ...(trialEligible
+        ? { subscription_data: { trial_period_days: 7 } }
+        : {}),
       metadata: {
         userId: session.user.id,
         tier: targetTier,
+        trial: trialEligible ? "true" : "false",
       },
     });
 
-    return NextResponse.json({ url: checkoutSession.url });
+    return NextResponse.json({ url: checkoutSession.url, trial: trialEligible });
   } catch (error) {
     console.error("[api/stripe/checkout] Error:", error);
     return NextResponse.json(
