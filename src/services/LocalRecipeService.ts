@@ -1,4 +1,5 @@
 import { executeQuery } from "@/lib/database";
+import { redisGet, redisSet, redisDel } from "@/lib/redis";
 import type {
   ElementalProperties,
   Recipe,
@@ -231,10 +232,13 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
   };
 }
 
+const REDIS_CATALOG_KEY = "recipes:catalog:all";
+const REDIS_TTL_SECONDS = 5 * 60; // 5 minutes — matches in-process TTL
+
 export class LocalRecipeService {
   private static _allRecipes: Recipe[] | null = null;
   private static _allRecipesLoadedAt: number | null = null;
-  private static readonly CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+  private static readonly CACHE_TTL_MS = REDIS_TTL_SECONDS * 1000;
 
   private static isCacheFresh(): boolean {
     return (
@@ -251,10 +255,25 @@ export class LocalRecipeService {
   }
 
   static async getAllRecipes(): Promise<Recipe[]> {
+    // L1: in-process memory (warm path — sub-ms)
     if (this.isCacheFresh()) {
       return this._allRecipes!;
     }
 
+    // L2: Redis catalog cache (cross-instance — target <20ms)
+    try {
+      const cached = await redisGet(REDIS_CATALOG_KEY);
+      if (cached) {
+        const recipes = JSON.parse(cached) as Recipe[];
+        this._allRecipes = recipes;
+        this._allRecipesLoadedAt = Date.now();
+        return recipes;
+      }
+    } catch (err) {
+      logger.warn("Redis cache read failed, falling through to DB:", err);
+    }
+
+    // L3: PostgreSQL
     try {
       const recipes = await this.fetchRecipes("ORDER BY r.popularity_score DESC, r.created_at DESC");
 
@@ -268,6 +287,10 @@ export class LocalRecipeService {
 
       this._allRecipes = recipes;
       this._allRecipesLoadedAt = Date.now();
+
+      // Populate Redis asynchronously so we don't block the response
+      redisSet(REDIS_CATALOG_KEY, JSON.stringify(recipes), REDIS_TTL_SECONDS).catch(() => {});
+
       return recipes;
     } catch (error) {
       logger.error("Error loading recipes from database, extracting raw local fallback:", error);
@@ -408,5 +431,6 @@ export class LocalRecipeService {
   static clearCache(): void {
     this._allRecipes = null;
     this._allRecipesLoadedAt = null;
+    redisDel(REDIS_CATALOG_KEY).catch(() => {});
   }
 }

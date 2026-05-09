@@ -6,6 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { questService } from "@/services/QuestService";
 import { streakService } from "@/services/StreakService";
 import type { QuestsResponse } from "@/types/economy";
@@ -14,10 +15,14 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+const QUESTS_LIMIT = { window: 60_000, max: 60, bucket: "quests" };
+
 /**
  * GET /api/quests — Get all quest definitions with user's current progress
  */
 export async function GET(request: NextRequest) {
+  const rl = rateLimit(request, QUESTS_LIMIT);
+  if (!rl.allowed) return rl.response!;
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json(
@@ -47,6 +52,8 @@ export async function GET(request: NextRequest) {
  * Example: { event: "view_chart" }
  */
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(request, QUESTS_LIMIT);
+  if (!rl.allowed) return rl.response!;
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json(

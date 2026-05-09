@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
@@ -15,6 +16,8 @@ import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+const RECS_LIMIT = { window: 60_000, max: 20, bucket: "personalized-recs" };
 
 const SIGN_TO_ELEMENT: Record<string, string> = {
   aries: "Fire", leo: "Fire", sagittarius: "Fire",
@@ -38,6 +41,8 @@ const ELEMENT_METHODS: Record<string, string[]> = {
 };
 
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(request, RECS_LIMIT);
+  if (!rl.allowed) return rl.response!;
   try {
     // Auth — allow the call to succeed even without a session (guest mode)
     const user = await getDatabaseUserFromRequest(request).catch(() => null);

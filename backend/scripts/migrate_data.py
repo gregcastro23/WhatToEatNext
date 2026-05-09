@@ -8,17 +8,17 @@ Created: September 26, 2025
 import sys
 import os
 import json
+import uuid
 import time
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
+from typing import Dict, List, Any, Optional, Set
+from dataclasses import dataclass, field
 from datetime import datetime
 
 # Add backend directory to path
 backend_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(backend_dir))
 
-# Import database modules
 from database import get_db_session, config
 from database.models import (
     Ingredient, Recipe, ElementalProperties, PlanetaryInfluence,
@@ -26,12 +26,11 @@ from database.models import (
     RecipeContext
 )
 
-# Project root for data access
 project_root = backend_dir.parent
+
 
 @dataclass
 class MigrationStats:
-    """Track migration statistics."""
     total_processed: int = 0
     successful: int = 0
     failed: int = 0
@@ -46,6 +45,7 @@ class MigrationStats:
         return 0.0
 
     def summary(self) -> str:
+        rate = (self.successful / self.duration) if self.duration > 0 else 0
         return f"""
 Migration Summary:
 - Total Processed: {self.total_processed}
@@ -53,15 +53,18 @@ Migration Summary:
 - Failed: {self.failed}
 - Skipped: {self.skipped}
 - Duration: {self.duration:.2f}s
+- Throughput: {rate:.1f} records/sec
 - Success Rate: {(self.successful / self.total_processed * 100) if self.total_processed > 0 else 0:.1f}%
 """
 
+
 class DataMigrationError(Exception):
-    """Custom exception for data migration errors."""
     pass
 
+
 class DataMigrator:
-    """Main data migration orchestrator."""
+    INGREDIENT_BATCH = 500
+    RECIPE_BATCH = 200
 
     def __init__(self, dry_run: bool = False):
         self.dry_run = dry_run
@@ -69,23 +72,22 @@ class DataMigrator:
         self.errors: List[str] = []
 
     def log(self, message: str, level: str = "INFO") -> None:
-        """Log migration progress."""
         timestamp = datetime.now().strftime("%H:%M:%S")
         print(f"[{timestamp}] {level}: {message}")
 
     def load_json_data(self, file_path: str) -> Any:
-        """Load JSON data file."""
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except Exception as e:
             raise DataMigrationError(f"Failed to load {file_path}: {e}")
 
-    def migrate_ingredients(self) -> None:
-        """Migrate ingredient data."""
-        self.log("Starting ingredient migration...")
+    # ------------------------------------------------------------------ #
+    #  Ingredients                                                         #
+    # ------------------------------------------------------------------ #
 
-        # Use sample data for now
+    def migrate_ingredients(self) -> None:
+        self.log("Starting ingredient migration...")
         sample_data_path = backend_dir / "alchm_kitchen" / "data" / "json" / "ingredients.json"
 
         if not sample_data_path.exists():
@@ -93,120 +95,117 @@ class DataMigrator:
             return
 
         try:
-            # Load ingredient data
             ingredients_data = self.load_json_data(str(sample_data_path))
+            items = list(ingredients_data.values()) if isinstance(ingredients_data, dict) else list(ingredients_data)
 
             with get_db_session() as session:
-                # Process and insert ingredients
-                items = ingredients_data.values() if isinstance(ingredients_data, dict) else ingredients_data
-                for i, ingredient_info in enumerate(items):
-                    self._migrate_single_ingredient(session, ingredient_info)
-                    
-                    # Batch commit every 50 ingredients
-                    if i % 50 == 0 and not self.dry_run:
-                        session.commit()
+                # Pre-fetch all existing names in one query to avoid per-row checks
+                existing_names: Set[str] = {
+                    row[0] for row in session.execute(
+                        "SELECT name FROM ingredients"
+                    ).fetchall()
+                }
+                self.log(f"Found {len(existing_names)} existing ingredients — will skip duplicates.")
+
+                ingredient_rows: List[Dict] = []
+                elemental_rows: List[Dict] = []
+                planetary_rows: List[Dict] = []
+
+                for item in items:
+                    name = item.get('name')
+                    if not name:
+                        continue
+
+                    self.stats.total_processed += 1
+
+                    if name in existing_names:
+                        self.stats.skipped += 1
+                        continue
+
+                    ing_id = str(uuid.uuid4())
+
+                    ingredient_rows.append({
+                        'id': ing_id,
+                        'name': name,
+                        'common_name': item.get('common_name'),
+                        'scientific_name': item.get('scientific_name'),
+                        'category': item.get('category', 'unknown'),
+                        'subcategory': item.get('subcategory'),
+                        'description': item.get('description'),
+                        'calories': item.get('calories'),
+                        'protein': item.get('protein'),
+                        'carbohydrates': item.get('carbohydrates'),
+                        'fat': item.get('fat'),
+                        'fiber': item.get('fiber'),
+                        'sugar': item.get('sugar'),
+                        'flavor_profile': json.dumps(item.get('flavor_profile', {})),
+                        'preparation_methods': json.dumps(item.get('preparation_methods', [])),
+                        'is_active': item.get('is_active', True),
+                        'confidence_score': item.get('confidence_score', 0.8),
+                    })
+
+                    ep = item.get('elemental_properties', {})
+                    if ep:
+                        elemental_rows.append({
+                            'id': str(uuid.uuid4()),
+                            'entity_type': 'ingredient',
+                            'entity_id': ing_id,
+                            'fire': ep.get('fire', 0.25),
+                            'water': ep.get('water', 0.25),
+                            'earth': ep.get('earth', 0.25),
+                            'air': ep.get('air', 0.25),
+                            'calculation_method': 'imported',
+                        })
+
+                    ap = item.get('astrological_profile', {})
+                    for planet in ap.get('rulingPlanets', []):
+                        planetary_rows.append({
+                            'id': str(uuid.uuid4()),
+                            'entity_type': 'ingredient',
+                            'entity_id': ing_id,
+                            'planet': planet,
+                            'influence_strength': 0.8,
+                            'is_primary': (ap['rulingPlanets'].index(planet) == 0),
+                        })
+
+                    self.stats.successful += 1
 
                 if not self.dry_run:
+                    self._bulk_insert(session, Ingredient, ingredient_rows, self.INGREDIENT_BATCH)
+                    self._bulk_insert(session, ElementalProperties, elemental_rows, self.INGREDIENT_BATCH)
+                    self._bulk_insert(session, PlanetaryInfluence, planetary_rows, self.INGREDIENT_BATCH)
                     session.commit()
+                    self.log(f"Inserted {len(ingredient_rows)} ingredients, "
+                             f"{len(elemental_rows)} elemental, "
+                             f"{len(planetary_rows)} planetary rows.")
 
         except Exception as e:
             self.errors.append(f"Failed to migrate ingredients: {e}")
             self.stats.failed += 1
 
-    def _migrate_single_ingredient(self, session, data: Dict[str, Any]) -> None:
-        """Migrate a single ingredient."""
-        try:
-            name = data['name']
-            self.stats.total_processed += 1
+    # ------------------------------------------------------------------ #
+    #  Recipes                                                             #
+    # ------------------------------------------------------------------ #
 
-            # Check if ingredient already exists
-            existing = session.query(Ingredient).filter(Ingredient.name == name).first()
-            if existing:
-                self.stats.skipped += 1
-                return
+    CUISINE_MAP = {
+        'african': 'African', 'american': 'American', 'chinese': 'Chinese',
+        'french': 'French', 'greek': 'Greek', 'indian': 'Indian',
+        'italian': 'Italian', 'japanese': 'Japanese', 'korean': 'Korean',
+        'mexican': 'Mexican', 'middle-eastern': 'Middle Eastern',
+        'middle eastern': 'Middle Eastern', 'russian': 'Russian',
+        'thai': 'Thai', 'vietnamese': 'Vietnamese',
+    }
 
-            # Create ingredient record
-            ingredient = Ingredient(
-                name=name,
-                common_name=data.get('common_name'),
-                scientific_name=data.get('scientific_name'),
-                category=data.get('category', 'unknown'),
-                subcategory=data.get('subcategory'),
-                description=data.get('description'),
-                calories=data.get('calories'),
-                protein=data.get('protein'),
-                carbohydrates=data.get('carbohydrates'),
-                fat=data.get('fat'),
-                fiber=data.get('fiber'),
-                sugar=data.get('sugar'),
-                flavor_profile=data.get('flavor_profile', {}),
-                preparation_methods=data.get('preparation_methods', []),
-                is_active=data.get('is_active', True),
-                confidence_score=data.get('confidence_score', 0.8)
-            )
-
-            if not self.dry_run:
-                session.add(ingredient)
-                session.flush()  # Get the ID without committing
-
-            # Migrate elemental properties
-            if 'elemental_properties' in data:
-                self._migrate_elemental_properties(session, 'ingredient', str(ingredient.id), data['elemental_properties'])
-
-            # Migrate planetary influences
-            if 'astrological_profile' in data:
-                self._migrate_planetary_influences(session, 'ingredient', str(ingredient.id), data['astrological_profile'])
-
-            # Success, but we don't commit here anymore, it's done in batches in migrate_ingredients
-            self.stats.successful += 1
-
-        except Exception as e:
-            self.errors.append(f"Failed to migrate ingredient {data.get('name', 'unknown')}: {e}")
-            self.stats.failed += 1
-            session.rollback()
-
-    def _migrate_elemental_properties(self, session, entity_type: str, entity_id: str, properties: Dict[str, float]) -> None:
-        """Migrate elemental properties for an entity."""
-        try:
-            elemental = ElementalProperties(
-                entity_type=entity_type,
-                entity_id=entity_id,
-                fire=properties.get('fire', 0.25),
-                water=properties.get('water', 0.25),
-                earth=properties.get('earth', 0.25),
-                air=properties.get('air', 0.25),
-                calculation_method='imported'
-            )
-
-            if not self.dry_run:
-                session.add(elemental)
-
-        except Exception as e:
-            self.errors.append(f"Failed to migrate elemental properties for {entity_type}:{entity_id}: {e}")
-
-    def _migrate_planetary_influences(self, session, entity_type: str, entity_id: str, profile: Dict[str, Any]) -> None:
-        """Migrate planetary influences."""
-        try:
-            ruling_planets = profile.get('rulingPlanets', [])
-            for planet in ruling_planets:
-                influence = PlanetaryInfluence(
-                    entity_type=entity_type,
-                    entity_id=entity_id,
-                    planet=planet,
-                    influence_strength=0.8,  # Default high influence
-                    is_primary=(len(ruling_planets) > 0 and planet == ruling_planets[0])
-                )
-                if not self.dry_run:
-                    session.add(influence)
-
-        except Exception as e:
-            self.errors.append(f"Failed to migrate planetary influences for {entity_type}:{entity_id}: {e}")
+    DIETARY_MAP = {
+        'vegetarian': 'Vegetarian', 'vegan': 'Vegan',
+        'glutenfree': 'Gluten Free', 'dairyfree': 'Dairy Free',
+        'dairy-free': 'Dairy Free', 'gluten-free': 'Gluten Free',
+        'lowcarb': 'Low Carb', 'low-carb': 'Low Carb',
+        'paleo': 'Paleo', 'keto': 'Keto', 'halal': 'Halal', 'kosher': 'Kosher',
+    }
 
     def migrate_recipes(self) -> None:
-        """Migrate recipe data."""
         self.log("Starting recipe migration...")
-
-        # Use sample data for now
         sample_data_path = backend_dir / "alchm_kitchen" / "data" / "json" / "recipes.json"
 
         if not sample_data_path.exists():
@@ -214,195 +213,168 @@ class DataMigrator:
             return
 
         try:
-            # Load recipe data
             recipes_data = self.load_json_data(str(sample_data_path))
+            items = list(recipes_data.values()) if isinstance(recipes_data, dict) else list(recipes_data)
 
             with get_db_session() as session:
-                # Process and insert recipes
-                items = recipes_data.values() if isinstance(recipes_data, dict) else recipes_data
-                for i, recipe_data in enumerate(items):
-                    self._migrate_single_recipe(session, recipe_data)
-                    
-                    # Batch commit every 20 recipes (nested objects make it heavier)
-                    if i % 20 == 0 and not self.dry_run:
-                        session.commit()
+                # Pre-fetch all existing recipe names in one query
+                existing_names: Set[str] = {
+                    row[0] for row in session.execute(
+                        "SELECT name FROM recipes"
+                    ).fetchall()
+                }
+                self.log(f"Found {len(existing_names)} existing recipes — will skip duplicates.")
+
+                # Also pre-fetch all ingredient name→id mappings for FK lookups
+                ingredient_id_map: Dict[str, str] = {
+                    row[0].lower(): str(row[1])
+                    for row in session.execute(
+                        "SELECT name, id FROM ingredients"
+                    ).fetchall()
+                }
+
+                recipe_rows: List[Dict] = []
+                recipe_ingredient_rows: List[Dict] = []
+                recipe_context_rows: List[Dict] = []
+
+                for data in items:
+                    name = data.get('name')
+                    if not name:
+                        continue
+
+                    self.stats.total_processed += 1
+
+                    if name in existing_names:
+                        self.stats.skipped += 1
+                        continue
+
+                    recipe_id = str(uuid.uuid4())
+
+                    cuisine_raw = data.get('cuisine', 'General')
+                    cuisine = self.CUISINE_MAP.get(cuisine_raw.lower(), cuisine_raw.title())
+
+                    dietary_tags = [
+                        self.DIETARY_MAP.get(t.lower(), t.title())
+                        for t in data.get('dietary_tags', [])
+                    ]
+
+                    # Denormalized read_model built up-front (no flush needed)
+                    read_model = {
+                        "id": recipe_id,
+                        "name": name,
+                        "description": data.get('description'),
+                        "cuisine": cuisine,
+                        "category": data.get('category', 'main'),
+                        "instructions": data.get('instructions', {}),
+                        "prep_time_minutes": data.get('prep_time_minutes', 30),
+                        "cook_time_minutes": data.get('cook_time_minutes', 30),
+                        "servings": data.get('servings', 4),
+                        "dietary_tags": dietary_tags,
+                        "allergens": data.get('allergens', []),
+                        "nutritional_profile": data.get('nutritional_profile'),
+                        "ingredients": [
+                            {
+                                "name": ing.get("name"),
+                                "amount": ing.get("amount", ing.get("quantity")),
+                                "unit": ing.get("unit"),
+                                "notes": ing.get("notes", ing.get("preparation")),
+                                "optional": ing.get("optional", False),
+                            }
+                            for ing in data.get("ingredients", [])
+                        ],
+                        "contexts": [
+                            {
+                                "lunar": data.get('lunar', []),
+                                "seasonal": data.get('seasonal', []) or data.get('season', []),
+                                "timeOfDay": data.get('timeOfDay', []),
+                            }
+                        ] if any(k in data for k in ('lunar', 'seasonal', 'season', 'timeOfDay')) else [],
+                    }
+
+                    recipe_rows.append({
+                        'id': recipe_id,
+                        'name': name,
+                        'description': data.get('description'),
+                        'cuisine': cuisine,
+                        'category': data.get('category', 'main'),
+                        'instructions': json.dumps(data.get('instructions', {})),
+                        'prep_time_minutes': data.get('prep_time_minutes', 30),
+                        'cook_time_minutes': data.get('cook_time_minutes', 30),
+                        'servings': data.get('servings', 4),
+                        'difficulty_level': data.get('difficulty_level', 2),
+                        'dietary_tags': json.dumps(dietary_tags),
+                        'allergens': json.dumps(data.get('allergens', [])),
+                        'is_public': data.get('is_public', True),
+                        'is_verified': data.get('is_verified', False),
+                        'read_model': json.dumps(read_model),
+                    })
+
+                    # Recipe ingredients — resolve FK via pre-loaded map
+                    for i, ing in enumerate(data.get('ingredients', [])):
+                        ing_name = ing.get('name', '').lower()
+                        ing_id = ingredient_id_map.get(ing_name)
+                        if not ing_id:
+                            continue
+                        recipe_ingredient_rows.append({
+                            'id': str(uuid.uuid4()),
+                            'recipe_id': recipe_id,
+                            'ingredient_id': ing_id,
+                            'quantity': ing.get('amount', 1),
+                            'unit': ing.get('unit', 'piece'),
+                            'preparation_notes': ing.get('preparation'),
+                            'is_optional': ing.get('optional', False),
+                            'order_index': i,
+                        })
+
+                    # Recipe context
+                    if any(k in data for k in ('lunar', 'seasonal', 'season', 'timeOfDay', 'occasion', 'energyIntention')):
+                        recipe_context_rows.append({
+                            'id': str(uuid.uuid4()),
+                            'recipe_id': recipe_id,
+                            'recommended_moon_phases': json.dumps(data.get('lunar', [])),
+                            'recommended_seasons': json.dumps(
+                                data.get('seasonal', []) or data.get('season', [])
+                            ),
+                            'time_of_day': json.dumps(data.get('timeOfDay', [])),
+                            'occasion': json.dumps(data.get('occasion', [])),
+                            'energy_intention': data.get('energyIntention'),
+                        })
+
+                    self.stats.successful += 1
 
                 if not self.dry_run:
+                    self._bulk_insert(session, Recipe, recipe_rows, self.RECIPE_BATCH)
+                    self._bulk_insert(session, RecipeIngredient, recipe_ingredient_rows, self.RECIPE_BATCH)
+                    self._bulk_insert(session, RecipeContext, recipe_context_rows, self.RECIPE_BATCH)
                     session.commit()
+                    self.log(f"Inserted {len(recipe_rows)} recipes, "
+                             f"{len(recipe_ingredient_rows)} recipe-ingredients, "
+                             f"{len(recipe_context_rows)} context rows.")
 
         except Exception as e:
             self.errors.append(f"Failed to migrate recipes: {e}")
             self.stats.failed += 1
 
-    def _migrate_single_recipe(self, session, data: Dict[str, Any]) -> None:
-        """Migrate a single recipe."""
-        try:
-            name = data['name']
-            self.stats.total_processed += 1
+    # ------------------------------------------------------------------ #
+    #  Shared helpers                                                      #
+    # ------------------------------------------------------------------ #
 
-            # Check if recipe exists
-            existing = session.query(Recipe).filter(Recipe.name == name).first()
-            if existing:
-                self.stats.skipped += 1
-                return
-
-            # Create recipe record
-            cuisine_raw = data.get('cuisine', 'General')
-            # Map lowercase to Enum values
-            cuisine_map = {
-                'african': 'African',
-                'american': 'American',
-                'chinese': 'Chinese',
-                'french': 'French',
-                'greek': 'Greek',
-                'indian': 'Indian',
-                'italian': 'Italian',
-                'japanese': 'Japanese',
-                'korean': 'Korean',
-                'mexican': 'Mexican',
-                'middle-eastern': 'Middle Eastern',
-                'middle eastern': 'Middle Eastern',
-                'russian': 'Russian',
-                'thai': 'Thai',
-                'vietnamese': 'Vietnamese'
-            }
-            cuisine = cuisine_map.get(cuisine_raw.lower(), cuisine_raw.title())
-
-            # Map dietary tags to Enum values
-            dietary_raw = data.get('dietary_tags', [])
-            dietary_map = {
-                'vegetarian': 'Vegetarian',
-                'vegan': 'Vegan',
-                'glutenfree': 'Gluten Free',
-                'dairyfree': 'Dairy Free',
-                'dairy-free': 'Dairy Free',
-                'gluten-free': 'Gluten Free',
-                'lowcarb': 'Low Carb',
-                'low-carb': 'Low Carb',
-                'paleo': 'Paleo',
-                'keto': 'Keto',
-                'halal': 'Halal',
-                'kosher': 'Kosher'
-            }
-            dietary_tags = [dietary_map.get(t.lower(), t.title()) for t in dietary_raw]
-
-            recipe = Recipe(
-                name=name,
-                description=data.get('description'),
-                cuisine=cuisine,
-                category=data.get('category', 'main'),
-                instructions=data.get('instructions', {}),
-                prep_time_minutes=data.get('prep_time_minutes', 30),
-                cook_time_minutes=data.get('cook_time_minutes', 30),
-                servings=data.get('servings', 4),
-                difficulty_level=data.get('difficulty_level', 2),
-                dietary_tags=dietary_tags,
-                allergens=data.get('allergens', []),
-                is_public=data.get('is_public', True),
-                is_verified=data.get('is_verified', False)
-            )
-
-            if not self.dry_run:
-                session.add(recipe)
-                session.flush()  # Get the ID without committing
-
-            # Migrate ingredients
-            if 'ingredients' in data:
-                self._migrate_recipe_ingredients(session, str(recipe.id), data['ingredients'])
-
-            # Migrate contexts
-            if any(key in data for key in ['lunar', 'seasonal', 'time_of_day']):
-                self._migrate_recipe_contexts(session, str(recipe.id), data)
-
-            # Build and store read_model (Denormalized)
-            if not self.dry_run:
-                # Refresh to get nested data if needed, though session is local
-                read_model = {
-                    "id": str(recipe.id),
-                    "name": recipe.name,
-                    "description": recipe.description,
-                    "cuisine": recipe.cuisine,
-                    "category": recipe.category,
-                    "instructions": recipe.instructions,
-                    "prep_time_minutes": recipe.prep_time_minutes,
-                    "cook_time_minutes": recipe.cook_time_minutes,
-                    "servings": recipe.servings,
-                    "dietary_tags": recipe.dietary_tags,
-                    "allergens": recipe.allergens,
-                    "nutritional_profile": recipe.nutritional_profile,
-                    "ingredients": [
-                        {
-                            "name": ing.get("name"),
-                            "amount": ing.get("amount", ing.get("quantity")),
-                            "unit": ing.get("unit"),
-                            "notes": ing.get("notes", ing.get("preparation")),
-                            "optional": ing.get("optional", False)
-                        } for ing in data.get("ingredients", [])
-                    ],
-                    "contexts": [
-                        {
-                            "lunar": ctx.recommended_moon_phases,
-                            "seasonal": ctx.recommended_seasons,
-                            "timeOfDay": ctx.time_of_day
-                        } for ctx in recipe.contexts
-                    ]
-                }
-                recipe.read_model = read_model
-
-            # Success, but we don't commit here anymore, it's done in batches in migrate_recipes
-            self.stats.successful += 1
-
-        except Exception as e:
-            self.errors.append(f"Failed to migrate recipe {data.get('name', 'unknown')}: {e}")
-            self.stats.failed += 1
-            session.rollback()
-
-    def _migrate_recipe_ingredients(self, session, recipe_id: str, ingredients: List[Dict[str, Any]]) -> None:
-        """Migrate recipe ingredients."""
-        for i, ingredient_data in enumerate(ingredients):
-            try:
-                # Find ingredient by name
-                ingredient = session.query(Ingredient).filter(
-                    Ingredient.name.ilike(ingredient_data.get('name', ''))
-                ).first()
-
-                if ingredient:
-                    recipe_ingredient = RecipeIngredient(
-                        recipe_id=recipe_id,
-                        ingredient_id=ingredient.id,
-                        quantity=ingredient_data.get('amount', 1),
-                        unit=ingredient_data.get('unit', 'piece'),
-                        preparation_notes=ingredient_data.get('preparation'),
-                        is_optional=ingredient_data.get('optional', False),
-                        order_index=i
-                    )
-
-                    if not self.dry_run:
-                        session.add(recipe_ingredient)
-
-            except Exception as e:
-                self.errors.append(f"Failed to migrate ingredient for recipe {recipe_id}: {e}")
-
-    def _migrate_recipe_contexts(self, session, recipe_id: str, data: Dict[str, Any]) -> None:
-        """Migrate recipe contexts."""
-        try:
-            context = RecipeContext(
-                recipe_id=recipe_id,
-                recommended_moon_phases=data.get('lunar', []),
-                recommended_seasons=data.get('seasonal', []) or data.get('season', []),
-                time_of_day=data.get('timeOfDay', []),
-                occasion=data.get('occasion', []),
-                energy_intention=data.get('energyIntention')
-            )
-
-            if not self.dry_run:
-                session.add(context)
-
-        except Exception as e:
-            self.errors.append(f"Failed to migrate contexts for recipe {recipe_id}: {e}")
+    def _bulk_insert(
+        self,
+        session,
+        model,
+        rows: List[Dict],
+        batch_size: int,
+    ) -> None:
+        """Bulk-insert rows in batched transactions using SQLAlchemy bulk_insert_mappings."""
+        if not rows:
+            return
+        for start in range(0, len(rows), batch_size):
+            batch = rows[start: start + batch_size]
+            session.bulk_insert_mappings(model, batch)
+            session.flush()
 
     def run_migration(self, components: List[str] = None) -> MigrationStats:
-        """Run the complete migration."""
         self.stats.start_time = datetime.now()
         self.log(f"Starting Phase 2 Data Migration (dry_run={self.dry_run})")
 
@@ -417,14 +389,12 @@ class DataMigrator:
                 self.migrate_recipes()
 
             self.stats.end_time = datetime.now()
-
-            # Print summary
             self.log("Migration completed!")
             print(self.stats.summary())
 
             if self.errors:
                 self.log("Errors encountered:", "ERROR")
-                for error in self.errors[:10]:  # Show first 10 errors
+                for error in self.errors[:10]:
                     print(f"  - {error}")
                 if len(self.errors) > 10:
                     print(f"  ... and {len(self.errors) - 10} more errors")
@@ -438,29 +408,23 @@ class DataMigrator:
 
 
 def main():
-    """Main migration function."""
     import argparse
 
     parser = argparse.ArgumentParser(description="Phase 2 Data Migration")
-    parser.add_argument('--dry-run', action='store_true', help='Run migration in dry-run mode')
+    parser.add_argument('--dry-run', action='store_true', help='Run in dry-run mode')
     parser.add_argument('--components', nargs='+', choices=['ingredients', 'recipes'],
-                       default=['ingredients', 'recipes'], help='Components to migrate')
+                        default=['ingredients', 'recipes'], help='Components to migrate')
     parser.add_argument('--verbose', action='store_true', help='Verbose output')
-
     args = parser.parse_args()
 
-    # Configure logging
     if args.verbose:
         print("Verbose mode enabled")
 
     try:
         migrator = DataMigrator(dry_run=args.dry_run)
         stats = migrator.run_migration(args.components)
-
-        # Exit with error code if there were failures
         if stats.failed > 0:
             sys.exit(1)
-
     except Exception as e:
         print(f"Migration failed: {e}")
         sys.exit(1)
