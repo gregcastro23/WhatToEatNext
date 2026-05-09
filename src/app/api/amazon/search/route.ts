@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
+import { NextResponse } from "next/server";
 import { isPaapiConfigured, searchItem } from "@/lib/amazon/paapi";
 import { rateLimit } from "@/lib/rateLimit";
 

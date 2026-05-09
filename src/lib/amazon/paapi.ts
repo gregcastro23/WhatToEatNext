@@ -80,15 +80,13 @@ function signRequest(config: PaapiConfig, target: string, payload: object): Sign
 
   // Use UTC for both amzDate (basic ISO) and dateStamp (just yyyymmdd)
   const now = new Date();
-  const amzDate =
-    now.getUTCFullYear().toString().padStart(4, "0") +
-    (now.getUTCMonth() + 1).toString().padStart(2, "0") +
-    now.getUTCDate().toString().padStart(2, "0") +
-    "T" +
-    now.getUTCHours().toString().padStart(2, "0") +
-    now.getUTCMinutes().toString().padStart(2, "0") +
-    now.getUTCSeconds().toString().padStart(2, "0") +
-    "Z";
+  const yyyy = now.getUTCFullYear().toString().padStart(4, "0");
+  const mm = (now.getUTCMonth() + 1).toString().padStart(2, "0");
+  const dd = now.getUTCDate().toString().padStart(2, "0");
+  const hh = now.getUTCHours().toString().padStart(2, "0");
+  const mi = now.getUTCMinutes().toString().padStart(2, "0");
+  const ss = now.getUTCSeconds().toString().padStart(2, "0");
+  const amzDate = `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;
   const dateStamp = amzDate.slice(0, 8);
 
   const canonicalHeaders =
@@ -133,7 +131,7 @@ function signRequest(config: PaapiConfig, target: string, payload: object): Sign
       host: config.host,
       "x-amz-date": amzDate,
       "x-amz-target": target,
-      authorization: authorization,
+      authorization,
     },
     body,
   };
