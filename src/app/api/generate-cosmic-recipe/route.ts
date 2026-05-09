@@ -41,11 +41,31 @@ export async function POST(request: Request) {
     });
   }
 
-  // 1. Check if user is premium
+  // 1. Enforce monthly generation cap (defense-in-depth alongside token economy).
+  const featureCheck = await subscriptionService.canUseFeature(
+    userId,
+    "monthlyRecipeGenerations",
+  );
+  if (!featureCheck.allowed) {
+    return new Response(
+      JSON.stringify({
+        error: "monthly_limit_reached",
+        message: featureCheck.reason,
+        currentUsage: featureCheck.currentUsage,
+        limit: featureCheck.limit,
+      }),
+      {
+        status: 429,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
+
+  // 2. Check if user is premium
   const sub = await subscriptionService.getUserSubscription(userId);
   const isPremium = sub?.tier === "premium";
 
-  // 2. If not premium, they MUST spend tokens OR have a valid monthly slot
+  // 3. If not premium, they MUST spend tokens OR have a valid monthly slot
   // (We'll prioritize tokens for 'cosmic' recipes as they are special sinks)
   // Apply live pricing so the debit matches what the Token Shop displays.
   if (!isPremium) {
@@ -88,7 +108,7 @@ export async function POST(request: Request) {
     }
   }
 
-  // 3. Increment usage counter
+  // 4. Increment usage counter
   try {
     await subscriptionService.incrementUsage(userId, "recipe_generation");
   } catch (error) {

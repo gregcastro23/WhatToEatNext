@@ -3,10 +3,13 @@
  * Returns current astrological moment — planetary positions + elemental snapshot.
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+const CURRENT_MOMENT_LIMIT = { window: 60_000, max: 60, bucket: "current-moment" };
 
 const SIGN_TO_ELEMENT: Record<string, string> = {
   aries: "Fire", leo: "Fire", sagittarius: "Fire",
@@ -15,7 +18,11 @@ const SIGN_TO_ELEMENT: Record<string, string> = {
   cancer: "Water", scorpio: "Water", pisces: "Water",
 };
 
-export async function GET() {
+export async function GET(request?: Request) {
+  if (request) {
+    const rl = rateLimit(request, CURRENT_MOMENT_LIMIT);
+    if (!rl.allowed) return rl.response!;
+  }
   try {
     const now = new Date();
     const raw = getAccuratePlanetaryPositions(now);
@@ -60,4 +67,4 @@ export async function GET() {
   }
 }
 
-export async function POST() { return GET(); }
+export async function POST(request: Request) { return GET(request); }

@@ -217,6 +217,24 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Enforce monthly generation cap (defense-in-depth alongside token economy).
+  const featureCheck = await subscriptionService.canUseFeature(
+    userId,
+    "monthlyRecipeGenerations",
+  );
+  if (!featureCheck.allowed) {
+    return NextResponse.json(
+      {
+        success: false,
+        reason: "monthly_limit_reached",
+        message: featureCheck.reason,
+        currentUsage: featureCheck.currentUsage,
+        limit: featureCheck.limit,
+      },
+      { status: 429 },
+    );
+  }
+
   const sub = await subscriptionService.getUserSubscription(userId);
   const isPremium = sub?.tier === "premium";
 
@@ -303,6 +321,16 @@ export async function POST(request: NextRequest) {
 
     // Cache the result for the TTL window so repeat clicks are instant.
     storeMemo(cacheKey, recommendations);
+
+    // Increment usage counter so canUseFeature can enforce monthly caps.
+    // Skip on retry-window reuse: the original request already counted.
+    if (!usedRetryWindow) {
+      try {
+        await subscriptionService.incrementUsage(userId, "recipe_generation");
+      } catch (error) {
+        console.warn("[recommendations/generate] Failed to increment usage", error);
+      }
+    }
 
     const totalMs = Date.now() - tStart;
     return NextResponse.json(
