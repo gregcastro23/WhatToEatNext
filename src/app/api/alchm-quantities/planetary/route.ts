@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 import {
@@ -43,7 +44,12 @@ interface PlanetaryData {
   };
 }
 
-export async function GET() {
+const RATE_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities-planetary" };
+
+export async function GET(request: Request) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     logger.info("Planetary Contributions API called - starting processing");
 

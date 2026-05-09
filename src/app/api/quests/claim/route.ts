@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { questService } from "@/services/QuestService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+const RATE_LIMIT = { window: 60_000, max: 30, bucket: "quests-claim" };
+
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json(

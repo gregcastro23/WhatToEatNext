@@ -22,6 +22,8 @@ import React, {
 import { useUser } from "@/contexts/UserContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
+import { useMenuPersistence } from "@/hooks/useMenuPersistence";
+import { useMenuStats } from "@/hooks/useMenuStats";
 import { reportQuestEvent } from "@/lib/questReporter";
 import ChartComparisonService, {
   type ChartComparison,
@@ -238,6 +240,11 @@ interface MenuPlannerContextType {
   weeklyStats: WeeklyMenuStats | null;
   refreshStats: () => void;
 
+  // Template persistence state
+  isTemplateSaving: boolean;
+  isTemplateLoading: boolean;
+  persistenceError: Error | null;
+
   // Circuit operations (NEW - Phase 3A)
   calculateMealCircuit: (
     mealSlotId: string,
@@ -408,7 +415,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const [groceryList, setGroceryList] = useState<GroceryItem[]>([]);
-  const [weeklyStats, setWeeklyStats] = useState<WeeklyMenuStats | null>(null);
+
   const { currentUser } = useUser();
 
   // Guest alchemist participants
@@ -1614,7 +1621,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
             // Only add if slot is empty
             if (!existingSlot) {
-              const score =
+              const _score =
                 recommendation.personalizedScore || recommendation.score;
               await addMealToSlot(
                 dayOfWeek,
@@ -1712,145 +1719,30 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     }
   }, [currentMenu]);
 
-  /**
-   * Save as template
-   * TODO: Implement backend persistence in Phase 4
-   */
-  const saveAsTemplate = useCallback(
-    async (name: string, _description?: string) => {
-      if (!currentMenu) return;
+  const {
+    saveAsTemplate,
+    loadTemplate,
+    isSaving: isTemplateSaving,
+    isLoading: isTemplateLoading,
+    persistenceError,
+  } = useMenuPersistence({
+    currentMenu,
+    groceryList,
+    inventory,
+    weeklyBudget,
+    currentWeekStart,
+    createInitialMenu,
+    setCurrentMenu,
+    setGroceryList,
+    setInventoryRaw,
+    setWeeklyBudgetRaw,
+    persistMenu,
+  });
 
-      try {
-        const response = await fetch("/api/menu-planner/templates", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            name,
-            weekStartDate: currentMenu.weekStartDate,
-            meals: currentMenu.meals,
-            nutritionalTotals: currentMenu.nutritionalTotals,
-            groceryList,
-            inventory,
-            weeklyBudget,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Template save failed with status ${response.status}`);
-        }
-
-        logger.info(`Saved menu as template: ${name}`);
-      } catch (err) {
-        logger.error("Failed to save template:", err);
-        throw err;
-      }
-    },
-    [currentMenu, groceryList, inventory, weeklyBudget],
-  );
-
-  /**
-   * Load template
-   * TODO: Implement backend loading in Phase 4
-   */
-  const loadTemplate = useCallback(
-    async (templateId: string) => {
-      try {
-        const response = await fetch(
-          `/api/menu-planner/templates?id=${encodeURIComponent(templateId)}`,
-          { credentials: "include" },
-        );
-        if (!response.ok) {
-          throw new Error(`Template load failed with status ${response.status}`);
-        }
-        const data = await response.json();
-        const template = data?.template;
-
-        if (!template) {
-          throw new Error("Template not found");
-        }
-
-        // Create new menu from template
-        const newMenu = createInitialMenu(currentWeekStart);
-        newMenu.meals = template.meals.map((m: any, index: number) => ({
-          ...m,
-          id: `${m.dayOfWeek}-${m.mealType}-${Date.now()}-${index}`,
-          planetarySnapshot: newMenu.meals.find(
-            (nm) => nm.dayOfWeek === m.dayOfWeek && nm.mealType === m.mealType,
-          )!.planetarySnapshot,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        }));
-
-        setCurrentMenu(newMenu);
-        setGroceryList(template.groceryList || []);
-        setInventoryRaw(
-          Array.isArray(template.inventory) ? template.inventory : [],
-        );
-        setWeeklyBudgetRaw(
-          typeof template.weeklyBudget === "number"
-            ? template.weeklyBudget
-            : null,
-        );
-        void persistMenu({
-          menu: newMenu,
-          groceryList: template.groceryList || [],
-          inventory: Array.isArray(template.inventory)
-            ? template.inventory
-            : [],
-          weeklyBudget:
-            typeof template.weeklyBudget === "number"
-              ? template.weeklyBudget
-              : null,
-        });
-        logger.info(`Loaded template: ${template.name}`);
-      } catch (err) {
-        logger.error("Failed to load template:", err);
-        throw err;
-      }
-    },
-    [currentWeekStart, persistMenu],
-  );
-
-  /**
-   * Refresh weekly statistics
-   * TODO: Implement full stats calculation in Phase 3
-   */
+  const weeklyStats = useMenuStats(currentMenu);
   const refreshStats = useCallback(() => {
-    if (!currentMenu) return;
-
-    try {
-      const totalMeals = currentMenu.meals.filter((m) => m.recipe).length;
-      const uniqueRecipes = new Set(
-        currentMenu.meals.filter((m) => m.recipe).map((m) => m.recipe!.id),
-      ).size;
-
-      const stats: WeeklyMenuStats = {
-        totalMeals,
-        totalRecipes: uniqueRecipes,
-        averageGregsEnergy: 0, // TODO: Calculate
-        averageMonica: 0, // TODO: Calculate
-        elementalDistribution: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-        cuisineDistribution: {},
-        dietaryCompliance: {
-          vegetarian: false,
-          vegan: false,
-          glutenFree: false,
-          dairyFree: false,
-        },
-        missingMeals: currentMenu.meals
-          .filter((m) => !m.recipe)
-          .map((m) => ({
-            dayOfWeek: m.dayOfWeek,
-            mealType: m.mealType,
-          })),
-      };
-
-      setWeeklyStats(stats);
-    } catch (err) {
-      logger.error("Failed to refresh stats:", err);
-    }
-  }, [currentMenu]);
+    // Stats are now computed eagerly via useMenuStats — this is a no-op for backward compat
+  }, []);
 
   /**
    * Save menu (persistence)
@@ -2190,6 +2082,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       loadTemplate,
       weeklyStats,
       refreshStats,
+      isTemplateSaving,
+      isTemplateLoading,
+      persistenceError,
       calculateMealCircuit: calculateMealCircuitMetrics,
       calculateDayCircuit: calculateDayCircuitMetrics,
       calculateWeeklyCircuit: calculateWeeklyCircuitMetrics,
@@ -2246,6 +2141,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
       loadTemplate,
       weeklyStats,
       refreshStats,
+      isTemplateSaving,
+      isTemplateLoading,
+      persistenceError,
       calculateMealCircuitMetrics,
       calculateDayCircuitMetrics,
       calculateWeeklyCircuitMetrics,

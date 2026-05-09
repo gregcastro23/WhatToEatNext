@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { executeQuery } from "@/lib/database/connection";
 import { auth } from "@/lib/auth/auth";
+import { executeQuery } from "@/lib/database/connection";
 
 export async function POST(request: Request) {
   try {

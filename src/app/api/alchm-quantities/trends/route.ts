@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
 import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
@@ -29,7 +30,12 @@ interface TrendPoint {
   isDiurnal: boolean;
 }
 
-export async function GET() {
+const RATE_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities-trends" };
+
+export async function GET(request: Request) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     logger.info("Alchm Quantities Trends API called");
 

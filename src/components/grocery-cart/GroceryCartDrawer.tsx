@@ -190,32 +190,32 @@ export function GroceryCartDrawer() {
                       </div>
                       <form 
                         className="flex items-center gap-1 pl-2"
-                        onSubmit={async (e) => {
+                        onSubmit={(e) => {
                           e.preventDefault();
                           const form = e.currentTarget;
                           const formData = new FormData(form);
                           const asin = formData.get('asin') as string;
                           if (!asin) return;
-                          
-                          // Optimistic local update — always apply regardless of auth status
                           updateAsin(item.id, asin);
                           form.reset();
-                          try {
-                            const res = await fetch('/api/amazon/feedback', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ ingredientName: item.name, asin })
-                            });
-                            if (res.ok) {
-                              showToast('ASIN mapped and saved to database!', 'success');
-                            } else if (res.status === 401) {
-                              showToast('Mapped locally (sign in to save permanently)', 'success');
-                            } else {
-                              showToast('Mapped locally (database save failed)', 'success');
+                          void (async () => {
+                            try {
+                              const res = await fetch('/api/amazon/feedback', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ ingredientName: item.name, asin })
+                              });
+                              if (res.ok) {
+                                showToast('ASIN mapped and saved to database!', 'success');
+                              } else if (res.status === 401) {
+                                showToast('Mapped locally (sign in to save permanently)', 'success');
+                              } else {
+                                showToast('Mapped locally (database save failed)', 'success');
+                              }
+                            } catch {
+                              showToast('Mapped locally (offline — database save skipped)', 'success');
                             }
-                          } catch {
-                            showToast('Mapped locally (offline — database save skipped)', 'success');
-                          }
+                          })();
                         }}
                       >
                         <input 

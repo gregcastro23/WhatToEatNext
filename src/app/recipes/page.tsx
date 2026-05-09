@@ -165,7 +165,7 @@ function RecipesPageContent() {
             <p className="text-6xl mb-6">🍽️</p>
             <h2 className="text-2xl font-bold text-white mb-3">No Recipes Found</h2>
             <p className="text-gray-400 mb-8 max-w-md mx-auto">
-              We couldn't find any recipes matching your selection. Try a different cuisine or check back later.
+              We couldn&apos;t find any recipes matching your selection. Try a different cuisine or check back later.
             </p>
             <Link
               href="/"

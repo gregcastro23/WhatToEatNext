@@ -402,7 +402,7 @@ export default function CookingMethods() {
 
   useEffect(() => {
     let isMounted = true;
-    getCulturalCookingMethods().then(methods => {
+    void getCulturalCookingMethods().then(methods => {
       if (isMounted) {
         setCulturalMethods(methods);
       }
@@ -484,7 +484,7 @@ export default function CookingMethods() {
       console.error("Error initializing culture map:", error);
       return map;
     }
-  }, []);
+  }, [culturalMethods]);
 
   // Get global astrological adjustment info
   const _globalAstrologicalAdjustment = useMemo(() => {

@@ -11,8 +11,8 @@ import type { UserProfile } from "@/contexts/UserContext";
 import {
   getDatabaseUserFromRequest,
 } from "@/lib/auth/validateRequest";
-import { UserProfileUpdateSchema } from "@/lib/validation/apiSchemas";
 import { _logger } from "@/lib/logger";
+import { UserProfileUpdateSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
