@@ -27,6 +27,71 @@ jest.mock("@/contexts/UserContext", () => ({
   useUser: jest.fn(),
 }));
 
+const waitForDiaryLoadToSettle = async (
+  result: { current: { isLoading: boolean } },
+) => {
+  await waitFor(() => {
+    expect(result.current.isLoading).toBe(false);
+  });
+};
+
+const waitForWeeklySummaryToLoad = async (
+  result: { current: { weeklySummary: unknown } },
+) => {
+  await waitFor(() => {
+    expect(result.current.weeklySummary).not.toBeNull();
+  });
+};
+
+const waitForFoodDiaryMountEffects = async (
+  result: { current: { isLoading: boolean; weeklySummary: unknown } },
+) => {
+  await waitForDiaryLoadToSettle(result);
+  await waitFor(() => {
+    expect(foodDiaryActions.getServerWeeklySummary).toHaveBeenCalled();
+  });
+};
+
+const renderFoodDiaryHook = async () => {
+  const hook = renderHook(() => useFoodDiary());
+  await waitForFoodDiaryMountEffects(hook.result);
+  return hook;
+};
+
+const waitForQuickFoodEntryMountEffects = async (
+  result: { current: { isLoading: boolean } },
+) => {
+  await waitFor(() => {
+    expect(result.current.isLoading).toBe(false);
+  });
+  await waitFor(() => {
+    expect(foodDiaryActions.getServerQuickFoodPresets).toHaveBeenCalled();
+  });
+};
+
+const waitForFoodDiaryInsightsMountEffects = async (
+  result: { current: { isLoading: boolean } },
+) => {
+  await waitFor(() => {
+    expect(result.current.isLoading).toBe(false);
+  });
+  await waitFor(() => {
+    expect(foodDiaryActions.generateServerInsights).toHaveBeenCalled();
+  });
+};
+
+const renderQuickFoodEntryHook = async () => {
+  const hook = renderHook(() => useQuickFoodEntry());
+  await waitForQuickFoodEntryMountEffects(hook.result);
+  return hook;
+};
+
+const renderFoodDiaryInsightsHook = async () => {
+  const hook = renderHook(() => useFoodDiaryInsights());
+  await waitForFoodDiaryInsightsMountEffects(hook.result);
+  return hook;
+};
+
 describe("useFoodDiary hook", () => {
   const mockUserId = "test-user-id";
   const mockEntries = [{ id: "1", foodName: "Apple", calories: 95 }];
@@ -59,13 +124,9 @@ describe("useFoodDiary hook", () => {
 
   describe("Initial Loading", () => {
     it("loads guest data on mount using Server Actions", async () => {
-      const { result } = renderHook(() => useFoodDiary());
+      const { result } = await renderFoodDiaryHook();
 
-      expect(result.current.isLoading).toBe(true);
-
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
+      await waitForWeeklySummaryToLoad(result);
 
       expect(foodDiaryActions.getServerDayEntries).toHaveBeenCalledWith("guest", expect.any(Date));
       expect(result.current.entries).toEqual(mockEntries);
@@ -75,11 +136,9 @@ describe("useFoodDiary hook", () => {
     it("loads authenticated data on mount using fetch API", async () => {
       (useUser as jest.Mock).mockReturnValue({ currentUser: { userId: mockUserId } });
 
-      const { result } = renderHook(() => useFoodDiary());
+      const { result } = await renderFoodDiaryHook();
 
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
+      await waitForWeeklySummaryToLoad(result);
 
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining(`/api/food-diary?userId=${mockUserId}`),
@@ -94,11 +153,9 @@ describe("useFoodDiary hook", () => {
       const errorMessage = "Failed to load";
       (foodDiaryActions.getServerDayEntries as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
-      const { result } = renderHook(() => useFoodDiary());
+      const { result } = await renderFoodDiaryHook();
 
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
+      await waitForDiaryLoadToSettle(result);
 
       expect(result.current.error).toBe(errorMessage);
     });
@@ -118,9 +175,9 @@ describe("useFoodDiary hook", () => {
       const createdEntry = { id: "2", ...newEntryInput };
       (foodDiaryActions.createServerEntry as jest.Mock).mockResolvedValue(createdEntry);
 
-      const { result } = renderHook(() => useFoodDiary());
+      const { result } = await renderFoodDiaryHook();
       
-      await waitFor(() => !result.current.isLoading);
+      await waitForWeeklySummaryToLoad(result);
 
       let returnedEntry;
       await act(async () => {
@@ -145,8 +202,8 @@ describe("useFoodDiary hook", () => {
       const updateInput = { id: "1", quantity: 2 };
       (foodDiaryActions.updateServerEntry as jest.Mock).mockResolvedValue({ ...mockEntries[0], quantity: 2 });
 
-      const { result } = renderHook(() => useFoodDiary());
-      await waitFor(() => !result.current.isLoading);
+      const { result } = await renderFoodDiaryHook();
+      await waitForWeeklySummaryToLoad(result);
 
       await act(async () => {
         await result.current.updateEntry(updateInput);
@@ -158,8 +215,8 @@ describe("useFoodDiary hook", () => {
     it("deletes an entry", async () => {
       (foodDiaryActions.deleteServerEntry as jest.Mock).mockResolvedValue(true);
 
-      const { result } = renderHook(() => useFoodDiary());
-      await waitFor(() => !result.current.isLoading);
+      const { result } = await renderFoodDiaryHook();
+      await waitForWeeklySummaryToLoad(result);
 
       await act(async () => {
         const success = await result.current.deleteEntry("1");
@@ -172,7 +229,8 @@ describe("useFoodDiary hook", () => {
 
   describe("Navigation", () => {
     it("goes to previous day", async () => {
-      const { result } = renderHook(() => useFoodDiary());
+      const { result } = await renderFoodDiaryHook();
+      await waitForWeeklySummaryToLoad(result);
       const initialDate = new Date(result.current.selectedDate);
 
       act(() => {
@@ -186,7 +244,8 @@ describe("useFoodDiary hook", () => {
     });
 
     it("goes to next day", async () => {
-      const { result } = renderHook(() => useFoodDiary());
+      const { result } = await renderFoodDiaryHook();
+      await waitForWeeklySummaryToLoad(result);
       const initialDate = new Date(result.current.selectedDate);
 
       act(() => {
@@ -205,8 +264,8 @@ describe("useFoodDiary hook", () => {
       const mockPreset = { id: "p1", name: "Apple", defaultServing: { amount: 1, unit: "piece", grams: 150 } };
       (foodDiaryActions.getServerQuickFoodPreset as jest.Mock).mockResolvedValue(mockPreset);
 
-      const { result } = renderHook(() => useFoodDiary());
-      await waitFor(() => !result.current.isLoading);
+      const { result } = await renderFoodDiaryHook();
+      await waitForWeeklySummaryToLoad(result);
 
       await act(async () => {
         await result.current.addQuickFood("p1", "snack");
@@ -225,7 +284,8 @@ describe("useFoodDiary hook", () => {
       const searchResults = [{ id: "s1", name: "Apple Green" }];
       (foodDiaryActions.searchServerFoods as jest.Mock).mockResolvedValue(searchResults);
 
-      const { result } = renderHook(() => useFoodDiary());
+      const { result } = await renderFoodDiaryHook();
+      await waitForWeeklySummaryToLoad(result);
       
       let results;
       await act(async () => {
@@ -260,10 +320,13 @@ describe("useFoodDiary hook", () => {
     const presets = [{ id: "p1", name: "Apple" }];
     (foodDiaryActions.getServerQuickFoodPresets as jest.Mock).mockResolvedValue(presets);
 
-    const { result } = renderHook(() => useQuickFoodEntry());
+    const { result } = await renderQuickFoodEntryHook();
 
     await waitFor(() => {
       expect(result.current.presets).toEqual(presets);
+    });
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
     });
   });
 
@@ -274,7 +337,7 @@ describe("useFoodDiary hook", () => {
     ];
     (foodDiaryActions.generateServerInsights as jest.Mock).mockResolvedValue(mockInsights);
 
-    const { result } = renderHook(() => useFoodDiaryInsights());
+    const { result } = await renderFoodDiaryInsightsHook();
 
     // First wait for initial loading to complete
     await waitFor(() => {

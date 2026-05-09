@@ -39,7 +39,7 @@ export class UnifiedRecipeService {
       }
 
       // Load recipes via Server Action to avoid bundling 'pg' and database credentials in client
-      const recipes = (await getServerRecipes()) as unknown as Recipe[];
+      const recipes = await getServerRecipes();
 
       // Cache for future requests
       this.recipesCache = recipes;
@@ -203,7 +203,7 @@ export class UnifiedRecipeService {
         return false;
       });
       logger.info(`getRecipesForCuisine for "${cuisine}" returned ${filtered.length} recipes.`);
-      return filtered as unknown as ExtendedRecipe[];
+      return filtered;
     } catch (error) {
       ErrorHandler.log(error, {
         context: "UnifiedRecipeService.getRecipesForCuisine",
@@ -229,7 +229,7 @@ export class UnifiedRecipeService {
       const allRecipes = await this.getAllRecipes();
       // Simple implementation for now
       const matches = allRecipes.slice(0, 10);
-      return matches as unknown as ExtendedRecipe[];
+      return matches;
     } catch (error) {
       ErrorHandler.log(error, {
         context: "UnifiedRecipeService.getBestRecipeMatches",

@@ -1,20 +1,11 @@
 /**
- * URL Utilities for Hybrid Edge Deployment (Vercel + Cloudflare)
+ * URL Utilities for alchm.kitchen
  */
 
 /**
- * Returns the base URL for Edge-optimized routes.
- * Prioritizes the Cloudflare Worker URL if configured, otherwise falls back to 
- * the standard backend URL or the current domain.
+ * Returns the base URL for API routes.
  */
-export const getEdgeWorkerBaseUrl = (): string => {
-  // Check for the supplemental Cloudflare Worker URL first
-  const workerUrl = process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER_URL;
-  if (workerUrl) {
-    // Remove trailing slash if present
-    return workerUrl.replace(/\/$/, "");
-  }
-
+export const getApiBaseUrl = (): string => {
   if (typeof window === "undefined") {
     // Server-side: use absolute URL from environment variables
     return (
@@ -29,10 +20,10 @@ export const getEdgeWorkerBaseUrl = (): string => {
 };
 
 /**
- * Helper to construct an Edge API URL
+ * Helper to construct an API URL
  */
-export const getEdgeApiUrl = (path: string): string => {
-  const baseUrl = getEdgeWorkerBaseUrl();
+export const getApiUrl = (path: string): string => {
+  const baseUrl = getApiBaseUrl();
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   
   // If we have a baseUrl, use it. If not, return the relative path.

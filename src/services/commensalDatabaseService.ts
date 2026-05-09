@@ -77,7 +77,7 @@ class CommensalDatabaseService {
         };
       });
     } catch (error) {
-      _logger.error("searchUsers failed:", error as any);
+      _logger.error("searchUsers failed:", error);
       return [];
     }
   }
@@ -133,7 +133,7 @@ class CommensalDatabaseService {
         // Fetch with names
         return await this.getCommensalshipById(id);
       } catch (error) {
-        _logger.error("createCommensalRequest failed:", error as any);
+        _logger.error("createCommensalRequest failed:", error);
         return null;
       }
     }
@@ -181,7 +181,7 @@ class CommensalDatabaseService {
 
         return await this.getCommensalshipById(commensalshipId);
       } catch (error) {
-        _logger.error("updateCommensalshipStatus failed:", error as any);
+        _logger.error("updateCommensalshipStatus failed:", error);
         return null;
       }
     }
@@ -212,7 +212,7 @@ class CommensalDatabaseService {
         );
         return (result.rowCount ?? 0) > 0;
       } catch (error) {
-        _logger.error("deleteCommensalship failed:", error as any);
+        _logger.error("deleteCommensalship failed:", error);
         return false;
       }
     }
@@ -246,7 +246,7 @@ class CommensalDatabaseService {
 
         return result.rows.map((r: any) => this.rowToCommensalship(r));
       } catch (error) {
-        _logger.error("getCommensalshipsForUser failed:", error as any);
+        _logger.error("getCommensalshipsForUser failed:", error);
         return [];
       }
     }
@@ -300,10 +300,10 @@ class CommensalDatabaseService {
             birthData: birthData as BirthData,
             commensalshipId: r.commensalship_id,
             syncedAt: r.synced_at?.toISOString?.() ?? new Date().toISOString(),
-          } as LinkedCommensal;
+          };
         });
     } catch (error) {
-      _logger.error("getLinkedCommensalsForUser failed:", error as any);
+      _logger.error("getLinkedCommensalsForUser failed:", error);
       return [];
     }
   }
@@ -333,7 +333,7 @@ class CommensalDatabaseService {
 
         return result.rows.map((r: any) => this.rowToCommensalship(r));
       } catch (error) {
-        _logger.error("getPendingRequestsForUser failed:", error as any);
+        _logger.error("getPendingRequestsForUser failed:", error);
         return [];
       }
     }
@@ -381,7 +381,7 @@ class CommensalDatabaseService {
         );
         return result.rows.map((r: any) => this.rowToSavedChart(r));
       } catch (error) {
-        _logger.error("getSavedChartsForUser failed:", error as any);
+        _logger.error("getSavedChartsForUser failed:", error);
         return [];
       }
     }
@@ -414,7 +414,7 @@ class CommensalDatabaseService {
         );
         return chart;
       } catch (error) {
-        _logger.error("createSavedChart failed:", error as any);
+        _logger.error("createSavedChart failed:", error);
         return null;
       }
     }
@@ -452,7 +452,7 @@ class CommensalDatabaseService {
           createdAt: r.created_at?.toISOString?.() ?? r.created_at,
         }));
       } catch (error) {
-        _logger.error("getManualCompanionsForUser failed:", error as any);
+        _logger.error("getManualCompanionsForUser failed:", error);
         return [];
       }
     }
@@ -487,7 +487,7 @@ class CommensalDatabaseService {
           createdAt: now,
         };
       } catch (error) {
-        _logger.error("createManualCompanion failed:", error as any);
+        _logger.error("createManualCompanion failed:", error);
         return null;
       }
     }
@@ -504,7 +504,7 @@ class CommensalDatabaseService {
         );
         return (result.rowCount ?? 0) > 0;
       } catch (error) {
-        _logger.error("deleteManualCompanion failed:", error as any);
+        _logger.error("deleteManualCompanion failed:", error);
         return false;
       }
     }

@@ -184,7 +184,7 @@ export default function OnboardingWizard() {
       }
 
       // Onboarding successful, redirect to dashboard or home
-      router.push("/dashboard");
+      router.push("/profile");
     } catch (err: any) {
       console.error("Onboarding error:", err);
       setError(

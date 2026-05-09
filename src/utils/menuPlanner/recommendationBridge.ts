@@ -613,7 +613,7 @@ function adaptRecipeToMonicaOptimized(recipe: Recipe): MonicaOptimizedRecipe {
       kalchmNutritionalBalance: 0.5,
       monicaNutritionalHarmony: 0.5,
     },
-  } as MonicaOptimizedRecipe;
+  };
 }
 
 // ===== DIETARY FILTER HELPERS =====
@@ -1133,6 +1133,12 @@ function scoreRecipeForDay(
         gapScore += 0.08;
         gapReasons.push("Good protein content for daily target");
       }
+      
+      // Penalize protein overshoot
+      if (nutritionalContext.remainingProteinG !== undefined && recipeProtein > nutritionalContext.remainingProteinG * 1.25 + 10) {
+        gapScore -= 0.3; // Heavy penalty for exceeding protein limit
+        gapReasons.push("Exceeds remaining daily protein target");
+      }
 
       // Fiber gap filling
       const recipeFiber = nutrition.fiber ?? 0;
@@ -1146,11 +1152,14 @@ function scoreRecipeForDay(
 
       // Calorie alignment (prefer recipes that fit within remaining budget)
       const recipeCals = nutrition.calories ?? 0;
-      if (nutritionalContext.remainingCalories && recipeCals > 0) {
+      if (nutritionalContext.remainingCalories !== undefined && recipeCals > 0) {
         const mealBudget = nutritionalContext.remainingCalories / 3; // split across remaining meals
         if (recipeCals <= mealBudget * 1.15 && recipeCals >= mealBudget * 0.5) {
           gapScore += 0.06;
           gapReasons.push("Calories align with remaining daily budget");
+        } else if (recipeCals > nutritionalContext.remainingCalories + 100) {
+          gapScore -= 0.4; // Heavy penalty for exceeding daily calorie budget
+          gapReasons.push("Exceeds remaining daily calorie budget");
         }
       }
 

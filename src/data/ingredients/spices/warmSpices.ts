@@ -86,7 +86,7 @@ const rawWarmSpices = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const warmSpices: Record<string, IngredientMapping> =
-  fixIngredientMappings(rawWarmSpices as any);
+  fixIngredientMappings(rawWarmSpices);
 
 // Create a collection of all warm spices
 export const _allWarmSpices = Object.values(warmSpices);

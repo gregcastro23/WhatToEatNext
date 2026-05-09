@@ -87,10 +87,10 @@ export function getUserFoodCompatibility(
 ) {
   // Map food elements to zodiac signs for compatibility calculation
   const foodSignMap: Record<string, ZodiacSignType> = {
-    Fire: "aries" as any, // Could also use leo or sagittarius,
-    Water: "cancer" as any, // Could also use scorpio or pisces,
-    Earth: "taurus" as any, // Could also use virgo or capricorn,
-    Air: "gemini" as any, // Could also use libra or aquarius
+    Fire: "aries", // Could also use leo or sagittarius,
+    Water: "cancer", // Could also use scorpio or pisces,
+    Earth: "taurus", // Could also use virgo or capricorn,
+    Air: "gemini", // Could also use libra or aquarius
   };
 
   const foodSign = foodSignMap[foodElement] || ("aries" as any);

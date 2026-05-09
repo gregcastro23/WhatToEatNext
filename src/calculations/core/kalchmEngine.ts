@@ -462,9 +462,9 @@ function getDominantProperty(
   return Object.entries(properties).reduce(
     (max, [key, value]) =>
       value > max.value
-        ? { key: key as keyof AlchemicalProperties, value }
+        ? { key, value }
         : max,
-    { key: "Spirit" as keyof AlchemicalProperties, value: 0 },
+    { key: "Spirit", value: 0 },
   ).key;
 }
 

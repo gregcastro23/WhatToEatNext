@@ -545,9 +545,7 @@ export class UnifiedCuisineIntegrationSystem {
     Record<string, CuisineCompatibilityProfile>
   >;
   constructor() {
-    this.enhancedCookingMethods = {} as {
-      [key: string]: EnhancedCookingMethod;
-    }; // getAllEnhancedCookingMethods() not yet implemented
+    this.enhancedCookingMethods = {}; // getAllEnhancedCookingMethods() not yet implemented
     this.cuisineCompatibilityCache = new Map();
   }
   /**
@@ -667,7 +665,7 @@ export class UnifiedCuisineIntegrationSystem {
     if (!this.cuisineCompatibilityCache.has(cacheKey)) {
       this.cuisineCompatibilityCache.set(
         cacheKey,
-        {} as Record<string, CuisineCompatibilityProfile>,
+        {},
       );
     }
     const cache = this.cuisineCompatibilityCache.get(cacheKey);
@@ -821,7 +819,7 @@ export class UnifiedCuisineIntegrationSystem {
       enhancedCuisineMatrix as Record<string, Record<string, string[]>>,
     )) {
       for (const [ingredient, cuisines] of Object.entries(ingredientMap)) {
-        const list = cuisines as unknown as string[];
+        const list = cuisines;
         if (list.includes(cuisine1) && list.includes(cuisine2)) {
           sharedIngredients.push(ingredient);
         }

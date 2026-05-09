@@ -328,8 +328,8 @@ function createInitialMenu(weekStartDate: Date): WeeklyMenu {
     // Create default planetary snapshot
     const planetarySnapshot: PlanetarySnapshot = {
       dominantPlanet: PLANETARY_DAY_RULERS[dayOfWeek],
-      zodiacSign: "aries" as any, // Will be updated with real data
-      lunarPhase: "waxing crescent" as any,
+      zodiacSign: "aries", // Will be updated with real data
+      lunarPhase: "waxing crescent",
       elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       timestamp: new Date(weekStartDate.getTime() + day * 24 * 60 * 60 * 1000),
     };
@@ -780,7 +780,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             ...prevMenu,
             meals: updatedMeals,
             updatedAt: new Date(),
-          } as any;
+          };
         });
         logger.info(`Removed meal from slot ${mealSlotId}`);
       } catch (err) {
@@ -917,7 +917,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             ...prevMenu,
             meals: updatedMeals,
             updatedAt: new Date(),
-          } as any;
+          };
         });
         logger.info(
           `Moved meal from ${sourceMealSlotId} to ${targetMealSlotId}`,
@@ -1209,7 +1209,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         excludePantryItems: false,
       });
 
-      setCurrentMenu(updatedMenu as any);
+      setCurrentMenu(updatedMenu);
       setGroceryList(newGroceryList);
       logger.info(`Added sauce ${sauceData.name} to meal ${mealSlotId}`);
     },
@@ -1245,7 +1245,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         excludePantryItems: false,
       });
 
-      setCurrentMenu(updatedMenu as any);
+      setCurrentMenu(updatedMenu);
       setGroceryList(newGroceryList);
       logger.info(`Removed sauce from meal ${mealSlotId}`);
     },
@@ -1284,7 +1284,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         excludePantryItems: false,
       });
 
-      setCurrentMenu(updatedMenu as any);
+      setCurrentMenu(updatedMenu);
       setGroceryList(newGroceryList);
       logger.info(`Updated sauce servings to ${servings} for meal ${mealSlotId}`);
     },
@@ -1620,7 +1620,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
                 dayOfWeek,
                 recommendation.mealType,
                 recommendation.recipe,
-                score >= 0.8 ? 2 : 1, // Suggest 2 servings for highly aligned meals
+                1 // Default to 1 serving to avoid massive nutritional target overshoots
               );
               reportQuestEvent("generate_recipe");
             }
@@ -2060,7 +2060,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
             4: metrics.days.thursday,
             5: metrics.days.friday,
             6: metrics.days.saturday,
-          } as any);
+          });
         }
 
         return metrics;

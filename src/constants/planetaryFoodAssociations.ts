@@ -250,7 +250,7 @@ export const _calculatePlanetaryBoost = (
 
       // Add dignity information for dominant planets
       dignities[_planet] = {
-        type: "Neutral" as PlanetaryDignity,
+        type: "Neutral",
         strength: baseBoost,
         favorableZodiacSignTypes: currentZodiac ? [currentZodiac] : [],
       };

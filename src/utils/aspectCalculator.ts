@@ -24,6 +24,39 @@ export interface AspectData {
   influence?: number;
 }
 
+const ASPECT_TYPE_ALIASES: Record<string, AspectType> = {
+  _quincunx: "quincunx",
+  _semisextile: "semi-sextile",
+  _sesquiquadrate: "sesquisquare",
+  _semisquare: "semisquare",
+  _quintile: "quintile",
+  _biquintile: "biquintile",
+};
+
+function normalizeAspectType(type: string): AspectType | null {
+  if (type in ASPECT_TYPE_ALIASES) {
+    return ASPECT_TYPE_ALIASES[type];
+  }
+
+  switch (type) {
+    case "conjunction":
+    case "opposition":
+    case "trine":
+    case "square":
+    case "sextile":
+    case "quincunx":
+    case "inconjunct":
+    case "semi-sextile":
+    case "semisquare":
+    case "sesquisquare":
+    case "quintile":
+    case "biquintile":
+      return type;
+    default:
+      return null;
+  }
+}
+
 /**
  * Calculate aspects between planets based on astrocharts.com data
  * This implements a comprehensive aspect calculation with proper orbs
@@ -143,9 +176,14 @@ export function calculateComprehensiveAspects(
 
       // Add the best aspect if found
       if (bestAspect) {
+        const normalizedType = normalizeAspectType(bestAspect.type);
+        if (!normalizedType) {
+          continue;
+        }
+
         // Determine influence: positive for harmonious aspects, negative for challenging ones
         let influence = 0;
-        const { type } = bestAspect;
+        const type = normalizedType;
         if (type === "conjunction" || type === "trine" || type === "sextile") {
           influence = bestAspect.strength;
         } else if (type === "opposition" || type === "square") {
@@ -155,7 +193,7 @@ export function calculateComprehensiveAspects(
         aspects.push({
           planet1,
           planet2,
-          type: bestAspect.type as AspectType,
+          type: normalizedType,
           orb: bestAspect.orb,
           strength: bestAspect.strength,
           influence,

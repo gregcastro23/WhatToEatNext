@@ -6,7 +6,6 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
-import type { Recipe } from "@/types/recipe";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -57,7 +56,7 @@ export async function POST(request: NextRequest) {
             ...r,
             score: harmony,
             planetaryReason: `Harmonizes perfectly with the Alchemical Midpoint (${compositeChart.dominantElement} dominant).`
-        } as Recipe;
+        };
     });
 
     scoredRecipes.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));

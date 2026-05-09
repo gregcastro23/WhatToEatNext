@@ -339,5 +339,6 @@ export interface IngredientMapping {
   regionalPreparations?: Record<string, unknown>;
   preparation?: Record<string, unknown>;
   storage?: Record<string, unknown>;
+  amazonAsin?: string;
   [key: string]: unknown;
 }

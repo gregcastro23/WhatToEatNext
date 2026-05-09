@@ -4,7 +4,6 @@ import type {
   CuisineType,
   ElementalProperties,
 } from "@/types/alchemy";
-import type { NutritionalSummaryBase } from "@/types/nutrition";
 import type { Recipe } from "@/types/recipe";
 import { african } from "./cuisines/african";
 import { american } from "./cuisines/american";
@@ -44,7 +43,7 @@ const _: Recipe = {
     protein: 0,
     carbs: 0,
     fat: 0,
-  } as NutritionalSummaryBase,
+  },
   season: ["all"],
   mealType: ["any"],
 };

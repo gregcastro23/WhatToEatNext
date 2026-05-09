@@ -126,7 +126,7 @@ interface AstrologicalProperties {
 const getSeasonalElementalInfluenceInternal = (
   season: Season,
 ): ElementalProperties =>
-  (SEASONAL_ELEMENTS[season] as ElementalProperties) ||
+  (SEASONAL_ELEMENTS[season]) ||
   getDefaultElementalProps();
 
 const _getRating = (score: number): SeasonalEffectiveness["rating"] => {
@@ -299,7 +299,7 @@ const _calculateLunarPhaseAlignment = (
   let alignmentScore = 0;
 
   // Elemental affinity with lunar phase
-  const lunarKey = lunarPhase as LunarPhaseWithSpaces;
+  const lunarKey = lunarPhase;
   const phaseMap = LUNAR_PHASE_ELEMENTS[lunarKey];
   if (recipe.elementalProperties && phaseMap) {
     let phaseAlignmentScore = 0;
@@ -453,7 +453,7 @@ function _calculateSeasonalScores(
 
   // Lunar phase influence (10% of total)
   if (lunarPhase) {
-    const lunarKey = lunarPhase as LunarPhaseWithSpaces;
+    const lunarKey = lunarPhase;
     const lunarElements = LUNAR_PHASE_ELEMENTS[lunarKey];
     SEASONS.forEach((season) => {
       const seasonElements = SEASONAL_ELEMENTS[season];
@@ -562,7 +562,7 @@ export function calculateLunarPhaseCompatibility(
 
   // Elemental alignment
   let elementalAlignment = 0;
-  const lunarKey = lunarPhase as LunarPhaseWithSpaces;
+  const lunarKey = lunarPhase;
   if (recipe.elementalProperties && LUNAR_PHASE_ELEMENTS[lunarKey]) {
     (
       Object.entries(recipe.elementalProperties) as Array<[Element, number]>

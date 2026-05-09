@@ -53,7 +53,7 @@ Migration Summary:
 - Failed: {self.failed}
 - Skipped: {self.skipped}
 - Duration: {self.duration:.2f}s
-- Success Rate: {(self.successful / self.total_processed * 100):.1f}% if self.total_processed > 0 else 0
+- Success Rate: {(self.successful / self.total_processed * 100) if self.total_processed > 0 else 0:.1f}%
 """
 
 class DataMigrationError(Exception):
@@ -86,7 +86,7 @@ class DataMigrator:
         self.log("Starting ingredient migration...")
 
         # Use sample data for now
-        sample_data_path = backend_dir / "data" / "sample" / "ingredients.json"
+        sample_data_path = backend_dir / "alchm_kitchen" / "data" / "json" / "ingredients.json"
 
         if not sample_data_path.exists():
             self.log("Sample ingredient data not found. Run create_sample_data.py first.", "ERROR")
@@ -98,8 +98,16 @@ class DataMigrator:
 
             with get_db_session() as session:
                 # Process and insert ingredients
-                for ingredient_info in ingredients_data:
+                items = ingredients_data.values() if isinstance(ingredients_data, dict) else ingredients_data
+                for i, ingredient_info in enumerate(items):
                     self._migrate_single_ingredient(session, ingredient_info)
+                    
+                    # Batch commit every 50 ingredients
+                    if i % 50 == 0 and not self.dry_run:
+                        session.commit()
+
+                if not self.dry_run:
+                    session.commit()
 
         except Exception as e:
             self.errors.append(f"Failed to migrate ingredients: {e}")
@@ -149,9 +157,7 @@ class DataMigrator:
             if 'astrological_profile' in data:
                 self._migrate_planetary_influences(session, 'ingredient', str(ingredient.id), data['astrological_profile'])
 
-            if not self.dry_run:
-                session.commit()
-
+            # Success, but we don't commit here anymore, it's done in batches in migrate_ingredients
             self.stats.successful += 1
 
         except Exception as e:
@@ -188,7 +194,7 @@ class DataMigrator:
                     entity_id=entity_id,
                     planet=planet,
                     influence_strength=0.8,  # Default high influence
-                    is_primary=(planet == ruling_planets[0])
+                    is_primary=(len(ruling_planets) > 0 and planet == ruling_planets[0])
                 )
                 if not self.dry_run:
                     session.add(influence)
@@ -201,7 +207,7 @@ class DataMigrator:
         self.log("Starting recipe migration...")
 
         # Use sample data for now
-        sample_data_path = backend_dir / "data" / "sample" / "recipes.json"
+        sample_data_path = backend_dir / "alchm_kitchen" / "data" / "json" / "recipes.json"
 
         if not sample_data_path.exists():
             self.log("Sample recipe data not found. Run create_sample_data.py first.", "ERROR")
@@ -213,8 +219,16 @@ class DataMigrator:
 
             with get_db_session() as session:
                 # Process and insert recipes
-                for recipe_data in recipes_data:
+                items = recipes_data.values() if isinstance(recipes_data, dict) else recipes_data
+                for i, recipe_data in enumerate(items):
                     self._migrate_single_recipe(session, recipe_data)
+                    
+                    # Batch commit every 20 recipes (nested objects make it heavier)
+                    if i % 20 == 0 and not self.dry_run:
+                        session.commit()
+
+                if not self.dry_run:
+                    session.commit()
 
         except Exception as e:
             self.errors.append(f"Failed to migrate recipes: {e}")
@@ -233,17 +247,56 @@ class DataMigrator:
                 return
 
             # Create recipe record
+            cuisine_raw = data.get('cuisine', 'General')
+            # Map lowercase to Enum values
+            cuisine_map = {
+                'african': 'African',
+                'american': 'American',
+                'chinese': 'Chinese',
+                'french': 'French',
+                'greek': 'Greek',
+                'indian': 'Indian',
+                'italian': 'Italian',
+                'japanese': 'Japanese',
+                'korean': 'Korean',
+                'mexican': 'Mexican',
+                'middle-eastern': 'Middle Eastern',
+                'middle eastern': 'Middle Eastern',
+                'russian': 'Russian',
+                'thai': 'Thai',
+                'vietnamese': 'Vietnamese'
+            }
+            cuisine = cuisine_map.get(cuisine_raw.lower(), cuisine_raw.title())
+
+            # Map dietary tags to Enum values
+            dietary_raw = data.get('dietary_tags', [])
+            dietary_map = {
+                'vegetarian': 'Vegetarian',
+                'vegan': 'Vegan',
+                'glutenfree': 'Gluten Free',
+                'dairyfree': 'Dairy Free',
+                'dairy-free': 'Dairy Free',
+                'gluten-free': 'Gluten Free',
+                'lowcarb': 'Low Carb',
+                'low-carb': 'Low Carb',
+                'paleo': 'Paleo',
+                'keto': 'Keto',
+                'halal': 'Halal',
+                'kosher': 'Kosher'
+            }
+            dietary_tags = [dietary_map.get(t.lower(), t.title()) for t in dietary_raw]
+
             recipe = Recipe(
                 name=name,
                 description=data.get('description'),
-                cuisine=data.get('cuisine', 'General'),
+                cuisine=cuisine,
                 category=data.get('category', 'main'),
                 instructions=data.get('instructions', {}),
                 prep_time_minutes=data.get('prep_time_minutes', 30),
                 cook_time_minutes=data.get('cook_time_minutes', 30),
                 servings=data.get('servings', 4),
                 difficulty_level=data.get('difficulty_level', 2),
-                dietary_tags=data.get('dietary_tags', []),
+                dietary_tags=dietary_tags,
                 allergens=data.get('allergens', []),
                 is_public=data.get('is_public', True),
                 is_verified=data.get('is_verified', False)
@@ -261,9 +314,42 @@ class DataMigrator:
             if any(key in data for key in ['lunar', 'seasonal', 'time_of_day']):
                 self._migrate_recipe_contexts(session, str(recipe.id), data)
 
+            # Build and store read_model (Denormalized)
             if not self.dry_run:
-                session.commit()
+                # Refresh to get nested data if needed, though session is local
+                read_model = {
+                    "id": str(recipe.id),
+                    "name": recipe.name,
+                    "description": recipe.description,
+                    "cuisine": recipe.cuisine,
+                    "category": recipe.category,
+                    "instructions": recipe.instructions,
+                    "prep_time_minutes": recipe.prep_time_minutes,
+                    "cook_time_minutes": recipe.cook_time_minutes,
+                    "servings": recipe.servings,
+                    "dietary_tags": recipe.dietary_tags,
+                    "allergens": recipe.allergens,
+                    "nutritional_profile": recipe.nutritional_profile,
+                    "ingredients": [
+                        {
+                            "name": ing.get("name"),
+                            "amount": ing.get("amount", ing.get("quantity")),
+                            "unit": ing.get("unit"),
+                            "notes": ing.get("notes", ing.get("preparation")),
+                            "optional": ing.get("optional", False)
+                        } for ing in data.get("ingredients", [])
+                    ],
+                    "contexts": [
+                        {
+                            "lunar": ctx.recommended_moon_phases,
+                            "seasonal": ctx.recommended_seasons,
+                            "timeOfDay": ctx.time_of_day
+                        } for ctx in recipe.contexts
+                    ]
+                }
+                recipe.read_model = read_model
 
+            # Success, but we don't commit here anymore, it's done in batches in migrate_recipes
             self.stats.successful += 1
 
         except Exception as e:

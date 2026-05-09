@@ -525,16 +525,31 @@ export class PlanetaryScoringService {
 
   private extractPositions(data: any): PlanetaryPosition[] {
     const positions: PlanetaryPosition[] = [];
+    
+    // The API response structure: { success: true, _celestialBodies: { all: [...], sun: {...}, ... } }
+    // Fallback/Legacy structure might be: { planetaryPositions: { ... } } or just { Sun: { ... } }
     const planetaryData =
-      data?.planetaryPositions ?? data?.positions ?? data ?? {};
+      data?._celestialBodies ??
+      data?.planetaryPositions ??
+      data?.positions ??
+      data ?? {};
 
     for (const planet of SCORING_PLANETS) {
-      const pos = planetaryData[planet];
+      // Try capitalized (fallback) and lowercase (API)
+      const pos = planetaryData[planet] ?? planetaryData[planet.toLowerCase()];
       if (pos) {
+        // Extract properties carefully as structure varies between astronomy-engine and backend
+        const ecliptic = pos.ChartPosition?.Ecliptic ?? pos;
+        const arcDegrees = ecliptic.ArcDegrees ?? pos;
+        
         positions.push({
-          ...pos,
           planet,
-        });
+          sign: pos.Sign?.key ?? pos.sign ?? "aries",
+          degree: arcDegrees.degrees ?? pos.degree ?? 0,
+          minute: arcDegrees.minutes ?? pos.minute ?? 0,
+          exactLongitude: ecliptic.DecimalDegrees ?? pos.exactLongitude ?? 0,
+          isRetrograde: pos.isRetrograde ?? false,
+        } as any);
       }
     }
     return positions;

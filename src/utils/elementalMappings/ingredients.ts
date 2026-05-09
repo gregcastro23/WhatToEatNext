@@ -16,7 +16,7 @@ function createIngredientMapping(
       Air: 0.25,
     },
     ...properties,
-  } as IngredientMapping;
+  };
 }
 
 export const ingredientMappings = {

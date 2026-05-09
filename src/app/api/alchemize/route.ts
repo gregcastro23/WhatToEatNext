@@ -54,6 +54,10 @@ export async function GET(request: Request) {
     const modalityCounts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
 
     for (const [planet, pos] of Object.entries(raw)) {
+      if (planet === "NorthNode" || planet === "SouthNode") {
+        continue;
+      }
+
       const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
       signMap[planet] = sign;
 

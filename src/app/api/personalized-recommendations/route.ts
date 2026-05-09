@@ -4,12 +4,10 @@
  *
  * Computes alchemical chart comparison and cuisine recommendations
  * from the user's natal chart vs. current planetary positions.
- * Previously a Cloudflare proxy stub — now a real implementation.
  */
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import type { Planet, ZodiacSignType } from "@/types/celestial";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
@@ -112,8 +110,8 @@ export async function POST(request: NextRequest) {
       const natalDiurnal = natalChart?.birthData?.dateTime ? isSectDiurnal(new Date(natalChart.birthData.dateTime)) : true;
       const currentDiurnal = isSectDiurnal(new Date());
 
-      const natalAlch = calculateEnhancedAlchemicalFromPlanets(natalPositions as Record<Planet, ZodiacSignType>, natalDiurnal);
-      const currentAlch = calculateEnhancedAlchemicalFromPlanets(currentPositions as Record<Planet, ZodiacSignType>, currentDiurnal);
+      const natalAlch = calculateEnhancedAlchemicalFromPlanets(natalPositions, natalDiurnal);
+      const currentAlch = calculateEnhancedAlchemicalFromPlanets(currentPositions, currentDiurnal);
 
       const natalTotal = Object.values(natalAlch).reduce((a, b) => a + Number(b), 0) || 1;
       const currentTotal = Object.values(currentAlch).reduce((a, b) => a + Number(b), 0) || 1;

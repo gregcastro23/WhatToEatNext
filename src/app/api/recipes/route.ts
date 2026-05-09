@@ -8,9 +8,25 @@ import type { Recipe } from "@/types/recipe";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+const HONO_API_URL = process.env.HONO_API_URL;
+
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
+
+    // Proxy to Hono if configured
+    if (HONO_API_URL) {
+      try {
+        const honoResponse = await fetch(`${HONO_API_URL}/api/recipes${url.search}`);
+        if (honoResponse.ok) {
+          const data = await honoResponse.json();
+          return NextResponse.json(data);
+        }
+      } catch (err) {
+        console.error("Hono Gateway proxy failed:", err);
+      }
+    }
+
     const element = url.searchParams.get("element");
     const cuisine = url.searchParams.get("cuisine");
     const search = url.searchParams.get("q") || url.searchParams.get("search");
@@ -78,6 +94,24 @@ export async function POST(request: Request) {
   // Allow POST with body params as an alternative to GET query params
   try {
     const body = await request.json().catch(() => ({}));
+
+    // Proxy to Hono if configured
+    if (HONO_API_URL) {
+      try {
+        const honoResponse = await fetch(`${HONO_API_URL}/api/recipes`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        if (honoResponse.ok) {
+          const data = await honoResponse.json();
+          return NextResponse.json(data);
+        }
+      } catch (err) {
+        console.error("Hono Gateway proxy failed:", err);
+      }
+    }
+
     const { element, cuisine, search, limit = 20, offset = 0 } = body;
     const params = new URLSearchParams();
     if (element) params.set("element", element);

@@ -147,7 +147,7 @@ export function calculateCompositeNatalChart(
     memberCount,
     dominantElement,
     dominantModality,
-  } as any);
+  });
 
   return compositeChart;
 }

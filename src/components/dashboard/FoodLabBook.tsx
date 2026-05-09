@@ -532,7 +532,7 @@ function NewEntryForm({
     rating: 0,
     tags: '',
     isPublic: false,
-    elementalTags: {} as Record<string, number>,
+    elementalTags: {},
   });
 
   const [photos, setPhotos] = useState<LabPhoto[]>([]);

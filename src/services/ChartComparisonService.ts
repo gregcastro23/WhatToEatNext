@@ -131,11 +131,11 @@ export async function calculateMomentChart(
     _logger.info("Moment chart calculated successfully", {
       dateTime: momentChart.dateTime,
       dominantElement: momentChart.dominantElement,
-    } as any);
+    });
 
     return momentChart;
   } catch (error) {
-    _logger.error("Failed to calculate moment chart", error as any);
+    _logger.error("Failed to calculate moment chart", error);
     throw error;
   }
 }
@@ -514,7 +514,7 @@ export async function compareCharts(
     elementalHarmony,
     alchemicalAlignment,
     planetaryResonance,
-  } as any);
+  });
 
   return comparison;
 }

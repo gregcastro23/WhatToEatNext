@@ -162,7 +162,7 @@ export class RecommendationAdapter {
         positions,
         isDaytime,
         currentZodiac,
-        lunarPhaseFormatted as LunarPhaseWithSpaces,
+        lunarPhaseFormatted,
       );
       logger.info("Initialized adapter with current planetary positions");
     } catch (error) {
@@ -694,7 +694,7 @@ export class RecommendationAdapter {
     Object.entries(properties).forEach(([property, value]) => {
       if (value > maxValue) {
         maxValue = value;
-        dominant = property as AlchemicalProperty;
+        dominant = property;
       }
     });
     return dominant;

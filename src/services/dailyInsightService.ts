@@ -90,7 +90,7 @@ export async function generateDailyInsightNotification(
     // Rate limit: one daily insight per user per day
     const alreadyGenerated = await notificationDatabase.hasDailyInsightToday(userId);
     if (alreadyGenerated) {
-      _logger.info("Daily insight already generated today", { userId } as any);
+      _logger.info("Daily insight already generated today", { userId });
       return null;
     }
 
@@ -107,11 +107,11 @@ export async function generateDailyInsightNotification(
     _logger.info("Daily insight generated", {
       userId,
       harmony: metadata.overallHarmony,
-    } as any);
+    });
 
     return notification;
   } catch (error) {
-    _logger.error("Failed to generate daily insight", error as any);
+    _logger.error("Failed to generate daily insight", error);
     return null;
   }
 }

@@ -14,12 +14,19 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+function unauthorizedResponse() {
+  return NextResponse.json(
+    { success: false, message: "Authentication required" },
+    { status: 401 },
+  );
+}
+
 /** GET /api/user/dining-groups */
 export async function GET(request: NextRequest) {
   const user = await getDatabaseUserFromRequest(request);
   if (!user) {
     _logger.warn("[GET /api/user/dining-groups] User not found or not authenticated");
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+    return unauthorizedResponse();
   }
 
   return NextResponse.json({
@@ -33,7 +40,7 @@ export async function POST(request: NextRequest) {
   const user = await getDatabaseUserFromRequest(request);
   if (!user) {
     _logger.warn("[POST /api/user/dining-groups] User not found or not authenticated");
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+    return unauthorizedResponse();
   }
 
   let body: Record<string, unknown>;
@@ -78,7 +85,7 @@ export async function POST(request: NextRequest) {
     await userDatabase.updateUserProfile(user.id, { diningGroups: [...existing, newGroup] });
     return NextResponse.json({ success: true, diningGroup: newGroup }, { status: 201 });
   } catch (error) {
-    _logger.error("[POST /api/user/dining-groups] Failed to update profile", error as any);
+    _logger.error("[POST /api/user/dining-groups] Failed to update profile", error);
     return NextResponse.json({ success: false, message: "Failed to create dining group" }, { status: 500 });
   }
 }

@@ -312,7 +312,7 @@ export const _transformItemsWithPlanetaryPositions = (
       reactivity: 0.5,
       gregsEnergy: 0.5,
       dominantElement: getDominantElement(item.elementalProperties),
-      dominantAlchemicalProperty: "Essence" as AlchemicalProperty,
+      dominantAlchemicalProperty: "Essence",
       planetaryBoost: 1.0,
       dominantPlanets: [],
       planetaryDignities: {},

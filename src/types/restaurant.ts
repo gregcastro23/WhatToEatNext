@@ -39,6 +39,7 @@ export interface SavedRestaurant {
   source?: 'manual' | 'foursquare' | 'yelp';
   externalId?: string;
   address?: string;
+  url?: string;
 }
 
 export interface FoursquarePlace {
@@ -53,4 +54,5 @@ export interface FoursquarePlace {
   categories: Array<{ name: string; icon?: { prefix: string; suffix: string } }>;
   rating?: number;
   distance?: number;
+  link?: string;
 }

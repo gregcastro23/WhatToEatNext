@@ -146,7 +146,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    _logger.error("[Debug Natal Chart] Error:", error as any);
+    _logger.error("[Debug Natal Chart] Error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to inspect natal chart data", error: String(error) },
       { status: 500 }

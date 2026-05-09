@@ -143,7 +143,7 @@ class BuildPerformanceMonitor {
         encoding: "utf8",
         stdio: "pipe",
         timeout: 120000, // 2 minute timeout
-      }) as unknown as string;
+      });
 
       const compilationTime = performance.now() - startTime;
 
@@ -270,7 +270,7 @@ class BuildPerformanceMonitor {
           stdio: "pipe",
           timeout: 120000,
         },
-      ) as unknown as string;
+      );
 
       const bottlenecks: CompilationBottleneck[] = [];
       const lines = result.split("\n");
@@ -548,7 +548,7 @@ class BuildPerformanceMonitor {
     if (!result) return 0;
     if (
       typeof result === "object" &&
-      Object.keys(result as Record<string, unknown>).length > 0
+      Object.keys(result).length > 0
     )
       return 1.0;
     if (typeof result === "number" && !isNaN(result)) return 1.0;

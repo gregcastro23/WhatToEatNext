@@ -804,7 +804,7 @@ export async function getIngredientRecommendations(
           culturalScore,
           kineticScore,
           totalScore,
-        } as IngredientRecommendation;
+        };
       } catch (error) {
         _logger.error(
           `Error calculating scores for ingredient: ${ingredient.name}`,
@@ -823,7 +823,7 @@ export async function getIngredientRecommendations(
           culturalScore: 0.5,
           kineticScore: 0.5,
           totalScore: 0.5,
-        } as IngredientRecommendation;
+        };
       }
     }),
   );
@@ -852,7 +852,7 @@ export const _getTopIngredientMatches = async (
 ): Promise<EnhancedIngredient[]> => {
   const allIngredients = await getAllIngredients();
   // Score ingredients based on astrological state
-  const scoredIngredients = allIngredients.map((ingredient) => {
+  const scoredIngredients = allIngredients.map((ingredient): EnhancedIngredient => {
     let score = 0.5; // Base score
 
     // Elemental compatibility
@@ -891,7 +891,7 @@ export const _getTopIngredientMatches = async (
       // Add required fields to make it an EnhancedIngredient
       amount: 0,
       unit: "",
-      element: "Fire" as Element,
+      element: "Fire",
       elementalProperties:
         ingredient.elementalProperties ||
         createElementalProperties({
@@ -900,7 +900,7 @@ export const _getTopIngredientMatches = async (
           Earth: 0,
           Air: 0,
         }),
-    } as EnhancedIngredient;
+    };
   });
 
   // Sort by score and return top matches

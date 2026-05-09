@@ -35,7 +35,7 @@ const QUEST_ACTIONS: Record<string, { label: string; href?: string }> = {
   'substance-add-favorite-restaurant': { label: 'Restaurants', href: '/restaurants' },
   'substance-add-restaurant-dish': { label: 'Restaurants', href: '/restaurants' },
   'substance-complete-nutritional-plan': { label: 'Nutrition', href: '/profile?tab=nutrition' },
-  'matter-instacart-order': { label: 'Shop Instacart', href: '/pantry' },
+  'matter-instacart-order': { label: 'Shop Amazon', href: '/pantry' },
   'matter-add-pantry-items': { label: 'My Pantry', href: '/pantry' },
   'matter-use-posso': { label: 'Ask Posso', href: '/posso' },
   'matter-send-commensal': { label: 'Social', href: '/commensal' },

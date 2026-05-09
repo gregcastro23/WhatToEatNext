@@ -324,7 +324,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
         month < endMonth ||
         (month === endMonth && day <= endDay)
       ) {
-        return season as Season;
+        return season;
       }
     } else {
       // Handle other seasons

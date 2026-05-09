@@ -14,6 +14,13 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+function unauthorizedResponse() {
+  return NextResponse.json(
+    { success: false, message: "Authentication required" },
+    { status: 401 },
+  );
+}
+
 /** PUT /api/user/commensals/[commensalId] */
 export async function PUT(
   request: NextRequest,
@@ -23,7 +30,7 @@ export async function PUT(
   const user = await getDatabaseUserFromRequest(request);
   if (!user) {
     _logger.warn(`[PUT /api/user/commensals/${commensalId}] User not found or not authenticated`);
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+    return unauthorizedResponse();
   }
 
   // 1. Try legacy JSONB first
@@ -65,7 +72,7 @@ export async function PUT(
     await userDatabase.updateUserProfile(user.id, { groupMembers: members });
     return NextResponse.json({ success: true, commensal: updated });
   } catch (error) {
-    _logger.error(`[PUT /api/user/commensals/${commensalId}] Failed to update profile`, error as any);
+    _logger.error(`[PUT /api/user/commensals/${commensalId}] Failed to update profile`, error);
     return NextResponse.json({ success: false, message: "Failed to update companion" }, { status: 500 });
   }
 }
@@ -79,7 +86,7 @@ export async function DELETE(
   const user = await getDatabaseUserFromRequest(request);
   if (!user) {
     _logger.warn(`[DELETE /api/user/commensals/${commensalId}] User not found or not authenticated`);
-    return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+    return unauthorizedResponse();
   }
 
   const members = user.profile.groupMembers || [];
@@ -106,7 +113,7 @@ export async function DELETE(
     await userDatabase.updateUserProfile(user.id, { groupMembers: filtered, diningGroups: groups });
     return NextResponse.json({ success: true });
   } catch (error) {
-    _logger.error(`[DELETE /api/user/commensals/${commensalId}] Failed to update profile`, error as any);
+    _logger.error(`[DELETE /api/user/commensals/${commensalId}] Failed to update profile`, error);
     return NextResponse.json({ success: false, message: "Failed to remove companion" }, { status: 500 });
   }
 }

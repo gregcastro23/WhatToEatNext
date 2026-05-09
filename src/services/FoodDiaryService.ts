@@ -2606,7 +2606,7 @@ class FoodDiaryService {
       } catch (error) {
         _logger.error(
           "PostgreSQL entry creation failed, using in-memory:",
-          error as any,
+          error,
         );
       }
     }
@@ -2652,7 +2652,7 @@ class FoodDiaryService {
         await reportQuestEventBestEffort(userId, `log_streak_${stats.trackingStreak}_days`);
       }
     } catch (err) {
-      _logger.warn("Post-creation rewards/quests failed", err as any);
+      _logger.warn("Post-creation rewards/quests failed", err);
     }
 
     return entry;
@@ -2676,7 +2676,7 @@ class FoodDiaryService {
           return this.rowToFoodDiaryEntry(result.rows[0]);
         }
       } catch (error) {
-        _logger.warn("PostgreSQL query failed, using in-memory:", error as any);
+        _logger.warn("PostgreSQL query failed, using in-memory:", error);
       }
     }
 
@@ -2833,7 +2833,7 @@ class FoodDiaryService {
           ],
         );
       } catch (error) {
-        _logger.warn("PostgreSQL updateEntry failed:", error as any);
+        _logger.warn("PostgreSQL updateEntry failed:", error);
       }
     }
 
@@ -2864,7 +2864,7 @@ class FoodDiaryService {
           [entryId, userId],
         );
       } catch (error) {
-        _logger.warn("PostgreSQL deleteEntry failed:", error as any);
+        _logger.warn("PostgreSQL deleteEntry failed:", error);
       }
     }
 
@@ -2941,7 +2941,7 @@ class FoodDiaryService {
         const result = await db.executeQuery(query, params);
         return result.rows.map((row: any) => this.rowToFoodDiaryEntry(row));
       } catch (error) {
-        _logger.warn("PostgreSQL query failed, using in-memory:", error as any);
+        _logger.warn("PostgreSQL query failed, using in-memory:", error);
       }
     }
 
@@ -3111,7 +3111,7 @@ class FoodDiaryService {
 
       return result.rows.map((row: any) => this.mapIngredientRowToQuickFoodPreset(row));
     } catch (error) {
-      _logger.warn("Database quick food lookup failed, using fallback presets", error as any);
+      _logger.warn("Database quick food lookup failed, using fallback presets", error);
       return [];
     }
   }
@@ -3139,7 +3139,7 @@ class FoodDiaryService {
 
       return this.mapIngredientRowToQuickFoodPreset(result.rows[0]);
     } catch (error) {
-      _logger.warn("Database quick food preset lookup failed", error as any);
+      _logger.warn("Database quick food preset lookup failed", error);
       return undefined;
     }
   }
@@ -3335,7 +3335,7 @@ class FoodDiaryService {
           [userId, removed.foodName],
         );
       } catch (error) {
-        _logger.warn("removeFavorite DB sync failed", error as any);
+        _logger.warn("removeFavorite DB sync failed", error);
       }
     }
 

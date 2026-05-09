@@ -1,5 +1,5 @@
 import cuisinesMap from "@/data/cuisines/index";
-import type { Recipe, ElementalProperties } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 
 // Primary cuisines to use for recipe extraction (14 cuisines, avoids duplicates)
 // We use the capitalized keys from the cuisines map to avoid counting aliases
@@ -243,7 +243,7 @@ function standardizeRecipe(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25,
-    } as ElementalProperties;
+    };
   } else {
     // Normalize existing elemental properties
     const props = standardized.elementalProperties as Record<string, number>;
@@ -263,7 +263,7 @@ function standardizeRecipe(
       }
     }
 
-    standardized.elementalProperties = props as unknown as ElementalProperties;
+    standardized.elementalProperties = props;
   }
 
   // 6. Ensure servingSize is a number
@@ -417,10 +417,10 @@ export const flattenCuisineRecipes = (cuisinesData: Record<string, any>): Recipe
                       } else {
                         // Same enhanced status — keep the more complete version
                         const existingFields = countPopulatedFields(
-                          existingEntry as unknown as Record<string, unknown>,
+                          existingEntry,
                         );
                         const newFields = countPopulatedFields(
-                          standardizedRecipe as unknown as Record<string, unknown>,
+                          standardizedRecipe,
                         );
                         if (newFields > existingFields) {
                           recipeMap.set(normalizedKey, standardizedRecipe);

@@ -71,7 +71,7 @@ async function fetchFromBackend(params: { zodiacSign?: string; season?: string; 
         "Content-Type": "application/json",
         ...(INTERNAL_SECRET ? { "X-Internal-Secret": INTERNAL_SECRET } : {}),
       },
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(30000),
     });
 
     if (!response.ok) {
@@ -144,6 +144,7 @@ async function handleRequest(request: Request) {
         elementDistribution: backendData.elementDistribution,
         cuisines:           backendData.cuisines,
         topCuisines:        backendData.topCuisines,
+        cuisineRecommendations: backendData.cuisine_recommendations,
         recipeCounts,
         calculatedAt: new Date().toISOString(),
       });

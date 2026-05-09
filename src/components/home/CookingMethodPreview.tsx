@@ -253,12 +253,7 @@ export default function CookingMethodPreview() {
   // Get current elemental properties from alchemical context
   const currentElementals = useMemo(() => {
     if (contextElementalState) {
-      return contextElementalState as {
-        Fire: number;
-        Water: number;
-        Earth: number;
-        Air: number;
-      };
+      return contextElementalState;
     }
     // Default balanced elementals
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

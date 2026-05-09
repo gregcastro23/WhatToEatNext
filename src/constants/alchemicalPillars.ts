@@ -445,7 +445,7 @@ export function getCookingMethodAlchemicalEffect(
   const pillar = getCookingMethodPillar(cookingMethod);
   if (!pillar) return null;
 
-  return pillar.effects as Record<AlchemicalProperty, number>;
+  return pillar.effects;
 }
 
 /**

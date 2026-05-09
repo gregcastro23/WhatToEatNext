@@ -412,10 +412,12 @@ export const ELEMENTAL_CHARACTERISTICS = {
  * Get the dominant element from elemental properties
  */
 export function getDominantElement(properties: ElementalProperties): Element {
-  return Object.entries(properties).reduce(
-    (max, [element, value]) =>
-      value > max.value ? { element: element as Element, value } : max,
-    { element: "Fire" as Element, value: 0 },
+  return ELEMENTS.reduce<{ element: Element; value: number }>(
+    (max, element) => {
+      const value = properties[element];
+      return value > max.value ? { element, value } : max;
+    },
+    { element: "Fire", value: 0 },
   ).element;
 }
 

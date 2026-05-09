@@ -480,7 +480,7 @@ export const _calculatePlanetaryFlavorMatch = (
         const planetaryEmphasis = planetaryFlavorProfiles[planet]
           .flavorProfiles[
           flavor as keyof (typeof planetaryFlavorProfiles)[typeof planet]["flavorProfiles"]
-        ] as unknown as number;
+        ];
         if (planetaryEmphasis && planetaryEmphasis > 0.6) {
           weight += strength * 0.5; // Add bonus based on planet strength
         }

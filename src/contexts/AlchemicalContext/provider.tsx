@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useReducer, useState } from "react";
+import { fetchWithRetry } from "@/utils/apiUtils";
 import { defaultState, _AlchemicalContext } from "./context";
 import type {
   // AlchemicalAction,
@@ -15,15 +16,16 @@ import type { ReactNode } from "react";
  * planetary calculations, and elemental harmony tracking.
  */
 type AlchemicalAction = any; // Type not exported
+const isTestEnvironment = process.env.NODE_ENV === "test";
 // Structured logger for browser console visibility
 const logger = {
   debug: (message: string, ...args: any[]) => {
-    if (typeof window !== "undefined") {
+    if (!isTestEnvironment && typeof window !== "undefined") {
       console.log(`%c[AlchemicalProvider] ${message}`, "color: #9c27b0", ...args);
     }
   },
   info: (message: string, ...args: any[]) => {
-    if (typeof window !== "undefined") {
+    if (!isTestEnvironment && typeof window !== "undefined") {
       console.info(`%c[AlchemicalProvider] ${message}`, "color: #2196f3", ...args);
     }
   },
@@ -103,7 +105,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(alchemicalReducer, defaultState);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!isTestEnvironment);
   const [error, setError] = useState<string | null>(null);
   const isMountedRef = React.useRef(true);
   React.useEffect(() => {
@@ -232,6 +234,10 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   }, [state.currentSeason]);
   // Fetch real planetary positions from the astrologize API
   useEffect(() => {
+    if (isTestEnvironment || typeof fetch !== "function") {
+      return;
+    }
+
     const fetchLivePlanetaryPositions = async () => {
       try {
         const now = new Date();
@@ -241,9 +247,6 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
 
         // Helper to fetch for a specific date
         const fetchForDate = async (d: Date) => {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 12000);
-
           const params = new URLSearchParams({
             year: d.getUTCFullYear().toString(),
             month: (d.getUTCMonth() + 1).toString(),
@@ -252,21 +255,26 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
             minute: d.getUTCMinutes().toString(),
           });
 
-          const response = await fetch(`/api/astrologize?${params.toString()}`, {
+          const response = await fetchWithRetry(`/api/astrologize?${params.toString()}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-            signal: controller.signal,
+            timeout: 30000,
+            retries: 2,
           });
-          clearTimeout(timeoutId);
           if (!response.ok) throw new Error(`API returned ${response.status}`);
           return response.json();
         };
 
-        // Parallel fetch for batches
-        const [currentData, historicalData] = await Promise.all([
-          fetchForDate(now),
-          fetchForDate(oneHourAgo)
-        ]);
+        // Serial fetch to avoid backend contention during startup
+        const currentData = await fetchForDate(now);
+        
+        let historicalData = null;
+        try {
+          // Fetch historical data sequentially after current data
+          historicalData = await fetchForDate(oneHourAgo);
+        } catch (histErr) {
+          logger.warn("Historical fetch failed, continuing with current data only:", histErr);
+        }
 
         const extractPositions = (data: any) => {
           if (!data.success || !data._celestialBodies) return null;
@@ -332,12 +340,17 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   // Stable reference so consumer `useEffect`s that depend on it don't thrash
   // the astrologize endpoint on every provider re-render.
   const refreshPlanetaryPositionsAsync = useCallback(async (): Promise<Record<string, unknown>> => {
+    if (isTestEnvironment || typeof fetch !== "function") {
+      return planetaryPositionsRef.current;
+    }
+
     try {
       setIsLoading(true);
-      const response = await fetch("/api/astrologize", {
+      const response = await fetchWithRetry("/api/astrologize", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(12000),
+        timeout: 30000,
+        retries: 2,
       });
       if (!response.ok) throw new Error(`API returned ${response.status}`);
       const data = await response.json();

@@ -1,4 +1,5 @@
 import datetime
+import os
 from typing import Dict, Any, Optional
 from functools import lru_cache
 from fastapi import HTTPException
@@ -6,6 +7,13 @@ from fastapi import HTTPException
 # Assuming swisseph and ephem are installed and available
 try:
     import swisseph as swe
+    # Set ephemeris path once at module level (relative to this file)
+    ephe_path = os.path.join(os.path.dirname(__file__), '..', '..', 'sweph_ephe')
+    if os.path.exists(ephe_path):
+        swe.set_ephe_path(ephe_path)
+    else:
+        # Fallback to local dir
+        swe.set_ephe_path('sweph_ephe')
 except ImportError:
     swe = None
 
@@ -28,9 +36,6 @@ def calculate_planetary_positions_swisseph(
         print("pyswisseph not available, falling back to pyephem")
         return calculate_planetary_positions_pyephem(year, month, day, hour, minute, latitude, longitude, zodiac_system)
     try:
-        # Set ephemeris path (use built-in ephemeris)
-        swe.set_ephe_path('')
-
         # Calculate Julian day
         # month is 1-indexed in the input
         julian_day = swe.julday(year, month, day, hour + minute / 60.0)

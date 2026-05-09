@@ -11,6 +11,7 @@ import NavAuthLink from "@/components/nav/NavAuthLink";
 import NotificationBell from "@/components/nav/NotificationBell";
 import PremiumLink from "@/components/nav/PremiumLink";
 import PayPalButton from "@/components/PayPalButton";
+import PwaRegistration from "@/components/pwa/PwaRegistration";
 import ThemeToggle from "@/components/ThemeToggle";
 import ClientProviders from "./ClientProviders";
 import type { Metadata } from "next";
@@ -47,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans">
+        <PwaRegistration />
         <ClientProviders>
           <header className="relative bg-[#08080e] py-4 md:py-6 border-b border-purple-500/30 shadow-lg shadow-purple-900/20" style={{ backgroundImage: 'radial-gradient(ellipse at top center, rgba(109,40,217,0.12) 0%, transparent 60%)' }}>
             <div className="mx-auto max-w-[1400px] px-4 md:px-8">
@@ -127,7 +129,7 @@ export default function RootLayout({
           {/* Footer */}
           <footer className="bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 text-white py-12 mt-20 border-t-4 border-purple-500">
             <div className="mx-auto max-w-7xl px-4">
-              <div className="grid md:grid-cols-4 gap-8">
+              <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8">
                 {/* About Column */}
                 <div>
                   <h3 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-orange-300">
@@ -212,11 +214,33 @@ export default function RootLayout({
                         href="/quantities"
                         className="text-gray-300 hover:text-indigo-300 transition-colors"
                       >
-                        Alchm Quantities
+                        ⚗️ Alchm Quantities
                       </Link>
                     </li>
                     <li className="pt-4">
                       <PayPalButton />
+                    </li>
+                  </ul>
+                </div>
+                {/* Legal Column */}
+                <div>
+                  <h4 className="font-bold mb-4 text-pink-300">Legal</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li>
+                      <Link
+                        href="/terms"
+                        className="text-gray-300 hover:text-pink-300 transition-colors"
+                      >
+                        Terms of Service
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/privacy"
+                        className="text-gray-300 hover:text-pink-300 transition-colors"
+                      >
+                        Privacy Policy
+                      </Link>
                     </li>
                   </ul>
                 </div>

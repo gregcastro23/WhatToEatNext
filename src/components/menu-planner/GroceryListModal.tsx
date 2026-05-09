@@ -8,15 +8,12 @@
  * @created 2026-01-11 (Phase 3)
  */
 
-import Image from "next/image";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { resolveAsin, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 import { reportQuestEvent } from "@/lib/questReporter";
-import { instacartService } from "@/services/InstacartService";
-import type { InstacartRetailer, InstacartShoppingListRequest } from "@/types/instacart";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
-import { normalizeIngredientList } from "@/utils/instacart/ingredientNormalizer";
 import { createLogger } from "@/utils/logger";
 import { PantryManager } from "@/utils/pantryManager";
 
@@ -111,57 +108,6 @@ async function exportGroceryList(
   }
 }
 
-/**
- * Send grocery list to Instacart to create a shoppable shopping list page.
- * Returns the Instacart URL on success.
- */
-async function _createInstacartShoppingList(
-  items: GroceryItem[],
-  title?: string,
-): Promise<string> {
-  const activeItems = items.filter((item) => !item.purchased && !item.inPantry);
-
-  if (activeItems.length === 0) {
-    throw new Error("No items to order — all items are either purchased or already in your pantry.");
-  }
-
-  // Pass through our new pipeline
-  const normalizedItems = normalizeIngredientList(
-    activeItems.map((item) => ({
-      text: `${item.quantity} ${item.unit} ${item.ingredient}`,
-      recipes: item.usedInRecipes,
-    }))
-  );
-
-  const UNITLESS = new Set(["count", "pieces", "piece", "each", "pack", ""]);
-
-  const payload: InstacartShoppingListRequest = {
-    title: title || "Grocery List from WhatToEatNext",
-    line_items: normalizedItems.map((item) => {
-      const unit = UNITLESS.has(item.unit || "each") ? undefined : item.unit;
-      return {
-        name: item.name,
-        ...(unit !== undefined && {
-          line_item_measurements: [{ quantity: Number(item.quantity) || 1, unit }],
-        }),
-      };
-    }),
-  };
-
-  const response = await fetch("/api/instacart/shopping-list", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    const data = await response.json() as { error?: string; details?: string };
-    throw new Error(data.details || data.error || "Failed to create Instacart list");
-  }
-
-  const data = await response.json() as { url: string };
-  return data.url;
-}
 
 /**
  * Format grocery list as plain text
@@ -271,28 +217,8 @@ export default function GroceryListModal({
     useMenuPlanner();
 
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
-  const [instacartLoading, setInstacartLoading] = useState(false);
-  const [instacartError, setInstacartError] = useState<string | null>(null);
-  const [retailers, setRetailers] = useState<InstacartRetailer[]>([]);
-  const [retailersLoading, setRetailersLoading] = useState(false);
-
-  // Fetch nearby retailers dynamically from the IDP API
-  useEffect(() => {
-    let cancelled = false;
-    async function loadRetailers() {
-      setRetailersLoading(true);
-      try {
-        const result = await instacartService.fetchNearbyRetailers("11375");
-        if (!cancelled) setRetailers(result);
-      } catch (err) {
-        logger.warn("Failed to load retailers", err);
-      } finally {
-        if (!cancelled) setRetailersLoading(false);
-      }
-    }
-    void loadRetailers();
-    return () => { cancelled = true; };
-  }, []);
+  const [amazonLoading, setAmazonLoading] = useState(false);
+  const [amazonError, setAmazonError] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<
     Record<GroceryCategory, boolean>
   >({
@@ -310,7 +236,7 @@ export default function GroceryListModal({
   });
 
   const [showPantryModal, setShowPantryModal] = useState(false);
-  const [showInstacartPreview, setShowInstacartPreview] = useState(false);
+  const [showAmazonPreview, setShowAmazonPreview] = useState(false);
 
   // Group items by category
   const groupedItems = useMemo(
@@ -355,32 +281,64 @@ export default function GroceryListModal({
     }
   };
 
-  // Handle Instacart order — opens preview first
-  const handleOrderOnInstacart = () => {
-    setShowInstacartPreview(true);
+  const handleOrderOnAmazon = () => {
+    setShowAmazonPreview(true);
   };
 
-  // Actually submit to Instacart IDP
-  const confirmUpdateCart = async () => {
-    setInstacartLoading(true);
-    setInstacartError(null);
+  const confirmUpdateCart = () => {
+    setAmazonLoading(true);
+    setAmazonError(null);
     try {
-      const menuTitle = currentMenu?.templateName
-        ? `${currentMenu.templateName} — Alchm Kitchen`
-        : "Grocery List from Alchm Kitchen";
+      const activeItems = groceryList.filter((item) => !item.purchased && !item.inPantry);
+      const items = activeItems
+        .map((item) => ({ name: item.ingredient, asin: resolveAsin(item.ingredient) }))
+        .filter((x) => x.asin);
 
-      const url = await instacartService.createShoppingList(groceryList, menuTitle);
-      window.open(url, "_blank", "noopener,noreferrer");
+      if (items.length === 0) {
+        setAmazonError("No items could be matched to Amazon products.");
+        return;
+      }
+
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "https://www.amazon.com/gp/aws/cart/add.html";
+      form.target = "_blank";
+      form.style.display = "none";
+
+      const tagInput = document.createElement("input");
+      tagInput.type = "hidden";
+      tagInput.name = "AssociateTag";
+      tagInput.value = AMAZON_ASSOCIATE_TAG;
+      form.appendChild(tagInput);
+
+      items.forEach((item, idx) => {
+        const pos = idx + 1;
+        const asinInput = document.createElement("input");
+        asinInput.type = "hidden";
+        asinInput.name = `ASIN.${pos}`;
+        asinInput.value = item.asin!;
+        form.appendChild(asinInput);
+
+        const qtyInput = document.createElement("input");
+        qtyInput.type = "hidden";
+        qtyInput.name = `Quantity.${pos}`;
+        qtyInput.value = "1";
+        form.appendChild(qtyInput);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+
       reportQuestEvent('create_grocery_list');
-
-      logger.info("Instacart shopping list handoff successful");
-      setShowInstacartPreview(false);
+      logger.info("Amazon cart handoff successful");
+      setShowAmazonPreview(false);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Failed to connect to Instacart";
-      setInstacartError(message);
-      logger.error("Instacart order failed:", error);
+      const message = error instanceof Error ? error.message : "Failed to open Amazon";
+      setAmazonError(message);
+      logger.error("Amazon order failed:", error);
     } finally {
-      setInstacartLoading(false);
+      setAmazonLoading(false);
     }
   };
 
@@ -481,48 +439,21 @@ export default function GroceryListModal({
           >
             🔄 Rebuild List
           </button>
-          {/* Dynamic retailer list from IDP */}
-          {retailers.length > 0 && (
-            <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-2 py-1">
-              <span className="text-xs font-semibold text-gray-500 uppercase">Nearby:</span>
-              <div className="flex gap-1 overflow-x-auto">
-                {retailers.slice(0, 5).map(r => (
-                  <span key={r.retailer_key} className="inline-flex items-center gap-1 text-xs bg-gray-100 rounded px-2 py-0.5 whitespace-nowrap">
-                    {r.retailer_logo_url && (
-                      <Image
-                        src={r.retailer_logo_url}
-                        alt=""
-                        width={16}
-                        height={16}
-                        unoptimized
-                        className="w-4 h-4 rounded"
-                      />
-                    )}
-                    {r.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          {retailersLoading && (
-            <span className="text-xs text-gray-400 animate-pulse">Loading stores...</span>
-          )}
-
           <button
-            onClick={() => { handleOrderOnInstacart(); }}
-            disabled={instacartLoading || stats.remaining === 0}
-            className="px-4 py-2 bg-[#43B02A] text-white rounded-lg hover:bg-[#38941f] text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            title={stats.remaining === 0 ? "No items to order" : "Update cart on Instacart"}
+            onClick={handleOrderOnAmazon}
+            disabled={amazonLoading || stats.remaining === 0}
+            className="px-4 py-2 bg-[#FF9900] text-black rounded-lg hover:bg-[#FFB347] text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            title={stats.remaining === 0 ? "No items to order" : "Send cart to Amazon"}
           >
-            {instacartLoading ? (
+            {amazonLoading ? (
               <>
                 <span className="animate-spin inline-block">⟳</span>
-                Updating...
+                Sending...
               </>
             ) : (
               <>
                 <span>🛒</span>
-                Update Cart
+                Shop on Amazon
               </>
             )}
           </button>
@@ -545,12 +476,11 @@ export default function GroceryListModal({
           </button>
         </div>
 
-        {/* Instacart error message */}
-        {instacartError && (
+        {amazonError && (
           <div className="px-4 py-2 bg-red-50 border-b border-red-200 flex items-center justify-between text-sm text-red-700">
-            <span>⚠️ {instacartError}</span>
+            <span>⚠️ {amazonError}</span>
             <button
-              onClick={() => setInstacartError(null)}
+              onClick={() => setAmazonError(null)}
               className="ml-2 text-red-500 hover:text-red-700 font-bold"
             >
               ×
@@ -654,17 +584,17 @@ export default function GroceryListModal({
         <PantryModalSimple onClose={() => setShowPantryModal(false)} />
       )}
 
-      {/* Instacart Handoff Preview Modal */}
-      {showInstacartPreview && (
+      {/* Amazon Handoff Preview Modal */}
+      {showAmazonPreview && (
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-xl max-w-lg w-full overflow-hidden animate-fade-in flex flex-col">
-            <div className="bg-[#43B02A] p-5 text-white flex justify-between items-center">
+            <div className="bg-[#FF9900] p-5 text-black flex justify-between items-center">
               <h3 className="text-xl font-bold flex items-center gap-2">
-                <span>🛒</span> Update Cart
+                <span>🛒</span> Send to Amazon
               </h3>
               <button
-                onClick={() => setShowInstacartPreview(false)}
-                className="text-white/80 hover:text-white transition-colors text-lg"
+                onClick={() => setShowAmazonPreview(false)}
+                className="text-black/60 hover:text-black transition-colors text-lg"
               >
                 ✕
               </button>
@@ -672,7 +602,7 @@ export default function GroceryListModal({
 
             <div className="p-6">
               <p className="text-gray-700 mb-6 font-medium">
-                Here is your current cart status. We&apos;ll send the <strong className="text-[#43B02A]">Shopping List</strong> to Instacart and ignore items you already have.
+                Here is your current cart status. We&apos;ll send the <strong className="text-[#FF9900]">Shopping List</strong> to Amazon and ignore items you already have.
               </p>
 
               <div className="space-y-4">
@@ -706,33 +636,33 @@ export default function GroceryListModal({
                     <span className="text-2xl">📝</span>
                     <div>
                       <h4 className="font-bold text-amber-900">Shopping List</h4>
-                      <p className="text-xs text-amber-700">Sending to Instacart</p>
+                      <p className="text-xs text-amber-700">Sending to Amazon</p>
                     </div>
                   </div>
                   <span className="text-2xl font-black text-amber-600">{stats.remaining}</span>
                 </div>
               </div>
 
-              {instacartError && (
+              {amazonError && (
                 <div className="mt-4 p-3 bg-red-50 text-red-700 text-sm rounded-lg border border-red-200">
-                  {instacartError}
+                  {amazonError}
                 </div>
               )}
             </div>
 
             <div className="p-4 bg-gray-50 border-t flex justify-end gap-3">
               <button
-                onClick={() => setShowInstacartPreview(false)}
+                onClick={() => setShowAmazonPreview(false)}
                 className="px-4 py-2 text-gray-600 font-medium hover:bg-gray-200 rounded-lg transition-colors"
               >
                 Cancel
               </button>
               <button
-                onClick={() => { void confirmUpdateCart(); }}
-                disabled={instacartLoading || stats.remaining === 0}
-                className="px-6 py-2 bg-[#43B02A] text-white font-bold rounded-lg hover:bg-[#38941f] transition-all flex items-center gap-2 disabled:opacity-50"
+                onClick={confirmUpdateCart}
+                disabled={amazonLoading || stats.remaining === 0}
+                className="px-6 py-2 bg-[#FF9900] text-black font-bold rounded-lg hover:bg-[#FFB347] transition-all flex items-center gap-2 disabled:opacity-50"
               >
-                {instacartLoading ? "Processing..." : "Update Cart on Instacart"}
+                {amazonLoading ? "Processing..." : "Send to Amazon Cart"}
               </button>
             </div>
           </div>

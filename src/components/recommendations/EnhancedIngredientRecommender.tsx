@@ -658,7 +658,7 @@ export const EnhancedIngredientRecommender: React.FC<
   // Get current elemental properties from alchemical context
   const currentElementals: ElementalProperties = useMemo(() => {
     if (alchemicalContext?.state?.elementalState) {
-      return alchemicalContext.state.elementalState as ElementalProperties;
+      return alchemicalContext.state.elementalState;
     }
     // Default balanced elementals
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -694,11 +694,9 @@ export const EnhancedIngredientRecommender: React.FC<
     // Build the astrological context once per render — every ingredient is
     // scored against the same current moment.
     const astroCtx: AstroContext = {
-      zodiacSign: alchemicalContext?.zodiacSign as string | undefined,
-      lunarPhase: alchemicalContext?.lunarPhase as string | undefined,
-      planetaryPositions: alchemicalContext?.planetaryPositions as
-        | Record<string, unknown>
-        | undefined,
+      zodiacSign: alchemicalContext?.zodiacSign,
+      lunarPhase: alchemicalContext?.lunarPhase,
+      planetaryPositions: alchemicalContext?.planetaryPositions,
       isDaytime: alchemicalContext?.isDaytime,
     };
 
@@ -713,7 +711,7 @@ export const EnhancedIngredientRecommender: React.FC<
               ing.elementalProperties,
               currentElementals,
               seasonData,
-              ing.alchemicalProperties as any,
+              ing.alchemicalProperties,
               {
                 astrologicalProfile: (ing as any).astrologicalProfile,
                 qualities: ing.qualities,
@@ -965,10 +963,8 @@ export const EnhancedIngredientRecommender: React.FC<
           if (onDoubleClickIngredient) {
             onDoubleClickIngredient(
               ingredient.name,
-              ingredient.category as string | undefined,
-              ingredient.elementalProperties as
-                | Record<string, number>
-                | undefined,
+              ingredient.category,
+              ingredient.elementalProperties,
             );
           }
         }}
@@ -1033,7 +1029,7 @@ export const EnhancedIngredientRecommender: React.FC<
               onClick={(e) =>
                 handleAddToPantry(
                   ingredient.name,
-                  ingredient.category as string | undefined,
+                  ingredient.category,
                   e,
                 )
               }

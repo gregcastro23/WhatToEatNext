@@ -9,7 +9,6 @@ import type {
   EnergyStateProperties,
   ChakraEnergies,
   AspectType,
-  PlanetaryAspect,
   CelestialBody,
 } from "../types/alchemy";
 import type { LunarPhase } from "../types/shared";
@@ -244,7 +243,7 @@ class CelestialCalculator {
               type: aspect.type,
               orb: aspect.orb || 0,
               strength: aspect.influence,
-            }) as PlanetaryAspect,
+            }),
         ),
         astrologicalInfluences: astroInfluences, // Ensure this is always present and includes tarot influences and 'all'
       } as unknown as CelestialAlignment;
@@ -993,49 +992,49 @@ class CelestialCalculator {
     const weekday = date.getDay();
     if (weekday === 0) {
       aspects.push({
-        type: "conjunction" as AspectType,
+        type: "conjunction",
         planets: ["Sun", "Mercury"],
         influence: 0.7,
         orb: 2.1,
       });
     } else if (weekday === 1) {
       aspects.push({
-        type: "trine" as AspectType,
+        type: "trine",
         planets: ["Moon", "Venus"],
         influence: 0.6,
         orb: 3.2,
       });
     } else if (weekday === 2) {
       aspects.push({
-        type: "square" as AspectType,
+        type: "square",
         planets: ["Mars", "Saturn"],
         influence: 0.5,
         orb: 2.5,
       });
     } else if (weekday === 3) {
       aspects.push({
-        type: "sextile" as AspectType,
+        type: "sextile",
         planets: ["Mercury", "Jupiter"],
         influence: 0.6,
         orb: 1.8,
       });
     } else if (weekday === 4) {
       aspects.push({
-        type: "opposition" as AspectType,
+        type: "opposition",
         planets: ["Jupiter", "Saturn"],
         influence: 0.5,
         orb: 4.0,
       });
     } else if (weekday === 5) {
       aspects.push({
-        type: "trine" as AspectType,
+        type: "trine",
         planets: ["Venus", "Neptune"],
         influence: 0.6,
         orb: 2.7,
       });
     } else {
       aspects.push({
-        type: "square" as AspectType,
+        type: "square",
         planets: ["Saturn", "Uranus"],
         influence: 0.5,
         orb: 3.3,
@@ -1046,7 +1045,7 @@ class CelestialCalculator {
 
     // Add Sun-Jupiter aspect (optimism, growth)
     aspects.push({
-      type: "sextile" as AspectType,
+      type: "sextile",
       planets: ["Sun", "Jupiter"],
       influence: 0.55,
       orb: 2.4,
@@ -1054,7 +1053,7 @@ class CelestialCalculator {
 
     // Add Moon-Neptune aspect (intuition, imagination)
     aspects.push({
-      type: "trine" as AspectType,
+      type: "trine",
       planets: ["Moon", "Neptune"],
       influence: 0.5,
       orb: 3.1,
@@ -1062,7 +1061,7 @@ class CelestialCalculator {
 
     // Add Mars-Pluto aspect (intensity, determination)
     aspects.push({
-      type: "square" as AspectType,
+      type: "square",
       planets: ["Mars", "Pluto"],
       influence: 0.6,
       orb: 2.2,
@@ -1070,7 +1069,7 @@ class CelestialCalculator {
 
     // Add Mercury-Uranus aspect (creativity, unexpected insights)
     aspects.push({
-      type: "trine" as AspectType,
+      type: "trine",
       planets: ["Mercury", "Uranus"],
       influence: 0.45,
       orb: 2.9,
@@ -1078,7 +1077,7 @@ class CelestialCalculator {
 
     // Add Venus-Saturn aspect (lasting relationships, stability in values)
     aspects.push({
-      type: "sextile" as AspectType,
+      type: "sextile",
       planets: ["Venus", "Saturn"],
       influence: 0.4,
       orb: 1.5,
@@ -1552,7 +1551,7 @@ class CelestialCalculator {
 
         return {
           name: displayName,
-          suit: suit as "wands" | "cups" | "swords" | "pentacles",
+          suit,
           description: `Minor Arcana card for ${zodiacSign}, representing the current period`,
           planetaryInfluences: {}, // Minor arcana are more linked to decans than planets
         };

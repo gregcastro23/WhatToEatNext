@@ -113,7 +113,7 @@ export class UnifiedNutritionalService {
                       isValidObject(unifiedProfile.phytonutrients)
                     ? (unifiedProfile.phytonutrients as Record<string, number>)
                     : {},
-            } as unknown as NutritionalProfile;
+            };
           }
         } else {
           // Fallback to regular ingredients
@@ -148,7 +148,7 @@ export class UnifiedNutritionalService {
                           number
                         >)
                       : {},
-              } as unknown as NutritionalProfile;
+              };
             }
           }
 
@@ -162,7 +162,7 @@ export class UnifiedNutritionalService {
               phytonutrients: {},
               antioxidants: [],
               bioactive: [],
-            } as NutritionalProfile;
+            };
           }
         }
       } else {
@@ -763,7 +763,7 @@ export class UnifiedNutritionalService {
       if ((ingredients || []).length === 0) {
         return {
           calories: 0,
-          macros: {} as { [key: string]: number | undefined },
+          macros: {},
           vitamins: {} as Record<string, number>,
           minerals: {} as Record<string, number>,
         };
@@ -777,9 +777,9 @@ export class UnifiedNutritionalService {
       // Aggregate nutritional values
       const aggregated: NutritionalProfile = {
         calories: 0,
-        macros: {} as { [key: string]: number | undefined },
-        vitamins: {} as Record<string, number>,
-        minerals: {} as Record<string, number>,
+        macros: {},
+        vitamins: {},
+        minerals: {},
       };
 
       (enhancedProfiles || []).forEach((profile) => {
@@ -802,7 +802,7 @@ export class UnifiedNutritionalService {
       logger.error("Error calculating nutritional balance: ", error);
       return {
         calories: 0,
-        macros: {} as { [key: string]: number | undefined },
+        macros: {},
         vitamins: {} as Record<string, number>,
         minerals: {} as Record<string, number>,
       };

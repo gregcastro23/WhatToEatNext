@@ -252,7 +252,7 @@ function RecipeDisplay({
       </div>
       {/* Quick Info */}
       <div className="text-xs text-gray-600 space-y-1 mb-2">
-        {recipe.prepTime && (
+        {recipe.prepTime && recipe.prepTime !== "0" && (
           <div className="flex items-center gap-1">
             <span>⏱️</span>
             <span>{recipe.prepTime}</span>

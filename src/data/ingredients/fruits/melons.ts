@@ -1210,5 +1210,5 @@ const rawMelons = {
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const melons: Record<string, IngredientMapping> = fixIngredientMappings(
-  rawMelons as Record<string, Partial<IngredientMapping>>,
+  rawMelons,
 );

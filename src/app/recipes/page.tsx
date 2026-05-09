@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect, Suspense, useCallback } from "react";
 import { FaWind } from "react-icons/fa";
@@ -21,7 +22,10 @@ function RecipesPageContent() {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/recipes?cuisine=${encodeURIComponent(cuisine ?? "")}`);
+      const url = cuisine 
+        ? `/api/recipes?cuisine=${encodeURIComponent(cuisine)}`
+        : "/api/recipes";
+      const res = await fetch(url);
       if (!res.ok) {
         setRecipes([]);
         setIsLoading(false);
@@ -55,9 +59,9 @@ function RecipesPageContent() {
                 planetaryReason: result.planetaryReason,
                 recommendedTiming: result.recommendedTiming,
                 rulingPlanet: result.rulingPlanet,
-              } as Recipe;
+              };
             } catch {
-              return { ...r, score: 50 } as Recipe;
+              return { ...r, score: 50 };
             }
           }),
         );
@@ -79,11 +83,7 @@ function RecipesPageContent() {
   }, [cuisine]);
 
   useEffect(() => {
-    if (cuisine) {
-      void fetchAndScoreRecipes();
-    } else {
-      setIsLoading(false);
-    }
+    void fetchAndScoreRecipes();
   }, [cuisine, fetchAndScoreRecipes]);
 
   const handleRefine = async () => {
@@ -117,7 +117,7 @@ function RecipesPageContent() {
 
   const displayCuisine = cuisine
     ? cuisine.charAt(0).toUpperCase() + cuisine.slice(1)
-    : "";
+    : "All";
 
   return (
     <main className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
@@ -134,8 +134,8 @@ function RecipesPageContent() {
                   ? " - consulting the heavens..."
                   : " sorted by current planetary alignment"}
               </p>
-              
-              {cuisine && recipes.length > 0 && (
+
+              {recipes.length > 0 && cuisine && (
                 <button
                   onClick={() => { void handleRefine(); }}
                   disabled={isRefining || isLoading || isScoring}
@@ -161,10 +161,18 @@ function RecipesPageContent() {
             ))}
           </div>
         ) : recipes.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-xl text-gray-500">
-              No recipes found for {displayCuisine}.
+          <div className="text-center py-20">
+            <p className="text-6xl mb-6">🍽️</p>
+            <h2 className="text-2xl font-bold text-white mb-3">No Recipes Found</h2>
+            <p className="text-gray-400 mb-8 max-w-md mx-auto">
+              We couldn't find any recipes matching your selection. Try a different cuisine or check back later.
             </p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-700 transition-colors"
+            >
+              ← Back to Home
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -193,7 +193,7 @@ export function calculateDominantElement(
   Object.entries(elementalState || {}).forEach(([element, value]) => {
     if (value > maxValue) {
       maxValue = value;
-      dominantElement = element as "Fire" | "Water" | "Earth" | "Air";
+      dominantElement = element;
     }
   });
 

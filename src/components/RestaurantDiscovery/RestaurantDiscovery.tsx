@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * RestaurantDiscovery — "Order it" parallel to the Instacart "Cook it" CTA.
+ * RestaurantDiscovery — "Order it" parallel to the Amazon "Cook it" CTA.
  *
  * Fetches alchm-scored restaurants from POST /api/restaurants/search using
  * Yelp Fusion under the hood. The Yelp API key never reaches the client.
@@ -91,7 +91,7 @@ export function RestaurantDiscovery({
   // Hydrate saved restaurant IDs from user prefs (logged-in) or localStorage (anon).
   useEffect(() => {
     const ids = new Set<string>();
-    const prefs = currentUser?.preferences as SavedRestaurantsPrefs | undefined;
+    const prefs: SavedRestaurantsPrefs | undefined = currentUser?.preferences;
     prefs?.savedRestaurants?.forEach((r) => {
       if (r.externalId) ids.add(r.externalId);
     });
@@ -116,6 +116,15 @@ export function RestaurantDiscovery({
       const { business } = entry;
       if (savedIds.has(business.id)) return;
 
+      // eslint-disable-next-line no-alert
+      const dish = window.prompt(`Saving ${business.name}. What's your favorite dish here? (Optional)`);
+      const menuItems = dish && dish.trim() ? [{
+        id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+        name: dish.trim(),
+        category: "Mains" as const,
+        dietaryTags: [],
+      }] : [];
+
       const restaurant: SavedRestaurant = {
         id: `${source}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
         name: business.name,
@@ -128,10 +137,11 @@ export function RestaurantDiscovery({
           business.location.display_address.join(", ") ||
           business.location.address1 ||
           undefined,
-        menuItems: [],
+        menuItems,
         rating: business.rating,
         source,
         externalId: business.id,
+        url: business.url,
         addedAt: new Date().toISOString(),
       };
 
@@ -144,8 +154,8 @@ export function RestaurantDiscovery({
 
       // Persist to user profile when logged in.
       if (currentUser?.userId) {
-        const currentPrefs =
-          (currentUser.preferences as SavedRestaurantsPrefs | undefined) ?? {};
+        const currentPrefs: SavedRestaurantsPrefs =
+          currentUser.preferences ?? {};
         const newSaved = [...(currentPrefs.savedRestaurants ?? []), restaurant];
         try {
           await updateProfile({

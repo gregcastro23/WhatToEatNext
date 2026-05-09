@@ -93,7 +93,7 @@ export function calculateMealCircuit(
       Substance: recipe.substance ?? recipe.alchemicalProperties?.stability ?? 0,
     };
 
-    const elementalProps = recipe.elementalProperties as ElementalProperties;
+    const elementalProps = recipe.elementalProperties;
 
     // 1. Calculate thermodynamic metrics (heat, entropy, reactivity, Greg's Energy)
     const elementalAlchemicalCounts = countElementalAlchemical(
@@ -122,7 +122,7 @@ export function calculateMealCircuit(
     const efficiency = power > 0 ? (power - powerLosses) / power : 0;
 
     // 5. Validate using existing recipe circuit validation
-    const validation = validateRecipeCircuit(kinetics, recipe as any);
+    const validation = validateRecipeCircuit(kinetics, recipe);
 
     // 6. Build meal circuit metrics
     const mealCircuit: MealCircuitMetrics = {

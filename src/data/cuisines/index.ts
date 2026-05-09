@@ -155,26 +155,26 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences)
       ? cuisine.astrologicalInfluences
       : [],
-  } as Cuisine; // Use type assertion to ensure the return type is Cuisine
+  }; // Use type assertion to ensure the return type is Cuisine
 };
 // Pre-process all cuisines once for efficiency
 const processedCuisines = {
-  African: processCuisineRecipes(african as unknown as Partial<Cuisine>),
-  American: processCuisineRecipes(american as unknown as Partial<Cuisine>),
+  African: processCuisineRecipes(african),
+  American: processCuisineRecipes(american),
   Chinese: processCuisineRecipes(chinese as unknown as Partial<Cuisine>),
-  French: processCuisineRecipes(french as unknown as Partial<Cuisine>),
-  Greek: processCuisineRecipes(greek as unknown as Partial<Cuisine>),
+  French: processCuisineRecipes(french),
+  Greek: processCuisineRecipes(greek),
   Indian: processCuisineRecipes(indian as unknown as Partial<Cuisine>),
-  Italian: processCuisineRecipes(italian as unknown as Partial<Cuisine>),
-  Japanese: processCuisineRecipes(japanese as unknown as Partial<Cuisine>),
-  Korean: processCuisineRecipes(korean as unknown as Partial<Cuisine>),
+  Italian: processCuisineRecipes(italian),
+  Japanese: processCuisineRecipes(japanese),
+  Korean: processCuisineRecipes(korean),
   Mexican: processCuisineRecipes(mexican as unknown as Partial<Cuisine>),
   "Middle Eastern": processCuisineRecipes(
-    middleEastern as unknown as Partial<Cuisine>,
+    middleEastern,
   ),
-  Russian: processCuisineRecipes(russian as unknown as Partial<Cuisine>),
-  Thai: processCuisineRecipes(thai as unknown as Partial<Cuisine>),
-  Vietnamese: processCuisineRecipes(vietnamese as unknown as Partial<Cuisine>),
+  Russian: processCuisineRecipes(russian),
+  Thai: processCuisineRecipes(thai),
+  Vietnamese: processCuisineRecipes(vietnamese),
 };
 // Create and export the cuisines map with validated structures
 // Includes both capitalized and lowercase keys for backward compatibility

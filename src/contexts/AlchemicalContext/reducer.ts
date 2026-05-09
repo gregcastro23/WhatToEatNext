@@ -1,6 +1,6 @@
 "use client";
 
-import type { AlchemicalState, AstrologicalState } from "./types";
+import type { AlchemicalState } from "./types";
 
 // Define action types
 export type AlchemicalAction =
@@ -116,7 +116,7 @@ export const _alchemicalReducer = (
           ...(action.payload && typeof action.payload === "object"
             ? action.payload
             : {}),
-        } as AstrologicalState,
+        },
         lastUpdated: new Date(),
       };
 

@@ -12,7 +12,6 @@ import { allSauces } from "@/data/sauces";
 import type { Sauce } from "@/data/sauces";
 import type { ElementalProperties } from "@/types/recipe";
 import { recommendSauces } from "@/utils/cuisine/intelligentSauceRecommender";
-import type { Sauce as RecommenderSauce } from "@/utils/cuisine/intelligentSauceRecommender";
 import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
 
 interface SauceSelectorProps {
@@ -194,7 +193,7 @@ export default function SauceSelector({
       flavorTags: s.astrologicalInfluences,
       cuisineAssociations: s.cuisine ? [s.cuisine] : undefined,
       nutritionalProfile: s.nutritionalProfile,
-    })) as RecommenderSauce[];
+    }));
   }, []);
 
   // Get recommendations

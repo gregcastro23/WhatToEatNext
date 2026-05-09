@@ -19,6 +19,11 @@ const EnhancedIngredientRecommender = dynamic(
   { loading: () => <SectionLoader /> },
 );
 
+const DynamicCuisineRecommender = dynamic(
+  () => import("@/components/home/DynamicCuisineRecommender"),
+  { loading: () => <SectionLoader /> },
+);
+
 const EnhancedCookingMethodRecommender = dynamic(
   () => import("@/components/recommendations/EnhancedCookingMethodRecommender"),
   { loading: () => <SectionLoader /> },
@@ -52,41 +57,16 @@ export default function Home() {
           <HeroSection />
         </motion.div>
 
-        {/* Premium Cuisines Feature CTA */}
-        <motion.section 
-          variants={fadeInItem}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="my-10"
-        >
-          <Link href="/cuisines" className="block group">
-            <div className="relative overflow-hidden rounded-3xl border border-purple-500/30 bg-[#0c0c14]/80 p-8 md:p-10 shadow-2xl transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.2)] hover:border-purple-400/50 backdrop-blur-xl group-hover:scale-[1.02]">
-              {/* Background glows */}
-              <div className="absolute -top-32 -right-32 h-64 w-64 rounded-full bg-purple-600/20 blur-[80px] transition-all duration-700 group-hover:bg-purple-500/30" />
-              <div className="absolute -bottom-32 -left-32 h-64 w-64 rounded-full bg-rose-600/20 blur-[80px] transition-all duration-700 group-hover:bg-rose-500/30" />
-              
-              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-300 text-xs font-bold mb-4 uppercase tracking-wider">
-                    <span aria-hidden>✨</span> Premium Feature
-                  </div>
-                  <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-rose-300 mb-3">
-                    Explore Cosmic Cuisines
-                  </h2>
-                  <p className="text-white/60 text-base md:text-lg max-w-lg leading-relaxed">
-                    Discover culinary traditions and perfect sauces dynamically ranked by their resonance with the current astrological moment.
-                  </p>
-                </div>
-                
-                <div className="shrink-0">
-                  <div className="flex h-14 items-center justify-center rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 px-8 text-sm font-bold text-white shadow-lg transition-all duration-300 group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-purple-500/25">
-                    Launch Recommender →
-                  </div>
-                </div>
-              </div>
+        <motion.section variants={fadeInItem} className="my-8">
+          <div className="glass-card-premium rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl shadow-purple-900/20 relative overflow-hidden bg-[#0c0c14]/80 backdrop-blur-xl">
+            {/* Ambient Background Glow */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px] pointer-events-none -mr-20 -mt-20" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-600/10 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20" />
+            
+            <div className="relative z-10">
+              <DynamicCuisineRecommender />
             </div>
-          </Link>
+          </div>
         </motion.section>
 
         <motion.section

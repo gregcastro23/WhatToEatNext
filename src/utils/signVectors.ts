@@ -434,7 +434,7 @@ export function getAlchemicalStateWithVectors(input: {
         direction: strongest.direction,
         _magnitude: ref._magnitude,
         components: ref.components,
-      } as SignVector;
+      };
     }
   }
   if (!selected) {

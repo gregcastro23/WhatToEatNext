@@ -2,6 +2,7 @@
 alchm.kitchen - Unified Backend Service
 Handles recipe recommendations, alchemical calculations, and astrological insights
 Phase 1 Infrastructure Migration - September 26, 2025
+Phase 2 Stability Patch - May 6, 2026 (SQL Fixes & Transaction Safety)
 
 Architecture:
 - Calls Render alchemize API for planetary calculations
@@ -179,8 +180,20 @@ for origin in ["https://alchm.kitchen", "https://www.alchm.kitchen"]:
         CORS_ALLOWED_ORIGINS.append(origin)
 
 # Add wildcard if empty or explicitly requested
+# NOTE: If allow_credentials is True, allow_origins cannot be ["*"]
 if not CORS_ALLOWED_ORIGINS or "*" in CORS_ALLOWED_ORIGINS:
-    CORS_ALLOWED_ORIGINS = ["*"]
+    # If we have a wildcard but need credentials, we should use a more specific list
+    # or set allow_credentials=False. For this app, we'll fallback to the default origins.
+    if "*" in CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS = [o for o in CORS_ALLOWED_ORIGINS if o != "*"]
+    
+    if not CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS = [
+            "https://alchm.kitchen",
+            "https://v0-alchm-kitchen.vercel.app",
+            "http://localhost:3000",
+            "http://localhost:3001"
+        ]
 
 app.add_middleware(
     CORSMiddleware,
@@ -196,10 +209,13 @@ app.add_middleware(
 # ==========================================
 
 import json
+from functools import lru_cache
 
 DATA_JSON_PATH = os.path.join(os.path.dirname(__file__), "data", "json")
 
-def load_json_file(filename: str):
+@lru_cache(maxsize=32)
+def load_json_file_cached(filename: str):
+    """Load and parse a JSON file from disk with LRU caching."""
     full_path = os.path.join(DATA_JSON_PATH, filename)
     try:
         if os.path.exists(full_path):
@@ -209,6 +225,11 @@ def load_json_file(filename: str):
     except Exception as e:
         print(f"Error loading JSON data from {filename}: {e}")
         return None
+
+def load_json_file(filename: str):
+    """Public wrapper for JSON loading."""
+    # We use the cached version for performance
+    return load_json_file_cached(filename)
 
 @app.get("/api/v1/cuisines")
 async def get_all_cuisines():
@@ -259,6 +280,7 @@ async def get_all_ingredients():
 # ==========================================
 
 @app.get("/health")
+@app.get("/api/v1/health")
 async def health_check(db: Session = Depends(get_db)):
     """Comprehensive health check including database connectivity."""
     db_status = "offline"
@@ -571,8 +593,106 @@ async def calculate_bulk_planetary_positions(request: BulkPlanetaryPositionsRequ
             }
         }
     except Exception as e:
-        logger.error(f"Failed to compute bulk planetary positions: {e}")
+        print(f"Failed to compute bulk planetary positions: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+# ==========================================
+# INTERNAL SPECIALIZED ASTROLOGY ENDPOINTS
+# ==========================================
+
+@app.post("/internal/astrology/positions")
+async def internal_calculate_positions(request: PlanetaryPositionsRequest):
+    """
+    Internal high-performance endpoint for Hono API.
+    Calculates planetary positions with specialized speed and precision.
+    """
+    try:
+        now = datetime.now()
+        year = request.year if request.year is not None else now.year
+        month = request.month if request.month is not None else now.month
+        day = request.day if request.day is not None else now.day
+        hour = request.hour if request.hour is not None else 0
+        minute = request.minute if request.minute is not None else 0
+        latitude = request.latitude if request.latitude is not None else 0.0
+        longitude = request.longitude if request.longitude is not None else 0.0
+        zodiac_system = request.zodiacSystem or "tropical"
+
+        result = calculate_planetary_positions_swisseph(
+            year, month, day, hour, minute, latitude, longitude, zodiac_system
+        )
+        return result
+    except Exception as e:
+        print(f"Internal calculation failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+class EpochEchoRequest(BaseModel):
+    planet: str
+    target_longitude: float
+    max_lookback_years: Optional[int] = 200
+    precision_degrees: Optional[float] = 1.0
+
+@app.post("/internal/astrology/outer-epochs")
+async def internal_calculate_outer_epochs(request: EpochEchoRequest):
+    """
+    Specialized endpoint to find 'Epoch Echoes' for slow-moving outer planets.
+    Scans historical ephemeris to find the last time a planet was in a specific degree.
+    """
+    if not swe:
+        raise HTTPException(status_code=500, detail="pyswisseph not available")
+
+    planets_map = {
+        "Jupiter": swe.JUPITER,
+        "Saturn": swe.SATURN,
+        "Uranus": swe.URANUS,
+        "Neptune": swe.NEPTUNE,
+        "Pluto": swe.PLUTO,
+    }
+
+    if request.planet not in planets_map:
+        raise HTTPException(status_code=400, detail="Only outer planets supported for epoch echoes")
+
+    planet_id = planets_map[request.planet]
+    target = request.target_longitude % 360
+    
+    found_epochs = []
+    current_time = datetime.now()
+    
+    jd = swe.julday(current_time.year, current_time.month, current_time.day, current_time.hour)
+    
+    # Scanning logic for slow movers
+    step = 5 if request.planet in ["Jupiter", "Saturn"] else 20
+    max_lookback_jd = jd - (request.max_lookback_years * 365.25)
+    
+    curr_jd = jd
+    
+    while curr_jd > max_lookback_jd and len(found_epochs) < 3:
+        curr_jd -= step
+        res, _ = swe.calc_ut(curr_jd, planet_id, swe.FLG_SWIEPH)
+        pos = res[0] % 360
+        
+        # Approximate check
+        if abs(pos - target) < 2.0: # Wide orb for discovery
+             # Refine with binary search or smaller steps
+             refined_jd = curr_jd
+             # Return just the date components for simplicity
+             y, m, d, h = swe.revjul(refined_jd)
+             found_epochs.append({
+                 "year": y, "month": m, "day": d, "hour": h,
+                 "longitude": round(pos, 4)
+             })
+             # Skip backward significantly to avoid finding the same transit
+             curr_jd -= 365 # Skip roughly a year
+            
+    return {
+        "planet": request.planet,
+        "target_longitude": target,
+        "epochs": found_epochs,
+        "metadata": {
+            "max_lookback_years": request.max_lookback_years,
+            "precision_degrees": request.precision_degrees,
+            "source": "pyswisseph"
+        }
+    }
 
 @app.get("/api/planetary/positions")
 async def calculate_planetary_positions_get(
@@ -799,7 +919,7 @@ async def get_zodiac_based_recipes(
         # This is a complex query that joins multiple tables
         recipes_with_affinity = db.execute(text("""
             SELECT DISTINCT
-                r.id, r.name, r.description, r.cuisine,
+                r.id, r.name, r.description, r.cuisine, r.read_model,
                 AVG(za.affinity_strength) as avg_affinity,
                 COUNT(za.id) as ingredient_matches
             FROM recipes r
@@ -810,20 +930,24 @@ async def get_zodiac_based_recipes(
                 AND za.zodiac_sign = :zodiac_sign
                 AND za.affinity_strength >= 0.6
             WHERE r.is_public = true
-            GROUP BY r.id, r.name, r.description, r.cuisine
+            GROUP BY r.id, r.name, r.description, r.cuisine, r.read_model
             ORDER BY avg_affinity DESC, ingredient_matches DESC
             LIMIT :limit
         """), {"zodiac_sign": zodiac_sign, "limit": limit}).fetchall()
 
         recommendations = []
         for row in recipes_with_affinity:
-            recipe_id, name, description, cuisine, avg_affinity, ingredient_matches = row
+            recipe_id, name, description, cuisine, read_model, avg_affinity, ingredient_matches = row
 
-            recommendations.append({
-                "recipe_id": str(recipe_id),
+            recipe_data = read_model if read_model else {
+                "id": str(recipe_id),
                 "name": name,
                 "description": description,
-                "cuisine": cuisine,
+                "cuisine": cuisine
+            }
+
+            recommendations.append({
+                "recipe": recipe_data,
                 "zodiac_affinity_score": float(avg_affinity),
                 "matching_ingredients": ingredient_matches,
                 "reason": f"Contains {ingredient_matches} ingredient(s) harmonious with {zodiac_sign} energy"
@@ -859,7 +983,7 @@ async def get_seasonal_recipes(
         # Find recipes with seasonal ingredients
         seasonal_recipes = db.execute(text("""
             SELECT DISTINCT
-                r.id, r.name, r.description, r.cuisine,
+                r.id, r.name, r.description, r.cuisine, r.read_model,
                 AVG(sa.strength) as avg_seasonal_score,
                 COUNT(sa.id) as seasonal_ingredients
             FROM recipes r
@@ -870,20 +994,24 @@ async def get_seasonal_recipes(
                 AND sa.season = :season
                 AND sa.strength >= 0.7
             WHERE r.is_public = true
-            GROUP BY r.id, r.name, r.description, r.cuisine
+            GROUP BY r.id, r.name, r.description, r.cuisine, r.read_model
             ORDER BY avg_seasonal_score DESC, seasonal_ingredients DESC
             LIMIT :limit
         """), {"season": season, "limit": limit}).fetchall()
 
         recommendations = []
         for row in seasonal_recipes:
-            recipe_id, name, description, cuisine, avg_score, seasonal_ingredients = row
+            recipe_id, name, description, cuisine, read_model, avg_score, seasonal_ingredients = row
 
-            recommendations.append({
-                "recipe_id": str(recipe_id),
+            recipe_data = read_model if read_model else {
+                "id": str(recipe_id),
                 "name": name,
                 "description": description,
-                "cuisine": cuisine,
+                "cuisine": cuisine
+            }
+
+            recommendations.append({
+                "recipe": recipe_data,
                 "seasonal_score": float(avg_score),
                 "seasonal_ingredients": seasonal_ingredients,
                 "reason": f"Features {seasonal_ingredients} seasonal ingredient(s) perfect for {season}"
@@ -1045,6 +1173,7 @@ async def get_current_moment_cuisine_recommendations(
                 else:
                     print(f"DEBUG: No cuisine data returned for {cuisine_id}")
             except Exception as e:
+                db.rollback()
                 print(f"Error processing cuisine {cuisine_id}: {e}")
                 # Continue with other cuisines even if one fails
 
@@ -1200,35 +1329,58 @@ async def get_nested_recipes_for_cuisine(cuisine_id: str, season: str,
             try:
                 # Get recipe ingredients
                 ingredients_result = db.execute(text("""
-                    SELECT i.name, ri.amount, ri.unit, ri.notes
+                    SELECT i.name, ri.quantity, ri.unit, ri.preparation_notes
                     FROM recipe_ingredients ri
-                    JOIN ingredients i ON ri.ingredient_id = i.id
+                    JOIN ingredients i ON i.id = ri.ingredient_id
                     WHERE ri.recipe_id = :recipe_id
-                    ORDER BY ri.sort_order
+                    ORDER BY ri.order_index
                 """), {"recipe_id": recipe.id})
-                ingredients = ingredients_result.fetchall()
+
+                ingredients_rows = ingredients_result.fetchall()
+
+                ingredients = []
+                if ingredients_rows:
+                    ingredients = [
+                        {
+                            "name": row[0],
+                            "amount": float(row[1]) if row[1] is not None else 1.0,
+                            "unit": row[2],
+                            "notes": row[3] or ""
+                        } for row in ingredients_rows
+                    ]
+                elif recipe.read_model and 'ingredients' in recipe.read_model:
+                    # Fallback to read_model if relational table is empty
+                    for ing in recipe.read_model['ingredients']:
+                        if isinstance(ing, str):
+                            ingredients.append({
+                                "name": ing,
+                                "amount": 1.0,
+                                "unit": "unit",
+                                "notes": ""
+                            })
+                        else:
+                            ingredients.append({
+                                "name": ing.get('name', 'Unknown'),
+                                "amount": float(ing.get('amount', 1.0)),
+                                "unit": ing.get('unit', 'unit'),
+                                "notes": ing.get('notes', '')
+                            })
 
                 nested_recipes.append({
                     "recipe_id": str(recipe.id),
                     "name": recipe.name,
                     "description": recipe.description,
-                    "prep_time": recipe.prep_time,
-                    "cook_time": recipe.cook_time,
+                    "prep_time": recipe.prep_time_minutes,
+                    "cook_time": recipe.cook_time_minutes,
                     "servings": recipe.servings,
-                    "difficulty": recipe.difficulty,
-                    "ingredients": [
-                        {
-                            "name": row[0],
-                            "amount": row[1],
-                            "unit": row[2],
-                            "notes": row[3]
-                        } for row in ingredients
-                    ],
+                    "difficulty": recipe.difficulty_level,
+                    "ingredients": ingredients,
                     "instructions": recipe.instructions or [],
                     "meal_type": meal_type or "general",
                     "seasonal_fit": f"Excellent {season} choice"
                 })
             except Exception as e:
+                db.rollback()
                 print(f"Error processing recipe {recipe.id}: {e}")
                 # Continue with other recipes even if one fails
 
@@ -1348,6 +1500,7 @@ async def get_recipe_recommendations_by_chart(
                 r.name,
                 r.description,
                 r.cuisine,
+                r.read_model,
                 i.name as ingredient_name,
                 i.category as ingredient_category,
                 za.zodiac_sign,
@@ -1367,12 +1520,13 @@ async def get_recipe_recommendations_by_chart(
         recipe_scores = {}
 
         for row in results:
-            recipe_id, name, description, cuisine, ingredient_name, ingredient_category, zodiac_sign, affinity_strength = row
+            recipe_id, name, description, cuisine, read_model, ingredient_name, ingredient_category, zodiac_sign, affinity_strength = row
             if recipe_id not in recipe_scores:
                 recipe_scores[recipe_id] = {
                     "name": name,
                     "description": description,
                     "cuisine": cuisine,
+                    "read_model": read_model,
                     "weighted_environmental_score": 0,
                     "matching_ingredients": []
                 }
@@ -1511,25 +1665,38 @@ async def get_recipe_recommendations_by_chart(
                     if optimal_window:
                         break
 
-            # Get elemental properties for the recipe
-            elemental_properties = db.query(ElementalProperties).filter(
-                ElementalProperties.entity_type == 'recipe',
-                ElementalProperties.entity_id == recipe_id
-            ).first()
-
-            # Fetch full recipe object for calculations
-            full_recipe = db.query(Recipe).filter(Recipe.id == recipe_id).first()
+            # Use read_model for performance (avoiding N+1 queries)
+            read_model = data.get("read_model")
+            
+            # If we have a read_model, we can reconstruct the recipe object partially
+            # for the calculation functions, or we can use the data directly if they support dicts.
+            if read_model:
+                # Mock a recipe object that the calculation functions expect
+                class RecipeObj:
+                    def __init__(self, d):
+                        self.__dict__.update(d)
+                        self.id = d.get("id")
+                        # Ensure elementalProperties is available if stored in read_model
+                        self.elementalProperties = d.get("elemental_properties")
+                
+                full_recipe = RecipeObj(read_model)
+            else:
+                # Fallback to DB if read_model is missing (for older entries)
+                full_recipe = db.query(Recipe).filter(Recipe.id == recipe_id).first()
+                if full_recipe:
+                    elemental_properties = db.query(ElementalProperties).filter(
+                        ElementalProperties.entity_type == 'recipe',
+                        ElementalProperties.entity_id == recipe_id
+                    ).first()
+                    full_recipe.elementalProperties = {
+                        "Fire": elemental_properties.fire,
+                        "Water": elemental_properties.water,
+                        "Earth": elemental_properties.earth,
+                        "Air": elemental_properties.air,
+                    } if elemental_properties else None
+            
             if not full_recipe:
-                continue # Skip if recipe not found
-
-            # Temporarily assign elemental properties for calculation context
-            # In a real system, this would be passed explicitly or the recipe object would already have it
-            full_recipe.elementalProperties = {
-                "Fire": elemental_properties.fire,
-                "Water": elemental_properties.water,
-                "Earth": elemental_properties.earth,
-                "Air": elemental_properties.air,
-            } if elemental_properties else None
+                continue
 
             # Calculate Total Potency Score and Kinetic/Thermo ratings
             potency_scores_and_physics = calculate_total_potency_score(

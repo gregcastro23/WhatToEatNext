@@ -81,8 +81,8 @@ export function validateTransitDate(
       return false;
     }
 
-    const startDate = new Date(transit.Start as string | number | Date);
-    const endDate = new Date(transit.End as string | number | Date);
+    const startDate = new Date(transit.Start);
+    const endDate = new Date(transit.End);
 
     // Validate date format
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
@@ -204,8 +204,8 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
         continue;
       }
 
-      const startDate = new Date(transit.Start as string | number | Date);
-      const endDate = new Date(transit.End as string | number | Date);
+      const startDate = new Date(transit.Start);
+      const endDate = new Date(transit.End);
 
       if (isNaN(startDate.getTime())) {
         errors.push(

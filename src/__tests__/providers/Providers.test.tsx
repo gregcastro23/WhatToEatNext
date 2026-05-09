@@ -3,24 +3,28 @@
  * Validates that the full provider hierarchy renders without errors.
  */
 import React from "react";
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 
 describe("AlchemicalProvider", () => {
-  it("renders children without crashing", () => {
+  it("renders children without crashing", async () => {
     const { container } = render(
       <AlchemicalProvider>
         <div data-testid="child">Hello</div>
       </AlchemicalProvider>
     );
 
+    await waitFor(() => {
+      expect(screen.getByTestId("child")).toBeInTheDocument();
+    });
+
     expect(screen.getByTestId("child")).toBeInTheDocument();
     expect(container).toBeTruthy();
   });
 
-  it("provides default state values to children", () => {
+  it("provides default state values to children", async () => {
     function TestConsumer() {
       const ctx = useAlchemical();
       return (
@@ -37,6 +41,10 @@ describe("AlchemicalProvider", () => {
         <TestConsumer />
       </AlchemicalProvider>
     );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("season")).toHaveTextContent("spring");
+    });
 
     expect(screen.getByTestId("season")).toHaveTextContent("spring");
     expect(screen.getByTestId("dominant")).toHaveTextContent("Fire");

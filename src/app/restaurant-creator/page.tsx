@@ -148,8 +148,8 @@ export default function RestaurantCreatorPage() {
   // Premium gate
   if (!canAccess) {
     return (
-      <div className="min-h-screen bg-[#08080e] text-white to-rose-50 flex items-center justify-center px-4">
-        <div className="max-w-md text-center bg-white rounded-2xl shadow-xl border border-white/10 p-10">
+      <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center px-4">
+        <div className="max-w-md text-center bg-[#0c0c14] rounded-2xl shadow-2xl shadow-purple-900/20 border border-white/10 p-10">
           <div className="text-6xl mb-6">{"\uD83C\uDF1F"}</div>
           <h1 className="text-3xl font-black mb-3 text-white">
             Premium Feature
@@ -166,7 +166,7 @@ export default function RestaurantCreatorPage() {
           </button>
           <Link
             href="/premium"
-            className="block mt-4 text-purple-600 font-medium hover:underline"
+            className="block mt-4 text-purple-400 font-medium hover:text-purple-300 hover:underline"
           >
             Compare all plans
           </Link>
@@ -226,7 +226,7 @@ export default function RestaurantCreatorPage() {
                     onChange={(e) =>
                       setConcept((prev) => ({ ...prev, name: e.target.value }))
                     }
-                    className="text-4xl font-black text-white bg-transparent border-none outline-none w-full placeholder-slate-300"
+                    className="text-4xl font-black text-white bg-transparent border-none outline-none w-full placeholder-white/30"
                     placeholder="Restaurant Name"
                   />
                   <input
@@ -238,7 +238,7 @@ export default function RestaurantCreatorPage() {
                         tagline: e.target.value,
                       }))
                     }
-                    className="text-lg text-white/60 italic bg-transparent border-none outline-none w-full mt-2 placeholder-slate-300"
+                    className="text-lg text-white/60 italic bg-transparent border-none outline-none w-full mt-2 placeholder-white/30"
                     placeholder="Your cosmic tagline..."
                   />
                 </div>
@@ -261,10 +261,10 @@ export default function RestaurantCreatorPage() {
                         cuisineFusion: e.target.value,
                       }))
                     }
-                    className="w-full bg-white border border-white/10 rounded-lg px-3 py-2 text-sm font-medium"
+                    className="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm font-medium text-white focus:outline-none focus:border-purple-400"
                   >
                     {CUISINE_FUSIONS.map((f) => (
-                      <option key={f} value={f}>
+                      <option key={f} value={f} className="bg-[#0c0c14]">
                         {f}
                       </option>
                     ))}
@@ -284,10 +284,10 @@ export default function RestaurantCreatorPage() {
                         ambianceStyle: e.target.value,
                       }))
                     }
-                    className="w-full bg-white border border-white/10 rounded-lg px-3 py-2 text-sm font-medium"
+                    className="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm font-medium text-white focus:outline-none focus:border-purple-400"
                   >
                     {AMBIANCE_STYLES.map((a) => (
-                      <option key={a.id} value={a.id}>
+                      <option key={a.id} value={a.id} className="bg-[#0c0c14]">
                         {a.icon} {a.label}
                       </option>
                     ))}
@@ -313,7 +313,7 @@ export default function RestaurantCreatorPage() {
                         signatureDrink: e.target.value,
                       }))
                     }
-                    className="w-full bg-white border border-white/10 rounded-lg px-3 py-2 text-sm font-medium"
+                    className="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm font-medium text-white placeholder-white/30 focus:outline-none focus:border-purple-400"
                     placeholder="e.g., Nebula Negroni"
                   />
                 </div>
@@ -326,7 +326,7 @@ export default function RestaurantCreatorPage() {
                 <h2 className="text-2xl font-black text-white">Menu</h2>
                 <button
                   onClick={() => setShowMenu(!showMenu)}
-                  className="text-sm font-medium text-purple-600 hover:underline"
+                  className="text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors"
                 >
                   {showMenu ? "Hide form" : "+ Add items"}
                 </button>
@@ -342,7 +342,7 @@ export default function RestaurantCreatorPage() {
                         setNewItem((prev) => ({ ...prev, name: e.target.value }))
                       }
                       placeholder="Dish name"
-                      className="px-4 py-2 border border-white/10 rounded-lg bg-white text-sm"
+                      className="px-4 py-2 border border-white/10 rounded-lg bg-black/30 text-white placeholder-white/30 focus:border-purple-400 focus:outline-none text-sm"
                     />
                     <input
                       type="text"
@@ -354,7 +354,7 @@ export default function RestaurantCreatorPage() {
                         }))
                       }
                       placeholder="Short description"
-                      className="px-4 py-2 border border-white/10 rounded-lg bg-white text-sm"
+                      className="px-4 py-2 border border-white/10 rounded-lg bg-black/30 text-white placeholder-white/30 focus:border-purple-400 focus:outline-none text-sm"
                     />
                     <input
                       type="number"
@@ -367,7 +367,7 @@ export default function RestaurantCreatorPage() {
                       }
                       placeholder="Price"
                       step="0.01"
-                      className="px-4 py-2 border border-white/10 rounded-lg bg-white text-sm"
+                      className="px-4 py-2 border border-white/10 rounded-lg bg-black/30 text-white placeholder-white/30 focus:border-purple-400 focus:outline-none text-sm"
                     />
                     <select
                       value={newItem.category}
@@ -377,10 +377,10 @@ export default function RestaurantCreatorPage() {
                           category: e.target.value as MenuCategory,
                         }))
                       }
-                      className="px-4 py-2 border border-white/10 rounded-lg bg-white text-sm"
+                      className="px-4 py-2 border border-white/10 rounded-lg bg-black/30 text-white focus:border-purple-400 focus:outline-none text-sm"
                     >
                       {MENU_CATEGORIES.map((c) => (
-                        <option key={c} value={c}>
+                        <option key={c} value={c} className="bg-[#0c0c14]">
                           {c}
                         </option>
                       ))}
@@ -402,8 +402,8 @@ export default function RestaurantCreatorPage() {
                         }
                         className={`px-3 py-1 rounded-full text-xs font-bold border transition-all ${
                           newItem.tags.includes(tag.key)
-                            ? `${tag.color  } border-current`
-                            : "bg-white text-white/60 border-white/10"
+                            ? `${tag.color} border-current bg-black/40`
+                            : "bg-white/5 text-white/40 border-white/10 hover:border-white/30 hover:text-white/80"
                         }`}
                       >
                         {tag.icon} {tag.label}

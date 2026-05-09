@@ -268,7 +268,7 @@ export default function RecipeBuilderPage() {
         const recommendations = (data.recommendations || []) as RecommendedMeal[];
         handleSuggestionsUpdate(recommendations);
       } catch (err) {
-        logger.error("Quick generate failed:", err as any);
+        logger.error("Quick generate failed:", err);
         setGenerationError("Quick generate failed. Please try again in a moment.");
         handleSuggestionsUpdate([]);
       } finally {

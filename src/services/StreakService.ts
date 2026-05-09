@@ -78,7 +78,7 @@ class StreakService {
           return rowToStreak(result.rows[0]);
         }
       } catch (error) {
-        _logger.error("[StreakService] getStreak failed:", error as any);
+        _logger.error("[StreakService] getStreak failed:", error);
       }
     }
 
@@ -152,7 +152,7 @@ class StreakService {
           [userId, newCurrentStreak, newLongestStreak, today],
         );
       } catch (error) {
-        _logger.error("[StreakService] recordActivity DB update failed:", error as any);
+        _logger.error("[StreakService] recordActivity DB update failed:", error);
       }
     }
 
@@ -188,7 +188,7 @@ class StreakService {
           [userId, freezeUntil],
         );
       } catch (error) {
-        _logger.error("[StreakService] applyStreakFreeze failed:", error as any);
+        _logger.error("[StreakService] applyStreakFreeze failed:", error);
       }
     }
 

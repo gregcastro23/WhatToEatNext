@@ -11,7 +11,6 @@
 
 import React, { useState } from "react";
 import { usePremium } from "@/contexts/PremiumContext";
-import type { SubscriptionTier } from "@/types/subscription";
 
 interface PremiumGateProps {
   children: React.ReactNode;
@@ -79,7 +78,7 @@ export default function PremiumGate({
         <PremiumModal
           onClose={() => setShowModal(false)}
           onUpgrade={() => {
-            void openCheckout("premium" as SubscriptionTier);
+            void openCheckout("premium");
             setShowModal(false);
           }}
         />

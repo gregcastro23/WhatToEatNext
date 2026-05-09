@@ -147,6 +147,6 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
             : "",
       };
     }),
-  } as ExtendedRecipe;
+  };
 }
 export default ExtendedRecipe;

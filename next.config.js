@@ -1,12 +1,52 @@
 import path from "path";
 import fs from "fs";
+import { createRequire } from "module";
 import { fileURLToPath } from "url";
-import withPWAInit from "@ducanh2912/next-pwa";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
+const { GenerateSW } = require("workbox-webpack-plugin");
 
 /** @type {import('next').NextConfig} */
+// Keep PWA support opt-in only. The next-pwa wrapper stalls this app during
+// Next.js 15 compile, so PWA generation uses Workbox directly instead.
+const enablePwa = process.env.ENABLE_PWA === "true";
+
+class CopyPwaAssetsPlugin {
+  constructor(publicDir) {
+    this.publicDir = publicDir;
+  }
+
+  apply(compiler) {
+    compiler.hooks.done.tap("CopyPwaAssetsPlugin", () => {
+      const outputPath = compiler.outputPath;
+      if (!outputPath || !fs.existsSync(outputPath)) return;
+
+      const pwaAssetNames = fs
+        .readdirSync(outputPath)
+        .filter(
+          (assetName) =>
+            assetName === "sw.js" || assetName.startsWith("workbox-"),
+        );
+
+      if (pwaAssetNames.length === 0) return;
+
+      for (const existingAssetName of fs.readdirSync(this.publicDir)) {
+        if (existingAssetName === "sw.js" || existingAssetName.startsWith("workbox-")) {
+          fs.rmSync(path.join(this.publicDir, existingAssetName), { force: true });
+        }
+      }
+
+      for (const assetName of pwaAssetNames) {
+        const sourcePath = path.join(outputPath, assetName);
+        const destinationPath = path.join(this.publicDir, assetName);
+        fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
+        fs.copyFileSync(sourcePath, destinationPath);
+      }
+    });
+  }
+}
 
 // Security headers with Vercel support
 const getSecurityHeaders = () => {
@@ -19,6 +59,7 @@ const getSecurityHeaders = () => {
     "https://r2cdn.perplexity.ai",
     "https://vercel.live",
     "https://*.vercel.live",
+    "https://static.cloudflareinsights.com",
   ];
 
   const connectSrcParts = [
@@ -40,7 +81,6 @@ const getSecurityHeaders = () => {
     "object-src 'none'",
     "frame-src 'self' https://accounts.google.com",
     "frame-ancestors 'none'",
-    "block-all-mixed-content",
     "upgrade-insecure-requests",
   ].join("; ");
 
@@ -63,7 +103,7 @@ const getSecurityHeaders = () => {
     },
     {
       key: "Permissions-Policy",
-      value: "camera=(), microphone=(), geolocation=()",
+      value: "camera=(), microphone=(), geolocation=(self)",
     },
   ];
 };
@@ -99,13 +139,7 @@ const nextConfig = {
   // Move serverExternalPackages out of experimental for Next.js 15
   serverExternalPackages: ["pg", "astronomy-engine"],
 
-  experimental: {
-    optimizePackageImports: [
-      "@chakra-ui/react",
-      "react-icons",
-      "framer-motion",
-    ],
-  },
+  turbopack: {},
 
   webpack: (config, { isServer, nextRuntime }) => {
     config.resolve.alias = {
@@ -123,22 +157,21 @@ const nextConfig = {
         dns: false,
         "pg-native": false,
       };
-    }
 
-    // Stub out modules that are not compatible with Edge Runtime.
-    // These modules use Node.js built-ins (stream, fs, path, crypto, net, etc.)
-    // that are not available in Cloudflare Workers.
-    if (nextRuntime === "edge") {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        // jose deflate - not needed for JWT sessions
-        "jose/dist/webapi/lib/deflate.js": false,
-        // nodemailer - uses stream, fs, path, crypto (use Resend API instead)
-        nodemailer: false,
-        // pg - PostgreSQL client (use dynamic imports in server-only code)
-        pg: false,
-        "pg-native": false,
-      };
+      if (enablePwa) {
+        config.plugins.push(
+          new GenerateSW({
+            swDest: "sw.js",
+            clientsClaim: true,
+            skipWaiting: true,
+            cleanupOutdatedCaches: true,
+            mode: process.env.NODE_ENV === "production" ? "production" : "development",
+            exclude: [/\.map$/, /^build-manifest\.json$/, /^app-build-manifest\.json$/, /^react-loadable-manifest\.json$/],
+            runtimeCaching: [],
+          }),
+          new CopyPwaAssetsPlugin(path.join(__dirname, "public")),
+        );
+      }
     }
 
     return config;
@@ -156,15 +189,4 @@ const nextConfig = {
   // Proxy rewrites removed - back to standard monolith on Vercel
 };
 
-const withPWA = withPWAInit({
-  dest: "public",
-  disable: process.env.NODE_ENV === "development",
-  register: true,
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
-  workboxOptions: {
-    disableDevLogs: true,
-  },
-});
-
-export default withPWA(nextConfig);
+export default nextConfig;

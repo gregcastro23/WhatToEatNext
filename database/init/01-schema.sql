@@ -132,6 +132,7 @@ CREATE TABLE ingredients (
     -- Metadata
     is_active BOOLEAN DEFAULT true,
     data_source VARCHAR(100),
+    amazon_asin VARCHAR(20),
     confidence_score DECIMAL(3,2) DEFAULT 1.0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP

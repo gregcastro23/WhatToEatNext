@@ -56,7 +56,7 @@ export class AlchemicalRecommendationService {
   ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(
-      planetaryPositions as { [planet: string]: string },
+      planetaryPositions,
     );
 
     // Convert thermodynamic properties to elemental properties
@@ -128,10 +128,7 @@ export class AlchemicalRecommendationService {
                   s === "winter",
               ),
               planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
-              flavorProfile: (ingredient.flavorProfile || {}) as Record<
-                string,
-                number
-              >,
+              flavorProfile: (ingredient.flavorProfile || {}),
               culturalOrigins: (ingredient.regionalOrigins || []) as string[],
             },
           };
@@ -388,7 +385,7 @@ export class AlchemicalRecommendationService {
   } {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(
-      planetaryPositions as { [planet: string]: string },
+      planetaryPositions,
     );
 
     // Convert thermodynamic properties to elemental properties

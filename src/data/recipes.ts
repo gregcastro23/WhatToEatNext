@@ -230,7 +230,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                 // Log meal data structure
                 logger.debug(
                   `${cuisineName} - ${mealType} data: `,
-                  Object.keys(mealData as any),
+                  Object.keys(mealData),
                 );
 
                 // Process season data (spring, summer, autumn, winter, all)
@@ -414,7 +414,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                         // Additional properties for compatibility
                         elementalProperties: undefined, // To be calculated later if needed
                         season:
-                          season !== "all" ? (season as Season) : undefined,
+                          season !== "all" ? (season) : undefined,
                         mealType,
                         cookingMethod: undefined, // Could be derived from instructions
                         cookingMethods: undefined,

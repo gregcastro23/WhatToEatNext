@@ -614,7 +614,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   ): Promise<ApiResponse<Recipe>> {
     try {
       const recipe = await this.recipeService.adaptRecipeForSeason(
-        { id: params.recipeId } as Recipe,
+        { id: params.recipeId },
         params.season,
       );
       return {

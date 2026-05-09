@@ -1,4 +1,3 @@
-import type { IngredientMapping } from "@/types/alchemy";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawFreshHerbs = {
@@ -658,7 +657,7 @@ const rawFreshHerbs = {
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSignType[] compatibility
 export const freshHerbs = fixIngredientMappings(
-  rawFreshHerbs as unknown as Record<string, Partial<IngredientMapping>>,
+  rawFreshHerbs,
 );
 
 export default freshHerbs;

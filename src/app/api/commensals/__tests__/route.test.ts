@@ -95,6 +95,10 @@ describe("Commensals API (/api/commensals)", () => {
   });
 
   it("should return 500 when database throws an error", async () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
     (getUserIdFromRequest as jest.Mock).mockResolvedValue(mockUserId);
     (commensalDatabase.getCommensalshipsForUser as jest.Mock).mockRejectedValue(new Error("DB_FAIL"));
 
@@ -104,5 +108,11 @@ describe("Commensals API (/api/commensals)", () => {
 
     expect(response.status).toBe(500);
     expect(data.success).toBe(false);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Get commensalships error:",
+      expect.objectContaining({ message: "DB_FAIL" }),
+    );
+
+    consoleErrorSpy.mockRestore();
   });
 });

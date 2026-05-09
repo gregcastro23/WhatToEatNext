@@ -12,8 +12,17 @@
 
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth/auth.config";
+import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
+import type { NextRequest } from "next/server";
 
-export default NextAuth(authConfig).auth;
+const authMiddleware = NextAuth(authConfig).auth as unknown as (
+  request: NextRequest,
+) => ReturnType<Response["clone"]> | Promise<Response | undefined> | undefined;
+
+export default function middleware(request: NextRequest) {
+  applyRequestAuthOrigin(request);
+  return authMiddleware(request);
+}
 
 export const runtime = "nodejs";
 

@@ -11,6 +11,17 @@
  */
 
 import { handlers } from "@/lib/auth/auth";
+import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
+import type { NextRequest } from "next/server";
 
-export const { GET, POST } = handlers;
 export const runtime = "nodejs";
+
+export async function GET(request: NextRequest) {
+  applyRequestAuthOrigin(request);
+  return handlers.GET(request);
+}
+
+export async function POST(request: NextRequest) {
+  applyRequestAuthOrigin(request);
+  return handlers.POST(request);
+}

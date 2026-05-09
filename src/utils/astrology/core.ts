@@ -447,7 +447,7 @@ export async function getCurrentAstrologicalState(
         lunarPhase,
         isDaytime,
         planetaryHour,
-      } as AstrologicalState,
+      },
       _timeFactors,
     );
     const dominantElement = await calculateDominantElement(
@@ -457,7 +457,7 @@ export async function getCurrentAstrologicalState(
         lunarPhase,
         isDaytime,
         planetaryHour,
-      } as AstrologicalState,
+      },
       _timeFactors,
     );
     // Build the astrological state object
@@ -481,7 +481,7 @@ export async function getCurrentAstrologicalState(
       "Error in getCurrentAstrologicalState: ",
       error instanceof Error ? error.message : String(error),
     );
-    return {} as AstrologicalState;
+    return {};
   }
 }
 /**
@@ -512,7 +512,7 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
 export function getZodiacElementalInfluence(sign: any): Element {
   const element = getZodiacElement(sign);
   // Convert ElementalCharacter to celestial Element type
-  return element as Element;
+  return element;
 }
 /**
  * Calculate elemental compatibility between two elements
@@ -551,7 +551,7 @@ export async function calculateDominantElement(
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(
       ([planet, position]) => {
-        const element = getZodiacElementalInfluence(position.sign as unknown);
+        const element = getZodiacElementalInfluence(position.sign);
         // Weight by planet importance
         let weight = 1;
         if (planet === "Sun" || planet === "Moon") weight = 3;
@@ -591,7 +591,7 @@ export async function calculateElementalProfile(
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(
       ([planet, position]) => {
-        const element = getZodiacElementalInfluence(position.sign as unknown);
+        const element = getZodiacElementalInfluence(position.sign);
         // Weight by planet importance
         let weight = 1;
         if (planet === "Sun" || planet === "Moon") weight = 3;
@@ -704,8 +704,8 @@ export async function calculateAspects(
           // Calculate aspect strength based on orb
           const strength = 1 - orb / definition.orb;
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as unknown).toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as unknown).toLowerCase();
+          const element1 = getZodiacElement(pos1.sign).toLowerCase();
+          const element2 = getZodiacElement(pos2.sign).toLowerCase();
           // Base multiplier from definition
           let multiplier = definition.significance;
           // Special case: Square aspect with Ascendant is positive
@@ -732,7 +732,7 @@ export async function calculateAspects(
               water: 0,
               earth: 0,
               air: 0,
-            } as unknown as LowercaseElementalProperties,
+            },
           });
           // Apply elemental effects
           elementalEffects[element1 as "Fire" | "Water" | "Earth" | "Air"] +=

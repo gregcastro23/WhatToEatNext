@@ -706,7 +706,7 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
 };
 
 export const legumes: Record<string, IngredientMapping> = fixIngredientMappings(
-  rawLegumes as any,
+  rawLegumes,
 );
 
 export default legumes;

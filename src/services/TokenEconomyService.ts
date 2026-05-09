@@ -114,7 +114,7 @@ class TokenEconomyService {
             return rowToBalances(result.rows[0]);
           }
         } catch (error) {
-          _logger.error("[TokenEconomy] getBalances failed:", error as any);
+          _logger.error("[TokenEconomy] getBalances failed:", error);
         }
       }
     }
@@ -199,7 +199,7 @@ class TokenEconomyService {
         }
         return null;
       } catch (error) {
-        _logger.error("[TokenEconomy] creditTokens failed:", error as any);
+        _logger.error("[TokenEconomy] creditTokens failed:", error);
         return null;
       }
     }
@@ -292,7 +292,7 @@ class TokenEconomyService {
         }
         return null; // Insufficient balance
       } catch (error) {
-        _logger.error("[TokenEconomy] debitTokens failed:", error as any);
+        _logger.error("[TokenEconomy] debitTokens failed:", error);
         return null;
       }
     }
@@ -362,7 +362,7 @@ class TokenEconomyService {
           [userId],
         );
       } catch (error) {
-        _logger.error("[TokenEconomy] updateDailyClaimTimestamp failed:", error as any);
+        _logger.error("[TokenEconomy] updateDailyClaimTimestamp failed:", error);
       }
     }
 
@@ -476,7 +476,7 @@ class TokenEconomyService {
           newBalances: rowToBalances(result.rows[0]),
         };
       } catch (error) {
-        _logger.error("[TokenEconomy] transmute DB failed:", error as any);
+        _logger.error("[TokenEconomy] transmute DB failed:", error);
         return null;
       }
     }
@@ -550,7 +550,7 @@ class TokenEconomyService {
           total: countResult.rows[0]?.total || 0,
         };
       } catch (error) {
-        _logger.error("[TokenEconomy] getTransactions failed:", error as any);
+        _logger.error("[TokenEconomy] getTransactions failed:", error);
       }
     }
 
@@ -711,7 +711,7 @@ class TokenEconomyService {
           transactionGroupId: result.rows[0].txn_group_id,
         };
       } catch (error) {
-        _logger.error("[TokenEconomy] purchaseShopItem failed:", error as any);
+        _logger.error("[TokenEconomy] purchaseShopItem failed:", error);
         return { success: false, reason: "purchase_failed" };
       }
     }
@@ -750,7 +750,7 @@ class TokenEconomyService {
         );
         return result.rows.length > 0;
       } catch (error) {
-        _logger.error("[TokenEconomy] hasActivePurchase failed:", error as any);
+        _logger.error("[TokenEconomy] hasActivePurchase failed:", error);
       }
     }
 
@@ -800,7 +800,7 @@ class TokenEconomyService {
           isActive: row.is_active,
         };
       } catch (error) {
-        _logger.error("[TokenEconomy] getShopItem failed:", error as any);
+        _logger.error("[TokenEconomy] getShopItem failed:", error);
       }
     }
 
@@ -867,7 +867,7 @@ class TokenEconomyService {
         sortOrder: row.sort_order || 0,
       }));
     } catch (error) {
-      _logger.error("[TokenEconomy] getShopItems failed:", error as any);
+      _logger.error("[TokenEconomy] getShopItems failed:", error);
       return [];
     }
   }

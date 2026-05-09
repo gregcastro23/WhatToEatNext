@@ -84,7 +84,7 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     exactLongitude: 38.2,
     isRetrograde: false,
   },
-} as Record<string, CelestialPosition>;
+};
 
 /**
  * Default astrological state with safe values for all required properties

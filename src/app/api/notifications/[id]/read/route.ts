@@ -15,23 +15,31 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
+  try {
+    const userId = await getUserIdFromRequest(request);
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
+      );
+    }
+
+    const { id } = await params;
+    const updated = await notificationDatabase.markAsRead(id, userId);
+
+    if (!updated) {
+      return NextResponse.json(
+        { success: false, message: "Notification not found or not yours" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("[notifications/[id]/read] Error:", error);
     return NextResponse.json(
-      { success: false, message: "Authentication required" },
-      { status: 401 },
+      { success: false, message: "Failed to mark notification as read" },
+      { status: 500 },
     );
   }
-
-  const { id } = await params;
-  const updated = await notificationDatabase.markAsRead(id, userId);
-
-  if (!updated) {
-    return NextResponse.json(
-      { success: false, message: "Notification not found or not yours" },
-      { status: 404 },
-    );
-  }
-
-  return NextResponse.json({ success: true });
 }

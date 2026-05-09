@@ -11,7 +11,7 @@ import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import type { ElementalProperties, ZodiacSign, BasicThermodynamicProperties, LunarPhase } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign, BasicThermodynamicProperties } from '@/types/alchemy';
 import { _COOKING_METHOD_THERMODYNAMICS as COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { _staticAlchemize as staticAlchemize } from '@/utils/alchemyInitializer';
 import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
@@ -1443,7 +1443,7 @@ export default function CookingMethods() {
 
             // Add lunar phase adjustment with stronger effect
             if (astroState.lunarPhase) {
-              const lunarMultiplier = getLunarMultiplier(astroState.lunarPhase as LunarPhase);
+              const lunarMultiplier = getLunarMultiplier(astroState.lunarPhase);
               // Apply a more significant adjustment
               adjustedScore = adjustedScore * (0.8 + (lunarMultiplier * 0.4)); // More impactful adjustment
             }

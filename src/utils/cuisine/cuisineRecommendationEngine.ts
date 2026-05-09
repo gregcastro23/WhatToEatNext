@@ -273,7 +273,7 @@ export function calculateSignatureMatch(
     // Check if signature property is elemental
     if (["Fire", "Water", "Earth", "Air"].includes(property as any)) {
       const userPreference =
-        userPreferences[property as keyof ElementalProperties];
+        userPreferences[property];
       const signatureStrength = signature.zscore > 0 ? 1 : -1; // Positive or negative signature
 
       // Higher match if user prefers the signature direction

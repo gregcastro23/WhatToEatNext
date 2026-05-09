@@ -100,7 +100,7 @@ export function calculateElementalBalance(
 
   // Apply Tarot card boost
   if (tarotCardSuit) {
-    const boostedElement = SUIT_TO_ELEMENT[tarotCardSuit as keyof typeof SUIT_TO_ELEMENT] as keyof typeof elements;
+    const boostedElement = SUIT_TO_ELEMENT[tarotCardSuit as keyof typeof SUIT_TO_ELEMENT];
     if (boostedElement) {
       elements[boostedElement] *= 1.3;
     }
@@ -191,7 +191,7 @@ export function calculatePlanetaryAlchemicalValues(
   }
 
   if (tarotCardSuit) {
-    const boostedToken = SUIT_TO_TOKEN[tarotCardSuit as keyof typeof SUIT_TO_TOKEN] as keyof typeof alchemicalValues;
+    const boostedToken = SUIT_TO_TOKEN[tarotCardSuit as keyof typeof SUIT_TO_TOKEN];
     if (boostedToken) {
       alchemicalValues[boostedToken] *= 1.3;
     }

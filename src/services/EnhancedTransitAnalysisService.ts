@@ -187,7 +187,7 @@ export class EnhancedTransitAnalysisService {
         strength,
         locationInfluence: locationInfluence?.finalInfluence || 1.0,
         culinaryRecommendations,
-      } as EnhancedPlanetaryPosition;
+      };
     });
   }
 

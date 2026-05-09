@@ -398,7 +398,7 @@ export function getPlanetaryPatternSummary(patterns: PlanetaryPattern[]): {
     totalStrength += pattern.planetaryStrength || 0;
     dominantElements[pattern.dominantElement]++;
     planetDistribution[pattern.planet] = (pattern.planetaryStrength ||
-      0) as any;
+      0);
   });
 
   return {

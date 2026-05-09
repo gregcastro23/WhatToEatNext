@@ -386,7 +386,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
             const signKey = position.sign.toLowerCase();
             const modality = signKey in signModality ? signModality[signKey] : undefined;
             if (modality && (modality === 'Cardinal' || modality === 'Fixed' || modality === 'Mutable')) {
-              modalityCount[modality as Modality]++;
+              modalityCount[modality]++;
               totalPlanets++;
             }
           }
@@ -401,9 +401,9 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         
         // Determine dominant modality
         const entries = Object.entries(modalityDistribution) as Array<[Modality, number]>;
-        const dominantModality = entries.reduce(
+        const dominantModality = entries.reduce<{ modality: Modality; value: number }>(
           (max, [modality, value]) => value > max.value ? {modality, value} : max, 
-          {modality: 'Mutable' as Modality, value: 0}
+          {modality: 'Mutable', value: 0}
         ).modality;
 
         // Update modality distribution in a separate state update

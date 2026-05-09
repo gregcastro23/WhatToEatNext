@@ -24,6 +24,7 @@ const config = {
   testPathIgnorePatterns: [
     "/node_modules/",
     "/.next/",
+    "/.claude/",
     "/docs/archived-tests/",
     "/.temp-disabled-tests/",
     "/archive/",
@@ -33,7 +34,14 @@ const config = {
     "tests/cross-backend-rectification",
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  modulePathIgnorePatterns: ["<rootDir>/Alchm Kitchen/", "<rootDir>/docs/Alchm Kitchen/", "<rootDir>/.next/", "<rootDir>/.open-next/"],
+  modulePathIgnorePatterns: [
+    "<rootDir>/.claude/",
+    "<rootDir>/Alchm Kitchen/",
+    "<rootDir>/docs/Alchm Kitchen/",
+    "<rootDir>/.next/",
+    "<rootDir>/.open-next/",
+  ],
+  setupFiles: ["<rootDir>/tests/setup/jest.globals.ts"],
   setupFilesAfterEnv: ["<rootDir>/tests/setup/jest.setup.ts"],
 
   // Memory Management Configuration
@@ -49,8 +57,7 @@ const config = {
   verbose: true,
 
   // Additional memory-safe configurations
-  detectOpenHandles: false, // Disabled in CI to prevent hanging
-  forceExit: true,
+  detectOpenHandles: false, // Enable explicitly via CLI when debugging test hangs
   bail: false, // Don't stop on first failure
 
   // Cache configuration for memory efficiency

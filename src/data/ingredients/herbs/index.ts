@@ -173,7 +173,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         flavor_retention: 0.4, // 40% of flavor retained compared to fresh
       },
     },
-  }) as Partial<IngredientMapping>,
+  }),
 
   mint: createIngredientMapping("mint", {
     elementalProperties: { Water: 0.55, Air: 0.32, Earth: 0.08, Fire: 0.05 },
@@ -193,7 +193,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         oil_content: 0.7,
       },
     },
-  }) as Partial<IngredientMapping>,
+  }),
 
   rosemary: createIngredientMapping("rosemary", {
     elementalProperties: { Fire: 0.4, Earth: 0.35, Air: 0.2, Water: 0.05 },
@@ -211,7 +211,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         growth_habit: "low, spreading",
       },
     },
-  }) as Partial<IngredientMapping>,
+  }),
 
   // Additional specialty herbs
   curry_leaves: createIngredientMapping("curry_leaves", {
@@ -244,7 +244,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       sri_lankan: 8,
     },
     pairings: ["mustard seeds", "coconut", "lentils", "asafoetida", "turmeric"],
-  }) as Partial<IngredientMapping>,
+  }),
 
   lemongrass: createIngredientMapping("lemongrass", {
     elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
@@ -271,7 +271,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       malaysian: 8,
     },
     pairings: ["coconut milk", "chili", "lime", "ginger", "garlic"],
-  }) as Partial<IngredientMapping>,
+  }),
 
   shiso: createIngredientMapping("shiso", {
     elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
@@ -292,7 +292,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       vietnamese: 7,
     },
     pairings: ["fish", "rice", "cucumber", "ume plum", "tofu"],
-  }) as Partial<IngredientMapping>,
+  }),
 });
 
 // To ensure we're exporting all available herbs, explicitly export each collection

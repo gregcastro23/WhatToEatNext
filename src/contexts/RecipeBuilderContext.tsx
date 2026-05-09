@@ -120,7 +120,7 @@ export function RecipeBuilderProvider({
         logger.info("Loaded recipe builder state from storage");
       }
     } catch (error) {
-      logger.error("Failed to load recipe builder state:", error as any);
+      logger.error("Failed to load recipe builder state:", error);
     } finally {
       setIsInitialized(true);
     }
@@ -132,7 +132,7 @@ export function RecipeBuilderProvider({
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (error) {
-      logger.error("Failed to persist recipe builder state:", error as any);
+      logger.error("Failed to persist recipe builder state:", error);
     }
   }, [state, isInitialized]);
 

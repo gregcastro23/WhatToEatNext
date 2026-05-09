@@ -147,7 +147,7 @@ export const zodiacSigns: any[] = [
 ];
 // Utility function to validate zodiac sign
 export function isValidZodiacSignType(sign: string): sign is ZodiacSignType {
-  return zodiacSigns.includes(sign as ZodiacSignType);
+  return zodiacSigns.includes(sign);
 }
 export interface PlanetPositionData {
   sign: ZodiacSignType;
@@ -1154,7 +1154,7 @@ export function calculateCompleteAstrologicalEffects(
   );
   // Calculate house effects
   const houseEffects = calculateAllHouseEffects(
-    planetPositions as Record<string, { sign: any; house?: number }>,
+    planetPositions,
     {},
   ); // Use type assertion
   // Calculate joy effects
@@ -1573,7 +1573,7 @@ export async function getCurrentAstrologicalState(
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: "Sun" as any,
+      planetaryHour: "Sun",
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {},
@@ -1589,91 +1589,91 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
   // _Reference: current-moment-chart.ipynb for July 2nd, 2025 at, 10: 45 PM EDT
   const currentPositions: Record<string, PlanetPosition> = {
     Sun: {
-      sign: "cancer" as ZodiacSignType,
+      sign: "cancer",
       degree: 10,
       minute: 45,
       exactLongitude: 100.75, // 10° 45' Cancer,
       isRetrograde: false,
     },
     Moon: {
-      sign: "libra" as ZodiacSignType,
+      sign: "libra",
       degree: 18,
       minute: 19,
       exactLongitude: 198.32, // 18° 19' Libra,
       isRetrograde: false,
     },
     Mercury: {
-      sign: "leo" as ZodiacSignType,
+      sign: "leo",
       degree: 2,
       minute: 9,
       exactLongitude: 122.15, // 2° 9' Leo,
       isRetrograde: false,
     },
     Venus: {
-      sign: "leo" as ZodiacSignType,
+      sign: "leo",
       degree: 14,
       minute: 51,
       exactLongitude: 134.85, // 14° 51' Leo,
       isRetrograde: false,
     },
     Mars: {
-      sign: "taurus" as ZodiacSignType,
+      sign: "taurus",
       degree: 25,
       minute: 25,
       exactLongitude: 55.42, // 25° 25' Taurus,
       isRetrograde: false,
     },
     Jupiter: {
-      sign: "gemini" as ZodiacSignType,
+      sign: "gemini",
       degree: 12,
       minute: 44,
       exactLongitude: 72.73, // 12° 44' Gemini,
       isRetrograde: false,
     },
     Saturn: {
-      sign: "pisces" as ZodiacSignType,
+      sign: "pisces",
       degree: 19,
       minute: 17,
       exactLongitude: 349.28, // 19° 17' Pisces,
       isRetrograde: false,
     },
     Uranus: {
-      sign: "taurus" as ZodiacSignType,
+      sign: "taurus",
       degree: 26,
       minute: 9,
       exactLongitude: 56.15, // 26° 9' Taurus,
       isRetrograde: false,
     },
     Neptune: {
-      sign: "aries" as ZodiacSignType,
+      sign: "aries",
       degree: 29,
       minute: 55,
       exactLongitude: 29.92, // 29° 55' Aries,
       isRetrograde: false,
     },
     Pluto: {
-      sign: "aquarius" as ZodiacSignType,
+      sign: "aquarius",
       degree: 1,
       minute: 53,
       exactLongitude: 301.88, // 1° 53' Aquarius,
       isRetrograde: true,
     },
     northNode: {
-      sign: "pisces" as ZodiacSignType,
+      sign: "pisces",
       degree: 26,
       minute: 33,
       exactLongitude: 356.55, // Position in 330-360 degrees (pisces),
       isRetrograde: true,
     },
     southNode: {
-      sign: "virgo" as ZodiacSignType,
+      sign: "virgo",
       degree: 26,
       minute: 33,
       exactLongitude: 176.55, // Position in 150-180 degrees (virgo), opposite to North Node,
       isRetrograde: true,
     },
     Ascendant: {
-      sign: "sagittarius" as ZodiacSignType,
+      sign: "sagittarius",
       degree: 3,
       minute: 58,
       exactLongitude: 243.97, // Position in 240-270 degrees (sagittarius),
@@ -2366,19 +2366,19 @@ export function transformItemsWithPlanetaryPositions(
           Essence: 0.25,
           Matter: 0.25,
           Substance: 0.25,
-        } as Record<AlchemicalProperty, number>,
+        },
         transformedElementalProperties: {
           ...item.elementalProperties,
-        } as Record<ElementalCharacter, number>,
+        },
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
         gregsEnergy: 0.5,
         dominantElement,
-        dominantAlchemicalProperty: "Spirit" as AlchemicalProperty,
+        dominantAlchemicalProperty: "Spirit",
         planetaryBoost: 1.0,
         dominantPlanets: [] as string[],
-        planetaryDignities: {} as Record<string, unknown>,
+        planetaryDignities: {},
         // Optional legacy properties for backward compatibility
         thermodynamicProperties: {
           heat: 0.5,
@@ -2388,7 +2388,7 @@ export function transformItemsWithPlanetaryPositions(
         },
         transformations: [],
         seasonalResonance: [],
-      } as AlchemicalItem;
+      };
     });
   }
 }
@@ -2520,9 +2520,9 @@ function getDominantElementFromProperties(
     const elements = Object.entries(properties) as Array<
       [ElementalCharacter, number]
     >;
-    const dominant = elements.reduce(
+    const dominant = elements.reduce<{ element: ElementalCharacter; value: number }>(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
-      { element: "Fire" as ElementalCharacter, value: 0 },
+      { element: "Fire", value: 0 },
     );
     return dominant.element;
   } catch (_error) {

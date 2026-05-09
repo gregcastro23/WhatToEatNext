@@ -103,7 +103,7 @@ function normalizeSignName(signName: string): ZodiacSignType {
   };
 
   const normalized = signName.toLowerCase();
-  return signMap[normalized] || ("aries" as ZodiacSignType);
+  return signMap[normalized] || ("aries");
 }
 
 /**
@@ -200,7 +200,7 @@ async function fetchPlanetaryPositions(
     const data = (await response.json()) as AstrologizeResponse;
 
     // Determine Ascendant from server response or calculate locally
-    let ascendantSign: ZodiacSignType = "aries" as ZodiacSignType;
+    let ascendantSign: ZodiacSignType = "aries";
     let ascendantLongitude = 0;
     if (data.ascendant?.sign) {
       ascendantSign = normalizeSignName(data.ascendant.sign);
@@ -233,7 +233,7 @@ async function fetchPlanetaryPositions(
 
     return positions;
   } catch (error) {
-    _logger.error("Error fetching planetary positions: ", error as any);
+    _logger.error("Error fetching planetary positions: ", error);
     throw error;
   }
 }
@@ -351,7 +351,7 @@ export async function calculateNatalChart(
 
     return natalChart;
   } catch (error) {
-    _logger.error("Error calculating natal chart: ", error as any);
+    _logger.error("Error calculating natal chart: ", error);
     throw new Error(
       "Failed to calculate natal chart. Please check birth data and try again.",
       { cause: error },

@@ -6,7 +6,23 @@ import { TextEncoder } from "util";
 
 global.TextEncoder = TextEncoder;
 
-console.log("NODE_ENV:", process.env.NODE_ENV);
+const originalConsoleError = console.error.bind(console);
+const ignoredConsoleErrorPatterns = [
+  "The current testing environment is not configured to support act(...)",
+  "inside a test was not wrapped in act(...)",
+];
+
+console.error = (...args: Parameters<typeof console.error>) => {
+  const [message] = args;
+  if (
+    typeof message === "string" &&
+    ignoredConsoleErrorPatterns.some((pattern) => message.includes(pattern))
+  ) {
+    return;
+  }
+
+  originalConsoleError(...args);
+};
 
 // In React 19, act should be imported from 'react', but some utilities still expect React.act
 if (typeof React.act === "undefined") {
@@ -40,17 +56,11 @@ global.IntersectionObserver = class IntersectionObserver {
 
 beforeAll(() => {
   jest.setTimeout(10000);
-
-  // Setup any global test configuration
-  console.log("Test setup initialized");
 });
 
 afterAll(() => {
   jest.clearAllTimers();
   jest.useRealTimers();
-
-  // Ensure cleanup after tests
-  console.log("Test cleanup completed");
 });
 
 // Add global error handler for unhandled rejections

@@ -179,7 +179,7 @@ class PersonalizedRecommendationService {
     _logger.info("Personalized recommendations scored", {
       itemCount: items.length,
       topScore: scoredItems[0]?.personalizedScore,
-    } as any);
+    });
 
     return scoredItems;
   }

@@ -1,6 +1,5 @@
 // @ts-nocheck
 import React, { useState, useMemo } from 'react';
-import type { ElementalItem } from '@/calculations/alchemicalTransformation';
 import type { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
 import type { RulingPlanet } from '@/constants/planets';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
@@ -183,7 +182,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProperties: elementalProps,
         qualities: (ingredient).qualities || [],
         modality: (ingredient).modality
-      } as ElementalItem;
+      };
     });
   }, [allIngredients]);
   
@@ -245,7 +244,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         id: key,
         name: (method as any).name || key,
         elementalProperties: elementalEffect
-      } as ElementalItem;
+      };
     });
   }, []);
   
@@ -314,7 +313,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         id: key,
         name: (cuisine).name || key,
         elementalProperties: elementalState
-      } as ElementalItem;
+      };
     });
   }, [cuisines]);
   

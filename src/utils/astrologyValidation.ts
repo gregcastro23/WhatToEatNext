@@ -174,10 +174,7 @@ export async function getValidationSummary(): Promise<string> {
   }
 
   // Now we know result is an object with accurate and differences
-  const { accurate, differences } = result as {
-    accurate: boolean;
-    differences: Record<string, unknown>;
-  };
+  const { accurate, differences } = result;
 
   let summary = `Planetary Positions Validation (Reference: Jessica Adams):\n`;
   summary += `Overall _Accuracy: ${accurate ? "PASSED ✓" : "FAILED ✗"}\n\n`;

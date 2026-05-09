@@ -200,7 +200,7 @@ export function alchemize(input: unknown): AlchemizeResult {
     >;
     const dominantElement = (
       elEntries.reduce((a, b) => (a[1] > b[1] ? a : b))[0] ?? "Fire"
-    ) as "Fire" | "Water" | "Earth" | "Air";
+    );
     const esmsEntries = Object.entries(alchemicalProperties) as Array<
       [keyof AlchemicalProperties, number]
     >;

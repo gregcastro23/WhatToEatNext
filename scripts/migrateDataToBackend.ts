@@ -4,6 +4,7 @@ import path from 'path';
 import { cuisinesMap } from '../src/data/cuisines/index.ts';
 import { allSauces } from '../src/data/sauces.ts';
 import { allIngredients } from '../src/data/ingredients/index.ts';
+import { allRecipes } from '../src/data/recipes/index.ts';
 
 const JSON_DATA_PATH = path.join(process.cwd(), 'backend/alchm_kitchen/data/json');
 
@@ -37,6 +38,10 @@ async function migrate() {
   // 3. Migrate Ingredients
   console.log('📦 Migrating Ingredients...');
   fs.writeFileSync(path.join(JSON_DATA_PATH, 'ingredients.json'), JSON.stringify(allIngredients, null, 2));
+
+  // 4. Migrate Recipes
+  console.log('📦 Migrating Recipes...');
+  fs.writeFileSync(path.join(JSON_DATA_PATH, 'recipes.json'), JSON.stringify(allRecipes, null, 2));
 
   console.log('✅ Migration Complete!');
 }

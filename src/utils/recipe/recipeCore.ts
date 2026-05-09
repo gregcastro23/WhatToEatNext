@@ -359,7 +359,7 @@ export function getRecipeDominantElement(
   ).reduce(
     (current, [element, value]) =>
       value > current.value ? { element, value } : current,
-    { element: "Fire" as keyof ElementalProperties, value: 0 },
+    { element: "Fire", value: 0 },
   ).element;
 }
 

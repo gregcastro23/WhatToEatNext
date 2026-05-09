@@ -2,14 +2,14 @@
 
 /**
  * GroceryCartContext — lightweight, app-wide cart that aggregates ingredients
- * from one or more recipes and hands off to Instacart for checkout.
+ * from one or more recipes and checks out via Amazon Cart (POST form).
  *
- * Lives independently of MenuPlannerContext (which is scoped to weekly menu
- * planning). Persisted to localStorage so the cart survives reloads.
+ * Replaces the previous Instacart integration. Amazon associate royalties
+ * are earned via the cookingwi03f1-20 tag.
  *
  * Pipeline:
  *   addRecipe(recipe, servings) → ingredients scaled and aggregated by
- *   (name, normalizedUnit) → checkoutToInstacart() → /api/instacart/shopping-list
+ *   (name, normalizedUnit) → checkoutToAmazon() → POST form submit
  */
 
 import {
@@ -22,10 +22,10 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { instacartService } from "@/services/InstacartService";
-import type { GroceryItem } from "@/types/menuPlanner";
+import { AMAZON_ASSOCIATE_TAG, resolveAsin, getStandardizedQuantity } from "@/data/amazon";
 
-const STORAGE_KEY = "alchm:grocery-cart:v1";
+const STORAGE_KEY = "alchm:grocery-cart:v2";
+const AMAZON_CART_URL = "https://www.amazon.com/gp/aws/cart/add.html";
 
 export interface GroceryCartIngredientInput {
   name: string;
@@ -33,6 +33,7 @@ export interface GroceryCartIngredientInput {
   unit?: string;
   category?: string;
   notes?: string;
+  asin?: string;
 }
 
 export interface GroceryCartRecipeInput {
@@ -43,17 +44,15 @@ export interface GroceryCartRecipeInput {
 }
 
 export interface GroceryCartItem {
-  /** Stable id derived from ingredient name + normalized unit */
   id: string;
   name: string;
   quantity: number;
   unit: string;
   category?: string;
-  /** Recipe ids that contributed to this line */
   recipeIds: string[];
-  /** Free-form notes from any contributing recipe */
   notes?: string;
   addedAt: number;
+  asin: string | null;
 }
 
 interface GroceryCartContextValue {
@@ -63,19 +62,17 @@ interface GroceryCartContextValue {
   open: () => void;
   close: () => void;
   toggle: () => void;
-  /**
-   * Add a recipe's ingredients to the cart, scaled to `targetServings`.
-   * Returns the number of cart lines added or merged.
-   */
   addRecipe: (recipe: GroceryCartRecipeInput, targetServings: number) => number;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, qty: number) => void;
   clear: () => void;
   /**
-   * Hands off the current cart to Instacart and returns the shoppable URL.
-   * Throws if cart is empty or the IDP call fails.
+   * Opens Amazon in a new tab with all resolved-ASIN items added to cart.
+   * Returns the number of items sent.
    */
-  checkoutToInstacart: () => Promise<string>;
+  checkoutToAmazon: () => number;
+  /** Items that could not be mapped to an ASIN */
+  unmappedItems: GroceryCartItem[];
 }
 
 const GroceryCartContext = createContext<GroceryCartContextValue | null>(null);
@@ -134,13 +131,11 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const hydratedRef = useRef(false);
 
-  // Hydrate from localStorage on mount
   useEffect(() => {
     setItems(readFromStorage());
     hydratedRef.current = true;
   }, []);
 
-  // Persist on change (skip first paint before hydration)
   useEffect(() => {
     if (!hydratedRef.current) return;
     writeToStorage(items);
@@ -162,6 +157,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
           const unit = normalizeUnit(ing.unit);
           const id = buildItemId(ing.name, unit);
           const scaledAmount = safeRound((ing.amount ?? 1) * scale);
+          const asin = ing.asin || resolveAsin(ing.name);
 
           const existing = map.get(id);
           if (existing) {
@@ -172,6 +168,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
                 ? existing.recipeIds
                 : [...existing.recipeIds, recipe.id],
               notes: existing.notes ?? ing.notes,
+              asin: existing.asin || asin,
             });
           } else {
             map.set(id, {
@@ -183,6 +180,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
               recipeIds: [recipe.id],
               notes: ing.notes,
               addedAt: Date.now(),
+              asin,
             });
           }
           touched += 1;
@@ -216,28 +214,67 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
   const close = useCallback(() => setIsOpen(false), []);
   const toggle = useCallback(() => setIsOpen((v) => !v), []);
 
-  const checkoutToInstacart = useCallback(async (): Promise<string> => {
-    if (items.length === 0) {
-      throw new Error("Your grocery cart is empty.");
-    }
-    // Map our cart items into the GroceryItem shape InstacartService expects.
-    const groceryItems: GroceryItem[] = items.map((item) => ({
-      id: item.id,
-      ingredient: item.name,
-      quantity: item.quantity,
-      unit: item.unit,
-      category: item.category ?? "other",
-      inPantry: false,
-      purchased: false,
-      usedInRecipes: item.recipeIds,
-      notes: item.notes,
-    }));
+  const unmappedItems = useMemo(
+    () => items.filter((item) => !item.asin),
+    [items],
+  );
 
-    const url = await instacartService.createShoppingList(
-      groceryItems,
-      "Alchm Kitchen Grocery Cart",
-    );
-    return url;
+  const checkoutToAmazon = useCallback((): number => {
+    const cartItems = items.filter((item) => item.asin);
+    if (cartItems.length === 0) return 0;
+
+    // Build and submit a hidden form to Amazon
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = AMAZON_CART_URL;
+    form.target = "_blank";
+    form.rel = "noopener noreferrer";
+    form.style.display = "none";
+
+    const tagInput = document.createElement("input");
+    tagInput.type = "hidden";
+    tagInput.name = "AssociateTag";
+    tagInput.value = AMAZON_ASSOCIATE_TAG;
+    form.appendChild(tagInput);
+
+    const cartTypeInput = document.createElement("input");
+    cartTypeInput.type = "hidden";
+    cartTypeInput.name = "cart-type";
+    cartTypeInput.value = "fresh";
+    form.appendChild(cartTypeInput);
+
+    const addInput = document.createElement("input");
+    addInput.type = "hidden";
+    addInput.name = "add";
+    addInput.value = "add";
+    form.appendChild(addInput);
+
+    const submitAddInput = document.createElement("input");
+    submitAddInput.type = "hidden";
+    submitAddInput.name = "submit.add";
+    submitAddInput.value = "1";
+    form.appendChild(submitAddInput);
+
+    cartItems.forEach((item, idx) => {
+      const pos = idx + 1;
+      const asinInput = document.createElement("input");
+      asinInput.type = "hidden";
+      asinInput.name = `ASIN.${pos}`;
+      asinInput.value = item.asin!;
+      form.appendChild(asinInput);
+
+      const qtyInput = document.createElement("input");
+      qtyInput.type = "hidden";
+      qtyInput.name = `Quantity.${pos}`;
+      qtyInput.value = String(getStandardizedQuantity(item.name, item.quantity));
+      form.appendChild(qtyInput);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+
+    return cartItems.length;
   }, [items]);
 
   const value = useMemo<GroceryCartContextValue>(
@@ -252,7 +289,8 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
       removeItem,
       updateQuantity,
       clear,
-      checkoutToInstacart,
+      checkoutToAmazon,
+      unmappedItems,
     }),
     [
       items,
@@ -264,7 +302,8 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
       removeItem,
       updateQuantity,
       clear,
-      checkoutToInstacart,
+      checkoutToAmazon,
+      unmappedItems,
     ],
   );
 

@@ -67,6 +67,10 @@ describe("CulturalAnalyticsService", () => {
     });
 
     it("should handle unknown cuisines gracefully", () => {
+      const consoleErrorSpy = jest
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
+
       const result = CulturalAnalyticsService.generateCulturalAnalytics(
         "unknown_cuisine",
         mockElementalProfile,
@@ -76,6 +80,12 @@ describe("CulturalAnalyticsService", () => {
       expect(result.culturalSynergy).toBe(0.7);
       expect(result.culturalCompatibility).toBe(0.7);
       expect(result.historicalSignificance).toContain("unknown_cuisine");
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "[ERROR] Error generating cultural analytics: ",
+        expect.any(TypeError),
+      );
+
+      consoleErrorSpy.mockRestore();
     });
   });
 

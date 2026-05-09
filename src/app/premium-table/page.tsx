@@ -2,12 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { usePremium } from "@/contexts/PremiumContext";
 import type { Recipe } from "@/types/recipe";
 
-export default function AdeptTablePage() {
+function AdeptTableContent() {
   const { isPremium } = usePremium();
   const searchParams = useSearchParams();
   const isInvite = searchParams?.get("invite") === "true";
@@ -183,5 +183,17 @@ export default function AdeptTablePage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function AdeptTablePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-amber-200 border-t-amber-500 rounded-full animate-spin" />
+      </div>
+    }>
+      <AdeptTableContent />
+    </Suspense>
   );
 }

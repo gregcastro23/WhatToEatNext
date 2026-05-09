@@ -105,7 +105,7 @@ export async function GET() {
       } catch (error) {
         logger.error(
           `Failed to calculate quantities for ${timePoint.toISOString()}:`,
-          error as any,
+          error,
         );
         continue;
       }

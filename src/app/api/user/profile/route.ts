@@ -19,6 +19,9 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+const HONO_API_URL = process.env.HONO_API_URL;
+const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
+
 /**
  * GET /api/user/profile
  * Get current user's profile (authenticated)
@@ -32,10 +35,63 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "User not found",
+          message: "Authentication required",
         },
-        { status: 404 },
+        { status: 401 },
       );
+    }
+
+    // Proxy to Hono if configured
+    if (HONO_API_URL) {
+      try {
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          "x-user-id": user.id,
+        };
+        if (INTERNAL_SECRET) {
+          headers["x-internal-secret"] = INTERNAL_SECRET;
+        }
+
+        const honoResponse = await fetch(`${HONO_API_URL}/api/user/profile`, {
+          method: "GET",
+          headers,
+        });
+
+        if (honoResponse.ok) {
+          const data = await honoResponse.json();
+          // Still do lazy migration locally if it's not handled in Hono yet to preserve exact feature parity
+          const profile = data.profile;
+          const natalChart = profile?.natalChart;
+          if (natalChart?.planets?.length > 0 && natalChart?.birthData?.dateTime) {
+            const needsMigration = natalChart.planets.some(
+              (p: any) => p.name !== 'Ascendant' && (!p.position || p.position === 0),
+            );
+            if (needsMigration) {
+              _logger.info("[GET /api/user/profile] Migrating natal chart with sub-arcminute positions");
+              try {
+                const birthDate = new Date(natalChart.birthData.dateTime);
+                const rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
+                  latitude: natalChart.birthData.latitude,
+                  longitude: natalChart.birthData.longitude,
+                });
+                const updatedPlanets = natalChart.planets.map((p: any) => {
+                  const pos = rawPositions[p.name];
+                  return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
+                });
+                natalChart.planets = updatedPlanets;
+                void userDatabase.updateUserProfile(user.id, { natalChart } as any, user.email).catch((err: any) =>
+                  _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
+                );
+              } catch (err) {
+                _logger.error("[GET /api/user/profile] Lazy migration failed", err);
+              }
+            }
+          }
+          return NextResponse.json(data);
+        }
+      } catch (err) {
+        _logger.error("Hono Gateway proxy failed for user profile:", err);
+      }
     }
 
     // Lazy migration: if natal chart has position:0 for planets, recalculate with sub-arcminute precision
@@ -64,7 +120,7 @@ export async function GET(request: NextRequest) {
             _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
           );
         } catch (err) {
-          _logger.error("[GET /api/user/profile] Lazy migration failed", err as any);
+          _logger.error("[GET /api/user/profile] Lazy migration failed", err);
         }
       }
     }
@@ -74,7 +130,7 @@ export async function GET(request: NextRequest) {
       profile: user.profile,
     });
   } catch (error) {
-    _logger.error("[GET /api/user/profile] Failed to get profile", error as any);
+    _logger.error("[GET /api/user/profile] Failed to get profile", error);
     return NextResponse.json(
       {
         success: false,
@@ -110,6 +166,32 @@ export async function PUT(request: NextRequest) {
     // Use authenticated user's ID
     const userId = user.id;
 
+    // Proxy to Hono if configured
+    if (HONO_API_URL) {
+      try {
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          "x-user-id": user.id,
+        };
+        if (INTERNAL_SECRET) {
+          headers["x-internal-secret"] = INTERNAL_SECRET;
+        }
+
+        const honoResponse = await fetch(`${HONO_API_URL}/api/user/profile`, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify(profileData),
+        });
+
+        if (honoResponse.ok) {
+          const data = await honoResponse.json();
+          return NextResponse.json(data);
+        }
+      } catch (err) {
+        _logger.error("Hono Gateway proxy failed for user profile update:", err);
+      }
+    }
+
     const updatedUser = await userDatabase.updateUserProfile(
       userId,
       profileData as Partial<UserProfile>,
@@ -131,7 +213,7 @@ export async function PUT(request: NextRequest) {
       profile: updatedUser.profile,
     });
   } catch (error) {
-    _logger.error("[PUT /api/user/profile] Update profile error", error as any);
+    _logger.error("[PUT /api/user/profile] Update profile error", error);
     return NextResponse.json(
       {
         success: false,

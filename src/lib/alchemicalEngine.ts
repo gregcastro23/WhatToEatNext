@@ -286,7 +286,7 @@ export class AlchemicalEngineBase {
       this.zodiacElements[astrologicalState.moonSign || "aries"].baseElement;
     const lunarModifiers =
       this.lunarPhaseModifiers[
-      astrologicalState.lunarPhase || ("new moon" as LunarPhase)
+      astrologicalState.lunarPhase || ("new moon")
       ];
 
     const baseModifiers: ElementalProperties = {
@@ -505,7 +505,7 @@ export class AlchemicalEngineBase {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25,
-      } as ElementalProperties,
+      },
     );
   }
 
@@ -591,7 +591,7 @@ export class AlchemicalEngineBase {
     try {
       // Use the accurate astronomy utility to get planetary positions
       const positions = await getAccuratePlanetaryPositions();
-      return positions as Record<string, unknown>;
+      return positions;
     } catch (error) {
       _logger.error("Error calculating planetary positions: ", error);
       // Return empty object as fallback

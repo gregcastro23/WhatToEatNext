@@ -202,7 +202,7 @@ function SuggestionCarousel({
 
         {/* Quick Info */}
         <div className="flex flex-wrap gap-4 mb-4 text-sm">
-          {current.recipe.prepTime && (
+          {current.recipe.prepTime && current.recipe.prepTime !== "0" && (
             <span className="flex items-center gap-1 text-gray-600">
               <span>⏱️</span>
               {current.recipe.prepTime}
@@ -361,7 +361,7 @@ function LockedRecipeCard({
 
       {/* Quick Info */}
       <div className="flex flex-wrap gap-4 mb-4 text-sm">
-        {recipe.prepTime && (
+        {recipe.prepTime && recipe.prepTime !== "0" && (
           <span className="flex items-center gap-1 text-gray-600">
             <span>⏱️</span>
             {recipe.prepTime}
@@ -520,7 +520,7 @@ function FocusedMealSlot({
           )}
           <div className="mt-3 pt-3 border-t border-gray-100">
             <RecipeNutritionQuickView
-              recipe={mealSlot.recipe! as any}
+              recipe={mealSlot.recipe!}
               servings={mealSlot.servings}
               compact
             />

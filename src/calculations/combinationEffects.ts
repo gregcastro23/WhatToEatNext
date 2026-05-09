@@ -44,14 +44,14 @@ interface CalculateEffectsParams {
 const COMBINATION_RULES: CombinationRule[] = [
   {
     ingredients: ["ginger", "garlic"],
-    effect: "amplify" as EffectType,
+    effect: "amplify",
     modifier: 1.3,
     elements: { Fire: 0.2 },
     notes: "Classic warming combination",
   },
   {
     ingredients: ["cinnamon", "cardamom", "clove"],
-    effect: "amplify" as EffectType,
+    effect: "amplify",
     modifier: 1.4,
     elements: { Fire: 0.3, Air: 0.1 },
     notes: "Warming spice blend",
@@ -157,7 +157,7 @@ const calculateElementalInteractions = (
     if (isHarmoniousCombination(elem1, elem2)) {
       effects.push({
         ingredients: [ing1, ing2],
-        type: "synergy" as EffectType,
+        type: "synergy",
         strength: 1.2,
         elements: ["Fire"] as Element[],
         description: "Harmonious elemental combination",
@@ -167,7 +167,7 @@ const calculateElementalInteractions = (
     if (isAntagonisticCombination(elem1, elem2)) {
       effects.push({
         ingredients: [ing1, ing2],
-        type: "conflict" as EffectType,
+        type: "conflict",
         strength: 0.8,
         elements: ["Water"] as Element[],
         description: "Conflicting elemental combination",

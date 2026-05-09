@@ -1,5 +1,3 @@
-import "server-only";
-
 import { _logger } from "@/lib/logger";
 import type {
   DayOfWeek,

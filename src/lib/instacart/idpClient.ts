@@ -1,5 +1,9 @@
 /**
  * Shared Instacart IDP transport utilities for server routes.
+ *
+ * RETAINED FOR: retailer discovery and price intelligence infrastructure.
+ * Checkout is handled by Amazon Associates (src/data/amazon). Do not add
+ * new checkout flows through this client.
  */
 
 const INSTACART_IDP_BASE_URL = "https://connect.instacart.com";

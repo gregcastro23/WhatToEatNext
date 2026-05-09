@@ -3,7 +3,6 @@ import { allIngredients } from "@/data/ingredients";
 import { _logger } from "@/lib/logger";
 import { _celestialCalculator as celestialCalculator } from "@/services/celestialCalculations";
 import type {
-  ElementalProperties,
   CelestialAlignment,
   ThermodynamicMetrics,
   _Element,
@@ -216,12 +215,12 @@ export class DirectRecipeService {
       _alignment.elementalState ||
         _alignment.elementalDominance ||
         _alignment.elementalBalance,
-      recipe as unknown as Recipe,
+      recipe,
     );
 
     // Perform full alchemical analysis
     const alchemicalAnalysis = performAlchemicalAnalysis(
-      recipe as unknown as Recipe,
+      recipe,
       _alignment.elementalState ||
         _alignment.elementalDominance ||
         _alignment.elementalBalance,
@@ -701,8 +700,8 @@ export class DirectRecipeService {
         const recipeElementalState = recipe.elementalState;
 
         const criteriaCompatibility = calculateElementalCompatibility(
-          criteriaElementalState as unknown as ElementalProperties,
-          recipeElementalState as unknown as ElementalProperties,
+          criteriaElementalState,
+          recipeElementalState,
         );
         finalScore = (finalScore + criteriaCompatibility) / 2;
       }

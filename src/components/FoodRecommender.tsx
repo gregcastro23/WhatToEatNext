@@ -512,7 +512,7 @@ export default function FoodRecommender() {
     // Filter out empty categories
     return Object.fromEntries(
       Object.entries(categories).filter(([_, items]) => items.length > 0)
-    ) as Record<string, Ingredient[]>;
+    );
   }, [boostedRecommendations, herbNames, oilTypes, vinegarTypes]);
 
   // Toggle expansion for a category

@@ -177,6 +177,7 @@ export interface Ingredient {
   // Metadata
   is_active: boolean;
   data_source?: string;
+  amazon_asin?: string;
   confidence_score: number; // DECIMAL(3,2)
   created_at: Date;
   updated_at: Date;

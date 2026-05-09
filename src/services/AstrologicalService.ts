@@ -114,7 +114,7 @@ export class AstrologicalService {
           Water: 0.2,
           Earth: 0.25,
           Air: 0.25,
-        } as ElementalPropertiesType,
+        },
         accuracy: 0.95,
         calculationTimestamp: new Date().toISOString(),
       };
@@ -251,7 +251,7 @@ export class AstrologicalService {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25,
-        } as ElementalPropertiesType,
+        },
         alchemicalModifier: {
           Spirit: 0.25,
           Essence: 0.25,
@@ -313,7 +313,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25,
-      } as ElementalPropertiesType,
+      },
       accuracy: 1.0,
       calculationTimestamp: new Date().toISOString(),
     };

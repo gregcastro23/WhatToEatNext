@@ -186,9 +186,9 @@ export function identifyElementalSignatures(
     const globalMean = globalBaseline.elementals[element];
     const globalStdDev = globalBaseline.elementalStdDevs[element];
     const zScore = calculateZScore(
-      value as any,
-      globalMean as any,
-      globalStdDev as any,
+      value,
+      globalMean,
+      globalStdDev,
     );
 
     if (Math.abs(zScore) >= threshold) {
@@ -198,7 +198,7 @@ export function identifyElementalSignatures(
         property: element,
         zscore: zScore,
         strength,
-        averageValue: value as any,
+        averageValue: value,
         globalAverage: globalMean,
         description: generateElementalSignatureDescription(
           element,
@@ -244,9 +244,9 @@ export function identifyAlchemicalSignatures(
     }
 
     const zScore = calculateZScore(
-      value as any,
-      globalMean as any,
-      globalStdDev as any,
+      value,
+      globalMean,
+      globalStdDev,
     );
 
     if (Math.abs(zScore) >= threshold) {
@@ -256,7 +256,7 @@ export function identifyAlchemicalSignatures(
         property,
         zscore: zScore,
         strength,
-        averageValue: value as any,
+        averageValue: value,
         globalAverage: globalMean,
         description: generateAlchemicalSignatureDescription(
           property,
@@ -303,8 +303,8 @@ export function identifyThermodynamicSignatures(
 
     const zScore = calculateZScore(
       value as any,
-      globalMean as any,
-      globalStdDev as any,
+      globalMean,
+      globalStdDev,
     );
 
     if (Math.abs(zScore) >= threshold) {

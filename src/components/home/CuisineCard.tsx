@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
 
@@ -126,6 +127,8 @@ interface CuisineCardProps {
 
 export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: CuisineCardProps) {
   const [showPreview, setShowPreview] = useState(false);
+  const router = useRouter();
+  const cuisineHref = `/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`;
 
   const icon = PLANET_ICONS[cuisine.planet] || "☉";
   const colorClass = PLANET_COLORS[cuisine.planet] || PLANET_COLORS.Sun;
@@ -187,7 +190,12 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
         }
       }}
     >
-      <Link href={`/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}>
+      <div
+        role="link"
+        tabIndex={0}
+        onClick={() => { router.push(cuisineHref); }}
+        onKeyDown={(e) => { if (e.key === 'Enter') router.push(cuisineHref); }}
+      >
         <div className="bg-slate-900/80 rounded-xl transition-all duration-300 overflow-hidden border border-purple-500/20 hover:border-purple-400/50 hover:bg-slate-800/80 cursor-pointer transform hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/20">
           {/* Rank Badge */}
           <div className="absolute top-3 left-3 z-10">
@@ -256,9 +264,9 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
             </div>
 
             {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-2 mt-3" onClick={(e) => e.preventDefault()}>
+            <div className="grid grid-cols-2 gap-2 mt-3" onClick={(e) => e.stopPropagation()}>
               <Link
-                href={`/recipes?cuisine=${encodeURIComponent(cuisine.cuisine.toLowerCase())}`}
+                href={cuisineHref}
                 className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-amber-500/80 to-orange-500/80 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold shadow-sm transition-all border border-orange-400/50"
               >
                 <span aria-hidden>🥘</span> Cook It
@@ -290,7 +298,7 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
             </div>
           )}
         </div>
-      </Link>
+      </div>
     </div>
   );
 }

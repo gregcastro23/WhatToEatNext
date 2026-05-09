@@ -256,7 +256,7 @@ async function planetLongitudeAt(date: Date, planet: string): Promise<number> {
   const positions = await calculatePlanetaryPositions(date);
   const p = positions[planet];
   if (!p) throw new Error(`No position for ${planet} at ${date.toISOString()}`);
-  return toLongitude(p as any);
+  return toLongitude(p);
 }
 
 /**
@@ -365,7 +365,7 @@ export async function findOuterPlanetEcho(
   const tCoarseStart = Date.now();
   const referencePositionsRaw = await calculatePlanetaryPositions(referenceDate);
   const referencePositions = asPlanetaryRecord(referencePositionsRaw);
-  const referenceLongitude = toLongitude(referencePositions[planet] as any);
+  const referenceLongitude = toLongitude(referencePositions[planet]);
   const referenceAlch = alchemizeDetailed(referencePositions, null, referenceDate);
 
   const PERIOD_YEARS: Record<EchoPlanet, number> = {

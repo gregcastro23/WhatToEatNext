@@ -5,6 +5,8 @@ import { sauceRecommender } from "@/services/sauceRecommender";
 
 export const dynamic = "force-dynamic";
 
+const HONO_API_URL = process.env.HONO_API_URL;
+
 /** Safely extract cooking methods from a recipe regardless of singular/plural key. */
 function getCookingMethods(recipe: Record<string, unknown>): string[] {
   const raw = recipe.cookingMethods ?? recipe.cookingMethod;
@@ -21,9 +23,22 @@ function getCookingMethods(recipe: Record<string, unknown>): string[] {
     .filter(Boolean);
 }
 
-export async function GET(_request: Request, props: { params: Promise<{ recipeId: string }> }) {
+export async function GET(request: Request, props: { params: Promise<{ recipeId: string }> }) {
   try {
     const { recipeId } = await props.params;
+
+    // Proxy to Hono if configured
+    if (HONO_API_URL) {
+      try {
+        const honoResponse = await fetch(`${HONO_API_URL}/api/recipes/${recipeId}`);
+        if (honoResponse.ok) {
+          const data = await honoResponse.json();
+          return NextResponse.json(data);
+        }
+      } catch (err) {
+        console.error(`Hono Gateway proxy failed for recipe ${recipeId}:`, err);
+      }
+    }
 
     // Use LocalRecipeService to fetch from database (matches /api/recipes listing)
     const { LocalRecipeService } = await import("@/services/LocalRecipeService");
@@ -50,7 +65,7 @@ export async function GET(_request: Request, props: { params: Promise<{ recipeId
       .filter((i) => i.category === "vegetable")
       .map((i) => i.name);
 
-    const cookingMethods = getCookingMethods(recipe as Record<string, unknown>);
+    const cookingMethods = getCookingMethods(recipe);
 
     const recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
       protein: proteins[0],

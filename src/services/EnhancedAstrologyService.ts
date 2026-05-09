@@ -223,10 +223,7 @@ export class EnhancedAstrologyService {
         (await import("@/services/PlanetaryPositionsService")) as any;
       const servicePositions =
         await positionsModule.planetaryPositionsService.getForDate(date);
-      primaryPositions = servicePositions as unknown as Record<
-        string,
-        CelestialPosition
-      >;
+      primaryPositions = servicePositions;
       dataSource = "positions-service" as any;
       confidence = 0.95;
     } catch (_error) {
@@ -240,7 +237,7 @@ export class EnhancedAstrologyService {
         dataSource = "swiss-ephemeris";
         confidence = 0.9;
       } catch (_e) {
-        primaryPositions = {} as any; // getFallbackPlanetaryPositions(date);
+        primaryPositions = {}; // getFallbackPlanetaryPositions(date);
         dataSource = "fallback";
         confidence = 0.7;
       }

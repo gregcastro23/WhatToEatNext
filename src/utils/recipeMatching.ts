@@ -99,7 +99,7 @@ export async function findBestMatches(
       // log.info('No recipes provided, fetching from LocalRecipeService')
       const _recipeService = new LocalRecipeService();
       recipes =
-        (await LocalRecipeService.getAllRecipes()) as unknown as Recipe[];
+        await LocalRecipeService.getAllRecipes();
       // log.info(`Fetched ${recipes.length} recipes from LocalRecipeService`)
     } catch (_error) {
       // _logger.error('Error fetching recipes from LocalRecipeService: ', error);
@@ -296,7 +296,7 @@ export async function findBestMatches(
         elements,
         dominantElements,
         matchedIngredients,
-      } as MatchResult;
+      };
     }),
   );
 

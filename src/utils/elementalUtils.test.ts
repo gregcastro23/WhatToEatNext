@@ -4,6 +4,16 @@ import { elementalUtils } from '@/utils/elementalUtils';
 import type { ElementalProperties } from '@/types/alchemy';
 
 describe('elementalUtils', () => {
+  let consoleWarnSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleWarnSpy.mockRestore();
+  });
+
   const validProps: ElementalProperties = {
     Fire: 0.25,
     Water: 0.25,
@@ -25,6 +35,13 @@ describe('elementalUtils', () => {
 
     it('should reject invalid elemental properties', () => {
       expect(elementalUtils.validateProperties(invalidProps)).toBe(false);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        "[WARN] Unexpected value in validateElementalProperties:",
+        expect.objectContaining({
+          message: 'Elemental properties do not sum to ~1 (sum=2.0000)',
+          sum: 2,
+        }),
+      );
     });
   });
 
@@ -47,6 +64,10 @@ describe('elementalUtils', () => {
       expect(normalized.Water).toBe(0.25);
       expect(normalized.Air).toBe(0.25);
       expect(normalized.Earth).toBe(0.25);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        "[WARN] normalizeProperties: sum is 0; returning defaults",
+        "",
+      );
     });
   });
 });

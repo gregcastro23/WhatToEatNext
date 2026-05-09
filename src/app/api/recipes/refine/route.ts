@@ -57,9 +57,9 @@ export async function POST(request: NextRequest) {
             planetaryReason: `[ORACLE REFINED] ${result.planetaryReason}`,
             recommendedTiming: result.recommendedTiming,
             rulingPlanet: result.rulingPlanet,
-          } as Recipe;
+          };
         } catch {
-          return { ...recipe, score: 50 } as Recipe;
+          return { ...recipe, score: 50 };
         }
       })
     );

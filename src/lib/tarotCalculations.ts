@@ -425,7 +425,7 @@ export const getTarotCardsForDate = (
   );
 
   // Get the minor arcana card details
-  const cardKey = minorArcanaKey || ("10_of_cups" as TarotCardKey); // Default if not found
+  const cardKey = minorArcanaKey || ("10_of_cups"); // Default if not found
   const tarotCard = _TAROT_CARDS[cardKey];
 
   // Extract suit and number from the card name
@@ -475,7 +475,7 @@ export const getTarotCardsForDate = (
   // Map the planet to corresponding major arcana card
   const majorArcanaName =
     (_PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey) ||
-    ("The Fool" as MajorArcanaKey); // Default
+    ("The Fool"); // Default
 
   // Create the major card object
   const majorCard: MajorArcanaCard = {

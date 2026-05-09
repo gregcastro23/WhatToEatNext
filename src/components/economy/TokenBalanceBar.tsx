@@ -192,7 +192,7 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
                   <div
                     key={key}
                     className="relative flex items-center gap-2 group/token cursor-default"
-                    onMouseEnter={() => setHoveredToken(key as TokenType)}
+                    onMouseEnter={() => setHoveredToken(key)}
                     onMouseLeave={() => setHoveredToken(null)}
                   >
                     <motion.span
@@ -222,7 +222,7 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
                     <AnimatePresence>
                       {hoveredToken === key && (
                         <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 z-[80] pointer-events-none">
-                          <PlanetaryInfluenceTooltip tokenType={key as TokenType} />
+                          <PlanetaryInfluenceTooltip tokenType={key} />
                         </div>
                       )}
                     </AnimatePresence>
