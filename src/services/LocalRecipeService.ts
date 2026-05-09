@@ -128,6 +128,7 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
         notes: typeof record.notes === "string" ? record.notes : (record.preparation as string),
         category:
           typeof record.category === "string" ? record.category : undefined,
+        asin: typeof record.asin === "string" ? record.asin : (typeof record.amazon_asin === "string" ? record.amazon_asin : undefined),
       };
     })
     .filter((ingredient): ingredient is RecipeIngredient => Boolean(ingredient));
