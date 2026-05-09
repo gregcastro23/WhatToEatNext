@@ -68,9 +68,10 @@ export default function CuisinesPage() {
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-600/10 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20" />
             
             <div className="relative z-10">
-              <PremiumGate feature="cuisineRecommender" showPreview>
-                <DynamicCuisineRecommender />
-              </PremiumGate>
+              {/* Cuisine recommender is shown to everyone (also on the home page
+                  as a marketing preview). The premium-only piece is the sauce
+                  recommender below. */}
+              <DynamicCuisineRecommender />
             </div>
           </div>
         </motion.section>
@@ -84,7 +85,7 @@ export default function CuisinesPage() {
             <div className="absolute top-1/2 left-1/2 w-full h-full bg-amber-600/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/2 -translate-y-1/2" />
 
             <div className="relative z-10">
-              <PremiumGate feature="cuisineRecommender" showPreview>
+              <PremiumGate feature="sauceRecommender" showPreview>
                 <EnhancedSauceRecommender />
               </PremiumGate>
             </div>

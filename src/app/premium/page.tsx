@@ -54,6 +54,7 @@ function PremiumPageContent() {
 
   const searchParams = useSearchParams();
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
+  const fromPath = searchParams?.get("from") ?? null;
 
   useEffect(() => {
     const checkoutStatus = searchParams?.get("checkout");
@@ -64,6 +65,18 @@ function PremiumPageContent() {
       setCheckoutMessage("Checkout was canceled. No changes were made.");
     }
   }, [searchParams, refresh]);
+
+  // Friendly labels for the routes the middleware redirects from.
+  // Falls back to a generic "premium feature" message if the path isn't recognized.
+  const fromLabels: Record<string, string> = {
+    "/recipe-generator": "the Recipe Generator",
+    "/planetary-chart": "Advanced Planetary Charts",
+    "/restaurant-creator": "the Cosmic Restaurant Creator",
+    "/premium-table": "the Premium Group Table",
+  };
+  const fromLabel = fromPath
+    ? fromLabels[fromPath] ?? "a premium feature"
+    : null;
 
   if (authStatus === "loading" || isLoading) {
     return (
@@ -92,6 +105,22 @@ function PremiumPageContent() {
             advanced planetary charts, and more.
           </p>
         </div>
+
+        {/* Contextual "you tried to access X" banner */}
+        {fromLabel && tier !== "premium" && (
+          <div className="mb-8 p-5 rounded-xl border border-purple-500/30 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 text-white flex items-start gap-4">
+            <span className="text-2xl shrink-0" aria-hidden>✨</span>
+            <div className="flex-1">
+              <p className="font-semibold text-purple-100">
+                Unlock {fromLabel} with Premium
+              </p>
+              <p className="text-sm text-white/70 mt-1">
+                You were redirected here because {fromLabel} is part of the
+                Premium tier. Upgrade below to gain instant access.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Checkout Message */}
         {checkoutMessage && (

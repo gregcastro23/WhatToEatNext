@@ -14,8 +14,6 @@
  */
 import { NextResponse } from "next/server";
 import { allRecipes } from "@/data/recipes/index";
-import { auth } from "@/lib/auth/auth";
-import { subscriptionService } from "@/services/subscriptionService";
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
@@ -121,32 +119,14 @@ function computeLocalRecommendations() {
   };
 }
 
-async function requirePremium(): Promise<NextResponse | null> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  const isAdmin = session.user.role === "admin";
-  if (isAdmin) return null;
-
-  const sub = await subscriptionService.getOrCreateSubscription(session.user.id);
-  if (sub.tier !== "premium") {
-    return NextResponse.json(
-      {
-        upgrade_required: true,
-        message: "Cuisine recommendations require a Premium subscription.",
-        feature: "cuisineRecommender",
-      },
-      { status: 403 },
-    );
-  }
-  return null;
-}
+// NOTE: This endpoint is intentionally PUBLIC. It returns astrological
+// cuisine matches computed from planetary positions — the same content
+// shown on the home page as a marketing preview. The premium-only piece
+// is the EnhancedSauceRecommender on the /cuisines page (UI-gated via
+// PremiumGate). Don't add an auth gate here without first re-gating
+// the home page recommender, or free users will see a broken state.
 
 async function handleRequest(request: Request) {
-  const gate = await requirePremium();
-  if (gate) return gate;
-
   try {
     const { searchParams } = new URL(request.url);
 
