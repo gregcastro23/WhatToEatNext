@@ -15,6 +15,7 @@ export function GroceryCartDrawer() {
     clear,
     checkoutToAmazon,
     unmappedItems,
+    updateAsin,
   } = useGroceryCart();
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
@@ -199,6 +200,9 @@ export function GroceryCartDrawer() {
                           const asin = formData.get('asin') as string;
                           if (!asin) return;
                           
+                          // Optimistic local update — always apply regardless of auth status
+                          updateAsin(item.id, asin);
+                          form.reset();
                           try {
                             const res = await fetch('/api/amazon/feedback', {
                               method: 'POST',
@@ -206,15 +210,14 @@ export function GroceryCartDrawer() {
                               body: JSON.stringify({ ingredientName: item.name, asin })
                             });
                             if (res.ok) {
-                              // We need updateAsin from context
-                              updateAsin(item.id, asin);
-                              showToast('ASIN mapped successfully!', 'success');
-                              form.reset();
+                              showToast('ASIN mapped and saved to database!', 'success');
+                            } else if (res.status === 401) {
+                              showToast('Mapped locally (sign in to save permanently)', 'success');
                             } else {
-                              showToast('Failed to save ASIN', 'error');
+                              showToast('Mapped locally (database save failed)', 'success');
                             }
-                          } catch (err) {
-                            showToast('Error saving ASIN', 'error');
+                          } catch {
+                            showToast('Mapped locally (offline — database save skipped)', 'success');
                           }
                         }}
                       >

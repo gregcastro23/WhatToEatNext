@@ -27,31 +27,18 @@ export async function GET(request: Request) {
   }
 
   // 2. PA-API Fallback (Amazon Search)
-  // If we have PA-API keys, we would call the actual Amazon API here.
-  // For now, we simulate a successful PA-API response if keys are missing.
-  
   if (!process.env.AMAZON_PAAPI_ACCESS_KEY) {
-    console.log(`[Mock PA-API] Searching for "${normalizedIngredient}"`);
-    
-    // Generate a deterministic but fake ASIN based on the string for testing
-    // In production, replace this with the real PA-API call
-    let hash = 0;
-    for (let i = 0; i < normalizedIngredient.length; i++) {
-      hash = (hash << 5) - hash + normalizedIngredient.charCodeAt(i);
-      hash |= 0; 
-    }
-    const mockAsin = "B0" + Math.abs(hash).toString(16).toUpperCase().padStart(8, '0');
-    
+    // No PA-API keys configured — return null so the client does not apply a fake ASIN
     return NextResponse.json({
       ingredient: ingredient,
       normalized: normalizedIngredient,
-      asin: mockAsin,
-      source: "mock_pa_api"
+      asin: null,
+      source: "no_paapi_key"
     });
   }
 
   // Real PA-API logic would go here
   // ...
-  
+
   return NextResponse.json({ error: "PA-API integration not fully implemented" }, { status: 501 });
 }
