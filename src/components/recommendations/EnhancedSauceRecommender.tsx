@@ -275,7 +275,7 @@ export default function EnhancedSauceRecommender() {
     dietary: dietary.length ? dietary : undefined,
     flavorTargets: flavorTargets.length ? flavorTargets : undefined,
     role, season,
-    cosmic: cosmicSync ? { zodiac: astroState.currentZodiac as any, planetaryHour, isDaytime, lunarPhase } : undefined,
+    cosmic: cosmicSync ? { zodiac: astroState.currentZodiac, planetaryHour, isDaytime, lunarPhase } : undefined,
     cosmicWeight: cosmicSync ? 0.5 : 0,
   }), [cuisineKey, region, protein, vegetable, cookingMethod, dietary, flavorTargets, role, season, cosmicSync, astroState.currentZodiac, planetaryHour, isDaytime, lunarPhase]);
 

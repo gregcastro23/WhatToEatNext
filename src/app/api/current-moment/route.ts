@@ -18,11 +18,9 @@ const SIGN_TO_ELEMENT: Record<string, string> = {
   cancer: "Water", scorpio: "Water", pisces: "Water",
 };
 
-export async function GET(request?: Request) {
-  if (request) {
-    const rl = rateLimit(request, CURRENT_MOMENT_LIMIT);
-    if (!rl.allowed) return rl.response!;
-  }
+export async function GET(request: Request) {
+  const rl = rateLimit(request, CURRENT_MOMENT_LIMIT);
+  if (!rl.allowed) return rl.response!;
   try {
     const now = new Date();
     const raw = getAccuratePlanetaryPositions(now);

@@ -130,7 +130,7 @@ export interface CuisineSauceResult {
  */
 function resolveCuisine(key: string, cuisinesMapData?: Record<string, any>): { cuisine: Cuisine; canonicalKey: string } | null {
   if (!key) return null;
-  const map = (cuisinesMapData || cuisinesMap) as Record<string, any>;
+  const map = cuisinesMapData || cuisinesMap;
 
   if (map[key]) return { cuisine: map[key], canonicalKey: key };
 
@@ -215,7 +215,7 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
 }
 
 export function listCuisines(cuisinesMapData?: Record<string, any>): Array<{ key: string; name: string }> {
-  const map = (cuisinesMapData || cuisinesMap) as Record<string, any>;
+  const map = cuisinesMapData || cuisinesMap;
   return [
     "Italian", "French", "Japanese", "Mexican", "Thai", "Chinese", "Indian",
     "Greek", "Korean", "Vietnamese", "Middle Eastern", "American", "African", "Russian",
