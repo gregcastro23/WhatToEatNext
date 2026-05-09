@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
+import { getAmazonLink, getAmazonButtonText } from "@/lib/amazonUrl";
 
 export function GroceryCartDrawer() {
   const {
@@ -104,19 +105,6 @@ export function GroceryCartDrawer() {
                         <div className="text-sm font-semibold text-white capitalize truncate">
                           {item.name}
                         </div>
-                        {item.asin ? (
-                          <span className="shrink-0 w-2 h-2 rounded-full bg-green-400" title="Available on Amazon" />
-                        ) : (
-                          <a
-                            href={`https://www.amazon.com/s?k=${encodeURIComponent(`${item.name} grocery`)}&tag=${AMAZON_ASSOCIATE_TAG}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="shrink-0 text-[9px] text-yellow-400 hover:text-yellow-300 underline"
-                            title="Search on Amazon"
-                          >
-                            search
-                          </a>
-                        )}
                       </div>
                       <div className="mt-1 flex items-center gap-2">
                         <button
@@ -146,7 +134,16 @@ export function GroceryCartDrawer() {
                         >
                           +
                         </button>
-                        <span className="text-xs text-gray-400">{item.unit}</span>
+                        <span className="text-xs text-gray-400 flex-1">{item.unit}</span>
+                        <a
+                          href={getAmazonLink(`${item.name} grocery`, item.asin)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 text-[10px] font-semibold text-black bg-[#FF9900] hover:bg-[#FFB347] px-2 py-1 rounded transition-colors"
+                          title={item.asin ? "Buy on Amazon" : "Search on Amazon"}
+                        >
+                          {getAmazonButtonText(item.asin)}
+                        </a>
                       </div>
                       {item.recipeIds.length > 0 && (
                         <p className="mt-1.5 text-[11px] text-gray-500 italic truncate">

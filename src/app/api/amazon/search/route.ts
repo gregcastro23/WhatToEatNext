@@ -1,8 +1,11 @@
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import { NextResponse } from "next/server";
-import { isPaapiConfigured, searchItem } from "@/lib/amazon/paapi";
 import { rateLimit } from "@/lib/rateLimit";
+import {
+  hasAmazonCreatorsCredentials,
+  searchAmazonCreatorsCatalog,
+} from "@/lib/amazonCreators";
 
 export async function GET(request: Request) {
   const rl = rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search" });
@@ -31,8 +34,9 @@ export async function GET(request: Request) {
     console.warn("LLM normalization failed or OpenAI key missing, falling back to raw ingredient", error);
   }
 
-  // 2. PA-API v5 SearchItems
-  if (!isPaapiConfigured()) {
+  // 2. Creators API Fallback (Amazon Search)
+  if (!hasAmazonCreatorsCredentials()) {
+    // No Creators API credentials configured — return null so the client does not apply a fake ASIN
     return NextResponse.json({
       ingredient,
       normalized: normalizedIngredient,
@@ -42,37 +46,23 @@ export async function GET(request: Request) {
   }
 
   try {
-    const item = await searchItem(normalizedIngredient);
-    if (!item) {
-      return NextResponse.json({
-        ingredient,
-        normalized: normalizedIngredient,
-        asin: null,
-        source: "paapi_no_match",
-      });
-    }
+    const result = await searchAmazonCreatorsCatalog(normalizedIngredient);
 
     return NextResponse.json({
       ingredient,
       normalized: normalizedIngredient,
-      asin: item.asin,
-      title: item.title,
-      imageUrl: item.imageUrl,
-      price: item.price,
-      detailPageUrl: item.detailPageUrl,
-      source: "paapi",
+      asin: result.asin,
+      detailPageUrl: result.detailPageUrl,
+      source: result.asin ? "amazon_creators_api" : "amazon_creators_api_empty",
     });
   } catch (error) {
-    console.error("[api/amazon/search] PA-API call failed:", error);
-    return NextResponse.json(
-      {
-        ingredient,
-        normalized: normalizedIngredient,
-        asin: null,
-        source: "paapi_error",
-        error: error instanceof Error ? error.message : "Unknown PA-API error",
-      },
-      { status: 502 },
-    );
+    console.warn("Amazon Creators API lookup failed, returning graceful fallback", error);
+
+    return NextResponse.json({
+      ingredient,
+      normalized: normalizedIngredient,
+      asin: null,
+      source: "no_paapi_key",
+    });
   }
 }
