@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { isPaapiConfigured, searchItem } from "@/lib/amazon/paapi";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function GET(request: Request) {
+  const rl = rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search" });
+  if (!rl.allowed) return rl.response!;
+
   const { searchParams } = new URL(request.url);
   const ingredient = searchParams.get("ingredient");
 
@@ -26,19 +31,48 @@ export async function GET(request: Request) {
     console.warn("LLM normalization failed or OpenAI key missing, falling back to raw ingredient", error);
   }
 
-  // 2. PA-API Fallback (Amazon Search)
-  if (!process.env.AMAZON_PAAPI_ACCESS_KEY) {
-    // No PA-API keys configured — return null so the client does not apply a fake ASIN
+  // 2. PA-API v5 SearchItems
+  if (!isPaapiConfigured()) {
     return NextResponse.json({
-      ingredient: ingredient,
+      ingredient,
       normalized: normalizedIngredient,
       asin: null,
-      source: "no_paapi_key"
+      source: "no_paapi_key",
     });
   }
 
-  // Real PA-API logic would go here
-  // ...
+  try {
+    const item = await searchItem(normalizedIngredient);
+    if (!item) {
+      return NextResponse.json({
+        ingredient,
+        normalized: normalizedIngredient,
+        asin: null,
+        source: "paapi_no_match",
+      });
+    }
 
-  return NextResponse.json({ error: "PA-API integration not fully implemented" }, { status: 501 });
+    return NextResponse.json({
+      ingredient,
+      normalized: normalizedIngredient,
+      asin: item.asin,
+      title: item.title,
+      imageUrl: item.imageUrl,
+      price: item.price,
+      detailPageUrl: item.detailPageUrl,
+      source: "paapi",
+    });
+  } catch (error) {
+    console.error("[api/amazon/search] PA-API call failed:", error);
+    return NextResponse.json(
+      {
+        ingredient,
+        normalized: normalizedIngredient,
+        asin: null,
+        source: "paapi_error",
+        error: error instanceof Error ? error.message : "Unknown PA-API error",
+      },
+      { status: 502 },
+    );
+  }
 }
