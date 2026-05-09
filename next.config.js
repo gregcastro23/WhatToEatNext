@@ -186,6 +186,21 @@ const nextConfig = {
     ];
   },
 
+  async redirects() {
+    return [
+      {
+        source: "/meal-plan",
+        destination: "/menu-planner",
+        permanent: true,
+      },
+      {
+        source: "/meal-plan/groceries",
+        destination: "/menu-planner",
+        permanent: true,
+      },
+    ];
+  },
+
   // Proxy rewrites removed - back to standard monolith on Vercel
 };
 

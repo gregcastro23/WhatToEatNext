@@ -1,6 +1,4 @@
-import React from "react";
-import EnhancedSauceRecommender from "@/components/recommendations/EnhancedSauceRecommender";
-import SauceLineageTree from "@/components/recommendations/SauceLineageTree";
+import SaucesClient from "./SaucesClient";
 
 export const metadata = {
   title: "Cosmic Sauce Recommender - Alchm Kitchen",
@@ -20,13 +18,7 @@ export default function SaucesPage() {
           </p>
         </header>
 
-        <section>
-          <EnhancedSauceRecommender />
-        </section>
-
-        <section>
-          <SauceLineageTree />
-        </section>
+        <SaucesClient />
       </div>
     </div>
   );
