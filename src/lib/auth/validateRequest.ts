@@ -11,6 +11,7 @@ import { NextResponse } from "next/server";
 import { UserRole } from "@/lib/auth/roles";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
+import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
 
 type AuthResolver = typeof import("@/lib/auth/auth").auth;
 type UserDatabaseResolver =
@@ -191,13 +192,19 @@ export async function validateToken(token: string): Promise<ValidationResult> {
 export async function validateRequest(
   request: NextRequest,
 ): Promise<{ user: TokenPayload } | { error: NextResponse }> {
+  // Ensure AUTH_URL is correctly set for the current request to avoid 401 mismatches
+  applyRequestAuthOrigin(request);
+
   // 1. Try NextAuth session first (dynamically imported for edge compatibility)
   try {
     const auth = await getAuth();
     if (auth) {
-      const session = await auth();
+      // Pass the request to auth() for better reliability in Route Handlers
+      const session = await auth(request as any);
+      console.log(`[validateRequest] Session check for ${request.nextUrl.pathname}: ${session ? 'Found' : 'Not Found'}`);
+      
       if (session?.user) {
-        const sessionRole = session.user.role || "user";
+        const sessionRole = (session.user as any).role || "user";
         const roles =
           sessionRole === "admin" ? ["admin", "user"] : ["user"];
         return {
@@ -213,12 +220,14 @@ export async function validateRequest(
         };
       }
     }
-  } catch {
+  } catch (err) {
+    console.error(`[validateRequest] NextAuth session check failed for ${request.nextUrl.pathname}:`, err);
     // NextAuth session check failed, fall through to JWT
   }
 
   // 2. Fall back to legacy JWT token
   const token = extractToken(request);
+  console.log(`[validateRequest] Legacy token check for ${request.nextUrl.pathname}: ${token ? 'Token present' : 'No token'}`);
 
   if (!token) {
     return {
@@ -273,14 +282,21 @@ export async function validateAdminRequest(
 export async function getUserIdFromRequest(
   request: NextRequest,
 ): Promise<string | null> {
+  // Ensure AUTH_URL is correctly set for the current request
+  applyRequestAuthOrigin(request);
+
   // Try NextAuth session first (dynamically imported for edge compatibility)
   try {
     const auth = await getAuth();
     if (auth) {
-      const session = await auth();
+      // Pass request to auth() for consistency
+      const session = await auth(request as any);
+      
       if (session?.user) {
         const sessionUserId = (session.user.id || "").trim();
         const sessionEmail = (session.user.email || "").trim().toLowerCase();
+
+        console.log(`[getUserIdFromRequest] Found session for ${sessionEmail} (id: ${sessionUserId})`);
 
         // Resolve against DB when available to avoid OAuth-sub-vs-UUID mismatches.
         try {
@@ -288,15 +304,21 @@ export async function getUserIdFromRequest(
           if (userDb) {
             if (sessionUserId) {
               const byId = await userDb.getUserById(sessionUserId);
-              if (byId) return byId.id;
+              if (byId) {
+                console.log(`[getUserIdFromRequest] Resolved by ID: ${byId.id}`);
+                return byId.id;
+              }
             }
             if (sessionEmail) {
               const byEmail = await userDb.getUserByEmail(sessionEmail);
-              if (byEmail) return byEmail.id;
+              if (byEmail) {
+                console.log(`[getUserIdFromRequest] Resolved by Email: ${byEmail.id}`);
+                return byEmail.id;
+              }
             }
           }
         } catch (dbError) {
-          console.error("[validateRequest] Database resolution failed:", dbError);
+          console.error("[getUserIdFromRequest] Database resolution failed:", dbError);
           // Continue to edge/no-DB fallback
         }
 
@@ -304,10 +326,12 @@ export async function getUserIdFromRequest(
         if (sessionUserId) {
           return sessionUserId;
         }
+      } else {
+        console.log(`[getUserIdFromRequest] No session found for ${request.nextUrl.pathname}`);
       }
     }
-  } catch {
-    // Fall through
+  } catch (err) {
+    console.error(`[getUserIdFromRequest] NextAuth error for ${request.nextUrl.pathname}:`, err);
   }
 
   // Try token
@@ -315,13 +339,19 @@ export async function getUserIdFromRequest(
   if (token) {
     const result = await validateToken(token);
     if (result.valid && result.user) {
+      console.log(`[getUserIdFromRequest] Valid legacy token found for ${result.user.email}`);
       return result.user.userId;
     }
   }
 
   // Fallback to query param (for development/testing)
   const { searchParams } = new URL(request.url);
-  return searchParams.get("userId");
+  const queryUserId = searchParams.get("userId");
+  if (queryUserId) {
+    console.log(`[getUserIdFromRequest] Using query param userId: ${queryUserId}`);
+  }
+  
+  return queryUserId;
 }
 
 /**
@@ -331,11 +361,17 @@ export async function getUserIdFromRequest(
 export async function getDatabaseUserFromRequest(
   request: NextRequest,
 ): Promise<UserWithProfile | null> {
+  // Ensure AUTH_URL is correctly set for the current request
+  applyRequestAuthOrigin(request);
+
   const userId = await getUserIdFromRequest(request);
   let user: any = null;
 
   const userDb = await getUserDatabase();
-  if (!userDb) return null;
+  if (!userDb) {
+    console.warn("[getDatabaseUserFromRequest] userDatabase unavailable");
+    return null;
+  }
 
   if (userId) {
     user = await userDb.getUserById(userId);
@@ -346,12 +382,14 @@ export async function getDatabaseUserFromRequest(
     try {
       const auth = await getAuth();
       if (auth) {
-        const session = await auth();
+        // Pass request to auth()
+        const session = await auth(request as any);
         if (session?.user?.email) {
+          console.log(`[getDatabaseUserFromRequest] Falling back to email lookup for ${session.user.email}`);
           try {
             user = await userDb.getUserByEmail(session.user.email);
             if (!user) {
-              console.warn("[validateRequest] User authenticated via NextAuth but missing in Postgres. JIT healing sequence initiated.");
+              console.warn("[getDatabaseUserFromRequest] User authenticated via NextAuth but missing in Postgres. JIT healing sequence initiated.");
               user = await userDb.createUser({
                 email: session.user.email,
                 name: session.user.name || "Cosmic Citizen",
@@ -359,14 +397,18 @@ export async function getDatabaseUserFromRequest(
               });
             }
           } catch (dbError) {
-            console.error("[validateRequest] Database lookup or JIT creation failed:", dbError);
+            console.error("[getDatabaseUserFromRequest] Database lookup or JIT creation failed:", dbError);
             // Cannot proceed without DB user
           }
         }
       }
-    } catch {
-      // Auth session unavailable
+    } catch (err) {
+      console.error("[getDatabaseUserFromRequest] Auth session check failed:", err);
     }
+  }
+
+  if (!user) {
+    console.warn(`[getDatabaseUserFromRequest] Failed to resolve user for ${request.nextUrl.pathname}`);
   }
 
   return user;
