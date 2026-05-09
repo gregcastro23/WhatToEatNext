@@ -5,19 +5,16 @@ node_modules
 dist
 build
 
-# Large files
+# Large files/folders
 *.ipynb
 *.patch
 *.sql
+*.pdf
 bfg.jar
-
-# Cache directories
-.jest-cache
-.open-next
-.wrangler
-.yarn
-.astro
-.pytest_cache
+venv_extract/
+coverage/
+sweph_ephe/
+HSCA_Recipes.pdf
 
 # Misc directories
 logs
@@ -31,7 +28,9 @@ dist-scripts
 .temp-disabled-tests
 .venv
 venv
-swisseph_ephe
+**/venv
+**/.venv
+backend/.venv
 SYSTEMATIC REDUCTION CAMPAIGN PROMPTS
 
 # Frontend directories (not needed for backend)

@@ -24,6 +24,7 @@ export interface RecipeIngredient {
   preparation?: string;
   notes?: string;
   function?: string;
+  asin?: string;
   cookingPoint?: string;
   substitutes?: string[];
   elementalProperties?: ElementalProperties;

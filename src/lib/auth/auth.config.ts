@@ -113,7 +113,9 @@ export const authConfig = {
       // get redirected to /upgrade instead of seeing errors)
       const isPremiumRoute =
         pathname.startsWith("/recipe-generator") ||
-        pathname.startsWith("/planetary-chart");
+        pathname.startsWith("/planetary-chart") ||
+        pathname.startsWith("/restaurant-creator") ||
+        pathname.startsWith("/premium-table");
 
       // Not authenticated -> redirect to login for protected routes
       if ((isProtected || isPremiumRoute) && !session?.user) {

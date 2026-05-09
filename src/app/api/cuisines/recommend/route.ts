@@ -119,6 +119,13 @@ function computeLocalRecommendations() {
   };
 }
 
+// NOTE: This endpoint is intentionally PUBLIC. It returns astrological
+// cuisine matches computed from planetary positions — the same content
+// shown on the home page as a marketing preview. The premium-only piece
+// is the EnhancedSauceRecommender on the /cuisines page (UI-gated via
+// PremiumGate). Don't add an auth gate here without first re-gating
+// the home page recommender, or free users will see a broken state.
+
 async function handleRequest(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

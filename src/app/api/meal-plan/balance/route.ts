@@ -1,8 +1,24 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { ElementalProperties, Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
+
+const ElementalPropertiesSchema = z
+  .object({
+    Fire: z.number().nonnegative().optional(),
+    Water: z.number().nonnegative().optional(),
+    Earth: z.number().nonnegative().optional(),
+    Air: z.number().nonnegative().optional(),
+  })
+  .partial();
+
+const BalanceBodySchema = z.object({
+  current: ElementalPropertiesSchema.optional(),
+  excludeRecipeIds: z.array(z.string()).max(500).optional(),
+  limit: z.number().int().min(1).max(20).optional(),
+});
 
 const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
 type Element = (typeof ELEMENTS)[number];
@@ -52,20 +68,22 @@ function computeTargetProfile(current: Record<Element, number>): Record<Element,
   };
 }
 
-interface BalanceBody {
-  current?: Partial<ElementalProperties>;
-  excludeRecipeIds?: string[];
-  limit?: number;
-}
-
 export async function POST(request: Request) {
   try {
-    const body: BalanceBody = await request.json().catch(() => ({}));
+    const rawBody = await request.json().catch(() => ({}));
+    const parsed = BalanceBodySchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid request body", issues: parsed.error.issues },
+        { status: 400 },
+      );
+    }
+    const body = parsed.data;
     const currentRaw = body.current ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     const current = normalize(currentRaw);
     const target = computeTargetProfile(current);
     const exclude = new Set(body.excludeRecipeIds ?? []);
-    const limit = Math.max(1, Math.min(20, body.limit ?? 6));
+    const limit = body.limit ?? 6;
 
     const service = UnifiedRecipeService.getInstance();
     const all = await service.getAllRecipes();

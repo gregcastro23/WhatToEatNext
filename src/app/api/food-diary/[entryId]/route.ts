@@ -9,12 +9,33 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { UpdateFoodDiaryEntryInput } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+const UpdateEntryBodySchema = z.object({
+  userId: z.string().min(1, "userId is required"),
+  quantity: z.number().nonnegative().optional(),
+  serving: z
+    .object({
+      amount: z.number().nonnegative(),
+      unit: z.string().max(40),
+    })
+    .optional(),
+  rating: z.number().min(1).max(5).optional(),
+  moodTags: z.array(z.string().max(40)).max(50).optional(),
+  notes: z.string().max(2000).optional(),
+  wouldEatAgain: z.boolean().optional(),
+  isFavorite: z.boolean().optional(),
+  tags: z.array(z.string().max(40)).max(50).optional(),
+  price: z.number().nonnegative().optional(),
+  store: z.string().max(200).optional(),
+  quality: z.string().max(200).optional(),
+});
 
 interface RouteParams {
   params: Promise<{ entryId: string }>;
@@ -57,19 +78,33 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { entryId } = await params;
-    const body = await request.json();
-    const { userId, ...updateData } = body;
-
-    if (!userId) {
+    let rawBody: unknown;
+    try {
+      rawBody = await request.json();
+    } catch {
       return NextResponse.json(
-        { success: false, message: "userId is required" },
+        { success: false, message: "Invalid JSON in request body" },
         { status: 400 },
       );
     }
 
+    const parsed = UpdateEntryBodySchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Validation error",
+          details: parsed.error.flatten().fieldErrors,
+        },
+        { status: 400 },
+      );
+    }
+
+    const { userId, ...updateData } = parsed.data;
+
     const input: UpdateFoodDiaryEntryInput = {
       id: entryId,
-      ...updateData,
+      ...(updateData as Omit<UpdateFoodDiaryEntryInput, "id">),
     };
 
     const entry = await foodDiaryService.updateEntry(userId, input);

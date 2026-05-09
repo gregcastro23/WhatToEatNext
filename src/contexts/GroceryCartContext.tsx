@@ -73,6 +73,7 @@ interface GroceryCartContextValue {
   checkoutToAmazon: () => number;
   /** Items that could not be mapped to an ASIN */
   unmappedItems: GroceryCartItem[];
+  updateAsin: (id: string, asin: string) => void;
 }
 
 const GroceryCartContext = createContext<GroceryCartContextValue | null>(null);
@@ -219,6 +220,40 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
     [items],
   );
 
+  const updateAsin = useCallback((id: string, asin: string) => {
+    setItems((prev) => prev.map((item) => 
+      item.id === id ? { ...item, asin } : item
+    ));
+  }, []);
+
+  const searchedItemsRef = useRef<Set<string>>(new Set());
+
+  // Automatically attempt to resolve unmapped items
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    
+    unmappedItems.forEach(item => {
+      if (searchedItemsRef.current.has(item.id)) return;
+      searchedItemsRef.current.add(item.id);
+
+      const searchItem = async () => {
+        try {
+          const res = await fetch(`/api/amazon/search?ingredient=${encodeURIComponent(item.name)}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.asin) {
+              updateAsin(item.id, data.asin);
+            }
+          }
+        } catch (e) {
+          console.error("Failed to resolve ASIN for", item.name, e);
+        }
+      };
+      // Simple timeout to prevent overwhelming
+      setTimeout(searchItem, 500);
+    });
+  }, [unmappedItems, updateAsin]);
+
   const checkoutToAmazon = useCallback((): number => {
     const cartItems = items.filter((item) => item.asin);
     if (cartItems.length === 0) return 0;
@@ -291,6 +326,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
       clear,
       checkoutToAmazon,
       unmappedItems,
+      updateAsin,
     }),
     [
       items,
@@ -304,6 +340,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
       clear,
       checkoutToAmazon,
       unmappedItems,
+      updateAsin,
     ],
   );
 

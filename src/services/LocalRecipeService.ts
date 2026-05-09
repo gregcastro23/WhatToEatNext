@@ -128,6 +128,7 @@ function normalizeIngredients(value: unknown): RecipeIngredient[] {
         notes: typeof record.notes === "string" ? record.notes : (record.preparation as string),
         category:
           typeof record.category === "string" ? record.category : undefined,
+        asin: typeof record.asin === "string" ? record.asin : (typeof record.amazon_asin === "string" ? record.amazon_asin : undefined),
       };
     })
     .filter((ingredient): ingredient is RecipeIngredient => Boolean(ingredient));
@@ -232,6 +233,16 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
 
 export class LocalRecipeService {
   private static _allRecipes: Recipe[] | null = null;
+  private static _allRecipesLoadedAt: number | null = null;
+  private static readonly CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+  private static isCacheFresh(): boolean {
+    return (
+      this._allRecipes !== null &&
+      this._allRecipesLoadedAt !== null &&
+      Date.now() - this._allRecipesLoadedAt < this.CACHE_TTL_MS
+    );
+  }
 
   private static async fetchRecipes(where = "", params: unknown[] = []) {
     const query = `${RECIPE_QUERY} ${where}`;
@@ -240,8 +251,8 @@ export class LocalRecipeService {
   }
 
   static async getAllRecipes(): Promise<Recipe[]> {
-    if (this._allRecipes) {
-      return this._allRecipes;
+    if (this.isCacheFresh()) {
+      return this._allRecipes!;
     }
 
     try {
@@ -251,10 +262,12 @@ export class LocalRecipeService {
         logger.warn("Database recipes table returned 0 rows, gracefully resolving local hardcoded payload fallback");
         const { allRecipes } = await import("@/data/recipes/index");
         this._allRecipes = allRecipes;
+        this._allRecipesLoadedAt = Date.now();
         return this._allRecipes;
       }
 
       this._allRecipes = recipes;
+      this._allRecipesLoadedAt = Date.now();
       return recipes;
     } catch (error) {
       logger.error("Error loading recipes from database, extracting raw local fallback:", error);
@@ -394,5 +407,6 @@ export class LocalRecipeService {
 
   static clearCache(): void {
     this._allRecipes = null;
+    this._allRecipesLoadedAt = null;
   }
 }

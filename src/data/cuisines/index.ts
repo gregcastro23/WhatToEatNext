@@ -1,345 +1,198 @@
 import type { Cuisine } from "@/types/cuisine";
-import { african } from "./african";
-import { american } from "./american";
-import { chinese } from "./chinese";
-import { french } from "./french";
-import { greek } from "./greek";
-import { indian } from "./indian";
-import { italian } from "./italian";
-import { japanese } from "./japanese";
-import { korean } from "./korean";
-import { mexican } from "./mexican";
-import { middleEastern } from "./middle-eastern";
-import { russian } from "./russian";
-import { thai } from "./thai";
-import { vietnamese } from "./vietnamese";
+import { standardizeRecipe } from "@/utils/recipe/recipeStandardization";
 
-// Import all cuisines
-// Create a base cuisine structure
-const baseCuisine: Cuisine = {
-  id: "base",
-  name: "",
-  description: "",
-  motherSauces: {},
-  dishes: {
-    breakfast: {
-      spring: [],
-      summer: [],
-      autumn: [],
-      winter: [],
-    },
-    lunch: {
-      spring: [],
-      summer: [],
-      autumn: [],
-      winter: [],
-    },
-    dinner: {
-      spring: [],
-      summer: [],
-      autumn: [],
-      winter: [],
-    },
-    dessert: {
-      spring: [],
-      summer: [],
-      autumn: [],
-      winter: [],
-    },
-  },
-  traditionalSauces: {},
-  sauceRecommender: {
-    forProtein: {},
-    forVegetable: {},
-    forCookingMethod: {},
-    byAstrological: {},
-    byRegion: {},
-    byDietary: {},
-  },
-  cookingTechniques: [],
-  regionalCuisines: {},
-  elementalProperties: {
-    Fire: 0,
-    Water: 0.75,
-    Earth: 0.65,
-    Air: 0,
-  },
-  astrologicalInfluences: [],
+// Define a type for the dynamic import functions
+type CuisineImport = () => Promise<{ [key: string]: any }>;
+
+// Map of dynamic import functions for each cuisine
+const cuisineImports: Record<string, CuisineImport> = {
+  African: () => import("./african").then(m => m.african),
+  American: () => import("./american").then(m => m.american),
+  Chinese: () => import("./chinese").then(m => m.chinese),
+  French: () => import("./french").then(m => m.french),
+  Greek: () => import("./greek").then(m => m.greek),
+  Indian: () => import("./indian").then(m => m.indian),
+  Italian: () => import("./italian").then(m => m.italian),
+  Japanese: () => import("./japanese").then(m => m.japanese),
+  Korean: () => import("./korean").then(m => m.korean),
+  Mexican: () => import("./mexican").then(m => m.mexican),
+  MiddleEastern: () => import("./middle-eastern").then(m => m.middleEastern),
+  Russian: () => import("./russian").then(m => m.russian),
+  Thai: () => import("./thai").then(m => m.thai),
+  Vietnamese: () => import("./vietnamese").then(m => m.vietnamese),
 };
-// Process the recipes to combine seasonal and 'all' categories
-const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
-  if (!cuisine) return { ...baseCuisine };
-  // Helper to combine 'all' recipes with seasonal ones, deduplicating by normalized name
-  const combineRecipes = (mealType: unknown) => {
-    if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
-    // Use safe type casting for mealType property access
-    const mealData = mealType as any;
-    // Extract the 'all' recipes that should be added to each season
-    // Make sure 'all' is an array even if it's not defined
-    const allRecipes = Array.isArray(mealData.all) ? mealData.all : [];
-    // Deduplicate recipes within a single season array by normalized name.
-    // If a recipe name exists in both the seasonal list and the 'all' list,
-    // keep the seasonal version (it's usually more specific).
-    const deduplicateByName = (seasonal: any[], all: any[]): any[] => {
-      const seen = new Set<string>();
-      const result: any[] = [];
-      // Seasonal recipes take priority
-      for (const recipe of seasonal) {
-        const key = (recipe?.name || "").toLowerCase().trim();
-        if (key && !seen.has(key)) {
-          seen.add(key);
-          result.push(recipe);
-        }
-      }
-      // Add 'all' recipes only if not already present
-      for (const recipe of all) {
-        const key = (recipe?.name || "").toLowerCase().trim();
-        if (key && !seen.has(key)) {
-          seen.add(key);
-          result.push(recipe);
-        }
-      }
-      return result;
-    };
-    return {
-      spring: deduplicateByName(
-        Array.isArray(mealData.spring) ? mealData.spring : [],
-        allRecipes,
-      ),
-      summer: deduplicateByName(
-        Array.isArray(mealData.summer) ? mealData.summer : [],
-        allRecipes,
-      ),
-      autumn: deduplicateByName(
-        Array.isArray(mealData.autumn) ? mealData.autumn : [],
-        allRecipes,
-      ),
-      winter: deduplicateByName(
-        Array.isArray(mealData.winter) ? mealData.winter : [],
-        allRecipes,
-      ),
-    };
-  };
-  // Ensure the cuisine has at least a valid ID and name
-  const name = cuisine.name || "";
-  const id = cuisine.id || `cuisine-${name.toLowerCase().replace(/\s+/g, "-")}`;
-  return {
-    id,
-    name,
-    description: cuisine.description || "",
-    motherSauces: cuisine.motherSauces || {},
-    dishes: {
-      breakfast: combineRecipes(cuisine.dishes?.breakfast),
-      lunch: combineRecipes(cuisine.dishes?.lunch),
-      dinner: combineRecipes(cuisine.dishes?.dinner),
-      dessert: combineRecipes(cuisine.dishes?.dessert),
-    },
-    traditionalSauces: cuisine.traditionalSauces || {},
-    sauceRecommender: {
-      forProtein: cuisine.sauceRecommender?.forProtein || {},
-      forVegetable: cuisine.sauceRecommender?.forVegetable || {},
-      forCookingMethod: cuisine.sauceRecommender?.forCookingMethod || {},
-      byAstrological: cuisine.sauceRecommender?.byAstrological || {},
-      byRegion: cuisine.sauceRecommender?.byRegion || {},
-      byDietary: cuisine.sauceRecommender?.byDietary || {},
-    },
-    cookingTechniques: Array.isArray(cuisine.cookingTechniques)
-      ? cuisine.cookingTechniques
-      : [],
-    regionalCuisines: cuisine.regionalCuisines || {},
-    elementalProperties: cuisine.elementalProperties ||
-      (cuisine as any).elementalState || { ...baseCuisine.elementalProperties }, // For backward compatibility
-    regionalVarieties: cuisine.regionalCuisines
-      ? Object.keys(cuisine.regionalCuisines).length
-      : 0,
-    astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences)
-      ? cuisine.astrologicalInfluences
-      : [],
-  }; // Use type assertion to ensure the return type is Cuisine
-};
-// Pre-process all cuisines once for efficiency
-const processedCuisines = {
-  African: processCuisineRecipes(african),
-  American: processCuisineRecipes(american),
-  Chinese: processCuisineRecipes(chinese as unknown as Partial<Cuisine>),
-  French: processCuisineRecipes(french),
-  Greek: processCuisineRecipes(greek),
-  Indian: processCuisineRecipes(indian as unknown as Partial<Cuisine>),
-  Italian: processCuisineRecipes(italian),
-  Japanese: processCuisineRecipes(japanese),
-  Korean: processCuisineRecipes(korean),
-  Mexican: processCuisineRecipes(mexican as unknown as Partial<Cuisine>),
-  "Middle Eastern": processCuisineRecipes(
-    middleEastern,
-  ),
-  Russian: processCuisineRecipes(russian),
-  Thai: processCuisineRecipes(thai),
-  Vietnamese: processCuisineRecipes(vietnamese),
-};
-// Create and export the cuisines map with validated structures
-// Includes both capitalized and lowercase keys for backward compatibility
-// but references the SAME processed objects to avoid duplication
-export const cuisinesMap = {
-  // Primary entries (capitalized)
-  ...processedCuisines,
-  // Lowercase aliases pointing to same objects (backward compatibility)
-  african: processedCuisines.African,
-  american: processedCuisines.American,
-  chinese: processedCuisines.Chinese,
-  french: processedCuisines.French,
-  greek: processedCuisines.Greek,
-  indian: processedCuisines.Indian,
-  italian: processedCuisines.Italian,
-  japanese: processedCuisines.Japanese,
-  korean: processedCuisines.Korean,
-  mexican: processedCuisines.Mexican,
-  middleEastern: processedCuisines["Middle Eastern"],
-  russian: processedCuisines.Russian,
-  thai: processedCuisines.Thai,
-  vietnamese: processedCuisines.Vietnamese,
-} as const;
-// Export only primary cuisines for iteration (avoids duplicates)
-export const primaryCuisines = processedCuisines;
-export type CuisineName = keyof typeof cuisinesMap;
-export default cuisinesMap;
-// Element properties for the refined culinary search
-export const CUISINES = {
-  american: {
-    name: "American",
-    elementalProperties: {
-      Fire: 0.3,
-      Water: 0.2,
-      Earth: 0.3,
-      Air: 0.2,
-    },
-  },
-  chinese: {
-    name: "Chinese",
-    elementalProperties: {
-      Fire: 0.3,
-      Water: 0.3,
-      Earth: 0.3,
-      Air: 0.1,
-    },
-  },
-  japanese: {
-    name: "Japanese",
-    elementalProperties: {
-      Fire: 0.2,
-      Water: 0.4,
-      Earth: 0.2,
-      Air: 0.2,
-    },
-  },
-  indian: {
-    name: "Indian",
-    elementalProperties: {
-      Fire: 0.4,
-      Water: 0.2,
-      Earth: 0.2,
-      Air: 0.2,
-    },
-  },
-  french: {
-    name: "French",
-    elementalProperties: {
-      Fire: 0.2,
-      Water: 0.3,
-      Earth: 0.3,
-      Air: 0.2,
-    },
-  },
-  italian: {
-    name: "Italian",
-    elementalProperties: {
-      Fire: 0.3,
-      Earth: 0.4,
-      Water: 0.2,
-      Air: 0.1,
-    },
-  },
-  african: {
+
+// Metadata is kept synchronous to avoid placeholders and allow immediate UI render
+// These are extracted from the 2.8MB static files
+export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
+  African: {
     name: "African",
-    elementalProperties: {
-      Fire: 0.3,
-      Earth: 0.4,
-      Water: 0.2,
-      Air: 0.1,
-    },
+    elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
+    description: "Rich and diverse culinary traditions from across the African continent.",
   },
-  middleEastern: {
-    name: "Middle Eastern",
-    elementalProperties: {
-      Fire: 0.3,
-      Earth: 0.3,
-      Water: 0.2,
-      Air: 0.2,
-    },
+  American: {
+    name: "American",
+    elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
+    description: "Diverse culinary influences reflecting the melting pot of American culture.",
   },
-  greek: {
+  Chinese: {
+    name: "Chinese",
+    elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.1 },
+    description: "Ancient culinary traditions with a focus on balance and wok hei.",
+  },
+  French: {
+    name: "French",
+    elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
+    description: "Classical techniques and a focus on high-quality ingredients and sauces.",
+  },
+  Greek: {
     name: "Greek",
-    elementalProperties: {
-      Fire: 0.2,
-      Earth: 0.3,
-      Water: 0.3,
-      Air: 0.2,
-    },
+    elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.3, Air: 0.2 },
+    description: "Mediterranean flavors with fresh herbs, olive oil, and seafood.",
   },
-  mexican: {
-    name: "Mexican",
-    elementalProperties: {
-      Fire: 0.5,
-      Earth: 0.3,
-      Water: 0.1,
-      Air: 0.1,
-    },
+  Indian: {
+    name: "Indian",
+    elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
+    description: "Complex spice blends and traditional cooking methods like the tandoor.",
   },
-  thai: {
-    name: "Thai",
-    elementalProperties: {
-      Fire: 0.4,
-      Water: 0.3,
-      Earth: 0.2,
-      Air: 0.1,
-    },
+  Italian: {
+    name: "Italian",
+    elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
+    description: "Regional specialties with a focus on fresh pasta, tomatoes, and olive oil.",
   },
-  vietnamese: {
-    name: "Vietnamese",
-    elementalProperties: {
-      Water: 0.4,
-      Fire: 0.2,
-      Earth: 0.2,
-      Air: 0.2,
-    },
+  Japanese: {
+    name: "Japanese",
+    elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 },
+    description: "Precision and seasonality with a focus on umami and fresh seafood.",
   },
-  korean: {
+  Korean: {
     name: "Korean",
-    elementalProperties: {
-      Fire: 0.3,
-      Earth: 0.3,
-      Water: 0.2,
-      Air: 0.2,
-    },
+    elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.2, Air: 0.2 },
+    description: "Bold flavors from fermentation and grilling.",
   },
-  russian: {
+  Mexican: {
+    name: "Mexican",
+    elementalProperties: { Fire: 0.5, Earth: 0.3, Water: 0.1, Air: 0.1 },
+    description: "Vibrant flavors with a focus on chilies, corn, and traditional salsas.",
+  },
+  MiddleEastern: {
+    name: "Middle Eastern",
+    elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.2, Air: 0.2 },
+    description: "Aromatic spices, grains, and grilled meats with fresh vegetable salads.",
+  },
+  Russian: {
     name: "Russian",
-    elementalProperties: {
-      Earth: 0.5,
-      Water: 0.2,
-      Fire: 0.2,
-      Air: 0.1,
-    },
+    elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
+    description: "Hearty soups, grains, and preserved foods suitable for cold climates.",
   },
-} as const;
-// Type for cuisine data
-export interface CuisineData {
-  name: string;
-  elementalProperties: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+  Thai: {
+    name: "Thai",
+    elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
+    description: "Perfect balance of sour, sweet, salty, and spicy flavors.",
+  },
+  Vietnamese: {
+    name: "Vietnamese",
+    elementalProperties: { Water: 0.4, Fire: 0.2, Earth: 0.2, Air: 0.2 },
+    description: "Fresh, light flavors with an emphasis on herbs and clear broths.",
+  },
+};
+
+/**
+ * Process a cuisine object to ensure consistent structure and standardize recipes.
+ */
+export function processCuisineRecipes(cuisine: any): Cuisine {
+  if (!cuisine) return null as any;
+
+  const name = cuisine.name || "Unknown";
+  const dishes: any = {
+    breakfast: { spring: [], summer: [], autumn: [], winter: [] },
+    lunch: { spring: [], summer: [], autumn: [], winter: [] },
+    dinner: { spring: [], summer: [], autumn: [], winter: [] },
+    dessert: { spring: [], summer: [], autumn: [], winter: [] },
+  };
+
+  if (cuisine.dishes) {
+    Object.entries(cuisine.dishes).forEach(([mealType, mealTypeData]: [string, any]) => {
+      if (mealTypeData && dishes[mealType]) {
+        Object.entries(mealTypeData).forEach(([season, recipes]: [string, any]) => {
+          if (Array.isArray(recipes)) {
+            dishes[mealType][season] = recipes.map(r => standardizeRecipe(r, name, mealType, season).standardizedRecipe);
+          }
+        });
+      }
+    });
+  }
+
+  return {
+    ...cuisine,
+    dishes,
   };
 }
-// Ensure type safety
-export type Cuisines = typeof CUISINES;
+
+/**
+ * Asynchronously load full cuisine data including all recipes.
+ */
+export async function getCuisineData(key: string): Promise<Cuisine | null> {
+  const normalizedKey = key === "Middle Eastern" ? "MiddleEastern" : key;
+  const loader = cuisineImports[normalizedKey];
+  if (!loader) return null;
+
+  try {
+    const rawData = await loader();
+    return processCuisineRecipes(rawData);
+  } catch (error) {
+    console.error(`Failed to load cuisine data for ${key}:`, error);
+    return null;
+  }
+}
+
+// Map of primary cuisine keys
+export const PRIMARY_CUISINE_KEYS = Object.keys(cuisineImports);
+
+// Legacy exports - these now return METADATA by default to avoid the 2.8MB bundle.
+// If dishes are needed, use getCuisineData() instead.
+const cuisinesMapBase: Record<string, Cuisine> = {};
+PRIMARY_CUISINE_KEYS.forEach(key => {
+  const meta = CUISINES_METADATA[key];
+  (cuisinesMapBase as any)[key] = {
+    ...meta,
+    id: key.toLowerCase(),
+    dishes: {
+      breakfast: { spring: [], summer: [], autumn: [], winter: [] },
+      lunch: { spring: [], summer: [], autumn: [], winter: [] },
+      dinner: { spring: [], summer: [], autumn: [], winter: [] },
+      dessert: { spring: [], summer: [], autumn: [], winter: [] },
+    },
+    motherSauces: {},
+    traditionalSauces: {},
+    sauceRecommender: {
+      forProtein: {},
+      forVegetable: {},
+      forCookingMethod: {},
+      byAstrological: {},
+      byRegion: {},
+      byDietary: {},
+    },
+    cookingTechniques: [],
+    regionalCuisines: {},
+    astrologicalInfluences: [],
+  };
+});
+
+// Proxy to provide warnings and handle both capitalized and lowercase keys
+export const cuisinesMap = new Proxy(cuisinesMapBase, {
+  get(target, prop: string) {
+    const key = Object.keys(target).find(k => k.toLowerCase() === prop.toLowerCase()) || prop;
+    if (prop !== "then" && prop !== "toJSON" && typeof prop === "string") {
+      // console.warn(`Accessing cuisinesMap.${prop} synchronously. For full data including recipes, use getCuisineData('${key}').`);
+    }
+    return target[key];
+  }
+});
+
+export const primaryCuisines = cuisinesMap;
+
+/** @deprecated Use CUISINES_METADATA instead */
+export const CUISINES = CUISINES_METADATA;
+
+export default cuisinesMap;

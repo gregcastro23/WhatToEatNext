@@ -4,26 +4,6 @@
  * Derives a multi-cuisine phylogeny of sauces from explicit data signals
  * (variants / derivatives lists, base type, key ingredients) plus inferred
  * relationships when explicit ones are missing.
- *
- * Output
- *   • forest: roots → expandable children, organized by base family
- *   • lineage: breadcrumb path from any sauce to its root
- *   • divergence: ingredients added or dropped vs. parent
- *   • fusion bridges: cross-cuisine pairs with high ingredient overlap, the
- *     starting points for non-fusion-but-informed cross-tradition cooking
- *
- * Algorithm summary
- *   1. Collect every sauce node from `allSauces` + each cuisine's
- *      `motherSauces` and `traditionalSauces`. Each node retains its origin
- *      (mother / traditional / global) and owning cuisine.
- *   2. Resolve declared parent → child edges using the `derivatives` and
- *      `variants` arrays, normalizing names against the node index.
- *   3. Group nodes into base families (tomato, dairy, egg-emulsion, soy /
- *      fermented, chile, herb, citrus, stock-reduction, nut-seed, other).
- *   4. For nodes without a declared parent, attach them to the highest-
- *      similarity ancestor in the same base family (preferring mother >
- *      traditional > global). Parent must beat a similarity floor.
- *   5. Compute fusion bridges across cuisines using ingredient Jaccard.
  */
 
 import { cuisinesMap } from "@/data/cuisines";
@@ -362,12 +342,11 @@ function buildNode(args: {
   };
 }
 
-function collectNodes(): { nodes: Map<string, SauceNode>; nameIndex: Map<string, SauceNode> } {
+function collectNodes(cuisinesData: Record<string, any>): { nodes: Map<string, SauceNode>; nameIndex: Map<string, SauceNode> } {
   const nodes = new Map<string, SauceNode>();
   const nameIndex = new Map<string, SauceNode>();
 
-  // 1) Per-cuisine mother + traditional sauces
-  for (const [cuisineKey, cuisine] of Object.entries(cuisinesMap as Record<string, Cuisine>)) {
+  for (const [cuisineKey, cuisine] of Object.entries(cuisinesData)) {
     if (!cuisine || typeof cuisine !== "object") continue;
 
     if (cuisine.motherSauces) {
@@ -401,7 +380,6 @@ function collectNodes(): { nodes: Map<string, SauceNode>; nameIndex: Map<string,
       for (const [k, raw] of Object.entries(cuisine.traditionalSauces)) {
         const r: any = raw ?? {};
         const nameKey = norm(r.name ?? k);
-        // Skip if a same-name mother sauce already exists in this cuisine
         if (nameIndex.has(nameKey) && nameIndex.get(nameKey)!.cuisine === (cuisine.name ?? cuisineKey)) {
           continue;
         }
@@ -427,7 +405,6 @@ function collectNodes(): { nodes: Map<string, SauceNode>; nameIndex: Map<string,
     }
   }
 
-  // 2) Global sauces — only add if no node with same normalized name yet
   for (const [key, sauce] of Object.entries(allSauces)) {
     const nameKey = norm(sauce.name);
     if (nameIndex.has(nameKey)) continue;
@@ -462,7 +439,6 @@ function collectNodes(): { nodes: Map<string, SauceNode>; nameIndex: Map<string,
 function findNodeByName(name: string, nameIndex: Map<string, SauceNode>): SauceNode | undefined {
   const n = norm(name);
   if (nameIndex.has(n)) return nameIndex.get(n);
-  // Loose: substring match
   for (const [k, v] of nameIndex) {
     if (k.includes(n) || n.includes(k)) return v;
   }
@@ -487,7 +463,7 @@ function deriveEdges(
   const edges: LineageEdge[] = [];
 
   const addChild = (parent: SauceNode, child: SauceNode, edge: LineageEdge) => {
-    if (parentOf.has(child.id)) return; // single-parent invariant
+    if (parentOf.has(child.id)) return;
     if (parent.id === child.id) return;
     parentOf.set(child.id, parent.id);
     if (!childrenOf.has(parent.id)) childrenOf.set(parent.id, []);
@@ -495,7 +471,6 @@ function deriveEdges(
     edges.push(edge);
   };
 
-  // Pass 1 — declared edges
   for (const node of nodes.values()) {
     const declared = [
       ...node.declaredDerivatives.map((s) => ({ s, reason: "declared-derivative" as const })),
@@ -514,7 +489,6 @@ function deriveEdges(
           similarity: sim,
         });
       } else {
-        // Variant-only string leaf
         const leafId = makeId([node.id, "variant", trimmed]);
         if (!variantLeaves.has(node.id)) variantLeaves.set(node.id, []);
         const arr = variantLeaves.get(node.id)!;
@@ -525,7 +499,6 @@ function deriveEdges(
     }
   }
 
-  // Pass 2 — inferred edges by base family + ingredient similarity
   const ORIGIN_RANK: Record<SauceNode["origin"], number> = {
     mother: 3,
     traditional: 2,
@@ -533,7 +506,6 @@ function deriveEdges(
     "variant-only": 0,
   };
 
-  // Group nodes by family for efficient pairwise comparison
   const byFamily = new Map<BaseFamily, SauceNode[]>();
   for (const node of nodes.values()) {
     if (!byFamily.has(node.baseFamily)) byFamily.set(node.baseFamily, []);
@@ -543,17 +515,14 @@ function deriveEdges(
   for (const [, family] of byFamily) {
     for (const node of family) {
       if (parentOf.has(node.id) || node.origin === "mother") continue;
-      // Find best ancestor candidate in the same family
       let best: { parent: SauceNode; sim: number } | null = null;
       for (const candidate of family) {
         if (candidate.id === node.id) continue;
-        // Candidate must outrank child in origin so the tree flows mother → traditional → global
         if (ORIGIN_RANK[candidate.origin] < ORIGIN_RANK[node.origin]) continue;
         if (
           ORIGIN_RANK[candidate.origin] === ORIGIN_RANK[node.origin] &&
           candidate.cuisine !== node.cuisine
         ) {
-          // same-rank cross-cuisine cannot be parent — bridge instead
           continue;
         }
         const sim = jaccard(node.ingredientTokens, candidate.ingredientTokens);
@@ -561,7 +530,6 @@ function deriveEdges(
         if (!best || sim > best.sim) best = { parent: candidate, sim };
       }
       if (best) {
-        // Avoid creating cycles
         let p: string | undefined = best.parent.id;
         const seen = new Set<string>([node.id]);
         while (p) {
@@ -637,7 +605,6 @@ function buildFusionBridges(
     }
   }
 
-  // Trim each list to top N by similarity
   for (const [k, list] of bridgesByNode) {
     list.sort((x, y) => y.similarity - x.similarity);
     bridgesByNode.set(k, list.slice(0, options.perNodeLimit));
@@ -657,11 +624,9 @@ function assembleForest(
   edges: LineageEdge[],
   variantLeaves: Map<string, VariantLeaf[]>,
 ): SauceForest {
-  // Roots = nodes with no parent
   const roots: SauceNode[] = [];
   for (const node of nodes.values()) if (!parentOf.has(node.id)) roots.push(node);
 
-  // Group by family
   const byFamily = new Map<BaseFamily, SauceNode[]>();
   for (const node of nodes.values()) {
     if (!byFamily.has(node.baseFamily)) byFamily.set(node.baseFamily, []);
@@ -670,25 +635,14 @@ function assembleForest(
 
   const families: BaseFamilyTree[] = [];
   const familyOrder: BaseFamily[] = [
-    "tomato",
-    "dairy",
-    "egg-emulsion",
-    "stock-reduction",
-    "soy-fermented",
-    "chile",
-    "herb",
-    "nut-seed",
-    "citrus",
-    "yogurt",
-    "vinegar",
-    "meat-drippings",
-    "other",
+    "tomato", "dairy", "egg-emulsion", "stock-reduction", "soy-fermented",
+    "chile", "herb", "nut-seed", "citrus", "yogurt", "vinegar",
+    "meat-drippings", "other",
   ];
   for (const f of familyOrder) {
     const all = byFamily.get(f) ?? [];
     if (all.length === 0) continue;
     const familyRoots = roots.filter((r) => r.baseFamily === f);
-    // Order roots: mother sauces first, then by descendant count, then by name
     familyRoots.sort((a, b) => {
       const aMother = a.origin === "mother" ? 1 : 0;
       const bMother = b.origin === "mother" ? 1 : 0;
@@ -709,7 +663,6 @@ function assembleForest(
     });
   }
 
-  // Sort children alphabetically inside each parent
   for (const [, kids] of childrenOf) kids.sort((a, b) => a.name.localeCompare(b.name));
 
   return {
@@ -730,9 +683,13 @@ function assembleForest(
 let _cached: SauceForest | null = null;
 
 /** Build (or return cached) sauce forest. Idempotent across calls. */
-export function getSauceForest(): SauceForest {
-  if (_cached) return _cached;
-  const { nodes, nameIndex } = collectNodes();
+export function getSauceForest(cuisinesData?: Record<string, any>): SauceForest {
+  if (_cached && !cuisinesData) return _cached;
+  
+  // If no data provided, we return the cached one or collect from legacy map (if still populated)
+  const sourceData = cuisinesData || (cuisinesMap as Record<string, any>);
+  
+  const { nodes, nameIndex } = collectNodes(sourceData);
   const { parentOf, childrenOf, variantLeaves, edges } = deriveEdges(nodes, nameIndex, {
     similarityFloor: 0.18,
   });
@@ -740,12 +697,8 @@ export function getSauceForest(): SauceForest {
     similarityFloor: 0.22,
     perNodeLimit: 5,
   });
-  _cached = assembleForest(nodes, parentOf, childrenOf, bridgesByNode(fusionByNode), edges, variantLeaves);
+  _cached = assembleForest(nodes, parentOf, childrenOf, fusionByNode, edges, variantLeaves);
   return _cached;
-}
-
-function bridgesByNode(m: Map<string, FusionBridge[]>): Map<string, FusionBridge[]> {
-  return m;
 }
 
 /** Walk parent chain back to a root, ending in [root, ..., node]. */
@@ -764,16 +717,13 @@ export function getLineage(forest: SauceForest, nodeId: string): SauceNode[] {
 }
 
 export interface DivergenceReport {
-  inherited: string[]; // tokens shared with parent
-  added: string[]; // tokens unique to child
-  dropped: string[]; // tokens unique to parent
+  inherited: string[];
+  added: string[];
+  dropped: string[];
   similarity: number;
 }
 
-export function getDivergence(
-  forest: SauceForest,
-  nodeId: string,
-): DivergenceReport | null {
+export function getDivergence(forest: SauceForest, nodeId: string): DivergenceReport | null {
   const node = forest.nodes.get(nodeId);
   if (!node) return null;
   const parentId = forest.parentOf.get(nodeId);
@@ -813,25 +763,16 @@ export function getVariantLeaves(forest: SauceForest, nodeId: string): VariantLe
   return forest.variantLeaves.get(nodeId) ?? [];
 }
 
-/**
- * Search nodes by free text. Matches name, cuisine, base, key ingredients.
- * Returns matches sorted by relevance.
- */
 export function searchNodes(forest: SauceForest, query: string): SauceNode[] {
   const q = norm(query).trim();
   if (!q) return [];
   const tokens = q.split(/\s+/);
   const scored: Array<{ node: SauceNode; score: number }> = [];
   for (const node of forest.nodes.values()) {
-    const haystack = norm(
-      [
-        node.name,
-        node.cuisine ?? "",
-        node.base ?? "",
-        ...node.keyIngredients,
-        node.description ?? "",
-      ].join(" "),
-    );
+    const haystack = norm([
+      node.name, node.cuisine ?? "", node.base ?? "",
+      ...node.keyIngredients, node.description ?? "",
+    ].join(" "));
     let score = 0;
     let allHit = true;
     for (const t of tokens) {
@@ -839,7 +780,6 @@ export function searchNodes(forest: SauceForest, query: string): SauceNode[] {
       else allHit = false;
     }
     if (allHit && score > 0) {
-      // Exact name match boost
       if (norm(node.name).includes(q)) score += 5;
       scored.push({ node, score });
     }

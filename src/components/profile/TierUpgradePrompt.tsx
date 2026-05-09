@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { PREMIUM_FEATURES_DISPLAY } from '@/lib/tiers';
+import { usePremium } from '@/contexts/PremiumContext';
 
 export const TierUpgradePrompt: React.FC = () => {
+  const { openCheckout } = usePremium();
   return (
     <div className="relative overflow-hidden rounded-2xl border border-purple-200 bg-gradient-to-r from-purple-50 via-white to-orange-50 p-6">
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-purple-200/40 to-transparent rounded-bl-full" />
@@ -31,7 +33,7 @@ export const TierUpgradePrompt: React.FC = () => {
         <button
           className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-orange-500 text-white rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-orange-600 transition-all shadow-md hover:shadow-lg"
           onClick={() => {
-            // TODO: integrate with Stripe checkout
+            void openCheckout('premium');
           }}
         >
           Upgrade to Premium

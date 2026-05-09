@@ -25,6 +25,45 @@ import type {
 } from "./types";
 
 // ==========================================
+// SQL IDENTIFIER SAFELISTS
+// ==========================================
+// PostgreSQL does not support parameterized identifiers (column names, ORDER BY).
+// To prevent SQL injection, validate against allowlists before interpolation.
+
+const INGREDIENT_ORDER_COLUMNS = new Set([
+  "name",
+  "category",
+  "popularity_score",
+  "created_at",
+  "updated_at",
+]);
+
+const RECIPE_ORDER_COLUMNS = new Set([
+  "name",
+  "popularity_score",
+  "user_rating",
+  "cuisine",
+  "created_at",
+  "updated_at",
+]);
+
+const ORDER_DIRECTIONS = new Set(["ASC", "DESC"]);
+
+function safeOrderClause(
+  orderBy: string,
+  orderDirection: string,
+  allowedColumns: Set<string>,
+  defaultColumn: string,
+  defaultDirection: "ASC" | "DESC",
+): string {
+  const col = allowedColumns.has(orderBy) ? orderBy : defaultColumn;
+  const dir = ORDER_DIRECTIONS.has(orderDirection.toUpperCase())
+    ? orderDirection.toUpperCase()
+    : defaultDirection;
+  return `${col} ${dir}`;
+}
+
+// ==========================================
 // INGREDIENT OPERATIONS
 // ==========================================
 
@@ -53,10 +92,18 @@ export class IngredientService {
       [category],
     );
 
+    const orderClause = safeOrderClause(
+      orderBy,
+      orderDirection,
+      INGREDIENT_ORDER_COLUMNS,
+      "name",
+      "ASC",
+    );
+
     const dataResult = await executeQuery<Ingredient>(
       `SELECT * FROM ingredients
        WHERE category = $1 AND is_active = true
-       ORDER BY ${orderBy} ${orderDirection}
+       ORDER BY ${orderClause}
        LIMIT $2 OFFSET $3`,
       [category, limit, offset],
     );
@@ -167,10 +214,18 @@ export class RecipeService {
       [cuisine],
     );
 
+    const orderClause = safeOrderClause(
+      orderBy,
+      orderDirection,
+      RECIPE_ORDER_COLUMNS,
+      "popularity_score",
+      "DESC",
+    );
+
     const dataResult = await executeQuery<Recipe>(
       `SELECT * FROM recipes
        WHERE cuisine = $1 AND is_public = true
-       ORDER BY ${orderBy} ${orderDirection}
+       ORDER BY ${orderClause}
        LIMIT $2 OFFSET $3`,
       [cuisine, limit, offset],
     );

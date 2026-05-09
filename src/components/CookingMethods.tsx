@@ -14,7 +14,7 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import type { ElementalProperties, ZodiacSign, BasicThermodynamicProperties } from '@/types/alchemy';
 import { _COOKING_METHOD_THERMODYNAMICS as COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { _staticAlchemize as staticAlchemize } from '@/utils/alchemyInitializer';
-import { culturalCookingMethods } from '@/utils/culturalMethodsAggregator';
+import { getCulturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 import { _getLunarMultiplier as getLunarMultiplier } from '@/utils/lunarMultiplier';
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 import styles from './CookingMethods.module.css';
@@ -398,6 +398,17 @@ export default function CookingMethods() {
   // Add these near the top with other state variables
   const [searchIngredient, setSearchIngredient] = useState<string>('');
   const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
+  const [culturalMethods, setCulturalMethods] = useState<any[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    getCulturalCookingMethods().then(methods => {
+      if (isMounted) {
+        setCulturalMethods(methods);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   // Add this function to calculate ingredient compatibility with methods
   const calculateIngredientCompatibility = (ingredient: string) => {
@@ -460,7 +471,7 @@ export default function CookingMethods() {
     const map: Record<string, string[]> = { 'Traditional': [] };
     
     try {
-      culturalCookingMethods.forEach(method => {
+      culturalMethods.forEach(method => {
         const culture = method.culturalOrigin || 'Traditional';
         if (!map[culture]) {
           map[culture] = [];

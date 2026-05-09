@@ -9,12 +9,22 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+const CustomRecipeBodySchema = z.object({
+  name: z.string().trim().min(1, "name is required").max(200),
+  cuisine: z.string().trim().max(120).optional(),
+  source: z.string().trim().max(60).optional(),
+  sourceRecipeId: z.string().trim().max(200).optional(),
+  payload: z.record(z.string(), z.unknown()),
+  notes: z.string().max(2000).optional(),
+});
 
 interface CustomRecipeRow {
   id: string;
@@ -90,48 +100,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: {
-    name?: string;
-    cuisine?: string;
-    source?: string;
-    sourceRecipeId?: string;
-    payload?: unknown;
-    notes?: string;
-  };
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const name = typeof body.name === "string" ? body.name.trim() : "";
-  if (!name) {
+  const parsed = CustomRecipeBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json(
-      { error: "name is required" },
+      { error: "Invalid request body", issues: parsed.error.issues },
       { status: 400 },
     );
   }
-  if (body.payload == null || typeof body.payload !== "object") {
-    return NextResponse.json(
-      { error: "payload must be an object" },
-      { status: 400 },
-    );
-  }
-
-  const cuisine =
-    typeof body.cuisine === "string" && body.cuisine.trim()
-      ? body.cuisine.trim().slice(0, 120)
-      : null;
-  const source =
-    typeof body.source === "string" && body.source.trim()
-      ? body.source.trim().slice(0, 60)
-      : null;
-  const sourceRecipeId =
-    typeof body.sourceRecipeId === "string" && body.sourceRecipeId.trim()
-      ? body.sourceRecipeId.trim().slice(0, 200)
-      : null;
-  const notes =
-    typeof body.notes === "string" ? body.notes.slice(0, 2000) : null;
+  const body = parsed.data;
 
   try {
     const result = await executeQuery<CustomRecipeRow>(
@@ -142,12 +125,12 @@ export async function POST(request: NextRequest) {
                  created_at, updated_at`,
       [
         userId,
-        name.slice(0, 200),
-        cuisine,
-        source,
-        sourceRecipeId,
+        body.name,
+        body.cuisine ?? null,
+        body.source ?? null,
+        body.sourceRecipeId ?? null,
         JSON.stringify(body.payload),
-        notes,
+        body.notes ?? null,
       ],
     );
     return NextResponse.json({

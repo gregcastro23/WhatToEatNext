@@ -15,6 +15,7 @@ export function GroceryCartDrawer() {
     clear,
     checkoutToAmazon,
     unmappedItems,
+    updateAsin,
   } = useGroceryCart();
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
@@ -176,18 +177,61 @@ export function GroceryCartDrawer() {
                 <p className="text-xs text-yellow-400/80 mb-1">
                   {unmappedItems.length} item{unmappedItems.length !== 1 ? "s" : ""} not auto-matched (yellow dot):
                 </p>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-col gap-2">
                   {unmappedItems.map((item) => (
-                    <a
-                      key={item.id}
-                      href={`https://www.amazon.com/s?k=${encodeURIComponent(`${item.name} grocery`)}&tag=${AMAZON_ASSOCIATE_TAG}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/20 text-[10px] text-yellow-300 hover:bg-yellow-500/20 transition-colors"
-                    >
-                      {item.name}
-                      <span className="text-yellow-500/60">&#8599;</span>
-                    </a>
+                    <div key={item.id} className="flex flex-col gap-1">
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={`https://www.amazon.com/s?k=${encodeURIComponent(`${item.name} grocery`)}&tag=${AMAZON_ASSOCIATE_TAG}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/20 text-[10px] text-yellow-300 hover:bg-yellow-500/20 transition-colors"
+                        >
+                          {item.name}
+                          <span className="text-yellow-500/60">&#8599;</span>
+                        </a>
+                      </div>
+                      <form 
+                        className="flex items-center gap-1 pl-2"
+                        onSubmit={async (e) => {
+                          e.preventDefault();
+                          const form = e.currentTarget;
+                          const formData = new FormData(form);
+                          const asin = formData.get('asin') as string;
+                          if (!asin) return;
+                          
+                          // Optimistic local update — always apply regardless of auth status
+                          updateAsin(item.id, asin);
+                          form.reset();
+                          try {
+                            const res = await fetch('/api/amazon/feedback', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ ingredientName: item.name, asin })
+                            });
+                            if (res.ok) {
+                              showToast('ASIN mapped and saved to database!', 'success');
+                            } else if (res.status === 401) {
+                              showToast('Mapped locally (sign in to save permanently)', 'success');
+                            } else {
+                              showToast('Mapped locally (database save failed)', 'success');
+                            }
+                          } catch {
+                            showToast('Mapped locally (offline — database save skipped)', 'success');
+                          }
+                        }}
+                      >
+                        <input 
+                          type="text" 
+                          name="asin" 
+                          placeholder="Found it? Paste ASIN" 
+                          className="w-32 px-1.5 py-0.5 text-[10px] bg-black/40 border border-white/20 rounded text-white placeholder-gray-500 focus:outline-none focus:border-purple-500" 
+                        />
+                        <button type="submit" className="px-2 py-0.5 text-[10px] bg-white/10 hover:bg-white/20 border border-white/10 rounded text-white transition-colors">
+                          Save
+                        </button>
+                      </form>
+                    </div>
                   ))}
                 </div>
               </div>

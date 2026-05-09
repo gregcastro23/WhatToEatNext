@@ -1,5 +1,4 @@
-import { african } from "@/data/cuisines/african";
-import { american } from "@/data/cuisines/american";
+import { getCuisineData } from "@/data/cuisines/index";
 import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import type { ElementalProperties } from "@/types/alchemy";
@@ -903,11 +902,11 @@ export function getCuisineProfile(
 /**
  * Get recipes that match a particular cuisine based on flavor profiles
  */
-export function getRecipesForCuisineMatch(
+export async function getRecipesForCuisineMatch(
   cuisineName: string,
   recipes: unknown[],
   limit = 8,
-): unknown[] {
+): Promise<unknown[]> {
   try {
     // Apply safe type conversion for string operations
     const normalizedCuisineName = String(cuisineName || "").toLowerCase();
@@ -944,10 +943,9 @@ export function getRecipesForCuisineMatch(
     ) {
       log.info(`Using specialized handling for ${cuisineName}`);
       try {
-        const cuisine =
-          normalizedCuisineName === "american" ? american : african;
+        const cuisine = await getCuisineData(cuisineName);
 
-        if (cuisine.dishes) {
+        if (cuisine && (cuisine as any).dishes) {
           log.info(
             `Direct import successful for ${cuisineName}, extracting recipes from dishes`,
           );
@@ -958,14 +956,14 @@ export function getRecipesForCuisineMatch(
 
           for (const mealType of mealTypes) {
             if (
-              cuisine.dishes[mealType]?.all &&
-              Array.isArray(cuisine.dishes[mealType].all)
+              (cuisine as any).dishes[mealType]?.all &&
+              Array.isArray((cuisine as any).dishes[mealType].all)
             ) {
               log.info(
-                `Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`,
+                `Found ${(cuisine as any).dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`,
               );
 
-              const mealRecipes = cuisine.dishes[mealType].all.map(
+              const mealRecipes = (cuisine as any).dishes[mealType].all.map(
                 (recipe: unknown) => ({
                   ...(recipe as object),
                   cuisine: cuisineName,
@@ -982,14 +980,14 @@ export function getRecipesForCuisineMatch(
             const seasons = ["spring", "summer", "autumn", "winter"];
             for (const season of seasons) {
               if (
-                cuisine.dishes[mealType]?.[season] &&
-                Array.isArray(cuisine.dishes[mealType][season])
+                (cuisine as any).dishes[mealType]?.[season] &&
+                Array.isArray((cuisine as any).dishes[mealType][season])
               ) {
                 log.info(
-                  `Found ${cuisine.dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`,
+                  `Found ${(cuisine as any).dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`,
                 );
 
-                const seasonalRecipes = cuisine.dishes[mealType][season].map(
+                const seasonalRecipes = (cuisine as any).dishes[mealType][season].map(
                   (recipe: unknown) => ({
                     ...(recipe as object),
                     cuisine: cuisineName,

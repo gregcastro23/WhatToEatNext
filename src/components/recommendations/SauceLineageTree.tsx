@@ -6,19 +6,10 @@
  * Navigable phylogeny of sauces across cuisines. Demonstrates how every
  * traditional sauce descends from a small set of structural parents
  * (mother sauces or base-family roots) and where divergences happen.
- *
- * Three coordinated panes:
- *   • Family tabs   — Tomato / Dairy / Egg-emulsion / Stock / Soy / etc.
- *   • Tree pane     — expandable forest of root sauces and their descendants
- *   • Detail pane   — selected sauce: lineage breadcrumb, divergence vs.
- *                     parent (inherited / added / dropped), declared variants,
- *                     and cross-cuisine fusion bridges (the bedrock of
- *                     informed, non-fusion-but-cross-cultural cooking).
- *
- * The data is computed once via `getSauceForest()` and memoized.
  */
 
 import React, { useCallback, useMemo, useState, useEffect } from "react";
+import { useAlchemicalData } from "@/contexts/AlchemicalDataContext";
 import {
   getSauceForest,
   getLineage,
@@ -93,7 +84,7 @@ interface NodeRowProps {
   expanded: Set<string>;
   onToggle: (id: string) => void;
   onSelect: (id: string) => void;
-  forestVersion: number; // bust memo when forest tree changes
+  cuisinesData?: Record<string, any>;
 }
 
 function NodeRow({
@@ -103,9 +94,9 @@ function NodeRow({
   expanded,
   onToggle,
   onSelect,
-  forestVersion,
+  cuisinesData,
 }: NodeRowProps) {
-  const forest = useMemo(getSauceForest, [forestVersion]);
+  const forest = useMemo(() => getSauceForest(cuisinesData), [cuisinesData]);
   const children = getChildren(forest, node.id);
   const variants = getVariantLeaves(forest, node.id);
   const isOpen = expanded.has(node.id);
@@ -167,7 +158,7 @@ function NodeRow({
               expanded={expanded}
               onToggle={onToggle}
               onSelect={onSelect}
-              forestVersion={forestVersion}
+              cuisinesData={cuisinesData}
             />
           ))}
           {variants.map((v) => (
@@ -196,13 +187,13 @@ function NodeRow({
 function DetailPane({
   selectedId,
   onSelect,
-  forestVersion,
+  cuisinesData,
 }: {
   selectedId: string | null;
   onSelect: (id: string) => void;
-  forestVersion: number;
+  cuisinesData?: Record<string, any>;
 }) {
-  const forest = useMemo(getSauceForest, [forestVersion]);
+  const forest = useMemo(() => getSauceForest(cuisinesData), [cuisinesData]);
   if (!selectedId) {
     return (
       <div className="p-6 text-sm text-slate-500 bg-slate-50 rounded-lg border border-slate-100 h-full flex flex-col items-center justify-center text-center">
@@ -484,11 +475,9 @@ function DetailPane({
 // ============================================================================
 
 export default function SauceLineageTree() {
-  const [forestVersion] = useState(0); // Stable for now — forest is purely data-derived
-  const forest = useMemo(getSauceForest, [forestVersion]);
-  const [activeFamily, setActiveFamily] = useState<BaseFamily>(
-    forest.families[0]?.family ?? "tomato",
-  );
+  const { cuisines, loading } = useAlchemicalData();
+  const forest = useMemo(() => getSauceForest(cuisines || undefined), [cuisines]);
+  const [activeFamily, setActiveFamily] = useState<BaseFamily>("tomato");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -505,14 +494,12 @@ export default function SauceLineageTree() {
   const onSelect = useCallback(
     (id: string) => {
       setSelectedId(id);
-      // Auto-expand path to selection
       const lineage = getLineage(forest, id);
       setExpanded((prev) => {
         const next = new Set(prev);
         for (const n of lineage) next.add(n.id);
         return next;
       });
-      // Switch family tab if needed
       const node = forest.nodes.get(id);
       if (node && node.baseFamily !== activeFamily) {
         setActiveFamily(node.baseFamily);
@@ -531,13 +518,24 @@ export default function SauceLineageTree() {
     [forest, activeFamily],
   );
 
-  // When a search result is picked, the tree stays in sync via onSelect
   useEffect(() => {
     if (selectedId) {
       const node = forest.nodes.get(selectedId);
       if (node) setActiveFamily(node.baseFamily);
     }
   }, [selectedId, forest]);
+
+  useEffect(() => {
+    if (forest && forest.families.length > 0) {
+      if (!activeFamily || !forest.families.find(f => f.family === activeFamily)) {
+        setActiveFamily(forest.families[0].family);
+      }
+    }
+  }, [forest, activeFamily]);
+
+  if (loading && !forest.nodes.size) {
+    return <div className="p-10 text-center text-slate-500">Loading sauce phylogeny...</div>;
+  }
 
   return (
     <div className="w-full bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
@@ -662,7 +660,7 @@ export default function SauceLineageTree() {
                     expanded={expanded}
                     onToggle={onToggle}
                     onSelect={onSelect}
-                    forestVersion={forestVersion}
+                    cuisinesData={cuisines || undefined}
                   />
                 ))
               ) : (
@@ -678,7 +676,7 @@ export default function SauceLineageTree() {
             <DetailPane
               selectedId={selectedId}
               onSelect={onSelect}
-              forestVersion={forestVersion}
+              cuisinesData={cuisines || undefined}
             />
           </div>
         </div>
