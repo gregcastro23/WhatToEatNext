@@ -10,7 +10,10 @@
 
 import { useState, useMemo } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
-import { resolveAsin, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
+import {
+  AMAZON_ASSOCIATE_TAG,
+  getStandardizedQuantity,
+} from "@/data/amazon";
 import { reportQuestEvent } from "@/lib/questReporter";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
@@ -209,6 +212,38 @@ interface GroceryListModalProps {
   onClose: () => void;
 }
 
+interface AmazonResolvedItem {
+  name: string;
+  asin: string;
+  quantity: number;
+  source?: string;
+}
+
+interface AmazonUnresolvedItem {
+  name: string;
+  searchUrl?: string;
+  source?: string;
+  reason?: string;
+}
+
+interface AmazonResolutionState {
+  total: number;
+  resolved: AmazonResolvedItem[];
+  unresolved: AmazonUnresolvedItem[];
+  configured?: {
+    paapi: boolean;
+    creators: boolean;
+  };
+}
+
+interface AmazonSearchApiResult {
+  ingredient: string;
+  asin: string | null;
+  searchUrl?: string;
+  source?: string;
+  reason?: string;
+}
+
 export default function GroceryListModal({
   isOpen,
   onClose,
@@ -219,6 +254,8 @@ export default function GroceryListModal({
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
   const [amazonLoading, setAmazonLoading] = useState(false);
   const [amazonError, setAmazonError] = useState<string | null>(null);
+  const [amazonResolution, setAmazonResolution] =
+    useState<AmazonResolutionState | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<
     Record<GroceryCategory, boolean>
   >({
@@ -254,6 +291,11 @@ export default function GroceryListModal({
     return { total, purchased, inPantry, remaining };
   }, [groceryList]);
 
+  const activeShoppingItems = useMemo(
+    () => groceryList.filter((item) => !item.purchased && !item.inPantry),
+    [groceryList],
+  );
+
   // Toggle category expansion
   const toggleCategory = (category: GroceryCategory) => {
     setExpandedCategories((prev) => ({ ...prev, [category]: !prev[category] }));
@@ -281,21 +323,122 @@ export default function GroceryListModal({
     }
   };
 
-  const handleOrderOnAmazon = () => {
-    setShowAmazonPreview(true);
+  const resolveAmazonCartItems = async (): Promise<AmazonResolutionState> => {
+    if (activeShoppingItems.length === 0) {
+      return { total: 0, resolved: [], unresolved: [] };
+    }
+
+    const response = await fetch("/api/amazon/search", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ingredients: activeShoppingItems.map((item) => item.ingredient),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Amazon catalog lookup failed with status ${response.status}`);
+    }
+
+    const payload = (await response.json()) as {
+      results?: AmazonSearchApiResult[];
+      configured?: AmazonResolutionState["configured"];
+    };
+
+    const byIngredient = new Map(
+      (payload.results ?? []).map((result) => [
+        result.ingredient.toLowerCase().trim(),
+        result,
+      ]),
+    );
+
+    const resolved: AmazonResolvedItem[] = [];
+    const unresolved: AmazonUnresolvedItem[] = [];
+
+    for (const item of activeShoppingItems) {
+      const result = byIngredient.get(item.ingredient.toLowerCase().trim());
+
+      if (result?.asin) {
+        resolved.push({
+          name: item.ingredient,
+          asin: result.asin,
+          quantity: item.quantity,
+          source: result.source,
+        });
+      } else {
+        unresolved.push({
+          name: item.ingredient,
+          searchUrl: result?.searchUrl,
+          source: result?.source,
+          reason: result?.reason,
+        });
+      }
+    }
+
+    return {
+      total: activeShoppingItems.length,
+      resolved,
+      unresolved,
+      configured: payload.configured,
+    };
   };
 
-  const confirmUpdateCart = () => {
+  const openAmazonSearchFallback = (unresolved: AmazonUnresolvedItem[]) => {
+    const [firstUnresolved] = unresolved;
+    if (!firstUnresolved) {
+      setAmazonError("No unresolved grocery item is available to search.");
+      return;
+    }
+
+    const fallbackUrl =
+      firstUnresolved.searchUrl ||
+      `https://www.amazon.com/s?${new URLSearchParams({
+        k: firstUnresolved.name,
+        i: "amazonfresh",
+        tag: AMAZON_ASSOCIATE_TAG,
+      }).toString()}`;
+
+    const opened = window.open(fallbackUrl, "_blank");
+    if (!opened) {
+      setAmazonError("Amazon search was blocked by the browser. Please allow popups and try again.");
+      return;
+    }
+    opened.opener = null;
+
+    logger.info("Opened Amazon search fallback", {
+      item: firstUnresolved.name,
+      unresolved: unresolved.length,
+    });
+    setShowAmazonPreview(false);
+  };
+
+  const handleOrderOnAmazon = () => {
+    setShowAmazonPreview(true);
+    setAmazonError(null);
+    setAmazonResolution(null);
+
+    setAmazonLoading(true);
+    resolveAmazonCartItems()
+      .then(setAmazonResolution)
+      .catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : "Failed to check Amazon catalog";
+        setAmazonError(message);
+      })
+      .finally(() => setAmazonLoading(false));
+  };
+
+  const confirmUpdateCart = async () => {
     setAmazonLoading(true);
     setAmazonError(null);
     try {
-      const activeItems = groceryList.filter((item) => !item.purchased && !item.inPantry);
-      const items = activeItems
-        .map((item) => ({ name: item.ingredient, asin: resolveAsin(item.ingredient) }))
-        .filter((x) => x.asin);
+      const resolution = amazonResolution ?? await resolveAmazonCartItems();
+      setAmazonResolution(resolution);
+      const items = resolution.resolved;
 
       if (items.length === 0) {
-        setAmazonError("No items could be matched to Amazon products.");
+        openAmazonSearchFallback(resolution.unresolved);
         return;
       }
 
@@ -311,18 +454,36 @@ export default function GroceryListModal({
       tagInput.value = AMAZON_ASSOCIATE_TAG;
       form.appendChild(tagInput);
 
+      const cartTypeInput = document.createElement("input");
+      cartTypeInput.type = "hidden";
+      cartTypeInput.name = "cart-type";
+      cartTypeInput.value = "fresh";
+      form.appendChild(cartTypeInput);
+
+      const addInput = document.createElement("input");
+      addInput.type = "hidden";
+      addInput.name = "add";
+      addInput.value = "add";
+      form.appendChild(addInput);
+
+      const submitAddInput = document.createElement("input");
+      submitAddInput.type = "hidden";
+      submitAddInput.name = "submit.add";
+      submitAddInput.value = "1";
+      form.appendChild(submitAddInput);
+
       items.forEach((item, idx) => {
         const pos = idx + 1;
         const asinInput = document.createElement("input");
         asinInput.type = "hidden";
         asinInput.name = `ASIN.${pos}`;
-        asinInput.value = item.asin!;
+        asinInput.value = item.asin;
         form.appendChild(asinInput);
 
         const qtyInput = document.createElement("input");
         qtyInput.type = "hidden";
         qtyInput.name = `Quantity.${pos}`;
-        qtyInput.value = "1";
+        qtyInput.value = String(getStandardizedQuantity(item.name, item.quantity));
         form.appendChild(qtyInput);
       });
 
@@ -331,7 +492,10 @@ export default function GroceryListModal({
       document.body.removeChild(form);
 
       reportQuestEvent('create_grocery_list');
-      logger.info("Amazon cart handoff successful");
+      logger.info("Amazon cart handoff successful", {
+        sent: items.length,
+        unresolved: resolution.unresolved.length,
+      });
       setShowAmazonPreview(false);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Failed to open Amazon";
@@ -602,7 +766,7 @@ export default function GroceryListModal({
 
             <div className="p-6">
               <p className="text-gray-700 mb-6 font-medium">
-                Here is your current cart status. We&apos;ll send the <strong className="text-[#FF9900]">Shopping List</strong> to Amazon and ignore items you already have.
+                Here is your current cart status. We&apos;ll only send grocery items that can be confidently matched to Amazon products.
               </p>
 
               <div className="space-y-4">
@@ -643,6 +807,74 @@ export default function GroceryListModal({
                 </div>
               </div>
 
+              <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <h4 className="font-bold text-slate-900">Amazon Product Match</h4>
+                    <p className="text-xs text-slate-600">
+                      Bad or unverified ASINs are excluded from cart checkout. Unresolved items can still open Amazon search.
+                    </p>
+                  </div>
+                  {amazonLoading && (
+                    <span className="text-xs font-bold text-slate-600">Checking...</span>
+                  )}
+                </div>
+
+                {amazonResolution ? (
+                  <div className="mt-3 space-y-3 text-sm">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="rounded-md border border-emerald-200 bg-emerald-50 p-3">
+                        <div className="text-2xl font-black text-emerald-700">
+                          {amazonResolution.resolved.length}
+                        </div>
+                        <div className="text-xs font-bold uppercase text-emerald-700">
+                          Ready to send
+                        </div>
+                      </div>
+                      <div className="rounded-md border border-amber-200 bg-amber-50 p-3">
+                        <div className="text-2xl font-black text-amber-700">
+                          {amazonResolution.unresolved.length}
+                        </div>
+                        <div className="text-xs font-bold uppercase text-amber-700">
+                          Unresolved
+                        </div>
+                      </div>
+                    </div>
+
+                    {amazonResolution.configured &&
+                      !amazonResolution.configured.paapi &&
+                      !amazonResolution.configured.creators && (
+                        <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+                          Live Amazon catalog credentials are not configured locally. Add PA-API
+                          or Creators credentials to resolve grocery products dynamically.
+                        </div>
+                      )}
+
+                    {amazonResolution.unresolved.length > 0 && (
+                      <details className="text-xs text-slate-600">
+                        <summary className="cursor-pointer font-semibold text-slate-700">
+                          View unresolved items
+                        </summary>
+                        <ul className="mt-2 max-h-28 list-inside list-disc overflow-y-auto space-y-1">
+                          {amazonResolution.unresolved.slice(0, 20).map((item) => (
+                            <li key={item.name}>
+                              {item.name}
+                              {item.source ? ` (${item.source})` : ""}
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                    )}
+                  </div>
+                ) : (
+                  <p className="mt-3 text-sm text-slate-600">
+                    {amazonLoading
+                      ? "Checking grocery items against the Amazon catalog..."
+                      : "Product matching will run before checkout."}
+                  </p>
+                )}
+              </div>
+
               {amazonError && (
                 <div className="mt-4 p-3 bg-red-50 text-red-700 text-sm rounded-lg border border-red-200">
                   {amazonError}
@@ -658,11 +890,20 @@ export default function GroceryListModal({
                 Cancel
               </button>
               <button
-                onClick={confirmUpdateCart}
-                disabled={amazonLoading || stats.remaining === 0}
+                onClick={() => { void confirmUpdateCart(); }}
+                disabled={
+                  amazonLoading ||
+                  stats.remaining === 0
+                }
                 className="px-6 py-2 bg-[#FF9900] text-black font-bold rounded-lg hover:bg-[#FFB347] transition-all flex items-center gap-2 disabled:opacity-50"
               >
-                {amazonLoading ? "Processing..." : "Send to Amazon Cart"}
+                {amazonLoading
+                  ? "Processing..."
+                  : amazonResolution && amazonResolution.resolved.length === 0
+                    ? `Find ${amazonResolution.unresolved.length} on Amazon`
+                    : amazonResolution?.unresolved.length
+                    ? `Send ${amazonResolution.resolved.length} Matched Items`
+                    : "Send to Amazon Cart"}
               </button>
             </div>
           </div>

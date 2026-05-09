@@ -18,6 +18,18 @@ interface AmazonCreatorsTokenResponse {
 interface AmazonCreatorsSearchItem {
   asin?: string;
   detailPageUrl?: string;
+  itemInfo?: {
+    title?: {
+      displayValue?: string;
+      DisplayValue?: string;
+    };
+  };
+  ItemInfo?: {
+    Title?: {
+      DisplayValue?: string;
+    };
+  };
+  title?: string;
 }
 
 interface AmazonCreatorsSearchResponse {
@@ -188,6 +200,7 @@ function extractItems(payload: AmazonCreatorsSearchResponse): AmazonCreatorsSear
 export async function searchAmazonCreatorsCatalog(keywords: string): Promise<{
   asin: string | null;
   detailPageUrl: string | null;
+  title?: string;
 }> {
   const { version } = getAmazonCreatorsCredentials();
   if (!version) {
@@ -226,9 +239,15 @@ export async function searchAmazonCreatorsCatalog(keywords: string): Promise<{
   }
 
   const [firstItem] = extractItems(payload);
+  const title =
+    firstItem?.title ??
+    firstItem?.itemInfo?.title?.displayValue ??
+    firstItem?.itemInfo?.title?.DisplayValue ??
+    firstItem?.ItemInfo?.Title?.DisplayValue;
 
   return {
     asin: firstItem?.asin ?? null,
     detailPageUrl: firstItem?.detailPageUrl ?? null,
+    title,
   };
 }

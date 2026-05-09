@@ -1,6 +1,7 @@
 "use server";
 
-import { primaryCuisines } from "@/data/cuisines/index";
+import { getCuisineData, PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
+import type { Cuisine } from "@/types/cuisine";
 import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
@@ -42,7 +43,9 @@ function lowerArray(value: unknown): string[] | undefined {
  * Extract and normalize recipes from the static cuisine data files.
  * This is the authoritative source for the 351 recipes.
  */
-function extractRecipesFromCuisines(): IndexedRecipe[] {
+function extractRecipesFromCuisines(
+  cuisines: Array<{ key: string; cuisine: Cuisine }>,
+): IndexedRecipe[] {
   const recipes: IndexedRecipe[] = [];
   const seen = new Set<string>();
   const stats: NutritionCoverageStats = {
@@ -53,8 +56,12 @@ function extractRecipesFromCuisines(): IndexedRecipe[] {
     missingNames: [],
   };
 
-  for (const [cuisineName, cuisine] of Object.entries(primaryCuisines)) {
+  for (const { key, cuisine } of cuisines) {
     if (!cuisine?.dishes) continue;
+    const cuisineName =
+      typeof cuisine.name === "string" && cuisine.name.trim().length > 0
+        ? cuisine.name
+        : key;
 
     const mealTypes = ["breakfast", "lunch", "dinner", "dessert"] as const;
 
@@ -62,7 +69,7 @@ function extractRecipesFromCuisines(): IndexedRecipe[] {
       const mealCategory = cuisine.dishes[mealType];
       if (!mealCategory) continue;
 
-      const seasons = ["spring", "summer", "autumn", "winter"] as const;
+      const seasons = ["spring", "summer", "autumn", "winter", "all"] as const;
 
       for (const season of seasons) {
         const dishes = (mealCategory as Record<string, unknown>)[season];
@@ -79,8 +86,18 @@ function extractRecipesFromCuisines(): IndexedRecipe[] {
             string,
             unknown
           >;
-          const prepTime = Number(dish.prepTimeMinutes ?? 0);
-          const cookTime = Number(dish.cookTimeMinutes ?? 0);
+          const details =
+            ((dish as Record<string, unknown>).details as Record<
+              string,
+              unknown
+            > | undefined) ?? {};
+          const classifications =
+            ((dish as Record<string, unknown>).classifications as Record<
+              string,
+              unknown
+            > | undefined) ?? {};
+          const prepTime = Number(dish.prepTimeMinutes ?? details.prepTimeMinutes ?? 0);
+          const cookTime = Number(dish.cookTimeMinutes ?? details.cookTimeMinutes ?? 0);
 
           const dietaryTags: string[] = [];
           if (dish.isVegetarian || alchemical.vegetarian)
@@ -99,6 +116,7 @@ function extractRecipesFromCuisines(): IndexedRecipe[] {
             description: (dish.description as string) ?? "",
             cuisine:
               (dish.cuisine as string) ??
+              (details.cuisine as string) ??
               ((dish.alchemicalProfile as Record<string, unknown>)
                 ?.cuisine as string) ??
               cuisineName,
@@ -133,8 +151,14 @@ function extractRecipesFromCuisines(): IndexedRecipe[] {
             cookTime: String(cookTime),
             totalTime: String(prepTime + cookTime),
             timeToMake: `${prepTime + cookTime} minutes`,
-            mealType: (dish.mealType as string[]) ?? [mealType],
-            season: (dish.season as string[]) ?? [season],
+            mealType:
+              (dish.mealType as string[]) ??
+              (classifications.mealType as string[]) ??
+              [mealType],
+            season:
+              (dish.season as string[]) ??
+              (details.season as string[]) ??
+              [season],
             tags: dietaryTags,
             isVegetarian: dietaryTags.includes("vegetarian"),
             isVegan: dietaryTags.includes("vegan"),
@@ -143,7 +167,8 @@ function extractRecipesFromCuisines(): IndexedRecipe[] {
             numberOfServings:
               Number(
                 (dish as { numberOfServings?: unknown }).numberOfServings ??
-                  (dish as { servings?: unknown }).servings,
+                  (dish as { servings?: unknown }).servings ??
+                  (details.baseServingSize as number | undefined),
               ) || undefined,
             nutrition: undefined,
             elementalProperties:
@@ -260,7 +285,17 @@ export async function getServerRecipes(): Promise<Recipe[]> {
     if (_cachedRecipes) {
       return _cachedRecipes;
     }
-    const recipes = extractRecipesFromCuisines();
+    const cuisines = (
+      await Promise.all(
+        PRIMARY_CUISINE_KEYS.map(async (key) => {
+          const cuisine = await getCuisineData(key);
+          return cuisine ? { key, cuisine } : null;
+        }),
+      )
+    ).filter(
+      (entry): entry is { key: string; cuisine: Cuisine } => entry !== null,
+    );
+    const recipes = extractRecipesFromCuisines(cuisines);
     _cachedRecipes = recipes;
     _cachedIndex = buildRecipeIndex(recipes);
     console.log(

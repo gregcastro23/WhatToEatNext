@@ -3,6 +3,7 @@
  * Returns recipe catalog with optional filtering by element, cuisine, or search query.
  */
 import { NextResponse } from "next/server";
+import { getServerRecipes } from "@/actions/recipes";
 import { rateLimit } from "@/lib/rateLimit";
 import type { Recipe } from "@/types/recipe";
 
@@ -10,6 +11,58 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const HONO_API_URL = process.env.HONO_API_URL;
+
+function filterRecipes(
+  recipes: Recipe[],
+  options: { element?: string | null; cuisine?: string | null; search?: string | null },
+): Recipe[] {
+  const searchTerm = options.search?.toLowerCase().trim();
+  const cuisineTerm = options.cuisine?.toLowerCase().trim();
+  const elementTerm = options.element?.toLowerCase().trim();
+
+  return recipes.filter((recipe) => {
+    if (cuisineTerm) {
+      const recipeCuisine = recipe.cuisine?.toLowerCase().trim() ?? "";
+      if (!recipeCuisine.includes(cuisineTerm)) {
+        return false;
+      }
+    }
+
+    if (searchTerm) {
+      const haystack = [
+        recipe.name,
+        recipe.description,
+        recipe.cuisine,
+        ...(recipe.ingredients?.map((ingredient) => ingredient.name) ?? []),
+      ]
+        .filter((value): value is string => typeof value === "string")
+        .join(" ")
+        .toLowerCase();
+
+      if (!haystack.includes(searchTerm)) {
+        return false;
+      }
+    }
+
+    if (elementTerm) {
+      const ep = recipe.elementalProperties;
+      if (!ep) return false;
+      let dominantElement = "";
+      let maxValue = -1;
+      for (const key of ["Fire", "Water", "Earth", "Air"] as const) {
+        if (typeof ep[key] === "number" && ep[key] > maxValue) {
+          maxValue = ep[key];
+          dominantElement = key.toLowerCase();
+        }
+      }
+      if (!dominantElement.includes(elementTerm)) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
 
 export async function GET(request: Request) {
   const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
@@ -39,32 +92,11 @@ export async function GET(request: Request) {
     try {
       const { LocalRecipeService } = await import("@/services/LocalRecipeService");
 
-      // Use the LocalRecipeService to fetch perfectly mapped recipes.
-      let recipes: Recipe[] = [];
-      if (cuisine) {
-        recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
-      } else if (search) {
-        recipes = await LocalRecipeService.searchRecipes(search);
-      } else {
-        recipes = await LocalRecipeService.getAllRecipes();
+      let recipes = await LocalRecipeService.getAllRecipes();
+      if (recipes.length === 0) {
+        recipes = await getServerRecipes();
       }
-
-      if (element) {
-        const lowerElement = element.toLowerCase();
-        recipes = recipes.filter((recipe) => {
-          const ep = recipe.elementalProperties;
-          if (!ep) return false;
-          let dom = "";
-          let max = -1;
-          for (const k of ["Fire", "Water", "Earth", "Air"]) {
-            if (typeof ep[k] === "number" && ep[k] > max) {
-              max = ep[k];
-              dom = k.toLowerCase();
-            }
-          }
-          return dom.includes(lowerElement);
-        });
-      }
+      recipes = filterRecipes(recipes, { element, cuisine, search });
 
       const total = recipes.length;
       const slicedRecipes = recipes.slice(offset, offset + limit);
@@ -78,13 +110,14 @@ export async function GET(request: Request) {
       });
     } catch (apiError) {
       console.warn("[recipes] backend service unavailable:", apiError);
+      const recipes = filterRecipes(await getServerRecipes(), { element, cuisine, search });
       return NextResponse.json({
         success: true,
-        recipes: [],
-        total: 0,
+        recipes: recipes.slice(offset, offset + limit),
+        total: recipes.length,
         limit,
         offset,
-        note: "Recipe database temporarily unavailable",
+        note: "Recipe database temporarily unavailable; using static cuisine fallback",
       });
     }
   } catch (error) {

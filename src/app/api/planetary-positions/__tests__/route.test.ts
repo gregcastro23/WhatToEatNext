@@ -12,10 +12,12 @@ jest.mock("next/server", () => ({
   },
   NextRequest: class MockNextRequest {
     url: string;
+    headers: Headers;
     method?: string;
     body?: any;
     constructor(url: string, init?: any) {
       this.url = url;
+      this.headers = new Headers(init?.headers);
       this.method = init?.method;
       this.body = init?.body;
     }
