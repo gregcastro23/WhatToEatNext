@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import type { Variants } from "framer-motion";
 import { PremiumGate } from "@/components/PremiumGate";
+import type { Variants } from "framer-motion";
 
 function SectionLoader() {
   return (

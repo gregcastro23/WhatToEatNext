@@ -1,11 +1,11 @@
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import { NextResponse } from "next/server";
-import { rateLimit } from "@/lib/rateLimit";
 import {
   hasAmazonCreatorsCredentials,
   searchAmazonCreatorsCatalog,
 } from "@/lib/amazonCreators";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function GET(request: Request) {
   const rl = rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search" });

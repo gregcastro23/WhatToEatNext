@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
 import { createLogger } from "@/utils/logger";
 import { AVERAGE_DAILY_MOTION } from "@/utils/planetaryTransitions";
@@ -45,7 +46,12 @@ export interface AspectEntry {
   influence: "harmonious" | "challenging" | "neutral";
 }
 
-export async function GET() {
+const RATE_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities-aspects" };
+
+export async function GET(request: Request) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     logger.info("Aspects API called");
 

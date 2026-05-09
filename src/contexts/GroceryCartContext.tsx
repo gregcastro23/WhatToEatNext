@@ -250,7 +250,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
         }
       };
       // Simple timeout to prevent overwhelming
-      setTimeout(searchItem, 500);
+      setTimeout(() => { void searchItem(); }, 500);
     });
   }, [unmappedItems, updateAsin]);
 

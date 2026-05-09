@@ -8,7 +8,7 @@
 
 import { cuisinesMap } from "@/data/cuisines";
 import { allSauces } from "@/data/sauces";
-import type { Cuisine } from "@/types/cuisine";
+
 
 // ============================================================================
 // Types

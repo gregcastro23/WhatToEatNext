@@ -11,7 +11,6 @@ import { allSauces } from "@/data/sauces";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useCurrentSeason } from "@/hooks/useCurrentSeason";
 import {
-  buildCuisineSaucePool,
   getCuisineFingerprint,
   listCuisines,
   recommendForCuisineContext,
@@ -19,7 +18,6 @@ import {
   type CuisineSauceResult,
   type FlavorAxis,
   type SauceRole,
-  type UnifiedSauce,
 } from "@/utils/cuisine/cuisineSauceProfiler";
 import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
 
@@ -31,7 +29,7 @@ const PROTEINS = ["beef", "pork", "chicken", "fish", "seafood", "tofu", "vegetar
 const VEGETABLES = ["leafy", "root", "nightshades", "squash", "mushroom", "seaweed"];
 const COOKING_METHODS = ["grilling", "baking", "frying", "deep-frying", "braising", "steaming", "simmering", "raw", "sautéing", "roasting"];
 
-const DIETARY = [
+const _DIETARY = [
   { key: "vegetarian", label: "Vegetarian" },
   { key: "vegan", label: "Vegan" },
   { key: "glutenFree", label: "Gluten-Free" },
@@ -39,7 +37,7 @@ const DIETARY = [
   { key: "lowSodium", label: "Low-Sodium" },
 ];
 
-const FLAVOR_AXES: Array<{ key: FlavorAxis; label: string; color: string }> = [
+const _FLAVOR_AXES: Array<{ key: FlavorAxis; label: string; color: string }> = [
   { key: "umami", label: "Umami", color: "bg-rose-500/15 text-rose-700 border-rose-300/40" },
   { key: "spicy", label: "Spicy", color: "bg-orange-500/15 text-orange-700 border-orange-300/40" },
   { key: "sweet", label: "Sweet", color: "bg-amber-500/15 text-amber-700 border-amber-300/40" },
@@ -48,14 +46,14 @@ const FLAVOR_AXES: Array<{ key: FlavorAxis; label: string; color: string }> = [
   { key: "salty", label: "Salty", color: "bg-sky-500/15 text-sky-700 border-sky-300/40" },
 ];
 
-const ROLES: Array<{ key: SauceRole; label: string; description: string }> = [
+const _ROLES: Array<{ key: SauceRole; label: string; description: string }> = [
   { key: "complement", label: "Complement", description: "Mirror the cuisine's energy" },
   { key: "contrast", label: "Contrast", description: "Cut through and contrast" },
   { key: "enhance", label: "Enhance", description: "Amplify the dominant note" },
   { key: "balance", label: "Balance", description: "Round out the missing notes" },
 ];
 
-const SEASON_OPTIONS = [
+const _SEASON_OPTIONS = [
   { key: "all", label: "Year-round" },
   { key: "spring", label: "Spring" },
   { key: "summer", label: "Summer" },
@@ -253,10 +251,10 @@ export default function EnhancedSauceRecommender() {
   const [protein, setProtein] = useState<string | undefined>(undefined);
   const [vegetable, setVegetable] = useState<string | undefined>(undefined);
   const [cookingMethod, setCookingMethod] = useState<string | undefined>(undefined);
-  const [dietary, setDietary] = useState<string[]>([]);
-  const [flavorTargets, setFlavorTargets] = useState<FlavorAxis[]>([]);
-  const [role, setRole] = useState<SauceRole>("complement");
-  const [season, setSeason] = useState<CuisineSauceContext["season"]>(detectedSeason.toLowerCase() as any);
+  const [dietary, _setDietary] = useState<string[]>([]);
+  const [flavorTargets, _setFlavorTargets] = useState<FlavorAxis[]>([]);
+  const [role, _setRole] = useState<SauceRole>("complement");
+  const [season, _setSeason] = useState<CuisineSauceContext["season"]>(detectedSeason.toLowerCase() as any);
   const [cosmicSync, setCosmicSync] = useState(false);
   const [strictCuisine, setStrictCuisine] = useState(false);
   const [recommendations, setRecommendations] = useState<CuisineSauceResult[]>([]);
@@ -293,7 +291,7 @@ export default function EnhancedSauceRecommender() {
     }, 300);
   }, [ctx, strictCuisine, cuisinesMapData]);
 
-  const toggleInArray = useCallback(<T extends string>(value: T, arr: T[], setter: (v: T[]) => void) => {
+  const _toggleInArray = useCallback(<T extends string>(value: T, arr: T[], setter: (v: T[]) => void) => {
     setter(arr.includes(value) ? arr.filter((x) => x !== value) : [...arr, value]);
   }, []);
 
@@ -312,15 +310,15 @@ export default function EnhancedSauceRecommender() {
           </h3>
           <div className="space-y-4">
             <div>
-              <label className="text-[10px] uppercase font-bold text-slate-400 mb-1.5 block">Region/Tradition</label>
-              <select value={cuisineKey} onChange={(e) => { setCuisineKey(e.target.value); setRegion(undefined); }} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              <label htmlFor="sauce-cuisine-key" className="text-[10px] uppercase font-bold text-slate-400 mb-1.5 block">Region/Tradition</label>
+              <select id="sauce-cuisine-key" value={cuisineKey} onChange={(e) => { setCuisineKey(e.target.value); setRegion(undefined); }} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
                 {availableCuisines.map(c => <option key={c.key} value={c.key}>{c.name}</option>)}
               </select>
             </div>
             {fingerprint && fingerprint.regions.length > 0 && (
               <div>
-                <label className="text-[10px] uppercase font-bold text-slate-400 mb-1.5 block">Regional Variant</label>
-                <select value={region || ""} onChange={(e) => setRegion(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                <label htmlFor="sauce-region" className="text-[10px] uppercase font-bold text-slate-400 mb-1.5 block">Regional Variant</label>
+                <select id="sauce-region" value={region || ""} onChange={(e) => setRegion(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
                   <option value="">Full {fingerprint.name} Cuisine</option>
                   {fingerprint.regions.map(r => <option key={r.key} value={r.key}>{r.name}</option>)}
                 </select>
@@ -338,23 +336,23 @@ export default function EnhancedSauceRecommender() {
           <div className="grid grid-cols-1 gap-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Protein</label>
-                <select value={protein || ""} onChange={(e) => setProtein(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
+                <label htmlFor="sauce-protein" className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Protein</label>
+                <select id="sauce-protein" value={protein || ""} onChange={(e) => setProtein(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
                   <option value="">Select...</option>
                   {PROTEINS.map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Vegetable</label>
-                <select value={vegetable || ""} onChange={(e) => setVegetable(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
+                <label htmlFor="sauce-vegetable" className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Vegetable</label>
+                <select id="sauce-vegetable" value={vegetable || ""} onChange={(e) => setVegetable(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
                   <option value="">Select...</option>
                   {VEGETABLES.map(v => <option key={v} value={v}>{v}</option>)}
                 </select>
               </div>
             </div>
             <div>
-              <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Cooking Method</label>
-              <select value={cookingMethod || ""} onChange={(e) => setCookingMethod(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
+              <label htmlFor="sauce-cooking-method" className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Cooking Method</label>
+              <select id="sauce-cooking-method" value={cookingMethod || ""} onChange={(e) => setCookingMethod(e.target.value || undefined)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs">
                 <option value="">Select...</option>
                 {COOKING_METHODS.map(m => <option key={m} value={m}>{m}</option>)}
               </select>

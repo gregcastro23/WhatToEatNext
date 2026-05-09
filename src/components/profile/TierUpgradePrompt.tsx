@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { PREMIUM_FEATURES_DISPLAY } from '@/lib/tiers';
 import { usePremium } from '@/contexts/PremiumContext';
+import { PREMIUM_FEATURES_DISPLAY } from '@/lib/tiers';
 
 export const TierUpgradePrompt: React.FC = () => {
   const { openCheckout } = usePremium();

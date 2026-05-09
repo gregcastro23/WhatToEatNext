@@ -10,6 +10,7 @@
  * within recorded history.
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import {
   ECHO_PLANETS,
   findOuterPlanetEcho,
@@ -28,7 +29,12 @@ function isEchoPlanet(value: string | null): value is EchoPlanet {
   return value !== null && (ECHO_PLANETS as readonly string[]).includes(value);
 }
 
+const RATE_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities-echoes" };
+
 export async function GET(request: Request) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const url = new URL(request.url);
     const planetParam = url.searchParams.get("planet");

@@ -9,9 +9,9 @@
 import { jwtVerify, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
 import { UserRole } from "@/lib/auth/roles";
+import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
-import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
 
 type AuthResolver = typeof import("@/lib/auth/auth").auth;
 type UserDatabaseResolver =
