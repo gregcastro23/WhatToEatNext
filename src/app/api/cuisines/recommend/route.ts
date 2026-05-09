@@ -14,8 +14,11 @@
  */
 import { NextResponse } from "next/server";
 import { allRecipes } from "@/data/recipes/index";
+import { rateLimit } from "@/lib/rateLimit";
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+
+const CUISINES_LIMIT = { window: 60_000, max: 60, bucket: "cuisines-recommend" };
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -177,9 +180,13 @@ async function handleRequest(request: Request) {
 }
 
 export async function GET(request: Request) {
+  const rl = rateLimit(request, CUISINES_LIMIT);
+  if (!rl.allowed) return rl.response!;
   return handleRequest(request);
 }
 
 export async function POST(request: Request) {
+  const rl = rateLimit(request, CUISINES_LIMIT);
+  if (!rl.allowed) return rl.response!;
   return handleRequest(request);
 }
