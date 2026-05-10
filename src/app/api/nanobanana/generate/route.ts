@@ -1,7 +1,7 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { rateLimit } from "@/lib/rateLimit";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 const RATE_LIMIT = { window: 60_000, max: 10, bucket: "nanobanana-generate" };
 
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
     return NextResponse.json(data);
 
-  } catch (error) {
+  } catch (_err) {
     return NextResponse.json(
       { error: "Failed to generate recipe image" },
       { status: 500 },
