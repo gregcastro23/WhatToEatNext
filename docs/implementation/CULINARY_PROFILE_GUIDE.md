@@ -189,7 +189,7 @@ export const strawberry = {
 
 ### Migration Safety
 
-1. **Build validation**: Run `yarn build` after each batch
+1. **Build validation**: Run `bun run build` after each batch
 2. **Type checking**: Ensure no TypeScript errors
 3. **Incremental approach**: Refactor 3-5 files at a time
 4. **Backup strategy**: Use git commits between batches

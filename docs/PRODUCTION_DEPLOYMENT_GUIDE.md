@@ -24,7 +24,7 @@
 
 ```bash
 # Ensure clean build
-yarn build
+bun run build
 
 # Verify build output
 ls -la .next/
@@ -53,7 +53,7 @@ NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
 node test-phase8-performance-simple.mjs
 
 # Verify cache performance
-yarn test --testNamePattern="cache"
+bun run test --testNamePattern="cache"
 ```
 
 ---
@@ -64,7 +64,7 @@ yarn test --testNamePattern="cache"
 
 ```bash
 # Install Vercel CLI
-npm i -g vercel
+bun run i -g vercel
 
 # Deploy to Vercel
 vercel --prod
@@ -95,9 +95,9 @@ If you prefer to keep your existing nameservers, configure the following records
 ```json
 {
   "framework": "nextjs",
-  "buildCommand": "yarn build",
+  "buildCommand": "bun run build",
   "outputDirectory": ".next",
-  "installCommand": "yarn install",
+  "installCommand": "bun install",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 30
@@ -121,10 +121,10 @@ If you prefer to keep your existing nameservers, configure the following records
 
 ```bash
 # Install Netlify CLI
-yarn global add netlify-cli
+bun run global add netlify-cli
 
 # Build and deploy
-yarn build
+bun run build
 netlify deploy --prod --dir=.next
 ```
 
@@ -132,7 +132,7 @@ netlify deploy --prod --dir=.next
 
 ```toml
 [build]
-  command = "yarn build"
+  command = "bun run build"
   publish = ".next"
 
 [build.environment]
@@ -159,8 +159,8 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json yarn.lock* ./
-RUN yarn --frozen-lockfile
+COPY package.json bun.lock* ./
+RUN bun run --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -169,7 +169,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN yarn build
+RUN bun run build
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -379,7 +379,7 @@ export default function handler(req, res) {
 
 ### **Pre-Deployment**
 
-- [ ] ✅ **Build successful** (`yarn build` passes with 0 errors)
+- [ ] ✅ **Build successful** (`bun run build` passes with 0 errors)
 - [ ] ✅ **Performance tests pass** (Phase 8 optimizations verified)
 - [ ] ✅ **Environment variables configured**
 - [ ] ✅ **Security headers implemented**
@@ -414,8 +414,8 @@ export default function handler(req, res) {
 ```bash
 # Clear cache and rebuild
 rm -rf .next node_modules
-yarn install
-yarn build
+bun install
+bun run build
 ```
 
 #### **Performance Issues**

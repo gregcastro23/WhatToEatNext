@@ -9,7 +9,7 @@ project and their proven solutions.
 
 **Symptoms:**
 
-- `npm run build` fails with errors
+- `bun run build` fails with errors
 - Development server won't start
 - TypeScript compilation errors prevent startup
 
@@ -18,14 +18,14 @@ project and their proven solutions.
 ```bash
 # Emergency reset procedure
 git stash                          # Save current work
-yarn emergency:reset            # Reset to last known good state
-yarn install                        # Reinstall dependencies
-yarn build                      # Test build
+bun run emergency:reset            # Reset to last known good state
+bun install                        # Reinstall dependencies
+bun run build                      # Test build
 
 # If still failing
-rm -rf node_modules .next yarn.lock
-yarn install
-yarn build
+rm -rf node_modules .next bun.lock
+bun install
+bun run build
 ```
 
 **Root Causes:**
@@ -47,13 +47,13 @@ yarn build
 
 ```bash
 # Enable emergency fallback mode
-npm run fallback:enable
+bun run fallback:enable
 
 # Test fallback data
 node -e "console.log(require('./src/utils/reliableAstronomy').getMarch2025Positions())"
 
 # Verify API connectivity
-npm run test:api-connectivity
+bun run test:api-connectivity
 ```
 
 **Emergency Fallback:**
@@ -81,23 +81,23 @@ const EMERGENCY_POSITIONS = {
 
 ```bash
 # Check current error count
-npm run type-check 2>&1 | grep -c "error TS"
+bun run type-check 2>&1 | grep -c "error TS"
 
 # Run automated error reduction campaign
-npm run campaign:typescript
+bun run campaign:typescript
 
 # Monitor campaign progress
-npm run campaign:monitor
+bun run campaign:monitor
 
 # Emergency manual fixes for critical files
-npm run fix:critical-errors
+bun run fix:critical-errors
 ```
 
 **Prevention:**
 
 ```bash
 # Set up pre-commit hooks
-npm run setup:git-hooks
+bun run setup:git-hooks
 
 # Enable incremental TypeScript checking
 # Add to tsconfig.json:
@@ -121,16 +121,16 @@ npm run setup:git-hooks
 
 ```bash
 # Clear all caches
-npm run cache:clear
+bun run cache:clear
 
 # Profile performance
-npm run performance:profile
+bun run performance:profile
 
 # Check memory usage
-npm run memory:check
+bun run memory:check
 
 # Restart with performance monitoring
-npm run dev:performance
+bun run dev:performance
 ```
 
 **Quick Fixes:**
@@ -160,13 +160,13 @@ const throttledApiCall = throttle(apiCall, 1000);
 # Close Kiro application and reopen
 
 # Check steering file syntax
-npm run validate:steering
+bun run validate:steering
 
 # Test agent hooks manually
-npm run test:hooks
+bun run test:hooks
 
 # Reconnect MCP servers
-npm run mcp:reconnect
+bun run mcp:reconnect
 ```
 
 ## 🟡 Medium Priority Issues
@@ -228,7 +228,7 @@ function validateCompatibilityScore(score: number): boolean {
 
 ```bash
 # Update transit data
-npm run update:transit-dates
+bun run update:transit-dates
 
 # Validate specific planet
 node -e "
@@ -237,7 +237,7 @@ console.log('Mars transit dates:', mars.TransitDates);
 "
 
 # Test validation function
-npm run test:transit-validation
+bun run test:transit-validation
 ```
 
 **Manual Update Process:**
@@ -305,10 +305,10 @@ function trackApiUsage(endpoint: string) {
 
 ```bash
 # Run automated linting campaign
-npm run campaign:lint
+bun run campaign:lint
 
 # Fix auto-fixable issues
-npm run lint:fix
+bun run lint:fix
 
 # Check specific file types
 bunx eslint "src/**/*.ts" --fix
@@ -335,13 +335,13 @@ module.exports = {
 
 ```bash
 # Analyze bundle composition
-npm run analyze:bundle
+bun run analyze:bundle
 
 # Implement code splitting
-npm run optimize:splitting
+bun run optimize:splitting
 
 # Optimize images and assets
-npm run optimize:assets
+bun run optimize:assets
 ```
 
 **Code Splitting Example:**
@@ -403,46 +403,46 @@ useEffect(() => {
 
 ```bash
 # Comprehensive system check
-npm run health:check
+bun run health:check
 
 # Specific subsystem checks
-npm run health:astrological
-npm run health:performance
-npm run health:integrations
-npm run health:kiro
+bun run health:astrological
+bun run health:performance
+bun run health:integrations
+bun run health:kiro
 ```
 
 ### Debug Information
 
 ```bash
 # Generate debug report
-npm run debug:report
+bun run debug:report
 
 # Check specific components
-npm run debug:astronomy
-npm run debug:campaigns
-npm run debug:mcp-servers
+bun run debug:astronomy
+bun run debug:campaigns
+bun run debug:mcp-servers
 
 # Performance profiling
-npm run profile:calculations
-npm run profile:memory
-npm run profile:bundle
+bun run profile:calculations
+bun run profile:memory
+bun run profile:bundle
 ```
 
 ### Testing Commands
 
 ```bash
 # Run all tests
-npm test
+bun run test
 
 # Test specific areas
-npm run test:astrological
-npm run test:elemental
-npm run test:performance
-npm run test:integration
+bun run test:astrological
+bun run test:elemental
+bun run test:performance
+bun run test:integration
 
 # Test with coverage
-npm run test:coverage
+bun run test:coverage
 ```
 
 ## 📊 Monitoring and Alerts
@@ -464,13 +464,13 @@ interface SystemMetrics {
 
 ```bash
 # Set up monitoring alerts
-npm run setup:monitoring
+bun run setup:monitoring
 
 # Configure thresholds
-npm run configure:alerts
+bun run configure:alerts
 
 # Test alert system
-npm run test:alerts
+bun run test:alerts
 ```
 
 ## 🎯 Prevention Strategies
@@ -479,29 +479,29 @@ npm run test:alerts
 
 ```bash
 # Run daily health check
-npm run health:daily
+bun run health:daily
 
 # Update dependencies (weekly)
-npm run update:dependencies
+bun run update:dependencies
 
 # Clean up caches (weekly)
-npm run cleanup:caches
+bun run cleanup:caches
 
 # Validate data integrity (daily)
-npm run validate:data
+bun run validate:data
 ```
 
 ### Code Quality Gates
 
 ```bash
 # Pre-commit checks
-npm run pre-commit:check
+bun run pre-commit:check
 
 # Pre-push validation
-npm run pre-push:validate
+bun run pre-push:validate
 
 # Continuous integration checks
-npm run ci:validate
+bun run ci:validate
 ```
 
 ### Proactive Monitoring

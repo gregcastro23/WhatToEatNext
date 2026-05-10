@@ -82,8 +82,8 @@ The issue has been fixed by:
    - Added appropriate error handling for missing data
 
 4. **Verified the fix**:
-   - Successfully ran the build process (`yarn build`)
-   - Successfully started the dev server (`yarn dev`)
+   - Successfully ran the build process (`bun run build`)
+   - Successfully started the dev server (`bun run dev`)
    - No errors related to missing data or undefined properties
 
 The app is now working in dev mode without the issues caused by the large,

@@ -20,13 +20,13 @@ methodology.
 
 ```bash
 # Install dependencies
-yarn install
+bun install
 
 # Type-safe development
-yarn dev:safe
+bun run dev:safe
 
 # Comprehensive build
-yarn build:full
+bun run build:full
 
 # Grandfather assessment
 make grandfather-assess

@@ -19,13 +19,13 @@
 2. Install dependencies:
 
    ```bash
-   yarn install
+   bun install
    ```
 
 3. Start the development server:
 
    ```bash
-   yarn dev
+   bun run dev
    ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -33,18 +33,18 @@
 ## Building for Production
 
 ```bash
-yarn build
-yarn start
+bun run build
+bun run start
 ```
 
 ## Running Tests
 
 ```bash
 # Run all tests
-yarn test
+bun run test
 
 # Run tests in watch mode
-yarn test:watch
+bun run test:watch
 ```
 
 ## Linting and CI
@@ -54,10 +54,10 @@ through GitHub Actions.
 
 ```bash
 # Run linting
-yarn lint
+bun run lint
 
 # Fix linting issues automatically
-yarn lint:fix
+bun run lint:fix
 ```
 
 ### Pre-push Checks

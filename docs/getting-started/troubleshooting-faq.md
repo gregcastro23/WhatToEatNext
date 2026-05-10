@@ -9,18 +9,18 @@ the WhatToEatNext project.
 
 ```bash
 # Build is broken
-npm run campaign:emergency-stop     # Stop all campaigns
+bun run campaign:emergency-stop     # Stop all campaigns
 git stash                          # Stash current changes
-npm run build                      # Test clean build
+bun run build                      # Test clean build
 
 # TypeScript errors overwhelming
-npm run campaign:typescript        # Run error reduction campaign
-npm run type-check                 # Check current status
+bun run campaign:typescript        # Run error reduction campaign
+bun run type-check                 # Check current status
 
 # Development server won't start
 rm -rf node_modules .next          # Clean installation
-yarn install                        # Reinstall dependencies
-yarn dev                        # Restart server
+bun install                        # Reinstall dependencies
+bun run dev                        # Restart server
 ```
 
 ## 🏗️ Setup and Installation Issues
@@ -40,7 +40,7 @@ nvm install 20.18.0
 nvm use 20.18.0
 
 # Use safe development script
-npm run dev:safe
+bun run dev:safe
 
 # Or use direnv for automatic switching
 direnv allow
@@ -48,20 +48,20 @@ direnv allow
 
 ### Q: Dependencies won't install
 
-**Problem**: npm/yarn installation failures
+**Problem**: bun/bun installation failures
 
 **Solutions**:
 
 ```bash
 # Clear caches
-npm cache clean --force
+bun run cache clean --force
 rm -rf node_modules package-lock.json
 
 # Reinstall
-yarn install
+bun install
 
-# If still failing, try yarn
-yarn install
+# If still failing, try bun
+bun install
 
 # Check for Node.js version compatibility
 node --version  # Should be 20.18.0+
@@ -69,7 +69,7 @@ node --version  # Should be 20.18.0+
 
 ### Q: Development server fails to start
 
-**Problem**: `npm run dev` throws errors
+**Problem**: `bun run dev` throws errors
 
 **Solutions**:
 
@@ -80,13 +80,13 @@ kill -9 <PID>                     # Kill process if needed
 
 # Clean build artifacts
 rm -rf .next
-npm run build                     # Rebuild
+bun run build                     # Rebuild
 
 # Check environment variables
 cp .env.example .env.local        # Create local environment file
 
 # Verify TypeScript compilation
-npm run type-check
+bun run type-check
 ```
 
 ## 🌟 Astrological Feature Issues
@@ -265,13 +265,13 @@ uvx mcp-servers/astrology-server.py
 
 ```bash
 # Check campaign status
-npm run campaign:status
+bun run campaign:status
 
 # View campaign logs
 ls logs/                          # Check for campaign log files
 
 # Test simple campaign
-npm run campaign:typescript --dry-run
+bun run campaign:typescript --dry-run
 
 # Check git status (campaigns need clean working directory)
 git status
@@ -291,18 +291,18 @@ node --version                    # Should be 20.18.0+
 
 ```bash
 # Run specific test categories
-npm run test:unit                 # Unit tests only
-npm run test:integration          # Integration tests only
-npm run test:astrological        # Astrological feature tests
+bun run test:unit                 # Unit tests only
+bun run test:integration          # Integration tests only
+bun run test:astrological        # Astrological feature tests
 
 # Check test coverage
-npm run test:coverage
+bun run test:coverage
 
 # Debug specific test
-npm test -- --testNamePattern="specific test name"
+bun run test -- --testNamePattern="specific test name"
 
 # Update snapshots if needed
-npm test -- --updateSnapshot
+bun run test -- --updateSnapshot
 ```
 
 ### Q: TypeScript errors overwhelming
@@ -313,16 +313,16 @@ npm test -- --updateSnapshot
 
 ```bash
 # Check current error count
-npm run type-check 2>&1 | grep -c "error TS"
+bun run type-check 2>&1 | grep -c "error TS"
 
 # Run automated error reduction
-npm run campaign:typescript
+bun run campaign:typescript
 
 # Check campaign progress
-npm run campaign:monitor
+bun run campaign:monitor
 
 # Focus on high-impact files
-npm run type-check 2>&1 | grep "error TS" | head -20
+bun run type-check 2>&1 | grep "error TS" | head -20
 ```
 
 ### Q: Linting warnings excessive
@@ -333,13 +333,13 @@ npm run type-check 2>&1 | grep "error TS" | head -20
 
 ```bash
 # Check current warning count
-npm run lint 2>&1 | grep -c "warning"
+bun run lint 2>&1 | grep -c "warning"
 
 # Run automated linting improvements
-npm run campaign:lint
+bun run campaign:lint
 
 # Fix auto-fixable issues
-npm run lint:fix
+bun run lint:fix
 
 # Check specific file
 bunx eslint src/path/to/file.ts
@@ -375,7 +375,7 @@ bunx eslint src/path/to/file.ts
 
 ```bash
 # Run accessibility tests
-npm run test:a11y
+bun run test:a11y
 
 # Check color contrast
 # Use browser dev tools accessibility panel
@@ -428,7 +428,7 @@ const memoizedCalculation = useMemo(() => {
 
 ```bash
 # Analyze bundle
-npm run analyze:bundle
+bun run analyze:bundle
 
 # Check for large dependencies
 bunx webpack-bundle-analyzer .next/static/chunks/
@@ -438,7 +438,7 @@ bunx webpack-bundle-analyzer .next/static/chunks/
 const AstrologyChart = lazy(() => import('./AstrologyChart'));
 
 # Optimize images
-npm run optimize:images
+bun run optimize:images
 ```
 
 ### Q: Memory leaks

@@ -200,7 +200,7 @@ fi
 
 ```bash
 # Build stability validation
-yarn tsc --noEmit --skipLibCheck > /dev/null 2>&1 && echo "✅ Build stable" || exit 1
+bun run tsc --noEmit --skipLibCheck > /dev/null 2>&1 && echo "✅ Build stable" || exit 1
 ```
 
 ### Test Coverage Requirements
@@ -234,7 +234,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20.18.0"
-          cache: "yarn"
+          cache: "bun"
 
       - name: Install dependencies
         run: make install
@@ -261,7 +261,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20.18.0"
-          cache: "yarn"
+          cache: "bun"
 
       - name: Deploy Pipeline
         run: make deploy-pipeline
@@ -472,7 +472,7 @@ make test
 make test-coverage
 
 # Run integration tests separately
-yarn test --testPathPattern="integration"
+bun run test --testPathPattern="integration"
 ```
 
 ### Debug Commands

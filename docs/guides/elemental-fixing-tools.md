@@ -13,8 +13,8 @@ Automatically scans the codebase and fixes problematic patterns in elemental
 logic.
 
 ```bash
-# Using yarn
-yarn fix-elemental
+# Using bun
+bun run fix-elemental
 
 # Or directly
 node fix-elemental-logic.js
@@ -26,8 +26,8 @@ Tests that the fix-elemental-logic.js script correctly identifies and fixes
 problematic patterns.
 
 ```bash
-# Using yarn
-yarn test-elemental-fix
+# Using bun
+bun run test-elemental-fix
 
 # Or directly
 node test-elemental-logic.js

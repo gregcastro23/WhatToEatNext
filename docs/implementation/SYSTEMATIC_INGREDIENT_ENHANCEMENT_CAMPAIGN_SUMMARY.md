@@ -151,7 +151,7 @@ node scripts/analyze-ingredient-uniformity.mjs --enhance --dry-run [file]
 node scripts/analyze-ingredient-uniformity.mjs --enhance --force [file]
 
 # 5. Immediate build validation
-yarn build
+bun run build
 
 # 6. Continue to next priority target
 ```
