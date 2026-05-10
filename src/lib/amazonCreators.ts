@@ -1,3 +1,8 @@
+import {
+  getCreatorsCredentials,
+  isCreatorsConfigured as configIsCreatorsConfigured,
+} from "@/lib/amazon/config";
+
 const AMAZON_CREATORS_TOKEN_URL = "https://api.amazon.com/auth/o2/token";
 const AMAZON_CREATORS_CATALOG_BASE_URL = "https://creatorsapi.amazon/catalog/v1";
 const AMAZON_CREATORS_MARKETPLACE = "www.amazon.com";
@@ -47,12 +52,6 @@ interface AmazonCreatorsSearchResponse {
   message?: string;
 }
 
-interface AmazonCreatorsApiError {
-  status: number;
-  message: string;
-  payload: unknown;
-}
-
 interface AmazonCreatorsSearchPayload {
   keywords: string;
   partnerTag: string;
@@ -68,23 +67,32 @@ declare global {
 }
 
 function getAmazonCreatorsCredentials() {
-  const clientId = process.env.AMAZON_CREATOR_ID;
-  const clientSecret = process.env.AMAZON_CREATOR_SECRET;
-  const version = process.env.AMAZON_CREATOR_VERSION;
-  const partnerTag =
-    process.env.AMAZON_PARTNER_TAG || process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG;
-
+  const creds = getCreatorsCredentials();
   return {
-    clientId,
-    clientSecret,
-    version,
-    partnerTag,
+    clientId: creds?.clientId,
+    clientSecret: creds?.clientSecret,
+    version: creds?.version,
+    partnerTag: creds?.partnerTag,
   };
 }
 
 export function hasAmazonCreatorsCredentials(): boolean {
-  const { clientId, clientSecret, version, partnerTag } = getAmazonCreatorsCredentials();
-  return Boolean(clientId && clientSecret && version && partnerTag);
+  return configIsCreatorsConfigured();
+}
+
+/**
+ * Surface Creators API errors with a status code so callers can distinguish
+ * throttling (429) and eligibility (403) from "no result."
+ */
+export class CreatorsApiError extends Error {
+  status: number;
+  payload: unknown;
+  constructor(message: string, status: number, payload: unknown) {
+    super(message);
+    this.name = "CreatorsApiError";
+    this.status = status;
+    this.payload = payload;
+  }
 }
 
 function getCachedToken(): string | null {
@@ -118,7 +126,7 @@ async function readErrorPayload(response: Response): Promise<unknown> {
   }
 }
 
-function buildAmazonCreatorsError(status: number, payload: unknown): AmazonCreatorsApiError {
+function buildAmazonCreatorsError(status: number, payload: unknown): CreatorsApiError {
   const message =
     typeof payload === "string"
       ? payload
@@ -126,7 +134,7 @@ function buildAmazonCreatorsError(status: number, payload: unknown): AmazonCreat
         ? String(payload.message)
         : `Amazon Creators API request failed with status ${status}`;
 
-  return { status, message, payload };
+  return new CreatorsApiError(message, status, payload);
 }
 
 async function getAmazonCreatorsAccessToken(): Promise<string> {

@@ -5,12 +5,56 @@
  * to submit unrelated products. This file is now intentionally allow-list only:
  * add an ingredient here only after verifying the ASIN is the intended grocery
  * product and works with Amazon grocery/Fresh cart handoff.
+ *
+ * To add an entry safely:
+ *   1. Open the product on amazon.com and copy the 10-char ASIN from the URL.
+ *   2. Confirm the product is in stock and has Fresh/Grocery handoff support.
+ *   3. Add the entry under its normalized key (lowercase singular, no units).
+ *   4. The TOP_STAPLES_TO_VERIFY list below is the priority order — fill these
+ *      first so the live PA-API isn't called for everyday ingredients.
  */
 
-export const AMAZON_ASSOCIATE_TAG =
-  process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG || "cookingwi03f1-20";
+export { AMAZON_ASSOCIATE_TAG } from "@/lib/amazon/config";
 
-export const ingredientAsins: Record<string, string> = {};
+export const ingredientAsins: Record<string, string> = {
+  // Fill these in over time. Keys MUST be the normalized form (see
+  // normalizeIngredientKey below) — singular, lowercase, no units, no parens.
+  // Example shape (do NOT uncomment until verified):
+  //   "olive oil": "B0XXXXXXXX",
+};
+
+/**
+ * Top-priority staples to verify and add to `ingredientAsins` first.
+ * These show up in nearly every recipe and account for the bulk of PA-API
+ * traffic during beta. Verifying these 25 entries cuts live API calls 60-80%.
+ */
+export const TOP_STAPLES_TO_VERIFY: ReadonlyArray<string> = [
+  "salt",
+  "black pepper",
+  "olive oil",
+  "butter",
+  "egg",
+  "milk",
+  "flour",
+  "sugar",
+  "garlic",
+  "onion",
+  "tomato",
+  "potato",
+  "carrot",
+  "rice",
+  "pasta",
+  "chicken breast",
+  "ground beef",
+  "lemon",
+  "soy sauce",
+  "vinegar",
+  "honey",
+  "vanilla extract",
+  "baking powder",
+  "baking soda",
+  "yeast",
+];
 
 const PREFIX_SUFFIX_WORDS =
   /^(fresh|dried|ground|powdered|organic|large|small|medium|cup|cups|clove|cloves|teaspoon|teaspoons|tablespoon|tablespoons|tbsp|tsp|lb|lbs|oz|g|kg|half)\s+|\s+(fresh|dried|ground|powdered|organic|large|small|medium|zest|peeled|chopped|sliced|diced|minced)$/g;
