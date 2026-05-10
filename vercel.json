@@ -4,7 +4,7 @@
   "buildCommand": "bun run build",
   "framework": "nextjs",
   "regions": ["iad1"],
-  "bunVersion": "1.x",
+  "bunVersion": "1.3",
   "functions": {
     "src/app/api/**/*.ts": {
       "maxDuration": 60

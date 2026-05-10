@@ -28,8 +28,15 @@ import globals from "globals";
 export default [
   // Start with recommended JS rules
   js.configs.recommended,
-  nextPlugin.configs.recommended,
-  nextPlugin.configs["core-web-vitals"],
+  // Register @next/next in flat-config object format (v15 plugin exports it
+  // in eslintrc array-of-strings format which ESLint flat config rejects).
+  {
+    plugins: { "@next/next": nextPlugin },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
+    },
+  },
 
   // ============================================================================
   // Main TypeScript/React Configuration

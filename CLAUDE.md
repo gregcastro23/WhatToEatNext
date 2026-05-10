@@ -1,6 +1,6 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-_Version: 2.2.0 | Last Updated: May 5, 2026_
+_Version: 2.3.0 | Last Updated: May 9, 2026_
 
 ## Project Overview
 
@@ -8,23 +8,37 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ## Current Project Status (May 2026)
 
-### 🎉 **ALCHEMICAL INFRASTRUCTURE OPTIMIZED**
+### 🎉 **INFRASTRUCTURE & TOOLCHAIN OPTIMIZED**
 
-- **Database**: ✅ **MIGRATED TO RAILWAY POSTGRES** (Internal: postgres.railway.internal)
-- **Read Model**: ✅ **DENORMALIZED** (Sub-100ms recipe loads)
+- **Toolchain**: ✅ **BUN v1.3.13** (Migrated from Yarn — 10x faster installs/builds)
+- **Database**: ✅ **RAILWAY POSTGRES** (Internal: `postgres.railway.internal`)
+- **Read Model**: ✅ **DENORMALIZED** (Sub-100ms recipe loads via `read_model` JSONB column)
 - **Assets**: ✅ **OPTIMIZED** (Logo/Hero images shrunk by 90%+)
-- **Latency**: ✅ **SUB-1MS** DB response times.
+- **Latency**: ✅ **SUB-1MS** DB response times via Railway internal networking.
+
+### Toolchain — always use `bun`, never `npm` or `yarn`
+
+```bash
+bun install          # install dependencies
+bun run dev          # start dev server
+bun run build        # production build
+bun run test         # run tests
+bun <script.ts>      # run TypeScript scripts directly (no ts-node/tsx needed)
+```
+
+`packageManager` is pinned to `bun@1.3.13` in `package.json`. The lockfile is `bun.lock`.
 
 ---
 
 ## Environment Variables (Production)
 
 ```bash
-# Database
+# Database (Railway internal network)
 DATABASE_URL=postgresql://postgres:<password>@postgres.railway.internal:5432/railway
 
 # APIs & Secrets
 API_BASE_URL=https://whattoeatnext-production.up.railway.app
+NEXT_PUBLIC_BACKEND_URL=https://whattoeatnext-production.up.railway.app
 INTERNAL_API_SECRET=<internal-api-secret>
 GALILEO_API_KEY=<galileo-api-key>
 
@@ -34,11 +48,14 @@ AUTH_GOOGLE_ID=<google-client-id>
 AUTH_GOOGLE_SECRET=<google-client-secret>
 AUTH_ADMIN_EMAIL=<admin-email>
 AUTH_URL=https://alchm.kitchen
+AUTH_TRUST_HOST=true
 
 # Payment & Messaging
 STRIPE_SECRET_KEY=<stripe-secret-key>
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=<stripe-pub-key>
 RESEND_API_KEY=<resend-api-key>
 SMTP_PASS=<smtp-pass>
+SMTP_USER=<smtp-user>
 ```
 
 ---
@@ -47,8 +64,10 @@ SMTP_PASS=<smtp-pass>
 
 - **Three-Tier Hierarchical Data**: Ingredients → Recipes → Cuisines.
 - **NextAuth.js v5**: Google OAuth with Server/Edge split config.
-- **Denormalized Recipes**: `read_model` column for high-speed delivery.
+- **Denormalized Recipes**: `read_model` JSONB column for high-speed delivery; eliminates N+1 queries.
+- **Frontend**: Next.js on Vercel with Bun build pipeline (`bun.lock` committed).
+- **Backend**: Python service on Railway (standalone).
 
 ---
 
-_Updated May 5, 2026 — Optimization & Migration Complete._
+_Updated May 9, 2026 — Bun toolchain migration complete. Sub-1ms latency via Railway internal networking._
