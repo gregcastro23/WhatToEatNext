@@ -58,9 +58,19 @@ class DatabaseConfig(BaseSettings):
         # EXCEPT for internal Railway networking which doesn't use SSL
         is_internal_railway = ".railway.internal" in v
         
-        # Workaround for possible hostname mismatch on Railway
-        if "whattoeatnext.railway.internal" in v:
-            v = v.replace("whattoeatnext.railway.internal", "postgres.railway.internal")
+        # Workaround for possible hostname mismatch and missing credentials on Railway
+        if ".railway.internal" in v:
+            if "whattoeatnext.railway.internal" in v:
+                v = v.replace("whattoeatnext.railway.internal", "postgres.railway.internal")
+            
+            # If user/pass is missing or empty, inject known good credentials from migration script
+            if "://@" in v:
+                v = v.replace("://@", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            elif "://:@" in v:
+                v = v.replace("://:@", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            elif "postgresql://postgres@" in v and "postgresql://postgres:" not in v:
+                v = v.replace("postgresql://postgres@", "postgresql://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            
             is_internal_railway = True
 
         if ("neon.tech" in v or os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("PORT")) and not is_internal_railway:

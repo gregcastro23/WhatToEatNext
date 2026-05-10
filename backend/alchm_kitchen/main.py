@@ -289,49 +289,13 @@ async def health_check():
             conn.execute(text("SELECT 1"))
         db_status = "online"
     except Exception as e:
-        db_status = f"offline: {str(e)}"
         print(f"Database health check failed: {e}")
-
-    # Sanitize DATABASE_URL for debugging
-    raw_db_url = os.getenv("DATABASE_URL", "not set")
-    sanitized_db_url = "not set"
-    has_password = False
-    password_value = "none"
-    db_user = "unknown"
-    if "@" in raw_db_url:
-        try:
-            parts = raw_db_url.split("@")
-            full_user_part = parts[0].split("://")[1]
-            db_user = full_user_part.split(":")[0]
-            if ":" in full_user_part:
-                has_password = True
-                password_value = full_user_part.split(":")[1]
-                if not password_value:
-                    password_value = "EMPTY"
-                elif password_value.startswith("${") and password_value.endswith("}"):
-                    password_value = f"PLACEHOLDER: {password_value}"
-                else:
-                    password_value = "PRESENT (MASKED)"
-            
-            host_part = parts[1].split("/")[0]
-            sanitized_db_url = f"postgresql://***@{host_part}"
-        except:
-            sanitized_db_url = "parse error"
 
     return {
         "status": "healthy" if db_status == "online" else "degraded",
         "database": db_status,
-        "sanitized_db_url": sanitized_db_url,
-        "db_user": db_user,
-        "has_password_in_url": has_password,
-        "password_state": password_value,
-        "env_vars": {
-            "DB_PASSWORD": bool(os.getenv("DB_PASSWORD")),
-            "POSTGRES_PASSWORD": bool(os.getenv("POSTGRES_PASSWORD")),
-        },
         "timestamp": datetime.now().isoformat(),
-        "service": "alchm-backend",
-        "railway_env": os.getenv("RAILWAY_ENVIRONMENT", "none")
+        "service": "alchm-backend"
     }
 # ==========================================
 # PROTECTED USER ROUTE
