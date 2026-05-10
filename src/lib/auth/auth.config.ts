@@ -105,6 +105,31 @@ export const authConfig = {
   },
   callbacks: {
     /**
+     * Custom redirect callback to support cross-subdomain SSO.
+     * By default, NextAuth blocks redirects to origins other than baseUrl.
+     * This allows redirects back to agents.alchm.kitchen or other subdomains.
+     */
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+
+      // Allows callback URLs on the same domain (including subdomains)
+      try {
+        const urlObj = new URL(url);
+        if (urlObj.hostname.endsWith(".alchm.kitchen") || urlObj.hostname === "alchm.kitchen") {
+          return url;
+        }
+      } catch {
+        // Fallback for invalid URLs
+      }
+
+      // Allows callback URLs on the same origin
+      if (new URL(url).origin === baseUrl) return url;
+
+      return baseUrl;
+    },
+
+    /**
      * Runs in Edge Runtime (middleware). Must not use any Node.js APIs.
      * The session object here is populated from the JWT cookie, which
      * was enriched by the jwt/session callbacks in auth.ts during sign-in.
