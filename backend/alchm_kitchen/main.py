@@ -289,15 +289,15 @@ async def health_check():
             conn.execute(text("SELECT 1"))
         db_status = "online"
     except Exception as e:
+        db_status = f"offline: {str(e)}"
         print(f"Database health check failed: {e}")
-    
+
     return {
         "status": "healthy" if db_status == "online" else "degraded",
         "database": db_status,
         "timestamp": datetime.now().isoformat(),
         "service": "alchm-backend"
     }
-
 # ==========================================
 # PROTECTED USER ROUTE
 # ==========================================
