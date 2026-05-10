@@ -311,7 +311,13 @@ async def health_check():
         "database": db_status,
         "sanitized_db_url": sanitized_db_url,
         "has_password_in_url": has_password,
-        "db_pass_env_set": bool(os.getenv("DB_PASSWORD") or os.getenv("DATABASE_PASSWORD") or os.getenv("PGPASSWORD")),
+        "env_vars": {
+            "DB_PASSWORD": bool(os.getenv("DB_PASSWORD")),
+            "DATABASE_PASSWORD": bool(os.getenv("DATABASE_PASSWORD")),
+            "PGPASSWORD": bool(os.getenv("PGPASSWORD")),
+            "POSTGRES_PASSWORD": bool(os.getenv("POSTGRES_PASSWORD")),
+            "PASSWORD": bool(os.getenv("PASSWORD"))
+        },
         "timestamp": datetime.now().isoformat(),
         "service": "alchm-backend",
         "railway_env": os.getenv("RAILWAY_ENVIRONMENT", "none")
