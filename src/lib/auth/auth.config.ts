@@ -111,7 +111,6 @@ export const authConfig = {
      */
     authorized({ auth: session, request }) {
       const { pathname } = request.nextUrl;
-      console.log(`[auth] authorized callback for ${pathname}. Authenticated: ${!!session?.user}`);
 
       // Routes that require authentication
       const isProtected =
@@ -131,7 +130,6 @@ export const authConfig = {
 
       // Not authenticated -> redirect to login for protected routes
       if ((isProtected || isPremiumRoute) && !session?.user) {
-        console.log(`[auth] Unauthorized access to ${pathname}, redirecting to /login`);
         return Response.redirect(new URL("/login", request.nextUrl.origin));
       }
 
@@ -148,7 +146,6 @@ export const authConfig = {
 
         // Authenticated but onboarding incomplete -> force /onboarding
         if (!onboardingComplete && !onboardingCookie && pathname.startsWith("/profile")) {
-          console.log(`[auth] Profile incomplete for ${user.email}, forcing /onboarding`);
           return Response.redirect(
             new URL("/onboarding", request.nextUrl.origin),
           );
@@ -156,7 +153,6 @@ export const authConfig = {
 
         // Authenticated and onboarding complete -> skip onboarding page
         if ((onboardingComplete || onboardingCookie) && pathname.startsWith("/onboarding")) {
-          console.log(`[auth] Onboarding already complete for ${user.email}, skipping to /profile`);
           return Response.redirect(
             new URL("/profile", request.nextUrl.origin),
           );
@@ -164,7 +160,6 @@ export const authConfig = {
 
         // Admin route protection
         if (pathname.startsWith("/admin") && user.role !== "admin") {
-          console.log(`[auth] Non-admin access attempt to /admin by ${user.email}`);
           return Response.redirect(
             new URL("/profile", request.nextUrl.origin),
           );
@@ -173,7 +168,6 @@ export const authConfig = {
         // Premium route gating — free users see upgrade page, not errors.
         // Admins always have premium access.
         if (isPremiumRoute && tier !== "premium" && !isAdmin) {
-          console.log(`[auth] Premium access required for ${pathname} by ${user.email}`);
           const upgradeUrl = new URL("/upgrade", request.nextUrl.origin);
           upgradeUrl.searchParams.set("from", pathname);
           return Response.redirect(upgradeUrl);
