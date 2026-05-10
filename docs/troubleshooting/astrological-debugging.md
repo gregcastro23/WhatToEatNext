@@ -10,19 +10,19 @@ project.
 
 ```bash
 # Comprehensive astrological system check
-npm run debug:astronomy
+bun run debug:astronomy
 
 # Test planetary position calculations
-npm run test:planetary-positions
+bun run test:planetary-positions
 
 # Validate elemental compatibility logic
-npm run test:elemental-compatibility
+bun run test:elemental-compatibility
 
 # Check transit date accuracy
-npm run validate:transit-dates
+bun run validate:transit-dates
 
 # Test fallback mechanisms
-npm run test:fallbacks
+bun run test:fallbacks
 ```
 
 ### System Health Indicators
@@ -672,17 +672,17 @@ function debugFallbackDataValidity() {
 
 ```bash
 # Run comprehensive astrological tests
-npm run test:astrological
+bun run test:astrological
 
 # Test specific components
-npm run test:planetary-positions
-npm run test:elemental-compatibility
-npm run test:lunar-calculations
-npm run test:fallback-mechanisms
+bun run test:planetary-positions
+bun run test:elemental-compatibility
+bun run test:lunar-calculations
+bun run test:fallback-mechanisms
 
 # Performance testing
-npm run test:calculation-performance
-npm run test:memory-usage
+bun run test:calculation-performance
+bun run test:memory-usage
 ```
 
 ### Manual Testing Procedures
@@ -842,16 +842,16 @@ class AstrologicalPerformanceMonitor {
 
 ```bash
 # Complete astrological system failure
-npm run emergency:astrological-reset
+bun run emergency:astrological-reset
 
 # Enable safe mode (fallback only)
-npm run astrological:safe-mode
+bun run astrological:safe-mode
 
 # Restore from backup
-npm run restore:astrological-data
+bun run restore:astrological-data
 
 # Validate system integrity
-npm run validate:astrological-integrity
+bun run validate:astrological-integrity
 ```
 
 ### Data Corruption Recovery

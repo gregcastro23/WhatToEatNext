@@ -26,11 +26,11 @@ These principles must be reflected in all code contributions.
    ```
 3. Install dependencies:
    ```bash
-   yarn install
+   bun install
    ```
 4. Start the development server:
    ```bash
-   yarn dev
+   bun run dev
    ```
 
 ## Contribution Workflow
@@ -42,7 +42,7 @@ These principles must be reflected in all code contributions.
 2. Make your changes, following our code style and elemental principles
 3. Run tests to ensure they pass:
    ```bash
-   yarn test
+   bun run test
    ```
 4. Commit your changes with a descriptive message:
    ```bash

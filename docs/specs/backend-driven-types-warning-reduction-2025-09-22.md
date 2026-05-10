@@ -17,7 +17,7 @@ Status: Zero-Error Baseline Achieved; Warning Reduction In Progress (~4,625 warn
 
 ### Guardrails
 
-- Run `yarn build` before `yarn dev`; ensure edits are accepted before builds.
+- Run `bun run build` before `bun run dev`; ensure edits are accepted before builds.
 - Enforce definitive casing conventions and Elemental Logic Principles.
 - No placeholders/fallbacks: always use real code paths and proper imports.
 
@@ -28,7 +28,7 @@ Status: Zero-Error Baseline Achieved; Warning Reduction In Progress (~4,625 warn
 Plan:
 
 - Use `openapi-typescript` against FastAPI OpenAPI docs to generate `.d.ts` types for both services.
-- Commit generated types under `src/types/api/` and set up a yarn script.
+- Commit generated types under `src/types/api/` and set up a bun run script.
 
 Proposed script (example):
 
@@ -54,7 +54,7 @@ exec(
 TODOs:
 
 - [ ] Add `openapi-typescript` as a dev dependency and create `scripts/generate-types-from-backend.js`.
-- [ ] Add yarn script: `"types:api": "node scripts/generate-types-from-backend.js"`.
+- [ ] Add bun run script: `"types:api": "node scripts/generate-types-from-backend.js"`.
 - [ ] Ensure backends are running locally and CI has access to OpenAPI JSON.
 - [ ] Commit generated types under `src/types/api/`.
 
@@ -306,7 +306,7 @@ TODOs:
 
 ### Deliverables
 
-- `scripts/generate-types-from-backend.js` + yarn script.
+- `scripts/generate-types-from-backend.js` + bun run script.
 - `src/types/api/{alchemical,kitchen}.ts` (generated) and `src/types/unified.ts`.
 - `src/lib/api/alchm-client.ts` and `src/lib/logger.ts`.
 - `src/lib/websocket/alchm-websocket.ts` with typed channels.

@@ -36,8 +36,8 @@
     "build:alchemical-samples": "bun scripts/generateAlchemicalSamples.ts",
     "types:api": "bash scripts/generate-api-types.sh",
     "generate-types": "bash scripts/generate-api-types.sh",
-    "predev": "bun scripts/check-node-version.cjs",
-    "prebuild": "bun scripts/check-node-version.cjs",
+    "predev": "bun scripts/check-version.cjs",
+    "prebuild": "bun scripts/check-version.cjs",
     "dev": "next dev",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit",
@@ -253,8 +253,6 @@
     "semver": "^7.7.1",
     "ts-jest": "^29.4.9",
     "ts-morph": "^27.0.2",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.21.0",
     "typescript": "5.7.3"
   },
   "packageManager": "bun@1.3.13"

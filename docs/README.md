@@ -14,7 +14,7 @@ oriented quickly.
 ```bash
 git clone https://github.com/your-org/WhatToEatNext.git
 cd WhatToEatNext
-yarn install && yarn dev
+bun install && bun run dev
 ```
 
 → **[Complete Developer Setup](getting-started/for-developers.md)**
