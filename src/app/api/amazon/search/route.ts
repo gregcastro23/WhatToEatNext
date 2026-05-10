@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { resolveAsin } from "@/data/amazon";
-import { AMAZON_CONFIG } from "@/lib/amazon/config";
 import {
   getCachedAmazonResult,
   setCachedAmazonResult,
 } from "@/lib/amazon/cache";
+import { AMAZON_CONFIG } from "@/lib/amazon/config";
 import {
   isPaapiConfigured,
   PaapiError,

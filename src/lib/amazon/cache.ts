@@ -19,12 +19,12 @@ interface CacheEntry<T> {
 
 declare global {
   // Survive HMR / route module re-evaluation in dev.
-  var __amazonResultCache: Map<string, CacheEntry<unknown>> | undefined;
+  var _amazonResultCache: Map<string, CacheEntry<unknown>> | undefined;
 }
 
 const cache: Map<string, CacheEntry<unknown>> =
-  globalThis.__amazonResultCache ?? new Map();
-globalThis.__amazonResultCache = cache;
+  globalThis._amazonResultCache ?? new Map();
+globalThis._amazonResultCache = cache;
 
 export function getCachedAmazonResult<T>(key: string): T | null {
   const hit = cache.get(key);

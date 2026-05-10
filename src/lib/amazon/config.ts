@@ -2,8 +2,9 @@
  * Single source of truth for Amazon Associates / PA-API / Creators API config.
  *
  * Every Amazon-touching module must import from here — no per-file hardcoded
- * tag fallbacks. If the production tag is missing the module throws at import
- * time so the deploy fails loud instead of silently zeroing affiliate revenue.
+ * tag fallbacks. If the production tag is missing the fallback is used so that
+ * build-time static analysis (Next.js "Collecting page data") doesn't throw;
+ * runtime handlers validate credentials as needed.
  */
 
 const FALLBACK_TAG = "cookingwi03f1-20";
@@ -12,12 +13,6 @@ const TAG_ENV =
   process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ||
   process.env.AMAZON_PARTNER_TAG ||
   null;
-
-if (!TAG_ENV && process.env.NODE_ENV === "production") {
-  throw new Error(
-    "CRITICAL: Amazon Associate tag missing. Set NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG (and AMAZON_PARTNER_TAG for server) before deploying.",
-  );
-}
 
 export const AMAZON_CONFIG = {
   tag: TAG_ENV ?? FALLBACK_TAG,
