@@ -292,11 +292,24 @@ async def health_check():
         db_status = f"offline: {str(e)}"
         print(f"Database health check failed: {e}")
 
+    # Sanitize DATABASE_URL for debugging
+    raw_db_url = os.getenv("DATABASE_URL", "not set")
+    sanitized_db_url = "not set"
+    if "@" in raw_db_url:
+        try:
+            parts = raw_db_url.split("@")
+            host_part = parts[1].split("/")[0]
+            sanitized_db_url = f"postgresql://***@{host_part}"
+        except:
+            sanitized_db_url = "parse error"
+
     return {
         "status": "healthy" if db_status == "online" else "degraded",
         "database": db_status,
+        "sanitized_db_url": sanitized_db_url,
         "timestamp": datetime.now().isoformat(),
-        "service": "alchm-backend"
+        "service": "alchm-backend",
+        "railway_env": os.getenv("RAILWAY_ENVIRONMENT", "none")
     }
 # ==========================================
 # PROTECTED USER ROUTE
