@@ -296,11 +296,21 @@ async def health_check():
     raw_db_url = os.getenv("DATABASE_URL", "not set")
     sanitized_db_url = "not set"
     has_password = False
+    password_value = "none"
     if "@" in raw_db_url:
         try:
             parts = raw_db_url.split("@")
             user_part = parts[0].split("://")[1]
-            has_password = ":" in user_part
+            if ":" in user_part:
+                has_password = True
+                password_value = user_part.split(":")[1]
+                if not password_value:
+                    password_value = "EMPTY"
+                elif password_value.startswith("${") and password_value.endswith("}"):
+                    password_value = f"PLACEHOLDER: {password_value}"
+                else:
+                    password_value = "PRESENT (MASKED)"
+            
             host_part = parts[1].split("/")[0]
             sanitized_db_url = f"postgresql://***@{host_part}"
         except:
@@ -311,12 +321,10 @@ async def health_check():
         "database": db_status,
         "sanitized_db_url": sanitized_db_url,
         "has_password_in_url": has_password,
+        "password_state": password_value,
         "env_vars": {
             "DB_PASSWORD": bool(os.getenv("DB_PASSWORD")),
-            "DATABASE_PASSWORD": bool(os.getenv("DATABASE_PASSWORD")),
-            "PGPASSWORD": bool(os.getenv("PGPASSWORD")),
             "POSTGRES_PASSWORD": bool(os.getenv("POSTGRES_PASSWORD")),
-            "PASSWORD": bool(os.getenv("PASSWORD"))
         },
         "timestamp": datetime.now().isoformat(),
         "service": "alchm-backend",
