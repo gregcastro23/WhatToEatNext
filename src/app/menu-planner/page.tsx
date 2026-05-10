@@ -114,7 +114,6 @@ function MenuPlannerContent() {
   const [showRecipeBrowser, setShowRecipeBrowser] = useState(false);
   const [showPosso, setShowPosso] = useState(false);
   const [detailRecipe, setDetailRecipe] = useState<Recipe | null>(null);
-  const [_showDetailedNutrition, _setShowDetailedNutrition] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
   const [isWeeklyDashboardExpanded, setIsWeeklyDashboardExpanded] =
@@ -174,7 +173,7 @@ function MenuPlannerContent() {
 
   const handleSaveTemplate = async () => {
     if (!templateName.trim()) {
-      console.warn("Please enter a template name");
+      showError("Please enter a template name");
       return;
     }
 
@@ -291,8 +290,7 @@ function MenuPlannerContent() {
                 onClick={() => {
                   setIsWeeklyDashboardExpanded(!isWeeklyDashboardExpanded);
                   setShowGroceryList(false);
-                  // setShowNutritionDashboard(true); // Old modal behavior
-                }}
+                  }}
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:shadow-lg transition-all font-medium"
               >
                 📊 Nutrition Dashboard
@@ -396,8 +394,7 @@ function MenuPlannerContent() {
           {showRecipeQueue && (
             <div className="w-full lg:w-96 flex-shrink-0">
               <RecipeQueue
-                onSelectRecipe={(queuedRecipe) => {
-                  console.log("Selected from queue:", queuedRecipe.recipe.name);
+                onSelectRecipe={() => {
                   showInfo(
                     "Drag recipes from the queue to meal slots on the calendar!",
                   );
@@ -551,16 +548,6 @@ function MenuPlannerContent() {
             </div>
           </div>
         )}
-        {/* Detailed Weekly Nutrition Dashboard Modal (COMMENTED OUT FOR NOW) */}
-        {/*
-        {weeklyNutrition && (
-          <WeeklyNutritionDashboardModal
-            weeklyResult={weeklyNutrition}
-            isOpen={showDetailedNutrition}
-            onClose={() => setShowDetailedNutrition(false)}
-          />
-        )}
-        */}
         {/* Statistics Modal */}
         {showStats && weeklyStats && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -614,9 +601,9 @@ function MenuPlannerContent() {
                   </div>
                 )}
 
-                <div className="text-center text-gray-500 mt-6">
+                <div className="text-center text-gray-400 mt-6">
                   <p className="text-sm">
-                    More detailed analytics coming in Phase 3!
+                    Fill in more meals to unlock richer elemental insights.
                   </p>
                 </div>
               </div>
