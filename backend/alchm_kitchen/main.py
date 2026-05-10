@@ -295,9 +295,12 @@ async def health_check():
     # Sanitize DATABASE_URL for debugging
     raw_db_url = os.getenv("DATABASE_URL", "not set")
     sanitized_db_url = "not set"
+    has_password = False
     if "@" in raw_db_url:
         try:
             parts = raw_db_url.split("@")
+            user_part = parts[0].split("://")[1]
+            has_password = ":" in user_part
             host_part = parts[1].split("/")[0]
             sanitized_db_url = f"postgresql://***@{host_part}"
         except:
@@ -307,6 +310,8 @@ async def health_check():
         "status": "healthy" if db_status == "online" else "degraded",
         "database": db_status,
         "sanitized_db_url": sanitized_db_url,
+        "has_password_in_url": has_password,
+        "db_pass_env_set": bool(os.getenv("DB_PASSWORD") or os.getenv("DATABASE_PASSWORD") or os.getenv("PGPASSWORD")),
         "timestamp": datetime.now().isoformat(),
         "service": "alchm-backend",
         "railway_env": os.getenv("RAILWAY_ENVIRONMENT", "none")
