@@ -29,6 +29,7 @@ const EnhancedCookingMethodRecommender = dynamic(
   { loading: () => <SectionLoader /> },
 );
 
+
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
