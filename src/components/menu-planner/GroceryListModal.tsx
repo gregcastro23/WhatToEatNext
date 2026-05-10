@@ -338,6 +338,13 @@ export default function GroceryListModal({
       }),
     });
 
+    if (response.status === 429 || response.status === 503) {
+      const retryAfter = response.headers.get("Retry-After") ?? "60";
+      throw new Error(
+        `Amazon is rate-limiting catalog lookups. Please retry in ${retryAfter}s.`,
+      );
+    }
+
     if (!response.ok) {
       throw new Error(`Amazon catalog lookup failed with status ${response.status}`);
     }

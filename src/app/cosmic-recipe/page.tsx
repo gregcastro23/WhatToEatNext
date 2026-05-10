@@ -1,5 +1,12 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import CosmicRecipeGenerator from '@/components/recipe/CosmicRecipeGenerator';
+
+export const metadata: Metadata = {
+  title: 'Cosmic Recipe Generator',
+  description:
+    'Generate personalized cosmic recipes aligned with your astrological profile and elemental balance.',
+};
 
 export default function CosmicRecipePage() {
   return (

@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
 import { resolveAsin } from "@/data/amazon";
-import { isPaapiConfigured, searchItem } from "@/lib/amazon/paapi";
+import { AMAZON_CONFIG } from "@/lib/amazon/config";
 import {
+  getCachedAmazonResult,
+  setCachedAmazonResult,
+} from "@/lib/amazon/cache";
+import {
+  isPaapiConfigured,
+  PaapiError,
+  searchItem,
+} from "@/lib/amazon/paapi";
+import {
+  CreatorsApiError,
   hasAmazonCreatorsCredentials,
   searchAmazonCreatorsCatalog,
 } from "@/lib/amazonCreators";
@@ -66,21 +76,15 @@ interface AmazonSearchResult {
   title?: string;
   detailPageUrl?: string | null;
   reason?: string;
-}
-
-function getAmazonPartnerTag(): string {
-  return (
-    process.env.AMAZON_PARTNER_TAG ||
-    process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG ||
-    "cookingwi03f1-20"
-  );
+  /** Marker so the client can back off, populated for upstream 429s. */
+  rateLimited?: boolean;
 }
 
 function buildAmazonSearchUrl(query: string): string {
   const params = new URLSearchParams({
     k: query,
     i: "amazonfresh",
-    tag: getAmazonPartnerTag(),
+    tag: AMAZON_CONFIG.tag,
   });
 
   return `https://www.amazon.com/s?${params.toString()}`;
@@ -122,8 +126,39 @@ function isConfidentCatalogMatch(normalizedIngredient: string, title?: string): 
   return ingredientTokens.some((token) => titleTokens.has(token));
 }
 
+/** Cache key includes the resolver version so we can bust if format changes. */
+function cacheKey(normalized: string): string {
+  return `v1:${normalized}`;
+}
+
 async function resolveAmazonIngredient(ingredient: string): Promise<AmazonSearchResult> {
   const normalized = normalizeIngredient(ingredient);
+  const cached = getCachedAmazonResult<AmazonSearchResult>(cacheKey(normalized));
+  if (cached) {
+    // Re-attach the user's raw input string so client can match on it.
+    return { ...cached, ingredient };
+  }
+
+  const result = await resolveAmazonIngredientUncached(ingredient, normalized);
+
+  // Only cache fully-resolved or definitively-empty results. Don't cache
+  // transient errors (429/5xx) — the user should be able to retry sooner.
+  const cacheable =
+    result.source === "verified_static_asin_map" ||
+    result.source === "amazon_paapi" ||
+    result.source === "amazon_paapi_low_confidence" ||
+    result.source === "amazon_creators_api" ||
+    result.source === "amazon_creators_api_low_confidence" ||
+    result.source === "amazon_creators_api_empty";
+
+  if (cacheable) setCachedAmazonResult(cacheKey(normalized), result);
+  return result;
+}
+
+async function resolveAmazonIngredientUncached(
+  ingredient: string,
+  normalized: string,
+): Promise<AmazonSearchResult> {
   const staticAsin = resolveAsin(normalized);
 
   if (staticAsin) {
@@ -160,6 +195,19 @@ async function resolveAmazonIngredient(ingredient: string): Promise<AmazonSearch
         };
       }
     } catch (error) {
+      const status = error instanceof PaapiError ? error.status : undefined;
+      if (status === 429) {
+        console.warn(`Amazon PA-API throttled (429) for "${normalized}"`);
+        return {
+          ingredient,
+          normalized,
+          asin: null,
+          searchUrl: buildAmazonSearchUrl(normalized),
+          source: "amazon_paapi_error",
+          reason: "rate_limited",
+          rateLimited: true,
+        };
+      }
       console.warn("Amazon PA-API lookup failed, trying remaining fallbacks", error);
     }
   }
@@ -192,14 +240,21 @@ async function resolveAmazonIngredient(ingredient: string): Promise<AmazonSearch
         source: "amazon_creators_api_empty",
       };
     } catch (error) {
-      console.warn("Amazon Creators API lookup failed, returning graceful fallback", error);
-
+      const status = error instanceof CreatorsApiError ? error.status : undefined;
+      const isRateLimit = status === 429;
+      if (isRateLimit) {
+        console.warn(`Amazon Creators API throttled (429) for "${normalized}"`);
+      } else {
+        console.warn("Amazon Creators API lookup failed, returning graceful fallback", error);
+      }
       return {
         ingredient,
         normalized,
         asin: null,
         searchUrl: buildAmazonSearchUrl(normalized),
         source: "amazon_creators_api_error",
+        reason: isRateLimit ? "rate_limited" : undefined,
+        rateLimited: isRateLimit || undefined,
       };
     }
   }
@@ -213,6 +268,26 @@ async function resolveAmazonIngredient(ingredient: string): Promise<AmazonSearch
   };
 }
 
+function buildBatchResponse(results: AmazonSearchResult[]) {
+  const allRateLimited =
+    results.length > 0 && results.every((r) => r.rateLimited === true);
+  const payload = {
+    results,
+    configured: {
+      paapi: isPaapiConfigured(),
+      creators: hasAmazonCreatorsCredentials(),
+    },
+  };
+
+  if (allRateLimited) {
+    return NextResponse.json(payload, {
+      status: 503,
+      headers: { "Retry-After": "60" },
+    });
+  }
+  return NextResponse.json(payload);
+}
+
 export async function GET(request: Request) {
   const rl = rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search" });
   if (!rl.allowed) return rl.response!;
@@ -224,7 +299,14 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Missing ingredient parameter" }, { status: 400 });
   }
 
-  return NextResponse.json(await resolveAmazonIngredient(ingredient));
+  const result = await resolveAmazonIngredient(ingredient);
+  if (result.rateLimited) {
+    return NextResponse.json(result, {
+      status: 503,
+      headers: { "Retry-After": "60" },
+    });
+  }
+  return NextResponse.json(result);
 }
 
 export async function POST(request: Request) {
@@ -260,11 +342,5 @@ export async function POST(request: Request) {
     results.push(await resolveAmazonIngredient(ingredient));
   }
 
-  return NextResponse.json({
-    results,
-    configured: {
-      paapi: isPaapiConfigured(),
-      creators: hasAmazonCreatorsCredentials(),
-    },
-  });
+  return buildBatchResponse(results);
 }

@@ -27,7 +27,10 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "What to Eat Next",
+  title: {
+    default: "Alchm Kitchen — What to Eat Next",
+    template: "%s | Alchm Kitchen",
+  },
   description:
     "Personalized food recommendations based on your chakra energies and astrological harmony",
   manifest: "/manifest.json",
