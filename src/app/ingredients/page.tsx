@@ -11,10 +11,11 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { resolveAsin } from "@/data/amazon/ingredientAsins";
 import { allIngredients } from "@/data/ingredients";
 import { useAlchemical } from "@/hooks/useAlchemical";
+import { usePantry } from "@/hooks/usePantry";
 import { getAmazonLink, getAmazonButtonText } from "@/lib/amazonUrl";
 import type { Ingredient } from "@/types";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
@@ -281,6 +282,27 @@ export default function IngredientsPage() {
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [activeName, setActiveName] = useState<string | null>(null);
 
+  const { hasItem, addItem, removeItem, items } = usePantry();
+
+  const pantryToggle = useCallback(
+    (ing: Ingredient) => {
+      const existing = items.find(
+        (i) => i.name.toLowerCase() === ing.name.toLowerCase(),
+      );
+      if (existing) {
+        removeItem(existing.id);
+      } else {
+        addItem({
+          name: ing.name,
+          quantity: 1,
+          unit: "unit",
+          category: ing.category || "other",
+        });
+      }
+    },
+    [items, addItem, removeItem],
+  );
+
   // Compute the user's "alchemical resonance" — a weight per element derived
   // from the live planetary positions. Used to personalize ranking.
   const resonance = useMemo<Record<ElementKey, number>>(() => {
@@ -499,6 +521,8 @@ export default function IngredientsPage() {
                       prev === d.ingredient.name ? null : d.ingredient.name,
                     )
                   }
+                  inPantry={hasItem(d.ingredient.name)}
+                  onPantryToggle={() => pantryToggle(d.ingredient)}
                 />
               ))}
             </AnimatePresence>
@@ -645,10 +669,14 @@ function IngredientCard({
   data,
   expanded,
   onToggle,
+  inPantry,
+  onPantryToggle,
 }: {
   data: DerivedIngredient;
   expanded: boolean;
   onToggle: () => void;
+  inPantry: boolean;
+  onPantryToggle: () => void;
 }) {
   const { ingredient, dominant, asin, seasons } = data;
   const meta = ELEMENT_META[dominant];
@@ -732,6 +760,20 @@ function IngredientCard({
           </p>
         )}
       </button>
+
+      <div className="px-4 pb-3 flex justify-end border-t border-white/[0.04]">
+        <button
+          onClick={onPantryToggle}
+          className={`text-[10px] font-bold px-2.5 py-1 rounded-full border transition-all ${
+            inPantry
+              ? "bg-emerald-500/20 text-emerald-300 border-emerald-400/40 hover:bg-red-500/10 hover:text-red-300 hover:border-red-400/30"
+              : "bg-white/5 text-white/40 border-white/10 hover:bg-emerald-500/15 hover:text-emerald-300 hover:border-emerald-400/30"
+          }`}
+          title={inPantry ? "Remove from pantry" : "Add to pantry"}
+        >
+          {inPantry ? "✓ In Pantry" : "+ Pantry"}
+        </button>
+      </div>
 
       <AnimatePresence initial={false}>
         {expanded && (
