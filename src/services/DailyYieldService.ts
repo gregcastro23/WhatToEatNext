@@ -251,17 +251,20 @@ class DailyYieldService {
    *
    * @param userId - User's database ID
    * @param natalPositions - Planet → sign map from user's natal chart
+   * @param isPremium - Whether the user has a premium subscription (2× yield)
+   * @param site - Origin site ('main' | 'agents'). Each site has an independent daily claim.
    * @returns DailyYieldResult with amounts and new balances, or null if already claimed
    */
   async claimDailyYield(
     userId: string,
     natalPositions: Record<string, string>,
     isPremium: boolean = false,
+    site: "main" | "agents" = "main",
   ): Promise<DailyYieldResult | null> {
-    // 1. Idempotency check
-    const alreadyClaimed = await tokenEconomy.hasClaimedToday(userId);
+    // 1. Idempotency check (site-specific)
+    const alreadyClaimed = await tokenEconomy.hasClaimedToday(userId, site);
     if (alreadyClaimed) {
-      _logger.info("[DailyYield] User already claimed today:", { userId });
+      _logger.info("[DailyYield] User already claimed today:", { userId, site });
       return null;
     }
 
@@ -300,13 +303,14 @@ class DailyYieldService {
     ];
     const credits = allCredits.filter(c => c.amount > 0);
 
+    const sourceType = site === "agents" ? "agents_yield" : "daily_yield";
     const newBalances = await tokenEconomy.creditMultipleTokens(
       userId,
       credits,
-      "daily_yield",
+      sourceType,
       {
-        description: `Cosmic Yield for ${todayStr}`,
-        idempotencyKey: `daily:${userId}:${todayStr}`,
+        description: `Cosmic Yield for ${todayStr} (${site})`,
+        idempotencyKey: `daily:${site}:${userId}:${todayStr}`,
       },
     );
 
@@ -315,8 +319,8 @@ class DailyYieldService {
       return null;
     }
 
-    // 8. Update daily claim timestamp and streak
-    await tokenEconomy.updateDailyClaimTimestamp(userId);
+    // 8. Update site-specific daily claim timestamp and streak
+    await tokenEconomy.updateDailyClaimTimestamp(userId, site);
     await streakService.recordActivity(userId);
 
     const updatedStreak = await streakService.getStreak(userId);

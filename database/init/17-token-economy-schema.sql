@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS token_balances (
     matter DECIMAL(12, 4) NOT NULL DEFAULT 0,
     substance DECIMAL(12, 4) NOT NULL DEFAULT 0,
     last_daily_claim_at TIMESTAMPTZ,
+    last_daily_claim_agents_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     PRIMARY KEY (user_id)
 );
