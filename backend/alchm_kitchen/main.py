@@ -297,13 +297,15 @@ async def health_check():
     sanitized_db_url = "not set"
     has_password = False
     password_value = "none"
+    db_user = "unknown"
     if "@" in raw_db_url:
         try:
             parts = raw_db_url.split("@")
-            user_part = parts[0].split("://")[1]
-            if ":" in user_part:
+            full_user_part = parts[0].split("://")[1]
+            db_user = full_user_part.split(":")[0]
+            if ":" in full_user_part:
                 has_password = True
-                password_value = user_part.split(":")[1]
+                password_value = full_user_part.split(":")[1]
                 if not password_value:
                     password_value = "EMPTY"
                 elif password_value.startswith("${") and password_value.endswith("}"):
@@ -320,6 +322,7 @@ async def health_check():
         "status": "healthy" if db_status == "online" else "degraded",
         "database": db_status,
         "sanitized_db_url": sanitized_db_url,
+        "db_user": db_user,
         "has_password_in_url": has_password,
         "password_state": password_value,
         "env_vars": {
