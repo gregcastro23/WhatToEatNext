@@ -60,16 +60,16 @@ class DatabaseConfig(BaseSettings):
         
         # Workaround for possible hostname mismatch and missing credentials on Railway
         if ".railway.internal" in v:
-            if "whattoeatnext.railway.internal" in v:
-                v = v.replace("whattoeatnext.railway.internal", "postgres.railway.internal")
+            import re
             
-            # If user/pass is missing or empty, inject known good credentials from migration script
-            if "://@" in v:
-                v = v.replace("://@", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
-            elif "://:@" in v:
-                v = v.replace("://:@", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
-            elif "postgresql://postgres@" in v and "postgresql://postgres:" not in v:
-                v = v.replace("postgresql://postgres@", "postgresql://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            # Ensure hostname is postgres.railway.internal
+            v = re.sub(r'@[^:/]+', '@postgres.railway.internal', v)
+            if "@" not in v:
+                v = v.replace("://", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            
+            # Ensure password is present if user is postgres
+            if "postgresql://postgres@" in v:
+                v = v.replace("://postgres@", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
             
             is_internal_railway = True
 
