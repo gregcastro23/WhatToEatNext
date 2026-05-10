@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
@@ -680,15 +681,48 @@ export const EnhancedIngredientRecommender: React.FC<
       );
     }
 
-    // Filter by search query
+    // Filter by search query — covers culinary fields so "tomato dishes",
+    // "bloom", "pesto", "complementary" etc. surface the right ingredients.
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (ing) =>
-          ing.name.toLowerCase().includes(query) ||
-          ing.qualities?.some((q) => q.toLowerCase().includes(query)) ||
-          ing.origin?.some((o) => o.toLowerCase().includes(query)),
-      );
+      filtered = filtered.filter((ing) => {
+        const root = ing as unknown as Record<string, unknown>;
+        if (ing.name.toLowerCase().includes(query)) return true;
+        if (ing.description?.toLowerCase().includes(query)) return true;
+        if (ing.qualities?.some((q) => q.toLowerCase().includes(query))) return true;
+        if (ing.origin?.some((o) => o.toLowerCase().includes(query))) return true;
+
+        // culinaryApplications.commonUses
+        const apps = root.culinaryApplications as Record<string, unknown> | undefined;
+        if (Array.isArray(apps?.commonUses) && apps?.commonUses.some((u) => String(u).toLowerCase().includes(query))) return true;
+
+        // culinaryProfile.cookingMethods, cuisineAffinity, preparationTips
+        const profile = root.culinaryProfile as Record<string, unknown> | undefined;
+        if (Array.isArray(profile?.cookingMethods) && profile?.cookingMethods.some((m) => String(m).toLowerCase().includes(query))) return true;
+        if (Array.isArray(profile?.cuisineAffinity) && profile?.cuisineAffinity.some((c) => String(c).toLowerCase().includes(query))) return true;
+        if (Array.isArray(profile?.preparationTips) && profile?.preparationTips.some((t) => String(t).toLowerCase().includes(query))) return true;
+
+        // top-level cookingMethods
+        if (Array.isArray(root.cookingMethods) && root.cookingMethods.some((m) => String(m).toLowerCase().includes(query))) return true;
+
+        // pairingRecommendations (object or array)
+        const pr = root.pairingRecommendations;
+        if (Array.isArray(pr) && pr.some((p) => String(p).toLowerCase().includes(query))) return true;
+        if (pr && typeof pr === "object" && !Array.isArray(pr)) {
+          const prObj = pr as Record<string, unknown>;
+          for (const key of ["complementary", "contrasting", "toAvoid"] as const) {
+            if (Array.isArray(prObj[key]) && prObj[key].some((p) => String(p).toLowerCase().includes(query))) return true;
+          }
+        }
+
+        // affinities
+        if (Array.isArray(root.affinities) && root.affinities.some((a) => String(a).toLowerCase().includes(query))) return true;
+
+        // flavorProfile string
+        if (typeof root.flavorProfile === "string" && root.flavorProfile.toLowerCase().includes(query)) return true;
+
+        return false;
+      });
     }
 
     // Build the astrological context once per render — every ingredient is
@@ -819,9 +853,17 @@ export const EnhancedIngredientRecommender: React.FC<
   // Render category grid
   const renderCategoryGrid = () => (
     <div className="mb-6">
-      <h3 className="mb-3 text-lg font-semibold text-gray-800 dark:text-slate-100">
-        Browse by Category
-      </h3>
+      <div className="mb-3 flex items-center justify-between gap-2 flex-wrap">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-slate-100">
+          Browse by Category
+        </h3>
+        <Link
+          href="/ingredients"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1.5 text-sm font-semibold text-black shadow-sm hover:brightness-110 transition"
+        >
+          ⚗️ Explore Full Pantry →
+        </Link>
+      </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {CATEGORIES.map((category) => (
           <button
@@ -2118,6 +2160,15 @@ export const EnhancedIngredientRecommender: React.FC<
             : "No ingredients available at this time."}
         </div>
       )}
+
+      <div className="mt-8 flex justify-center">
+        <Link
+          href="/ingredients"
+          className="inline-flex items-center gap-2 rounded-xl border border-amber-400/40 bg-amber-500/10 px-5 py-2.5 text-sm font-semibold text-amber-200 hover:bg-amber-500/20 hover:border-amber-400/60 transition"
+        >
+          ⚗️ Shop & filter the full Alchemical Pantry →
+        </Link>
+      </div>
     </div>
   );
 };
