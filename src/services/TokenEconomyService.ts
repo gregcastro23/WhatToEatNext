@@ -54,6 +54,7 @@ function rowToBalances(row: any): TokenBalances {
     matter: parseFloat(row.matter) || 0,
     substance: parseFloat(row.substance) || 0,
     lastDailyClaimAt: row.last_daily_claim_at?.toISOString?.() || row.last_daily_claim_at || null,
+    lastDailyClaimAgentsAt: row.last_daily_claim_agents_at?.toISOString?.() || row.last_daily_claim_agents_at || null,
     updatedAt: row.updated_at?.toISOString?.() || row.updated_at || new Date().toISOString(),
   };
 }
@@ -350,15 +351,17 @@ class TokenEconomyService {
   // ═══════════════════════════════════════════════════════════════════
 
   /**
-   * Update the last_daily_claim_at timestamp.
+   * Update the site-specific daily claim timestamp.
+   * 'main' updates last_daily_claim_at; 'agents' updates last_daily_claim_agents_at.
    */
-  async updateDailyClaimTimestamp(userId: string): Promise<void> {
+  async updateDailyClaimTimestamp(userId: string, site: "main" | "agents" = "main"): Promise<void> {
+    const column = site === "agents" ? "last_daily_claim_agents_at" : "last_daily_claim_at";
     const db = await getDbModule();
 
     if (db) {
       try {
         await db.executeQuery(
-          `UPDATE token_balances SET last_daily_claim_at = now(), updated_at = now() WHERE user_id = $1`,
+          `UPDATE token_balances SET ${column} = now(), updated_at = now() WHERE user_id = $1`,
           [userId],
         );
       } catch (error) {
@@ -369,18 +372,25 @@ class TokenEconomyService {
     // In-memory
     const bal = memoryBalances.get(userId);
     if (bal) {
-      bal.lastDailyClaimAt = new Date().toISOString();
+      const ts = new Date().toISOString();
+      if (site === "agents") {
+        bal.lastDailyClaimAgentsAt = ts;
+      } else {
+        bal.lastDailyClaimAt = ts;
+      }
     }
   }
 
   /**
-   * Check if a user has already claimed their daily yield today.
+   * Check if a user has already claimed their daily yield today for the given site.
+   * Main and agents yields are tracked independently.
    */
-  async hasClaimedToday(userId: string): Promise<boolean> {
+  async hasClaimedToday(userId: string, site: "main" | "agents" = "main"): Promise<boolean> {
     const balances = await this.getBalances(userId);
-    if (!balances.lastDailyClaimAt) return false;
+    const claimTimestamp = site === "agents" ? balances.lastDailyClaimAgentsAt : balances.lastDailyClaimAt;
+    if (!claimTimestamp) return false;
 
-    const lastClaim = new Date(balances.lastDailyClaimAt);
+    const lastClaim = new Date(claimTimestamp);
     const now = new Date();
 
     // Compare UTC dates

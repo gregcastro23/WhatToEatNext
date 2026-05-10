@@ -59,12 +59,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Determine origin site — agents site passes ?site=agents
+    const { searchParams } = new URL(request.url);
+    const siteParam = searchParams.get("site");
+    const site: "main" | "agents" = siteParam === "agents" ? "agents" : "main";
+
     // Check if user is premium for yield multiplier
     const sub = await subscriptionService.getUserSubscription(user.id);
-    const isPremium = sub?.tier === "premium";
+    const isPremium = sub?.tier === "premium" && sub?.status === "active";
 
-    // Claim the daily yield
-    const yieldResult = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium);
+    // Claim the daily yield (site-specific idempotency)
+    const yieldResult = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium, site);
 
     if (!yieldResult) {
       return NextResponse.json(
