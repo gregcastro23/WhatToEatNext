@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const { cuisine } = body;
 
     const cost = OPERATION_COSTS.refine_oracle;
-    const deductResult = await tokenEconomy.debitTokens(user.id, "Substance", cost.substance!, "purchase", { description: "Refined Oracle Recommendation" });
+    const deductResult = await tokenEconomy.debitTokens(user.id, "Substance", cost.substance, "purchase", { description: "Refined Oracle Recommendation" });
     if (!deductResult) {
       return NextResponse.json(
         { success: false, error: `Insufficient Substance (🝉) tokens. You need ${cost.substance} Substance.` },

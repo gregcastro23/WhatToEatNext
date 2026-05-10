@@ -241,7 +241,7 @@ docker run -d \
 ### Prerequisites
 
 - Vercel account
-- Vercel CLI: `npm install -g vercel`
+- Vercel CLI: `bunx vercel` (or `bun add -g vercel`)
 
 ### Deployment Steps
 
