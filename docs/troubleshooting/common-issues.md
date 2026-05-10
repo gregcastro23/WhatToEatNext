@@ -311,7 +311,7 @@ npm run campaign:lint
 npm run lint:fix
 
 # Check specific file types
-npx eslint "src/**/*.ts" --fix
+bunx eslint "src/**/*.ts" --fix
 
 # Update ESLint configuration for development
 # In eslint.config.cjs:

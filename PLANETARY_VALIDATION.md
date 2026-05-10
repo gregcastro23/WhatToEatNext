@@ -264,7 +264,7 @@ return NextResponse.json({
 
 **Run with:**
 ```bash
-npx tsx scripts/test-planetary-validation.ts
+bun scripts/test-planetary-validation.ts
 ```
 
 **Test Cases:**
@@ -466,7 +466,7 @@ To add new year ranges for outer planets:
 1. Edit `src/utils/astrology/planetaryValidation.ts`
 2. Add new year ranges to `OUTER_PLANET_RANGES`
 3. Source data from NASA JPL Horizons System or Swiss Ephemeris
-4. Run test suite to verify: `npx tsx scripts/test-planetary-validation.ts`
+4. Run test suite to verify: `bun scripts/test-planetary-validation.ts`
 
 ### Version History
 

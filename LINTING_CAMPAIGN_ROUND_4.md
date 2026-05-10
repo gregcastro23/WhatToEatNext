@@ -61,12 +61,12 @@ setInterval(() => { void asyncFunction(); }, 1000)
 
 ### Step 1: Start with Tier 1
 ```bash
-npx eslint src/components/menu-planner/WeeklyCalendar.tsx src/components/dashboard/CommensalManager.tsx src/components/menu-planner/FocusedDayView.tsx src/components/dashboard/FoodLabBook.tsx src/components/dashboard/NotificationPanel.tsx src/components/dashboard/UserDashboard.tsx --format stylish
+bunx eslint src/components/menu-planner/WeeklyCalendar.tsx src/components/dashboard/CommensalManager.tsx src/components/menu-planner/FocusedDayView.tsx src/components/dashboard/FoodLabBook.tsx src/components/dashboard/NotificationPanel.tsx src/components/dashboard/UserDashboard.tsx --format stylish
 ```
 1. Read the file
 2. Find `onClick`, `onSubmit`, `setInterval`, etc., that take a promise-returning function.
 3. Wrap with `void`.
-4. Verify using `npx eslint <file-path>`
+4. Verify using `bunx eslint <file-path>`
 5. Commit after Tier 1.
 
 ### Step 2: Proceed through Tiers
@@ -75,7 +75,7 @@ Complete Tier 2 and Tier 3 with the same methodology. Track progress in TodoWrit
 ### Step 3: The Final Verification
 ```bash
 # This command should return 0 output once all files are fixed!
-npx eslint "src/**/*.{ts,tsx}" --rule "@typescript-eslint/no-misused-promises: error" 2>&1 | grep "no-misused-promises"
+bunx eslint "src/**/*.{ts,tsx}" --rule "@typescript-eslint/no-misused-promises: error" 2>&1 | grep "no-misused-promises"
 ```
 
 ---
@@ -84,10 +84,10 @@ npx eslint "src/**/*.{ts,tsx}" --rule "@typescript-eslint/no-misused-promises: e
 
 ```bash
 # Verify starting point (should show 26)
-npx eslint "src/**/*.{ts,tsx}" --format json > eslint-output-new.json && node -e "const fs=require('fs');const results=JSON.parse(fs.readFileSync('eslint-output-new.json'));let count=0;results.forEach(r=>{count+=r.messages.filter(m=>m.ruleId==='@typescript-eslint/no-misused-promises').length;});console.log(count);"
+bunx eslint "src/**/*.{ts,tsx}" --format json > eslint-output-new.json && node -e "const fs=require('fs');const results=JSON.parse(fs.readFileSync('eslint-output-new.json'));let count=0;results.forEach(r=>{count+=r.messages.filter(m=>m.ruleId==='@typescript-eslint/no-misused-promises').length;});console.log(count);"
 
 # Start on the file with the most warnings!
-npx eslint src/components/menu-planner/WeeklyCalendar.tsx 2>&1 | grep "no-misused-promises"
+bunx eslint src/components/menu-planner/WeeklyCalendar.tsx 2>&1 | grep "no-misused-promises"
 
 # After completing a tier, commit!
 git add <files>

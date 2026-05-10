@@ -40,14 +40,14 @@ WhatToEatNext provides personalized food recommendations based on:
 
 ```bash
 # Quick setup
-yarn install
-yarn dev
+bun install
+bun run dev
 
 # Run tests
-npm test
+bun run test
 
 # Check TypeScript
-npm run type-check
+bun run typecheck
 ```
 
 ### 🤝 I'm a Contributor

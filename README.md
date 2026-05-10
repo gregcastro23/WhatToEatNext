@@ -36,10 +36,12 @@ Even with this solid framework, we are tracking several initiatives to fully rea
 ---
 
 ## Technical Stack
-- **Frontend**: Next.js 15 (React 19), Tailwind CSS, Framer Motion
+- **Frontend**: Next.js 15 (React 19), Tailwind CSS, Framer Motion, Bun
 - **Backend**: Python FastAPI (hosted on Railway), Swiss Ephemeris (`pyswisseph`)
 - **Database**: Neon PostgreSQL
 - **Auth**: NextAuth.js v5
 
 ## Quick Start
-Check `GEMINI.md` for in-depth architectural overviews, environment variable configurations, and Alchemical Calculation Rules.
+1. **Install dependencies**: `bun install`
+2. **Start development**: `bun run dev`
+3. **Build for production**: `bun run build`

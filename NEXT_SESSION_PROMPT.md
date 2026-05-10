@@ -8,7 +8,7 @@ _Version: 3.0.0 | Generated: 2026-05-09_
 
 Start every session by running:
 ```bash
-npx tsc --noEmit && npm run lint
+bunx tsc --noEmit && npm run lint
 ```
 Baseline: **0 TypeScript errors, 30 ESLint warnings** (all pre-existing, none from our code).
 
@@ -121,7 +121,7 @@ src/hooks/
 
 ```bash
 # 1. Confirm baseline
-npx tsc --noEmit && npm run lint
+bunx tsc --noEmit && npm run lint
 
 # 2. Find the types
 grep -rn "WeeklyMenuStats\|WeeklyMenu\b" src/types/ | head -20

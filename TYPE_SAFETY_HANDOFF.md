@@ -1,6 +1,6 @@
 # Type Safety Remediation — Session Handoff
 
-_Last session: 2026-04-16 | Branch: `claude/fix-yarn-build-QYH9X`_
+_Last session: 2026-04-16 | Branch: `claude/fix-bun-build-QYH9X`_
 
 This document describes work completed this session, and the larger weak
 targets that were surveyed but left for a follow-up session because they
@@ -161,17 +161,17 @@ runtime JSON loader.
 - **Remaining lint warning**: build logs show
   `@typescript-eslint/no-unnecessary-type-assertion` at some file
   line 921 — I couldn't locate it from the truncated build log;
-  `yarn lint 2>&1 | grep "no-unnecessary-type-assertion"` will surface
+  `bun run lint 2>&1 | grep "no-unnecessary-type-assertion"` will surface
   it.
 
 ### G. Build/tooling notes for the next session
 
 - The codebase uses **Yarn 3.6.4 via corepack**. In sandboxed environments
-  where corepack can't reach `repo.yarnpkg.com`, fall back to
-  `npm install --legacy-peer-deps --ignore-scripts` to install deps,
-  but **revert `yarn.lock` before committing** (`git restore yarn.lock`)
+  where corepack can't reach `repo.bunpkg.com`, fall back to
+  `bun install --legacy-peer-deps --ignore-scripts` to install deps,
+  but **revert `bun.lock` before committing** (`git restore bun.lock`)
   because npm will rewrite it to a lockfile-v3 format that breaks Vercel's
-  `corepack yarn install`.
+  `corepack bun install`.
 - `next typegen` must run before `tsc --noEmit` to generate
   `.next/types/**/*.ts` route types.
 - Build command:

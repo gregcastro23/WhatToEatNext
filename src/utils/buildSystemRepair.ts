@@ -95,7 +95,7 @@ export class BuildSystemRepair {
       if (result.errors.length > 0) {
         result.recommendations.push("Review error logs for specific issues");
         result.recommendations.push(
-          "Consider running yarn clean and yarn install",
+          "Consider running bun run clean and bun run install",
         );
         result.recommendations.push("Check for Node.js version compatibility");
       }
@@ -231,7 +231,7 @@ export class BuildSystemRepair {
       // Step 3: Clear node modules and reinstall (if needed)
       if (!fs.existsSync("node_modules")) {
         this.logger("Reinstalling dependencies...");
-        execSync("yarn install", { stdio: "inherit" });
+        execSync("bun run install", { stdio: "inherit" });
       }
 
       // Step 4: Attempt fresh build

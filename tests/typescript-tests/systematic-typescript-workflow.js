@@ -74,7 +74,7 @@ async function runCommand(command, args = [], options = {}) {
 
 async function getTypeScriptErrorCount() {
   try {
-    const result = await runCommand("npx", [
+    const result = await runCommand( "bunx", [
       "tsc",
       "--noEmit",
       "--skipLibCheck",
@@ -91,7 +91,7 @@ async function getTypeScriptErrorCount() {
 
 async function runBuildCheck() {
   console.log("\n🔨 Running build check...");
-  const result = await runCommand("yarn", ["build"]);
+  const result = await runCommand( "bun run", ["build"]);
 
   if (result.code === 0) {
     console.log("✅ Build successful!");
@@ -178,9 +178,9 @@ async function validateWorkflow() {
   const nodeVersion = process.version;
   console.log(`✅ Node.js version: ${nodeVersion}`);
 
-  // Check yarn availability
+  // Check bun run availability
   try {
-    await runCommand("yarn", ["--version"]);
+    await runCommand( "bun run", ["--version"]);
     console.log("✅ Yarn available");
   } catch (error) {
     console.error("❌ Yarn not available");
@@ -271,10 +271,10 @@ async function main() {
   if (DRY_RUN) {
     console.log("1. Review the dry-run results above");
     console.log("2. Run without --dry-run to apply changes");
-    console.log("3. Test build with: yarn build");
+    console.log("3. Test build with: bun run build");
   } else {
     console.log("1. Review TypeScript errors: npx tsc --noEmit");
-    console.log("2. Test the application: yarn dev");
+    console.log("2. Test the application: bun run dev");
     console.log("3. Run additional phases if needed");
   }
 

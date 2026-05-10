@@ -17,14 +17,14 @@ export PATH="$LOCAL_NODE:$PATH"
 
 echo "🧙‍♂️ Alchm.kitchen dev environment"
 echo "✅ Node: $(node --version)"
-echo "✅ Yarn: $(yarn --version)"
+echo "✅ Yarn: $(bun run --version)"
 echo ""
 
 # Install deps if node_modules is missing
 if [ ! -d "$SCRIPT_DIR/node_modules" ]; then
-  echo "📦 node_modules missing — running yarn install..."
-  yarn install
+  echo "📦 node_modules missing — running bun install..."
+  bun install
 fi
 
 echo "🚀 Starting Next.js dev server on http://localhost:3000"
-yarn dev
+bun run --bun next dev

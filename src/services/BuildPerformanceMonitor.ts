@@ -139,7 +139,7 @@ class BuildPerformanceMonitor {
     const startTime = performance.now();
     try {
       // Run TypeScript compilation with timing
-      const result = execSync("yarn tsc --noEmit --skipLibCheck", {
+      const result = execSync("bun run tsc --noEmit --skipLibCheck", {
         encoding: "utf8",
         stdio: "pipe",
         timeout: 120000, // 2 minute timeout
@@ -199,7 +199,7 @@ class BuildPerformanceMonitor {
     try {
       // Measure TypeScript compilation
       const tsStartTime = performance.now();
-      execSync("yarn tsc --noEmit --skipLibCheck", {
+      execSync("bun run tsc --noEmit --skipLibCheck", {
         encoding: "utf8",
         stdio: "pipe",
         timeout: 120000,
@@ -208,7 +208,7 @@ class BuildPerformanceMonitor {
 
       // Measure full build (use production build to be deterministic)
       const buildCommand =
-        buildType === "production" ? "yarn build" : "yarn build";
+        buildType === "production" ? "bun run build" : "bun run build";
       execSync(buildCommand, {
         encoding: "utf8",
         stdio: "pipe",
@@ -264,7 +264,7 @@ class BuildPerformanceMonitor {
   public identifyBottlenecks(): CompilationBottleneck[] {
     try {
       const result = execSync(
-        "yarn tsc --noEmit --skipLibCheck --listFiles --extendedDiagnostics",
+        "bun run tsc --noEmit --skipLibCheck --listFiles --extendedDiagnostics",
         {
           encoding: "utf8",
           stdio: "pipe",

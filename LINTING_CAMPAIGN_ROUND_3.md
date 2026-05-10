@@ -114,7 +114,7 @@ setInterval(() => { void asyncFunction(); }, 1000)
 1. Read the file
 2. Identify all async handlers (look for async functions passed to onClick, onChange, onSubmit, etc.)
 3. Apply void wrapper pattern
-4. Verify with: npx eslint <file-path> 2>&1 | grep -E "warning|error"
+4. Verify with: bunx eslint <file-path> 2>&1 | grep -E "warning|error"
 5. Move to next file when verified clean (0 warnings)
 ```
 
@@ -131,7 +131,7 @@ Use TodoWrite to track each file as you go:
 ### Step 3: Verify After Each Tier
 ```bash
 # Check specific files
-npx eslint src/components/auth/OnboardingWizard.tsx \
+bunx eslint src/components/auth/OnboardingWizard.tsx \
   src/components/recipe-builder/GenerateRecipeButton.tsx \
   ... (other tier files) \
   2>&1 | grep -E "warning|error" | wc -l
@@ -141,7 +141,7 @@ npx eslint src/components/auth/OnboardingWizard.tsx \
 ### Step 4: Final Verification
 ```bash
 # Get total warning count after Round 3
-yarn lint 2>&1 | grep "warning" | wc -l
+bun run lint 2>&1 | grep "warning" | wc -l
 
 # Expected: < 289 (current count)
 ```
@@ -170,14 +170,14 @@ Clean **17 files** from the priority list above (all tiers).
 
 ```bash
 # 1. Verify starting point
-yarn lint 2>&1 | grep "warning" | wc -l
+bun run lint 2>&1 | grep "warning" | wc -l
 # Should show: 289
 
 # 2. Start with first file
-npx eslint src/components/auth/OnboardingWizard.tsx 2>&1 | grep -E "warning|error"
+bunx eslint src/components/auth/OnboardingWizard.tsx 2>&1 | grep -E "warning|error"
 
 # 3. After fixing each file, verify
-npx eslint <file-path> 2>&1 | grep -E "warning|error" | wc -l
+bunx eslint <file-path> 2>&1 | grep -E "warning|error" | wc -l
 # Should show: 0
 
 # 4. After completing a tier, commit
@@ -253,7 +253,7 @@ All 17 files verified with 0 warnings ✨
 
 Begin with **Tier 1, File 1**:
 ```bash
-npx eslint src/components/auth/OnboardingWizard.tsx 2>&1
+bunx eslint src/components/auth/OnboardingWizard.tsx 2>&1
 ```
 
 Let's continue the momentum and clean up these high-priority user-facing components! 🚀

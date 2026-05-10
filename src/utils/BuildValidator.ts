@@ -204,7 +204,7 @@ export class BuildValidator {
         }
 
         // Attempt build
-        execSync("yarn build", {
+        execSync("bun run build", {
           stdio: "pipe",
           timeout: 300000, // 5 minute timeout
         });

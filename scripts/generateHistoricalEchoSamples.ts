@@ -12,8 +12,8 @@
  *   - ~450 KB JSON; gzipped ~70 KB
  *
  * Run:
- *   npx tsx scripts/generateHistoricalEchoSamples.ts
- *   npx tsx scripts/generateHistoricalEchoSamples.ts --years=300 --interval=21
+ *   bun scripts/generateHistoricalEchoSamples.ts
+ *   bun scripts/generateHistoricalEchoSamples.ts --years=300 --interval=21
  */
 
 import fs from "fs";

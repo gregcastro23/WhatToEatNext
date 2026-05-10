@@ -342,7 +342,7 @@ npm run campaign:lint
 npm run lint:fix
 
 # Check specific file
-npx eslint src/path/to/file.ts
+bunx eslint src/path/to/file.ts
 ```
 
 ## 🌍 Cultural and Accessibility Issues
@@ -431,7 +431,7 @@ const memoizedCalculation = useMemo(() => {
 npm run analyze:bundle
 
 # Check for large dependencies
-npx webpack-bundle-analyzer .next/static/chunks/
+bunx webpack-bundle-analyzer .next/static/chunks/
 
 # Implement code splitting
 # Use dynamic imports for astrological features

@@ -98,7 +98,7 @@ scripts/test-planetary-validation.ts
 ```
 - 4 test cases covering valid and invalid scenarios
 - Verifies all validation rules work correctly
-- Run with: `npx tsx scripts/test-planetary-validation.ts`
+- Run with: `bun scripts/test-planetary-validation.ts`
 
 ### Documentation
 ```
@@ -234,7 +234,7 @@ http://localhost:3000/api/debug/natal-chart
 ## Test Results
 
 ```bash
-$ npx tsx scripts/test-planetary-validation.ts
+$ bun scripts/test-planetary-validation.ts
 
 🧪 PLANETARY VALIDATION TEST SUITE
 
@@ -283,7 +283,7 @@ Nothing saved to database ✅
 ### 1. Test the Validation Logic
 
 ```bash
-npx tsx scripts/test-planetary-validation.ts
+bun scripts/test-planetary-validation.ts
 ```
 
 Expected output: All 4 test cases pass ✅
@@ -352,7 +352,7 @@ const OUTER_PLANET_RANGES = {
 ### Running Tests After Changes
 
 ```bash
-npx tsx scripts/test-planetary-validation.ts
+bun scripts/test-planetary-validation.ts
 ```
 
 Ensure all test cases still pass ✅
@@ -421,7 +421,7 @@ The bug where natal positions matched transit positions will be caught **immedia
 
 Run the test suite:
 ```bash
-npx tsx scripts/test-planetary-validation.ts
+bun scripts/test-planetary-validation.ts
 ```
 
 Check the debug API:

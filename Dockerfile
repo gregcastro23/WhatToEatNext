@@ -1,29 +1,25 @@
 # WhatToEatNext - Advanced Alchemical Food Recommendation System
-# Multi-stage Docker build optimized for Next.js 15.3.4 + React 19 + TypeScript
+# Multi-stage Docker build optimized for Next.js 15.5.16 + React 19 + TypeScript
 
-# Stage 1: Base image with Node.js 20+ (required by package.json)
-FROM node:25-alpine AS base
+# Stage 1: Base image with Bun
+FROM oven/bun:alpine AS base
 
-# Install system dependencies for native modules
+# Install system dependencies
 RUN apk add --no-cache \
     libc6-compat \
     curl \
     && rm -rf /var/cache/apk/*
 
-# Enable Yarn and set working directory
-RUN corepack enable
 WORKDIR /app
 
 # Stage 2: Dependencies installation
 FROM base AS deps
 
-# Copy package files and Yarn configuration (if present)
-COPY package.json yarn.lock .yarnrc.yml .yarn* ./
+# Copy package files and lockfile
+COPY package.json bun.lock ./
 
 # Install dependencies with frozen lockfile for reproducible builds
-# Yarn 3.x uses --immutable instead of --frozen-lockfile
-# No --production flag needed - Yarn 3.x installs all dependencies by default
-RUN yarn install --immutable
+RUN bun install --frozen-lockfile
 
 # Stage 3: Build the application
 FROM base AS builder
@@ -41,7 +37,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
 # Build the application
-RUN yarn build
+RUN bun run build
 
 # Stage 4: Production runtime
 FROM base AS runner
@@ -57,7 +53,7 @@ ENV PORT=3000
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Copy node_modules from builder (needed for non-standalone mode)
+# Copy node_modules from builder
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 
 # Copy built application
@@ -65,7 +61,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 
 # Copy necessary configuration files
-COPY --from=builder --chown=nextjs:nodejs /app/next.config.mjs ./
+COPY --from=builder --chown=nextjs:nodejs /app/next.config.js ./
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 
 # Switch to non-root user
@@ -78,5 +74,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000/api/health || exit 1
 
-# Start the application using Next.js start (non-standalone mode)
-CMD ["yarn", "start"] 
+# Start the application using Next.js start
+CMD ["bun", "run", "start"]

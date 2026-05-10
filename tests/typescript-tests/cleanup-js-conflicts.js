@@ -85,7 +85,7 @@ function main() {
     console.log(
       `\n✅ Removed ${conflictingFiles.length} conflicting JavaScript files!`,
     );
-    console.log('Run "yarn build" to verify the fixes.');
+    console.log('Run "bun run build" to verify the fixes.');
   }
 }
 

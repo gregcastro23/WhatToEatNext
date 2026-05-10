@@ -1,6 +1,6 @@
 # WhatToEatNext - AI Assistant Guide (Alchm.kitchen)
 
-_Version: 2.2.0 | Last Updated: May 5, 2026_
+_Version: 2.3.0 | Last Updated: May 9, 2026_
 
 ## Project Overview
 
@@ -8,19 +8,23 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ## Current Project Status (May 2026)
 
-### 🎉 **INFRASTRUCTURE OPTIMIZATION COMPLETE**
+### 🎉 **INFRASTRUCTURE & TOOLCHAIN OPTIMIZED**
 
+- **Toolchain**: ✅ **BUN** (Migrated from Yarn for 10x faster installs/builds)
 - **Backend Hosting**: ✅ **RAILWAY** (Standalone Service)
-- **Frontend Hosting**: ✅ **VERCEL** (Next.js)
+- **Frontend Hosting**: ✅ **VERCEL** (Next.js with Bun build pipeline)
 - **Database**: ✅ **RAILWAY POSTGRES** (Migrated from Neon | Internal: `postgres.railway.internal`)
 - **Latency**: ✅ **SUB-1MS** (Internal Railway Networking)
 - **Recipe Catalog**: ✅ **579 recipes** with Denormalized Read Models
-- **Build Status**: ✅ **BUILDING ON RAILWAY** (Optimized with .railwayignore)
-- **Assets**: ✅ **OPTIMIZED** (Logo/Hero images reduced by 90%+)
 
-### 🚀 **MAJOR CHANGES (Version 2.2.0)**
+### 🚀 **MAJOR CHANGES (Version 2.3.0)**
 
-#### **Read Model Optimization**
+#### **Bun Toolchain Migration**
+- ✅ **Performance**: Switched from Yarn to Bun, reducing dependency installation from 60s+ to <10s.
+- ✅ **Native TS**: Eliminated `ts-node` and `tsx` dependencies in favor of Bun's native TypeScript execution.
+- ✅ **Vercel Integration**: Configured `vercel.json` and `bun.lock` for automated Bun-powered CI/CD.
+
+#### **Read Model Optimization (v2.2.0)**
 - ✅ **Denormalized Recipes**: Added `read_model` JSONB column to `recipes` table for high-speed delivery.
 - ✅ **Batch Queries**: Eliminated N+1 query bottlenecks in recommendation engines.
 - ✅ **10x Faster Migration**: Rewrote migration logic for bulk SQL inserts.

@@ -603,7 +603,7 @@ function createRestoreScript() {
 
     console.log('🎉 Critical file restoration complete!');
     console.log('📊 Expected error reduction: ~266 errors');
-    console.log('🔨 Run "yarn build" to verify fixes');
+    console.log('🔨 Run "bun run build" to verify fixes');
 
   } catch (error) {
     console.error('❌ Error during restoration:', error.message);

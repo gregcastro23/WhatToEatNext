@@ -635,7 +635,7 @@ class BuildValidationDebugger {
     console.log("npm version:", npmVersion.trim());
 
     // Check TypeScript version
-    const tsVersion = await execAsync("npx tsc --version");
+    const tsVersion = await execAsync("bunx tsc --version");
     console.log("TypeScript version:", tsVersion.trim());
 
     // Check environment variables
@@ -709,7 +709,7 @@ class CorruptionDetectionDebugger {
 
     // Check TypeScript files
     try {
-      const result = await execAsync("npx tsc --noEmit --skipLibCheck");
+      const result = await execAsync("bunx tsc --noEmit --skipLibCheck");
       console.log("✅ TypeScript syntax validation passed");
     } catch (error) {
       console.warn("⚠️ TypeScript syntax errors found");
@@ -797,7 +797,7 @@ class ProgressTrackingDebugger {
     // Test TypeScript command directly
     try {
       const result = await execAsync(
-        'npx tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        'bunx tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
       );
       console.log("Direct error count:", result.trim());
     } catch (error) {
@@ -805,7 +805,7 @@ class ProgressTrackingDebugger {
 
       // Try alternative method
       try {
-        const result = await execAsync("npx tsc --noEmit --skipLibCheck");
+        const result = await execAsync("bunx tsc --noEmit --skipLibCheck");
         console.log("No TypeScript errors found");
       } catch (tsError) {
         const errorLines = tsError.message

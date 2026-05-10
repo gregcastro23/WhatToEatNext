@@ -173,7 +173,7 @@ class ErrorTrackingSystem {
 
   public async analyzeTypeScriptErrors(): Promise<TypeScriptError[]> {
     try {
-      const _result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+      const _result = execSync("bun run tsc --noEmit --skipLibCheck 2>&1", {
         encoding: "utf8",
         stdio: "pipe",
       });
@@ -251,7 +251,7 @@ class ErrorTrackingSystem {
 
   public async analyzeLintingViolations(): Promise<LintingViolation[]> {
     try {
-      const result = execSync("yarn lint --format json", {
+      const result = execSync("bun run lint --format json", {
         encoding: "utf8",
         stdio: "pipe",
       });

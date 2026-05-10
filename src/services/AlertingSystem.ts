@@ -163,7 +163,7 @@ class AlertingSystem {
               id: "clear-build-cache",
               name: "Clear Build Cache",
               type: "command",
-              config: { command: "yarn cache clean" },
+              config: { command: "bun run cache clean" },
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 60,
