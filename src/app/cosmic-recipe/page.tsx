@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import type { Metadata } from 'next';
 import CosmicRecipeGenerator from '@/components/recipe/CosmicRecipeGenerator';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Cosmic Recipe Generator',

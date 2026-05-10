@@ -28,7 +28,7 @@ export const ingredientAsins: Record<string, string> = {
  * These show up in nearly every recipe and account for the bulk of PA-API
  * traffic during beta. Verifying these 25 entries cuts live API calls 60-80%.
  */
-export const TOP_STAPLES_TO_VERIFY: ReadonlyArray<string> = [
+export const TOP_STAPLES_TO_VERIFY: readonly string[] = [
   "salt",
   "black pepper",
   "olive oil",
