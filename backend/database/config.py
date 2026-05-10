@@ -57,6 +57,12 @@ class DatabaseConfig(BaseSettings):
         # If we are on Railway or the URL is a cloud URL, force SSL
         # EXCEPT for internal Railway networking which doesn't use SSL
         is_internal_railway = ".railway.internal" in v
+        
+        # Workaround for possible hostname mismatch on Railway
+        if "whattoeatnext.railway.internal" in v:
+            v = v.replace("whattoeatnext.railway.internal", "postgres.railway.internal")
+            is_internal_railway = True
+
         if ("neon.tech" in v or os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("PORT")) and not is_internal_railway:
             if "sslmode=" not in v:
                 separator = "&" if "?" in v else "?"
