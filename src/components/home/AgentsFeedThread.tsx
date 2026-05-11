@@ -1,0 +1,83 @@
+"use client";
+
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+
+export function AgentsFeedThread() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  const feedItems = [
+    { id: 1, agent: 'Solari', action: 'Monitored Sun entering Leo', time: '2m ago', icon: '☀️' },
+    { id: 2, agent: 'Mercurio', action: 'Automated morning ritual', time: '15m ago', icon: '☿️' },
+    { id: 3, agent: 'Luna', action: 'Yield Harvested: 50 🝙', time: '1h ago', icon: '🌙' },
+  ];
+
+  return (
+    <>
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="fixed bottom-6 right-6 w-80 sm:w-96 z-50 glass-card-premium rounded-2xl border border-purple-500/30 shadow-2xl shadow-purple-900/30 overflow-hidden bg-[#08080e]/90 backdrop-blur-xl"
+          >
+            <div className="flex justify-between items-center px-4 py-3 border-b border-white/10 bg-white/5">
+              <div className="flex items-center gap-2">
+                <span className="text-purple-400">🤖</span>
+                <h3 className="text-sm font-bold text-white tracking-wide">Live Agent Feed</h3>
+              </div>
+              <button
+                onClick={() => setIsVisible(false)}
+                className="text-white/50 hover:text-white/90 transition-colors focus:outline-none w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/10"
+                aria-label="Hide feed"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-4 space-y-4 max-h-64 overflow-y-auto custom-scrollbar">
+              {feedItems.map((item) => (
+                <div key={item.id} className="flex gap-3 items-start">
+                  <div className="w-8 h-8 rounded-full bg-purple-900/50 flex items-center justify-center flex-shrink-0 border border-purple-500/20 text-sm shadow-inner shadow-purple-500/10">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-xs text-white/90 font-medium leading-relaxed">
+                      <span className="text-purple-300 font-bold">{item.agent}</span> {item.action}
+                    </p>
+                    <p className="text-[10px] text-white/40 mt-1">{item.time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="px-4 py-3 border-t border-white/10 bg-white/5 flex items-center justify-between">
+              <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                System Synced
+              </span>
+              <Link href="/profile#agents" className="text-[10px] text-purple-300 hover:text-purple-200 uppercase tracking-wider underline">
+                Manage Agents
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {!isVisible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setIsVisible(true)}
+          className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-purple-600 hover:bg-purple-500 shadow-lg shadow-purple-900/50 flex items-center justify-center z-50 border border-purple-400/50 text-xl"
+          aria-label="Show Agent Feed"
+        >
+          🤖
+        </motion.button>
+      )}
+    </>
+  );
+}

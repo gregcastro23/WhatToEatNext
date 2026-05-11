@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { AmazonFreshPromotion } from "@/components/home/AmazonFreshPromotion";
+import { AgentsFeedThread } from "@/components/home/AgentsFeedThread";
 import { HeroSection } from "@/components/home/HeroSection";
 import type { Variants } from "framer-motion";
 
@@ -109,6 +110,7 @@ export default function Home() {
           <EnhancedCookingMethodRecommender />
         </motion.div>
       </motion.div>
+      <AgentsFeedThread />
     </main>
   );
 }
