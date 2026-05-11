@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { AmazonFreshPromotion } from "@/components/home/AmazonFreshPromotion";
 import { AgentsFeedThread } from "@/components/home/AgentsFeedThread";
+import { AmazonFreshPromotion } from "@/components/home/AmazonFreshPromotion";
 import { HeroSection } from "@/components/home/HeroSection";
 import type { Variants } from "framer-motion";
 
@@ -31,26 +31,29 @@ const EnhancedCookingMethodRecommender = dynamic(
   { loading: () => <SectionLoader /> },
 );
 
-
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15
-    }
-  }
+      staggerChildren: 0.15,
+    },
+  },
 };
 
 const fadeInItem: Variants = {
   hidden: { y: 30, opacity: 0 },
-  show: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100, damping: 20 } }
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 20 },
+  },
 };
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
-      <motion.div 
+      <motion.div
         className="max-w-4xl mx-auto space-y-8"
         initial="hidden"
         animate="show"
@@ -69,7 +72,7 @@ export default function Home() {
             {/* Ambient Background Glow */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px] pointer-events-none -mr-20 -mt-20" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-600/10 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20" />
-            
+
             <div className="relative z-10">
               <DynamicCuisineRecommender />
             </div>
@@ -101,7 +104,7 @@ export default function Home() {
           <EnhancedIngredientRecommender />
         </motion.section>
 
-        <motion.div 
+        <motion.div
           variants={fadeInItem}
           initial="hidden"
           whileInView="show"

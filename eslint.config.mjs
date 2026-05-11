@@ -451,6 +451,10 @@ export default [
       "*.backup",
       "*.bak",
       "*.old",
+      "**/* 2.*",
+      "**/* 3.*",
+      "**/* 2/**",
+      "**/* 3/**",
       "backups/",
 
       // Config files that might have intentional patterns
