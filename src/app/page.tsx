@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { AmazonFreshPromotion } from "@/components/home/AmazonFreshPromotion";
 import { HeroSection } from "@/components/home/HeroSection";
 import type { Variants } from "framer-motion";
 
@@ -56,6 +57,10 @@ export default function Home() {
       >
         <motion.div variants={fadeInItem}>
           <HeroSection />
+        </motion.div>
+
+        <motion.div variants={fadeInItem}>
+          <AmazonFreshPromotion />
         </motion.div>
 
         <motion.section variants={fadeInItem} className="my-8">

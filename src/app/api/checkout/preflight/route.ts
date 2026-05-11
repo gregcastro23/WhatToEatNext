@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStandardizedQuantity, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 import { auth } from "@/lib/auth/auth";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type {
   CheckoutPreflightItem,
   CheckoutPreflightRequest,
@@ -158,6 +159,7 @@ async function logCartHandoffIntent({
   droppedCount,
   payload,
   metadata,
+  userId,
   request,
 }: {
   handoffId: string;
@@ -166,13 +168,11 @@ async function logCartHandoffIntent({
   droppedCount: number;
   payload: Record<string, string>;
   metadata?: Record<string, unknown>;
+  userId: string | null;
   request: Request;
 }) {
   const db = await getDb();
   if (!db) return;
-
-  const session = await auth().catch(() => null);
-  const userId = session?.user?.id ?? null;
   const estimatedTotal = items.reduce(
     (sum, item) => sum + (item.priceTotal ?? 0),
     0,
@@ -219,6 +219,9 @@ export async function POST(request: Request) {
     );
   }
 
+  const session = await auth().catch(() => null);
+  const userId = session?.user?.id ?? null;
+
   const handoffId = `handoff_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
   const source = normalizeSource(body.source);
   const payload = buildAmazonPayload(items);
@@ -230,8 +233,13 @@ export async function POST(request: Request) {
     droppedCount,
     payload,
     metadata: body.metadata,
+    userId,
     request,
   });
+
+  if (userId) {
+    void reportQuestEventBestEffort(userId, "amazon_cart_send");
+  }
 
   const response: CheckoutPreflightResponse = {
     success: true,
