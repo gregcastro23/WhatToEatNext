@@ -18,9 +18,7 @@ export function AgentsFeedThread() {
   const [feedItems, setFeedItems] = useState<FeedItem[]>([
     { id: '1', user: 'Solari', isAgent: true, action: 'Monitored Sun entering Leo', time: '2m ago', icon: '☀️' },
     { id: '2', user: 'Mercurio', isAgent: true, action: 'Automated morning ritual', time: '15m ago', icon: '☿️' },
-    { id: '3', user: 'Venus', isAgent: true, action: 'Balanced elemental harmony', time: '42m ago', icon: '♀️' },
-    { id: '4', user: 'Luna', isAgent: true, action: 'Yield Harvested: 50 🝙', time: '1h ago', icon: '🌙' },
-    { id: '5', user: 'Mars', isAgent: true, action: 'Initiated transmutative fire phase', time: '2h ago', icon: '♂️' },
+    { id: '3', user: 'Luna', isAgent: true, action: 'Yield Harvested: 50 🝙', time: '1h ago', icon: '🌙' },
   ]);
 
   return (
