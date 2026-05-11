@@ -7,6 +7,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { CommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
+import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
@@ -98,9 +99,13 @@ export async function POST(request: NextRequest) {
 
     // Notify the target user of the commensal request (fire-and-forget)
     // Only notify if they are not an agent (agents don't check notifications)
+    const requester = await userDatabase.getUserById(userId);
+    const requesterName = requester?.profile?.name || "Someone";
+    const targetName = targetUserRecord?.profile?.name || "another alchemist";
+
+    feedDatabase.createEvent(userId, "commensal_request", { targetName }).catch(() => {});
+
     if (!targetUserRecord || !targetUserRecord.isAgent) {
-      const requester = await userDatabase.getUserById(userId);
-      const requesterName = (requester as any)?.profile?.name || (requester as any)?.name || "Someone";
       notificationDatabase.createNotification(
         targetUserId,
         "commensal_request",
