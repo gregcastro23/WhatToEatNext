@@ -57,10 +57,15 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   const colorClass = elementColors[dominantElement] || elementColors.Air;
   const textColorClass =
     elementTextColors[dominantElement] || elementTextColors.Air;
-  const imageUrl =
+  let imageUrl =
     (ingredient as any).image_url ||
     (ingredient as any).imageUrl ||
     (ingredient as any).image;
+
+  if (typeof imageUrl === "string" && imageUrl.startsWith("ingredients/")) {
+    imageUrl = `https://assets.alchm.kitchen/${imageUrl}`;
+  }
+
   const description =
     (ingredient as any).description ||
     ingredientSummaries[ingredient.name.toLowerCase().replace(/ /g, "_")];

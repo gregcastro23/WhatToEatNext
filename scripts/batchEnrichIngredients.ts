@@ -317,47 +317,83 @@ async function enrichIngredient(
   };
 }
 
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
 async function generateIngredientImage(
   candidate: Candidate,
   description: string,
 ): Promise<ImageGenerationResult> {
-  const imageUrl = endpointFromEnv(
-    "/api/generate-ingredient-image",
-    "PLANETARY_IMAGE_ENDPOINT",
-  );
-  const data = await postJson(
-    imageUrl,
-    compactPayload({
-      name: candidate.name,
-      ingredient_id: getStringProp(candidate.object, "id") || undefined,
-      slug: candidate.slug,
-      category: candidate.category,
-      description,
-      elementalProperties: optionalObject(
-        extractValueProp(candidate.object, "elementalProperties"),
-      ),
-      qualities: optionalStringArray(
-        extractValueProp(candidate.object, "qualities"),
-      ),
-      sensoryProfile: optionalObject(
-        extractValueProp(candidate.object, "sensoryProfile"),
-      ),
-      culinaryProfile: optionalObject(
-        extractValueProp(candidate.object, "culinaryProfile"),
-      ),
-    }),
-  );
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+  const r2AccessKeyId = process.env.R2_ACCESS_KEY_ID;
+  const r2SecretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+  const bucketName = process.env.R2_BUCKET_NAME || "alchm-assets";
+  const r2Domain = process.env.NEXT_PUBLIC_R2_DOMAIN || "https://assets.alchm.kitchen";
 
-  if (data.fallback) {
-    return {
-      fallback: true,
-      fallbackReason: data.fallback_reason || data.fallbackReason || "unknown",
-    };
+  if (!accountId || !apiToken) {
+    console.warn("  ⚠ Missing Cloudflare Workers AI credentials (CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN)");
+    return { fallback: true, fallbackReason: "missing credentials" };
+  }
+  if (!r2AccessKeyId || !r2SecretAccessKey) {
+    console.warn("  ⚠ Missing Cloudflare R2 credentials (R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY)");
+    return { fallback: true, fallbackReason: "missing credentials" };
   }
 
-  return {
-    imageUrl: data.image_url || data.imageUrl || data.url,
-  };
+  const promptSegments = [
+    `premium culinary photograph of ${candidate.name}`,
+    candidate.category ? `(${candidate.category})` : "",
+    "centered on dark slate surface",
+    "studio lighting",
+    "razor-sharp focus",
+    "rich natural texture",
+    "generous negative space for card cropping",
+    "professional food photography",
+  ].filter(Boolean);
+
+  const prompt = promptSegments.join(", ");
+
+  const aiUrl = `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0`;
+
+  try {
+    const aiResponse = await fetch(aiUrl, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prompt })
+    });
+
+    if (!aiResponse.ok) {
+      const errText = await aiResponse.text();
+      throw new Error(`Workers AI Error: ${aiResponse.status} ${errText}`);
+    }
+
+    const imageBuffer = await aiResponse.arrayBuffer();
+
+    const s3Client = new S3Client({
+      region: "auto",
+      endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+      credentials: {
+        accessKeyId: r2AccessKeyId,
+        secretAccessKey: r2SecretAccessKey
+      }
+    });
+
+    const key = `ingredients/${candidate.slug || candidate.name.toLowerCase().replace(/[^a-z0-9]+/g, "_")}.png`;
+
+    await s3Client.send(new PutObjectCommand({
+      Bucket: bucketName,
+      Key: key,
+      Body: new Uint8Array(imageBuffer),
+      ContentType: "image/png"
+    }));
+
+    return { imageUrl: `${r2Domain}/${key}` };
+  } catch (error) {
+    console.error("  ✗ Cloudflare Workers AI / R2 generation failed:", error);
+    return { fallback: true, fallbackReason: String(error) };
+  }
 }
 
 function upsertStringProp(

@@ -641,10 +641,16 @@ const ELEMENT_CARD_TONES: Record<
 
 function getIngredientImageUrl(ingredient: UnifiedIngredient): string | null {
   const root = ingredient as unknown as Record<string, unknown>;
-  const value = root.image_url || root.imageUrl || root.image;
-  return typeof value === "string" && value.trim().length > 0
-    ? value.trim()
-    : null;
+  const rawValue = root.image_url || root.imageUrl || root.image;
+  
+  if (typeof rawValue === "string" && rawValue.trim().length > 0) {
+    const value = rawValue.trim();
+    if (value.startsWith("ingredients/")) {
+      return `https://assets.alchm.kitchen/${value}`;
+    }
+    return value;
+  }
+  return null;
 }
 
 function cleanDescription(description: string): string {

@@ -162,6 +162,7 @@
     "server:hono": "bun src/server/hono-api.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1045.0",
     "@chakra-ui/react": "^3.35.0",
     "@ducanh2912/next-pwa": "^10.2.9",
     "@hono/node-server": "^2.0.1",
