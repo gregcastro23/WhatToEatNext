@@ -186,7 +186,7 @@ export default [
       "react/jsx-no-undef": "error",
       "react/no-children-prop": "warn",
       "react/no-danger-with-children": "error",
-      "react/no-direct-mutation-state": "error",
+      "react/no-direct-mutation-state": "off", // Disabled due to ESLint v10 incompatibility (context.getFilename removed)
       "react/no-unescaped-entities": "warn",
       "react/no-unknown-property": "error",
       "react/self-closing-comp": "warn",
