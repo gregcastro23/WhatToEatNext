@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { dailyYieldService } from "@/services/DailyYieldService";
+import { feedDatabase } from "@/services/feedDatabaseService";
 import { subscriptionService } from "@/services/subscriptionService";
 import type { ClaimDailyResponse } from "@/types/economy";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
@@ -86,6 +87,9 @@ export async function POST(request: NextRequest) {
       yield: yieldResult,
       message: `✨ Cosmic Yield collected! +${yieldResult.totalTokens.toFixed(1)} tokens across Spirit, Essence, Matter & Substance.`,
     };
+
+    // Record the action in the community feed
+    feedDatabase.createEvent(user.id, "claim_daily", { site }).catch(console.error);
 
     return NextResponse.json(response);
   } catch (error) {

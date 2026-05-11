@@ -41,7 +41,6 @@ scipy==1.11.4
 python-dateutil==2.8.2
 
 # AI and ML for recommendations
-openai==1.3.6
 scikit-learn==1.3.2
 
 # Utilities

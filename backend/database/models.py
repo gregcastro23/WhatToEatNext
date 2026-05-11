@@ -41,6 +41,7 @@ class User(Base):
     # Modified from 'roles' ARRAY(String) to 'role' ENUM
     role: Mapped[str] = mapped_column(user_role_enum, nullable=False, server_default='ALCHEMIST')
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    is_agent: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default='false')
     email_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     profile: Mapped[Dict[str, Any]] = mapped_column(JSONB, default=dict)
     preferences: Mapped[Dict[str, Any]] = mapped_column(JSONB, default=dict)
@@ -492,4 +493,23 @@ class SavedChart(Base):
         Index('idx_saved_charts_user', 'user_id'),
         UniqueConstraint('user_id', 'chart_name', name='uq_user_chart_name'),
         
+    )
+
+class FeedEvent(Base):
+    """Community feed interactions."""
+    __tablename__ = 'feed_events'
+
+    id: Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, server_default=func.uuid_generate_v4())
+    actor_id: Mapped[str] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    event_type: Mapped[str] = mapped_column(String(50), nullable=False) # e.g. 'claim_daily', 'commensal_request', 'recipe_generation'
+    metadata_payload: Mapped[Dict[str, Any]] = mapped_column(JSONB, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    # Relationships
+    actor: Mapped["User"] = relationship("User")
+
+    __table_args__ = (
+        Index('idx_feed_events_actor', 'actor_id'),
+        Index('idx_feed_events_created', 'created_at'),
+        Index('idx_feed_events_type', 'event_type'),
     )

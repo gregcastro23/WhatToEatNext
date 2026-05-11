@@ -283,7 +283,7 @@ export function SocialSection({ recipeId }: Props) {
             <input type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
           </label>
         )}
-        <p className="text-xs text-white/40 mt-1 italic">Preview only — uploads coming soon.</p>
+        <p className="text-xs text-white/40 mt-1 italic">Photo stored locally on your device.</p>
       </div>
 
       {/* Community tips — real feed from user_recipe_interactions */}

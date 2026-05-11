@@ -7,6 +7,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { CommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
+import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
@@ -44,8 +45,9 @@ export async function POST(request: NextRequest) {
 
     const { targetUserId: rawTargetUserId, email } = parsedBody.data;
 
-    // Support lookup by email (replaces the old /api/friends/request flow)
     let targetUserId = rawTargetUserId;
+    let targetUserRecord: any = null;
+    
     if (!targetUserId && email) {
       const found = await userDatabase.getUserByEmail(email.trim().toLowerCase());
       if (!found) {
@@ -55,6 +57,7 @@ export async function POST(request: NextRequest) {
         );
       }
       targetUserId = found.id;
+      targetUserRecord = found;
     }
 
     if (!targetUserId || typeof targetUserId !== "string") {
@@ -62,6 +65,10 @@ export async function POST(request: NextRequest) {
         { success: false, message: "targetUserId or email is required" },
         { status: 400 },
       );
+    }
+    
+    if (!targetUserRecord) {
+      targetUserRecord = await userDatabase.getUserById(targetUserId);
     }
 
     if (targetUserId === userId) {
@@ -80,25 +87,41 @@ export async function POST(request: NextRequest) {
         { status: 409 },
       );
     }
+    
+    // Auto-accept logic for Agentic Users
+    let finalCommensalship = commensalship;
+    if (targetUserRecord && targetUserRecord.isAgent) {
+      const accepted = await commensalDatabase.updateCommensalshipStatus(commensalship.id, 'accepted', targetUserId);
+      if (accepted) {
+        finalCommensalship = accepted;
+      }
+    }
 
     // Notify the target user of the commensal request (fire-and-forget)
+    // Only notify if they are not an agent (agents don't check notifications)
     const requester = await userDatabase.getUserById(userId);
-    const requesterName = (requester as any)?.profile?.name || (requester as any)?.name || "Someone";
-    notificationDatabase.createNotification(
-      targetUserId,
-      "commensal_request",
-      "New Dining Companion Request",
-      `${requesterName} wants to be your dining companion`,
-      {
-        relatedUserId: userId,
-        metadata: {
-          commensalshipId: commensalship.id,
+    const requesterName = requester?.profile?.name || "Someone";
+    const targetName = targetUserRecord?.profile?.name || "another alchemist";
+
+    feedDatabase.createEvent(userId, "commensal_request", { targetName }).catch(() => {});
+
+    if (!targetUserRecord || !targetUserRecord.isAgent) {
+      notificationDatabase.createNotification(
+        targetUserId,
+        "commensal_request",
+        "New Dining Companion Request",
+        `${requesterName} wants to be your dining companion`,
+        {
+          relatedUserId: userId,
+          metadata: {
+            commensalshipId: commensalship.id,
+          },
         },
-      },
-    ).catch(() => {});
+      ).catch(() => {});
+    }
 
     return NextResponse.json(
-      { success: true, commensalship },
+      { success: true, commensalship: finalCommensalship },
       { status: 201 },
     );
   } catch (error) {

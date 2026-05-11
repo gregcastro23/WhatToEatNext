@@ -201,8 +201,6 @@ export async function validateRequest(
     if (auth) {
       // Pass the request to auth() for better reliability in Route Handlers
       const session = await auth(request as any);
-      console.log(`[validateRequest] Session check for ${request.nextUrl.pathname}: ${session ? 'Found' : 'Not Found'}`);
-      
       if (session?.user) {
         const sessionRole = (session.user as any).role || "user";
         const roles =
@@ -227,8 +225,6 @@ export async function validateRequest(
 
   // 2. Fall back to legacy JWT token
   const token = extractToken(request);
-  console.log(`[validateRequest] Legacy token check for ${request.nextUrl.pathname}: ${token ? 'Token present' : 'No token'}`);
-
   if (!token) {
     return {
       error: NextResponse.json(
@@ -296,8 +292,6 @@ export async function getUserIdFromRequest(
         const sessionUserId = (session.user.id || "").trim();
         const sessionEmail = (session.user.email || "").trim().toLowerCase();
 
-        console.log(`[getUserIdFromRequest] Found session for ${sessionEmail} (id: ${sessionUserId})`);
-
         // Resolve against DB when available to avoid OAuth-sub-vs-UUID mismatches.
         try {
           const userDb = await getUserDatabase();
@@ -305,14 +299,12 @@ export async function getUserIdFromRequest(
             if (sessionUserId) {
               const byId = await userDb.getUserById(sessionUserId);
               if (byId) {
-                console.log(`[getUserIdFromRequest] Resolved by ID: ${byId.id}`);
                 return byId.id;
               }
             }
             if (sessionEmail) {
               const byEmail = await userDb.getUserByEmail(sessionEmail);
               if (byEmail) {
-                console.log(`[getUserIdFromRequest] Resolved by Email: ${byEmail.id}`);
                 return byEmail.id;
               }
             }
@@ -326,8 +318,6 @@ export async function getUserIdFromRequest(
         if (sessionUserId) {
           return sessionUserId;
         }
-      } else {
-        console.log(`[getUserIdFromRequest] No session found for ${request.nextUrl.pathname}`);
       }
     }
   } catch (err) {
@@ -339,7 +329,6 @@ export async function getUserIdFromRequest(
   if (token) {
     const result = await validateToken(token);
     if (result.valid && result.user) {
-      console.log(`[getUserIdFromRequest] Valid legacy token found for ${result.user.email}`);
       return result.user.userId;
     }
   }
@@ -347,10 +336,6 @@ export async function getUserIdFromRequest(
   // Fallback to query param (for development/testing)
   const { searchParams } = new URL(request.url);
   const queryUserId = searchParams.get("userId");
-  if (queryUserId) {
-    console.log(`[getUserIdFromRequest] Using query param userId: ${queryUserId}`);
-  }
-  
   return queryUserId;
 }
 
@@ -385,7 +370,6 @@ export async function getDatabaseUserFromRequest(
         // Pass request to auth()
         const session = await auth(request as any);
         if (session?.user?.email) {
-          console.log(`[getDatabaseUserFromRequest] Falling back to email lookup for ${session.user.email}`);
           try {
             user = await userDb.getUserByEmail(session.user.email);
             if (!user) {

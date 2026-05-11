@@ -13,6 +13,7 @@ import { SanctumTasks } from '@/components/economy/SanctumTasks';
 import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
 import { YieldMultiplierCard } from '@/components/economy/YieldMultiplierCard';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
+import { AgentsPane } from '@/components/profile/AgentsPane';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
@@ -54,6 +55,7 @@ const PREMIUM_NAV = [
   { id: 'overview', label: 'Command', icon: '⚗️' },
   { id: 'cosmos', label: 'Cosmos', icon: '🔮' },
   { id: 'economy', label: 'Tokens', icon: '🝇' },
+  { id: 'agents', label: 'Agents', icon: '🤖' },
   { id: 'quests', label: 'Quests', icon: '🎯' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ] as const;
@@ -267,6 +269,10 @@ function PremiumDashboard({
                   </div>
                 </div>
               </div>
+            )}
+
+            {activeTab === 'agents' && (
+              <AgentsPane />
             )}
 
             {activeTab === 'quests' && (

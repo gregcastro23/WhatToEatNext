@@ -1,10 +1,8 @@
 /**
  * POST /api/generate-cosmic-recipe
- * Streams a structured cosmic recipe using Vercel AI SDK + OpenAI.
+ * Requests a structured cosmic recipe using the planetary_agents microservice.
  * Uses the cosmicRecipeSchema for structured output.
  */
-import { openai } from "@ai-sdk/openai";
-import { streamObject } from "ai";
 import { auth } from "@/lib/auth/auth";
 import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
 import { foodDiaryService } from "@/services/FoodDiaryService";
@@ -13,7 +11,6 @@ import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import {
   SIGN_TO_ELEMENT,
@@ -258,13 +255,44 @@ ${cuisineEntry ? `- Honours the statistical profile of ${cuisineEntry.cuisine} c
 - Explains the astrological and elemental correspondences
 - Is achievable by a home cook`;
 
-  const result = streamObject({
-    model: openai("gpt-4o-mini"),
-    schema: cosmicRecipeSchema,
-    prompt: `${systemPrompt}\n\nUser request: ${prompt || "A nourishing, restorative meal aligned with today's cosmic energies."}`,
-  });
+  const userRequest = prompt || "A nourishing, restorative meal aligned with today's cosmic energies.";
+  const agentPayload = {
+    prompt: userRequest,
+    context: {
+      systemPrompt,
+      dominantElement,
+      cuisine: cuisineEntry?.cuisine ?? null,
+      topIngredients,
+      birthData,
+      dietPreference: diet || "omnivore",
+      alchemicalState: esms,
+      thermodynamicProperties: alchemized?.thermodynamicProperties
+    }
+  };
 
-  const response = result.toTextStreamResponse();
+  let responseJson: any;
+  try {
+    const agentBaseUrl = process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL || "https://agents.alchm.kitchen";
+    const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(agentPayload)
+    });
+
+    if (!agentResponse.ok) {
+      return new Response(JSON.stringify({ error: "Failed to generate recipe via agents network" }), { status: agentResponse.status, headers: { "Content-Type": "application/json" } });
+    }
+
+    responseJson = await agentResponse.json();
+  } catch (error) {
+    console.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
+    return new Response(JSON.stringify({ error: "Internal server error contacting agents network" }), { status: 500, headers: { "Content-Type": "application/json" } });
+  }
+
+  const response = new Response(JSON.stringify(responseJson), {
+    status: 200,
+    headers: { "Content-Type": "application/json" }
+  });
 
   // Expose the grounding payload on a response header so the client can
   // surface the exact anchors the LLM was given (useful for debugging

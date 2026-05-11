@@ -17,6 +17,11 @@
  */
 
 import { createHash, createHmac } from "node:crypto";
+import {
+  getPaapiCredentials,
+  isPaapiConfigured as configIsPaapiConfigured,
+  type PaapiCredentials,
+} from "@/lib/amazon/config";
 
 const SERVICE = "ProductAdvertisingAPI";
 const ALGORITHM = "AWS4-HMAC-SHA256";
@@ -29,28 +34,10 @@ export interface PaapiSearchResult {
   detailPageUrl?: string;
 }
 
-interface PaapiConfig {
-  accessKey: string;
-  secretKey: string;
-  partnerTag: string;
-  marketplace: string;
-  region: string;
-  host: string;
-}
+type PaapiConfig = PaapiCredentials;
 
 function loadConfig(): PaapiConfig | null {
-  const accessKey = process.env.AMAZON_PAAPI_ACCESS_KEY;
-  const secretKey = process.env.AMAZON_PAAPI_SECRET_KEY;
-  const partnerTag = process.env.AMAZON_PAAPI_PARTNER_TAG;
-  if (!accessKey || !secretKey || !partnerTag) return null;
-  return {
-    accessKey,
-    secretKey,
-    partnerTag,
-    marketplace: process.env.AMAZON_PAAPI_MARKETPLACE || "www.amazon.com",
-    region: process.env.AMAZON_PAAPI_REGION || "us-east-1",
-    host: process.env.AMAZON_PAAPI_HOST || "webservices.amazon.com",
-  };
+  return getPaapiCredentials();
 }
 
 function sha256Hex(data: string | Buffer): string {
@@ -200,7 +187,7 @@ export async function searchItem(
   if (!res.ok) {
     const code = parsed.Errors?.[0]?.Code ?? "Unknown";
     const message = parsed.Errors?.[0]?.Message ?? `HTTP ${res.status}`;
-    throw new Error(`PA-API error [${code}]: ${message}`);
+    throw new PaapiError(`PA-API error [${code}]: ${message}`, res.status, code);
   }
 
   const item = parsed.SearchResult?.Items?.[0];
@@ -216,5 +203,20 @@ export async function searchItem(
 }
 
 export function isPaapiConfigured(): boolean {
-  return loadConfig() !== null;
+  return configIsPaapiConfigured();
+}
+
+/**
+ * Surface PA-API errors with a status code so callers can distinguish
+ * 429 throttling from "no result." Thrown by `searchItem` when fetch fails.
+ */
+export class PaapiError extends Error {
+  status: number;
+  code?: string;
+  constructor(message: string, status: number, code?: string) {
+    super(message);
+    this.name = "PaapiError";
+    this.status = status;
+    this.code = code;
+  }
 }

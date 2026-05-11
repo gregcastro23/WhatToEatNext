@@ -1,14 +1,20 @@
 import { NextResponse } from "next/server";
 import { alchemize } from "@/constants/alchemicalPillars";
+import { rateLimit } from "@/lib/rateLimit";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
 import { logger } from "@/utils/logger";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
+const RATE_LIMIT = { window: 60_000, max: 30, bucket: "philosophers-stone-positions" };
+
 /**
  * GET /api/philosophers-stone/positions - Get planetary positions with alchemical calculations
  */
 export async function GET(request: NextRequest) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const { searchParams } = new URL(request.url);
     const date = searchParams.get("date");
@@ -120,6 +126,9 @@ export async function GET(request: NextRequest) {
  * POST /api/philosophers-stone/positions - Calculate positions for specific date/location
  */
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const body = await request.json();
     const {

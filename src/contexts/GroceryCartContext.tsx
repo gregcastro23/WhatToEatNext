@@ -227,31 +227,63 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const searchedItemsRef = useRef<Set<string>>(new Set());
+  const resolveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Automatically attempt to resolve unmapped items
+  // Automatically attempt to resolve unmapped items.
+  // Batched POST to /api/amazon/search — one network call per debounce window
+  // instead of N concurrent GETs (which previously self-DoS'd the rate limiter).
   useEffect(() => {
     if (!hydratedRef.current) return;
-    
-    unmappedItems.forEach(item => {
-      if (searchedItemsRef.current.has(item.id)) return;
-      searchedItemsRef.current.add(item.id);
 
-      const searchItem = async () => {
+    const toResolve = unmappedItems.filter(
+      (item) => !searchedItemsRef.current.has(item.id),
+    );
+    if (toResolve.length === 0) return;
+
+    if (resolveTimerRef.current) clearTimeout(resolveTimerRef.current);
+    resolveTimerRef.current = setTimeout(() => {
+      // Mark optimistically so we don't double-fire while in-flight.
+      toResolve.forEach((item) => searchedItemsRef.current.add(item.id));
+
+      void (async () => {
         try {
-          const res = await fetch(`/api/amazon/search?ingredient=${encodeURIComponent(item.name)}`);
-          if (res.ok) {
-            const data = await res.json();
-            if (data.asin) {
-              updateAsin(item.id, data.asin);
-            }
+          const res = await fetch("/api/amazon/search", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              ingredients: toResolve.map((item) => item.name),
+            }),
+          });
+
+          // 429/503 = upstream throttling. Un-mark so the user can retry later.
+          if (res.status === 429 || res.status === 503) {
+            toResolve.forEach((item) => searchedItemsRef.current.delete(item.id));
+            return;
           }
+          if (!res.ok) return;
+
+          const payload = (await res.json()) as {
+            results?: Array<{ ingredient: string; asin: string | null }>;
+          };
+          const byName = new Map(
+            (payload.results ?? []).map((r) => [r.ingredient.trim().toLowerCase(), r.asin]),
+          );
+
+          toResolve.forEach((item) => {
+            const asin = byName.get(item.name.trim().toLowerCase());
+            if (asin) updateAsin(item.id, asin);
+          });
         } catch (e) {
-          console.error("Failed to resolve ASIN for", item.name, e);
+          // Network/parse failure — let the items be re-tried on next render.
+          toResolve.forEach((item) => searchedItemsRef.current.delete(item.id));
+          console.error("Batch ASIN resolve failed", e);
         }
-      };
-      // Simple timeout to prevent overwhelming
-      setTimeout(() => { void searchItem(); }, 500);
-    });
+      })();
+    }, 800);
+
+    return () => {
+      if (resolveTimerRef.current) clearTimeout(resolveTimerRef.current);
+    };
   }, [unmappedItems, updateAsin]);
 
   const checkoutToAmazon = useCallback((): number => {
