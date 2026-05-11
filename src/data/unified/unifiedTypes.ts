@@ -116,6 +116,9 @@ export interface UnifiedIngredient {
   pairingRecommendations?: string[];
   preparationMethods?: string[];
   description?: string;
+  image_url?: string;
+  imageUrl?: string;
+  image?: string;
   planetaryRuler?: PlanetName;
 
   // Metadata
@@ -137,7 +140,12 @@ export interface UnifiedIngredient {
 export function createUnifiedIngredient(
   name: string,
   category: string,
-  elementalProperties: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  elementalProperties: ElementalProperties = {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+  },
 ): UnifiedIngredient {
   const { Fire, Water, Earth, Air } = elementalProperties;
   return {

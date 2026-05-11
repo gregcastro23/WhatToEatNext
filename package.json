@@ -34,6 +34,7 @@
     "audit:ingredients": "bun scripts/auditIngredients.ts",
     "audit:ingredient-quality": "bun scripts/auditIngredientDataQuality.ts",
     "ingredients:standardize-descriptions": "bun scripts/standardizeIngredientDescriptions.ts",
+    "ingredients:batch-enrich": "bun scripts/batchEnrichIngredients.ts",
     "ingredients:fill-missing-profiles": "bun scripts/fillIngredientMissingProfiles.ts",
     "ingredients:generate-recipe-coverage": "bun scripts/generateRecipeCoverageIngredients.ts",
     "build:ingredient-recipe-index": "bun scripts/buildIngredientRecipeIndex.ts",

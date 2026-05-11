@@ -1,9 +1,9 @@
 import type {
-    AlchemicalProperties,
-    ElementalProperties,
-    IngredientMapping,
-    ThermodynamicMetrics,
-    ThermodynamicProperties
+  AlchemicalProperties,
+  ElementalProperties,
+  IngredientMapping,
+  ThermodynamicMetrics,
+  ThermodynamicProperties,
 } from "@/types/alchemy";
 import { createElementalProperties } from "../../utils/elemental/elementalUtils";
 import { beveragesIngredients } from "../ingredients/beverages/beverages";
@@ -15,12 +15,12 @@ import { getIngredientSummary } from "../ingredients/ingredientSummaries";
 import { miscIngredients } from "../ingredients/misc/misc";
 import { oils } from "../ingredients/oils";
 import {
-    eggs,
-    legumes,
-    meats,
-    plantBased,
-    poultry,
-    seafood
+  eggs,
+  legumes,
+  meats,
+  plantBased,
+  poultry,
+  seafood,
 } from "../ingredients/proteins";
 import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
@@ -44,6 +44,23 @@ const proteins = {
   ...eggs,
   ...legumes,
 };
+
+function createFallbackDescription(name: string, category: string): string {
+  const displayName = name.replace(/_/g, " ").trim() || "This ingredient";
+  const normalizedCategory = category.toLowerCase();
+
+  if (normalizedCategory.includes("spice")) {
+    return `${displayName} is a concentrated aromatic spice that adds focused heat, fragrance, and depth when used with restraint. Bloom it briefly in warm fat or add it near the end for cleaner intensity, then balance with salt, acid, or dairy as the dish requires.`;
+  }
+  if (normalizedCategory.includes("herb")) {
+    return `${displayName} is an aromatic herb used to lift dishes with fresh volatile oils, green brightness, and a distinctive finishing note. Add it late for vivid aroma or infuse it gently when a softer, more integrated herbal character is desired.`;
+  }
+  if (normalizedCategory.includes("protein")) {
+    return `${displayName} is a protein-forward ingredient that brings structure, satiety, and savory depth to a dish. Season in layers and choose the cooking method around texture: dry heat for browning, moist heat for tenderness, and gentle finishing for balance.`;
+  }
+
+  return `${displayName} is a culinary ingredient used to shape flavor, texture, and balance within a dish. Its impact depends on timing, preparation, and proportion, so adjust quantity and technique around the surrounding ingredients.`;
+}
 /**
  * Calculate Kalchm value based on alchemical properties
  * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
@@ -91,9 +108,28 @@ function enhanceIngredient(
   ingredient: IngredientMapping,
   sourceCategory: string,
 ): UnifiedIngredient {
+  const ingredientData = ingredient as any;
+  const ingredientName = String(ingredientData.name || "");
+  const authoredDescription =
+    typeof ingredientData.description === "string" &&
+    ingredientData.description.trim().length > 0
+      ? ingredientData.description
+      : undefined;
+  const summaryDescription = getIngredientSummary(ingredientName) || undefined;
+  const fallbackDescription =
+    typeof ingredientData.flavor === "string" &&
+    ingredientData.flavor.trim().length > 30
+      ? ingredientData.flavor
+      : createFallbackDescription(
+          ingredientName,
+          String(ingredientData.category || sourceCategory),
+        );
+  const imageUrl =
+    ingredientData.image_url || ingredientData.imageUrl || ingredientData.image;
+
   // Derive alchemical properties from elemental properties when not present
   // ✅ Pattern GG-6: Safe property access for alchemical properties
-  const alchemicalData = ingredient.alchemicalProperties as unknown as any;
+  const alchemicalData = ingredientData.alchemicalProperties as unknown as any;
   const hasAlchemicalData =
     alchemicalData?.Spirit ||
     alchemicalData?.Essence ||
@@ -137,9 +173,9 @@ function enhanceIngredient(
     // Spread all original properties first to preserve culinary details
     ...(ingredient as any),
     // Override with normalized core properties
-    name: String((ingredient as any).name || ""),
-    category: String((ingredient as any).category || sourceCategory),
-    subcategory: String((ingredient as any).subCategory || ""),
+    name: ingredientName,
+    category: String(ingredientData.category || sourceCategory),
+    subcategory: String(ingredientData.subCategory || ""),
     // ✅ Pattern GG-6: Safe property access for elemental properties
     elementalProperties:
       ((ingredient as any).elementalPropertiesState as ElementalProperties) ||
@@ -154,9 +190,13 @@ function enhanceIngredient(
     // New calculated values
     kalchm,
     monica,
-    // Add description from summary database
+    // Preserve authored ingredient copy first; summaries are only a fallback.
     description:
-      getIngredientSummary(String((ingredient as any).name || "")) || undefined,
+      authoredDescription || summaryDescription || fallbackDescription,
+    ...(imageUrl && {
+      image_url: imageUrl,
+      imageUrl,
+    }),
     // Add energy profile if thermodynamics exist
     ...(thermodynamics && {
       energyProfile: thermodynamics,

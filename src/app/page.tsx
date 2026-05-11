@@ -86,22 +86,29 @@ export default function Home() {
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
         >
-          <div className="mx-6 mb-3 flex items-center justify-between flex-wrap gap-2">
-            <p className="text-sm text-gray-600 dark:text-slate-300">
-              Tap{" "}
-              <span className="inline-block bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 text-xs font-semibold px-2 py-0.5 rounded">
-                + Pantry
-              </span>{" "}
-              on any card to track it in your kitchen.
-            </p>
-            <Link
-              href="/pantry"
-              className="text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 dark:hover:text-emerald-100 underline"
-            >
-              View my pantry →
-            </Link>
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0c0c14]/85 shadow-2xl shadow-black/30 backdrop-blur-xl">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-300/45 to-transparent" />
+            <div className="relative z-10 px-6 pt-6 md:px-8 md:pt-8">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-sm text-slate-300">
+                  Tap{" "}
+                  <span className="inline-block rounded border border-amber-300/30 bg-amber-500/15 px-2 py-0.5 text-xs font-semibold text-amber-100">
+                    Pantry
+                  </span>{" "}
+                  on any card to track it in your kitchen.
+                </p>
+                <Link
+                  href="/pantry"
+                  className="text-sm font-medium text-emerald-200 underline decoration-emerald-300/40 underline-offset-4 hover:text-emerald-100"
+                >
+                  View my pantry →
+                </Link>
+              </div>
+            </div>
+            <div className="relative z-10">
+              <EnhancedIngredientRecommender />
+            </div>
           </div>
-          <EnhancedIngredientRecommender />
         </motion.section>
 
         <motion.div
