@@ -12,6 +12,7 @@ import { _logger } from "@/lib/logger";
 // Extended User type with profile data
 export interface UserWithProfile extends User {
   profile: UserProfile;
+  isAgent?: boolean;
 }
 
 // Check if we should use database (only in server-side contexts with DB available)
@@ -565,6 +566,7 @@ class UserDatabaseService {
       passwordHash: row.password_hash,
       roles: roles as UserRole[],
       isActive: row.is_active,
+      isAgent: row.is_agent === true,
       createdAt: new Date(row.created_at),
       lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
       profile: {
