@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Check,
@@ -12,6 +11,8 @@ import {
   Plus,
   Search,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
@@ -1159,10 +1160,12 @@ export const EnhancedIngredientRecommender: React.FC<
       >
         <div className="relative h-36 w-full overflow-hidden bg-slate-950">
           {imageUrl ? (
-            <img
+            <Image
               src={imageUrl}
               alt={`${displayName} ingredient`}
+              fill
               loading="lazy"
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
               className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
             />
           ) : (
