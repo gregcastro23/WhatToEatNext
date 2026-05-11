@@ -199,8 +199,9 @@ export async function validateRequest(
   try {
     const auth = await getAuth();
     if (auth) {
-      // Pass the request to auth() for better reliability in Route Handlers
-      const session = await auth(request as any);
+      // auth() without args reads cookies via next/headers in Node.js Route Handlers.
+      // Passing the request object does NOT work reliably in NextAuth v5 beta.
+      const session = await auth();
       if (session?.user) {
         const sessionRole = (session.user as any).role || "user";
         const roles =
@@ -285,9 +286,8 @@ export async function getUserIdFromRequest(
   try {
     const auth = await getAuth();
     if (auth) {
-      // Pass request to auth() for consistency
-      const session = await auth(request as any);
-      
+      const session = await auth();
+
       if (session?.user) {
         const sessionUserId = (session.user.id || "").trim();
         const sessionEmail = (session.user.email || "").trim().toLowerCase();
@@ -367,8 +367,7 @@ export async function getDatabaseUserFromRequest(
     try {
       const auth = await getAuth();
       if (auth) {
-        // Pass request to auth()
-        const session = await auth(request as any);
+        const session = await auth();
         if (session?.user?.email) {
           try {
             user = await userDb.getUserByEmail(session.user.email);
