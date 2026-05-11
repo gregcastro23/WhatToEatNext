@@ -256,7 +256,8 @@ function calculateAstrologicalScore(
       (p: string) => positions[p] !== undefined,
     ).length;
     if (astroProfile.rulingPlanets.length > 0) {
-      planetScore = 0.5 + 0.5 * (activeRulers / astroProfile.rulingPlanets.length);
+      planetScore =
+        0.5 + 0.5 * (activeRulers / astroProfile.rulingPlanets.length);
     }
   }
 
@@ -278,9 +279,10 @@ function calculateLunarScore(astroProfile: any, lunarPhase?: string): number {
     modifiers[lunarPhase] ||
     modifiers[String(lunarPhase).toLowerCase()];
   if (!match) return 0.5;
-  const potency = typeof match.potencyMultiplier === "number"
-    ? Math.min(1, Math.max(0, match.potencyMultiplier))
-    : undefined;
+  const potency =
+    typeof match.potencyMultiplier === "number"
+      ? Math.min(1, Math.max(0, match.potencyMultiplier))
+      : undefined;
   if (potency != null) return 0.5 + 0.5 * potency;
   // If a phase entry exists at all, give a moderate bonus.
   return 0.8;
@@ -637,7 +639,9 @@ export const EnhancedIngredientRecommender: React.FC<
         unit: "item",
       });
       setPantryFeedback(
-        added ? `✓ Added ${normalizedName} to pantry` : "Could not add to pantry",
+        added
+          ? `✓ Added ${normalizedName} to pantry`
+          : "Could not add to pantry",
       );
     }
     setTimeout(() => setPantryFeedback(null), 2200);
@@ -689,37 +693,91 @@ export const EnhancedIngredientRecommender: React.FC<
         const root = ing as unknown as Record<string, unknown>;
         if (ing.name.toLowerCase().includes(query)) return true;
         if (ing.description?.toLowerCase().includes(query)) return true;
-        if (ing.qualities?.some((q) => q.toLowerCase().includes(query))) return true;
-        if (ing.origin?.some((o) => o.toLowerCase().includes(query))) return true;
+        if (ing.qualities?.some((q) => q.toLowerCase().includes(query)))
+          return true;
+        if (ing.origin?.some((o) => o.toLowerCase().includes(query)))
+          return true;
 
         // culinaryApplications.commonUses
-        const apps = root.culinaryApplications as Record<string, unknown> | undefined;
-        if (Array.isArray(apps?.commonUses) && apps?.commonUses.some((u) => String(u).toLowerCase().includes(query))) return true;
+        const apps = root.culinaryApplications as
+          | Record<string, unknown>
+          | undefined;
+        if (
+          Array.isArray(apps?.commonUses) &&
+          apps?.commonUses.some((u) => String(u).toLowerCase().includes(query))
+        )
+          return true;
 
         // culinaryProfile.cookingMethods, cuisineAffinity, preparationTips
-        const profile = root.culinaryProfile as Record<string, unknown> | undefined;
-        if (Array.isArray(profile?.cookingMethods) && profile?.cookingMethods.some((m) => String(m).toLowerCase().includes(query))) return true;
-        if (Array.isArray(profile?.cuisineAffinity) && profile?.cuisineAffinity.some((c) => String(c).toLowerCase().includes(query))) return true;
-        if (Array.isArray(profile?.preparationTips) && profile?.preparationTips.some((t) => String(t).toLowerCase().includes(query))) return true;
+        const profile = root.culinaryProfile as
+          | Record<string, unknown>
+          | undefined;
+        if (
+          Array.isArray(profile?.cookingMethods) &&
+          profile?.cookingMethods.some((m) =>
+            String(m).toLowerCase().includes(query),
+          )
+        )
+          return true;
+        if (
+          Array.isArray(profile?.cuisineAffinity) &&
+          profile?.cuisineAffinity.some((c) =>
+            String(c).toLowerCase().includes(query),
+          )
+        )
+          return true;
+        if (
+          Array.isArray(profile?.preparationTips) &&
+          profile?.preparationTips.some((t) =>
+            String(t).toLowerCase().includes(query),
+          )
+        )
+          return true;
 
         // top-level cookingMethods
-        if (Array.isArray(root.cookingMethods) && root.cookingMethods.some((m) => String(m).toLowerCase().includes(query))) return true;
+        if (
+          Array.isArray(root.cookingMethods) &&
+          root.cookingMethods.some((m) =>
+            String(m).toLowerCase().includes(query),
+          )
+        )
+          return true;
 
         // pairingRecommendations (object or array)
         const pr = root.pairingRecommendations;
-        if (Array.isArray(pr) && pr.some((p) => String(p).toLowerCase().includes(query))) return true;
+        if (
+          Array.isArray(pr) &&
+          pr.some((p) => String(p).toLowerCase().includes(query))
+        )
+          return true;
         if (pr && typeof pr === "object" && !Array.isArray(pr)) {
           const prObj = pr as Record<string, unknown>;
-          for (const key of ["complementary", "contrasting", "toAvoid"] as const) {
-            if (Array.isArray(prObj[key]) && prObj[key].some((p) => String(p).toLowerCase().includes(query))) return true;
+          for (const key of [
+            "complementary",
+            "contrasting",
+            "toAvoid",
+          ] as const) {
+            if (
+              Array.isArray(prObj[key]) &&
+              prObj[key].some((p) => String(p).toLowerCase().includes(query))
+            )
+              return true;
           }
         }
 
         // affinities
-        if (Array.isArray(root.affinities) && root.affinities.some((a) => String(a).toLowerCase().includes(query))) return true;
+        if (
+          Array.isArray(root.affinities) &&
+          root.affinities.some((a) => String(a).toLowerCase().includes(query))
+        )
+          return true;
 
         // flavorProfile string
-        if (typeof root.flavorProfile === "string" && root.flavorProfile.toLowerCase().includes(query)) return true;
+        if (
+          typeof root.flavorProfile === "string" &&
+          root.flavorProfile.toLowerCase().includes(query)
+        )
+          return true;
 
         return false;
       });
@@ -967,7 +1025,11 @@ export const EnhancedIngredientRecommender: React.FC<
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-1">
           <Row label="Elemental" value={breakdown.elemental} icon="🜂" />
-          <Row label="Thermodynamic" value={breakdown.thermodynamic} icon="🌡️" />
+          <Row
+            label="Thermodynamic"
+            value={breakdown.thermodynamic}
+            icon="🌡️"
+          />
           <Row label="Kinetic" value={breakdown.kinetic} icon="⚡" />
           <Row label="Astrological" value={breakdown.astrological} icon="✨" />
           <Row label="Lunar" value={breakdown.lunar} icon="🌙" />
@@ -1035,7 +1097,9 @@ export const EnhancedIngredientRecommender: React.FC<
               </span>
               {ingredient.subcategory && (
                 <>
-                  <span className="text-xs text-gray-400 dark:text-slate-500">•</span>
+                  <span className="text-xs text-gray-400 dark:text-slate-500">
+                    •
+                  </span>
                   <span className="text-xs text-gray-500 dark:text-slate-400 capitalize">
                     {formatIngredientName(ingredient.subcategory)}
                   </span>
@@ -1069,11 +1133,7 @@ export const EnhancedIngredientRecommender: React.FC<
             <button
               type="button"
               onClick={(e) =>
-                handleAddToPantry(
-                  ingredient.name,
-                  ingredient.category,
-                  e,
-                )
+                handleAddToPantry(ingredient.name, ingredient.category, e)
               }
               className={`text-xs font-medium px-2 py-1 rounded-md border transition-colors ${
                 pantry.hasItem(ingredient.name)
@@ -1131,11 +1191,27 @@ export const EnhancedIngredientRecommender: React.FC<
 
         {/* ── TASTE PROFILE ─────────────────────────────────── */}
         {(() => {
-          const taste = (ingredient as any).sensoryProfile?.taste;
+          let taste = (ingredient as any).sensoryProfile?.taste;
+
+          if (
+            !taste ||
+            typeof taste !== "object" ||
+            Array.isArray(taste) ||
+            Object.keys(taste).length === 0
+          ) {
+            const fp =
+              (ingredient as any).unifiedFlavorProfile ||
+              (ingredient as any).flavorProfile;
+            if (fp && typeof fp === "object" && !Array.isArray(fp)) {
+              taste = fp.baseNotes || fp;
+            }
+          }
+
           if (!taste || typeof taste !== "object" || Array.isArray(taste))
             return null;
+
           const active = Object.entries(taste as Record<string, number>)
-            .filter(([, v]) => v > 0.1)
+            .filter(([, v]) => typeof v === "number" && v > 0.1)
             .sort(([, a], [, b]) => b - a);
           if (active.length === 0) return null;
           return (
@@ -1145,7 +1221,7 @@ export const EnhancedIngredientRecommender: React.FC<
               </div>
               <div className="flex flex-wrap gap-1">
                 {active.map(([name, value]) => {
-                  const cfg = TASTE_CONFIG[name] ?? {
+                  const cfg = TASTE_CONFIG[name.toLowerCase()] ?? {
                     emoji: "•",
                     color:
                       "bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-200 border-gray-200 dark:border-slate-700",
@@ -1183,13 +1259,19 @@ export const EnhancedIngredientRecommender: React.FC<
                   </span>
                 )}
                 {n.protein != null && n.protein > 0 && (
-                  <span className="text-blue-600 dark:text-blue-300">💪 {n.protein}g protein</span>
+                  <span className="text-blue-600 dark:text-blue-300">
+                    💪 {n.protein}g protein
+                  </span>
                 )}
                 {n.carbs != null && n.carbs > 0 && (
-                  <span className="text-amber-600 dark:text-amber-300">🌾 {n.carbs}g carbs</span>
+                  <span className="text-amber-600 dark:text-amber-300">
+                    🌾 {n.carbs}g carbs
+                  </span>
                 )}
                 {n.fat != null && n.fat > 0 && (
-                  <span className="text-orange-600 dark:text-orange-300">🫒 {n.fat}g fat</span>
+                  <span className="text-orange-600 dark:text-orange-300">
+                    🫒 {n.fat}g fat
+                  </span>
                 )}
               </div>
             </div>
@@ -1217,36 +1299,43 @@ export const EnhancedIngredientRecommender: React.FC<
         )}
 
         {/* ── CULINARY USES ─────────────────────────────────── */}
-        {(ingredient as any).culinaryApplications?.commonUses &&
-          Array.isArray((ingredient as any).culinaryApplications.commonUses) &&
-          (ingredient as any).culinaryApplications.commonUses.length > 0 && (
+        {(() => {
+          const apps = (ingredient as any).culinaryApplications?.commonUses;
+          const methods = (ingredient as any).culinaryProfile?.cookingMethods;
+          const affinity = (ingredient as any).culinaryProfile?.cuisineAffinity;
+
+          let uses: string[] = [];
+          if (Array.isArray(apps) && apps.length > 0) uses = [...apps];
+          else {
+            if (Array.isArray(methods)) uses = [...uses, ...methods];
+            if (Array.isArray(affinity)) uses = [...uses, ...affinity];
+          }
+
+          if (uses.length === 0) return null;
+
+          return (
             <div className="mb-3">
               <div className="mb-1 text-xs font-medium text-gray-500 dark:text-slate-400">
                 👨‍🍳 Used in
               </div>
               <div className="flex flex-wrap gap-1">
-                {(ingredient as any).culinaryApplications.commonUses
-                  .slice(0, 4)
-                  .map((use: string, idx: number) => (
-                    <span
-                      key={idx}
-                      className="rounded-md border border-amber-200 dark:border-amber-700/50 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 text-xs text-amber-700 dark:text-amber-300"
-                    >
-                      {use}
-                    </span>
-                  ))}
-                {(ingredient as any).culinaryApplications.commonUses.length >
-                  4 && (
+                {uses.slice(0, 4).map((use: string, idx: number) => (
+                  <span
+                    key={idx}
+                    className="rounded-md border border-amber-200 dark:border-amber-700/50 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 text-xs text-amber-700 dark:text-amber-300"
+                  >
+                    {use}
+                  </span>
+                ))}
+                {uses.length > 4 && (
                   <span className="text-xs text-gray-400 dark:text-slate-500">
-                    +
-                    {(ingredient as any).culinaryApplications.commonUses
-                      .length - 4}{" "}
-                    more
+                    +{uses.length - 4} more
                   </span>
                 )}
               </div>
             </div>
-          )}
+          );
+        })()}
 
         {/* ── BEST COOKING METHODS ──────────────────────────── */}
         {(() => {
@@ -1258,7 +1347,9 @@ export const EnhancedIngredientRecommender: React.FC<
             return null;
           return (
             <div className="mb-3 text-xs text-gray-600 dark:text-slate-300">
-              <span className="font-medium text-gray-500 dark:text-slate-400">🍳 Methods: </span>
+              <span className="font-medium text-gray-500 dark:text-slate-400">
+                🍳 Methods:{" "}
+              </span>
               {methods.slice(0, 4).join(", ")}
             </div>
           );
@@ -1687,19 +1778,25 @@ export const EnhancedIngredientRecommender: React.FC<
                   <div className="space-y-1 text-sm text-gray-600 dark:text-slate-300">
                     {(ingredient as any).storage.temperature && (
                       <div>
-                        <span className="font-medium text-gray-700 dark:text-slate-200">🌡️ </span>
+                        <span className="font-medium text-gray-700 dark:text-slate-200">
+                          🌡️{" "}
+                        </span>
                         {(ingredient as any).storage.temperature}
                       </div>
                     )}
                     {(ingredient as any).storage.duration && (
                       <div>
-                        <span className="font-medium text-gray-700 dark:text-slate-200">⏱️ </span>
+                        <span className="font-medium text-gray-700 dark:text-slate-200">
+                          ⏱️{" "}
+                        </span>
                         {(ingredient as any).storage.duration}
                       </div>
                     )}
                     {(ingredient as any).storage.container && (
                       <div>
-                        <span className="font-medium text-gray-700 dark:text-slate-200">📦 </span>
+                        <span className="font-medium text-gray-700 dark:text-slate-200">
+                          📦{" "}
+                        </span>
                         {(ingredient as any).storage.container}
                       </div>
                     )}
@@ -1809,7 +1906,9 @@ export const EnhancedIngredientRecommender: React.FC<
                   <div className="grid grid-cols-2 gap-1 text-sm">
                     {np.calories != null && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-slate-300">Calories:</span>
+                        <span className="text-gray-600 dark:text-slate-300">
+                          Calories:
+                        </span>
                         <span className="font-medium">
                           {Math.round(np.calories)}
                         </span>
@@ -1817,7 +1916,9 @@ export const EnhancedIngredientRecommender: React.FC<
                     )}
                     {(macros.protein ?? np.protein) != null && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-slate-300">Protein:</span>
+                        <span className="text-gray-600 dark:text-slate-300">
+                          Protein:
+                        </span>
                         <span className="font-medium">
                           {macros.protein ?? np.protein}g
                         </span>
@@ -1825,7 +1926,9 @@ export const EnhancedIngredientRecommender: React.FC<
                     )}
                     {(macros.carbs ?? np.carbs) != null && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-slate-300">Carbs:</span>
+                        <span className="text-gray-600 dark:text-slate-300">
+                          Carbs:
+                        </span>
                         <span className="font-medium">
                           {macros.carbs ?? np.carbs}g
                         </span>
@@ -1833,7 +1936,9 @@ export const EnhancedIngredientRecommender: React.FC<
                     )}
                     {(macros.fat ?? np.fat) != null && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-slate-300">Fat:</span>
+                        <span className="text-gray-600 dark:text-slate-300">
+                          Fat:
+                        </span>
                         <span className="font-medium">
                           {macros.fat ?? np.fat}g
                         </span>
@@ -1841,13 +1946,17 @@ export const EnhancedIngredientRecommender: React.FC<
                     )}
                     {macros.fiber != null && macros.fiber > 0 && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-slate-300">Fiber:</span>
+                        <span className="text-gray-600 dark:text-slate-300">
+                          Fiber:
+                        </span>
                         <span className="font-medium">{macros.fiber}g</span>
                       </div>
                     )}
                     {macros.sugar != null && macros.sugar > 0 && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-slate-300">Sugar:</span>
+                        <span className="text-gray-600 dark:text-slate-300">
+                          Sugar:
+                        </span>
                         <span className="font-medium">{macros.sugar}g</span>
                       </div>
                     )}
@@ -1943,7 +2052,9 @@ export const EnhancedIngredientRecommender: React.FC<
                         <span className="font-medium capitalize text-teal-700 dark:text-teal-300">
                           {key.replace(/_/g, " ")}:{" "}
                         </span>
-                        <span className="text-gray-600 dark:text-slate-300">{String(val)}</span>
+                        <span className="text-gray-600 dark:text-slate-300">
+                          {String(val)}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -1985,7 +2096,9 @@ export const EnhancedIngredientRecommender: React.FC<
                   <div className="mb-1 text-sm font-semibold text-gray-800 dark:text-slate-100">
                     Flavor Notes
                   </div>
-                  <p className="text-sm italic text-gray-600 dark:text-slate-300">{desc}</p>
+                  <p className="text-sm italic text-gray-600 dark:text-slate-300">
+                    {desc}
+                  </p>
                 </div>
               );
             })()}
@@ -2050,7 +2163,9 @@ export const EnhancedIngredientRecommender: React.FC<
       <div className="flex items-center justify-center p-12">
         <div className="text-center">
           <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-4 border-indigo-600" />
-          <p className="text-gray-600 dark:text-slate-300">Loading ingredients...</p>
+          <p className="text-gray-600 dark:text-slate-300">
+            Loading ingredients...
+          </p>
         </div>
       </div>
     );
@@ -2074,7 +2189,9 @@ export const EnhancedIngredientRecommender: React.FC<
       {/* Selected category indicator */}
       {selectedCategory && (
         <div className="mb-4 flex items-center gap-2">
-          <span className="text-sm text-gray-600 dark:text-slate-300">Showing:</span>
+          <span className="text-sm text-gray-600 dark:text-slate-300">
+            Showing:
+          </span>
           <span className="rounded-full bg-indigo-100 dark:bg-indigo-900/50 px-3 py-1 text-sm font-medium text-indigo-800 dark:text-indigo-200">
             {CATEGORIES.find((c) => c.id === selectedCategory)?.name}
           </span>

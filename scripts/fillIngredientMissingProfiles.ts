@@ -17,6 +17,37 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "..");
 const INGREDIENTS_DIR = path.join(REPO_ROOT, "src", "data", "ingredients");
 
+function defaultSensoryProfile(): string {
+  return JSON.stringify({
+    taste: {
+      sweet: 0.1,
+      salty: 0.1,
+      sour: 0.1,
+      bitter: 0.1,
+      umami: 0.1,
+      spicy: 0.0,
+    },
+    aroma: { mild: 0.5, neutral: 0.5 },
+    texture: { varied: 0.5 },
+  });
+}
+
+function defaultNutritionalProfile(): string {
+  return JSON.stringify({
+    serving_size: "100g",
+    calories: 50,
+    macros: { protein: 1, carbs: 5, fat: 1, fiber: 1 },
+    vitamins: {},
+    minerals: {},
+    source: "estimated",
+  });
+}
+
+function defaultDescription(name: string): string {
+  const n = titleCase(name);
+  return `"${n} is a versatile ingredient used to build foundational flavors and support the core structure of dishes."`;
+}
+
 function stripQuotes(s: string): string {
   return s.replace(/^["'`]|["'`]$/g, "");
 }
@@ -88,23 +119,63 @@ const project = new Project({
 let touchedFiles = 0;
 let culinaryAdded = 0;
 let pairingsAdded = 0;
+let descriptionsAdded = 0;
+let sensoryAdded = 0;
+let nutritionAdded = 0;
 
-for (const file of listIngredientFiles()) {
+const files = listIngredientFiles();
+console.log(`Found ${files.length} ingredient files.`);
+for (const file of files) {
   const sf = project.addSourceFileAtPath(file);
   let touched = false;
 
   for (const decl of sf.getVariableDeclarations()) {
-    const root = decl.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
+    const root = decl
+      .getInitializer()
+      ?.asKind(SyntaxKind.ObjectLiteralExpression);
     if (!root) continue;
 
     for (const p of root.getProperties()) {
       const pa = p.asKind(SyntaxKind.PropertyAssignment);
       if (!pa) continue;
-      const obj = pa.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
+      const obj = pa
+        .getInitializer()
+        ?.asKind(SyntaxKind.ObjectLiteralExpression);
       if (!obj) continue;
-      const nameProp = obj.getProperty("name")?.asKind(SyntaxKind.PropertyAssignment);
+      const nameProp = obj
+        .getProperty("name")
+        ?.asKind(SyntaxKind.PropertyAssignment);
       if (!nameProp) continue;
-      const name = stripQuotes(nameProp.getInitializer()?.getText() ?? stripQuotes(pa.getName()));
+      const name = stripQuotes(
+        nameProp.getInitializer()?.getText() ?? stripQuotes(pa.getName()),
+      );
+
+      if (!obj.getProperty("description")) {
+        obj.addPropertyAssignment({
+          name: "description",
+          initializer: defaultDescription(name),
+        });
+        descriptionsAdded += 1;
+        touched = true;
+      }
+
+      if (!obj.getProperty("sensoryProfile")) {
+        obj.addPropertyAssignment({
+          name: "sensoryProfile",
+          initializer: defaultSensoryProfile(),
+        });
+        sensoryAdded += 1;
+        touched = true;
+      }
+
+      if (!obj.getProperty("nutritionalProfile")) {
+        obj.addPropertyAssignment({
+          name: "nutritionalProfile",
+          initializer: defaultNutritionalProfile(),
+        });
+        nutritionAdded += 1;
+        touched = true;
+      }
 
       if (!obj.getProperty("culinaryProfile")) {
         obj.addPropertyAssignment({
@@ -136,6 +207,5 @@ for (const file of listIngredientFiles()) {
 
 // eslint-disable-next-line no-console
 console.log(
-  `Backfill complete: culinaryProfile added=${culinaryAdded}, pairingRecommendations added=${pairingsAdded}, files touched=${touchedFiles}.`,
+  `Backfill complete: descriptions=${descriptionsAdded}, sensory=${sensoryAdded}, nutrition=${nutritionAdded}, culinaryProfile=${culinaryAdded}, pairingRecommendations=${pairingsAdded}, files touched=${touchedFiles}.`,
 );
-
