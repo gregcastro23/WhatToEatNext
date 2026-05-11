@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
-import { resolveAsin } from "@/data/amazon";
+import {
+  getAmazonFreshAlternateSearchString,
+  getAmazonFreshMapping,
+  normalizeAmazonIngredientKey,
+  resolveAsin,
+} from "@/data/amazon";
 import {
   getCachedAmazonResult,
   setCachedAmazonResult,
@@ -10,14 +15,25 @@ import {
   PaapiError,
   searchItem,
 } from "@/lib/amazon/paapi";
+import type { PaapiResource, PaapiSearchResult } from "@/lib/amazon/paapi";
 import {
   CreatorsApiError,
   hasAmazonCreatorsCredentials,
   searchAmazonCreatorsCatalog,
 } from "@/lib/amazonCreators";
 import { rateLimit } from "@/lib/rateLimit";
+import type {
+  AmazonMatchConfidence,
+  AmazonSearchResult,
+  AmazonSubstitutionReason,
+} from "@/types/amazon";
 
 const MAX_BATCH_SIZE = 50;
+const PAAPI_GROCERY_RESOURCES = [
+  "Images.Primary.Large",
+  "Offers.Listings.Price",
+  "ItemInfo.Title",
+] as const satisfies readonly PaapiResource[];
 
 const STOP_WORDS = new Set([
   "and",
@@ -58,28 +74,6 @@ const STOP_WORDS = new Set([
   "kg",
 ]);
 
-interface AmazonSearchResult {
-  ingredient: string;
-  normalized: string;
-  asin: string | null;
-  searchUrl: string;
-  source:
-    | "verified_static_asin_map"
-    | "amazon_paapi"
-    | "amazon_paapi_low_confidence"
-    | "amazon_paapi_error"
-    | "amazon_creators_api"
-    | "amazon_creators_api_low_confidence"
-    | "amazon_creators_api_empty"
-    | "amazon_creators_api_error"
-    | "no_live_catalog_credentials";
-  title?: string;
-  detailPageUrl?: string | null;
-  reason?: string;
-  /** Marker so the client can back off, populated for upstream 429s. */
-  rateLimited?: boolean;
-}
-
 function buildAmazonSearchUrl(query: string): string {
   const params = new URLSearchParams({
     k: query,
@@ -100,10 +94,7 @@ function singularize(value: string): string {
 }
 
 function normalizeIngredient(ingredient: string): string {
-  return ingredient
-    .toLowerCase()
-    .replace(/\s*\([^)]*\)/g, " ")
-    .replace(/[^a-z0-9\s-]/g, " ")
+  return normalizeAmazonIngredientKey(ingredient)
     .replace(/\b\d+([./]\d+)?\b/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -128,21 +119,81 @@ function isConfidentCatalogMatch(normalizedIngredient: string, title?: string): 
 
 /** Cache key includes the resolver version so we can bust if format changes. */
 function cacheKey(normalized: string): string {
-  return `v1:${normalized}`;
+  return `v3:${normalized}`;
+}
+
+function getPaapiSubstitutionReason(
+  paapiResult: PaapiSearchResult | null,
+  confident: boolean,
+): AmazonSubstitutionReason {
+  if (!paapiResult) return "primary_empty";
+  if (!confident) return "primary_low_confidence";
+  return "primary_oos";
+}
+
+function buildPaapiSearchResult({
+  ingredient,
+  normalized,
+  mapping,
+  query,
+  selectedBrand,
+  paapiResult,
+  confident,
+  substituted = false,
+  substitutionReason,
+}: {
+  ingredient: string;
+  normalized: string;
+  mapping: ReturnType<typeof getAmazonFreshMapping>;
+  query: string;
+  selectedBrand: string;
+  paapiResult: PaapiSearchResult;
+  confident: boolean;
+  substituted?: boolean;
+  substitutionReason?: AmazonSubstitutionReason;
+}): AmazonSearchResult {
+  const inStock = paapiResult.inStock;
+  const matchConfidence: AmazonMatchConfidence =
+    confident && inStock ? "medium" : "low";
+
+  return {
+    ingredient,
+    normalized,
+    amazonOptimizedSearchString: query,
+    amazonCategoryNode: mapping.categoryNode,
+    primaryBrandSelected: selectedBrand,
+    chakraAlignment: mapping.chakraAlignment,
+    alternateBrands: mapping.alternateBrands,
+    asin: confident && inStock ? paapiResult.asin : null,
+    searchUrl: buildAmazonSearchUrl(query),
+    title: paapiResult.title,
+    imageUrl: paapiResult.imageUrl,
+    price: paapiResult.price,
+    inStock,
+    detailPageUrl: paapiResult.detailPageUrl,
+    source: confident && inStock ? "amazon_paapi" : "amazon_paapi_low_confidence",
+    matchConfidence,
+    substituted: substituted || undefined,
+    substitutedBrand: substituted ? selectedBrand : undefined,
+    substitutionReason: substituted ? substitutionReason : undefined,
+    reason:
+      confident && inStock
+        ? undefined
+        : inStock
+          ? "Catalog result title did not match ingredient tokens."
+          : "Catalog result did not include an active priced offer.",
+  };
 }
 
 async function resolveAmazonIngredient(ingredient: string): Promise<AmazonSearchResult> {
   const normalized = normalizeIngredient(ingredient);
   const cached = getCachedAmazonResult<AmazonSearchResult>(cacheKey(normalized));
   if (cached) {
-    // Re-attach the user's raw input string so client can match on it.
     return { ...cached, ingredient };
   }
 
   const result = await resolveAmazonIngredientUncached(ingredient, normalized);
 
-  // Only cache fully-resolved or definitively-empty results. Don't cache
-  // transient errors (429/5xx) — the user should be able to retry sooner.
   const cacheable =
     result.source === "verified_static_asin_map" ||
     result.source === "amazon_paapi" ||
@@ -160,14 +211,23 @@ async function resolveAmazonIngredientUncached(
   normalized: string,
 ): Promise<AmazonSearchResult> {
   const staticAsin = resolveAsin(normalized);
+  const mapping = getAmazonFreshMapping(ingredient, staticAsin);
+  const lookupQuery = mapping.optimizedSearchString;
 
   if (staticAsin) {
     return {
       ingredient,
       normalized,
+      amazonOptimizedSearchString: lookupQuery,
+      amazonCategoryNode: mapping.categoryNode,
+      primaryBrandSelected: mapping.primaryBrand,
+      chakraAlignment: mapping.chakraAlignment,
+      alternateBrands: mapping.alternateBrands,
       asin: staticAsin,
-      searchUrl: buildAmazonSearchUrl(normalized),
+      searchUrl: buildAmazonSearchUrl(lookupQuery),
       source: "verified_static_asin_map",
+      matchConfidence: "high",
+      inStock: true,
     };
   }
 
@@ -176,23 +236,74 @@ async function resolveAmazonIngredientUncached(
 
   if (hasPaapiCredentials) {
     try {
-      const paapiResult = await searchItem(normalized, {
+      const paapiResult = await searchItem(lookupQuery, {
         searchIndex: "GroceryAndGourmetFood",
         itemCount: 1,
+        resources: PAAPI_GROCERY_RESOURCES,
       });
 
       if (paapiResult?.asin) {
         const confident = isConfidentCatalogMatch(normalized, paapiResult.title);
-        return {
+        if (confident && paapiResult.inStock) {
+          return buildPaapiSearchResult({
+            ingredient,
+            normalized,
+            mapping,
+            query: lookupQuery,
+            selectedBrand: mapping.primaryBrand,
+            paapiResult,
+            confident,
+          });
+        }
+      }
+
+      const primaryConfident = Boolean(
+        paapiResult?.asin && isConfidentCatalogMatch(normalized, paapiResult.title),
+      );
+      const substitutionReason = getPaapiSubstitutionReason(
+        paapiResult,
+        primaryConfident,
+      );
+
+      for (const alternateBrand of mapping.alternateBrands ?? []) {
+        const alternateQuery = getAmazonFreshAlternateSearchString(mapping, alternateBrand);
+        const alternateResult = await searchItem(alternateQuery, {
+          searchIndex: "GroceryAndGourmetFood",
+          itemCount: 1,
+          resources: PAAPI_GROCERY_RESOURCES,
+        });
+
+        if (!alternateResult?.asin) continue;
+        const alternateConfident = isConfidentCatalogMatch(
+          normalized,
+          alternateResult.title,
+        );
+        if (!alternateConfident || !alternateResult.inStock) continue;
+
+        return buildPaapiSearchResult({
           ingredient,
           normalized,
-          asin: confident ? paapiResult.asin : null,
-          searchUrl: buildAmazonSearchUrl(normalized),
-          title: paapiResult.title,
-          detailPageUrl: paapiResult.detailPageUrl,
-          source: confident ? "amazon_paapi" : "amazon_paapi_low_confidence",
-          reason: confident ? undefined : "Catalog result title did not match ingredient tokens.",
-        };
+          mapping,
+          query: alternateQuery,
+          selectedBrand: alternateBrand,
+          paapiResult: alternateResult,
+          confident: alternateConfident,
+          substituted: true,
+          substitutionReason,
+        });
+      }
+
+      if (paapiResult?.asin) {
+        const confident = isConfidentCatalogMatch(normalized, paapiResult.title);
+        return buildPaapiSearchResult({
+          ingredient,
+          normalized,
+          mapping,
+          query: lookupQuery,
+          selectedBrand: mapping.primaryBrand,
+          paapiResult,
+          confident,
+        });
       }
     } catch (error) {
       const status = error instanceof PaapiError ? error.status : undefined;
@@ -201,9 +312,15 @@ async function resolveAmazonIngredientUncached(
         return {
           ingredient,
           normalized,
+          amazonOptimizedSearchString: lookupQuery,
+          amazonCategoryNode: mapping.categoryNode,
+          primaryBrandSelected: mapping.primaryBrand,
+          chakraAlignment: mapping.chakraAlignment,
+          alternateBrands: mapping.alternateBrands,
           asin: null,
-          searchUrl: buildAmazonSearchUrl(normalized),
+          searchUrl: buildAmazonSearchUrl(lookupQuery),
           source: "amazon_paapi_error",
+          matchConfidence: "low",
           reason: "rate_limited",
           rateLimited: true,
         };
@@ -214,20 +331,26 @@ async function resolveAmazonIngredientUncached(
 
   if (hasCreatorsCredentials) {
     try {
-      const creatorsResult = await searchAmazonCreatorsCatalog(normalized);
+      const creatorsResult = await searchAmazonCreatorsCatalog(lookupQuery);
       const confident = isConfidentCatalogMatch(normalized, creatorsResult.title);
 
       if (creatorsResult.asin) {
         return {
           ingredient,
           normalized,
+          amazonOptimizedSearchString: lookupQuery,
+          amazonCategoryNode: mapping.categoryNode,
+          primaryBrandSelected: mapping.primaryBrand,
+          chakraAlignment: mapping.chakraAlignment,
+          alternateBrands: mapping.alternateBrands,
           asin: confident ? creatorsResult.asin : null,
-          searchUrl: buildAmazonSearchUrl(normalized),
+          searchUrl: buildAmazonSearchUrl(lookupQuery),
           title: creatorsResult.title,
           detailPageUrl: creatorsResult.detailPageUrl,
           source: confident
             ? "amazon_creators_api"
             : "amazon_creators_api_low_confidence",
+          matchConfidence: confident ? "medium" : "low",
           reason: confident ? undefined : "Catalog result title did not match ingredient tokens.",
         };
       }
@@ -235,9 +358,15 @@ async function resolveAmazonIngredientUncached(
       return {
         ingredient,
         normalized,
+        amazonOptimizedSearchString: lookupQuery,
+        amazonCategoryNode: mapping.categoryNode,
+        primaryBrandSelected: mapping.primaryBrand,
+        chakraAlignment: mapping.chakraAlignment,
+        alternateBrands: mapping.alternateBrands,
         asin: null,
-        searchUrl: buildAmazonSearchUrl(normalized),
+        searchUrl: buildAmazonSearchUrl(lookupQuery),
         source: "amazon_creators_api_empty",
+        matchConfidence: "low",
       };
     } catch (error) {
       const status = error instanceof CreatorsApiError ? error.status : undefined;
@@ -250,9 +379,15 @@ async function resolveAmazonIngredientUncached(
       return {
         ingredient,
         normalized,
+        amazonOptimizedSearchString: lookupQuery,
+        amazonCategoryNode: mapping.categoryNode,
+        primaryBrandSelected: mapping.primaryBrand,
+        chakraAlignment: mapping.chakraAlignment,
+        alternateBrands: mapping.alternateBrands,
         asin: null,
-        searchUrl: buildAmazonSearchUrl(normalized),
+        searchUrl: buildAmazonSearchUrl(lookupQuery),
         source: "amazon_creators_api_error",
+        matchConfidence: "low",
         reason: isRateLimit ? "rate_limited" : undefined,
         rateLimited: isRateLimit || undefined,
       };
@@ -262,9 +397,15 @@ async function resolveAmazonIngredientUncached(
   return {
     ingredient,
     normalized,
+    amazonOptimizedSearchString: lookupQuery,
+    amazonCategoryNode: mapping.categoryNode,
+    primaryBrandSelected: mapping.primaryBrand,
+    chakraAlignment: mapping.chakraAlignment,
+    alternateBrands: mapping.alternateBrands,
     asin: null,
-    searchUrl: buildAmazonSearchUrl(normalized),
+    searchUrl: buildAmazonSearchUrl(lookupQuery),
     source: "no_live_catalog_credentials",
+    matchConfidence: "low",
   };
 }
 

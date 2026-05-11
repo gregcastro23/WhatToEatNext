@@ -9,7 +9,7 @@
  *
  * Pipeline:
  *   addRecipe(recipe, servings) → ingredients scaled and aggregated by
- *   (name, normalizedUnit) → checkoutToAmazon() → POST form submit
+ *   (name, normalizedUnit) → checkoutToAmazon() → checkout preflight → POST form submit
  */
 
 import {
@@ -22,10 +22,10 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { AMAZON_ASSOCIATE_TAG, resolveAsin, getStandardizedQuantity } from "@/data/amazon";
+import { resolveAsin } from "@/data/amazon";
+import { preflightAndSubmitAmazonCart } from "@/lib/amazonCartHandoff";
 
 const STORAGE_KEY = "alchm:grocery-cart:v2";
-const AMAZON_CART_URL = "https://www.amazon.com/gp/aws/cart/add.html";
 
 export interface GroceryCartIngredientInput {
   name: string;
@@ -70,7 +70,7 @@ interface GroceryCartContextValue {
    * Opens Amazon in a new tab with all resolved-ASIN items added to cart.
    * Returns the number of items sent.
    */
-  checkoutToAmazon: () => number;
+  checkoutToAmazon: () => Promise<number>;
   /** Items that could not be mapped to an ASIN */
   unmappedItems: GroceryCartItem[];
   updateAsin: (id: string, asin: string) => void;
@@ -286,62 +286,29 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
     };
   }, [unmappedItems, updateAsin]);
 
-  const checkoutToAmazon = useCallback((): number => {
-    const cartItems = items.filter((item) => item.asin);
+  const checkoutToAmazon = useCallback(async (): Promise<number> => {
+    const cartItems = items.filter(
+      (item): item is GroceryCartItem & { asin: string } => Boolean(item.asin),
+    );
     if (cartItems.length === 0) return 0;
 
-    // Build and submit a hidden form to Amazon
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = AMAZON_CART_URL;
-    form.target = "_blank";
-    form.rel = "noopener noreferrer";
-    form.style.display = "none";
-
-    const tagInput = document.createElement("input");
-    tagInput.type = "hidden";
-    tagInput.name = "AssociateTag";
-    tagInput.value = AMAZON_ASSOCIATE_TAG;
-    form.appendChild(tagInput);
-
-    const cartTypeInput = document.createElement("input");
-    cartTypeInput.type = "hidden";
-    cartTypeInput.name = "cart-type";
-    cartTypeInput.value = "fresh";
-    form.appendChild(cartTypeInput);
-
-    const addInput = document.createElement("input");
-    addInput.type = "hidden";
-    addInput.name = "add";
-    addInput.value = "add";
-    form.appendChild(addInput);
-
-    const submitAddInput = document.createElement("input");
-    submitAddInput.type = "hidden";
-    submitAddInput.name = "submit.add";
-    submitAddInput.value = "1";
-    form.appendChild(submitAddInput);
-
-    cartItems.forEach((item, idx) => {
-      const pos = idx + 1;
-      const asinInput = document.createElement("input");
-      asinInput.type = "hidden";
-      asinInput.name = `ASIN.${pos}`;
-      asinInput.value = item.asin!;
-      form.appendChild(asinInput);
-
-      const qtyInput = document.createElement("input");
-      qtyInput.type = "hidden";
-      qtyInput.name = `Quantity.${pos}`;
-      qtyInput.value = String(getStandardizedQuantity(item.name, item.quantity));
-      form.appendChild(qtyInput);
+    const result = await preflightAndSubmitAmazonCart({
+      source: "grocery_drawer",
+      items: cartItems.map((item) => ({
+        asin: item.asin,
+        qty: item.quantity,
+        name: item.name,
+        category: item.category,
+      })),
+      metadata: {
+        itemIds: cartItems.map((item) => item.id),
+        recipeIds: Array.from(
+          new Set(cartItems.flatMap((item) => item.recipeIds)),
+        ),
+      },
     });
 
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-
-    return cartItems.length;
+    return result.itemCount;
   }, [items]);
 
   const value = useMemo<GroceryCartContextValue>(

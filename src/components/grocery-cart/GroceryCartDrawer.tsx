@@ -21,10 +21,10 @@ export function GroceryCartDrawer() {
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     setCheckingOut(true);
     try {
-      const count = checkoutToAmazon();
+      const count = await checkoutToAmazon();
       if (count === 0) {
         showToast("No items could be matched to Amazon products.", "error");
       } else {
@@ -235,7 +235,9 @@ export function GroceryCartDrawer() {
             )}
             <button
               type="button"
-              onClick={handleCheckout}
+              onClick={() => {
+                void handleCheckout();
+              }}
               disabled={checkingOut || mappedCount === 0}
               className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm hover:from-orange-400 hover:to-amber-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >

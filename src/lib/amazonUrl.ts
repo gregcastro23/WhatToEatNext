@@ -8,15 +8,29 @@
 
 import { AMAZON_CONFIG } from "@/lib/amazon/config";
 
-export function getAmazonLink(query: string, asin?: string | null): string {
+interface AmazonLinkOptions {
+  searchIndex?: "amazonfresh" | "grocery" | "aps";
+}
+
+export function getAmazonLink(
+  query: string,
+  asin?: string | null,
+  options: AmazonLinkOptions = {},
+): string {
   const tag = AMAZON_CONFIG.tag;
 
   if (asin) {
     return `https://www.amazon.com/dp/${asin}?tag=${tag}`;
   }
 
-  const encodedQuery = encodeURIComponent(query);
-  return `https://www.amazon.com/s?k=${encodedQuery}&tag=${tag}`;
+  const params = new URLSearchParams({
+    k: query,
+    tag,
+  });
+
+  if (options.searchIndex) params.set("i", options.searchIndex);
+
+  return `https://www.amazon.com/s?${params.toString()}`;
 }
 
 export function getAmazonButtonText(asin?: string | null): string {

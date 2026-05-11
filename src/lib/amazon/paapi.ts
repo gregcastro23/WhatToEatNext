@@ -31,8 +31,14 @@ export interface PaapiSearchResult {
   title?: string;
   imageUrl?: string;
   price?: string;
+  inStock: boolean;
   detailPageUrl?: string;
 }
+
+export type PaapiResource =
+  | "Images.Primary.Large"
+  | "Offers.Listings.Price"
+  | "ItemInfo.Title";
 
 type PaapiConfig = PaapiCredentials;
 
@@ -147,7 +153,11 @@ interface PaapiSearchResponse {
  */
 export async function searchItem(
   keyword: string,
-  options: { searchIndex?: string; itemCount?: number } = {},
+  options: {
+    searchIndex?: string;
+    itemCount?: number;
+    resources?: readonly PaapiResource[];
+  } = {},
 ): Promise<PaapiSearchResult | null> {
   const config = loadConfig();
   if (!config) return null;
@@ -157,11 +167,10 @@ export async function searchItem(
     PartnerTag: config.partnerTag,
     PartnerType: "Associates",
     Marketplace: config.marketplace,
-    Resources: [
+    Resources: options.resources ?? [
       "Images.Primary.Large",
-      "Images.Primary.Medium",
-      "ItemInfo.Title",
       "Offers.Listings.Price",
+      "ItemInfo.Title",
     ],
     ItemCount: options.itemCount ?? 1,
     SearchIndex: options.searchIndex ?? "GroceryAndGourmetFood",
@@ -198,6 +207,7 @@ export async function searchItem(
     title: item.ItemInfo?.Title?.DisplayValue,
     imageUrl: item.Images?.Primary?.Large?.URL ?? item.Images?.Primary?.Medium?.URL,
     price: item.Offers?.Listings?.[0]?.Price?.DisplayAmount,
+    inStock: Boolean(item.Offers?.Listings?.[0]?.Price?.DisplayAmount),
     detailPageUrl: item.DetailPageURL,
   };
 }

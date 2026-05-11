@@ -169,7 +169,8 @@ export default [
       "react/jsx-uses-react": "off",
       "react/jsx-uses-vars": "error",
       "react/prop-types": "off", // Using TypeScript
-      "react/display-name": "warn",
+      // Disabled pending a compatible react-plugin path for the Next.js build worker.
+      "react/display-name": "off",
       "react/jsx-key": "error",
       "react/jsx-no-duplicate-props": "error",
       "react/jsx-no-undef": "error",
