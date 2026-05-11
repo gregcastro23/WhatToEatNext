@@ -72,6 +72,12 @@ function getEventIcon(eventType?: string): string {
       return "🤝";
     case "recipe_generation":
       return "🍽️";
+    case "insight":
+      return "👁️";
+    case "lab_entry":
+      return "📓";
+    case "made_it":
+      return "✅";
     default:
       return "✨";
   }
@@ -94,6 +100,24 @@ function getEventAction(event: FeedEvent): string {
       return recipeName
         ? `transmuted ingredients into ${recipeName}.`
         : "transmuted ingredients into a new recipe.";
+    }
+    case "insight": {
+      const title = getMetadataText(event.metadataPayload, "insightTitle");
+      return title
+        ? `channeled an alchemical insight: "${title}".`
+        : "channeled a new alchemical insight.";
+    }
+    case "lab_entry": {
+      const dishName = getMetadataText(event.metadataPayload, "dishName");
+      return dishName
+        ? `recorded a new experiment: ${dishName}.`
+        : "recorded a new experiment in their lab book.";
+    }
+    case "made_it": {
+      const recipeName = getMetadataText(event.metadataPayload, "recipeName");
+      const rating = event.metadataPayload?.rating;
+      const base = recipeName ? `prepared ${recipeName}` : "prepared a community recipe";
+      return rating ? `${base} and gave it ${rating} stars.` : `${base}.`;
     }
     default:
       return event.eventType

@@ -9,7 +9,7 @@ import { _logger } from "@/lib/logger";
 export interface FeedEvent {
   id: string;
   actorId: string;
-  eventType: 'claim_daily' | 'commensal_request' | 'recipe_generation' | 'other';
+  eventType: 'claim_daily' | 'commensal_request' | 'recipe_generation' | 'insight' | 'lab_entry' | 'made_it' | 'other';
   metadataPayload: any;
   createdAt: Date;
   actorName: string;

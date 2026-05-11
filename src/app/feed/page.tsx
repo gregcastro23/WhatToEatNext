@@ -56,6 +56,9 @@ export default function FeedPage() {
       case "claim_daily": return "⚗️";
       case "commensal_request": return "🤝";
       case "recipe_generation": return "🍽️";
+      case "insight": return "👁️";
+      case "lab_entry": return "📓";
+      case "made_it": return "✅";
       default: return "✨";
     }
   };
@@ -65,9 +68,18 @@ export default function FeedPage() {
       case "claim_daily":
         return `claimed their daily alchemical yield.`;
       case "commensal_request":
-        return `sent a dining companion request to ${event.metadataPayload.targetName || 'another alchemist'}.`;
+        return `sent a dining companion request to ${event.metadataPayload?.targetName || 'another alchemist'}.`;
       case "recipe_generation":
-        return `transmuted ingredients into a new recipe: ${event.metadataPayload.recipeName || 'Cosmic Creation'}.`;
+        return `transmuted ingredients into a new recipe: ${event.metadataPayload?.recipeName || 'Cosmic Creation'}.`;
+      case "insight":
+        return `channeled an alchemical insight: "${event.metadataPayload?.insightTitle || 'Universal Harmony'}".`;
+      case "lab_entry":
+        return `recorded a new experiment: ${event.metadataPayload?.dishName || 'Alchemical Fusion'}.`;
+      case "made_it": {
+        const recipeName = event.metadataPayload?.recipeName || "a community recipe";
+        const rating = event.metadataPayload?.rating;
+        return rating ? `prepared ${recipeName} and gave it ${rating} stars.` : `prepared ${recipeName}.`;
+      }
       default:
         return `performed an alchemical action.`;
     }

@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
+import { subscriptionService } from "@/services/subscriptionService";
 
 export const dynamic = "force-dynamic";
 
@@ -50,6 +51,17 @@ export async function POST(request: Request) {
     const user = await userDatabase.getUserByEmail(agentEmail);
     if (!user || !user.isAgent) {
       return NextResponse.json({ error: "Invalid agent email" }, { status: 404 });
+    }
+
+    // Ensure agentic users are on the premium tier to allow all interactions
+    const sub = await subscriptionService.getUserSubscription(user.id);
+    if (!sub || sub.tier !== "premium") {
+      console.log(`[Feed API] Auto-upgrading agent ${agentEmail} to premium tier.`);
+      await subscriptionService.getOrCreateSubscription(user.id);
+      await subscriptionService.updateSubscription(user.id, { 
+        tier: "premium", 
+        status: "active" 
+      });
     }
 
     const success = await feedDatabase.createEvent(user.id, eventType, metadataPayload || {});
