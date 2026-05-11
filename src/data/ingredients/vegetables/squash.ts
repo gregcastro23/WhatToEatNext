@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawSquash = {
   "butternut squash": {
-      description: "Butternut Squash is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+      image_url: "ingredients/butternut squash.png",
+    description: "Butternut Squash is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "Butternut squash",
     origin: ["North America", "Mesoamerica"],
     elementalProperties: {
@@ -74,7 +75,8 @@ const rawSquash = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Butternut Squash is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   zucchini: {
-      description: "A fast-growing summer squash (*Cucurbita pepo*) with a thin, edible dark green skin and high water content. Its mild, slightly sweet flavor makes it highly versatile, suitable for raw ribbons in salads, quick sautéing, or baking into moist breads.",
+      image_url: "ingredients/zucchini.png",
+    description: "A fast-growing summer squash (*Cucurbita pepo*) with a thin, edible dark green skin and high water content. Its mild, slightly sweet flavor makes it highly versatile, suitable for raw ribbons in salads, quick sautéing, or baking into moist breads.",
     name: "zucchini",
     origin: ["Mesoamerica", "Italy (modern variety)"],
     elementalProperties: {
@@ -132,7 +134,8 @@ const rawSquash = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Zucchini is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   pumpkin: {
-      description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.",
+      image_url: "ingredients/pumpkin.png",
+    description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.",
     name: "Pumpkin",
     origin: ["North America"],
     elementalProperties: {
@@ -203,7 +206,8 @@ const rawSquash = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Pumpkin is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   "acorn squash": {
-      description: "Acorn Squash is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+      image_url: "ingredients/acorn squash.png",
+    description: "Acorn Squash is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "Acorn squash",
     origin: ["North America"],
     elementalProperties: {

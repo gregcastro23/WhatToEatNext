@@ -1071,6 +1071,13 @@ function IngredientCard({
   const culinary = getCulinaryDetails(ingredient);
   const cardAmazon = getCardAmazonState(data);
   const cardPrice = parseAmazonPrice(cardAmazon.price);
+  const ingredientImageUrl =
+    typeof (ingredient as { image_url?: unknown }).image_url === "string"
+      ? (ingredient as { image_url: string }).image_url
+      : typeof (ingredient as { imageUrl?: unknown }).imageUrl === "string"
+        ? (ingredient as { imageUrl: string }).imageUrl
+        : undefined;
+  const displayImageUrl = ingredientImageUrl || cardAmazon.productImageUrl;
   const normalized = normalizeForDisplay(
     ingredient.elementalProperties || {
       Fire: 0.25,
@@ -1092,13 +1099,15 @@ function IngredientCard({
       <div className={`absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b ${meta.gradient} opacity-60`} />
 
       <div className="relative aspect-[4/3] bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.10),rgba(255,255,255,0.02)_48%,rgba(0,0,0,0.22))]">
-        {cardAmazon.productImageUrl ? (
+        {displayImageUrl ? (
           <Image
-            src={cardAmazon.productImageUrl}
+            src={displayImageUrl}
             alt={cardAmazon.productTitle ?? ingredient.name}
             fill
             sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-            className="object-contain p-5 transition-transform duration-500 group-hover:scale-105"
+            className={`transition-transform duration-500 group-hover:scale-105 ${
+              ingredientImageUrl ? "object-cover" : "object-contain p-5"
+            }`}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

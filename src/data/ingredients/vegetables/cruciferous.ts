@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
   cauliflower: {
-      description: "A versatile, mildly sweet cruciferous vegetable (*Brassica oleracea var. botrytis*) composed of undeveloped flower buds. Its neutral flavor and dense structure make it a culinary chameleon, easily absorbing strong spices, roasting to a nutty caramelization, or pureeing into a creamy, starch-free mash.",
+      image_url: "ingredients/cauliflower.png",
+    description: "A versatile, mildly sweet cruciferous vegetable (*Brassica oleracea var. botrytis*) composed of undeveloped flower buds. Its neutral flavor and dense structure make it a culinary chameleon, easily absorbing strong spices, roasting to a nutty caramelization, or pureeing into a creamy, starch-free mash.",
     name: "Cauliflower",
     origin: ["Cultivated worldwide"],
 
@@ -86,6 +87,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cauliflower is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   broccoli: {
+      image_url: "ingredients/broccoli.png",
     name: "broccoli",
     category: "vegetable",
     subcategory: "cruciferous",
@@ -237,7 +239,8 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
 },
   cabbage: {
-      description: "A tightly packed, leafy biennial (*Brassica oleracea*) that is a cornerstone of global preservation through fermentation (like sauerkraut and kimchi). Rich in sulfur compounds, it transforms from crisp and peppery when raw to profoundly sweet and tender when slowly braised or roasted.",
+      image_url: "ingredients/cabbage.png",
+    description: "A tightly packed, leafy biennial (*Brassica oleracea*) that is a cornerstone of global preservation through fermentation (like sauerkraut and kimchi). Rich in sulfur compounds, it transforms from crisp and peppery when raw to profoundly sweet and tender when slowly braised or roasted.",
     name: "cabbage",
     origin: ["Cultivated worldwide"],
     season: ["varies by variety"],
@@ -272,7 +275,8 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   napa_cabbage: {
-      description: "A tightly packed, leafy biennial (*Brassica oleracea*) that is a cornerstone of global preservation through fermentation (like sauerkraut and kimchi). Rich in sulfur compounds, it transforms from crisp and peppery when raw to profoundly sweet and tender when slowly braised or roasted.\n\n**Selection & Storage:** Select heads that feel heavy for their size with tight, unblemished outer leaves. Whole cabbage is remarkably resilient and can be stored loose in the crisper drawer for several weeks.",
+      image_url: "ingredients/napa_cabbage.png",
+    description: "A tightly packed, leafy biennial (*Brassica oleracea*) that is a cornerstone of global preservation through fermentation (like sauerkraut and kimchi). Rich in sulfur compounds, it transforms from crisp and peppery when raw to profoundly sweet and tender when slowly braised or roasted.\n\n**Selection & Storage:** Select heads that feel heavy for their size with tight, unblemished outer leaves. Whole cabbage is remarkably resilient and can be stored loose in the crisper drawer for several weeks.",
     name: "napa cabbage",
     origin: ["China (Beijing region)"],
     season: ["fall", "winter"],

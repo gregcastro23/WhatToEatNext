@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawPome = {
   apple: {
-      description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.",
+      image_url: "ingredients/apple.png",
+    description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.",
     name: "Apple",
     origin: ["Central Asia (Kazakhstan)"],
     elementalProperties: {
@@ -186,7 +187,8 @@ const rawPome = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   pear: {
-      description: "A delicate pome fruit (*Pyrus communis*) that ripens from the inside out, transforming from crunchy to buttery-soft. Its high sugar content and delicate floral notes make it excellent for eating raw, poaching in wine, or pairing with sharp blue cheeses.",
+      image_url: "ingredients/pear.png",
+    description: "A delicate pome fruit (*Pyrus communis*) that ripens from the inside out, transforming from crunchy to buttery-soft. Its high sugar content and delicate floral notes make it excellent for eating raw, poaching in wine, or pairing with sharp blue cheeses.",
     name: "Pear",
     origin: ["Central Asia", "Western Europe"],
     elementalProperties: {
@@ -362,7 +364,8 @@ const rawPome = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   quince: {
-      description: "An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).",
+      image_url: "ingredients/quince.png",
+    description: "An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).",
     name: "Quince",
     origin: ["Caucasus", "Western Asia"],
     elementalProperties: {
@@ -523,7 +526,8 @@ const rawPome = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   asian_pear: {
-      description: "A crisp, exceptionally juicy fruit (*Pyrus pyrifolia*) that looks like a round apple but retains the delicate, floral sweetness of a pear. Unlike European pears, they do not soften after picking; their granular, water-dense texture makes them perfect for eating raw or grating into Korean meat marinades to tenderize beef.",
+      image_url: "ingredients/asian_pear.png",
+    description: "A crisp, exceptionally juicy fruit (*Pyrus pyrifolia*) that looks like a round apple but retains the delicate, floral sweetness of a pear. Unlike European pears, they do not soften after picking; their granular, water-dense texture makes them perfect for eating raw or grating into Korean meat marinades to tenderize beef.",
     name: "Asian Pear",
     origin: ["Central Asia", "Western Europe"],
     elementalProperties: {
@@ -669,7 +673,8 @@ const rawPome = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   medlar: {
-      description: "A sweet edible plant product, medlar delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
+      image_url: "ingredients/medlar.png",
+    description: "A sweet edible plant product, medlar delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Medlar",
     origin: ["Cultivated worldwide"],
     elementalProperties: {
@@ -812,7 +817,8 @@ const rawPome = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   loquat: {
-      description: "A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.",
+      image_url: "ingredients/loquat.png",
+    description: "A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.",
     name: "Loquat",
     origin: ["Cultivated worldwide"],
     elementalProperties: {

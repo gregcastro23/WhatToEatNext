@@ -4,7 +4,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Beverages ingredients extracted from cuisine files
 const rawBeverages: Record<string, Partial<IngredientMapping>> = {
   red_wine_vinaigrette: {
-      description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
+      image_url: "ingredients/red_wine_vinaigrette.png",
+    description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
     name: "red wine vinaigrette",
     origin: ["Worldwide"],
     season: ["all"],
@@ -47,7 +48,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   clam_juice: {
-      description: "A bivalve mollusk providing a briny, chewy, and distinctly oceanic flavor. Hard-shell clams (like littlenecks or cherrystones) are perfect for eating raw or tossing into pastas, while softer-shelled varieties (like steamers) are excellent for frying or broths.\n\n**Selection & Storage:** Buy clams that are tightly closed; if slightly open, they should snap shut when tapped. Store them in a breathable bag or bowl covered with a damp cloth in the refrigerator.",
+      image_url: "ingredients/clam_juice.png",
+    description: "A bivalve mollusk providing a briny, chewy, and distinctly oceanic flavor. Hard-shell clams (like littlenecks or cherrystones) are perfect for eating raw or tossing into pastas, while softer-shelled varieties (like steamers) are excellent for frying or broths.\n\n**Selection & Storage:** Buy clams that are tightly closed; if slightly open, they should snap shut when tapped. Store them in a breathable bag or bowl covered with a damp cloth in the refrigerator.",
     name: "clam juice",
     origin: ["Worldwide coastal waters"],
     season: ["fall", "winter", "spring"],
@@ -90,7 +92,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   white_wine: {
-      description: "A fermented beverage made from light-colored grapes. In cooking, its sharp acidity (tartaric and malic acids) tenderizes proteins, its alcohol dissolves complex flavor compounds, and it provides a bright, fruity foundation for classic sauces like beurre blanc or pan deglazing.",
+      image_url: "ingredients/white_wine.png",
+    description: "A fermented beverage made from light-colored grapes. In cooking, its sharp acidity (tartaric and malic acids) tenderizes proteins, its alcohol dissolves complex flavor compounds, and it provides a bright, fruity foundation for classic sauces like beurre blanc or pan deglazing.",
     name: "white wine",
     origin: ["Worldwide"],
     season: ["all"],
@@ -133,7 +136,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   red_wine: {
-      description: "A fermented beverage made from dark-colored grapes, fermented with their skins. It imparts deep color, robust fruit flavors, and astringent tannins, making it the essential braising liquid for hearty, slow-cooked beef dishes like Boeuf Bourguignon.",
+      image_url: "ingredients/red_wine.png",
+    description: "A fermented beverage made from dark-colored grapes, fermented with their skins. It imparts deep color, robust fruit flavors, and astringent tannins, making it the essential braising liquid for hearty, slow-cooked beef dishes like Boeuf Bourguignon.",
     name: "red wine",
     origin: ["Worldwide"],
     season: ["all"],
@@ -176,7 +180,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   turkey_stock: {
-      description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
+      image_url: "ingredients/turkey_stock.png",
+    description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
     name: "turkey stock",
     origin: ["Mesoamerica"],
     season: ["fall", "winter"],
@@ -219,7 +224,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   water: {
-      description: "The universal solvent and culinary liquid — mineral content and temperature both matter more than is usually recognized. Hard water (high calcium, magnesium) inhibits yeast and affects coffee extraction; filtered or bottled water produces cleaner stock and clearer broth. Ice-cold water relaxes doughs; just-off-boil water extracts tea; room-temperature water shortens rest times in pastry. Recipe measurements assume volumetric consistency — weigh water (1 mL = 1 g) for precision in baking.",
+      image_url: "ingredients/water.png",
+    description: "The universal solvent and culinary liquid — mineral content and temperature both matter more than is usually recognized. Hard water (high calcium, magnesium) inhibits yeast and affects coffee extraction; filtered or bottled water produces cleaner stock and clearer broth. Ice-cold water relaxes doughs; just-off-boil water extracts tea; room-temperature water shortens rest times in pastry. Recipe measurements assume volumetric consistency — weigh water (1 mL = 1 g) for precision in baking.",
     name: "Water",
     origin: ["Worldwide"],
     season: ["all"],
@@ -262,7 +268,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   baking_soda: {
-      description: "Pure sodium bicarbonate, a chemical base that requires the addition of an acidic ingredient (like buttermilk, yogurt, or lemon juice) to react and produce carbon dioxide gas. In addition to leavening, it dramatically accelerates browning (the Maillard reaction) by raising the pH of the batter.",
+      image_url: "ingredients/baking_soda.png",
+    description: "Pure sodium bicarbonate, a chemical base that requires the addition of an acidic ingredient (like buttermilk, yogurt, or lemon juice) to react and produce carbon dioxide gas. In addition to leavening, it dramatically accelerates browning (the Maillard reaction) by raising the pH of the batter.",
     name: "baking soda",
     origin: ["Worldwide"],
     season: ["all"],
@@ -305,7 +312,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   coffee: {
-      description: "Coffee is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
+      image_url: "ingredients/coffee.png",
+    description: "Coffee is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
     name: "coffee",
     origin: ["Ethiopia"],
     season: ["all"],
@@ -348,7 +356,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   dry_white_wine: {
-      description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
+      image_url: "ingredients/dry_white_wine.png",
+    description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",
     name: "dry white wine",
     origin: ["Worldwide"],
     season: ["all"],
@@ -391,7 +400,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   white_wine_vinegar: {
-      description: "A bright, moderately sharp vinegar made by fermenting white wine. It is significantly less assertive and tannic than red wine vinegar, offering a delicate, slightly floral acidity that perfectly balances lighter dishes like chicken salads, delicate fish, or hollandaise sauce.",
+      image_url: "ingredients/white_wine_vinegar.png",
+    description: "A bright, moderately sharp vinegar made by fermenting white wine. It is significantly less assertive and tannic than red wine vinegar, offering a delicate, slightly floral acidity that perfectly balances lighter dishes like chicken salads, delicate fish, or hollandaise sauce.",
     name: "white wine vinegar",
     origin: ["Europe"],
     season: ["all"],
@@ -434,7 +444,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   tea_bags: {
-      description: "Tea Bags is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
+      image_url: "ingredients/tea_bags.png",
+    description: "Tea Bags is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
     name: "tea bags",
     origin: ["Southwest China"],
     season: ["all"],
@@ -477,7 +488,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   rose_water: {
-      description: "The universal solvent and culinary liquid — mineral content and temperature both matter more than is usually recognized. Hard water (high calcium, magnesium) inhibits yeast and affects coffee extraction; filtered or bottled water produces cleaner stock and clearer broth. Ice-cold water relaxes doughs; just-off-boil water extracts tea; room-temperature water shortens rest times in pastry. Recipe measurements assume volumetric consistency — weigh water (1 mL = 1 g) for precision in baking.",
+      image_url: "ingredients/rose_water.png",
+    description: "The universal solvent and culinary liquid — mineral content and temperature both matter more than is usually recognized. Hard water (high calcium, magnesium) inhibits yeast and affects coffee extraction; filtered or bottled water produces cleaner stock and clearer broth. Ice-cold water relaxes doughs; just-off-boil water extracts tea; room-temperature water shortens rest times in pastry. Recipe measurements assume volumetric consistency — weigh water (1 mL = 1 g) for precision in baking.",
     name: "rose water",
     origin: ["Worldwide"],
     season: ["all"],
@@ -520,7 +532,8 @@ const rawBeverages: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Sealed, 3-7 days once opened.", notes: "Oxidation dulls flavor — decant smaller portions if stored long." }
 },
   water_chestnuts: {
-      description: "An aquatic tuber (*Eleocharis dulcis*) grown in marshes, prized for a structural uniqueness: it retains a profound, apple-like crispness even after prolonged cooking. Its mild sweetness provides essential textural contrast in rich stir-fries and dim sum fillings.\n\n**Selection & Storage:** Fresh water chestnuts are superior but difficult to find; look for firm, unwrinkled tubers. Canned ones are widely available; rinse well to remove any tinny flavor before using.",
+      image_url: "ingredients/water_chestnuts.png",
+    description: "An aquatic tuber (*Eleocharis dulcis*) grown in marshes, prized for a structural uniqueness: it retains a profound, apple-like crispness even after prolonged cooking. Its mild sweetness provides essential textural contrast in rich stir-fries and dim sum fillings.\n\n**Selection & Storage:** Fresh water chestnuts are superior but difficult to find; look for firm, unwrinkled tubers. Canned ones are widely available; rinse well to remove any tinny flavor before using.",
     name: "water chestnuts",
     origin: ["Europe"],
     season: ["fall"],

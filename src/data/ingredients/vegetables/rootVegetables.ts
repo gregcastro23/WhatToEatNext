@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawRootVegetables = {
   "sweet potato": {
-      description: "Sweet Potato is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+      image_url: "ingredients/sweet potato.png",
+    description: "Sweet Potato is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "Sweet potato",
     origin: ["Central and South America"],
 
@@ -64,7 +65,8 @@ const rawRootVegetables = {
 },
 
   parsnip: {
-      description: "A pale, cream-colored root vegetable (*Pastinaca sativa*) closely related to the carrot. It is profoundly starchy and packs an intense, woody sweetness with distinct notes of nutmeg and spiced cider, making it ideal for roasting until deeply caramelized.",
+      image_url: "ingredients/parsnip.png",
+    description: "A pale, cream-colored root vegetable (*Pastinaca sativa*) closely related to the carrot. It is profoundly starchy and packs an intense, woody sweetness with distinct notes of nutmeg and spiced cider, making it ideal for roasting until deeply caramelized.",
     name: "Parsnip",
     origin: ["Eurasia"],
     elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
@@ -106,7 +108,8 @@ const rawRootVegetables = {
 },
 
   beet: {
-      description: "An earthy, vividly colored root vegetable (*Beta vulgaris*) rich in natural sugars and betalains, the antioxidant pigments responsible for its deep red-purple hue. Its earthy flavor is due to geosmin, an organic compound that pairs exceptionally well with bright acids and rich dairy.",
+      image_url: "ingredients/beet.png",
+    description: "An earthy, vividly colored root vegetable (*Beta vulgaris*) rich in natural sugars and betalains, the antioxidant pigments responsible for its deep red-purple hue. Its earthy flavor is due to geosmin, an organic compound that pairs exceptionally well with bright acids and rich dairy.",
     name: "Beet",
     origin: ["Mediterranean", "North Africa"],
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
@@ -149,7 +152,8 @@ const rawRootVegetables = {
 },
 
   turnip: {
-      description: "A round, white root vegetable with a purple top (*Brassica rapa*) belonging to the mustard family. It has a crisp texture and a mild, slightly peppery, cabbage-like flavor that sweetens when cooked, making it an excellent, low-starch alternative to potatoes in purees and stews.",
+      image_url: "ingredients/turnip.png",
+    description: "A round, white root vegetable with a purple top (*Brassica rapa*) belonging to the mustard family. It has a crisp texture and a mild, slightly peppery, cabbage-like flavor that sweetens when cooked, making it an excellent, low-starch alternative to potatoes in purees and stews.",
     name: "Turnip",
     origin: ["Central Asia", "Mediterranean"],
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },

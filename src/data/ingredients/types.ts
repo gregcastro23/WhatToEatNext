@@ -131,6 +131,8 @@ export interface LunarPhaseModifier {
 }
 export interface Ingredient extends BaseIngredient {
   id?: string;
+  image_url?: string;
+  imageUrl?: string;
   description?: string;
   origin?: string[];
   regionalOrigins?: string[];

@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawWholeSpices = {
   star_anise: {
-      description: "The star-shaped pericarp of a small evergreen tree (*Illicium verum*) native to Vietnam and southwest China. It is highly concentrated with anethole, providing an intensely sweet, pungent, licorice-like flavor that is crucial to Chinese five-spice powder and Vietnamese pho broth.",
+      image_url: "ingredients/star_anise.png",
+    description: "The star-shaped pericarp of a small evergreen tree (*Illicium verum*) native to Vietnam and southwest China. It is highly concentrated with anethole, providing an intensely sweet, pungent, licorice-like flavor that is crucial to Chinese five-spice powder and Vietnamese pho broth.",
     name: "Star Anise",
     season: ["all"],
     elementalProperties: { Fire: 0.49, Water: 0.13, Earth: 0.13, Air: 0.25 },
@@ -76,7 +77,8 @@ const rawWholeSpices = {
 },
 
   cardamom_pods: {
-      description: "A highly aromatic, resinous spice (*Elettaria cardamomum*) enclosed in small green or black pods. Green cardamom offers a complex, cooling, eucalyptus-and-citrus sweetness essential for Scandinavian baking and Indian sweets, while black cardamom is heavily smoked and deeply savory.",
+      image_url: "ingredients/cardamom_pods.png",
+    description: "A highly aromatic, resinous spice (*Elettaria cardamomum*) enclosed in small green or black pods. Green cardamom offers a complex, cooling, eucalyptus-and-citrus sweetness essential for Scandinavian baking and Indian sweets, while black cardamom is heavily smoked and deeply savory.",
     name: "Cardamom Pods",
     season: ["all"],
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -161,7 +163,8 @@ const rawWholeSpices = {
 },
 
   mustard_seeds: {
-      description: "Tiny, round seeds of various mustard plants (*Brassica* and *Sinapis*) available in yellow, brown, and black varieties. The seeds themselves have no heat until crushed and mixed with a cold liquid, which triggers an enzyme reaction creating the sharp, pungent compound allyl isothiocyanate.\n\n**Selection & Storage:** Yellow seeds are the mildest, while black and brown are much sharper and more pungent. Store whole seeds in an airtight container in a dark pantry, as they keep indefinitely.",
+      image_url: "ingredients/mustard_seeds.png",
+    description: "Tiny, round seeds of various mustard plants (*Brassica* and *Sinapis*) available in yellow, brown, and black varieties. The seeds themselves have no heat until crushed and mixed with a cold liquid, which triggers an enzyme reaction creating the sharp, pungent compound allyl isothiocyanate.\n\n**Selection & Storage:** Yellow seeds are the mildest, while black and brown are much sharper and more pungent. Store whole seeds in an airtight container in a dark pantry, as they keep indefinitely.",
     name: "Mustard Seeds",
     season: ["all"],
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -247,7 +250,8 @@ const rawWholeSpices = {
 },
 
   fennel_seeds: {
-      description: "The dried seeds of the fennel plant (*Foeniculum vulgare*), providing a highly aromatic, sweet, and warm licorice flavor. They are a crucial component of Chinese Five Spice, Indian Panch Phoron, and traditional sweet Italian sausages.",
+      image_url: "ingredients/fennel_seeds.png",
+    description: "The dried seeds of the fennel plant (*Foeniculum vulgare*), providing a highly aromatic, sweet, and warm licorice flavor. They are a crucial component of Chinese Five Spice, Indian Panch Phoron, and traditional sweet Italian sausages.",
     name: "Fennel Seeds",
     season: ["all"],
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -329,7 +333,8 @@ const rawWholeSpices = {
 },
 
   coriander_seeds: {
-      description: "The dried seeds of the cilantro plant (*Coriandrum sativum*), yielding a completely different flavor profile than its leaves. The seeds provide a warm, floral, and slightly citrusy sweetness that is a crucial balancing component in heavy, spicy curry blends and pickling brines.",
+      image_url: "ingredients/coriander_seeds.png",
+    description: "The dried seeds of the cilantro plant (*Coriandrum sativum*), yielding a completely different flavor profile than its leaves. The seeds provide a warm, floral, and slightly citrusy sweetness that is a crucial balancing component in heavy, spicy curry blends and pickling brines.",
     name: "Coriander Seeds",
     season: ["spring", "fall"],
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
@@ -400,7 +405,8 @@ const rawWholeSpices = {
 },
 
   cumin_seeds: {
-      description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
+      image_url: "ingredients/cumin_seeds.png",
+    description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
     name: "Cumin Seeds",
     season: ["all"],
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -482,7 +488,8 @@ const rawWholeSpices = {
 },
 
   caraway_seeds: {
-      description: "The dried, crescent-shaped fruit of a biennial plant (*Carum carvi*) in the parsley family. They provide a highly pungent, slightly sweet, and distinctively anise/licorice flavor profile that cuts through rich, fatty dishes, acting as the essential defining flavor of rye bread and sauerkraut.",
+      image_url: "ingredients/caraway_seeds.png",
+    description: "The dried, crescent-shaped fruit of a biennial plant (*Carum carvi*) in the parsley family. They provide a highly pungent, slightly sweet, and distinctively anise/licorice flavor profile that cuts through rich, fatty dishes, acting as the essential defining flavor of rye bread and sauerkraut.",
     name: "Caraway Seeds",
     season: ["all"],
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },

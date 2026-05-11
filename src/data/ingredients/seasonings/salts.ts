@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawSalts = {
   fleur_de_sel: {
-      description: "A rare, highly prized sea salt translated as 'flower of salt.' It is meticulously hand-harvested by scraping the delicate, pyramid-shaped crystals that form on the surface of seawater evaporation ponds. It provides a clean, oceanic minerality and a delicate, shattering crunch, used exclusively as a finishing salt.",
+      image_url: "ingredients/fleur_de_sel.png",
+    description: "A rare, highly prized sea salt translated as 'flower of salt.' It is meticulously hand-harvested by scraping the delicate, pyramid-shaped crystals that form on the surface of seawater evaporation ponds. It provides a clean, oceanic minerality and a delicate, shattering crunch, used exclusively as a finishing salt.",
     name: "Fleur De Sel",
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.08, Essence: 0.15, Matter: 0.90, Substance: 0.92 },
@@ -489,7 +490,8 @@ const rawSalts = {
 },
 
   maldon_salt: {
-      description: "A highly esteemed, artisanal sea salt harvested in the coastal town of Maldon, England. It is famous for its unique, large, hollow pyramid-shaped crystals that provide an exceptionally clean, bright minerality and a dramatic, shattering crunch when sprinkled over finished steaks or chocolate chip cookies.",
+      image_url: "ingredients/maldon_salt.png",
+    description: "A highly esteemed, artisanal sea salt harvested in the coastal town of Maldon, England. It is famous for its unique, large, hollow pyramid-shaped crystals that provide an exceptionally clean, bright minerality and a dramatic, shattering crunch when sprinkled over finished steaks or chocolate chip cookies.",
     name: "Maldon Salt",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     alchemicalProperties: { Spirit: 0.06, Essence: 0.12, Matter: 0.88, Substance: 0.90 },
@@ -605,7 +607,8 @@ const rawSalts = {
 },
 
   sea_salt: {
-      description: "A broad category of salt obtained directly through the evaporation of seawater, rather than mined from subterranean rock deposits. While it is chemically mostly sodium chloride, it retains trace oceanic minerals (like magnesium and calcium) that provide a slightly more complex, 'briny' flavor profile than highly refined table salt.",
+      image_url: "ingredients/sea_salt.png",
+    description: "A broad category of salt obtained directly through the evaporation of seawater, rather than mined from subterranean rock deposits. While it is chemically mostly sodium chloride, it retains trace oceanic minerals (like magnesium and calcium) that provide a slightly more complex, 'briny' flavor profile than highly refined table salt.",
     name: "Sea Salt",
     season: ["all"],
     elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
@@ -694,7 +697,8 @@ const rawSalts = {
 },
 
   himalayan_salt: {
-      description: "A rock salt mined from the Punjab region of Pakistan, characterized by its distinct pink color, which is derived from trace minerals like iron, magnesium, and calcium. While nutrally similar to table salt, its large, coarse crystals make it an excellent visual and textural finishing salt.",
+      image_url: "ingredients/himalayan_salt.png",
+    description: "A rock salt mined from the Punjab region of Pakistan, characterized by its distinct pink color, which is derived from trace minerals like iron, magnesium, and calcium. While nutrally similar to table salt, its large, coarse crystals make it an excellent visual and textural finishing salt.",
     name: "Himalayan Salt",
     season: ["all"],
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
@@ -990,7 +994,8 @@ const rawSalts = {
 },
 
   kosher_salt: {
-      description: "A coarse-grained, additive-free salt that features large, irregular, flat crystals. Originally designed for the Jewish dietary practice of dry-brining (koshering) meat, its large surface area draws out moisture effectively and makes it exceptionally easy for chefs to pinch and accurately judge quantities by feel, compared to dense table salt.",
+      image_url: "ingredients/kosher_salt.png",
+    description: "A coarse-grained, additive-free salt that features large, irregular, flat crystals. Originally designed for the Jewish dietary practice of dry-brining (koshering) meat, its large surface area draws out moisture effectively and makes it exceptionally easy for chefs to pinch and accurately judge quantities by feel, compared to dense table salt.",
     name: "Kosher Salt",
     season: ["all"],
     elementalProperties: { Earth: 0.6, Water: 0.2, Air: 0.1, Fire: 0.1 },
@@ -1071,7 +1076,8 @@ const rawSalts = {
 },
 
   table_salt: {
-      description: "A highly refined, fine-grained salt consisting of nearly 100% pure sodium chloride, typically mined from underground salt deposits. Because its grains are uniformly small and dense, it dissolves instantly in water, though it is incredibly easy to over-salt dishes if measuring by volume instead of weight.",
+      image_url: "ingredients/table_salt.png",
+    description: "A highly refined, fine-grained salt consisting of nearly 100% pure sodium chloride, typically mined from underground salt deposits. Because its grains are uniformly small and dense, it dissolves instantly in water, though it is incredibly easy to over-salt dishes if measuring by volume instead of weight.",
     name: "Table Salt",
     season: ["all"],
     elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },

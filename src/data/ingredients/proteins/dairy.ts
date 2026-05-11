@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawDairy = {
   greek_yogurt: {
+      image_url: "ingredients/greek_yogurt.png",
     name: "Greek Yogurt",
     origin: ["Greece"],
     description:
@@ -213,6 +214,7 @@ const rawDairy = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   cottage_cheese: {
+      image_url: "ingredients/cottage_cheese.png",
     name: "Cottage Cheese",
     origin: ["Northern Europe"],
     description:
@@ -445,6 +447,7 @@ const rawDairy = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   ricotta: {
+      image_url: "ingredients/ricotta.png",
     name: "Ricotta",
     origin: ["Italy"],
     description:
@@ -657,6 +660,7 @@ const rawDairy = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   cream_cheese: {
+      image_url: "ingredients/cream_cheese.png",
     name: "Cream Cheese",
     origin: ["United States"],
     description:
@@ -884,6 +888,7 @@ const rawDairy = {
       pairingRecommendations: {"complementary":["salt","acid","fat"],"contrasting":["sweetness","heat"],"toAvoid":[]}
 },
   milk: {
+      image_url: "ingredients/milk.png",
     name: "Milk",
     origin: ["Worldwide pastoral cultures"],
     description:
@@ -939,6 +944,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   buttermilk: {
+      image_url: "ingredients/buttermilk.png",
     name: "Buttermilk",
     origin: ["Western Asia (originated)", "Worldwide"],
     description:
@@ -991,6 +997,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   butter: {
+      image_url: "ingredients/butter.png",
     name: "Butter",
     origin: ["Western Asia"],
     description:
@@ -1051,6 +1058,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.1, sour: 0, bitter: 0, umami: 0.1, spicy: 0, rich: 0.9 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   goat_cheese: {
+      image_url: "ingredients/goat_cheese.png",
     name: "Goat Cheese",
     origin: ["Western Asia", "Africa"],
     description:
@@ -1105,6 +1113,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   cheddar_cheese: {
+      image_url: "ingredients/cheddar_cheese.png",
     name: "Cheddar Cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     description:
@@ -1160,6 +1169,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   blue_cheese: {
+      image_url: "ingredients/blue_cheese.png",
     name: "Blue Cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     description:
@@ -1215,6 +1225,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   heavy_cream: {
+      image_url: "ingredients/heavy_cream.png",
     name: "Heavy Cream",
     origin: ["Worldwide"],
     description:
@@ -1269,6 +1280,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   sour_cream: {
+      image_url: "ingredients/sour_cream.png",
     name: "Sour Cream",
     origin: ["Eastern Europe"],
     description:
@@ -1324,6 +1336,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   cold_butter: {
+      image_url: "ingredients/cold_butter.png",
     name: "Cold Butter",
     origin: ["Western Asia"],
     description:
@@ -1366,6 +1379,7 @@ const rawDairy = {
       pairingRecommendations: { complementary: ["salt", "fat", "acid", "herbs", "garlic"], contrasting: ["citrus", "spicy", "bitter greens"], toAvoid: [] }
 },
   parmesan: {
+      image_url: "ingredients/parmesan.png",
     name: "Parmesan (Parmigiano-Reggiano)",
     origin: ["Italy"],
     description:
@@ -1420,6 +1434,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   chocolate_ice_cream: {
+      image_url: "ingredients/chocolate_ice_cream.png",
     name: "Chocolate Ice Cream",
     origin: ["Worldwide"],
     description:
@@ -1469,6 +1484,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   evaporated_milk: {
+      image_url: "ingredients/evaporated_milk.png",
     name: "Evaporated Milk",
     origin: ["Worldwide pastoral cultures"],
     description:
@@ -1518,6 +1534,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   butter_croissant: {
+      image_url: "ingredients/butter_croissant.png",
     name: "Butter Croissant",
     origin: ["Western Asia"],
     description:
@@ -1567,6 +1584,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   french_butter: {
+      image_url: "ingredients/french_butter.png",
     name: "French Butter",
     origin: ["Western Asia"],
     description:
@@ -1616,6 +1634,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   whole_milk: {
+      image_url: "ingredients/whole_milk.png",
     name: "Whole Milk",
     origin: ["Worldwide"],
     description:
@@ -1665,6 +1684,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   unsalted_butter: {
+      image_url: "ingredients/unsalted_butter.png",
     name: "Unsalted Butter",
     origin: ["Western Asia"],
     description:
@@ -1714,6 +1734,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0, sour: 0, bitter: 0, umami: 0.1, spicy: 0, rich: 0.9 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   clarified_butter: {
+      image_url: "ingredients/clarified_butter.png",
     name: "Clarified Butter / Ghee",
     origin: ["Western Asia"],
     description:
@@ -1772,6 +1793,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   gruy_re_cheese: {
+      image_url: "ingredients/gruy_re_cheese.png",
     name: "Gruyère Cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     description:
@@ -1826,6 +1848,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   vanilla_ice_cream: {
+      image_url: "ingredients/vanilla_ice_cream.png",
     name: "Vanilla Ice Cream",
     origin: ["Mexico (Totonac region)"],
     description:
@@ -1880,6 +1903,7 @@ const rawDairy = {
       sensoryProfile: { taste: { sweet: 0.05, salty: 0.1, sour: 0.0, bitter: 0.1, umami: 0.6, spicy: 0.0 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   yogurt: {
+      image_url: "ingredients/yogurt.png",
     name: "Yogurt",
     origin: ["Western Asia", "Central Asia"],
     description:
@@ -1935,6 +1959,7 @@ const rawDairy = {
       sensoryProfile: { taste: { spicy: 0, sweet: 0.2, sour: 0.7, bitter: 0, salty: 0.1, umami: 0.3 }, aroma: { savory: 0.8, rich: 0.6, roasted: 0.5 }, texture: { firm: 0.6, tender: 0.5, juicy: 0.4 } }
 },
   mozzarella: {
+      image_url: "ingredients/mozzarella.png",
     name: "Mozzarella",
     origin: ["Italy (Campania)"],
     description:

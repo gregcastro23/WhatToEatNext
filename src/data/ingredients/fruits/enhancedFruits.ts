@@ -10,6 +10,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
   lemon: {
+      image_url: "ingredients/lemon.png",
     name: "lemon",
     category: "fruit",
     subcategory: "citrus",
@@ -151,6 +152,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   apple: {
+      image_url: "ingredients/apple.png",
     name: "apple",
     category: "fruit",
     subcategory: "pome",
@@ -289,6 +291,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   banana: {
+      image_url: "ingredients/banana.png",
     name: "banana",
     category: "fruit",
     subcategory: "tropical",
@@ -438,6 +441,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   strawberry: {
+      image_url: "ingredients/strawberry.png",
     name: "strawberry",
     category: "fruit",
     subcategory: "berry",
@@ -581,6 +585,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   avocado: {
+      image_url: "ingredients/avocado.png",
     name: "avocado",
     category: "fruit",
     subcategory: "tropical_berry",
@@ -735,6 +740,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   blueberry: {
+      image_url: "ingredients/blueberry.png",
     name: "blueberry",
     category: "fruit",
     subcategory: "berry",
@@ -882,6 +888,7 @@ const rawEnhancedFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   orange: {
+      image_url: "ingredients/orange.png",
     name: "orange",
     category: "fruit",
     subcategory: "citrus",

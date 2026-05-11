@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Define vinegars directly in this file rather than importing from seasonings
 const rawVinegars = {
   rice_vinegar: {
-      description: "A mild, slightly sweet vinegar made by fermenting rice wine (sake). Its exceptionally low acidity (around 4%) and subtle, floral sweetness make it an unobtrusive, delicate acid essential for seasoning sushi rice and balancing sharp Asian dipping sauces.",
+      image_url: "ingredients/rice_vinegar.png",
+    description: "A mild, slightly sweet vinegar made by fermenting rice wine (sake). Its exceptionally low acidity (around 4%) and subtle, floral sweetness make it an unobtrusive, delicate acid essential for seasoning sushi rice and balancing sharp Asian dipping sauces.",
     name: "Rice Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -56,7 +57,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   balsamic_vinegar: {
-      description: "A deeply complex, dark vinegar originating from Modena, Italy, made from the reduced must (juice) of Trebbiano grapes. Traditional balsamic is aged for decades in wooden barrels, transforming into a thick, sweet, and syrupy elixir, while commercial varieties mimic this with added caramel coloring and thickeners.",
+      image_url: "ingredients/balsamic_vinegar.png",
+    description: "A deeply complex, dark vinegar originating from Modena, Italy, made from the reduced must (juice) of Trebbiano grapes. Traditional balsamic is aged for decades in wooden barrels, transforming into a thick, sweet, and syrupy elixir, while commercial varieties mimic this with added caramel coloring and thickeners.",
     name: "Balsamic Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -96,7 +98,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   apple_cider_vinegar: {
-      description: "A fruity, moderately acidic vinegar made by fermenting apple cider, first into alcohol and then into acetic acid via an *Acetobacter* culture (the \"mother\"). Its subtle apple flavor and mild acidity make it excellent for tenderizing pork marinades, quick pickling, and deglazing pans.",
+      image_url: "ingredients/apple_cider_vinegar.png",
+    description: "A fruity, moderately acidic vinegar made by fermenting apple cider, first into alcohol and then into acetic acid via an *Acetobacter* culture (the \"mother\"). Its subtle apple flavor and mild acidity make it excellent for tenderizing pork marinades, quick pickling, and deglazing pans.",
     name: "Apple Cider Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -136,7 +139,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   red_wine_vinegar: {
-      description: "A sharp, robust vinegar created by fermenting red wine with an *Acetobacter* culture. It retains the complex fruit notes and tannins of the original wine, making it the classic, assertive acidic backbone for traditional French vinaigrettes and hearty beef marinades.",
+      image_url: "ingredients/red_wine_vinegar.png",
+    description: "A sharp, robust vinegar created by fermenting red wine with an *Acetobacter* culture. It retains the complex fruit notes and tannins of the original wine, making it the classic, assertive acidic backbone for traditional French vinaigrettes and hearty beef marinades.",
     name: "Red Wine Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -176,7 +180,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   sherry_vinegar: {
-      description: "A Spanish vinegar made from fermented sherry wine, aged in a complex solera system of oak barrels. It strikes a perfect balance between the sharp bite of wine vinegar and the sweet, nutty, and oxidized complexity of balsamic, making it a profound flavor enhancer for gazpacho and pan sauces.",
+      image_url: "ingredients/sherry_vinegar.png",
+    description: "A Spanish vinegar made from fermented sherry wine, aged in a complex solera system of oak barrels. It strikes a perfect balance between the sharp bite of wine vinegar and the sweet, nutty, and oxidized complexity of balsamic, making it a profound flavor enhancer for gazpacho and pan sauces.",
     name: "Sherry Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -216,7 +221,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   white_wine_vinegar: {
-      description: "A bright, moderately sharp vinegar made by fermenting white wine. It is significantly less assertive and tannic than red wine vinegar, offering a delicate, slightly floral acidity that perfectly balances lighter dishes like chicken salads, delicate fish, or hollandaise sauce.",
+      image_url: "ingredients/white_wine_vinegar.png",
+    description: "A bright, moderately sharp vinegar made by fermenting white wine. It is significantly less assertive and tannic than red wine vinegar, offering a delicate, slightly floral acidity that perfectly balances lighter dishes like chicken salads, delicate fish, or hollandaise sauce.",
     name: "White Wine Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -256,7 +262,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   champagne_vinegar: {
-      description: "A pale, elegant vinegar made by fermenting wine derived from the same grape varieties used to produce Champagne (Chardonnay, Pinot Noir, and Pinot Meunier). It is significantly softer, more delicate, and more floral than standard white wine vinegar, making it the ideal acid for subtle vinaigrettes and delicate fish dishes.",
+      image_url: "ingredients/champagne_vinegar.png",
+    description: "A pale, elegant vinegar made by fermenting wine derived from the same grape varieties used to produce Champagne (Chardonnay, Pinot Noir, and Pinot Meunier). It is significantly softer, more delicate, and more floral than standard white wine vinegar, making it the ideal acid for subtle vinaigrettes and delicate fish dishes.",
     name: "Champagne Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -296,7 +303,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   malt_vinegar: {
-      description: "A pungent, darkly colored vinegar made by malting barley (converting its starches to sugars), fermenting it into ale, and then into vinegar. It possesses a deeply toasty, nutty, and slightly bitter flavor profile, serving as the traditional, astringent accompaniment to British fish and chips.",
+      image_url: "ingredients/malt_vinegar.png",
+    description: "A pungent, darkly colored vinegar made by malting barley (converting its starches to sugars), fermenting it into ale, and then into vinegar. It possesses a deeply toasty, nutty, and slightly bitter flavor profile, serving as the traditional, astringent accompaniment to British fish and chips.",
     name: "Malt Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -336,7 +344,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   coconut_vinegar: {
-      description: "A cloudy, distinctively sharp vinegar made by fermenting the sap of the coconut palm flower (not the coconut water itself). It offers a sharp, yeasty, and slightly sweet flavor profile that is significantly less harsh than white vinegar, serving as a staple acid in Filipino adobo and dipping sauces.",
+      image_url: "ingredients/coconut_vinegar.png",
+    description: "A cloudy, distinctively sharp vinegar made by fermenting the sap of the coconut palm flower (not the coconut water itself). It offers a sharp, yeasty, and slightly sweet flavor profile that is significantly less harsh than white vinegar, serving as a staple acid in Filipino adobo and dipping sauces.",
     name: "Coconut Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -376,7 +385,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   black_vinegar: {
-      description: "Also known as Chinkiang vinegar, a deeply complex, inky-black condiment made from fermented glutinous rice, wheat, or sorghum. It is aged extensively, resulting in a profound, earthy, and slightly smoky flavor profile—resembling a savory, less-sweet balsamic—essential for soup dumplings and braises.",
+      image_url: "ingredients/black_vinegar.png",
+    description: "Also known as Chinkiang vinegar, a deeply complex, inky-black condiment made from fermented glutinous rice, wheat, or sorghum. It is aged extensively, resulting in a profound, earthy, and slightly smoky flavor profile—resembling a savory, less-sweet balsamic—essential for soup dumplings and braises.",
     name: "Black Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -416,7 +426,8 @@ const rawVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   date_vinegar: {
-      description: "A rich, complex, and dark vinegar traditionally made in the Middle East by fermenting dates. It offers a mellow acidity and a profound, fruity sweetness (resembling a less syrupy balsamic), making it an excellent marinade for lamb or a glaze for roasted root vegetables.",
+      image_url: "ingredients/date_vinegar.png",
+    description: "A rich, complex, and dark vinegar traditionally made in the Middle East by fermenting dates. It offers a mellow acidity and a profound, fruity sweetness (resembling a less syrupy balsamic), making it an excellent marinade for lamb or a glaze for roasted root vegetables.",
     name: "Date Vinegar",
     season: ["fall", "winter"],
     category: "vinegars",
@@ -463,7 +474,8 @@ export const vinegars = fixIngredientMappings(rawVinegars);
 // Define artisanal vinegars (premium / (specialty || 1) vinegars)
 const rawArtisanalVinegars = {
   aged_balsamic: {
-      description: "Aged Balsamic Vinegar is an acidic ingredient used to balance richness, sharpen flavor, and improve perceived freshness in finished dishes. In small doses it can also support emulsification and brighten sauces, pickles, and braises. Add gradually and taste as you go, since acidity intensity varies significantly by style and concentration.",
+      image_url: "ingredients/aged_balsamic.png",
+    description: "Aged Balsamic Vinegar is an acidic ingredient used to balance richness, sharpen flavor, and improve perceived freshness in finished dishes. In small doses it can also support emulsification and brighten sauces, pickles, and braises. Add gradually and taste as you go, since acidity intensity varies significantly by style and concentration.",
     name: "Aged Balsamic Vinegar",
     season: ["all"],
     category: "vinegars",
@@ -499,7 +511,8 @@ const rawArtisanalVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   fig_vinegar: {
-      description: "A rich, fruity vinegar made by fermenting crushed figs. It provides a sweet, jammy, and deeply complex acidity that perfectly balances bitter winter greens (like radicchio) or acts as a reduction glaze for roasted pork.",
+      image_url: "ingredients/fig_vinegar.png",
+    description: "A rich, fruity vinegar made by fermenting crushed figs. It provides a sweet, jammy, and deeply complex acidity that perfectly balances bitter winter greens (like radicchio) or acts as a reduction glaze for roasted pork.",
     name: "Fig Vinegar",
     season: ["summer", "fall"],
     category: "vinegars",
@@ -535,7 +548,8 @@ const rawArtisanalVinegars = {
       storage: { pantry: "Sealed bottle, cool dark place, indefinite shelf life.", notes: "Cloudiness or 'mother' sediment is harmless and edible." }
 },
   champagne_rose_vinegar: {
-      description: "Champagne Rose Vinegar is an acidic ingredient used to balance richness, sharpen flavor, and improve perceived freshness in finished dishes. In small doses it can also support emulsification and brighten sauces, pickles, and braises. Add gradually and taste as you go, since acidity intensity varies significantly by style and concentration.",
+      image_url: "ingredients/champagne_rose_vinegar.png",
+    description: "Champagne Rose Vinegar is an acidic ingredient used to balance richness, sharpen flavor, and improve perceived freshness in finished dishes. In small doses it can also support emulsification and brighten sauces, pickles, and braises. Add gradually and taste as you go, since acidity intensity varies significantly by style and concentration.",
     name: "Champagne Rose Vinegar",
     season: ["all"],
     category: "vinegars",

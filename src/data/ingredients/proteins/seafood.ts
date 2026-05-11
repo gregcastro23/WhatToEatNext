@@ -5,6 +5,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Generated: 2025-01-24
 const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   atlantic_salmon: {
+      image_url: "ingredients/atlantic_salmon.png",
     name: "Salmon",
     description:
       "Oily cold-water fish (*Salmo salar*, Atlantic) prized for its rich orange flesh, generous omega-3 fats, and forgiving, flaky texture. Farmed salmon from Norway, Scotland, and Chile supplies most of the world market; wild Atlantic stocks are heavily restricted. Flavor ranges from buttery and mild (farmed) to deeply savory and almost meaty (wild). Essential in everything from Scandinavian cured gravlax to Japanese sushi, French en papillote, and American cedar-plank grilling.",
@@ -272,6 +273,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
   // Phase 2: Additional Seafood with Quantity Scaling
   tuna: {
+      image_url: "ingredients/tuna.png",
     name: "Tuna",
     description:
       "Large, fast-swimming pelagic fish (*Thunnus spp.*) with dense, meaty red flesh, frequently compared to beef. Yellowfin (ahi) and bigeye are prized raw for sushi and sashimi; bluefin (the most prized and most endangered) delivers the fattest toro belly cuts; skipjack dominates canning. Sears beautifully with a rare center; overcooks quickly to chalky dryness. Buy only from sources rated Best Choice or Good Alternative by Seafood Watch — some populations are severely overfished.",
@@ -341,6 +343,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   shrimp: {
+      image_url: "ingredients/shrimp.png",
     name: "Shrimp",
     description:
       "Small decapod crustaceans (*Penaeidae, Pandalidae*) harvested worldwide — the most consumed seafood in the United States. Sweet, briny flesh that turns from translucent grey-blue to opaque pink in seconds. Sold by count-per-pound (U-15 jumbo down to 61/70 small). Prawns are similar and often used interchangeably. Star in shrimp scampi, Thai tom yum, Spanish gambas al ajillo, Cajun étouffée, and Southeast Asian curries.",
@@ -406,6 +409,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   cod: {
+      image_url: "ingredients/cod.png",
     name: "Cod",
     description:
       "Lean, flaky white fish (*Gadus morhua* Atlantic, *G. macrocephalus* Pacific) with large, moist flakes and a mild, slightly sweet flavor. The fish that built global fisheries — cornerstone of British fish and chips, Portuguese bacalhau, Spanish brandada, and Scandinavian lutefisk. Overfishing collapsed Atlantic stocks in the 1990s; Pacific and Icelandic cod are now more sustainable alternatives. Rich in protein and B12, low in fat, takes any seasoning beautifully.",
@@ -471,6 +475,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   halibut: {
+      image_url: "ingredients/halibut.png",
     name: "Halibut",
     description:
       "Massive flatfish (*Hippoglossus spp.*) found in cold North Pacific and North Atlantic waters, sometimes growing over 300 pounds. Firm, snow-white flesh forms unusually thick, meaty flakes with a clean, sweet, almost buttery flavor. Premium Pacific halibut is MSC-certified and well-managed; Atlantic stocks are critically depleted and should be avoided. Outstanding on the grill, in ceviche, or roasted whole; its firm texture stands up to robust sauces and olive-oil poaching.",
@@ -536,6 +541,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   scallops: {
+      image_url: "ingredients/scallops.png",
     name: "Scallops",
     description:
       "Sweet, tender adductor muscles of marine bivalves (*Pectinidae*), the part of the scallop that opens and closes the shell. Sea scallops (large, 10–30 per pound) are ideal for searing to a deep golden crust; bay scallops (tiny, 60–100 per pound) are best quickly sautéed or used raw in crudo. Insist on 'dry' or 'day boat' scallops — 'wet' scallops are soaked in tripolyphosphate preservative that prevents browning and waters down flavor. Cook hot and fast: 90 seconds per side for perfect caramelization.",
@@ -601,6 +607,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   tilapia: {
+      image_url: "ingredients/tilapia.png",
     name: "Tilapia",
     description:
       "Affordable, fast-growing farmed freshwater fish (*Oreochromis spp.*), the fourth-most-consumed seafood in the U.S. Mild, neutral-flavored white flesh that readily absorbs marinades and sauces. Quality varies dramatically by farm — U.S., Ecuador, and Peru farms rank as Best Choice; some Asian producers are flagged for environmental practices. Best for busy weeknight cooking: pan-fried with lemon and capers, baked with salsa, or battered for fish tacos.",
@@ -664,6 +671,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   trout: {
+      image_url: "ingredients/trout.png",
     name: "Trout",
     description:
       "Freshwater and anadromous salmonids (*Oncorhynchus mykiss* rainbow, *Salvelinus fontinalis* brook, *Salmo trutta* brown) prized for delicate pink-to-red flesh, clean flavor, and small-plate size ideal for whole-fish preparations. Farmed rainbow trout is one of the most sustainable protein choices available. Classic preparations include meunière (brown-butter and lemon), smoked trout with horseradish cream, and almondine. Sweet, mild, less oily than salmon.",
@@ -727,6 +735,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   sardines: {
+      image_url: "ingredients/sardines.png",
     name: "Sardines",
     description:
       "Small, oily schooling fish (*Sardina pilchardus* and related species) prized for their rich flavor, exceptional omega-3 content, and unmatched sustainability — they reproduce quickly and sit low on the food chain. Fresh sardines are a Mediterranean staple grilled with lemon and olive oil; tinned sardines (in olive oil, tomato, or piri-piri) are a pantry superfood. Edible bones add calcium. A genuine case of 'eat more seafood, eat lower on the food chain.'",
@@ -790,6 +799,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   mackerel: {
+      image_url: "ingredients/mackerel.png",
     name: "Mackerel",
     description:
       "Fast-swimming pelagic fish (*Scomber scombrus* Atlantic, *S. japonicus* chub) with dark, oily flesh and a distinctively rich, pronounced flavor. Among the most omega-3-dense fish available. Atlantic mackerel is a Seafood Watch Best Choice; king mackerel contains high mercury and should be limited. Excellent grilled over high heat, smoked, or cured (Japanese shime saba, Scandinavian soused mackerel). The bold flavor stands up to assertive sauces — mustard, horseradish, gooseberry.",
@@ -853,6 +863,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   crab: {
+      image_url: "ingredients/crab.png",
     name: "Crab",
     description:
       "Short-tailed decapod crustaceans valued worldwide for sweet, delicate, white meat. Major commercial species include blue crab (*Callinectes sapidus*, Chesapeake Bay), Dungeness (*Metacarcinus magister*, Pacific), Alaskan king, snow, stone, and soft-shell (blue crabs post-molt). Star of Maryland crab cakes, Singaporean chili crab, Japanese kani, and San Francisco cioppino. Sold live, fresh-cooked, pasteurized, or frozen. Hand-pick meat to remove shell fragments — essential for any crab cake.",
@@ -916,6 +927,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   lobster: {
+      image_url: "ingredients/lobster.png",
     name: "Lobster",
     description:
       "Large marine crustaceans (*Homarus americanus* American/Maine, *H. gammarus* European, *Panulirus spp.* spiny/rock) prized for firm, sweet, luxurious white tail and claw meat. American lobster from Maine and Atlantic Canada is the gold standard — MSC-certified and abundantly managed. Cooked methods range from the classic New England boil with drawn butter, to grilled split tails, bisque, lobster rolls, and thermidor. Traditionally killed by plunging headfirst into boiling water; some chefs now use the more humane ikejime or rapid-chill methods.",
@@ -979,6 +991,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   mussels: {
+      image_url: "ingredients/mussels.png",
     name: "Mussels",
     description:
       "Dark-shelled bivalve mollusks (*Mytilus edulis* blue, *M. galloprovincialis* Mediterranean) with tender, mildly briny meat. Farmed mussels are among the most sustainable seafood in existence — they feed by filtering water, actually improving marine ecosystems, and require no added feed. Discard any that stay open when tapped before cooking, or stay closed after cooking. Classic moules marinière (white wine, shallots, parsley, butter) cooks in under 5 minutes; Belgian, Italian, Spanish, and Thai traditions all shine.",
@@ -1042,6 +1055,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   squid: {
+      image_url: "ingredients/squid.png",
     name: "Squid",
     description:
       "Cephalopod mollusks (*Loligo spp.*, *Doryteuthis pealeii*) with firm, white flesh and a clean, slightly sweet flavor that turns rubbery if cooked in the awkward middle temperature range. The rule: cook 2 minutes or more than 20 — anything in between is tough. Fried calamari is the universal crowd-pleaser; Mediterranean stuffed squid, Spanish chipirones, Korean ojingeo bokkeum, and Japanese ika sashimi showcase the range. Ink is a prized culinary ingredient for pasta and risotto nero.",
@@ -1105,6 +1119,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
 
   anchovies: {
+      image_url: "ingredients/anchovies.png",
     name: "Anchovies",
     description:
       "Tiny oily fish (*Engraulis encrasicolus* European, *E. ringens* Peruvian) cured in salt and oil to become one of cooking's most concentrated sources of umami. A few fillets melted into warm olive oil or butter silently transform pasta, vinaigrettes, and braises. Salt-packed anchovies from Cantabrian Spain (Boquerones) and Sicilian anchovies in olive oil are the gold standard. Fresh boquerones (vinegar-cured) are a Spanish tapas classic. Among the most sustainable wild-caught fish.",

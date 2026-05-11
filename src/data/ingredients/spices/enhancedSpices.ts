@@ -10,6 +10,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
   black_pepper: {
+      image_url: "ingredients/black_pepper.png",
     name: "black pepper",
     category: "spice",
     subcategory: "peppercorn",
@@ -154,6 +155,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   cinnamon: {
+      image_url: "ingredients/cinnamon.png",
     name: "cinnamon",
     category: "spice",
     subcategory: "bark",
@@ -299,6 +301,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   cumin: {
+      image_url: "ingredients/cumin.png",
     name: "cumin",
     category: "spice",
     subcategory: "seed",
@@ -446,6 +449,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   turmeric: {
+      image_url: "ingredients/turmeric.png",
     name: "turmeric",
     category: "spice",
     subcategory: "rhizome",
@@ -583,6 +587,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   ginger: {
+      image_url: "ingredients/ginger.png",
     name: "ginger",
     category: "spice",
     subcategory: "rhizome",
@@ -730,6 +735,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   paprika: {
+      image_url: "ingredients/paprika.png",
     name: "paprika",
     category: "spice",
     subcategory: "ground pepper",
@@ -866,6 +872,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   cardamom: {
+      image_url: "ingredients/cardamom.png",
     name: "cardamom",
     category: "spice",
     subcategory: "pod",
@@ -1002,6 +1009,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   coriander: {
+      image_url: "ingredients/coriander.png",
     name: "coriander",
     category: "spice",
     subcategory: "seed",
@@ -1146,6 +1154,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   nutmeg: {
+      image_url: "ingredients/nutmeg.png",
     name: "nutmeg",
     category: "spice",
     subcategory: "seed",
@@ -1289,6 +1298,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   chili_powder: {
+      image_url: "ingredients/chili_powder.png",
     name: "chili powder",
     category: "spice",
     subcategory: "blend",
@@ -1426,6 +1436,7 @@ const rawEnhancedSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   saffron: {
+      image_url: "ingredients/saffron.png",
     name: "saffron",
     category: "spice",
     subcategory: "stigma",

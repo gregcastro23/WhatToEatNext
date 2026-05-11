@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawFlaxseed = {
   flaxseed: {
-      description: "A small, flat, teardrop-shaped seed (*Linum usitatissimum*) known for its high concentration of alpha-linolenic acid (an omega-3) and mucilaginous fiber. When ground and mixed with water, it forms a thick, gel-like paste that is heavily utilized as a vegan egg substitute in baking.",
+      image_url: "ingredients/flaxseed.png",
+    description: "A small, flat, teardrop-shaped seed (*Linum usitatissimum*) known for its high concentration of alpha-linolenic acid (an omega-3) and mucilaginous fiber. When ground and mixed with water, it forms a thick, gel-like paste that is heavily utilized as a vegan egg substitute in baking.",
     name: "Flaxseed",
     season: ["all"],
     elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },

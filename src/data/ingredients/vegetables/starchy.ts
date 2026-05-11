@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawStarchy: Record<string, Partial<IngredientMapping>> = {
   potatoes: {
-      description: "A starchy, energy-dense tuber (*Solanum tuberosum*) that serves as a global culinary staple. The culinary application depends on the starch content: high-starch varieties (like Russets) are fluffy and ideal for mashing or frying, while waxy varieties (like red potatoes) hold their shape for boiling and salads.\n\n**Selection & Storage:** Select potatoes that are firm and unyielding, avoiding any with green tinges (indicating solanine buildup) or sprouting eyes. Store in a cool, dark, and dry place; refrigerating potatoes converts their starches to sugars, altering their texture and taste.",
+      image_url: "ingredients/potatoes.png",
+    description: "A starchy, energy-dense tuber (*Solanum tuberosum*) that serves as a global culinary staple. The culinary application depends on the starch content: high-starch varieties (like Russets) are fluffy and ideal for mashing or frying, while waxy varieties (like red potatoes) hold their shape for boiling and salads.\n\n**Selection & Storage:** Select potatoes that are firm and unyielding, avoiding any with green tinges (indicating solanine buildup) or sprouting eyes. Store in a cool, dark, and dry place; refrigerating potatoes converts their starches to sugars, altering their texture and taste.",
     name: "potatoes",
     origin: ["Andes"],
     season: ["fall", "winter"],
@@ -29,7 +30,8 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   potato: {
-      description: "A starchy, energy-dense tuber (*Solanum tuberosum*) that serves as a global culinary staple. The culinary application depends on the starch content: high-starch varieties (like Russets) are fluffy and ideal for mashing or frying, while waxy varieties (like red potatoes) hold their shape for boiling and salads.",
+      image_url: "ingredients/potato.png",
+    description: "A starchy, energy-dense tuber (*Solanum tuberosum*) that serves as a global culinary staple. The culinary application depends on the starch content: high-starch varieties (like Russets) are fluffy and ideal for mashing or frying, while waxy varieties (like red potatoes) hold their shape for boiling and salads.",
     name: "potato",
     origin: ["Andes (Peru, Bolivia)"],
     season: ["fall", "winter"],
@@ -55,7 +57,8 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   russet_potatoes: {
-      description: "Russet Potatoes is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+      image_url: "ingredients/russet_potatoes.png",
+    description: "Russet Potatoes is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
     name: "russet potatoes",
     origin: ["Andes"],
     season: ["fall", "winter"],
@@ -81,7 +84,8 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   sweet_potato: {
-      description: "A naturally sweet, nutrient-dense root vegetable (*Ipomoea batatas*) packed with complex carbohydrates and vibrant orange beta-carotene. Its flesh becomes remarkably creamy and intensely sweet when baked or roasted, as its enzymes break down starches into maltose.",
+      image_url: "ingredients/sweet_potato.png",
+    description: "A naturally sweet, nutrient-dense root vegetable (*Ipomoea batatas*) packed with complex carbohydrates and vibrant orange beta-carotene. Its flesh becomes remarkably creamy and intensely sweet when baked or roasted, as its enzymes break down starches into maltose.",
     name: "sweet potato",
     origin: ["Central and South America"],
     season: ["fall", "winter"],
@@ -107,7 +111,8 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   potato_starch: {
-      description: "A fine white powder extracted from crushed potatoes. It is prized in European baking to keep sponges tender and moist, and in Asian cooking to create a shatteringly crisp, glass-like coating on deep-fried foods (like Japanese Karaage) that stays crunchy longer than wheat flour.",
+      image_url: "ingredients/potato_starch.png",
+    description: "A fine white powder extracted from crushed potatoes. It is prized in European baking to keep sponges tender and moist, and in Asian cooking to create a shatteringly crisp, glass-like coating on deep-fried foods (like Japanese Karaage) that stays crunchy longer than wheat flour.",
     name: "potato starch",
     origin: ["Andes (Peru, Bolivia)"],
     season: ["fall", "winter"],
@@ -133,7 +138,8 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   sweet_potato_noodles: {
-      description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
+      image_url: "ingredients/sweet_potato_noodles.png",
+    description: "A broad category of unleavened dough stretched, rolled, or cut into long, thin strips, prevalent in Asian cuisines. Unlike Italian pasta, which is almost exclusively wheat-based, Asian noodles are often made from rice, mung beans, sweet potatoes, or buckwheat, dramatically altering their cooking times and chewy textures.\n\n**Selection & Storage:** Dried rice or glass noodles require only a quick soak in hot water, while fresh wheat noodles require boiling. Store dried noodles in the pantry, and keep fresh noodles tightly wrapped in the refrigerator.",
     name: "sweet potato noodles",
     origin: ["Central and South America"],
     season: ["fall", "winter"],
@@ -159,7 +165,8 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   tapioca_pearls: {
-      description: "A pure starch extracted from the storage roots of the cassava plant (*Manihot esculenta*). It provides a remarkably chewy, elastic texture when formed into pearls (boba), or acts as an excellent thickener for fruit pies, creating a perfectly clear gel that doesn't break down when frozen.\n\n**Selection & Storage:** Available as flour, flakes, or pearls. Store in an airtight container in a cool, dark pantry; it has an exceptionally long shelf life.",
+      image_url: "ingredients/tapioca_pearls.png",
+    description: "A pure starch extracted from the storage roots of the cassava plant (*Manihot esculenta*). It provides a remarkably chewy, elastic texture when formed into pearls (boba), or acts as an excellent thickener for fruit pies, creating a perfectly clear gel that doesn't break down when frozen.\n\n**Selection & Storage:** Available as flour, flakes, or pearls. Store in an airtight container in a cool, dark pantry; it has an exceptionally long shelf life.",
     name: "tapioca pearls",
     origin: ["Cultivated worldwide"],
     season: ["varies by variety"],

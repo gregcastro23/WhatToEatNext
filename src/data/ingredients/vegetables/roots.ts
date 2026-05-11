@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   heirloom_carrot: {
-      description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
+      image_url: "ingredients/heirloom_carrot.png",
+    description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
     name: "Heirloom Carrot",
     origin: ["Persia (Afghanistan region)"],
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
@@ -41,7 +42,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Heirloom Carrot is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   black_radish: {
-      description: "A large, winter root vegetable (*Raphanus sativus var. niger*) with a tough, coal-black exterior and a stark white interior. It possesses a remarkably sharp, aggressively spicy, and pungent bite when raw, which mellows dramatically into a sweet, earthy flavor when roasted or braised.",
+      image_url: "ingredients/black_radish.png",
+    description: "A large, winter root vegetable (*Raphanus sativus var. niger*) with a tough, coal-black exterior and a stark white interior. It possesses a remarkably sharp, aggressively spicy, and pungent bite when raw, which mellows dramatically into a sweet, earthy flavor when roasted or braised.",
     name: "Black Radish",
     origin: ["China", "Southeast Asia"],
     elementalProperties: { Earth: 0.6, Fire: 0.25, Air: 0.1, Water: 0.05 },
@@ -79,6 +81,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Black Radish is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   carrot: {
+      image_url: "ingredients/carrot.png",
     name: "carrot",
     category: "vegetable",
     subcategory: "root_vegetable",
@@ -223,7 +226,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       culinaryProfile: { flavorProfile: { primary: ["vegetal"], secondary: ["sweet", "earthy"], notes: "Flavor intensifies with dry-heat methods; brightens with acid." }, cookingMethods: ["saute", "roast", "steam", "grill", "raw"], cuisineAffinity: ["Mediterranean", "Asian", "American", "European"], preparationTips: ["Salt 10-15 min before cooking to draw moisture.", "Finish with acid or fat to balance."] }
 },
   ginger: {
-      description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
+      image_url: "ingredients/ginger.png",
+    description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
     name: "Ginger",
     origin: ["Maritime Southeast Asia"],
     elementalProperties: { Fire: 0.6, Earth: 0.2, Air: 0.1, Water: 0.1 },
@@ -261,7 +265,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Ginger is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   jerusalem_artichoke: {
-      description: "Also known as a sunchoke, this lumpy tuber (*Helianthus tuberosus*) is actually the root of a species of sunflower. It provides a sweet, intensely nutty flavor and a texture that ranges from water-chestnut crunchy when raw, to remarkably creamy and silken when roasted or pureed.",
+      image_url: "ingredients/jerusalem_artichoke.png",
+    description: "Also known as a sunchoke, this lumpy tuber (*Helianthus tuberosus*) is actually the root of a species of sunflower. It provides a sweet, intensely nutty flavor and a texture that ranges from water-chestnut crunchy when raw, to remarkably creamy and silken when roasted or pureed.",
     name: "Jerusalem Artichoke",
     origin: ["Mediterranean (North Africa)"],
     elementalProperties: { Earth: 0.55, Water: 0.25, Air: 0.1, Fire: 0.1 },
@@ -299,7 +304,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Jerusalem Artichoke is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   carrots: {
-      description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
+      image_url: "ingredients/carrots.png",
+    description: "A sweet, crunchy root vegetable (*Daucus carota*) renowned for its high beta-carotene content, which the body converts into Vitamin A. Its natural sugars concentrate during roasting or caramelizing, making it a versatile foundational ingredient for mirepoix and sweet baking alike. Look for firm, brightly colored carrots with smooth skin; if green tops are attached, they should be fresh and vibrant. Remove tops before storing — they draw moisture from the root — and keep in plastic in the crisper drawer up to three weeks.",
     name: "carrots",
     origin: ["Persia"],
     season: ["fall", "winter", "spring"],
@@ -319,7 +325,8 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   parsnips: {
-      description: "A pale, cream-colored root vegetable (*Pastinaca sativa*) closely related to the carrot. It is profoundly starchy and packs an intense, woody sweetness with distinct notes of nutmeg and spiced cider, making it ideal for roasting until deeply caramelized.\n\n**Selection & Storage:** Choose small to medium parsnips; very large ones often have a tough, woody core that must be removed. Store unwashed in a plastic bag in the refrigerator.",
+      image_url: "ingredients/parsnips.png",
+    description: "A pale, cream-colored root vegetable (*Pastinaca sativa*) closely related to the carrot. It is profoundly starchy and packs an intense, woody sweetness with distinct notes of nutmeg and spiced cider, making it ideal for roasting until deeply caramelized.\n\n**Selection & Storage:** Choose small to medium parsnips; very large ones often have a tough, woody core that must be removed. Store unwashed in a plastic bag in the refrigerator.",
     name: "parsnips",
     origin: ["Eurasia"],
     season: ["fall", "winter"],

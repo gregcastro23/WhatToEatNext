@@ -7,6 +7,7 @@ export const recipeCoverageIngredients: Record<
   Partial<IngredientMapping>
 > = {
   thit_kho_tau: {
+      image_url: "ingredients/thit_kho_tau.png",
     name: "thit kho tau",
     origin: ["Worldwide"],
     season: ["all"],
@@ -67,6 +68,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   lau_thai: {
+      image_url: "ingredients/lau_thai.png",
     name: "lau thai",
     origin: ["Worldwide"],
     season: ["all"],
@@ -127,6 +129,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   thit_kho_t_u: {
+      image_url: "ingredients/thit_kho_t_u.png",
     name: "thit kho t u",
     origin: ["Worldwide"],
     season: ["all"],
@@ -187,6 +190,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   lau_th_i: {
+      image_url: "ingredients/lau_th_i.png",
     name: "lau th i",
     origin: ["Worldwide"],
     season: ["all"],
@@ -247,6 +251,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mirin: {
+      image_url: "ingredients/mirin.png",
     name: "mirin",
     origin: ["Japan"],
     season: ["all"],
@@ -307,6 +312,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   active_dry_yeast: {
+      image_url: "ingredients/active_dry_yeast.png",
     name: "active dry yeast",
     origin: ["Worldwide"],
     season: ["all"],
@@ -367,6 +373,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cornstarch: {
+      image_url: "ingredients/cornstarch.png",
     name: "cornstarch",
     origin: ["Worldwide"],
     season: ["all"],
@@ -427,6 +434,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   oyster_sauce: {
+      image_url: "ingredients/oyster_sauce.png",
     name: "oyster sauce",
     origin: ["China (Guangdong)"],
     season: ["all"],
@@ -487,6 +495,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   shaoxing_wine: {
+      image_url: "ingredients/shaoxing_wine.png",
     name: "shaoxing wine",
     origin: ["China (Shaoxing)"],
     season: ["all"],
@@ -547,6 +556,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   alchemical_binding_agent: {
+      image_url: "ingredients/alchemical_binding_agent.png",
     name: "alchemical binding agent",
     origin: ["Worldwide"],
     season: ["all"],
@@ -607,6 +617,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   neutral_oil: {
+      image_url: "ingredients/neutral_oil.png",
     name: "neutral oil",
     origin: ["Worldwide"],
     season: ["all"],
@@ -667,6 +678,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   white_vinegar: {
+      image_url: "ingredients/white_vinegar.png",
     name: "white vinegar",
     origin: ["Worldwide industrial production"],
     season: ["all"],
@@ -727,6 +739,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   corn_tortillas: {
+      image_url: "ingredients/corn_tortillas.png",
     name: "corn tortillas",
     origin: ["Mesoamerica"],
     season: ["summer"],
@@ -787,6 +800,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   five_spice_powder: {
+      image_url: "ingredients/five_spice_powder.png",
     name: "five spice powder",
     origin: ["China"],
     season: ["all"],
@@ -847,6 +861,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   firm_tofu: {
+      image_url: "ingredients/firm_tofu.png",
     name: "firm tofu",
     origin: ["China"],
     season: ["all"],
@@ -907,6 +922,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cayenne_pepper: {
+      image_url: "ingredients/cayenne_pepper.png",
     name: "cayenne pepper",
     origin: ["Central and South America"],
     season: ["all"],
@@ -967,6 +983,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   queso_fresco: {
+      image_url: "ingredients/queso_fresco.png",
     name: "queso fresco",
     origin: ["Mexico", "Central America"],
     season: ["all"],
@@ -1027,6 +1044,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bird_eye_chilies: {
+      image_url: "ingredients/bird_eye_chilies.png",
     name: "bird eye chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1088,6 +1106,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bird_s_eye_chilies: {
+      image_url: "ingredients/bird_s_eye_chilies.png",
     name: "bird s eye chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1149,6 +1168,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   white_bread: {
+      image_url: "ingredients/white_bread.png",
     name: "white bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1209,6 +1229,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   capers: {
+      image_url: "ingredients/capers.png",
     name: "capers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1269,6 +1290,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sichuan_peppercorns: {
+      image_url: "ingredients/sichuan_peppercorns.png",
     name: "sichuan peppercorns",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1329,6 +1351,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_red_chilies: {
+      image_url: "ingredients/dried_red_chilies.png",
     name: "dried red chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1389,6 +1412,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   garni: {
+      image_url: "ingredients/garni.png",
     name: "garni",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1449,6 +1473,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   oil: {
+      image_url: "ingredients/oil.png",
     name: "oil",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1509,6 +1534,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   frying_oil: {
+      image_url: "ingredients/frying_oil.png",
     name: "frying oil",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1569,6 +1595,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bamboo_skewers: {
+      image_url: "ingredients/bamboo_skewers.png",
     name: "bamboo skewers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1629,6 +1656,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chili_flakes: {
+      image_url: "ingredients/chili_flakes.png",
     name: "chili flakes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1689,6 +1717,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   radishes: {
+      image_url: "ingredients/radishes.png",
     name: "radishes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1749,6 +1778,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   black_peppercorns: {
+      image_url: "ingredients/black_peppercorns.png",
     name: "black peppercorns",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1809,6 +1839,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ice: {
+      image_url: "ingredients/ice.png",
     name: "ice",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1869,6 +1900,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   corn: {
+      image_url: "ingredients/corn.png",
     name: "corn",
     origin: ["Mesoamerica"],
     season: ["summer"],
@@ -1929,6 +1961,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   limes: {
+      image_url: "ingredients/limes.png",
     name: "limes",
     origin: ["Southeast Asia", "India"],
     season: ["summer", "fall"],
@@ -1989,6 +2022,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   achiote_paste: {
+      image_url: "ingredients/achiote_paste.png",
     name: "achiote paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2049,6 +2083,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ancho_chilies: {
+      image_url: "ingredients/ancho_chilies.png",
     name: "ancho chilies",
     origin: ["Mexico"],
     season: ["all"],
@@ -2109,6 +2144,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   allspice: {
+      image_url: "ingredients/allspice.png",
     name: "allspice",
     origin: ["Caribbean", "Central America"],
     season: ["all"],
@@ -2169,6 +2205,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   red_curry_paste: {
+      image_url: "ingredients/red_curry_paste.png",
     name: "red curry paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2229,6 +2266,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   harissa_paste: {
+      image_url: "ingredients/harissa_paste.png",
     name: "harissa paste",
     origin: ["North Africa (Tunisia)"],
     season: ["all"],
@@ -2289,6 +2327,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   raisins: {
+      image_url: "ingredients/raisins.png",
     name: "raisins",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2349,6 +2388,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   worcestershire_sauce: {
+      image_url: "ingredients/worcestershire_sauce.png",
     name: "worcestershire sauce",
     origin: ["England (Worcester)"],
     season: ["all"],
@@ -2409,6 +2449,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   hot_sauce: {
+      image_url: "ingredients/hot_sauce.png",
     name: "hot sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2469,6 +2510,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   heavy_whipping_cream: {
+      image_url: "ingredients/heavy_whipping_cream.png",
     name: "heavy whipping cream",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2529,6 +2571,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   hoisin_sauce: {
+      image_url: "ingredients/hoisin_sauce.png",
     name: "hoisin sauce",
     origin: ["China"],
     season: ["all"],
@@ -2589,6 +2632,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bamboo_shoots: {
+      image_url: "ingredients/bamboo_shoots.png",
     name: "bamboo shoots",
     origin: ["East and Southeast Asia"],
     season: ["spring"],
@@ -2649,6 +2693,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sauerkraut: {
+      image_url: "ingredients/sauerkraut.png",
     name: "sauerkraut",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2709,6 +2754,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cloves: {
+      image_url: "ingredients/cloves.png",
     name: "cloves",
     origin: ["Indonesia"],
     season: ["all"],
@@ -2769,6 +2815,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   asafoetida_hing: {
+      image_url: "ingredients/asafoetida_hing.png",
     name: "asafoetida hing",
     origin: ["Western Asia (Iran, Afghanistan)"],
     season: ["all"],
@@ -2829,6 +2876,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kasuri_methi: {
+      image_url: "ingredients/kasuri_methi.png",
     name: "kasuri methi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2889,6 +2937,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pepper: {
+      image_url: "ingredients/pepper.png",
     name: "pepper",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2949,6 +2998,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   marsala_wine: {
+      image_url: "ingredients/marsala_wine.png",
     name: "marsala wine",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3009,6 +3059,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   golden_raisins: {
+      image_url: "ingredients/golden_raisins.png",
     name: "golden raisins",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3069,6 +3120,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nori_seaweed: {
+      image_url: "ingredients/nori_seaweed.png",
     name: "nori seaweed",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3129,6 +3181,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fresh_ramen_noodles: {
+      image_url: "ingredients/fresh_ramen_noodles.png",
     name: "fresh ramen noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3189,6 +3242,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_soba_noodles: {
+      image_url: "ingredients/dried_soba_noodles.png",
     name: "dried soba noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3249,6 +3303,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   wasabi: {
+      image_url: "ingredients/wasabi.png",
     name: "wasabi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3309,6 +3364,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mixed_seafood: {
+      image_url: "ingredients/mixed_seafood.png",
     name: "mixed seafood",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3369,6 +3425,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   doenjang: {
+      image_url: "ingredients/doenjang.png",
     name: "doenjang",
     origin: ["Korea"],
     season: ["all"],
@@ -3429,6 +3486,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   aromatic_catalyst: {
+      image_url: "ingredients/aromatic_catalyst.png",
     name: "aromatic catalyst",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3489,6 +3547,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ancho_chiles: {
+      image_url: "ingredients/ancho_chiles.png",
     name: "ancho chiles",
     origin: ["Mexico"],
     season: ["all"],
@@ -3549,6 +3608,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pasilla_chilies: {
+      image_url: "ingredients/pasilla_chilies.png",
     name: "pasilla chilies",
     origin: ["Mexico"],
     season: ["all"],
@@ -3609,6 +3669,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   poblano_peppers: {
+      image_url: "ingredients/poblano_peppers.png",
     name: "poblano peppers",
     origin: ["Mexico (Puebla)"],
     season: ["summer", "fall"],
@@ -3669,6 +3730,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   guajillo_chilies: {
+      image_url: "ingredients/guajillo_chilies.png",
     name: "guajillo chilies",
     origin: ["Mexico"],
     season: ["all"],
@@ -3729,6 +3791,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tahini: {
+      image_url: "ingredients/tahini.png",
     name: "tahini",
     origin: ["Levant"],
     season: ["all"],
@@ -3789,6 +3852,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   raw_tahini: {
+      image_url: "ingredients/raw_tahini.png",
     name: "raw tahini",
     origin: ["Levant"],
     season: ["all"],
@@ -3850,6 +3914,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   green_curry_paste: {
+      image_url: "ingredients/green_curry_paste.png",
     name: "green curry paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3910,6 +3975,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   niter_kibbeh: {
+      image_url: "ingredients/niter_kibbeh.png",
     name: "niter kibbeh",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3970,6 +4036,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   scotch_bonnet_pepper: {
+      image_url: "ingredients/scotch_bonnet_pepper.png",
     name: "scotch bonnet pepper",
     origin: ["Caribbean"],
     season: ["summer"],
@@ -4030,6 +4097,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   red_pepper_flakes: {
+      image_url: "ingredients/red_pepper_flakes.png",
     name: "red pepper flakes",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -4090,6 +4158,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   peri_peri_sauce: {
+      image_url: "ingredients/peri_peri_sauce.png",
     name: "peri peri sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4150,6 +4219,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   unsliced_white_bread: {
+      image_url: "ingredients/unsliced_white_bread.png",
     name: "unsliced white bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4210,6 +4280,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   habanero_pepper: {
+      image_url: "ingredients/habanero_pepper.png",
     name: "habanero pepper",
     origin: ["Yucatán Peninsula"],
     season: ["summer", "fall"],
@@ -4270,6 +4341,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cream_of_tartar: {
+      image_url: "ingredients/cream_of_tartar.png",
     name: "cream of tartar",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4330,6 +4402,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   american_cheese: {
+      image_url: "ingredients/american_cheese.png",
     name: "american cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -4390,6 +4463,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   creole_seasoning: {
+      image_url: "ingredients/creole_seasoning.png",
     name: "creole seasoning",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4450,6 +4524,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cornmeal: {
+      image_url: "ingredients/cornmeal.png",
     name: "cornmeal",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -4510,6 +4585,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   wheat_starch: {
+      image_url: "ingredients/wheat_starch.png",
     name: "wheat starch",
     origin: ["Fertile Crescent"],
     season: ["all"],
@@ -4570,6 +4646,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   silken_tofu: {
+      image_url: "ingredients/silken_tofu.png",
     name: "silken tofu",
     origin: ["China", "Japan"],
     season: ["all"],
@@ -4630,6 +4707,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fresh_wheat_noodles: {
+      image_url: "ingredients/fresh_wheat_noodles.png",
     name: "fresh wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4690,6 +4768,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   shellfish: {
+      image_url: "ingredients/shellfish.png",
     name: "shellfish",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4750,6 +4829,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   toulouse_sausage: {
+      image_url: "ingredients/toulouse_sausage.png",
     name: "toulouse sausage",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4810,6 +4890,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kalamata_olives: {
+      image_url: "ingredients/kalamata_olives.png",
     name: "kalamata olives",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4870,6 +4951,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pita_breads: {
+      image_url: "ingredients/pita_breads.png",
     name: "pita breads",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4931,6 +5013,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   biryani_masala: {
+      image_url: "ingredients/biryani_masala.png",
     name: "biryani masala",
     origin: ["Worldwide"],
     season: ["all"],
@@ -4991,6 +5074,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cashew_paste: {
+      image_url: "ingredients/cashew_paste.png",
     name: "cashew paste",
     origin: ["South America (Brazil)"],
     season: ["all"],
@@ -5051,6 +5135,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   spaghetti: {
+      image_url: "ingredients/spaghetti.png",
     name: "spaghetti",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5111,6 +5196,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   guanciale: {
+      image_url: "ingredients/guanciale.png",
     name: "guanciale",
     origin: ["Italy"],
     season: ["all"],
@@ -5171,6 +5257,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   strong_espresso: {
+      image_url: "ingredients/strong_espresso.png",
     name: "strong espresso",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5231,6 +5318,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   savoiardi_ladyfingers: {
+      image_url: "ingredients/savoiardi_ladyfingers.png",
     name: "savoiardi ladyfingers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5291,6 +5379,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   unsweetened_cocoa_powder: {
+      image_url: "ingredients/unsweetened_cocoa_powder.png",
     name: "unsweetened cocoa powder",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5351,6 +5440,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   yakisoba_noodles: {
+      image_url: "ingredients/yakisoba_noodles.png",
     name: "yakisoba noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5411,6 +5501,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   yakisoba_sauce: {
+      image_url: "ingredients/yakisoba_sauce.png",
     name: "yakisoba sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5471,6 +5562,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ajitsuke_tamago: {
+      image_url: "ingredients/ajitsuke_tamago.png",
     name: "ajitsuke tamago",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5531,6 +5623,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tentsuyu: {
+      image_url: "ingredients/tentsuyu.png",
     name: "tentsuyu",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5591,6 +5684,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tenkasu_tempura_scraps: {
+      image_url: "ingredients/tenkasu_tempura_scraps.png",
     name: "tenkasu tempura scraps",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5651,6 +5745,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   okonomiyaki_sauce: {
+      image_url: "ingredients/okonomiyaki_sauce.png",
     name: "okonomiyaki sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5711,6 +5806,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   katsuobushi_bonito_flakes: {
+      image_url: "ingredients/katsuobushi_bonito_flakes.png",
     name: "katsuobushi bonito flakes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5771,6 +5867,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   shirataki_noodles: {
+      image_url: "ingredients/shirataki_noodles.png",
     name: "shirataki noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5831,6 +5928,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kamaboko: {
+      image_url: "ingredients/kamaboko.png",
     name: "kamaboko",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5891,6 +5989,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   somyeon_thin_wheat_noodles: {
+      image_url: "ingredients/somyeon_thin_wheat_noodles.png",
     name: "somyeon thin wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -5951,6 +6050,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   medium_firm_tofu: {
+      image_url: "ingredients/medium_firm_tofu.png",
     name: "medium firm tofu",
     origin: ["China"],
     season: ["all"],
@@ -6011,6 +6111,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   gim_roasted_seaweed: {
+      image_url: "ingredients/gim_roasted_seaweed.png",
     name: "gim roasted seaweed",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6071,6 +6172,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dangmyeon: {
+      image_url: "ingredients/dangmyeon.png",
     name: "dangmyeon",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6131,6 +6233,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   eomuk_fish_cakes: {
+      image_url: "ingredients/eomuk_fish_cakes.png",
     name: "eomuk fish cakes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6191,6 +6294,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tomatillos: {
+      image_url: "ingredients/tomatillos.png",
     name: "tomatillos",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6251,6 +6355,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   crema_mexicana: {
+      image_url: "ingredients/crema_mexicana.png",
     name: "crema mexicana",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6311,6 +6416,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   lard: {
+      image_url: "ingredients/lard.png",
     name: "lard",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6371,6 +6477,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   guajillo_chiles: {
+      image_url: "ingredients/guajillo_chiles.png",
     name: "guajillo chiles",
     origin: ["Mexico"],
     season: ["all"],
@@ -6431,6 +6538,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mulato_chilies: {
+      image_url: "ingredients/mulato_chilies.png",
     name: "mulato chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6491,6 +6599,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fresh_epazote: {
+      image_url: "ingredients/fresh_epazote.png",
     name: "fresh epazote",
     origin: ["Mexico", "Central America"],
     season: ["summer"],
@@ -6551,6 +6660,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mexican_crema: {
+      image_url: "ingredients/mexican_crema.png",
     name: "mexican crema",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6611,6 +6721,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pita_bread: {
+      image_url: "ingredients/pita_bread.png",
     name: "pita bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6672,6 +6783,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   shawarma_spice_blend: {
+      image_url: "ingredients/shawarma_spice_blend.png",
     name: "shawarma spice blend",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6732,6 +6844,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pickle_brine: {
+      image_url: "ingredients/pickle_brine.png",
     name: "pickle brine",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6792,6 +6905,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tvorog_farmers_cheese: {
+      image_url: "ingredients/tvorog_farmers_cheese.png",
     name: "tvorog farmers cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -6852,6 +6966,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nam_prik_pao: {
+      image_url: "ingredients/nam_prik_pao.png",
     name: "nam prik pao",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6912,6 +7027,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bird_s_eye_chili: {
+      image_url: "ingredients/bird_s_eye_chili.png",
     name: "bird s eye chili",
     origin: ["Worldwide"],
     season: ["all"],
@@ -6972,6 +7088,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   massaman_curry_paste: {
+      image_url: "ingredients/massaman_curry_paste.png",
     name: "massaman curry paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7032,6 +7149,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   long_red_chilies: {
+      image_url: "ingredients/long_red_chilies.png",
     name: "long red chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7092,6 +7210,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_chili_flakes: {
+      image_url: "ingredients/dried_chili_flakes.png",
     name: "dried chili flakes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7153,6 +7272,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   toppings_matrix: {
+      image_url: "ingredients/toppings_matrix.png",
     name: "toppings matrix",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7213,6 +7333,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   hale_s_blue_boy_syrup: {
+      image_url: "ingredients/hale_s_blue_boy_syrup.png",
     name: "hale s blue boy syrup",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7273,6 +7394,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   vietnamese_baguettes: {
+      image_url: "ingredients/vietnamese_baguettes.png",
     name: "vietnamese baguettes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7333,6 +7455,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   leftover_dry_injera: {
+      image_url: "ingredients/leftover_dry_injera.png",
     name: "leftover dry injera",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7393,6 +7516,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   scotch_bonnet: {
+      image_url: "ingredients/scotch_bonnet.png",
     name: "scotch bonnet",
     origin: ["Caribbean"],
     season: ["summer"],
@@ -7453,6 +7577,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   scotch_bonnet_peppers_ata_rodo: {
+      image_url: "ingredients/scotch_bonnet_peppers_ata_rodo.png",
     name: "scotch bonnet peppers ata rodo",
     origin: ["Caribbean"],
     season: ["summer"],
@@ -7513,6 +7638,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   habanero: {
+      image_url: "ingredients/habanero.png",
     name: "habanero",
     origin: ["Yucatán Peninsula"],
     season: ["summer", "fall"],
@@ -7573,6 +7699,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   macaroni: {
+      image_url: "ingredients/macaroni.png",
     name: "macaroni",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7633,6 +7760,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   vegetable_stock: {
+      image_url: "ingredients/vegetable_stock.png",
     name: "vegetable stock",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7693,6 +7821,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   vermicelli: {
+      image_url: "ingredients/vermicelli.png",
     name: "vermicelli",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7753,6 +7882,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   crushed_wheat_frik: {
+      image_url: "ingredients/crushed_wheat_frik.png",
     name: "crushed wheat frik",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7813,6 +7943,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   harissa: {
+      image_url: "ingredients/harissa.png",
     name: "harissa",
     origin: ["North Africa (Tunisia)"],
     season: ["all"],
@@ -7873,6 +8004,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   brick_pastry_sheets: {
+      image_url: "ingredients/brick_pastry_sheets.png",
     name: "brick pastry sheets",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7933,6 +8065,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ogbono_seeds: {
+      image_url: "ingredients/ogbono_seeds.png",
     name: "ogbono seeds",
     origin: ["Worldwide"],
     season: ["all"],
@@ -7993,6 +8126,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   collard_greens: {
+      image_url: "ingredients/collard_greens.png",
     name: "collard greens",
     origin: ["Eastern Mediterranean", "Asia Minor"],
     season: ["fall", "winter", "early spring"],
@@ -8053,6 +8187,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ndol_leaves_bitterleaf: {
+      image_url: "ingredients/ndol_leaves_bitterleaf.png",
     name: "ndol leaves bitterleaf",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8113,6 +8248,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   couscous: {
+      image_url: "ingredients/couscous.png",
     name: "couscous",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8173,6 +8309,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   durban_curry_masala: {
+      image_url: "ingredients/durban_curry_masala.png",
     name: "durban curry masala",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8233,6 +8370,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mitmita: {
+      image_url: "ingredients/mitmita.png",
     name: "mitmita",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8293,6 +8431,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kuli_kuli_powder: {
+      image_url: "ingredients/kuli_kuli_powder.png",
     name: "kuli kuli powder",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8353,6 +8492,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bitterleaves: {
+      image_url: "ingredients/bitterleaves.png",
     name: "bitterleaves",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8413,6 +8553,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   vinegar_white: {
+      image_url: "ingredients/vinegar_white.png",
     name: "vinegar white",
     origin: ["Western Asia"],
     season: ["all"],
@@ -8473,6 +8614,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sourdough_bread: {
+      image_url: "ingredients/sourdough_bread.png",
     name: "sourdough bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8533,6 +8675,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   leeks: {
+      image_url: "ingredients/leeks.png",
     name: "leeks",
     origin: ["Mediterranean"],
     season: ["fall", "winter", "spring"],
@@ -8593,6 +8736,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fresh_berries: {
+      image_url: "ingredients/fresh_berries.png",
     name: "fresh berries",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8653,6 +8797,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sweet_pickle_relish: {
+      image_url: "ingredients/sweet_pickle_relish.png",
     name: "sweet pickle relish",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8713,6 +8858,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   watercress: {
+      image_url: "ingredients/watercress.png",
     name: "watercress",
     origin: ["Europe", "Asia"],
     season: ["spring", "summer"],
@@ -8773,6 +8919,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   top_split_hot_dog_buns: {
+      image_url: "ingredients/top_split_hot_dog_buns.png",
     name: "top split hot dog buns",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8833,6 +8980,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   thick_cut_sourdough: {
+      image_url: "ingredients/thick_cut_sourdough.png",
     name: "thick cut sourdough",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8893,6 +9041,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_navy_beans: {
+      image_url: "ingredients/dried_navy_beans.png",
     name: "dried navy beans",
     origin: ["Worldwide"],
     season: ["all"],
@@ -8953,6 +9102,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cube_steak: {
+      image_url: "ingredients/cube_steak.png",
     name: "cube steak",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9013,6 +9163,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   andouille_sausage: {
+      image_url: "ingredients/andouille_sausage.png",
     name: "andouille sausage",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9073,6 +9224,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   italian_sausage: {
+      image_url: "ingredients/italian_sausage.png",
     name: "italian sausage",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9133,6 +9285,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   hoagie_rolls: {
+      image_url: "ingredients/hoagie_rolls.png",
     name: "hoagie rolls",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9193,6 +9346,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   provolone_cheese: {
+      image_url: "ingredients/provolone_cheese.png",
     name: "provolone cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -9253,6 +9407,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pie_dough: {
+      image_url: "ingredients/pie_dough.png",
     name: "pie dough",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9313,6 +9468,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cedar_grilling_plank: {
+      image_url: "ingredients/cedar_grilling_plank.png",
     name: "cedar grilling plank",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9373,6 +9529,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   youtiao_fried_dough: {
+      image_url: "ingredients/youtiao_fried_dough.png",
     name: "youtiao fried dough",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9433,6 +9590,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tianmianjiang_sweet_bean_sauce: {
+      image_url: "ingredients/tianmianjiang_sweet_bean_sauce.png",
     name: "tianmianjiang sweet bean sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9493,6 +9651,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   baocui_crispy_fried_cracker: {
+      image_url: "ingredients/baocui_crispy_fried_cracker.png",
     name: "baocui crispy fried cracker",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9553,6 +9712,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fresh_chinese_wheat_noodles: {
+      image_url: "ingredients/fresh_chinese_wheat_noodles.png",
     name: "fresh chinese wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9613,6 +9773,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sui_mi_ya_cai: {
+      image_url: "ingredients/sui_mi_ya_cai.png",
     name: "sui mi ya cai",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9673,6 +9834,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chinese_sesame_paste: {
+      image_url: "ingredients/chinese_sesame_paste.png",
     name: "chinese sesame paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9733,6 +9895,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pixian_doubanjiang: {
+      image_url: "ingredients/pixian_doubanjiang.png",
     name: "pixian doubanjiang",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9793,6 +9956,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   square_wonton_wrappers: {
+      image_url: "ingredients/square_wonton_wrappers.png",
     name: "square wonton wrappers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9853,6 +10017,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   supreme_broth_gao_tang: {
+      image_url: "ingredients/supreme_broth_gao_tang.png",
     name: "supreme broth gao tang",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9913,6 +10078,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chili_paste: {
+      image_url: "ingredients/chili_paste.png",
     name: "chili paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -9973,6 +10139,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   doubanjiang: {
+      image_url: "ingredients/doubanjiang.png",
     name: "doubanjiang",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10033,6 +10200,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   black_tea_leaves: {
+      image_url: "ingredients/black_tea_leaves.png",
     name: "black tea leaves",
     origin: ["China", "India"],
     season: ["all"],
@@ -10093,6 +10261,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   maltose_syrup: {
+      image_url: "ingredients/maltose_syrup.png",
     name: "maltose syrup",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10153,6 +10322,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sweet_bean_sauce: {
+      image_url: "ingredients/sweet_bean_sauce.png",
     name: "sweet bean sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10213,6 +10383,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   doubanjiang_spicy_broad_bean_paste: {
+      image_url: "ingredients/doubanjiang_spicy_broad_bean_paste.png",
     name: "doubanjiang spicy broad bean paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10273,6 +10444,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   red_fermented_tofu: {
+      image_url: "ingredients/red_fermented_tofu.png",
     name: "red fermented tofu",
     origin: ["China"],
     season: ["all"],
@@ -10333,6 +10505,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sesame_paste: {
+      image_url: "ingredients/sesame_paste.png",
     name: "sesame paste",
     origin: ["Africa"],
     season: ["all"],
@@ -10393,6 +10566,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sichuan_peppercorn_powder: {
+      image_url: "ingredients/sichuan_peppercorn_powder.png",
     name: "sichuan peppercorn powder",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10453,6 +10627,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   flank_steak: {
+      image_url: "ingredients/flank_steak.png",
     name: "flank steak",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10513,6 +10688,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   wheat_starch_tang_mian_fen: {
+      image_url: "ingredients/wheat_starch_tang_mian_fen.png",
     name: "wheat starch tang mian fen",
     origin: ["Fertile Crescent"],
     season: ["all"],
@@ -10573,6 +10749,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   doubanjiang_spicy_bean_paste: {
+      image_url: "ingredients/doubanjiang_spicy_bean_paste.png",
     name: "doubanjiang spicy bean paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10633,6 +10810,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sweet_bean_sauce_tianmianjiang: {
+      image_url: "ingredients/sweet_bean_sauce_tianmianjiang.png",
     name: "sweet bean sauce tianmianjiang",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10693,6 +10871,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   thick_fresh_wheat_noodles: {
+      image_url: "ingredients/thick_fresh_wheat_noodles.png",
     name: "thick fresh wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10753,6 +10932,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   wonton_wrappers: {
+      image_url: "ingredients/wonton_wrappers.png",
     name: "wonton wrappers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10813,6 +10993,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   croissant_au_beurre: {
+      image_url: "ingredients/croissant_au_beurre.png",
     name: "croissant au beurre",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10873,6 +11054,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cafe_au_lait: {
+      image_url: "ingredients/cafe_au_lait.png",
     name: "cafe au lait",
     origin: ["Worldwide"],
     season: ["all"],
@@ -10933,6 +11115,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   jambon_de_paris_high_quality_cooked_ham: {
+      image_url: "ingredients/jambon_de_paris_high_quality_cooked_ham.png",
     name: "jambon de paris high quality cooked ham",
     origin: ["Europe", "East Asia"],
     season: ["all"],
@@ -10993,6 +11176,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   croutons: {
+      image_url: "ingredients/croutons.png",
     name: "croutons",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11053,6 +11237,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   jambon_blanc_cooked_ham: {
+      image_url: "ingredients/jambon_blanc_cooked_ham.png",
     name: "jambon blanc cooked ham",
     origin: ["Europe", "East Asia"],
     season: ["all"],
@@ -11113,6 +11298,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   gruyere: {
+      image_url: "ingredients/gruyere.png",
     name: "gruyere",
     origin: ["Switzerland (Fribourg)"],
     season: ["all"],
@@ -11173,6 +11359,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   escargots: {
+      image_url: "ingredients/escargots.png",
     name: "escargots",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11233,6 +11420,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ni_u00e7oise_olives: {
+      image_url: "ingredients/ni_u00e7oise_olives.png",
     name: "ni u00e7oise olives",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11293,6 +11481,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dover_sole: {
+      image_url: "ingredients/dover_sole.png",
     name: "dover sole",
     origin: ["Atlantic Ocean"],
     season: ["spring", "summer"],
@@ -11353,6 +11542,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sausages: {
+      image_url: "ingredients/sausages.png",
     name: "sausages",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11413,6 +11603,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   juniper_berries: {
+      image_url: "ingredients/juniper_berries.png",
     name: "juniper berries",
     origin: ["Northern Europe", "North America"],
     season: ["fall"],
@@ -11473,6 +11664,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   marrow_bone: {
+      image_url: "ingredients/marrow_bone.png",
     name: "marrow bone",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11533,6 +11725,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   leek: {
+      image_url: "ingredients/leek.png",
     name: "leek",
     origin: ["Mediterranean", "Middle East"],
     season: ["fall", "winter", "spring"],
@@ -11593,6 +11786,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mixed_firm_and_flaky_fish: {
+      image_url: "ingredients/mixed_firm_and_flaky_fish.png",
     name: "mixed firm and flaky fish",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11653,6 +11847,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fish_stock: {
+      image_url: "ingredients/fish_stock.png",
     name: "fish stock",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11713,6 +11908,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   white_haricot_beans: {
+      image_url: "ingredients/white_haricot_beans.png",
     name: "white haricot beans",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11773,6 +11969,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_white_tarbais_beans: {
+      image_url: "ingredients/dried_white_tarbais_beans.png",
     name: "dried white tarbais beans",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11833,6 +12030,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   red_burgundy_wine: {
+      image_url: "ingredients/red_burgundy_wine.png",
     name: "red burgundy wine",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11893,6 +12091,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   small_bony_fish_for_stock: {
+      image_url: "ingredients/small_bony_fish_for_stock.png",
     name: "small bony fish for stock",
     origin: ["Worldwide"],
     season: ["all"],
@@ -11953,6 +12152,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   rouille: {
+      image_url: "ingredients/rouille.png",
     name: "rouille",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12013,6 +12213,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   piperade: {
+      image_url: "ingredients/piperade.png",
     name: "piperade",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12073,6 +12274,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   creme_patissiere: {
+      image_url: "ingredients/creme_patissiere.png",
     name: "creme patissiere",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12133,6 +12335,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   wooden_skewers: {
+      image_url: "ingredients/wooden_skewers.png",
     name: "wooden skewers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12193,6 +12396,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   greek_pita_bread: {
+      image_url: "ingredients/greek_pita_bread.png",
     name: "greek pita bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12253,6 +12457,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kefalotyri_cheese: {
+      image_url: "ingredients/kefalotyri_cheese.png",
     name: "kefalotyri cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -12313,6 +12518,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   vegetable_broth: {
+      image_url: "ingredients/vegetable_broth.png",
     name: "vegetable broth",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12373,6 +12579,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kefalograviera_cheese: {
+      image_url: "ingredients/kefalograviera_cheese.png",
     name: "kefalograviera cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -12433,6 +12640,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   orzo_pasta: {
+      image_url: "ingredients/orzo_pasta.png",
     name: "orzo pasta",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12493,6 +12701,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   stale_bread: {
+      image_url: "ingredients/stale_bread.png",
     name: "stale bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12553,6 +12762,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pastitsio_pasta_misko_no_2: {
+      image_url: "ingredients/pastitsio_pasta_misko_no_2.png",
     name: "pastitsio pasta misko no 2",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12613,6 +12823,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_currants: {
+      image_url: "ingredients/dried_currants.png",
     name: "dried currants",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12673,6 +12884,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   allspice_berries: {
+      image_url: "ingredients/allspice_berries.png",
     name: "allspice berries",
     origin: ["Caribbean", "Central America"],
     season: ["all"],
@@ -12733,6 +12945,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kritharaki_greek_orzo_pasta: {
+      image_url: "ingredients/kritharaki_greek_orzo_pasta.png",
     name: "kritharaki greek orzo pasta",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12793,6 +13006,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kefalotyri: {
+      image_url: "ingredients/kefalotyri.png",
     name: "kefalotyri",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12853,6 +13067,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_gigantes_beans: {
+      image_url: "ingredients/dried_gigantes_beans.png",
     name: "dried gigantes beans",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12913,6 +13128,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   stale_white_bread: {
+      image_url: "ingredients/stale_white_bread.png",
     name: "stale white bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -12973,6 +13189,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   phyllo_pastry: {
+      image_url: "ingredients/phyllo_pastry.png",
     name: "phyllo pastry",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13033,6 +13250,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pastitsio_pasta: {
+      image_url: "ingredients/pastitsio_pasta.png",
     name: "pastitsio pasta",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13093,6 +13311,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   currants: {
+      image_url: "ingredients/currants.png",
     name: "currants",
     origin: ["Europe"],
     season: ["summer"],
@@ -13153,6 +13372,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fenugreek_seeds: {
+      image_url: "ingredients/fenugreek_seeds.png",
     name: "fenugreek seeds",
     origin: ["Western Asia", "Mediterranean"],
     season: ["all"],
@@ -13213,6 +13433,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kasuri_methi_dried_fenugreek_leaves: {
+      image_url: "ingredients/kasuri_methi_dried_fenugreek_leaves.png",
     name: "kasuri methi dried fenugreek leaves",
     origin: ["Western Asia", "Mediterranean"],
     season: ["winter", "spring"],
@@ -13273,6 +13494,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sev: {
+      image_url: "ingredients/sev.png",
     name: "sev",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13333,6 +13555,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mutton: {
+      image_url: "ingredients/mutton.png",
     name: "mutton",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13393,6 +13616,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   red_chilies: {
+      image_url: "ingredients/red_chilies.png",
     name: "red chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13453,6 +13677,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   whole_green_gram_moong_dal: {
+      image_url: "ingredients/whole_green_gram_moong_dal.png",
     name: "whole green gram moong dal",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13513,6 +13738,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cooking_oil: {
+      image_url: "ingredients/cooking_oil.png",
     name: "cooking oil",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13573,6 +13799,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   green_chili_paste: {
+      image_url: "ingredients/green_chili_paste.png",
     name: "green chili paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13633,6 +13860,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nihari_masala: {
+      image_url: "ingredients/nihari_masala.png",
     name: "nihari masala",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13693,6 +13921,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cashews: {
+      image_url: "ingredients/cashews.png",
     name: "cashews",
     origin: ["South America"],
     season: ["all"],
@@ -13753,6 +13982,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chana_masala_powder: {
+      image_url: "ingredients/chana_masala_powder.png",
     name: "chana masala powder",
     origin: ["Worldwide"],
     season: ["all"],
@@ -13813,6 +14043,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   carom_seeds_ajwain: {
+      image_url: "ingredients/carom_seeds_ajwain.png",
     name: "carom seeds ajwain",
     origin: ["South Asia", "Western Asia"],
     season: ["all"],
@@ -13873,6 +14104,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   amchur: {
+      image_url: "ingredients/amchur.png",
     name: "amchur",
     origin: ["South Asia"],
     season: ["all"],
@@ -13933,6 +14165,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   raisins_and_cashews: {
+      image_url: "ingredients/raisins_and_cashews.png",
     name: "raisins and cashews",
     origin: ["South America"],
     season: ["all"],
@@ -13993,6 +14226,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   crispy_puris: {
+      image_url: "ingredients/crispy_puris.png",
     name: "crispy puris",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14053,6 +14287,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pav_bhaji_masala: {
+      image_url: "ingredients/pav_bhaji_masala.png",
     name: "pav bhaji masala",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14113,6 +14348,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pav_rolls: {
+      image_url: "ingredients/pav_rolls.png",
     name: "pav rolls",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14173,6 +14409,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tiger_prawns: {
+      image_url: "ingredients/tiger_prawns.png",
     name: "tiger prawns",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14233,6 +14470,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bydagi_chilies: {
+      image_url: "ingredients/bydagi_chilies.png",
     name: "bydagi chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14293,6 +14531,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ajwain_carom_seeds: {
+      image_url: "ingredients/ajwain_carom_seeds.png",
     name: "ajwain carom seeds",
     origin: ["South Asia", "Western Asia"],
     season: ["all"],
@@ -14353,6 +14592,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   khoya_mawa: {
+      image_url: "ingredients/khoya_mawa.png",
     name: "khoya mawa",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14413,6 +14653,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tikka_masala_spice_blend: {
+      image_url: "ingredients/tikka_masala_spice_blend.png",
     name: "tikka masala spice blend",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14473,6 +14714,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_fenugreek_leaves_kasuri_methi: {
+      image_url: "ingredients/dried_fenugreek_leaves_kasuri_methi.png",
     name: "dried fenugreek leaves kasuri methi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14533,6 +14775,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   khoya: {
+      image_url: "ingredients/khoya.png",
     name: "khoya",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14593,6 +14836,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   espresso: {
+      image_url: "ingredients/espresso.png",
     name: "espresso",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14653,6 +14897,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   high_quality_cocoa_powder: {
+      image_url: "ingredients/high_quality_cocoa_powder.png",
     name: "high quality cocoa powder",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14713,6 +14958,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cantuccini_biscotti: {
+      image_url: "ingredients/cantuccini_biscotti.png",
     name: "cantuccini biscotti",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14773,6 +15019,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   stale_crusty_bread_ideally_saltless_tuscan_bread: {
+      image_url: "ingredients/stale_crusty_bread_ideally_saltless_tuscan_bread.png",
     name: "stale crusty bread ideally saltless tuscan bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14833,6 +15080,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cannellini_beans: {
+      image_url: "ingredients/cannellini_beans.png",
     name: "cannellini beans",
     origin: ["Italy"],
     season: ["all"],
@@ -14893,6 +15141,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   stale_tuscan_bread: {
+      image_url: "ingredients/stale_tuscan_bread.png",
     name: "stale tuscan bread",
     origin: ["Worldwide"],
     season: ["all"],
@@ -14953,6 +15202,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_borlotti: {
+      image_url: "ingredients/dried_borlotti.png",
     name: "dried borlotti",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15013,6 +15263,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ditalini: {
+      image_url: "ingredients/ditalini.png",
     name: "ditalini",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15073,6 +15324,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fresh_yeast: {
+      image_url: "ingredients/fresh_yeast.png",
     name: "fresh yeast",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15133,6 +15385,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   olives: {
+      image_url: "ingredients/olives.png",
     name: "olives",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15193,6 +15446,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pici_pasta: {
+      image_url: "ingredients/pici_pasta.png",
     name: "pici pasta",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15253,6 +15507,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   green_olives: {
+      image_url: "ingredients/green_olives.png",
     name: "green olives",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15313,6 +15568,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   vinegar: {
+      image_url: "ingredients/vinegar.png",
     name: "vinegar",
     origin: ["Western Asia"],
     season: ["all"],
@@ -15373,6 +15629,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   oil_for_frying: {
+      image_url: "ingredients/oil_for_frying.png",
     name: "oil for frying",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15433,6 +15690,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   puntarelle: {
+      image_url: "ingredients/puntarelle.png",
     name: "puntarelle",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15493,6 +15751,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   taleggio_cheese: {
+      image_url: "ingredients/taleggio_cheese.png",
     name: "taleggio cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -15553,6 +15812,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bolognese_rag: {
+      image_url: "ingredients/bolognese_rag.png",
     name: "bolognese rag",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15613,6 +15873,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   gremolata: {
+      image_url: "ingredients/gremolata.png",
     name: "gremolata",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15673,6 +15934,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   prosciutto_di_parma: {
+      image_url: "ingredients/prosciutto_di_parma.png",
     name: "prosciutto di parma",
     origin: ["Italy (Parma, San Daniele)"],
     season: ["all"],
@@ -15733,6 +15995,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cocoa_powder: {
+      image_url: "ingredients/cocoa_powder.png",
     name: "cocoa powder",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -15793,6 +16056,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sea_bass: {
+      image_url: "ingredients/sea_bass.png",
     name: "sea bass",
     origin: ["Mediterranean", "Atlantic"],
     season: ["fall", "winter"],
@@ -15853,6 +16117,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tonnarelli: {
+      image_url: "ingredients/tonnarelli.png",
     name: "tonnarelli",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15913,6 +16178,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   instant_yeast: {
+      image_url: "ingredients/instant_yeast.png",
     name: "instant yeast",
     origin: ["Worldwide"],
     season: ["all"],
@@ -15973,6 +16239,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   savoiardi_ladyfinger_biscuits: {
+      image_url: "ingredients/savoiardi_ladyfinger_biscuits.png",
     name: "savoiardi ladyfinger biscuits",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16033,6 +16300,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dextrose: {
+      image_url: "ingredients/dextrose.png",
     name: "dextrose",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16093,6 +16361,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   locust_bean_gum: {
+      image_url: "ingredients/locust_bean_gum.png",
     name: "locust bean gum",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16153,6 +16422,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   active_lieveto_madre_stiff_sourdough_starter: {
+      image_url: "ingredients/active_lieveto_madre_stiff_sourdough_starter.png",
     name: "active lieveto madre stiff sourdough starter",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16213,6 +16483,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   miso_soup: {
+      image_url: "ingredients/miso_soup.png",
     name: "miso soup",
     origin: ["Japan"],
     season: ["all"],
@@ -16273,6 +16544,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kobachi_side_dish: {
+      image_url: "ingredients/kobachi_side_dish.png",
     name: "kobachi side dish",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16333,6 +16605,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ham: {
+      image_url: "ingredients/ham.png",
     name: "ham",
     origin: ["Europe", "East Asia"],
     season: ["all"],
@@ -16393,6 +16666,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   edamame_beans: {
+      image_url: "ingredients/edamame_beans.png",
     name: "edamame beans",
     origin: ["East Asia"],
     season: ["summer", "fall"],
@@ -16453,6 +16727,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   katsuobushi: {
+      image_url: "ingredients/katsuobushi.png",
     name: "katsuobushi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16513,6 +16788,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tsuyu_noodle_sauce: {
+      image_url: "ingredients/tsuyu_noodle_sauce.png",
     name: "tsuyu noodle sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16573,6 +16849,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   toasted_nori: {
+      image_url: "ingredients/toasted_nori.png",
     name: "toasted nori",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16633,6 +16910,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   wasabi_paste: {
+      image_url: "ingredients/wasabi_paste.png",
     name: "wasabi paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16693,6 +16971,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   shoyu_tare: {
+      image_url: "ingredients/shoyu_tare.png",
     name: "shoyu tare",
     origin: ["Japan"],
     season: ["all"],
@@ -16753,6 +17032,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   white_miso_paste_shiro_miso: {
+      image_url: "ingredients/white_miso_paste_shiro_miso.png",
     name: "white miso paste shiro miso",
     origin: ["Japan"],
     season: ["all"],
@@ -16813,6 +17093,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_wakame_seaweed: {
+      image_url: "ingredients/dried_wakame_seaweed.png",
     name: "dried wakame seaweed",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16873,6 +17154,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   aonori_dried_green_seaweed_flakes: {
+      image_url: "ingredients/aonori_dried_green_seaweed_flakes.png",
     name: "aonori dried green seaweed flakes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16933,6 +17215,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cooked_octopus_tako: {
+      image_url: "ingredients/cooked_octopus_tako.png",
     name: "cooked octopus tako",
     origin: ["Worldwide"],
     season: ["all"],
@@ -16993,6 +17276,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   takoyaki_sauce: {
+      image_url: "ingredients/takoyaki_sauce.png",
     name: "takoyaki sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17053,6 +17337,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mentsuyu_dipping_sauce: {
+      image_url: "ingredients/mentsuyu_dipping_sauce.png",
     name: "mentsuyu dipping sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17113,6 +17398,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   hot_green_tea_sencha: {
+      image_url: "ingredients/hot_green_tea_sencha.png",
     name: "hot green tea sencha",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17173,6 +17459,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nori_strips: {
+      image_url: "ingredients/nori_strips.png",
     name: "nori strips",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17233,6 +17520,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   shungiku_chrysanthemum_greens: {
+      image_url: "ingredients/shungiku_chrysanthemum_greens.png",
     name: "shungiku chrysanthemum greens",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17293,6 +17581,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   alkaline_wheat_noodles: {
+      image_url: "ingredients/alkaline_wheat_noodles.png",
     name: "alkaline wheat noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17353,6 +17642,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tare_sauce: {
+      image_url: "ingredients/tare_sauce.png",
     name: "tare sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17413,6 +17703,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tenkasu: {
+      image_url: "ingredients/tenkasu.png",
     name: "tenkasu",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17473,6 +17764,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   katsuobushi_and_aonori: {
+      image_url: "ingredients/katsuobushi_and_aonori.png",
     name: "katsuobushi and aonori",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17533,6 +17825,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fresh: {
+      image_url: "ingredients/fresh.png",
     name: "fresh",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17593,6 +17886,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tonkatsu_sauce: {
+      image_url: "ingredients/tonkatsu_sauce.png",
     name: "tonkatsu sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17653,6 +17947,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mitsuba: {
+      image_url: "ingredients/mitsuba.png",
     name: "mitsuba",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17713,6 +18008,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   white_miso_paste: {
+      image_url: "ingredients/white_miso_paste.png",
     name: "white miso paste",
     origin: ["Japan"],
     season: ["all"],
@@ -17773,6 +18069,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nori: {
+      image_url: "ingredients/nori.png",
     name: "nori",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17833,6 +18130,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   naengmyeon_noodles: {
+      image_url: "ingredients/naengmyeon_noodles.png",
     name: "naengmyeon noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17893,6 +18191,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dongchimi_brine: {
+      image_url: "ingredients/dongchimi_brine.png",
     name: "dongchimi brine",
     origin: ["Worldwide"],
     season: ["all"],
@@ -17953,6 +18252,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   korean_pancake_mix: {
+      image_url: "ingredients/korean_pancake_mix.png",
     name: "korean pancake mix",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18013,6 +18313,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   red_chili_pepper: {
+      image_url: "ingredients/red_chili_pepper.png",
     name: "red chili pepper",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18073,6 +18374,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   garaetteok: {
+      image_url: "ingredients/garaetteok.png",
     name: "garaetteok",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18133,6 +18435,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fish_cakes_eomuk: {
+      image_url: "ingredients/fish_cakes_eomuk.png",
     name: "fish cakes eomuk",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18193,6 +18496,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   jajangmyeon_noodles: {
+      image_url: "ingredients/jajangmyeon_noodles.png",
     name: "jajangmyeon noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18253,6 +18557,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chunjang: {
+      image_url: "ingredients/chunjang.png",
     name: "chunjang",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18313,6 +18618,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cornstarch_slurry: {
+      image_url: "ingredients/cornstarch_slurry.png",
     name: "cornstarch slurry",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18373,6 +18679,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   core_element_of_haemul_pajeon: {
+      image_url: "ingredients/core_element_of_haemul_pajeon.png",
     name: "core element of haemul pajeon",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18433,6 +18740,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   alchemical_spice: {
+      image_url: "ingredients/alchemical_spice.png",
     name: "alchemical spice",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18493,6 +18801,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pancake_mix: {
+      image_url: "ingredients/pancake_mix.png",
     name: "pancake mix",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18553,6 +18862,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   danmuji_yellow_pickled_radish: {
+      image_url: "ingredients/danmuji_yellow_pickled_radish.png",
     name: "danmuji yellow pickled radish",
     origin: ["China", "Southeast Asia"],
     season: ["spring", "fall"],
@@ -18613,6 +18923,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   round_mandu_wrappers: {
+      image_url: "ingredients/round_mandu_wrappers.png",
     name: "round mandu wrappers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18673,6 +18984,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chili_pepper: {
+      image_url: "ingredients/chili_pepper.png",
     name: "chili pepper",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18733,6 +19045,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chestnuts: {
+      image_url: "ingredients/chestnuts.png",
     name: "chestnuts",
     origin: ["Europe"],
     season: ["fall"],
@@ -18793,6 +19106,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   jujubes_dried_dates: {
+      image_url: "ingredients/jujubes_dried_dates.png",
     name: "jujubes dried dates",
     origin: ["Middle East"],
     season: ["fall", "winter"],
@@ -18853,6 +19167,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   extra_firm_tofu: {
+      image_url: "ingredients/extra_firm_tofu.png",
     name: "extra firm tofu",
     origin: ["China"],
     season: ["all"],
@@ -18913,6 +19228,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   spam: {
+      image_url: "ingredients/spam.png",
     name: "spam",
     origin: ["Worldwide"],
     season: ["all"],
@@ -18973,6 +19289,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   instant_ramen_noodles: {
+      image_url: "ingredients/instant_ramen_noodles.png",
     name: "instant ramen noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19033,6 +19350,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   hot_dogs: {
+      image_url: "ingredients/hot_dogs.png",
     name: "hot dogs",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19093,6 +19411,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   baked_beans: {
+      image_url: "ingredients/baked_beans.png",
     name: "baked beans",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19153,6 +19472,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fresh_ginseng: {
+      image_url: "ingredients/fresh_ginseng.png",
     name: "fresh ginseng",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19213,6 +19533,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_jujubes: {
+      image_url: "ingredients/dried_jujubes.png",
     name: "dried jujubes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19273,6 +19594,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_astragalus_root: {
+      image_url: "ingredients/dried_astragalus_root.png",
     name: "dried astragalus root",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19333,6 +19655,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mochi: {
+      image_url: "ingredients/mochi.png",
     name: "mochi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19393,6 +19716,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   primary_ingredient_for_hotteok: {
+      image_url: "ingredients/primary_ingredient_for_hotteok.png",
     name: "primary ingredient for hotteok",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19453,6 +19777,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   primary_ingredient_for_songpyeon: {
+      image_url: "ingredients/primary_ingredient_for_songpyeon.png",
     name: "primary ingredient for songpyeon",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19513,6 +19838,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   primary_ingredient_for_japchae: {
+      image_url: "ingredients/primary_ingredient_for_japchae.png",
     name: "primary ingredient for japchae",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19573,6 +19899,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   jalapeno: {
+      image_url: "ingredients/jalapeno.png",
     name: "jalapeno",
     origin: ["Mexico (Veracruz)"],
     season: ["summer"],
@@ -19633,6 +19960,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   stale_corn_tortillas: {
+      image_url: "ingredients/stale_corn_tortillas.png",
     name: "stale corn tortillas",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19693,6 +20021,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   epazote: {
+      image_url: "ingredients/epazote.png",
     name: "epazote",
     origin: ["Mexico", "Central America"],
     season: ["summer"],
@@ -19753,6 +20082,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bolillo_rolls: {
+      image_url: "ingredients/bolillo_rolls.png",
     name: "bolillo rolls",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19813,6 +20143,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   refried_beans: {
+      image_url: "ingredients/refried_beans.png",
     name: "refried beans",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19873,6 +20204,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pico_de_gallo: {
+      image_url: "ingredients/pico_de_gallo.png",
     name: "pico de gallo",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19933,6 +20265,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chiltomate_sauce: {
+      image_url: "ingredients/chiltomate_sauce.png",
     name: "chiltomate sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -19993,6 +20326,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cooked_ham: {
+      image_url: "ingredients/cooked_ham.png",
     name: "cooked ham",
     origin: ["Europe", "East Asia"],
     season: ["all"],
@@ -20053,6 +20387,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   serrano_chilies: {
+      image_url: "ingredients/serrano_chilies.png",
     name: "serrano chilies",
     origin: ["Mexico"],
     season: ["summer"],
@@ -20113,6 +20448,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tlayudas: {
+      image_url: "ingredients/tlayudas.png",
     name: "tlayudas",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20173,6 +20509,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   oaxaca_cheese: {
+      image_url: "ingredients/oaxaca_cheese.png",
     name: "oaxaca cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -20233,6 +20570,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chorizo: {
+      image_url: "ingredients/chorizo.png",
     name: "chorizo",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20293,6 +20631,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   roma: {
+      image_url: "ingredients/roma.png",
     name: "roma",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20353,6 +20692,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   hass: {
+      image_url: "ingredients/hass.png",
     name: "hass",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20413,6 +20753,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   salsa_roja: {
+      image_url: "ingredients/salsa_roja.png",
     name: "salsa roja",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20473,6 +20814,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nopales: {
+      image_url: "ingredients/nopales.png",
     name: "nopales",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20533,6 +20875,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cotija_cheese: {
+      image_url: "ingredients/cotija_cheese.png",
     name: "cotija cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -20593,6 +20936,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chile_powder: {
+      image_url: "ingredients/chile_powder.png",
     name: "chile powder",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20653,6 +20997,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   juice: {
+      image_url: "ingredients/juice.png",
     name: "juice",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20713,6 +21058,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   fideo_pasta: {
+      image_url: "ingredients/fideo_pasta.png",
     name: "fideo pasta",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20773,6 +21119,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mulato_chiles: {
+      image_url: "ingredients/mulato_chiles.png",
     name: "mulato chiles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -20833,6 +21180,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   pasilla_chiles: {
+      image_url: "ingredients/pasilla_chiles.png",
     name: "pasilla chiles",
     origin: ["Mexico"],
     season: ["all"],
@@ -20893,6 +21241,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   corn_tortilla: {
+      image_url: "ingredients/corn_tortilla.png",
     name: "corn tortilla",
     origin: ["Mesoamerica"],
     season: ["summer"],
@@ -20954,6 +21303,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   jalapenos: {
+      image_url: "ingredients/jalapenos.png",
     name: "jalapenos",
     origin: ["Mexico (Veracruz)"],
     season: ["summer"],
@@ -21014,6 +21364,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   serrano_chiles: {
+      image_url: "ingredients/serrano_chiles.png",
     name: "serrano chiles",
     origin: ["Mexico"],
     season: ["summer"],
@@ -21074,6 +21425,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cascabel_chilies: {
+      image_url: "ingredients/cascabel_chilies.png",
     name: "cascabel chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21134,6 +21486,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   salsa_verde: {
+      image_url: "ingredients/salsa_verde.png",
     name: "salsa verde",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21194,6 +21547,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   dried_corn_husks: {
+      image_url: "ingredients/dried_corn_husks.png",
     name: "dried corn husks",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21254,6 +21608,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   yucatecan_limes: {
+      image_url: "ingredients/yucatecan_limes.png",
     name: "yucatecan limes",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21314,6 +21669,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chilhuacle_negro_chilies: {
+      image_url: "ingredients/chilhuacle_negro_chilies.png",
     name: "chilhuacle negro chilies",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21374,6 +21730,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tajin: {
+      image_url: "ingredients/tajin.png",
     name: "tajin",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21434,6 +21791,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chamoy_sauce: {
+      image_url: "ingredients/chamoy_sauce.png",
     name: "chamoy sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21494,6 +21852,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cotija_cheese_crumbled: {
+      image_url: "ingredients/cotija_cheese_crumbled.png",
     name: "cotija cheese crumbled",
     origin: ["Mexico (Michoacán)"],
     season: ["all"],
@@ -21554,6 +21913,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ancho: {
+      image_url: "ingredients/ancho.png",
     name: "ancho",
     origin: ["Mexico"],
     season: ["all"],
@@ -21614,6 +21974,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   aleppo_pepper_flakes: {
+      image_url: "ingredients/aleppo_pepper_flakes.png",
     name: "aleppo pepper flakes",
     origin: ["Syria", "Turkey"],
     season: ["all"],
@@ -21674,6 +22035,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   laurel_leaves: {
+      image_url: "ingredients/laurel_leaves.png",
     name: "laurel leaves",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21734,6 +22096,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sumac: {
+      image_url: "ingredients/sumac.png",
     name: "sumac",
     origin: ["Western Asia", "Mediterranean"],
     season: ["all"],
@@ -21794,6 +22157,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bulgur: {
+      image_url: "ingredients/bulgur.png",
     name: "bulgur",
     origin: ["Western Asia"],
     season: ["all"],
@@ -21854,6 +22218,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   molokhia_leaves: {
+      image_url: "ingredients/molokhia_leaves.png",
     name: "molokhia leaves",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21914,6 +22279,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   b_u00e9chamel_sauce: {
+      image_url: "ingredients/b_u00e9chamel_sauce.png",
     name: "b u00e9chamel sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -21974,6 +22340,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   shrak: {
+      image_url: "ingredients/shrak.png",
     name: "shrak",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22034,6 +22401,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   hawaij: {
+      image_url: "ingredients/hawaij.png",
     name: "hawaij",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22094,6 +22462,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kataifi_pastry: {
+      image_url: "ingredients/kataifi_pastry.png",
     name: "kataifi pastry",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22154,6 +22523,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nabulsi: {
+      image_url: "ingredients/nabulsi.png",
     name: "nabulsi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22214,6 +22584,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   neutral_frying_oil: {
+      image_url: "ingredients/neutral_frying_oil.png",
     name: "neutral frying oil",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22274,6 +22645,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tahini_sauce: {
+      image_url: "ingredients/tahini_sauce.png",
     name: "tahini sauce",
     origin: ["Levant"],
     season: ["all"],
@@ -22334,6 +22706,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kitchen_towel: {
+      image_url: "ingredients/kitchen_towel.png",
     name: "kitchen towel",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22394,6 +22767,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tvorog_farmer_s_cheese: {
+      image_url: "ingredients/tvorog_farmer_s_cheese.png",
     name: "tvorog farmer s cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -22454,6 +22828,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   berry_preserves: {
+      image_url: "ingredients/berry_preserves.png",
     name: "berry preserves",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22514,6 +22889,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kefir: {
+      image_url: "ingredients/kefir.png",
     name: "kefir",
     origin: ["Caucasus"],
     season: ["all"],
@@ -22574,6 +22950,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   small_fish: {
+      image_url: "ingredients/small_fish.png",
     name: "small fish",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22634,6 +23011,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   prized_fish: {
+      image_url: "ingredients/prized_fish.png",
     name: "prized fish",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22694,6 +23072,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   vodka: {
+      image_url: "ingredients/vodka.png",
     name: "vodka",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22754,6 +23133,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mixed_cured_meats: {
+      image_url: "ingredients/mixed_cured_meats.png",
     name: "mixed cured meats",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22814,6 +23194,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   black_olives: {
+      image_url: "ingredients/black_olives.png",
     name: "black olives",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22874,6 +23255,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cooked_meat: {
+      image_url: "ingredients/cooked_meat.png",
     name: "cooked meat",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22934,6 +23316,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   filling: {
+      image_url: "ingredients/filling.png",
     name: "filling",
     origin: ["Worldwide"],
     season: ["all"],
@@ -22994,6 +23377,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   for_glaze: {
+      image_url: "ingredients/for_glaze.png",
     name: "for glaze",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23054,6 +23438,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cold_kvas: {
+      image_url: "ingredients/cold_kvas.png",
     name: "cold kvas",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23114,6 +23499,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sriracha: {
+      image_url: "ingredients/sriracha.png",
     name: "sriracha",
     origin: ["Thailand"],
     season: ["all"],
@@ -23174,6 +23560,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   finely_sliced: {
+      image_url: "ingredients/finely_sliced.png",
     name: "finely sliced",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23234,6 +23621,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   panang_curry_paste: {
+      image_url: "ingredients/panang_curry_paste.png",
     name: "panang curry paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23294,6 +23682,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   torn: {
+      image_url: "ingredients/torn.png",
     name: "torn",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23354,6 +23743,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   beaten: {
+      image_url: "ingredients/beaten.png",
     name: "beaten",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23414,6 +23804,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nam_prik_pao_thai_chili_jam: {
+      image_url: "ingredients/nam_prik_pao_thai_chili_jam.png",
     name: "nam prik pao thai chili jam",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23474,6 +23865,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   preserved_radish_chai_poh: {
+      image_url: "ingredients/preserved_radish_chai_poh.png",
     name: "preserved radish chai poh",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23534,6 +23926,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   canned_bamboo_shoots: {
+      image_url: "ingredients/canned_bamboo_shoots.png",
     name: "canned bamboo shoots",
     origin: ["East and Southeast Asia"],
     season: ["spring"],
@@ -23594,6 +23987,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   gaeng_panang_neua: {
+      image_url: "ingredients/gaeng_panang_neua.png",
     name: "gaeng panang neua",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23654,6 +24048,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   khao_soi_gai: {
+      image_url: "ingredients/khao_soi_gai.png",
     name: "khao soi gai",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23714,6 +24109,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tub_tim_grob: {
+      image_url: "ingredients/tub_tim_grob.png",
     name: "tub tim grob",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23774,6 +24170,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bua_loi: {
+      image_url: "ingredients/bua_loi.png",
     name: "bua loi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23834,6 +24231,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sangkaya_fak_thong: {
+      image_url: "ingredients/sangkaya_fak_thong.png",
     name: "sangkaya fak thong",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23894,6 +24292,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   kluay_tod: {
+      image_url: "ingredients/kluay_tod.png",
     name: "kluay tod",
     origin: ["Worldwide"],
     season: ["all"],
@@ -23954,6 +24353,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   youtiao_quay: {
+      image_url: "ingredients/youtiao_quay.png",
     name: "youtiao quay",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24014,6 +24414,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nuoc_cham: {
+      image_url: "ingredients/nuoc_cham.png",
     name: "nuoc cham",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24074,6 +24475,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ch_l_a: {
+      image_url: "ingredients/ch_l_a.png",
     name: "ch l a",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24134,6 +24536,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   banh_mi_p_la: {
+      image_url: "ingredients/banh_mi_p_la.png",
     name: "banh mi p la",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24194,6 +24597,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   chao: {
+      image_url: "ingredients/chao.png",
     name: "chao",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24254,6 +24658,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nuoc_mau: {
+      image_url: "ingredients/nuoc_mau.png",
     name: "nuoc mau",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24314,6 +24719,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   m_m_ru_c: {
+      image_url: "ingredients/m_m_ru_c.png",
     name: "m m ru c",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24374,6 +24780,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   annatto_oil: {
+      image_url: "ingredients/annatto_oil.png",
     name: "annatto oil",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24434,6 +24841,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   tapioca_noodles: {
+      image_url: "ingredients/tapioca_noodles.png",
     name: "tapioca noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24494,6 +24902,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   catfish_steaks: {
+      image_url: "ingredients/catfish_steaks.png",
     name: "catfish steaks",
     origin: ["Worldwide freshwater"],
     season: ["spring", "summer"],
@@ -24554,6 +24963,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   liver_p_t: {
+      image_url: "ingredients/liver_p_t.png",
     name: "liver p t",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24614,6 +25024,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   snakehead_fish: {
+      image_url: "ingredients/snakehead_fish.png",
     name: "snakehead fish",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24674,6 +25085,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   vietnamese_baguettes_banh_mi: {
+      image_url: "ingredients/vietnamese_baguettes_banh_mi.png",
     name: "vietnamese baguettes banh mi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24734,6 +25146,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nuoc_cham_dipping_sauce: {
+      image_url: "ingredients/nuoc_cham_dipping_sauce.png",
     name: "nuoc cham dipping sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24794,6 +25207,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   sa_te_chili_paste: {
+      image_url: "ingredients/sa_te_chili_paste.png",
     name: "sa te chili paste",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24854,6 +25268,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cao_lau_noodles: {
+      image_url: "ingredients/cao_lau_noodles.png",
     name: "cao lau noodles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24914,6 +25329,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   red_adzuki_beans: {
+      image_url: "ingredients/red_adzuki_beans.png",
     name: "red adzuki beans",
     origin: ["Worldwide"],
     season: ["all"],
@@ -24974,6 +25390,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ch_ba_mau: {
+      image_url: "ingredients/ch_ba_mau.png",
     name: "ch ba mau",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25034,6 +25451,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   ndole_leaves_bitterleaf: {
+      image_url: "ingredients/ndole_leaves_bitterleaf.png",
     name: "ndole leaves bitterleaf",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25094,6 +25512,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   bolognese_ragu: {
+      image_url: "ingredients/bolognese_ragu.png",
     name: "bolognese ragu",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25154,6 +25573,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nuoc_cha_m: {
+      image_url: "ingredients/nuoc_cha_m.png",
     name: "nuoc cha m",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25214,6 +25634,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cha_lua: {
+      image_url: "ingredients/cha_lua.png",
     name: "cha lua",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25274,6 +25695,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   banh_mi_op_la: {
+      image_url: "ingredients/banh_mi_op_la.png",
     name: "banh mi op la",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25334,6 +25756,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   cha_o: {
+      image_url: "ingredients/cha_o.png",
     name: "cha o",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25394,6 +25817,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   nuoc_ma_u: {
+      image_url: "ingredients/nuoc_ma_u.png",
     name: "nuoc ma u",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25454,6 +25878,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   mam_ruo_c: {
+      image_url: "ingredients/mam_ruo_c.png",
     name: "mam ruo c",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25514,6 +25939,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   liver_pate: {
+      image_url: "ingredients/liver_pate.png",
     name: "liver pate",
     origin: ["Worldwide"],
     season: ["all"],
@@ -25574,6 +26000,7 @@ export const recipeCoverageIngredients: Record<
     },
   },
   che_ba_mau: {
+      image_url: "ingredients/che_ba_mau.png",
     name: "che ba mau",
     origin: ["Worldwide"],
     season: ["all"],

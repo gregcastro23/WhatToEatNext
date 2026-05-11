@@ -5,7 +5,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // NOTE: pork_sausage was removed — it was incorrectly placed here (it's a meat, not an herb)
 const rawHerbs: Record<string, Partial<IngredientMapping>> = {
   thyme: {
-      description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.",
+      image_url: "ingredients/thyme.png",
+    description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.",
     name: "thyme",
     origin: ["Mediterranean"],
     season: ["spring", "summer", "fall"],
@@ -39,7 +40,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   fresh_thyme: {
-      description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.\n\n**Selection & Storage:** Look for bright green, fragrant sprigs without woody or dried-out tips. Store fresh thyme wrapped loosely in a damp paper towel inside a plastic bag in the refrigerator's crisper drawer.",
+      image_url: "ingredients/fresh_thyme.png",
+    description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.\n\n**Selection & Storage:** Look for bright green, fragrant sprigs without woody or dried-out tips. Store fresh thyme wrapped loosely in a damp paper towel inside a plastic bag in the refrigerator's crisper drawer.",
     name: "fresh thyme",
     origin: ["Mediterranean"],
     season: ["spring", "summer", "fall"],
@@ -71,7 +73,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   sage: {
-      description: "A hardy herb (*Salvia officinalis*) with velvety, grey-green leaves and a highly assertive, pine-like, and slightly astringent aroma. Because its flavor is so robust and somewhat resinous, it pairs perfectly with fatty meats like pork and sausage, or browned butter sauces.",
+      image_url: "ingredients/sage.png",
+    description: "A hardy herb (*Salvia officinalis*) with velvety, grey-green leaves and a highly assertive, pine-like, and slightly astringent aroma. Because its flavor is so robust and somewhat resinous, it pairs perfectly with fatty meats like pork and sausage, or browned butter sauces.",
     name: "sage",
     origin: ["Mediterranean"],
     season: ["spring", "summer", "fall"],
@@ -103,7 +106,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   fresh_mint: {
-      description: "A rapidly spreading, aromatic herb (*Mentha*) characterized by the cooling compound menthol. It provides a sharp, refreshing contrast to rich or spicy dishes, and is utilized globally in everything from Middle Eastern lamb marinades to Southeast Asian salads and sweet desserts.\n\n**Selection & Storage:** Look for perky, bright green leaves without dark spots or wilting. Store unwashed mint wrapped in a lightly damp paper towel inside a plastic bag in the crisper drawer.",
+      image_url: "ingredients/fresh_mint.png",
+    description: "A rapidly spreading, aromatic herb (*Mentha*) characterized by the cooling compound menthol. It provides a sharp, refreshing contrast to rich or spicy dishes, and is utilized globally in everything from Middle Eastern lamb marinades to Southeast Asian salads and sweet desserts.\n\n**Selection & Storage:** Look for perky, bright green leaves without dark spots or wilting. Store unwashed mint wrapped in a lightly damp paper towel inside a plastic bag in the crisper drawer.",
     name: "fresh mint",
     origin: ["Mediterranean", "Western Asia"],
     season: ["spring", "summer", "fall"],
@@ -135,7 +139,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   fresh_sage: {
-      description: "A hardy herb (*Salvia officinalis*) with velvety, grey-green leaves and a highly assertive, pine-like, and slightly astringent aroma. Because its flavor is so robust and somewhat resinous, it pairs perfectly with fatty meats like pork and sausage, or browned butter sauces.\n\n**Selection & Storage:** Look for fresh, pliable leaves that are fuzzy and aromatic; avoid dried-out or black-spotted leaves. Store wrapped in a slightly damp paper towel in a plastic bag in the refrigerator.",
+      image_url: "ingredients/fresh_sage.png",
+    description: "A hardy herb (*Salvia officinalis*) with velvety, grey-green leaves and a highly assertive, pine-like, and slightly astringent aroma. Because its flavor is so robust and somewhat resinous, it pairs perfectly with fatty meats like pork and sausage, or browned butter sauces.\n\n**Selection & Storage:** Look for fresh, pliable leaves that are fuzzy and aromatic; avoid dried-out or black-spotted leaves. Store wrapped in a slightly damp paper towel in a plastic bag in the refrigerator.",
     name: "fresh sage",
     origin: ["Mediterranean"],
     season: ["spring", "summer", "fall"],
@@ -167,7 +172,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   bay_leaf: {
-      description: "The aromatic leaf of the sweet bay tree (*Laurus nobilis*), typically used dried. When simmered in liquid for an extended period, it releases complex, woodsy, floral, and slightly menthol notes that add essential savory depth to soups, stews, and braises.",
+      image_url: "ingredients/bay_leaf.png",
+    description: "The aromatic leaf of the sweet bay tree (*Laurus nobilis*), typically used dried. When simmered in liquid for an extended period, it releases complex, woodsy, floral, and slightly menthol notes that add essential savory depth to soups, stews, and braises.",
     name: "bay leaf",
     origin: ["Mediterranean (Asia Minor)"],
     season: ["all"],
@@ -199,7 +205,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   flat_leaf_parsley: {
-      description: "A mild, grassy, and slightly bitter herb (*Petroselinum crispum*) available in curly (best for garnishing) and flat-leaf (best for cooking) varieties. Its clean, mineral-rich flavor acts as a culinary palate cleanser, cutting through heavy fats and brightening rich stews and sauces.\n\n**Selection & Storage:** Choose bunches with vibrant, dark green leaves and firm stems. Store it by trimming the ends and placing the stems in a jar of water in the refrigerator, covered loosely with a plastic bag.",
+      image_url: "ingredients/flat_leaf_parsley.png",
+    description: "A mild, grassy, and slightly bitter herb (*Petroselinum crispum*) available in curly (best for garnishing) and flat-leaf (best for cooking) varieties. Its clean, mineral-rich flavor acts as a culinary palate cleanser, cutting through heavy fats and brightening rich stews and sauces.\n\n**Selection & Storage:** Choose bunches with vibrant, dark green leaves and firm stems. Store it by trimming the ends and placing the stems in a jar of water in the refrigerator, covered loosely with a plastic bag.",
     name: "flat-leaf parsley",
     origin: ["Mediterranean"],
     season: ["spring", "summer", "fall"],
@@ -231,7 +238,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   oregano: {
-      description: "A robust, highly aromatic herb (*Origanum vulgare*) essential to Mediterranean and Mexican cuisines. Unlike delicate herbs, its pungent, slightly bitter, and peppery flavor actually deepens and improves when dried, making it a powerful seasoning for tomato sauces and grilled meats.",
+      image_url: "ingredients/oregano.png",
+    description: "A robust, highly aromatic herb (*Origanum vulgare*) essential to Mediterranean and Mexican cuisines. Unlike delicate herbs, its pungent, slightly bitter, and peppery flavor actually deepens and improves when dried, making it a powerful seasoning for tomato sauces and grilled meats.",
     name: "oregano",
     origin: ["Mediterranean (Greece)"],
     season: ["summer", "fall"],
@@ -265,7 +273,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   parsley: {
-      description: "A mild, grassy, and slightly bitter herb (*Petroselinum crispum*) available in curly (best for garnishing) and flat-leaf (best for cooking) varieties. Its clean, mineral-rich flavor acts as a culinary palate cleanser, cutting through heavy fats and brightening rich stews and sauces.",
+      image_url: "ingredients/parsley.png",
+    description: "A mild, grassy, and slightly bitter herb (*Petroselinum crispum*) available in curly (best for garnishing) and flat-leaf (best for cooking) varieties. Its clean, mineral-rich flavor acts as a culinary palate cleanser, cutting through heavy fats and brightening rich stews and sauces.",
     name: "parsley",
     origin: ["Mediterranean"],
     season: ["spring", "summer", "fall"],
@@ -299,7 +308,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   mint: {
-      description: "A rapidly spreading, aromatic herb (*Mentha*) characterized by the cooling compound menthol. It provides a sharp, refreshing contrast to rich or spicy dishes, and is utilized globally in everything from Middle Eastern lamb marinades to Southeast Asian salads and sweet desserts.",
+      image_url: "ingredients/mint.png",
+    description: "A rapidly spreading, aromatic herb (*Mentha*) characterized by the cooling compound menthol. It provides a sharp, refreshing contrast to rich or spicy dishes, and is utilized globally in everything from Middle Eastern lamb marinades to Southeast Asian salads and sweet desserts.",
     name: "mint",
     origin: ["Mediterranean", "Western Asia"],
     season: ["spring", "summer", "fall"],
@@ -331,7 +341,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   dill: {
-      description: "A feathery, delicate herb (*Anethum graveolens*) with a distinctively clean, grassy flavor featuring notes of anise and celery. It pairs classicly with mild, sweet ingredients like seafood, cucumbers, and yogurt, and its seeds are essential for pickling.",
+      image_url: "ingredients/dill.png",
+    description: "A feathery, delicate herb (*Anethum graveolens*) with a distinctively clean, grassy flavor featuring notes of anise and celery. It pairs classicly with mild, sweet ingredients like seafood, cucumbers, and yogurt, and its seeds are essential for pickling.",
     name: "dill",
     origin: ["Mediterranean", "Russia"],
     season: ["summer"],
@@ -364,7 +375,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
 },
   // bay_leaves removed — duplicate of bay_leaf above
   rosemary: {
-      description: "A fragrant, evergreen shrub (*Salvia rosmarinus*) of the mint family known for its needle-like leaves and robust, pine-and-citrus aroma. Its essential oils contain rosmarinic acid, a powerful antioxidant that helps preserve the flavor and freshness of the foods it's cooked with, making it a classic pairing for roasted meats and root vegetables.\\n\\n",
+      image_url: "ingredients/rosemary.png",
+    description: "A fragrant, evergreen shrub (*Salvia rosmarinus*) of the mint family known for its needle-like leaves and robust, pine-and-citrus aroma. Its essential oils contain rosmarinic acid, a powerful antioxidant that helps preserve the flavor and freshness of the foods it's cooked with, making it a classic pairing for roasted meats and root vegetables.\\n\\n",
     name: "rosemary",
     origin: ["Mediterranean"],
     season: ["all"],
@@ -399,7 +411,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
 },
   // mint_leaves removed — duplicate of mint and fresh_mint above
   fresh_basil: {
-      description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.\n\n**Selection & Storage:** Choose vibrant, unblemished leaves; avoid any with black spots. Store fresh basil like a bouquet of flowers: stems in a glass of water at room temperature, loosely covered with a plastic bag.",
+      image_url: "ingredients/fresh_basil.png",
+    description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.\n\n**Selection & Storage:** Choose vibrant, unblemished leaves; avoid any with black spots. Store fresh basil like a bouquet of flowers: stems in a glass of water at room temperature, loosely covered with a plastic bag.",
     name: "fresh basil",
     origin: ["South Asia (India)", "Southeast Asia"],
     season: ["summer"],
@@ -433,7 +446,8 @@ const rawHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   cilantro: {
-      description: "A delicate, leafy green herb (*Coriandrum sativum*) known for its bright, citrusy, and slightly peppery flavor (though a genetic trait makes it taste like soap to some). It loses its flavor entirely when cooked, so it is used exclusively as a fresh garnish or pounded into raw salsas and chutneys.",
+      image_url: "ingredients/cilantro.png",
+    description: "A delicate, leafy green herb (*Coriandrum sativum*) known for its bright, citrusy, and slightly peppery flavor (though a genetic trait makes it taste like soap to some). It loses its flavor entirely when cooked, so it is used exclusively as a fresh garnish or pounded into raw salsas and chutneys.",
     name: "cilantro",
     origin: ["Mediterranean", "Western Asia"],
     season: ["spring", "fall"],

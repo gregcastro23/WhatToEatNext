@@ -13,7 +13,7 @@
  * Environment:
  *   PLANETARY_KINETICS_URL=https://agents.alchm.kitchen
  *   PLANETARY_INGREDIENT_ENRICHMENT_URL=https://agents.alchm.kitchen/api/enrich-ingredient
- *   PLANETARY_IMAGE_ENDPOINT=https://agents.alchm.kitchen/api/generate-alchemical-image
+ *   PLANETARY_IMAGE_ENDPOINT=https://agents.alchm.kitchen/api/generate-ingredient-image
  *   PLANETARY_AGENTS_API_KEY=<optional bearer token>
  */
 
@@ -64,6 +64,12 @@ interface Candidate {
 interface EnrichmentResult {
   description?: string;
   imageUrl?: string;
+}
+
+interface ImageGenerationResult {
+  imageUrl?: string;
+  fallback?: boolean;
+  fallbackReason?: string;
 }
 
 function parseArgs(): Options {
@@ -186,17 +192,72 @@ function collectCandidates(project: Project, options: Options): Candidate[] {
   return candidates;
 }
 
-function extractObjectProp(
-  obj: ObjectLiteralExpression,
-  name: string,
+function expressionToValue(
+  initializer: import("ts-morph").Expression,
 ): unknown {
+  const stringLiteral =
+    initializer.asKind(SyntaxKind.StringLiteral) ||
+    initializer.asKind(SyntaxKind.NoSubstitutionTemplateLiteral);
+  if (stringLiteral) return stripQuotes(stringLiteral.getText());
+
+  const numericLiteral = initializer.asKind(SyntaxKind.NumericLiteral);
+  if (numericLiteral) return Number(numericLiteral.getText());
+
+  if (initializer.getKind() === SyntaxKind.TrueKeyword) return true;
+  if (initializer.getKind() === SyntaxKind.FalseKeyword) return false;
+  if (initializer.getKind() === SyntaxKind.NullKeyword) return null;
+
+  const arrayLiteral = initializer.asKind(SyntaxKind.ArrayLiteralExpression);
+  if (arrayLiteral) {
+    return arrayLiteral
+      .getElements()
+      .map((element) => expressionToValue(element));
+  }
+
+  const objectLiteral = initializer.asKind(SyntaxKind.ObjectLiteralExpression);
+  if (objectLiteral) {
+    const value: Record<string, unknown> = {};
+    for (const prop of objectLiteral.getProperties()) {
+      const assignment = prop.asKind(SyntaxKind.PropertyAssignment);
+      if (!assignment) continue;
+      const assignmentInitializer = assignment.getInitializer();
+      if (!assignmentInitializer) continue;
+      value[stripQuotes(assignment.getName())] = expressionToValue(
+        assignmentInitializer,
+      );
+    }
+    return value;
+  }
+
+  return undefined;
+}
+
+function extractValueProp(obj: ObjectLiteralExpression, name: string): unknown {
   const initializer = getProp(obj, name)?.getInitializer();
   if (!initializer) return undefined;
   try {
-    return JSON.parse(initializer.getText());
+    return expressionToValue(initializer) ?? JSON.parse(initializer.getText());
   } catch {
-    return initializer.getText();
+    return undefined;
   }
+}
+
+function optionalObject(value: unknown): Record<string, unknown> | undefined {
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : undefined;
+}
+
+function optionalStringArray(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const strings = value.map((item) => String(item).trim()).filter(Boolean);
+  return strings.length ? strings.slice(0, 4) : undefined;
+}
+
+function compactPayload<T extends Record<string, unknown>>(payload: T): T {
+  return Object.fromEntries(
+    Object.entries(payload).filter(([, value]) => value !== undefined),
+  ) as T;
 }
 
 function endpointFromEnv(pathname: string, explicitEnv: string): string {
@@ -240,12 +301,12 @@ async function enrichIngredient(
     name: candidate.name,
     slug: candidate.slug,
     category: candidate.category,
-    elementalProperties: extractObjectProp(
+    elementalProperties: extractValueProp(
       candidate.object,
       "elementalProperties",
     ),
-    qualities: extractObjectProp(candidate.object, "qualities"),
-    culinaryProfile: extractObjectProp(candidate.object, "culinaryProfile"),
+    qualities: extractValueProp(candidate.object, "qualities"),
+    culinaryProfile: extractValueProp(candidate.object, "culinaryProfile"),
     task: "Write a concise, premium, alchemically aligned culinary synopsis. Avoid markdown and avoid medical claims.",
   };
 
@@ -259,23 +320,44 @@ async function enrichIngredient(
 async function generateIngredientImage(
   candidate: Candidate,
   description: string,
-): Promise<string | undefined> {
+): Promise<ImageGenerationResult> {
   const imageUrl = endpointFromEnv(
-    "/api/generate-alchemical-image",
+    "/api/generate-ingredient-image",
     "PLANETARY_IMAGE_ENDPOINT",
   );
-  const data = await postJson(imageUrl, {
-    name: candidate.name,
-    description,
-    cuisine: "Alchm Ingredient",
-    elementalProperties: extractObjectProp(
-      candidate.object,
-      "elementalProperties",
-    ),
-    cookingMethods: extractObjectProp(candidate.object, "cookingMethods"),
-  });
+  const data = await postJson(
+    imageUrl,
+    compactPayload({
+      name: candidate.name,
+      ingredient_id: getStringProp(candidate.object, "id") || undefined,
+      slug: candidate.slug,
+      category: candidate.category,
+      description,
+      elementalProperties: optionalObject(
+        extractValueProp(candidate.object, "elementalProperties"),
+      ),
+      qualities: optionalStringArray(
+        extractValueProp(candidate.object, "qualities"),
+      ),
+      sensoryProfile: optionalObject(
+        extractValueProp(candidate.object, "sensoryProfile"),
+      ),
+      culinaryProfile: optionalObject(
+        extractValueProp(candidate.object, "culinaryProfile"),
+      ),
+    }),
+  );
 
-  return data.url || data.image_url || data.imageUrl;
+  if (data.fallback) {
+    return {
+      fallback: true,
+      fallbackReason: data.fallback_reason || data.fallbackReason || "unknown",
+    };
+  }
+
+  return {
+    imageUrl: data.image_url || data.imageUrl || data.url,
+  };
 }
 
 function upsertStringProp(
@@ -285,7 +367,18 @@ function upsertStringProp(
 ): boolean {
   if (!value.trim()) return false;
   const existing = getProp(obj, name);
-  if (existing) return false;
+  if (existing) {
+    const init = existing.getInitializer();
+    if (
+      init &&
+      (init.asKind(SyntaxKind.StringLiteral)?.getLiteralValue().trim() === "" ||
+        init.asKind(SyntaxKind.NoSubstitutionTemplateLiteral)?.getLiteralValue().trim() === "")
+    ) {
+      init.replaceWithText(JSON.stringify(value.trim()));
+      return true;
+    }
+    return false;
+  }
   obj.insertPropertyAssignment(0, {
     name,
     initializer: JSON.stringify(value.trim()),
@@ -348,6 +441,9 @@ async function main(): Promise<void> {
   let descriptionsAdded = 0;
   let imagesAdded = 0;
   let failures = 0;
+  let imageAttempts = 0;
+  let imageFallbacks = 0;
+  const fallbackCandidates: Candidate[] = [];
   const touchedFiles = new Set<string>();
 
   for (const [index, candidate] of selected.entries()) {
@@ -375,7 +471,21 @@ async function main(): Promise<void> {
 
       let imageUrl = result.imageUrl;
       if (options.includeImages && candidate.missingImage && !imageUrl) {
-        imageUrl = await generateIngredientImage(candidate, description);
+        imageAttempts += 1;
+        const imageResult = await generateIngredientImage(
+          candidate,
+          description,
+        );
+        if (imageResult.fallback) {
+          imageFallbacks += 1;
+          fallbackCandidates.push(candidate);
+          console.warn(
+            `  ⚠ fallback ${candidate.slug}: ${imageResult.fallbackReason}`,
+          );
+        } else if (imageResult.imageUrl) {
+          imageUrl = imageResult.imageUrl;
+          console.log(`  ✓ generated ${candidate.slug}`);
+        }
       }
       if (
         options.includeImages &&
@@ -389,7 +499,9 @@ async function main(): Promise<void> {
     } catch (error) {
       failures += 1;
       console.error(
-        `  Failed: ${error instanceof Error ? error.message : String(error)}`,
+        `  ✗ ${candidate.slug}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
       );
     }
 
@@ -400,8 +512,58 @@ async function main(): Promise<void> {
     if (touchedFiles.has(sourceFile.getFilePath())) sourceFile.saveSync();
   }
 
+  if (
+    options.includeImages &&
+    imageAttempts > 0 &&
+    imageFallbacks / imageAttempts > 0.2 &&
+    fallbackCandidates.length > 0
+  ) {
+    console.warn(
+      `Fallback rate ${imageFallbacks}/${imageAttempts} exceeded 20%; retrying ${fallbackCandidates.length} item(s) after 60s.`,
+    );
+    await sleep(60_000);
+
+    for (const [index, candidate] of fallbackCandidates.entries()) {
+      try {
+        const description =
+          getStringProp(candidate.object, "description") ||
+          getStringProp(candidate.object, "flavor") ||
+          getStringProp(candidate.object, "flavorDescription");
+        const imageResult = await generateIngredientImage(
+          candidate,
+          description,
+        );
+        if (imageResult.fallback) {
+          console.warn(
+            `  ⚠ fallback ${candidate.slug}: ${imageResult.fallbackReason}`,
+          );
+        } else if (
+          imageResult.imageUrl &&
+          upsertStringProp(candidate.object, "image_url", imageResult.imageUrl)
+        ) {
+          imagesAdded += 1;
+          touchedFiles.add(candidate.file);
+          console.log(`  ✓ generated ${candidate.slug}`);
+        }
+      } catch (error) {
+        failures += 1;
+        console.error(
+          `  ✗ ${candidate.slug}: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        );
+      }
+
+      if (index < fallbackCandidates.length - 1) await sleep(options.delayMs);
+    }
+
+    for (const sourceFile of project.getSourceFiles()) {
+      if (touchedFiles.has(sourceFile.getFilePath())) sourceFile.saveSync();
+    }
+  }
+
   console.log(
-    `Done. descriptions=${descriptionsAdded}, images=${imagesAdded}, files=${touchedFiles.size}, failures=${failures}`,
+    `Done. descriptions=${descriptionsAdded}, images=${imagesAdded}, files=${touchedFiles.size}, failures=${failures}, imageFallbacks=${imageFallbacks}`,
   );
 }
 

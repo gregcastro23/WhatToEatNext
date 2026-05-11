@@ -687,8 +687,10 @@ export interface NutritionPreferences {
 
 // Ingredient type (causing errors in multiple files)
 export interface Ingredient {
-  id: string;
+  id?: string;
   name: string;
+  image_url?: string;
+  imageUrl?: string;
   description?: string;
   category: string;
   elementalProperties: ElementalProperties;

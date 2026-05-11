@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawCitrus: Record<string, Partial<IngredientMapping>> = {
   lemon: {
-      description: "An intensely sour, acidic citrus fruit (*Citrus limon*) that serves as a fundamental culinary brightener. Its juice provides citric acid to balance rich fats and tenderize proteins, while its zest (the yellow outer skin) contains essential oils that deliver pure floral-citrus aroma without the tartness.",
+      image_url: "ingredients/lemon.png",
+    description: "An intensely sour, acidic citrus fruit (*Citrus limon*) that serves as a fundamental culinary brightener. Its juice provides citric acid to balance rich fats and tenderize proteins, while its zest (the yellow outer skin) contains essential oils that deliver pure floral-citrus aroma without the tartness.",
     name: "Lemon",
     origin: ["South Asia", "Mediterranean (cultivated)"],
 
@@ -70,7 +71,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   orange: {
-      description: "A sweet citrus fruit (*Citrus × sinensis*) prized for its balanced sweetness and acidity. Its juice adds bright, floral sugar to marinades and sauces, while its zest, rich in essential oils, provides pure orange aroma without altering the liquid balance of baked goods.",
+      image_url: "ingredients/orange.png",
+    description: "A sweet citrus fruit (*Citrus × sinensis*) prized for its balanced sweetness and acidity. Its juice adds bright, floral sugar to marinades and sauces, while its zest, rich in essential oils, provides pure orange aroma without altering the liquid balance of baked goods.",
     name: "Orange",
     origin: ["Southern China", "Southeast Asia"],
 
@@ -137,7 +139,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   lime: {
-      description: "A highly acidic, tropical citrus fruit (*Citrus × aurantiifolia*) whose juice provides a sharper, more floral acidity than lemon. It is essential in cuisines around the equator (Latin American, Southeast Asian) as its bright acidity 'cooks' raw fish in ceviche and balances intense chili heat.",
+      image_url: "ingredients/lime.png",
+    description: "A highly acidic, tropical citrus fruit (*Citrus × aurantiifolia*) whose juice provides a sharper, more floral acidity than lemon. It is essential in cuisines around the equator (Latin American, Southeast Asian) as its bright acidity 'cooks' raw fish in ceviche and balances intense chili heat.",
     name: "Lime",
     origin: ["Southeast Asia", "India"],
 
@@ -204,7 +207,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   grapefruit: {
-      description: "A large, somewhat bitter citrus fruit (*Citrus × paradisi*) that is a hybrid of the sweet orange and the pomelo. It is highly valued for its sharp acidity and distinctively astringent, floral flavor, which cuts through heavy, rich fats and brightens complex salads and ceviches.",
+      image_url: "ingredients/grapefruit.png",
+    description: "A large, somewhat bitter citrus fruit (*Citrus × paradisi*) that is a hybrid of the sweet orange and the pomelo. It is highly valued for its sharp acidity and distinctively astringent, floral flavor, which cuts through heavy, rich fats and brightens complex salads and ceviches.",
     name: "Grapefruit",
     origin: ["Caribbean (Barbados)"],
 
@@ -273,7 +277,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   mandarin: {
-      description: "A small, loose-skinned citrus fruit (*Citrus reticulata*) considered one of the core ancestral species of modern citrus. They are incredibly sweet, far less acidic than a standard orange, and distinctly floral, making them perfect for eating out of hand or sectioning into delicate salads.",
+      image_url: "ingredients/mandarin.png",
+    description: "A small, loose-skinned citrus fruit (*Citrus reticulata*) considered one of the core ancestral species of modern citrus. They are incredibly sweet, far less acidic than a standard orange, and distinctly floral, making them perfect for eating out of hand or sectioning into delicate salads.",
     name: "Mandarin",
     origin: ["China"],
 
@@ -334,7 +339,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   clementine: {
-      description: "A small, exceptionally sweet, and generally seedless citrus fruit (*Citrus × clementina*) resulting from a cross between a sweet orange and a willowleaf mandarin. Its skin is incredibly loose and easy to peel, making it a perfect raw snack, though its juice is also excellent for bright, acidic vinaigrettes.",
+      image_url: "ingredients/clementine.png",
+    description: "A small, exceptionally sweet, and generally seedless citrus fruit (*Citrus × clementina*) resulting from a cross between a sweet orange and a willowleaf mandarin. Its skin is incredibly loose and easy to peel, making it a perfect raw snack, though its juice is also excellent for bright, acidic vinaigrettes.",
     name: "Clementine",
     origin: ["North Africa", "Mediterranean"],
 
@@ -401,7 +407,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   pomelo: {
-      description: "The massive, thick-rinded ancestor of the grapefruit (*Citrus maxima*). It lacks the aggressive, sharp bitterness of a grapefruit, offering instead a milder, highly floral sweetness and large, firm juice vesicles that separate cleanly, making it the perfect structural addition to Southeast Asian salads.",
+      image_url: "ingredients/pomelo.png",
+    description: "The massive, thick-rinded ancestor of the grapefruit (*Citrus maxima*). It lacks the aggressive, sharp bitterness of a grapefruit, offering instead a milder, highly floral sweetness and large, firm juice vesicles that separate cleanly, making it the perfect structural addition to Southeast Asian salads.",
     name: "Pomelo",
     origin: ["Southeast Asia"],
 
@@ -498,7 +505,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   yuzu: {
-      description: "A highly aromatic, bumpy, and tart citrus fruit (*Citrus junos*) native to East Asia. It produces very little juice, but its intensely fragrant zest offers a profoundly complex, floral aroma that tastes like a hybrid of lemon, mandarin, and grapefruit, famously used to flavor ponzu sauce.",
+      image_url: "ingredients/yuzu.png",
+    description: "A highly aromatic, bumpy, and tart citrus fruit (*Citrus junos*) native to East Asia. It produces very little juice, but its intensely fragrant zest offers a profoundly complex, floral aroma that tastes like a hybrid of lemon, mandarin, and grapefruit, famously used to flavor ponzu sauce.",
     name: "Yuzu",
     origin: ["East Asia"],
     elementalProperties: { Water: 0.4, Air: 0.4, Fire: 0.1, Earth: 0.1 },
@@ -570,7 +578,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   bergamot: {
-      description: "A highly aromatic, bitter citrus fruit (*Citrus bergamia*) primarily cultivated for its essential oils extracted from the rind. This intensely fragrant, floral, and slightly spicy oil is the defining flavor of Earl Grey tea and adds a profoundly sophisticated, perfumed note to marmalades and delicate pastries.",
+      image_url: "ingredients/bergamot.png",
+    description: "A highly aromatic, bitter citrus fruit (*Citrus bergamia*) primarily cultivated for its essential oils extracted from the rind. This intensely fragrant, floral, and slightly spicy oil is the defining flavor of Earl Grey tea and adds a profoundly sophisticated, perfumed note to marmalades and delicate pastries.",
     name: "Bergamot",
     origin: ["Mediterranean (Calabria)"],
     elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 },
@@ -642,7 +651,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   kumquat: {
-      description: "A tiny, bite-sized citrus fruit (*Citrus japonica*) possessing a unique biological inversion: its rind is incredibly sweet and floral, while its juice and flesh are sharply, intensely sour. This contrast makes them perfect for eating whole (raw) or boiling down into deeply complex, sweet-and-sour marmalades.",
+      image_url: "ingredients/kumquat.png",
+    description: "A tiny, bite-sized citrus fruit (*Citrus japonica*) possessing a unique biological inversion: its rind is incredibly sweet and floral, while its juice and flesh are sharply, intensely sour. This contrast makes them perfect for eating whole (raw) or boiling down into deeply complex, sweet-and-sour marmalades.",
     name: "Kumquat",
     origin: ["Southern China"],
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -714,7 +724,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   finger_lime: {
-      description: "A highly unusual micro-citrus (*Citrus australasica*) native to Australia. When the thin, elongated fruit is cut open, it reveals hundreds of tiny, spherical juice vesicles that resemble caviar; when bitten, they explode with an intense, tart, and floral lime flavor.",
+      image_url: "ingredients/finger_lime.png",
+    description: "A highly unusual micro-citrus (*Citrus australasica*) native to Australia. When the thin, elongated fruit is cut open, it reveals hundreds of tiny, spherical juice vesicles that resemble caviar; when bitten, they explode with an intense, tart, and floral lime flavor.",
     name: "Finger Lime",
     origin: ["Southeast Asia", "India"],
     elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
@@ -786,7 +797,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   blood_orange: {
-      description: "A visually striking citrus fruit (*Citrus × sinensis*) characterized by its deep crimson flesh, which results from the presence of anthocyanins (antioxidants rare in citrus). They offer a complex flavor profile that combines traditional bright orange sweetness with distinct notes of raspberry and tart cherry.",
+      image_url: "ingredients/blood_orange.png",
+    description: "A visually striking citrus fruit (*Citrus × sinensis*) characterized by its deep crimson flesh, which results from the presence of anthocyanins (antioxidants rare in citrus). They offer a complex flavor profile that combines traditional bright orange sweetness with distinct notes of raspberry and tart cherry.",
     name: "Blood Orange",
     origin: ["Mediterranean (Sicily)"],
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -858,7 +870,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 },
 
   tangerine: {
-      description: "A specific variety of mandarin orange (*Citrus tangerina*) characterized by its deep red-orange hue and pebbly skin. It is exceptionally sweet, juicy, and highly aromatic, with a more pronounced, complex citrus bite than standard navel oranges.",
+      image_url: "ingredients/tangerine.png",
+    description: "A specific variety of mandarin orange (*Citrus tangerina*) characterized by its deep red-orange hue and pebbly skin. It is exceptionally sweet, juicy, and highly aromatic, with a more pronounced, complex citrus bite than standard navel oranges.",
     name: "Tangerine",
     origin: ["Southeast Asia"],
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },

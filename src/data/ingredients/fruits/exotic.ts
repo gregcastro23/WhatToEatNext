@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   pomegranate: {
+      image_url: "ingredients/pomegranate.png",
     description: "A tough-skinned fruit (*Punica granatum*) containing hundreds of jewel-like, juice-filled arils surrounding a tiny seed. The arils provide a bright, tart-sweet crunch and brilliant ruby color, acting as a stunning garnish or a deeply flavorful reduction (pomegranate molasses) in Middle Eastern cooking.",
     name: "Pomegranate",
     origin: ["Persia", "Northern India"],
@@ -77,6 +78,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   fig: {
+      image_url: "ingredients/fig.png",
     description: "A unique, inverted flower structure (*Ficus carica*) containing hundreds of tiny seeds within a soft, fleshy exterior. Fresh figs are incredibly delicate and offer a profound, honeyed sweetness with an earthy, jammy texture that pairs flawlessly with salty, cured meats (like prosciutto) or sharp blue cheeses.",
     name: "Fig",
     origin: ["Western Asia", "Mediterranean"],
@@ -157,6 +159,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   grape: {
+      image_url: "ingredients/grape.png",
     description: "Small, spherical berries (*Vitis vinifera*) that grow in clusters, offering a crisp snap and a burst of sweet-tart juice. With a high ratio of skin-to-flesh, they provide complex tannins and sugars that make them perfect for eating raw, roasting to concentrate their flavor, or fermenting into wine.",
     name: "Grape",
     origin: ["Western Asia", "Mediterranean"],
@@ -231,6 +234,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   date: {
+      image_url: "ingredients/date.png",
     description: "The profoundly sweet, chewy fruit of the date palm tree (*Phoenix dactylifera*), typically consumed in its dried or semi-dried state (like the Medjool variety). Consisting of nearly 80% sugar, they provide deep, complex notes of caramel, toffee, and molasses, acting as a powerful natural sweetener and binder in raw desserts.",
     name: "Date",
     origin: ["Middle East", "North Africa"],
@@ -305,6 +309,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   kiwano: {
+      image_url: "ingredients/kiwano.png",
     description: "A sweet edible plant product, kiwano delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Kiwano (Horned Melon)",
     origin: ["Cultivated worldwide"],
@@ -379,6 +384,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   feijoa: {
+      image_url: "ingredients/feijoa.png",
     description: "A sweet edible plant product, feijoa delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Feijoa (Pineapple Guava)",
     origin: ["Cultivated worldwide"],
@@ -453,6 +459,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   tamarind: {
+      image_url: "ingredients/tamarind.png",
     description: "The sticky, highly acidic pulp extracted from the seed pods of the *Tamarindus indica* tree. It provides a profoundly complex, fruity, and intensely tart flavor profile that acts as the primary souring agent in Pad Thai, Indian chutneys, and Worcestershire sauce.",
     name: "Tamarind",
     origin: ["Cultivated worldwide"],
@@ -527,6 +534,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   loquat_exotic: {
+      image_url: "ingredients/loquat_exotic.png",
     description: "A small, oval, orange fruit (*Eriobotrya japonica*) native to China, featuring a tart, slightly sweet flavor reminiscent of a cross between a peach, citrus, and mild apricot. Its high pectin content and bright acidity make it exceptionally well-suited for traditional jams, jellies, and savory chutneys.\n\n**Selection & Storage:** They are highly delicate and bruise easily. Choose bright orange fruit that gives slightly to pressure. Store in the refrigerator and eat quickly.",
     name: "Loquat",
     origin: ["Cultivated worldwide"],
@@ -601,6 +609,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   cactus_pear: {
+      image_url: "ingredients/cactus_pear.png",
     description: "A delicate pome fruit (*Pyrus communis*) that ripens from the inside out, transforming from crunchy to buttery-soft. Its high sugar content and delicate floral notes make it excellent for eating raw, poaching in wine, or pairing with sharp blue cheeses.\n\n**Selection & Storage:** Purchase pears while still firm; they are ripe when the flesh yields slightly to gentle pressure at the stem end. Ripen at room temperature, then transfer to the refrigerator to pause the ripening process.",
     name: "Cactus Pear (Prickly Pear)",
     origin: ["Central Asia", "Western Europe"],
@@ -675,6 +684,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   quince_exotic: {
+      image_url: "ingredients/quince_exotic.png",
     description: "An ancient, highly structured pome fruit (*Cydonia oblonga*) resembling a lumpy yellow pear. It is essentially inedible raw due to its extreme tartness and astringent tannins, but when slow-cooked with sugar, it magically transforms into a soft, deeply floral, and bright ruby-red paste (membrillo).\n\n**Selection & Storage:** Choose firm, bright yellow fruit that emits a powerful, floral, and rosy aroma. Store at room temperature for several days, or in the refrigerator for up to a month.",
     name: "Quince",
     origin: ["Caucasus", "Western Asia"],
@@ -749,6 +759,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   passion_fruit_exotic: {
+      image_url: "ingredients/passion_fruit_exotic.png",
     description: "A sweet edible plant product, passion fruit exotic delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Passion Fruit",
     origin: ["South America"],
@@ -823,6 +834,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   custard_apple: {
+      image_url: "ingredients/custard_apple.png",
     description: "A crisp, versatile pome fruit (*Malus domestica*) containing high levels of pectin, which gives it a satisfying snap and thickens sauces naturally. Their flavor profiles range wildly from the tart, baking-friendly Granny Smith to the sweet, floral Honeycrisp or Fuji.\n\n**Selection & Storage:** Look for firm apples with vibrant coloring and smooth skin that feel heavy for their size. Store them in the crisper drawer of the refrigerator to maintain their crispness, as they soften ten times faster at room temperature.",
     name: "Custard Apple (Cherimoya)",
     origin: ["Central Asia (Kazakhstan)"],
@@ -897,6 +909,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   sapote: {
+      image_url: "ingredients/sapote.png",
     description: "A sweet edible plant product, sapote delivers natural sugars, acid, aromatic volatiles, and fiber. Ripeness dramatically changes its flavor, texture, and use.",
     name: "Sapote (Mamey)",
     origin: ["Cultivated worldwide"],
@@ -971,6 +984,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   plantain: {
+      image_url: "ingredients/plantain.png",
     description: "A large, starchy member of the banana family (*Musa paradisiaca*) that is treated strictly as a vegetable. When green, it is hard and starchy, ideal for savory frying (tostones); as it blackens, its starches convert to sugar, becoming incredibly sweet and soft when caramelized (maduros).",
     name: "Plantain",
     origin: ["Southeast Asia"],
@@ -1045,6 +1059,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   breadfruit: {
+      image_url: "ingredients/breadfruit.png",
     description: "A massive, starchy, tropical fruit (*Artocarpus altilis*) related to the jackfruit. When unripe and green, its flesh is hard and starchy, tasting remarkably like freshly baked bread or potatoes when roasted; as it ripens, the starches convert to sugar, becoming soft, sweet, and custard-like.",
     name: "Breadfruit",
     origin: ["Cultivated worldwide"],
@@ -1119,6 +1134,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   cloudberry: {
+      image_url: "ingredients/cloudberry.png",
     description: "A highly prized, rare wild berry (*Rubus chamaemorus*) native to alpine and arctic tundras, resembling an amber-colored raspberry. They possess a completely unique, tart flavor profile reminiscent of baked apples and floral honey, most commonly preserved in jams or served warm over Swedish cheese.",
     name: "Cloudberry",
     origin: ["Cultivated worldwide"],
@@ -1193,6 +1209,7 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   boysenberry: {
+      image_url: "ingredients/boysenberry.png",
     description: "A large, highly perishable aggregate fruit that is a complex cross between a European raspberry, a European blackberry, an American dewberry, and a loganberry. It offers a spectacular balance of sweet and tart flavors with a softer, juicier texture than a standard blackberry, making it unparalleled for jams and pies.",
     name: "Boysenberry",
     origin: ["Cultivated worldwide"],

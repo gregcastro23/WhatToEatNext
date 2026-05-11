@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawAromatics = {
   onion: {
-      description: "A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds that, when exposed to heat, undergo the Maillard reaction to create deep, sweet, and complex flavors ranging from sharp when raw to caramel-like when slow-cooked.",
+      image_url: "ingredients/onion.png",
+    description: "A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds that, when exposed to heat, undergo the Maillard reaction to create deep, sweet, and complex flavors ranging from sharp when raw to caramel-like when slow-cooked.",
     name: "Onion",
     season: ["all"],
     elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
@@ -66,7 +67,8 @@ const rawAromatics = {
 },
 
   garlic: {
-      description: "A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows into a deep, sweet nuttiness when roasted or sautéed.\\n\\n",
+      image_url: "ingredients/garlic.png",
+    description: "A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows into a deep, sweet nuttiness when roasted or sautéed.\\n\\n",
     name: "Garlic",
     season: ["summer", "fall"],
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
@@ -129,7 +131,8 @@ const rawAromatics = {
 },
 
   ginger: {
-      description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
+      image_url: "ingredients/ginger.png",
+    description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
     name: "Ginger",
     season: ["all"],
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
@@ -211,7 +214,8 @@ const rawAromatics = {
 },
 
   lemongrass: {
-      description: "A tall, fibrous tropical grass (*Cymbopogon citratus*) with a tough outer stalk and a tender, highly aromatic inner core. It provides a complex, bright, and floral citrus flavor without the sharp acidity of lemon juice, making it indispensable in Southeast Asian curries and soups.",
+      image_url: "ingredients/lemongrass.png",
+    description: "A tall, fibrous tropical grass (*Cymbopogon citratus*) with a tough outer stalk and a tender, highly aromatic inner core. It provides a complex, bright, and floral citrus flavor without the sharp acidity of lemon juice, making it indispensable in Southeast Asian curries and soups.",
     name: "Lemongrass",
     season: ["summer"],
     elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 },
@@ -278,7 +282,8 @@ const rawAromatics = {
 },
 
   shallot: {
-      description: "A small, teardrop-shaped allium (*Allium cepa var. aggregatum*) that grows in clusters similar to garlic. It offers a more delicate, sweeter, and less pungent flavor profile than standard onions, making it the classic choice for refined sauces, vinaigrettes, and raw applications.",
+      image_url: "ingredients/shallot.png",
+    description: "A small, teardrop-shaped allium (*Allium cepa var. aggregatum*) that grows in clusters similar to garlic. It offers a more delicate, sweeter, and less pungent flavor profile than standard onions, making it the classic choice for refined sauces, vinaigrettes, and raw applications.",
     name: "Shallot",
     season: ["summer", "fall"],
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
@@ -335,7 +340,8 @@ const rawAromatics = {
 },
 
   scallion: {
-      description: "Also known as green onions (*Allium fistulosum*), these alliums are harvested before a bulb forms. They offer a dual flavor profile: the white bases provide a sharp, pungent onion bite, while the hollow green tops deliver a fresh, herbaceous flavor ideal for garnishing.",
+      image_url: "ingredients/scallion.png",
+    description: "Also known as green onions (*Allium fistulosum*), these alliums are harvested before a bulb forms. They offer a dual flavor profile: the white bases provide a sharp, pungent onion bite, while the hollow green tops deliver a fresh, herbaceous flavor ideal for garnishing.",
     name: "Scallion",
     season: ["spring", "summer", "fall"],
     elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
@@ -392,7 +398,8 @@ const rawAromatics = {
 },
 
   saffron: {
-      description: "The world's most expensive spice, consisting of the dried crimson stigmas of the *Crocus sativus* flower. It imparts a brilliant golden-yellow hue and a highly complex, honey-like, floral, and slightly metallic or earthy flavor, making it the defining characteristic of classic dishes like paella and risotto alla milanese.",
+      image_url: "ingredients/saffron.png",
+    description: "The world's most expensive spice, consisting of the dried crimson stigmas of the *Crocus sativus* flower. It imparts a brilliant golden-yellow hue and a highly complex, honey-like, floral, and slightly metallic or earthy flavor, making it the defining characteristic of classic dishes like paella and risotto alla milanese.",
     name: "Saffron",
     season: ["fall"],
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
