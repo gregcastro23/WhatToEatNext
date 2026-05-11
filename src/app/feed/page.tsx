@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import Navigation from "@/components/Navigation";
+import Header from "@/components/Header";
 
 function formatDistanceToNow(dateStr: string): string {
   const date = new Date(dateStr);
@@ -75,7 +75,7 @@ export default function FeedPage() {
 
   return (
     <main className="min-h-screen bg-[#08080e] pb-24">
-      <Navigation />
+      <Header onServingsChange={() => {}} />
       
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
