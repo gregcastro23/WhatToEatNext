@@ -21,9 +21,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing recipe title." }, { status: 400 });
     }
 
-    const backendUrl = process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || "http://localhost:8001";
+    const agentBaseUrl = process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL || "https://agents.alchm.kitchen";
 
-    const response = await fetch(`${backendUrl}/api/generate-alchemical-image`, {
+    const response = await fetch(`${agentBaseUrl}/api/generate-image`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, description }),

@@ -33,7 +33,7 @@ async def generate_images():
             print("All recipes already have images!")
             return
             
-        print("Disclaimer: This script hits the OpenAI API (DALL-E 3) and will incur costs (approx $0.04/image).")
+        print("Disclaimer: This script hits the Planetary Agents API to generate images and will incur costs.")
         proceed = input(f"Proceed generating {len(recipes)} images? (y/n): ")
         if proceed.lower() != 'y':
             print("Aborting.")
@@ -42,29 +42,32 @@ async def generate_images():
         async with httpx.AsyncClient(timeout=30.0) as client:
             for index, recipe in enumerate(recipes):
                 print(f"[{index + 1}/{len(recipes)}] Generating image for '{recipe.name}'...")
-                
+
                 try:
+                    agent_base_url = os.getenv("PLANETARY_KINETICS_URL", "https://agents.alchm.kitchen")
                     response = await client.post(
-                        "http://localhost:8001/api/generate-alchemical-image",
+                        f"{agent_base_url}/api/generate-image",
                         json={
                             "recipe_id": str(recipe.id),
                             "title": recipe.name,
                             "description": recipe.description
                         }
                     )
-                    
+
                     if response.status_code == 200:
                         data = response.json()
                         print(f"  -> Success! URL: {data['url']}")
+                        # We must update the DB here because the agent network does not have write access
+                        recipe.image_url = data['url']
+                        db.commit()
                     else:
                         print(f"  -> Error {response.status_code}: {response.text}")
-                        
+
                 except Exception as e:
                     print(f"  -> Exception occurred: {str(e)}")
-                    
-                # Add a small delay to respect OpenAI rate limits
-                await asyncio.sleep(2)
-                
+
+                # Add a small delay to respect rate limits
+                await asyncio.sleep(2)                
     finally:
         db.close()
         print("Finished.")
