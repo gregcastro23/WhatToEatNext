@@ -28,7 +28,11 @@ export default function AdminLayout({
       if (!response.ok) return;
       const data = await response.json();
 
-      if (data.authenticated && data.user?.roles?.includes("admin")) {
+      if (
+        data.authenticated &&
+        data.user?.roles?.includes("admin") &&
+        data.user?.email === "gregcastro23@gmail.com"
+      ) {
         setIsAuthenticated(true);
         setIsAdmin(true);
       } else if (data.authenticated) {

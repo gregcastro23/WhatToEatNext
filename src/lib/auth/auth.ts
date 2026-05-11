@@ -299,7 +299,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user, account, trigger }) {
       // On initial sign-in, persist user info into the JWT
       if (user) {
-        token.userId = user.id;
+        // NextAuth's user.id is the provider's account ID (e.g., Google sub).
+        // DO NOT set token.userId = user.id here. The DB UUID must come from dbUser.id below.
         token.email = user.email ?? undefined;
         token.name = user.name ?? undefined;
         token.picture = user.image ?? undefined;

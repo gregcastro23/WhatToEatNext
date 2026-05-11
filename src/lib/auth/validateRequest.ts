@@ -261,7 +261,7 @@ export async function validateAdminRequest(
     return result;
   }
 
-  if (!result.user.roles.includes("admin")) {
+  if (!result.user.roles.includes("admin") || result.user.email !== "gregcastro23@gmail.com") {
     return {
       error: NextResponse.json(
         { success: false, message: "Admin access required" },
@@ -371,17 +371,22 @@ export async function getDatabaseUserFromRequest(
         if (session?.user?.email) {
           try {
             user = await userDb.getUserByEmail(session.user.email);
-            if (!user) {
-              console.warn("[getDatabaseUserFromRequest] User authenticated via NextAuth but missing in Postgres. JIT healing sequence initiated.");
+          } catch (lookupError) {
+            console.warn("[getDatabaseUserFromRequest] Database lookup failed, attempting JIT creation:", lookupError);
+          }
+
+          if (!user) {
+            console.warn("[getDatabaseUserFromRequest] User authenticated via NextAuth but missing or lookup failed in Postgres. JIT healing sequence initiated.");
+            try {
               user = await userDb.createUser({
                 email: session.user.email,
                 name: session.user.name || "Cosmic Citizen",
                 roles: session.user.email.includes("admin") ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
               });
+            } catch (createError) {
+              console.error("[getDatabaseUserFromRequest] JIT creation failed:", createError);
+              // Cannot proceed without DB user
             }
-          } catch (dbError) {
-            console.error("[getDatabaseUserFromRequest] Database lookup or JIT creation failed:", dbError);
-            // Cannot proceed without DB user
           }
         }
       }
