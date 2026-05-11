@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { feedDatabase } from "@/services/feedDatabaseService";
+import { userDatabase } from "@/services/userDatabaseService";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +25,45 @@ export async function GET(request: Request) {
     console.error("Feed fetch error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch feed events." },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    // Basic service-to-service auth check
+    const authHeader = request.headers.get("Authorization");
+    const internalSecret = process.env.INTERNAL_API_SECRET;
+    
+    if (internalSecret && authHeader !== `Bearer ${internalSecret}`) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { agentEmail, eventType, metadataPayload } = body;
+
+    if (!agentEmail || !eventType) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const user = await userDatabase.getUserByEmail(agentEmail);
+    if (!user || !user.isAgent) {
+      return NextResponse.json({ error: "Invalid agent email" }, { status: 404 });
+    }
+
+    const success = await feedDatabase.createEvent(user.id, eventType, metadataPayload || {});
+
+    if (success) {
+      return NextResponse.json({ success: true });
+    } else {
+      throw new Error("Database insertion failed");
+    }
+
+  } catch (error) {
+    console.error("[Feed Webhook] Error processing agent event:", error);
+    return NextResponse.json(
+      { success: false, message: "Internal server error." },
       { status: 500 }
     );
   }
