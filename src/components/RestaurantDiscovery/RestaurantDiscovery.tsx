@@ -14,7 +14,11 @@ import { AddToDiaryModal } from "@/components/food-diary/AddToDiaryModal";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
 import type { SavedRestaurant } from "@/types/restaurant";
-import type { AlchmScoredRestaurant, RestaurantSearchResponse } from "@/types/yelp";
+import type {
+  AlchmScoredRestaurant,
+  RestaurantDiscoverySource,
+  RestaurantSearchResponse,
+} from "@/types/yelp";
 
 interface RestaurantDiscoveryProps {
   cuisineType: string;
@@ -112,7 +116,7 @@ export function RestaurantDiscovery({
   }, [currentUser]);
 
   const saveRestaurant = useCallback(
-    async (entry: AlchmScoredRestaurant, source: "yelp" | "foursquare") => {
+    async (entry: AlchmScoredRestaurant, source: RestaurantDiscoverySource) => {
       const { business } = entry;
       if (savedIds.has(business.id)) return;
 
@@ -256,14 +260,12 @@ export function RestaurantDiscovery({
 
     void (async () => {
       try {
-        const res = await fetch("/api/restaurants/search", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            cuisineType,
-            latitude: coords.lat,
-            longitude: coords.lng,
-          }),
+        const params = new URLSearchParams({
+          cuisine: cuisineType,
+          lat: String(coords.lat),
+          lng: String(coords.lng),
+        });
+        const res = await fetch(`/api/restaurants/discover?${params.toString()}`, {
           signal: controller.signal,
         });
 
@@ -399,7 +401,7 @@ export function RestaurantDiscovery({
 
       {status.kind === "ready" && (
         <>
-          {status.data.source === "foursquare" && status.data.sourceNotice && (
+          {status.data.sourceNotice && (
             <div className="mb-3 rounded-lg border border-amber-300 bg-amber-100/60 p-2.5 text-[11px] text-amber-900 leading-snug">
               ✦ {status.data.sourceNotice}
             </div>
@@ -414,11 +416,16 @@ export function RestaurantDiscovery({
               const scorePct = Math.round(entry.alchmScore * 100);
               const reasons = entry.matchReasons.slice(0, 2);
               const isSaved = savedIds.has(business.id);
+              const isPartner = entry.isPartner === true;
 
               return (
                 <li
                   key={business.id}
-                  className="flex items-start gap-3 p-3 rounded-lg bg-white border border-amber-100 shadow-sm hover:border-amber-300 transition-colors"
+                  className={`flex items-start gap-3 p-3 rounded-lg bg-white border shadow-sm transition-colors ${
+                    isPartner
+                      ? "border-emerald-300 ring-1 ring-emerald-200 hover:border-emerald-400"
+                      : "border-amber-100 hover:border-amber-300"
+                  }`}
                 >
                   {/* Score / source badge */}
                   <div className="flex-shrink-0 flex flex-col items-center">
@@ -447,7 +454,12 @@ export function RestaurantDiscovery({
                     <h4 className="text-sm font-bold text-gray-800 truncate">
                       {business.name}
                     </h4>
-                    <div className="flex flex-wrap items-center gap-x-2 text-[11px] text-gray-500 mt-0.5">
+                    <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-gray-500 mt-0.5">
+                      {isPartner && (
+                        <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-bold text-emerald-700">
+                          In-App Ordering
+                        </span>
+                      )}
                       {typeof business.rating === "number" && business.rating > 0 && (
                         <span className="text-amber-600 font-semibold">
                           ★ {business.rating.toFixed(1)}
@@ -481,14 +493,23 @@ export function RestaurantDiscovery({
 
                   {/* CTAs */}
                   <div className="flex-shrink-0 self-center flex flex-col gap-1.5">
-                    <a
-                      href={business.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1.5 bg-amber-600 text-white text-xs font-bold rounded-lg hover:bg-amber-700 transition-colors whitespace-nowrap text-center"
-                    >
-                      Order it →
-                    </a>
+                    {isPartner && entry.partnerRestaurantId ? (
+                      <a
+                        href={`/restaurants/${encodeURIComponent(entry.partnerRestaurantId)}/menu`}
+                        className="px-3 py-1.5 text-white text-xs font-bold rounded-lg transition-colors whitespace-nowrap text-center bg-emerald-600 hover:bg-emerald-700"
+                      >
+                        View Menu / Order
+                      </a>
+                    ) : (
+                      <a
+                        href={business.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 text-white text-xs font-bold rounded-lg transition-colors whitespace-nowrap text-center bg-amber-600 hover:bg-amber-700"
+                      >
+                        View on Provider
+                      </a>
+                    )}
                     <button
                       type="button"
                       onClick={() => void saveRestaurant(entry, source)}

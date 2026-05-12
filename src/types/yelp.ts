@@ -49,6 +49,11 @@ export interface YelpSearchResponse {
 }
 
 export interface AlchmScoredRestaurant {
+  externalId?: string;
+  name?: string;
+  address?: string;
+  rating?: number;
+  imageUrl?: string;
   business: YelpBusiness;
   alchmScore: number;
   elementalMatch: number;
@@ -62,6 +67,13 @@ export interface AlchmScoredRestaurant {
     Earth: number;
     Air: number;
   };
+  /** True when this provider result maps to a fully active local restaurant partner. */
+  isPartner?: boolean;
+  /** Internal restaurant row id, used by Stripe Connect order handoff. */
+  partnerRestaurantId?: string;
+  partnerOnboardingStatus?: string;
+  stripeConnectAccountId?: string;
+  deliverectLocationId?: string;
 }
 
 export interface CosmicContext {
@@ -71,7 +83,7 @@ export interface CosmicContext {
 }
 
 /** Provider that produced the restaurant results in a discovery response. */
-export type RestaurantDiscoverySource = "yelp" | "foursquare";
+export type RestaurantDiscoverySource = "olo" | "yelp" | "foursquare";
 
 export interface RestaurantSearchResponse {
   restaurants: AlchmScoredRestaurant[];
