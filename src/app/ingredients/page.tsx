@@ -1071,12 +1071,16 @@ function IngredientCard({
   const culinary = getCulinaryDetails(ingredient);
   const cardAmazon = getCardAmazonState(data);
   const cardPrice = parseAmazonPrice(cardAmazon.price);
-  const ingredientImageUrl =
+  let ingredientImageUrl =
     typeof (ingredient as { image_url?: unknown }).image_url === "string"
       ? (ingredient as { image_url: string }).image_url
       : typeof (ingredient as { imageUrl?: unknown }).imageUrl === "string"
         ? (ingredient as { imageUrl: string }).imageUrl
         : undefined;
+        
+  if (typeof ingredientImageUrl === "string" && ingredientImageUrl.startsWith("ingredients/")) {
+    ingredientImageUrl = `https://assets.alchm.kitchen/${ingredientImageUrl}`;
+  }
   const displayImageUrl = ingredientImageUrl || cardAmazon.productImageUrl;
   const normalized = normalizeForDisplay(
     ingredient.elementalProperties || {
