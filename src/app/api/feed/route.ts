@@ -5,8 +5,8 @@
 
 import { NextResponse } from "next/server";
 import { feedDatabase } from "@/services/feedDatabaseService";
-import { userDatabase } from "@/services/userDatabaseService";
 import { subscriptionService } from "@/services/subscriptionService";
+import { userDatabase } from "@/services/userDatabaseService";
 
 export const dynamic = "force-dynamic";
 

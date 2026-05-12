@@ -8,14 +8,19 @@
 
 import { NextResponse } from "next/server";
 
-// Revalidate cache every hour (3600 seconds)
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function GET() {
   try {
-    const backendUrl =
-      process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL ||
-      "https://agents.alchm.kitchen";
+    const backendUrl = process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL;
+    if (!backendUrl) {
+      return NextResponse.json(
+        { success: false, error: "Planetary agents backend is not configured." },
+        { status: 503 },
+      );
+    }
+
     const targetUrl = `${backendUrl}/api/agents/diet-profiles`;
 
     const response = await fetch(targetUrl, {
