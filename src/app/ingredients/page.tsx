@@ -711,9 +711,9 @@ export default function IngredientsPage() {
               className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5"
             >
               <AnimatePresence mode="popLayout">
-                {visibleCards.map((d) => (
+                {visibleCards.map((d, index) => (
                   <IngredientCard
-                    key={d.ingredient.id ?? d.ingredient.name}
+                    key={`${d.ingredient.id ?? d.ingredient.name}-${index}`}
                     data={d}
                     expanded={activeName === d.ingredient.name}
                     onToggle={() =>
