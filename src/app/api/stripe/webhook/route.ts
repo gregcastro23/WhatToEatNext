@@ -10,7 +10,9 @@
 
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
 import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
+import type Stripe from "stripe";
 
 /**
  * Extract current_period_start/end from a Stripe Subscription.
@@ -68,6 +70,211 @@ function getInvoiceSubscriptionId(invoice: InvoiceSubscriptionCarrier): string |
     : subDetails.subscription.id;
 }
 
+async function updateRestaurantOrderIntent(input: {
+  orderId: string;
+  status: string;
+  stripeCheckoutSessionId?: string | null;
+  stripePaymentIntentId?: string | null;
+  stripeTransferId?: string | null;
+  paymentStatus?: string | null;
+  transferStatus?: string | null;
+  metadata?: Record<string, unknown>;
+  completed?: boolean;
+}) {
+  try {
+    const { executeQuery } = await import("@/lib/database/connection");
+    await executeQuery(
+      `UPDATE restaurant_order_intents
+       SET status = $2,
+           stripe_checkout_session_id = COALESCE($3, stripe_checkout_session_id),
+           stripe_payment_intent_id = COALESCE($4, stripe_payment_intent_id),
+           stripe_transfer_id = COALESCE($5, stripe_transfer_id),
+           payment_status = COALESCE($6, payment_status),
+           transfer_status = COALESCE($7, transfer_status),
+           metadata = metadata || $8::jsonb,
+           completed_at = CASE WHEN $9 THEN NOW() ELSE completed_at END,
+           updated_at = NOW()
+       WHERE id = $1`,
+      [
+        input.orderId,
+        input.status,
+        input.stripeCheckoutSessionId ?? null,
+        input.stripePaymentIntentId ?? null,
+        input.stripeTransferId ?? null,
+        input.paymentStatus ?? null,
+        input.transferStatus ?? null,
+        JSON.stringify(input.metadata ?? {}),
+        input.completed === true,
+      ],
+    );
+  } catch (error) {
+    console.warn(
+      "[webhook] Restaurant order intent was not updated:",
+      error instanceof Error ? error.message : error,
+    );
+  }
+}
+
+async function updateRestaurantConnectStatus(account: Stripe.Account) {
+  try {
+    const { executeQuery } = await import("@/lib/database/connection");
+    const onboardingStatus =
+      account.charges_enabled && account.payouts_enabled
+        ? "active"
+        : account.details_submitted
+          ? "submitted"
+          : "pending";
+
+    await executeQuery(
+      `UPDATE restaurants
+       SET onboarding_status = $2,
+           charges_enabled = $3,
+           payouts_enabled = $4,
+           details_submitted = $5,
+           metadata = metadata || $6::jsonb,
+           updated_at = NOW()
+       WHERE stripe_connect_account_id = $1`,
+      [
+        account.id,
+        onboardingStatus,
+        account.charges_enabled,
+        account.payouts_enabled,
+        account.details_submitted,
+        JSON.stringify({
+          requirements: account.requirements ?? null,
+          futureRequirements: account.future_requirements ?? null,
+        }),
+      ],
+    );
+  } catch (error) {
+    console.warn(
+      "[webhook] Restaurant Connect status was not updated:",
+      error instanceof Error ? error.message : error,
+    );
+  }
+}
+
+function metadataInt(value: string | undefined): number {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : 0;
+}
+
+function latestChargeId(paymentIntent: Stripe.PaymentIntent): string | null {
+  const charge = paymentIntent.latest_charge;
+  if (!charge) return null;
+  return typeof charge === "string" ? charge : charge.id;
+}
+
+async function handleRestaurantOrderCheckout(
+  stripe: Stripe,
+  session: Stripe.Checkout.Session,
+) {
+  const orderId = session.metadata?.orderId;
+  if (!orderId) {
+    console.warn(`[webhook] Restaurant order session ${session.id} missing orderId`);
+    return;
+  }
+
+  const paymentIntentId =
+    typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : session.payment_intent?.id ?? null;
+
+  if (session.payment_status !== "paid") {
+    await updateRestaurantOrderIntent({
+      orderId,
+      status: "payment_pending",
+      stripeCheckoutSessionId: session.id,
+      stripePaymentIntentId: paymentIntentId,
+      paymentStatus: session.payment_status,
+      transferStatus: "waiting_for_paid_status",
+      metadata: {
+        checkoutStatus: session.status,
+        paymentStatus: session.payment_status,
+      },
+    });
+    console.log(
+      `[webhook] Restaurant order pending payment: order=${orderId} session=${session.id} payment_status=${session.payment_status}`,
+    );
+    return;
+  }
+
+  const metadata = session.metadata ?? {};
+  const splitMode = metadata.splitMode;
+  const connectedAccountId = metadata.stripeConnectedAccountId;
+  const transferAmountCents = metadataInt(metadata.transferAmountCents);
+  const transferGroup = metadata.transferGroup || `restaurant_order_${orderId}`;
+  let transferId: string | null = null;
+  let transferStatus: string | null = null;
+
+  if (
+    splitMode === "separate_charges_and_transfers" &&
+    connectedAccountId &&
+    transferAmountCents > 0 &&
+    paymentIntentId
+  ) {
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
+      expand: ["latest_charge"],
+    });
+    const chargeId = latestChargeId(paymentIntent);
+
+    if (chargeId) {
+      const transfer = await stripe.transfers.create(
+        {
+          amount: transferAmountCents,
+          currency: paymentIntent.currency,
+          destination: connectedAccountId,
+          transfer_group: transferGroup,
+          source_transaction: chargeId,
+          metadata: {
+            purpose: "restaurant_order_transfer",
+            orderId,
+            restaurantName: metadata.restaurantName ?? "",
+            provider: metadata.provider ?? "unknown",
+          },
+        },
+        { idempotencyKey: `restaurant_order_transfer_${orderId}` },
+      );
+      transferId = transfer.id;
+      transferStatus = "created";
+    } else {
+      transferStatus = "pending_charge";
+    }
+  } else if (splitMode === "destination_charge" && connectedAccountId) {
+    transferStatus = "destination_charge";
+  }
+
+  await updateRestaurantOrderIntent({
+    orderId,
+    status: "paid",
+    stripeCheckoutSessionId: session.id,
+    stripePaymentIntentId: paymentIntentId,
+    stripeTransferId: transferId,
+    paymentStatus: session.payment_status,
+    transferStatus,
+    completed: true,
+    metadata: {
+      checkoutStatus: session.status,
+      paymentStatus: session.payment_status,
+      splitMode,
+      transferGroup,
+    },
+  });
+
+  console.log(
+    `[webhook] Restaurant order completed: order=${orderId} session=${session.id} transfer=${transferId ?? transferStatus ?? "none"}`,
+  );
+
+  try {
+    await triggerOrderFulfillment(orderId);
+  } catch (error) {
+    console.error(
+      `[webhook] Restaurant fulfillment failed after payment: order=${orderId}`,
+      error,
+    );
+  }
+}
+
 export async function POST(request: Request) {
   const body = await request.text();
   const headersList = await headers();
@@ -104,6 +311,13 @@ export async function POST(request: Request) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object;
+        if (session.mode !== "subscription") {
+          if (session.metadata?.purpose === "restaurant_order") {
+            await handleRestaurantOrderCheckout(stripe, session);
+          }
+          break;
+        }
+
         const userId = session.metadata?.userId;
         const tier = (session.metadata?.tier || "premium") as SubscriptionTier;
 
@@ -157,6 +371,12 @@ export async function POST(request: Request) {
           });
           console.log(`[webhook] Subscription updated: ${subscription.id} status=${subscription.status}`);
         }
+        break;
+      }
+
+      case "account.updated": {
+        const account = event.data.object;
+        await updateRestaurantConnectStatus(account);
         break;
       }
 

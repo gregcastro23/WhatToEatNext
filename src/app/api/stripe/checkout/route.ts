@@ -78,6 +78,7 @@ export async function POST(request: Request) {
         ? { subscription_data: { trial_period_days: 7 } }
         : {}),
       metadata: {
+        purpose: "subscription",
         userId: session.user.id,
         tier: targetTier,
         trial: trialEligible ? "true" : "false",
