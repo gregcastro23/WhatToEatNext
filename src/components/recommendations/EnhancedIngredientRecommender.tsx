@@ -646,7 +646,7 @@ function getIngredientImageUrl(ingredient: UnifiedIngredient): string | null {
   if (typeof rawValue === "string" && rawValue.trim().length > 0) {
     const value = rawValue.trim();
     if (value.startsWith("ingredients/")) {
-      return `https://assets.alchm.kitchen/${value}`;
+      return `https://alchm.kitchen/${value}`;
     }
     return value;
   }

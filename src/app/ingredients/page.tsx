@@ -1079,7 +1079,7 @@ function IngredientCard({
         : undefined;
         
   if (typeof ingredientImageUrl === "string" && ingredientImageUrl.startsWith("ingredients/")) {
-    ingredientImageUrl = `https://assets.alchm.kitchen/${ingredientImageUrl}`;
+    ingredientImageUrl = `https://alchm.kitchen/${ingredientImageUrl}`;
   }
   const displayImageUrl = ingredientImageUrl || cardAmazon.productImageUrl;
   const normalized = normalizeForDisplay(

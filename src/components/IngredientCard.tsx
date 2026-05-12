@@ -63,7 +63,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
     (ingredient as any).image;
 
   if (typeof imageUrl === "string" && imageUrl.startsWith("ingredients/")) {
-    imageUrl = `https://assets.alchm.kitchen/${imageUrl}`;
+    imageUrl = `https://alchm.kitchen/${imageUrl}`;
   }
 
   const description =

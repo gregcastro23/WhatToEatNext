@@ -47,6 +47,7 @@ interface Options {
   apply: boolean;
   yes: boolean;
   includeImages: boolean;
+  forceImages: boolean;
   limit: number;
   delayMs: number;
 }
@@ -85,6 +86,7 @@ function parseArgs(): Options {
     apply: args.has("--apply"),
     yes: args.has("--yes"),
     includeImages: args.has("--include-images"),
+    forceImages: args.has("--force-images"),
     limit: getValue("--limit", 25),
     delayMs: getValue("--delay-ms", 1200),
   };
@@ -174,7 +176,7 @@ function collectCandidates(project: Project, options: Options): Candidate[] {
         ]);
         const missingImage = !hasImageProp(object);
 
-        if (missingDescription || (options.includeImages && missingImage)) {
+        if (missingDescription || (options.includeImages && (missingImage || options.forceImages))) {
           candidates.push({
             slug,
             name,
@@ -506,7 +508,7 @@ async function main(): Promise<void> {
       }
 
       let imageUrl = result.imageUrl;
-      if (options.includeImages && candidate.missingImage && !imageUrl) {
+      if (options.includeImages && (candidate.missingImage || options.forceImages) && !imageUrl) {
         imageAttempts += 1;
         const imageResult = await generateIngredientImage(
           candidate,
@@ -525,7 +527,7 @@ async function main(): Promise<void> {
       }
       if (
         options.includeImages &&
-        candidate.missingImage &&
+        (candidate.missingImage || options.forceImages) &&
         imageUrl &&
         upsertStringProp(candidate.object, "image_url", imageUrl)
       ) {
