@@ -169,12 +169,6 @@ function toResponse(
   });
 }
 
-import { NextResponse } from "next/server";
-import { rateLimit } from "@/lib/rateLimit";
-import { redisGet, redisSet } from "@/lib/redis";
-import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
-import type { NextRequest } from "next/server";
-
 export async function GET(request: NextRequest) {
   const rl = await rateLimit(request, PLANETARY_LIMIT);
   if (!rl.allowed) return rl.response!;
