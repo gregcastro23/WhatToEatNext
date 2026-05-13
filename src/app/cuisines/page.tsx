@@ -23,6 +23,11 @@ const EnhancedSauceRecommender = dynamic(
   { loading: () => <SectionLoader /> },
 );
 
+const CuisineRestaurantFinder = dynamic(
+  () => import("@/components/RestaurantDiscovery/CuisineRestaurantFinder"),
+  { loading: () => <SectionLoader /> },
+);
+
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -73,6 +78,15 @@ export default function CuisinesPage() {
                   recommender below. */}
               <DynamicCuisineRecommender />
             </div>
+          </div>
+        </motion.section>
+
+        <motion.section
+          variants={fadeInItem}
+          className="mt-8"
+        >
+          <div className="glass-card-premium rounded-3xl p-1 border border-white/5 relative overflow-hidden bg-[#0c0c14]/50 backdrop-blur-sm">
+             <CuisineRestaurantFinder />
           </div>
         </motion.section>
 
