@@ -365,8 +365,6 @@ This repo does not currently ship project-local MCP server definitions.
 - Vercel's official remote MCP server is available at
   `https://mcp.vercel.com` and uses OAuth.
 - Claude-specific local permissions live in `.claude/settings.local.json`.
-- Legacy references to `.kiro/settings/mcp.json` are stale and should not be
-  used for setup or debugging.
 - If a server requires authentication, complete auth in the MCP client first,
   then verify the connection from that client before assuming a repo problem.
 
