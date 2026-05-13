@@ -20,6 +20,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const GOOGLE_NEARBY_URL = "https://places.googleapis.com/v1/places:searchNearby";
+const GOOGLE_TEXT_URL = "https://places.googleapis.com/v1/places:searchText";
 const DEFAULT_RADIUS_METERS = 2000;
 const DEFAULT_LIMIT = 20;
 const GOOGLE_FIELD_MASK = [
@@ -31,6 +32,7 @@ const GOOGLE_FIELD_MASK = [
 ].join(",");
 
 interface DiscoverBody {
+  cuisine?: unknown;
   latitude?: unknown;
   longitude?: unknown;
   radius?: unknown;
@@ -72,6 +74,11 @@ function text(value: unknown): string {
 
 function emptyCosmicContext() {
   return { currentZodiac: "", planetaryHour: "", dominantElement: "" };
+}
+
+function cuisineQuery(value: unknown): string {
+  const cuisine = text(value);
+  return cuisine ? `${cuisine} restaurants` : "";
 }
 
 function googleMapsUrl(name: string, address: string): string {
@@ -149,6 +156,7 @@ function toEntry(
 }
 
 async function fetchGoogleNearby(
+  cuisine: string,
   latitude: number,
   longitude: number,
   radiusMeters: number,
@@ -167,23 +175,37 @@ async function fetchGoogleNearby(
   }
 
   try {
-    const response = await fetch(GOOGLE_NEARBY_URL, {
+    const isCuisineSearch = cuisine.length > 0;
+    const response = await fetch(isCuisineSearch ? GOOGLE_TEXT_URL : GOOGLE_NEARBY_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": apiKey,
         "X-Goog-FieldMask": GOOGLE_FIELD_MASK,
       },
-      body: JSON.stringify({
-        includedTypes: ["restaurant"],
-        maxResultCount: limit,
-        locationRestriction: {
-          circle: {
-            center: { latitude, longitude },
-            radius: radiusMeters,
-          },
-        },
-      }),
+      body: JSON.stringify(
+        isCuisineSearch
+          ? {
+              textQuery: cuisine,
+              maxResultCount: limit,
+              locationBias: {
+                circle: {
+                  center: { latitude, longitude },
+                  radius: radiusMeters,
+                },
+              },
+            }
+          : {
+              includedTypes: ["restaurant"],
+              maxResultCount: limit,
+              locationRestriction: {
+                circle: {
+                  center: { latitude, longitude },
+                  radius: radiusMeters,
+                },
+              },
+            },
+      ),
       signal: AbortSignal.timeout(8000),
     });
 
@@ -236,6 +258,7 @@ async function findGooglePartners(
 }
 
 async function discover(input: DiscoverBody) {
+  const cuisine = cuisineQuery(input.cuisine);
   const latitude = numberFrom(input.latitude);
   const longitude = numberFrom(input.longitude);
   const radiusMeters = Math.min(
@@ -257,6 +280,7 @@ async function discover(input: DiscoverBody) {
   }
 
   const { restaurants: normalized, sourceNotice, error } = await fetchGoogleNearby(
+    cuisine,
     latitude,
     longitude,
     radiusMeters,
@@ -303,6 +327,7 @@ async function discover(input: DiscoverBody) {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   return discover({
+    cuisine: searchParams.get("cuisine"),
     latitude: searchParams.get("lat"),
     longitude: searchParams.get("lng"),
     radius: searchParams.get("radius"),
