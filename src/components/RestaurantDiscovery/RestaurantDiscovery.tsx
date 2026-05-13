@@ -73,6 +73,20 @@ interface SavedRestaurantsPrefs {
   [k: string]: unknown;
 }
 
+function sourceLabel(source: RestaurantDiscoverySource | undefined): string {
+  switch (source) {
+    case "foursquare":
+      return "Foursquare";
+    case "google":
+      return "Google Places";
+    case "olo":
+      return "Olo";
+    case "yelp":
+    default:
+      return "Yelp";
+  }
+}
+
 export function RestaurantDiscovery({
   cuisineType,
   userLatitude,
@@ -278,7 +292,8 @@ export function RestaurantDiscovery({
 
         if (
           data.error === "Yelp integration not configured" ||
-          data.error === "Restaurant discovery is not configured."
+          data.error === "Restaurant discovery is not configured." ||
+          data.error === "Google Places integration is not configured."
         ) {
           setStatus({ kind: "not-configured" });
           return;
@@ -382,8 +397,7 @@ export function RestaurantDiscovery({
       {status.kind === "not-configured" && (
         <div className="rounded-lg bg-white/60 border border-amber-200 p-3 text-xs text-amber-900 leading-snug">
           Restaurant discovery isn&apos;t configured yet. Add{" "}
-          <code className="font-mono bg-amber-100 px-1 rounded">YELP_API_KEY</code> for cosmic-scored results, or{" "}
-          <code className="font-mono bg-amber-100 px-1 rounded">FOURSQUARE_API_KEY</code> for unscored fallback.
+          <code className="font-mono bg-amber-100 px-1 rounded">GOOGLE_PLACES_API_KEY</code> for Google Nearby Search.
         </div>
       )}
 
@@ -411,6 +425,7 @@ export function RestaurantDiscovery({
               const { business } = entry;
               const source = status.data.source ?? "yelp";
               const isScored = source === "yelp";
+              const providerLabel = sourceLabel(source);
               const decoration = ELEMENT_DECORATION[entry.dominantElement];
               const distance = metersToMiles(business.distance);
               const scorePct = Math.round(entry.alchmScore * 100);
@@ -444,7 +459,7 @@ export function RestaurantDiscovery({
                       </>
                     ) : (
                       <div className="px-2 py-1 rounded-md bg-blue-100 text-blue-700 text-[10px] font-bold border border-blue-200">
-                        Foursquare
+                        {providerLabel}
                       </div>
                     )}
                   </div>
@@ -555,12 +570,12 @@ export function RestaurantDiscovery({
       {/* Provider attribution */}
       {status.kind === "ready" && (
         <p className="mt-2 text-[10px] text-gray-400 text-center">
-          Powered by {status.data.source === "foursquare" ? "Foursquare" : "Yelp"}
+          Powered by {sourceLabel(status.data.source)}
         </p>
       )}
       {status.kind === "empty" && (
         <p className="mt-2 text-[10px] text-gray-400 text-center">
-          Powered by Yelp
+          Powered by Google Places
         </p>
       )}
     </section>

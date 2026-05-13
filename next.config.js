@@ -117,6 +117,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "assets.alchm.kitchen",
+      },
+      {
+        protocol: "https",
         hostname: "**",
       },
     ],

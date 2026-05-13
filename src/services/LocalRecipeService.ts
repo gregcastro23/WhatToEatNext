@@ -6,6 +6,7 @@ import type {
   RecipeIngredient,
 } from "@/types/recipe";
 import { logger } from "@/utils/logger";
+import { getAssetUrl } from "@/utils/urlUtils";
 
 interface DbRecipeRow {
   id: string;
@@ -25,6 +26,7 @@ interface DbRecipeRow {
   meal_types?: string[] | null;
   seasons?: string[] | null;
   elemental_properties?: unknown;
+  image_url?: string | null;
   created_at?: string | Date | null;
   updated_at?: string | Date | null;
 }
@@ -49,6 +51,7 @@ const RECIPE_QUERY = `
     r.dietary_tags::text[] AS dietary_tags,
     r.allergens::text[] AS allergens,
     r.nutritional_profile,
+    r.image_url,
     r.created_at,
     r.updated_at,
     r.read_model
@@ -162,9 +165,13 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
       mealTypes = [rm.category];
     }
 
+    const imageUrl = getAssetUrl(rm.image_url || row.image_url);
+
     return {
       id: rm.id || row.id,
       name: rm.name || row.name,
+      image: imageUrl,
+      imageUrl,
       description: rm.description || row.description || undefined,
       cuisine: rm.cuisine || row.cuisine || undefined,
       ingredients: normalizeIngredients(rm.ingredients),
@@ -200,10 +207,13 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
   const prepTime = row.prep_time_minutes ?? 0;
   const cookTime = row.cook_time_minutes ?? 0;
   const mealTypes = row.meal_types?.length ? row.meal_types : row.category ? [row.category] : [];
+  const imageUrl = getAssetUrl(row.image_url);
 
   return {
     id: row.id,
     name: row.name,
+    image: imageUrl,
+    imageUrl,
     description: row.description ?? undefined,
     cuisine: row.cuisine ?? row.cuisine_type ?? undefined,
     ingredients: normalizeIngredients(row.ingredients),

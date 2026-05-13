@@ -62,18 +62,17 @@ or understanding the concepts
 
 ## 📚 Comprehensive Onboarding Guides
 
-### 🎯 [Kiro Setup and Configuration Guide](kiro-setup-guide.md)
+### 🎯 AI Assistant Setup
 
-**Perfect for**: Setting up Kiro IDE with all intelligent features and
-optimizations
+**Perfect for**: Setting up Codex or Claude against the actual repo-local agent
+configuration
 
 **You'll learn**:
 
-- Step-by-step Kiro installation and configuration
-- Steering files system and agent hooks setup
-- MCP server integration and testing
+- Where repo instructions live (`AGENTS.md`, `CLAUDE.md`)
+- How Codex and Claude differ in local configuration
+- MCP server integration and authentication checks
 - Campaign system monitoring and usage
-- Advanced Kiro features and customization
 
 **Time investment**: 45-90 minutes for complete setup
 
@@ -115,7 +114,7 @@ astrological concepts
 - Quick problem resolution techniques
 - Setup and installation issue solutions
 - Astrological feature debugging
-- Kiro-specific troubleshooting
+- AI tooling and MCP troubleshooting
 - Performance and integration problem solving
 
 **Time investment**: Reference guide - use as needed

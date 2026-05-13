@@ -26,6 +26,7 @@ import {
   elementalToAlchemicalApproximation,
   calculateKAlchm,
 } from "@/utils/monicaKalchmCalculations";
+import { getAssetUrl } from "@/utils/urlUtils";
 
 // Pagination constant - items shown before expansion
 const ITEMS_PER_PAGE = 21;
@@ -644,11 +645,7 @@ function getIngredientImageUrl(ingredient: UnifiedIngredient): string | null {
   const rawValue = root.image_url || root.imageUrl || root.image;
   
   if (typeof rawValue === "string" && rawValue.trim().length > 0) {
-    const value = rawValue.trim();
-    if (value.startsWith("ingredients/")) {
-      return `https://alchm.kitchen/${value}`;
-    }
-    return value;
+    return getAssetUrl(rawValue.trim()) ?? null;
   }
   return null;
 }

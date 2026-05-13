@@ -453,12 +453,13 @@ function generateCulturallyAwareRecommendations(
 - `src/services/campaign/CampaignController.ts` - Quality improvement
 - `src/calculations/culinary/` - Culinary astrology
 
-### Steering Files (Kiro Context)
+### AI Project Context
 
-- `.kiro/steering/tech.md` - Technology stack guidance
-- `.kiro/steering/astrology-rules.md` - Astrological calculation rules
-- `.kiro/steering/elemental-principles.md` - Four-element system enforcement
-- `.kiro/steering/campaign-integration.md` - Campaign system patterns
+- `AGENTS.md` - Primary repo instructions for Codex sessions
+- `CLAUDE.md` - Claude-specific project guidance
+- `.codex/config.toml.example` - Starter MCP config template for Codex
+- `.claude/settings.local.json` - Claude local permissions for this repo
+- `~/.codex/config.toml` - User-level Codex configuration, including MCP setup
 
 ## 🤝 Getting Help
 

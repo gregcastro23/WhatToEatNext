@@ -54,6 +54,7 @@ import type {
   AmazonSearchResult,
 } from "@/types/amazon";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
+import { getAssetUrl } from "@/utils/urlUtils";
 
 type ElementKey = "Fire" | "Water" | "Earth" | "Air";
 
@@ -1071,16 +1072,13 @@ function IngredientCard({
   const culinary = getCulinaryDetails(ingredient);
   const cardAmazon = getCardAmazonState(data);
   const cardPrice = parseAmazonPrice(cardAmazon.price);
-  let ingredientImageUrl =
+  const ingredientImageUrl = getAssetUrl(
     typeof (ingredient as { image_url?: unknown }).image_url === "string"
       ? (ingredient as { image_url: string }).image_url
       : typeof (ingredient as { imageUrl?: unknown }).imageUrl === "string"
         ? (ingredient as { imageUrl: string }).imageUrl
-        : undefined;
-        
-  if (typeof ingredientImageUrl === "string" && ingredientImageUrl.startsWith("ingredients/")) {
-    ingredientImageUrl = `https://alchm.kitchen/${ingredientImageUrl}`;
-  }
+        : undefined
+  );
   const displayImageUrl = ingredientImageUrl || cardAmazon.productImageUrl;
   const normalized = normalizeForDisplay(
     ingredient.elementalProperties || {

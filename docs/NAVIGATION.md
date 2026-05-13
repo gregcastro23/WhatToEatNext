@@ -248,10 +248,9 @@ archive/
 
 ### Related Documentation
 
-- **Kiro Specs**: [.kiro/specs/](../.kiro/specs/) - Feature specifications
-- **Kiro Templates**: [.kiro/templates/](../.kiro/templates/) - Spec templates
-- **Steering Files**: [.kiro/steering/](../.kiro/steering/) - Development
+- **Agent Instructions**: [AGENTS.md](../AGENTS.md) - Primary Codex project
   guidance
+- **Claude Instructions**: [CLAUDE.md](../CLAUDE.md) - Claude project guidance
 - **Source Code**: [src/](../src/) - Implementation code
 
 ### External Resources

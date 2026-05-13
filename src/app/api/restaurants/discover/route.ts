@@ -1,8 +1,8 @@
 /**
- * Yelp restaurant discovery.
+ * Google Places (New) restaurant discovery.
  *
- * Uses Yelp Fusion at request time, then annotates results with local partner
- * metadata from Postgres. API keys stay server-side.
+ * Uses Nearby Search at request time, then annotates results with local
+ * partner metadata from Postgres. API keys stay server-side.
  *
  * @file src/app/api/restaurants/discover/route.ts
  */
@@ -19,9 +19,16 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const YELP_SEARCH_URL = "https://api.yelp.com/v3/businesses/search";
+const GOOGLE_NEARBY_URL = "https://places.googleapis.com/v1/places:searchNearby";
 const DEFAULT_RADIUS_METERS = 2000;
 const DEFAULT_LIMIT = 20;
+const GOOGLE_FIELD_MASK = [
+  "places.id",
+  "places.displayName",
+  "places.formattedAddress",
+  "places.rating",
+  "places.photos",
+].join(",");
 
 interface DiscoverBody {
   latitude?: unknown;
@@ -30,37 +37,20 @@ interface DiscoverBody {
   limit?: unknown;
 }
 
-interface YelpBusinessRaw {
+interface GooglePlaceRaw {
   id?: string;
-  name?: string;
-  image_url?: string;
-  url?: string;
+  displayName?: { text?: string };
+  formattedAddress?: string;
   rating?: number;
-  review_count?: number;
-  price?: string;
-  distance?: number;
-  phone?: string;
-  categories?: Array<{ alias?: string; title?: string }>;
-  coordinates?: {
-    latitude?: number;
-    longitude?: number;
-  };
-  location?: {
-    address1?: string;
-    city?: string;
-    state?: string;
-    zip_code?: string;
-    display_address?: string[];
-  };
-  is_closed?: boolean;
+  photos?: Array<{ name?: string }>;
 }
 
-interface NormalizedYelpRestaurant {
+interface NormalizedGoogleRestaurant {
   externalId: string;
   name: string;
-  imageUrl?: string;
   address: string;
   rating: number;
+  imageUrl?: string;
   business: YelpBusiness;
 }
 
@@ -84,56 +74,49 @@ function emptyCosmicContext() {
   return { currentZodiac: "", planetaryHour: "", dominantElement: "" };
 }
 
-function normalizeYelpBusiness(raw: YelpBusinessRaw): NormalizedYelpRestaurant | null {
-  const externalId = text(raw.id);
-  const name = text(raw.name);
-  if (!externalId || !name) return null;
+function googleMapsUrl(name: string, address: string): string {
+  const query = encodeURIComponent([name, address].filter(Boolean).join(" "));
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
 
-  const displayAddress = Array.isArray(raw.location?.display_address)
-    ? raw.location.display_address.filter((part): part is string => Boolean(part))
-    : [];
+function normalizeGooglePlace(raw: GooglePlaceRaw): NormalizedGoogleRestaurant | null {
+  const externalId = text(raw.id);
+  const name = text(raw.displayName?.text);
+  const address = text(raw.formattedAddress);
+  if (!externalId || !name) return null;
 
   const business: YelpBusiness = {
     id: externalId,
     name,
-    url: text(raw.url) || `https://www.yelp.com/biz/${encodeURIComponent(externalId)}`,
-    phone: text(raw.phone),
+    url: googleMapsUrl(name, address),
+    phone: "",
     rating: numberFrom(raw.rating) ?? 0,
-    review_count: Math.max(Math.trunc(numberFrom(raw.review_count) ?? 0), 0),
-    price: text(raw.price) || undefined,
-    distance: numberFrom(raw.distance) ?? undefined,
-    categories: (raw.categories ?? []).flatMap((category) => {
-      const title = text(category.title);
-      if (!title) return [];
-      return [{ alias: text(category.alias) || title.toLowerCase(), title }];
-    }),
+    review_count: 0,
+    categories: [{ alias: "restaurant", title: "Restaurant" }],
     location: {
-      address1: text(raw.location?.address1),
-      city: text(raw.location?.city),
-      state: text(raw.location?.state),
-      zip_code: text(raw.location?.zip_code),
-      display_address: displayAddress,
+      address1: address,
+      city: "",
+      state: "",
+      zip_code: "",
+      display_address: address ? [address] : [],
     },
-    coordinates: {
-      latitude: numberFrom(raw.coordinates?.latitude) ?? 0,
-      longitude: numberFrom(raw.coordinates?.longitude) ?? 0,
-    },
-    image_url: text(raw.image_url) || undefined,
-    is_closed: raw.is_closed === true,
+    coordinates: { latitude: 0, longitude: 0 },
+    image_url: undefined,
+    is_closed: false,
   };
 
   return {
     externalId,
     name,
-    imageUrl: business.image_url,
-    address: displayAddress.join(", "),
+    address,
     rating: business.rating,
+    imageUrl: undefined,
     business,
   };
 }
 
-function neutralEntry(
-  restaurant: NormalizedYelpRestaurant,
+function toEntry(
+  restaurant: NormalizedGoogleRestaurant,
   partner?: PartnerRestaurantRow,
 ): AlchmScoredRestaurant {
   const isPartner = Boolean(partner?.stripe_connect_account_id);
@@ -141,9 +124,9 @@ function neutralEntry(
   return {
     externalId: restaurant.externalId,
     name: restaurant.name,
-    imageUrl: restaurant.imageUrl,
     address: restaurant.address,
     rating: restaurant.rating,
+    imageUrl: restaurant.imageUrl,
     business: restaurant.business,
     isPartner,
     partnerRestaurantId: isPartner ? partner?.internal_restaurant_id : undefined,
@@ -160,39 +143,47 @@ function neutralEntry(
     dominantElement: "Earth",
     matchReasons: isPartner
       ? ["Partner restaurant with in-app menu ordering"]
-      : ["Nearby restaurant from Yelp"],
+      : ["Nearby restaurant from Google Places"],
     cuisineElement: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   };
 }
 
-async function fetchYelpBusinesses(input: {
-  latitude: number;
-  longitude: number;
-  radiusMeters: number;
-  limit: number;
-}): Promise<{ restaurants: NormalizedYelpRestaurant[]; sourceNotice?: string }> {
-  const apiKey = process.env.YELP_API_KEY;
+async function fetchGoogleNearby(
+  latitude: number,
+  longitude: number,
+  radiusMeters: number,
+  limit: number,
+): Promise<{
+  restaurants: NormalizedGoogleRestaurant[];
+  sourceNotice?: string;
+  error?: string;
+}> {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   if (!apiKey) {
     return {
       restaurants: [],
-      sourceNotice: "YELP_API_KEY is not configured.",
+      error: "Google Places integration is not configured.",
     };
   }
 
-  const params = new URLSearchParams({
-    latitude: String(input.latitude),
-    longitude: String(input.longitude),
-    radius: String(input.radiusMeters),
-    categories: "restaurants",
-    limit: String(input.limit),
-  });
-
   try {
-    const response = await fetch(`${YELP_SEARCH_URL}?${params.toString()}`, {
+    const response = await fetch(GOOGLE_NEARBY_URL, {
+      method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
-        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": apiKey,
+        "X-Goog-FieldMask": GOOGLE_FIELD_MASK,
       },
+      body: JSON.stringify({
+        includedTypes: ["restaurant"],
+        maxResultCount: limit,
+        locationRestriction: {
+          circle: {
+            center: { latitude, longitude },
+            radius: radiusMeters,
+          },
+        },
+      }),
       signal: AbortSignal.timeout(8000),
     });
 
@@ -200,18 +191,16 @@ async function fetchYelpBusinesses(input: {
       const body = await response.text().catch(() => "");
       return {
         restaurants: [],
-        sourceNotice: `Yelp returned ${response.status}: ${body.slice(0, 160)}`,
+        sourceNotice: `Google Places returned ${response.status}: ${body.slice(0, 160)}`,
       };
     }
 
-    const data = (await response.json()) as { businesses?: YelpBusinessRaw[] };
+    const data = (await response.json()) as { places?: GooglePlaceRaw[] };
     return {
-      restaurants: (data.businesses ?? [])
-        .filter((business) => business.is_closed !== true)
-        .flatMap((business) => {
-          const normalized = normalizeYelpBusiness(business);
-          return normalized ? [normalized] : [];
-        }),
+      restaurants: (data.places ?? []).flatMap((place) => {
+        const normalized = normalizeGooglePlace(place);
+        return normalized ? [normalized] : [];
+      }),
     };
   } catch (error) {
     const timedOut =
@@ -219,18 +208,18 @@ async function fetchYelpBusinesses(input: {
     return {
       restaurants: [],
       sourceNotice: timedOut
-        ? "Yelp request timed out."
+        ? "Google Places request timed out."
         : error instanceof Error
-          ? `Yelp request failed: ${error.message}`
-          : "Yelp request failed.",
+          ? `Google Places request failed: ${error.message}`
+          : "Google Places request failed.",
     };
   }
 }
 
-async function findYelpPartners(
-  yelpIds: string[],
+async function findGooglePartners(
+  externalIds: string[],
 ): Promise<Map<string, PartnerRestaurantRow>> {
-  if (yelpIds.length === 0) return new Map();
+  if (externalIds.length === 0) return new Map();
 
   const result = await executeQuery<PartnerRestaurantRow>(
     `SELECT id AS internal_restaurant_id,
@@ -238,9 +227,9 @@ async function findYelpPartners(
             stripe_connect_account_id,
             deliverect_location_id
      FROM restaurants
-     WHERE external_provider = 'yelp'
+     WHERE external_provider = 'google'
        AND external_id = ANY($1)`,
-    [yelpIds],
+    [externalIds],
   );
 
   return new Map(result.rows.map((row) => [row.external_id, row]));
@@ -251,30 +240,42 @@ async function discover(input: DiscoverBody) {
   const longitude = numberFrom(input.longitude);
   const radiusMeters = Math.min(
     Math.max(numberFrom(input.radius) ?? DEFAULT_RADIUS_METERS, 100),
-    40000,
+    50000,
   );
-  const limit = Math.min(Math.max(numberFrom(input.limit) ?? DEFAULT_LIMIT, 1), 50);
+  const limit = Math.min(Math.max(numberFrom(input.limit) ?? DEFAULT_LIMIT, 1), 20);
 
   if (latitude === null || longitude === null) {
     return NextResponse.json(
       {
         restaurants: [],
         cosmicContext: emptyCosmicContext(),
-        source: "yelp",
+        source: "google",
         error: "lat and lng query parameters are required",
       } satisfies RestaurantSearchResponse,
       { status: 400 },
     );
   }
 
-  const { restaurants: normalized, sourceNotice } = await fetchYelpBusinesses({
+  const { restaurants: normalized, sourceNotice, error } = await fetchGoogleNearby(
     latitude,
     longitude,
     radiusMeters,
     limit,
-  });
+  );
 
-  const partnerMap = await findYelpPartners(
+  if (error) {
+    return NextResponse.json(
+      {
+        restaurants: [],
+        cosmicContext: emptyCosmicContext(),
+        source: "google",
+        error,
+      } satisfies RestaurantSearchResponse,
+      { status: 503 },
+    );
+  }
+
+  const partnerMap = await findGooglePartners(
     normalized.map((restaurant) => restaurant.externalId),
   ).catch((error) => {
     console.warn(
@@ -285,14 +286,14 @@ async function discover(input: DiscoverBody) {
   });
 
   const restaurants = normalized.map((restaurant) =>
-    neutralEntry(restaurant, partnerMap.get(restaurant.externalId)),
+    toEntry(restaurant, partnerMap.get(restaurant.externalId)),
   );
 
   return NextResponse.json(
     {
       restaurants,
       cosmicContext: emptyCosmicContext(),
-      source: "yelp",
+      source: "google",
       sourceNotice,
     } satisfies RestaurantSearchResponse,
     { status: 200 },
@@ -318,7 +319,7 @@ export async function POST(request: NextRequest) {
       {
         restaurants: [],
         cosmicContext: emptyCosmicContext(),
-        source: "yelp",
+        source: "google",
         error: "Invalid JSON body",
       } satisfies RestaurantSearchResponse,
       { status: 400 },

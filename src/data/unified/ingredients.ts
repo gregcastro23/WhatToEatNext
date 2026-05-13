@@ -5,6 +5,7 @@ import type {
   ThermodynamicMetrics,
   ThermodynamicProperties,
 } from "@/types/alchemy";
+import { getAssetUrl } from "@/utils/urlUtils";
 import { createElementalProperties } from "../../utils/elemental/elementalUtils";
 import { beveragesIngredients } from "../ingredients/beverages/beverages";
 import { dairy } from "../ingredients/dairy";
@@ -194,8 +195,8 @@ function enhanceIngredient(
     description:
       authoredDescription || summaryDescription || fallbackDescription,
     ...(imageUrl && {
-      image_url: imageUrl,
-      imageUrl,
+      image_url: getAssetUrl(imageUrl),
+      imageUrl: getAssetUrl(imageUrl),
     }),
     // Add energy profile if thermodynamics exist
     ...(thermodynamics && {

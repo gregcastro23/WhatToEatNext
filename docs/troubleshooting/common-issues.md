@@ -145,7 +145,7 @@ const memoizedCalculation = useMemo(() => {
 const throttledApiCall = throttle(apiCall, 1000);
 ```
 
-### Kiro Integration Broken
+### AI Tooling Integration Broken
 
 **Symptoms:**
 
@@ -156,17 +156,16 @@ const throttledApiCall = throttle(apiCall, 1000);
 **Solutions:**
 
 ```bash
-# Restart Kiro completely
-# Close Kiro application and reopen
+# Verify repo instruction files
+ls AGENTS.md CLAUDE.md
 
-# Check steering file syntax
-bun run validate:steering
+# Inspect Codex MCP config
+sed -n '1,200p' ~/.codex/config.toml
 
-# Test agent hooks manually
-bun run test:hooks
+# Inspect Claude local permissions
+sed -n '1,200p' .claude/settings.local.json
 
-# Reconnect MCP servers
-bun run mcp:reconnect
+# Restart the active AI client after changing config
 ```
 
 ## 🟡 Medium Priority Issues
@@ -409,7 +408,6 @@ bun run health:check
 bun run health:astrological
 bun run health:performance
 bun run health:integrations
-bun run health:kiro
 ```
 
 ### Debug Information
@@ -421,7 +419,6 @@ bun run debug:report
 # Check specific components
 bun run debug:astronomy
 bun run debug:campaigns
-bun run debug:mcp-servers
 
 # Performance profiling
 bun run profile:calculations

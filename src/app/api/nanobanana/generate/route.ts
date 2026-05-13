@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ASSET_DOMAIN } from "@/constants";
 import { auth } from "@/lib/auth/auth";
 import { rateLimit } from "@/lib/rateLimit";
 import type { NextRequest } from "next/server";
@@ -35,6 +36,12 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
+    
+    // Ensure the URL uses the assets subdomain if it's an alchm.kitchen URL
+    if (data.url && typeof data.url === "string" && data.url.includes("alchm.kitchen") && !data.url.includes(ASSET_DOMAIN.replace("https://", ""))) {
+      data.url = data.url.replace("alchm.kitchen", ASSET_DOMAIN.replace("https://", ""));
+    }
+
     return NextResponse.json(data);
 
   } catch (_err) {

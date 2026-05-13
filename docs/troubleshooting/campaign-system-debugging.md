@@ -720,7 +720,7 @@ class CorruptionDetectionDebugger {
     const jsonFiles = [
       "package.json",
       "tsconfig.json",
-      ".kiro/settings/mcp.json",
+      ".claude/settings.local.json",
     ];
 
     for (const file of jsonFiles) {

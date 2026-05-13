@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaClock, FaSun, FaUtensils } from "react-icons/fa";
+import { getAssetUrl } from "@/utils/urlUtils";
 import { getTimeFactors } from "../types/time";
 import {
   explainRecommendation,
@@ -101,6 +102,8 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
           const prepTime = Number(recipe.prepTime || 0);
           const cookTime = Number(recipe.cookTime || 0);
 
+          const displayImage = getAssetUrl(recipe.image);
+
           return (
             <Box
               key={recipe.id}
@@ -111,9 +114,9 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
               bg="white"
               boxShadow="sm"
             >
-              {recipe.image ? (
+              {displayImage ? (
                 <Image
-                  src={recipe.image}
+                  src={displayImage}
                   alt={recipe.name}
                   objectFit="cover"
                   width="100%"

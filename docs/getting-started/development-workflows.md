@@ -417,19 +417,11 @@ describe("Performance Tests", () => {
 ### 6.1 Spec-Driven Development Workflow
 
 ```bash
-# Create new feature spec
-kiro spec create feature-name
-
 # Follow iterative workflow
 1. Requirements gathering and refinement
 2. Design document creation
 3. Task breakdown and planning
 4. Implementation with validation
-
-# Use Kiro's spec system
-kiro spec status                    # Check spec progress
-kiro spec execute task-id           # Execute specific task
-kiro spec validate                  # Validate implementation
 ```
 
 ### 6.2 Campaign Development Workflow

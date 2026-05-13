@@ -83,7 +83,7 @@ export interface CosmicContext {
 }
 
 /** Provider that produced the restaurant results in a discovery response. */
-export type RestaurantDiscoverySource = "olo" | "yelp" | "foursquare";
+export type RestaurantDiscoverySource = "olo" | "yelp" | "foursquare" | "google";
 
 export interface RestaurantSearchResponse {
   restaurants: AlchmScoredRestaurant[];

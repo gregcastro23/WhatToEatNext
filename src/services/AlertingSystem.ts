@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
+import { ensureToolingDir, getToolingFilePath } from "@/utils/toolingDataDir";
 import { buildPerformanceMonitor } from "./BuildPerformanceMonitor";
 import { _errorTrackingSystem } from "./ErrorTrackingSystem";
 import { _qualityMetricsService } from "./QualityMetricsService";
@@ -94,10 +95,8 @@ class AlertingSystem {
 
   private loadConfiguration() {
     try {
-      const configPath = path.join(
-        process.cwd(),
-        ".kiro",
-        "settings",
+      const configPath = getToolingFilePath(
+        ["settings"],
         "alerting-config.json",
       );
       if (fs.existsSync(configPath)) {
@@ -114,11 +113,7 @@ class AlertingSystem {
 
   private saveConfiguration() {
     try {
-      const settingsDir = path.join(process.cwd(), ".kiro", "settings");
-      if (!fs.existsSync(settingsDir)) {
-        fs.mkdirSync(settingsDir, { recursive: true });
-      }
-
+      const settingsDir = ensureToolingDir("settings");
       const configPath = path.join(settingsDir, "alerting-config.json");
       const config = {
         alertRules: this.alertRules,
@@ -725,11 +720,7 @@ class AlertingSystem {
 
   private writeAlertToFile(alert: Alert) {
     try {
-      const alertsDir = path.join(process.cwd(), ".kiro", "alerts");
-      if (!fs.existsSync(alertsDir)) {
-        fs.mkdirSync(alertsDir, { recursive: true });
-      }
-
+      const alertsDir = ensureToolingDir("alerts");
       const alertFile = path.join(alertsDir, "alerts.log");
       const alertLine = `${alert.timestamp.toISOString()} [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}\n`;
 

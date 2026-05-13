@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { performance } from "perf_hooks";
 import { _logger } from "@/lib/logger";
+import { ensureToolingDir, getToolingFilePath } from "@/utils/toolingDataDir";
 import type { PerformanceReport } from "./PerformanceMetricsAnalytics";
 
 export interface BuildMetrics {
@@ -74,12 +75,7 @@ class BuildPerformanceMonitor {
 
   private loadHistoricalData(): void {
     try {
-      const historyPath = path.join(
-        process.cwd(),
-        ".kiro",
-        "metrics",
-        "build-history.json",
-      );
+      const historyPath = getToolingFilePath(["metrics"], "build-history.json");
       if (fs.existsSync(historyPath)) {
         const data = JSON.parse(fs.readFileSync(historyPath, "utf8")) as Record<
           string,
@@ -101,11 +97,7 @@ class BuildPerformanceMonitor {
 
   private saveHistoricalData(): void {
     try {
-      const metricsDir = path.join(process.cwd(), ".kiro", "metrics");
-      if (!fs.existsSync(metricsDir)) {
-        fs.mkdirSync(metricsDir, { recursive: true });
-      }
-
+      const metricsDir = ensureToolingDir("metrics");
       const historyPath = path.join(metricsDir, "build-history.json");
       const data = {
         buildHistory: this.buildHistory.slice(-100), // Keep last 100 builds

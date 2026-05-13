@@ -15,6 +15,7 @@ import {
   isRecipeIngredient,
   getDominantElement,
 } from "@/utils/ingredientUtils";
+import { getAssetUrl } from "@/utils/urlUtils";
 import { AddToDiaryModal } from "./food-diary/AddToDiaryModal";
 
 interface IngredientCardProps {
@@ -57,14 +58,13 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   const colorClass = elementColors[dominantElement] || elementColors.Air;
   const textColorClass =
     elementTextColors[dominantElement] || elementTextColors.Air;
-  let imageUrl =
+  
+  const rawImageUrl =
     (ingredient as any).image_url ||
     (ingredient as any).imageUrl ||
     (ingredient as any).image;
 
-  if (typeof imageUrl === "string" && imageUrl.startsWith("ingredients/")) {
-    imageUrl = `https://alchm.kitchen/${imageUrl}`;
-  }
+  const imageUrl = getAssetUrl(rawImageUrl);
 
   const description =
     (ingredient as any).description ||

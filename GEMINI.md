@@ -29,9 +29,9 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 - ✅ **Batch Queries**: Eliminated N+1 query bottlenecks in recommendation engines.
 - ✅ **10x Faster Migration**: Rewrote migration logic for bulk SQL inserts.
 
-#### **Infrastructure Migration**
-- ✅ **Neon to Railway**: Successfully moved all data to Railway-native Postgres.
-- ✅ **Internal Networking**: Configured backend to communicate via `postgres.railway.internal`.
+#### **Asset & Storage Optimization**
+- ✅ **R2 Custom Domain**: Migrated asset delivery from `alchm.kitchen` to `assets.alchm.kitchen` to resolve 404 conflicts with the main application domain.
+- ✅ **Automated Prefixing**: Updated frontend components and image generation pipelines to automatically route `ingredients/` and `recipes/` paths to the new dedicated asset domain.
 - ✅ **Asset Optimization**: Reduced `Aklogo.jpg` from 1.7MB to 69KB and hero image by 90%.
 
 ---

@@ -2,6 +2,25 @@
  * URL Utilities for alchm.kitchen
  */
 
+import { ASSET_DOMAIN } from "@/constants";
+
+/**
+ * Construct an asset URL (R2 bucket objects)
+ */
+export const getAssetUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined;
+  
+  // If it's already an absolute URL, return it
+  if (path.startsWith("http")) return path;
+  
+  // If it's a relative path starting with common asset folders, prefix with ASSET_DOMAIN
+  if (path.startsWith("ingredients/") || path.startsWith("recipes/") || path.startsWith("images/")) {
+    return `${ASSET_DOMAIN}/${path}`;
+  }
+  
+  return path;
+};
+
 /**
  * Returns the base URL for API routes.
  */

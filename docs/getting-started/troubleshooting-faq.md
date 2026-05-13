@@ -192,46 +192,28 @@ interface TransitDates {
 }
 ```
 
-## 🎯 Kiro-Specific Issues
+## 🎯 AI Tooling Issues
 
-### Q: Kiro steering files not loading
+### Q: Project guidance is not loading in the AI client
 
-**Problem**: Kiro doesn't seem to understand project context
-
-**Solutions**:
-
-```bash
-# Verify steering files exist
-ls .kiro/steering/                # Should show all steering files
-
-# Check file format
-head .kiro/steering/product.md    # Verify markdown format
-
-# Restart Kiro
-# Close and reopen Kiro to reload steering files
-
-# Check inclusion patterns
-grep -r "inclusion:" .kiro/steering/
-```
-
-### Q: Agent hooks not triggering
-
-**Problem**: File changes don't trigger automated hooks
+**Problem**: The assistant is missing repo context or using stale assumptions
 
 **Solutions**:
 
 ```bash
-# Check hook configurations
-ls .kiro/hooks/                   # Verify hook files exist
+# Verify repo-local instructions exist
+ls AGENTS.md CLAUDE.md
 
-# Test specific hook
-# Make a change to src/data/planets/mars.ts
-# Save file and check if validation runs
+# Check Codex project trust and MCP config
+sed -n '1,200p' ~/.codex/config.toml
 
-# Check Kiro's Agent Hooks panel
-# View > Agent Hooks to see status
+# Review the repo template if you need to add or repair server definitions
+sed -n '1,200p' .codex/config.toml.example
 
-# Restart Kiro if hooks seem stuck
+# Confirm Claude local permissions file exists
+sed -n '1,200p' .claude/settings.local.json
+
+# Restart the client after config changes
 ```
 
 ### Q: MCP servers not connecting
@@ -241,20 +223,17 @@ ls .kiro/hooks/                   # Verify hook files exist
 **Solutions**:
 
 ```bash
-# Check Python/uv installation
-uv --version
-uvx --version
+# Check Codex MCP configuration
+sed -n '1,200p' ~/.codex/config.toml
 
-# Install if missing
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# Compare against the repo template
+sed -n '1,200p' .codex/config.toml.example
 
-# Check MCP configuration
-cat .kiro/settings/mcp.json
+# Check Claude local project permissions if Claude is the active client
+sed -n '1,200p' .claude/settings.local.json
 
-# Test server manually
-uvx mcp-servers/astrology-server.py
-
-# Check Kiro's MCP panel for error messages
+# If resources/templates remain empty, re-authenticate in the MCP client UI
+# and start a new Codex session before testing again
 ```
 
 ### Q: Campaign system not working
@@ -577,7 +556,7 @@ if (isElement(userInput)) {
 - **[Architecture Guide](architecture-guide.md)** - System design and patterns
 - **[Development Workflows](development-workflows.md)** - Common development
   tasks
-- **[Kiro Setup Guide](kiro-setup-guide.md)** - Kiro configuration and usage
+- **AI assistant setup** - Codex/Claude configuration and MCP auth
 - **[Campaign System Docs](../../src/services/campaign/README.md)** - Quality
   improvement system
 
@@ -605,7 +584,7 @@ if (isElement(userInput)) {
 - ✅ Elemental compatibility scores always ≥ 0.7
 - ✅ Cultural features reviewed by experts
 - ✅ Campaign system running smoothly
-- ✅ Kiro providing helpful contextual assistance
+- ✅ AI tooling loading repo context and MCP resources correctly
 
 ### Red flags to address:
 

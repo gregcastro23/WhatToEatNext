@@ -2,6 +2,7 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { _logger } from "@/lib/logger";
+import { ensureToolingDir, getToolingFilePath } from "@/utils/toolingDataDir";
 
 export interface TypeScriptError {
   code: string;
@@ -110,10 +111,8 @@ class ErrorTrackingSystem {
 
   private loadHistoricalData() {
     try {
-      const dataPath = path.join(
-        process.cwd(),
-        ".kiro",
-        "metrics",
+      const dataPath = getToolingFilePath(
+        ["metrics"],
         "error-tracking.json",
       );
       if (fs.existsSync(dataPath)) {
@@ -134,11 +133,7 @@ class ErrorTrackingSystem {
 
   private saveHistoricalData() {
     try {
-      const metricsDir = path.join(process.cwd(), ".kiro", "metrics");
-      if (!fs.existsSync(metricsDir)) {
-        fs.mkdirSync(metricsDir, { recursive: true });
-      }
-
+      const metricsDir = ensureToolingDir("metrics");
       const dataPath = path.join(metricsDir, "error-tracking.json");
       const data = {
         typeScriptErrors: this.typeScriptErrors.slice(-1000), // Keep last 1000 errors,

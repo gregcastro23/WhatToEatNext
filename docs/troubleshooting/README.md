@@ -18,8 +18,6 @@ WhatToEatNext project, organized by problem domain and complexity level.
 
 ### Specialized Guides
 
-- **[Kiro Integration Issues](kiro-integration-issues.md)** - Kiro-specific
-  troubleshooting
 - **[Campaign System Debugging](campaign-system-debugging.md)** - Campaign
   system troubleshooting
 - **[API Integration Issues](api-integration-issues.md)** - External API and MCP
@@ -55,7 +53,6 @@ bun run health:performance       # Performance metrics check
 
 # Debug information
 bun run debug:info               # System debug information
-bun run debug:kiro               # Kiro integration status
 bun run debug:campaigns          # Campaign system status
 ```
 
@@ -116,7 +113,7 @@ bun run debug:campaigns          # Campaign system status
 
 **🎨 Integration Issues**
 
-- Kiro steering file problems
+- AI client configuration problems
 - Agent hook failures
 - MCP server connectivity
 - Campaign system errors

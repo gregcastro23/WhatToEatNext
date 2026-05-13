@@ -621,7 +621,7 @@ errors:
 dashboard:
 	@echo "🎯 Generating Zero-Error Achievement Dashboard..."
 	@bun src/scripts/zero-error-dashboard.ts generate
-	@echo "📊 Dashboard generated: .kiro/dashboard/zero-error-achievement-dashboard.md"
+	@echo "📊 Dashboard generated: .local/ai/dashboard/zero-error-achievement-dashboard.md"
 
 dashboard-monitor:
 	@echo "👀 Starting Zero-Error Achievement Monitoring..."

@@ -9,6 +9,7 @@ import {
   hasNutritionData,
   normalizeRecipeNutrition,
 } from "@/utils/recipeNutrition";
+import { getAssetUrl } from "@/utils/urlUtils";
 
 interface NutritionCoverageStats {
   total: number;
@@ -108,11 +109,15 @@ function extractRecipesFromCuisines(
           if (dish.isDairyFree || alchemical.dairyFree)
             dietaryTags.push("dairyFree");
 
+          const imageUrl = getAssetUrl((dish.image as string) ?? (dish.image_url as string));
+
           const recipe: IndexedRecipe = {
             id:
               (dish.id as string) ??
               `${cuisineName.toLowerCase()}-${key.replace(/\s+/g, "-")}`,
             name: dish.name,
+            image: imageUrl,
+            imageUrl,
             description: (dish.description as string) ?? "",
             cuisine:
               (dish.cuisine as string) ??

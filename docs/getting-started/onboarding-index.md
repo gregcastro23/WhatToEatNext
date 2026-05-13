@@ -16,8 +16,8 @@ contributor.
 
 ### Phase 2: Technical Setup (Developers & Contributors)
 
-- [ ] **Complete [Kiro Setup Guide](kiro-setup-guide.md)** - Full IDE
-      configuration
+- [ ] **Review AI assistant setup** - Understand Codex/Claude local
+      configuration and MCP auth
 - [ ] **Study [Architecture Guide](architecture-guide.md)** - System design and
       patterns
 - [ ] **Review [Development Workflows](development-workflows.md)** - Common
@@ -54,7 +54,7 @@ contributor.
 
 | Guide                                             | Purpose           | Time Investment | Prerequisites        |
 | ------------------------------------------------- | ----------------- | --------------- | -------------------- |
-| [Kiro Setup Guide](kiro-setup-guide.md)           | IDE configuration | 45-90 minutes   | Kiro installed       |
+| AI assistant setup                                | Local agent config | 45-90 minutes  | Codex or Claude access |
 | [Architecture Guide](architecture-guide.md)       | System design     | 60-120 minutes  | Technical background |
 | [Development Workflows](development-workflows.md) | Common tasks      | 30-60 minutes   | Development setup    |
 | [Troubleshooting FAQ](troubleshooting-faq.md)     | Problem solving   | As needed       | Reference guide      |
@@ -77,7 +77,7 @@ contributor.
    ↓
 2. For Developers Guide (60 min)
    ↓
-3. Kiro Setup Guide (90 min)
+3. AI assistant setup (90 min)
    ↓
 4. Architecture Guide (120 min)
    ↓
@@ -159,7 +159,7 @@ competency for immediate contribution
 ### Milestone 2: Technical Setup Complete ✅
 
 - [ ] Development environment working
-- [ ] Kiro IDE configured with all features
+- [ ] AI client configured with repo instructions and MCP auth
 - [ ] Can run tests and build successfully
 - [ ] Understand basic architecture patterns
 
@@ -192,7 +192,7 @@ competency for immediate contribution
 
 1. How do fallback mechanisms work in astrological calculations?
 2. What is the campaign system and how does it improve quality?
-3. How does Kiro's steering system provide contextual intelligence?
+3. How do repo instructions and MCP configuration provide contextual intelligence?
 4. What are the performance targets for astrological calculations?
 
 **Practical Knowledge**:
