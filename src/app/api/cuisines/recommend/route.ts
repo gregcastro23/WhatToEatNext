@@ -180,13 +180,13 @@ async function handleRequest(request: Request) {
 }
 
 export async function GET(request: Request) {
-  const rl = rateLimit(request, CUISINES_LIMIT);
+  const rl = await rateLimit(request, CUISINES_LIMIT);
   if (!rl.allowed) return rl.response!;
   return handleRequest(request);
 }
 
 export async function POST(request: Request) {
-  const rl = rateLimit(request, CUISINES_LIMIT);
+  const rl = await rateLimit(request, CUISINES_LIMIT);
   if (!rl.allowed) return rl.response!;
   return handleRequest(request);
 }

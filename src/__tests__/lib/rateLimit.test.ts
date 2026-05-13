@@ -1,3 +1,19 @@
+// Mock @upstash/redis to avoid ESM issues in Jest
+jest.mock("@upstash/redis", () => ({
+  Redis: jest.fn().mockImplementation(() => ({
+    pipeline: jest.fn().mockReturnValue({
+      zremrangebyscore: jest.fn().mockReturnThis(),
+      zadd: jest.fn().mockReturnThis(),
+      zcard: jest.fn().mockReturnThis(),
+      pexpire: jest.fn().mockReturnThis(),
+      exec: jest.fn().mockResolvedValue(null), // Force fallback to memory by default
+    }),
+    get: jest.fn().mockResolvedValue(null),
+    set: jest.fn().mockResolvedValue("OK"),
+    del: jest.fn().mockResolvedValue(1),
+  })),
+}));
+
 function makeRequest(headers: Record<string, string> = {}): Request {
   return new Request("http://localhost/api/test", {
     headers: new Headers(headers),
@@ -18,21 +34,21 @@ describe("rateLimit", () => {
     });
 
     nowSpy.mockReturnValue(1_000);
-    expect(rateLimit(request, { window: 60_000, max: 2, bucket: "recipes" })).toMatchObject({
+    expect(await rateLimit(request, { window: 60_000, max: 2, bucket: "recipes" })).toMatchObject({
       allowed: true,
       remaining: 1,
       resetMs: 60_000,
     });
 
     nowSpy.mockReturnValue(1_500);
-    expect(rateLimit(request, { window: 60_000, max: 2, bucket: "recipes" })).toMatchObject({
+    expect(await rateLimit(request, { window: 60_000, max: 2, bucket: "recipes" })).toMatchObject({
       allowed: true,
       remaining: 0,
       resetMs: 60_000,
     });
 
     nowSpy.mockReturnValue(31_000);
-    const blocked = rateLimit(request, { window: 60_000, max: 2, bucket: "recipes" });
+    const blocked = await rateLimit(request, { window: 60_000, max: 2, bucket: "recipes" });
 
     expect(blocked.allowed).toBe(false);
     expect(blocked.remaining).toBe(0);
@@ -55,14 +71,14 @@ describe("rateLimit", () => {
     const request = makeRequest({ "x-real-ip": "198.51.100.30" });
 
     nowSpy.mockReturnValue(1_000);
-    expect(rateLimit(request, { window: 60_000, max: 1, bucket: "boundary" })).toMatchObject({
+    expect(await rateLimit(request, { window: 60_000, max: 1, bucket: "boundary" })).toMatchObject({
       allowed: true,
       remaining: 0,
       resetMs: 60_000,
     });
 
     nowSpy.mockReturnValue(61_000);
-    expect(rateLimit(request, { window: 60_000, max: 1, bucket: "boundary" })).toMatchObject({
+    expect(await rateLimit(request, { window: 60_000, max: 1, bucket: "boundary" })).toMatchObject({
       allowed: true,
       remaining: 0,
       resetMs: 60_000,
@@ -77,7 +93,7 @@ describe("rateLimit", () => {
 
     nowSpy.mockReturnValue(10_000);
     expect(
-      rateLimit(firstRequest, {
+      await rateLimit(firstRequest, {
         window: 60_000,
         max: 1,
         bucket: "templates",
@@ -90,7 +106,7 @@ describe("rateLimit", () => {
     });
 
     nowSpy.mockReturnValue(10_500);
-    const blocked = rateLimit(secondRequest, {
+    const blocked = await rateLimit(secondRequest, {
       window: 60_000,
       max: 1,
       bucket: "templates",
@@ -107,20 +123,20 @@ describe("rateLimit", () => {
     const request = makeRequest({ "x-forwarded-for": "203.0.113.50" });
 
     nowSpy.mockReturnValue(20_000);
-    expect(rateLimit(request, { window: 60_000, max: 1, bucket: "route-a" })).toMatchObject({
+    expect(await rateLimit(request, { window: 60_000, max: 1, bucket: "route-a" })).toMatchObject({
       allowed: true,
       remaining: 0,
       resetMs: 60_000,
     });
 
     nowSpy.mockReturnValue(20_500);
-    expect(rateLimit(request, { window: 60_000, max: 1, bucket: "route-b" })).toMatchObject({
+    expect(await rateLimit(request, { window: 60_000, max: 1, bucket: "route-b" })).toMatchObject({
       allowed: true,
       remaining: 0,
       resetMs: 60_000,
     });
 
     nowSpy.mockReturnValue(21_000);
-    expect(rateLimit(request, { window: 60_000, max: 1, bucket: "route-a" }).allowed).toBe(false);
+    expect((await rateLimit(request, { window: 60_000, max: 1, bucket: "route-a" })).allowed).toBe(false);
   });
 });

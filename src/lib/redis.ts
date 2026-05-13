@@ -1,29 +1,37 @@
-import Redis from "ioredis";
+import { Redis } from "@upstash/redis";
 
 let _client: Redis | null = null;
 
 export function getRedisClient(): Redis | null {
   if (_client) return _client;
-  if (!process.env.REDIS_URL) return null;
 
-  _client = new Redis(process.env.REDIS_URL, {
-    lazyConnect: true,
-    maxRetriesPerRequest: 1,
-    enableOfflineQueue: false,
-  });
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-  _client.on("error", (err: Error) => {
-    // Log and continue — Redis is optional; callers must handle null
-    console.warn("[Redis]", err.message);
-  });
+  if (!url || !token) {
+    console.warn("[Redis] Missing UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN");
+    return null;
+  }
 
-  return _client;
+  try {
+    _client = new Redis({
+      url,
+      token,
+    });
+    return _client;
+  } catch (err) {
+    console.error("[Redis] Initialization failed:", err);
+    return null;
+  }
 }
 
 export async function redisGet(key: string): Promise<string | null> {
   try {
-    return await getRedisClient()?.get(key) ?? null;
-  } catch {
+    const client = getRedisClient();
+    if (!client) return null;
+    return await client.get<string>(key);
+  } catch (err) {
+    console.error("[Redis] GET failed:", err);
     return null;
   }
 }
@@ -34,16 +42,21 @@ export async function redisSet(
   ttlSeconds: number,
 ): Promise<void> {
   try {
-    await getRedisClient()?.set(key, value, "EX", ttlSeconds);
-  } catch {
-    // Non-fatal — in-process cache will still serve
+    const client = getRedisClient();
+    if (!client) return;
+    await client.set(key, value, { ex: ttlSeconds });
+    console.debug("[Redis] SET success:", key);
+  } catch (err) {
+    console.error("[Redis] SET failed:", err);
   }
 }
 
 export async function redisDel(key: string): Promise<void> {
   try {
-    await getRedisClient()?.del(key);
-  } catch {
-    // Non-fatal
+    const client = getRedisClient();
+    if (!client) return;
+    await client.del(key);
+  } catch (err) {
+    console.error("[Redis] DEL failed:", err);
   }
 }

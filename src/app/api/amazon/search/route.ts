@@ -430,7 +430,7 @@ function buildBatchResponse(results: AmazonSearchResult[]) {
 }
 
 export async function GET(request: Request) {
-  const rl = rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search" });
+  const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search" });
   if (!rl.allowed) return rl.response!;
 
   const { searchParams } = new URL(request.url);
@@ -451,7 +451,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const rl = rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search-batch" });
+  const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "amazon-search-batch" });
   if (!rl.allowed) return rl.response!;
 
   let body: unknown;

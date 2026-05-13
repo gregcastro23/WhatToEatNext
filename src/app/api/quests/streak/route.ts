@@ -16,7 +16,7 @@ export const runtime = "nodejs";
 const RATE_LIMIT = { window: 60_000, max: 60, bucket: "quests-streak" };
 
 export async function GET(request: NextRequest) {
-  const rl = rateLimit(request, RATE_LIMIT);
+  const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
   try {

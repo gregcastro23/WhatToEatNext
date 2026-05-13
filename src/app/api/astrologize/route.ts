@@ -346,7 +346,7 @@ function parseParams(searchParams: URLSearchParams): PlanetaryRequest {
 // ─── Route handlers ───────────────────────────────────────────────────────────
 
 export async function GET(request: NextRequest) {
-  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "astrologize" });
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "astrologize" });
   if (!rl.allowed) return rl.response!;
   const { searchParams } = new URL(request.url);
   const params = parseParams(searchParams);
@@ -361,7 +361,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "astrologize" });
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "astrologize" });
   if (!rl.allowed) return rl.response!;
   try {
     const body: unknown = await request.json();

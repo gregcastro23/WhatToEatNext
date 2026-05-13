@@ -278,8 +278,10 @@ async def get_all_ingredients():
 @app.get("/health")
 @app.get("/api/v1/health")
 async def health_check():
-    """Comprehensive health check including database connectivity."""
+    """Comprehensive health check including database and Redis connectivity."""
     db_status = "offline"
+    redis_status = "offline"
+    
     try:
         from backend.database.connection import get_db_engine
 
@@ -291,9 +293,18 @@ async def health_check():
     except Exception as e:
         print(f"Database health check failed: {e}")
 
+    try:
+        from backend.database import get_redis_client
+        client = get_redis_client()
+        if client:
+            redis_status = "online"
+    except Exception as e:
+        print(f"Redis health check failed: {e}")
+
     return {
-        "status": "healthy" if db_status == "online" else "degraded",
+        "status": "healthy" if db_status == "online" and redis_status == "online" else "degraded",
         "database": db_status,
+        "redis": redis_status,
         "timestamp": datetime.now().isoformat(),
         "service": "alchm-backend"
     }
@@ -998,11 +1009,39 @@ class ImageGenerationResponse(BaseModel):
 async def generate_alchemical_image_endpoint(request: ImageGenerationRequest):
     """
     Generate an alchemical visual prompt and bridge to Nano Banana Pro for image generation.
+    Uses Redis to cache the prompt for 24 hours.
     """
     try:
+        recipe_id = request.dict().get('id', 'unknown')
+        cache_key = f"image_prompt:{recipe_id}"
+        
+        # Try to get cached prompt
+        from backend.database import get_redis_client
+        redis_client = get_redis_client()
+        
+        if redis_client:
+            cached_prompt = redis_client.get(cache_key)
+            if cached_prompt:
+                # Need to handle bytes vs str depending on redis version/config
+                if isinstance(cached_prompt, bytes):
+                    cached_prompt = cached_prompt.decode('utf-8')
+                
+                # If we have a cached prompt, we still need to generate the image
+                # (or we could cache the image URL too, but for now just the prompt)
+                engine = NanoBananaPro()
+                image_url = await engine.generate(cached_prompt)
+                return ImageGenerationResponse(url=image_url, prompt=cached_prompt)
+
         recipe_data = request.dict()
         # Synthesize the 150-word visual prompt
         prompt = generate_visual_prompt(recipe_data)
+        
+        # Cache the prompt for 24 hours
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, 86400, prompt)
+            except Exception as e:
+                print(f"Failed to cache prompt in Redis: {e}")
         
         # Call the Nano Banana Pro bridge
         engine = NanoBananaPro()

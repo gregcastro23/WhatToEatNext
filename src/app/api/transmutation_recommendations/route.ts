@@ -208,7 +208,7 @@ async function getRecommendations(request: NextRequest): Promise<TransmutationRe
 }
 
 export async function GET(request: NextRequest) {
-  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "transmutation-recommendations" });
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "transmutation-recommendations" });
   if (!rl.allowed) return rl.response!;
   try {
     const recommendations = await getRecommendations(request);
@@ -223,7 +223,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "transmutation-recommendations" });
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "transmutation-recommendations" });
   if (!rl.allowed) return rl.response!;
   try {
     const recommendations = await getRecommendations(request);

@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const rl = rateLimit(request, {
+    const rl = await rateLimit(request, {
       window: 60_000,
       max: 20,
       bucket: "amazon-feedback",

@@ -12,7 +12,7 @@ const RATE_LIMIT = { window: 60_000, max: 30, bucket: "philosophers-stone-positi
  * GET /api/philosophers-stone/positions - Get planetary positions with alchemical calculations
  */
 export async function GET(request: NextRequest) {
-  const rl = rateLimit(request, RATE_LIMIT);
+  const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
   try {
@@ -126,7 +126,7 @@ export async function GET(request: NextRequest) {
  * POST /api/philosophers-stone/positions - Calculate positions for specific date/location
  */
 export async function POST(request: NextRequest) {
-  const rl = rateLimit(request, RATE_LIMIT);
+  const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
   try {

@@ -39,7 +39,7 @@ const SIGN_TO_MODALITY: Record<string, string> = {
 const ALCHEMIZE_LIMIT = { window: 60_000, max: 60, bucket: "alchemize" };
 
 export async function GET(request: Request) {
-  const rl = rateLimit(request, ALCHEMIZE_LIMIT);
+  const rl = await rateLimit(request, ALCHEMIZE_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
     const { searchParams } = new URL(request.url);

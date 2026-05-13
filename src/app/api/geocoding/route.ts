@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 // and OpenNext requires edge functions to be configured separately.
 
 export async function GET(request: NextRequest) {
-  const rl = rateLimit(request, { window: 60_000, max: 30, bucket: "geocoding" });
+  const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "geocoding" });
   if (!rl.allowed) return rl.response!;
   try {
     const { searchParams } = new URL(request.url);

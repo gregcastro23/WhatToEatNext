@@ -169,14 +169,45 @@ function toResponse(
   });
 }
 
+import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
+import { redisGet, redisSet } from "@/lib/redis";
+import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
+import type { NextRequest } from "next/server";
+
 export async function GET(request: NextRequest) {
-  const rl = rateLimit(request, PLANETARY_LIMIT);
+  const rl = await rateLimit(request, PLANETARY_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
     const params = parsePlanetaryRequest(request);
+    const now = new Date();
+
+    // Cache key based on precision (Year-Month-Day-Hour)
+    const y = params.year ?? now.getUTCFullYear();
+    const m = params.month ?? now.getUTCMonth() + 1;
+    const d = params.day ?? params.date ?? now.getUTCDate();
+    const h = params.hour ?? now.getUTCHours();
+    const lat = params.latitude?.toFixed(2) ?? "0";
+    const lon = params.longitude?.toFixed(2) ?? "0";
+
+    const cacheKey = `planetary_pos:${y}-${m}-${d}-${h}:${lat}:${lon}`;
+
+    try {
+      const cached = await redisGet(cacheKey);
+      if (cached) {
+        console.debug("[PlanetaryPos] Serving cached positions");
+        return NextResponse.json(JSON.parse(cached));
+      }
+    } catch (err) {
+      console.warn("[PlanetaryPos] Redis read failed:", err);
+    }
+
     const backendPositions = await fetchFromBackend(params);
     if (backendPositions) {
-      return toResponse(backendPositions, "backend-pyswisseph");
+      const resp = toResponse(backendPositions, "backend-pyswisseph");
+      const data = await resp.json();
+      await redisSet(cacheKey, JSON.stringify(data), 3600).catch(() => {});
+      return NextResponse.json(data);
     }
 
     const fallbackDate = params.year && params.month && (params.day || params.date)
@@ -191,7 +222,10 @@ export async function GET(request: NextRequest) {
       )
       : new Date();
     const fallbackPositions = calculateLocalPositions(fallbackDate);
-    return toResponse(fallbackPositions, "local-astronomy-engine");
+    const resp = toResponse(fallbackPositions, "local-astronomy-engine");
+    const data = await resp.json();
+    await redisSet(cacheKey, JSON.stringify(data), 3600).catch(() => {});
+    return NextResponse.json(data);
   } catch (error) {
     console.error("[planetary-positions] Error:", error);
     return NextResponse.json({ error: "Failed to compute planetary positions" }, { status: 500 });
@@ -199,7 +233,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const rl = rateLimit(request, PLANETARY_LIMIT);
+  const rl = await rateLimit(request, PLANETARY_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
     const body = (await request.json()) as PlanetaryRequestBody;

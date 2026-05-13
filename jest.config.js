@@ -33,6 +33,9 @@ const config = {
     // Excluded integration tests
     "tests/cross-backend-rectification",
   ],
+  transformIgnorePatterns: [
+    "/node_modules/(?!(@upstash/redis|uncrypto)/)",
+  ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   modulePathIgnorePatterns: [
     "<rootDir>/.claude/",

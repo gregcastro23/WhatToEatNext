@@ -10,7 +10,7 @@ export const runtime = "nodejs";
 const RATE_LIMIT = { window: 60_000, max: 30, bucket: "quests-claim" };
 
 export async function POST(request: NextRequest) {
-  const rl = rateLimit(request, RATE_LIMIT);
+  const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
   const userId = await getUserIdFromRequest(request);

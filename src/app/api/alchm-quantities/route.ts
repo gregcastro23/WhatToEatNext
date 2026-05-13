@@ -94,8 +94,9 @@ function buildMomentum(
 }
 
 export async function GET(request: Request) {
-  const rl = rateLimit(request, ALCHM_QUANTITIES_LIMIT);
+  const rl = await rateLimit(request, ALCHM_QUANTITIES_LIMIT);
   if (!rl.allowed) return rl.response!;
+
   try {
     const now = new Date();
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);

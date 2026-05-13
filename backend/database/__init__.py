@@ -7,6 +7,7 @@ Central database configuration and connection management for all backend service
 
 from .config import DatabaseConfig
 from .connection import get_db_session, get_db_engine, create_tables, get_db
+from .redis_connection import get_redis_client
 from .models import *
 
 __all__ = [
@@ -15,5 +16,6 @@ __all__ = [
     'get_db_engine',
     'create_tables',
     'get_db',
+    'get_redis_client',
     # Models will be added here as they are imported
 ]

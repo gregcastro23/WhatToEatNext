@@ -21,7 +21,7 @@ const QUESTS_LIMIT = { window: 60_000, max: 60, bucket: "quests" };
  * GET /api/quests — Get all quest definitions with user's current progress
  */
 export async function GET(request: NextRequest) {
-  const rl = rateLimit(request, QUESTS_LIMIT);
+  const rl = await rateLimit(request, QUESTS_LIMIT);
   if (!rl.allowed) return rl.response!;
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
  * Example: { event: "view_chart" }
  */
 export async function POST(request: NextRequest) {
-  const rl = rateLimit(request, QUESTS_LIMIT);
+  const rl = await rateLimit(request, QUESTS_LIMIT);
   if (!rl.allowed) return rl.response!;
   const userId = await getUserIdFromRequest(request);
   if (!userId) {

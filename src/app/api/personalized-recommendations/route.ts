@@ -41,7 +41,7 @@ const ELEMENT_METHODS: Record<string, string[]> = {
 };
 
 export async function POST(request: NextRequest) {
-  const rl = rateLimit(request, RECS_LIMIT);
+  const rl = await rateLimit(request, RECS_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
     // Auth — allow the call to succeed even without a session (guest mode)

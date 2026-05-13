@@ -65,7 +65,7 @@ function filterRecipes(
 }
 
 export async function GET(request: Request) {
-  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
   if (!rl.allowed) return rl.response!;
   try {
     const url = new URL(request.url);
@@ -127,7 +127,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
   if (!rl.allowed) return rl.response!;
   // Allow POST with body params as an alternative to GET query params
   try {

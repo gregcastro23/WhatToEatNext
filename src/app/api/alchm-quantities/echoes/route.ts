@@ -32,7 +32,7 @@ function isEchoPlanet(value: string | null): value is EchoPlanet {
 const RATE_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities-echoes" };
 
 export async function GET(request: Request) {
-  const rl = rateLimit(request, RATE_LIMIT);
+  const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
   try {

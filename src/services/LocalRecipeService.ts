@@ -1,5 +1,6 @@
 import { executeQuery } from "@/lib/database";
 import { redisGet, redisSet, redisDel } from "@/lib/redis";
+import { getValidatedAssetUrl } from "@/lib/assets";
 import type {
   ElementalProperties,
   Recipe,
@@ -301,12 +302,34 @@ export class LocalRecipeService {
       // Populate Redis asynchronously so we don't block the response
       redisSet(REDIS_CATALOG_KEY, JSON.stringify(recipes), REDIS_TTL_SECONDS).catch(() => {});
 
+      // Part 3: Warm Image Asset Cache
+      this.warmImageAssetCache(recipes);
+
       return recipes;
     } catch (error) {
       logger.error("Error loading recipes from database, extracting raw local fallback:", error);
       const { allRecipes } = await import("@/data/recipes/index");
       return allRecipes;
     }
+  }
+
+  /**
+   * Asynchronously warms the Redis cache for all recipe images.
+   */
+  private static warmImageAssetCache(recipes: Recipe[]) {
+    // Process in small batches to avoid Redis/Network congestion
+    const batchSize = 20;
+    const recipesWithImages = recipes.filter((r) => r.imageUrl && !r.imageUrl.startsWith("http"));
+
+    void (async () => {
+      for (let i = 0; i < recipesWithImages.length; i += batchSize) {
+        const batch = recipesWithImages.slice(i, i + batchSize);
+        await Promise.allSettled(batch.map((r) => getValidatedAssetUrl(r.imageUrl)));
+        // Tiny pause between batches
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
+      logger.debug(`[AssetCache] Warmed ${recipesWithImages.length} image paths`);
+    })();
   }
 
   static async getRecipeById(recipeId: string): Promise<Recipe | null> {

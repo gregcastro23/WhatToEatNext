@@ -10,6 +10,7 @@
  *   if (!rl.allowed) return rl.response;
  */
 import { NextResponse } from "next/server";
+import { getRedisClient } from "./redis";
 
 interface Bucket {
   timestamps: number[];
@@ -44,20 +45,56 @@ export interface RateLimitResult {
   response?: NextResponse;
 }
 
-export function rateLimit(
+/**
+ * Sliding window rate limiter.
+ * Attempts to use Redis for shared state, falls back to in-memory Map.
+ */
+export async function rateLimit(
   request: Request,
   options: RateLimitOptions,
-): RateLimitResult {
+): Promise<RateLimitResult> {
   const { window, max, bucket = "global", identifier } = options;
   const id = identifier ?? clientKey(request);
-  const key = `${bucket}:${id}`;
+  const key = `ratelimit:${bucket}:${id}`;
   const now = Date.now();
   const cutoff = now - window;
 
+  const redis = getRedisClient();
+  if (redis) {
+    try {
+      // Use Redis ZSET for sliding window
+      const pipeline = redis.pipeline();
+      pipeline.zremrangebyscore(key, 0, cutoff);
+      pipeline.zadd(key, { score: now, member: `${now}-${Math.random()}` });
+      pipeline.zcard(key);
+      pipeline.pexpire(key, window);
+
+      const results = await pipeline.exec();
+      if (results) {
+        // results[2] is the ZCARD count
+        const count = results[2] as number;
+        const allowed = count <= max;
+
+        if (!allowed) {
+          const resetMs = window;
+          return buildResponse(false, 0, resetMs, max, now);
+        }
+
+        return {
+          allowed: true,
+          remaining: max - count,
+          resetMs: window,
+        };
+      }
+    } catch (err) {
+      console.warn("[RateLimit] Redis failed, falling back to Memory:", err);
+    }
+  }
+
+  // Memory Fallback
   let entry = store.get(key);
   if (!entry) {
     if (store.size >= MAX_KEYS) {
-      // Drop oldest insertion-order key to bound memory under attack.
       const oldest = store.keys().next().value;
       if (oldest !== undefined) store.delete(oldest);
     }
@@ -70,28 +107,7 @@ export function rateLimit(
   if (entry.timestamps.length >= max) {
     const oldestInWindow = entry.timestamps[0];
     const resetMs = Math.max(0, window - (now - oldestInWindow));
-    const retryAfter = Math.ceil(resetMs / 1000);
-    return {
-      allowed: false,
-      remaining: 0,
-      resetMs,
-      response: NextResponse.json(
-        {
-          error: "rate_limit_exceeded",
-          message: "Too many requests. Please try again shortly.",
-          retryAfter,
-        },
-        {
-          status: 429,
-          headers: {
-            "Retry-After": String(retryAfter),
-            "X-RateLimit-Limit": String(max),
-            "X-RateLimit-Remaining": "0",
-            "X-RateLimit-Reset": String(Math.ceil((now + resetMs) / 1000)),
-          },
-        },
-      ),
-    };
+    return buildResponse(false, 0, resetMs, max, now);
   }
 
   entry.timestamps.push(now);
@@ -99,5 +115,36 @@ export function rateLimit(
     allowed: true,
     remaining: max - entry.timestamps.length,
     resetMs: window,
+  };
+}
+
+function buildResponse(
+  allowed: boolean,
+  remaining: number,
+  resetMs: number,
+  max: number,
+  now: number,
+): RateLimitResult {
+  const retryAfter = Math.ceil(resetMs / 1000);
+  return {
+    allowed,
+    remaining,
+    resetMs,
+    response: NextResponse.json(
+      {
+        error: "rate_limit_exceeded",
+        message: "Too many requests. Please try again shortly.",
+        retryAfter,
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(retryAfter),
+          "X-RateLimit-Limit": String(max),
+          "X-RateLimit-Remaining": String(remaining),
+          "X-RateLimit-Reset": String(Math.ceil((now + resetMs) / 1000)),
+        },
+      },
+    ),
   };
 }

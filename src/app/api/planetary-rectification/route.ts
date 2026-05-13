@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
-  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "planetary-rectification" });
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "planetary-rectification" });
   if (!rl.allowed) return rl.response!;
   const url = new URL(request.url);
   const dateStr = url.searchParams.get("date") || url.searchParams.get("birthDate");

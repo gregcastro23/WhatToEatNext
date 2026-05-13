@@ -67,7 +67,7 @@ export async function GET(
   request: Request,
   props: { params: Promise<{ name: string }> },
 ) {
-  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "ingredients-by-name" });
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "ingredients-by-name" });
   if (!rl.allowed) return rl.response!;
   try {
     const { name } = await props.params;

@@ -26,7 +26,7 @@ function getCookingMethods(recipe: Record<string, unknown>): string[] {
 }
 
 export async function GET(request: Request, props: { params: Promise<{ recipeId: string }> }) {
-  const rl = rateLimit(request, RECIPE_DETAIL_LIMIT);
+  const rl = await rateLimit(request, RECIPE_DETAIL_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
     const { recipeId } = await props.params;
