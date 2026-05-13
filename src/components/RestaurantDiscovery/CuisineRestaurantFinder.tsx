@@ -175,7 +175,7 @@ export function CuisineRestaurantFinder({
 
       showToast(`Saved ${business.name} to your restaurants`, "success");
     },
-    [currentUser, savedIds, showToast, updateProfile],
+    [currentUser, cuisineType, savedIds, showToast, updateProfile],
   );
 
   // Sync coords when parent provides them
