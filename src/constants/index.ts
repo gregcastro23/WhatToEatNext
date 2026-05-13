@@ -40,7 +40,11 @@ export { _SEASON_DATE_RANGES } from "./seasons";
 
 export { _LUNAR_DAYS } from "./lunar";
 
-export const ASSET_DOMAIN = "https://assets.alchm.kitchen";
+const configuredAssetDomain = process.env.NEXT_PUBLIC_ASSET_DOMAIN?.trim();
+
+export const ASSET_DOMAIN = configuredAssetDomain
+  ? configuredAssetDomain.replace(/\/+$/, "")
+  : "/api/assets";
 
 export const _SYSTEM_CONSTANTS = {
   updateInterval: 3600000, // 1 hour in milliseconds
