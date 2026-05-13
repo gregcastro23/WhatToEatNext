@@ -53,7 +53,7 @@ interface PremiumContextValue {
   /** Track a recipe generation and return updated count */
   trackRecipeGeneration: () => Promise<number>;
   /** Open Stripe checkout for an upgrade */
-  openCheckout: (tier: SubscriptionTier) => Promise<void>;
+  openCheckout: (tier: SubscriptionTier, options?: { trial?: boolean }) => Promise<void>;
   /** Open Stripe customer portal for managing subscription */
   openPortal: () => Promise<void>;
   /** Refresh subscription state from API */
@@ -302,12 +302,12 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   }, [recipeUsage, subscription, broadcastUpdate]);
 
   const openCheckout = useCallback(
-    async (targetTier: SubscriptionTier) => {
+    async (targetTier: SubscriptionTier, options?: { trial?: boolean }) => {
       try {
         const res = await fetch("/api/stripe/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ tier: targetTier }),
+          body: JSON.stringify({ tier: targetTier, trial: options?.trial === true }),
         });
         if (res.ok) {
           const { url } = await res.json();

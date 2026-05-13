@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AMAZON_CONFIG } from "@/lib/amazon/config";
 
 interface CartItem {
   asin: string;
@@ -14,11 +15,10 @@ interface AmazonCartFormProps {
 }
 
 const AMAZON_CART_URL = "https://www.amazon.com/gp/aws/cart/add.html";
-const DEFAULT_ASSOCIATE_TAG = "cookingwi03f1-20";
 
 export function AmazonCartForm({
   items,
-  associateTag = DEFAULT_ASSOCIATE_TAG,
+  associateTag = AMAZON_CONFIG.tag,
 }: AmazonCartFormProps) {
   const [submitted, setSubmitted] = useState(false);
 

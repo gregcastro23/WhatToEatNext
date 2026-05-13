@@ -10,6 +10,7 @@
  * astronomy-engine calls, no backend round-trips.
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import {
   getAllPeriodStatistics,
   getSampleFileMeta,
@@ -37,7 +38,12 @@ function isPeriod(value: string | null): value is StatPeriod {
   return value !== null && (VALID_PERIODS as string[]).includes(value);
 }
 
+const RATE_LIMIT = { window: 60_000, max: 60, bucket: "alchm-quantities-statistics" };
+
 export async function GET(request: Request) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const url = new URL(request.url);
     const periodParam = url.searchParams.get("period");

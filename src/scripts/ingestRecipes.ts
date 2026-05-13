@@ -7,7 +7,7 @@
  * `CookingMethod`, etc.) and mathematically-verified elemental constraints.
  *
  * Usage:
- *   npx tsx src/scripts/ingestRecipes.ts ./path/to/recipes.json
+ *   bun src/scripts/ingestRecipes.ts ./path/to/recipes.json
  *
  * Output:
  *   - Accepted recipes are written to stdout as valid JSON
@@ -293,7 +293,7 @@ function autoBalanceElementals(raw: Record<string, unknown>): void {
 function main(): void {
     const args = process.argv.slice(2);
     if (args.length === 0) {
-        console.error("Usage: npx tsx src/scripts/ingestRecipes.ts <path-to-recipes.json>");
+        console.error("Usage: bun src/scripts/ingestRecipes.ts <path-to-recipes.json>");
         process.exit(1);
     }
 

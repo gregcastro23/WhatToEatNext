@@ -107,7 +107,7 @@ ensure accuracy.
 To run the validation:
 
 ```bash
-yarn check-astro
+bun run check-astro
 ```
 
 ### 2. Data Update Script
@@ -118,7 +118,7 @@ for historical tracking.
 To update the data:
 
 ```bash
-yarn update-astro-data
+bun run update-astro-data
 ```
 
 ### 3. Food Explanation Generator
@@ -129,7 +129,7 @@ astrological data is used for food recommendations.
 To generate sample recommendations:
 
 ```bash
-yarn generate-food-explanations
+bun run generate-food-explanations
 ```
 
 ## Planetary Influence Calculations

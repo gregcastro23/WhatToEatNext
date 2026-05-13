@@ -59,7 +59,7 @@ cd backend
 
 ## API Endpoints
 
-### 🔮 Alchemical Calculations (via Render API)
+### 🔮 Alchemical Calculations (local Swiss Ephemeris)
 
 ```bash
 # Get current alchemical state
@@ -93,8 +93,7 @@ curl http://localhost:8000/health
 ## Environment Variables
 
 ```bash
-# External API URLs
-ALCHEMIZE_API_URL=https://alchmize.onrender.com/api/alchemize
+# Local service URLs
 PLANETARY_AGENTS_URL=http://localhost:8000
 
 # Database (Docker setup)
@@ -136,7 +135,7 @@ curl -X POST http://localhost:8000/alchemize \
 ## Key Features
 
 - **🔄 Unified API** - Single backend for all frontend requests
-- **🌐 External API Integration** - Seamlessly calls Render alchemize API
+- **🌐 Local Ephemeris Engine** - Calculates alchemize results without external service routing
 - **💾 Database Caching** - PostgreSQL for performance and data persistence
 - **🎯 Recipe Intelligence** - AI-powered culinary recommendations
 - **📊 Health Monitoring** - Comprehensive service status checks
@@ -180,8 +179,8 @@ command.upgrade(cfg, 'head')
 # Test backend health
 curl http://localhost:8000/health
 
-# Test alchemize API directly
-curl -X POST https://alchmize.onrender.com/api/alchemize \
+# Test local alchemize API
+curl -X POST http://localhost:8000/alchemize \
   -H "Content-Type: application/json" \
   -d "{}"
 ```

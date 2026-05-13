@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { dailyYieldService } from "@/services/DailyYieldService";
+import { feedDatabase } from "@/services/feedDatabaseService";
 import { subscriptionService } from "@/services/subscriptionService";
 import type { ClaimDailyResponse } from "@/types/economy";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
@@ -59,12 +60,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Determine origin site — agents site passes ?site=agents
+    const { searchParams } = new URL(request.url);
+    const siteParam = searchParams.get("site");
+    const site: "main" | "agents" = siteParam === "agents" ? "agents" : "main";
+
     // Check if user is premium for yield multiplier
     const sub = await subscriptionService.getUserSubscription(user.id);
-    const isPremium = sub?.tier === "premium";
+    const isPremium = sub?.tier === "premium" && sub?.status === "active";
 
-    // Claim the daily yield
-    const yieldResult = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium);
+    // Claim the daily yield (site-specific idempotency)
+    const yieldResult = await dailyYieldService.claimDailyYield(user.id, natalPositions, isPremium, site);
 
     if (!yieldResult) {
       return NextResponse.json(
@@ -81,6 +87,9 @@ export async function POST(request: NextRequest) {
       yield: yieldResult,
       message: `✨ Cosmic Yield collected! +${yieldResult.totalTokens.toFixed(1)} tokens across Spirit, Essence, Matter & Substance.`,
     };
+
+    // Record the action in the community feed
+    feedDatabase.createEvent(user.id, "claim_daily", { site }).catch(console.error);
 
     return NextResponse.json(response);
   } catch (error) {

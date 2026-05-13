@@ -30,19 +30,19 @@ interface ExternalAPIs {
 
 ```bash
 # Test all API connections
-npm run test:api-connectivity
+bun run test:api-connectivity
 
 # Check API credentials
-npm run check:api-credentials
+bun run check:api-credentials
 
 # Test fallback mechanisms
-npm run test:fallbacks
+bun run test:fallbacks
 
 # Monitor API usage
-npm run monitor:api-usage
+bun run monitor:api-usage
 
 # Check rate limits
-npm run check:rate-limits
+bun run check:rate-limits
 ```
 
 ## 🌟 Astrological API Issues
@@ -72,7 +72,7 @@ echo $ASTRONOMY_API_KEY
 echo $ASTRONOMY_API_SECRET
 
 # 3. Test with different endpoints
-npm run test:astronomy-endpoints
+bun run test:astronomy-endpoints
 
 # 4. Check API status
 curl -s https://status.astronomyapi.com/api/v2/status.json
@@ -396,13 +396,13 @@ echo "Astronomy API Key: ${ASTRONOMY_API_KEY:0:10}..."
 echo "USDA API Key: ${USDA_API_KEY:0:10}..."
 
 # 2. Test API key validity
-npm run test:api-keys
+bun run test:api-keys
 
 # 3. Check API key permissions
-npm run check:api-permissions
+bun run check:api-permissions
 
 # 4. Validate API key format
-npm run validate:api-key-format
+bun run validate:api-key-format
 ```
 
 **API Authentication Testing:**
@@ -848,19 +848,19 @@ class FallbackMechanismDebugger {
 echo "🌐 API Health Monitoring"
 
 # 1. Test all API connections
-npm run test:api-connectivity
+bun run test:api-connectivity
 
 # 2. Check API quotas
-npm run check:api-quotas
+bun run check:api-quotas
 
 # 3. Validate fallback mechanisms
-npm run test:fallbacks
+bun run test:fallbacks
 
 # 4. Monitor API performance
-npm run monitor:api-performance
+bun run monitor:api-performance
 
 # 5. Generate API health report
-npm run generate:api-health-report
+bun run generate:api-health-report
 
 echo "✅ API health monitoring completed"
 ```
@@ -874,19 +874,19 @@ echo "✅ API health monitoring completed"
 echo "🚨 API Integration Recovery"
 
 # 1. Stop all API-dependent processes
-npm run stop:api-processes
+bun run stop:api-processes
 
 # 2. Test API connectivity
-npm run test:api-connectivity
+bun run test:api-connectivity
 
 # 3. Reset API rate limiters
-npm run reset:rate-limiters
+bun run reset:rate-limiters
 
 # 4. Clear API caches
-npm run clear:api-caches
+bun run clear:api-caches
 
 # 5. Restart with fallback mode
-npm run start:fallback-mode
+bun run start:fallback-mode
 
 echo "✅ API integration recovery completed"
 ```

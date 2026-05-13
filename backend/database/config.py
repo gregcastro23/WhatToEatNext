@@ -55,7 +55,25 @@ class DatabaseConfig(BaseSettings):
 
         # Ensure sslmode=require for Neon/Production
         # If we are on Railway or the URL is a cloud URL, force SSL
-        if "neon.tech" in v or os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("PORT"):
+        # EXCEPT for internal Railway networking which doesn't use SSL
+        is_internal_railway = ".railway.internal" in v
+        
+        # Workaround for possible hostname mismatch and missing credentials on Railway
+        if ".railway.internal" in v:
+            import re
+            
+            # Ensure hostname is postgres.railway.internal
+            v = re.sub(r'@[^:/]+', '@postgres.railway.internal', v)
+            if "@" not in v:
+                v = v.replace("://", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            
+            # Ensure password is present if user is postgres
+            if "postgresql://postgres@" in v:
+                v = v.replace("://postgres@", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            
+            is_internal_railway = True
+
+        if ("neon.tech" in v or os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("PORT")) and not is_internal_railway:
             if "sslmode=" not in v:
                 separator = "&" if "?" in v else "?"
                 v = f"{v}{separator}sslmode=require"

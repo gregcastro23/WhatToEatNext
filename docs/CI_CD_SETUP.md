@@ -42,7 +42,7 @@ WhatToEatNext project using Yarn, GitHub Actions, and Vercel deployment.
 | `.github/workflows/dependency-review.yml` | Security scanning            |
 | `.github/dependabot.yml`                  | Automated dependency updates |
 | `turbo.json`                              | Turborepo configuration      |
-| `.yarnrc.yml`                             | Yarn configuration           |
+| `.bunrc.yml`                             | Yarn configuration           |
 | `.eslintrc.js`                            | ESLint configuration         |
 | `.prettierrc`                             | Prettier configuration       |
 
@@ -160,45 +160,45 @@ git push origin main
 
 ```bash
 # Development
-yarn dev              # Start development server
-yarn build            # Build for production
-yarn start            # Start production server
+bun run dev              # Start development server
+bun run build            # Build for production
+bun run start            # Start production server
 
 # Code Quality
-yarn lint             # Run ESLint
-yarn lint:fix         # Fix ESLint issues
-yarn format           # Format with Prettier
-yarn type-check       # TypeScript type checking
+bun run lint             # Run ESLint
+bun run lint:fix         # Fix ESLint issues
+bun run format           # Format with Prettier
+bun run typecheck       # TypeScript type checking
 
 # Testing
-yarn test             # Run tests
-yarn test:watch       # Run tests in watch mode
-yarn test:coverage    # Run tests with coverage
+bun run test             # Run tests
+bun run test:watch       # Run tests in watch mode
+bun run test:coverage    # Run tests with coverage
 
 # Turborepo
-yarn turbo:build      # Build with Turborepo
-yarn turbo:dev        # Dev with Turborepo
-yarn turbo:lint       # Lint with Turborepo
-yarn turbo:test       # Test with Turborepo
+bun run turbo:build      # Build with Turborepo
+bun run turbo:dev        # Dev with Turborepo
+bun run turbo:lint       # Lint with Turborepo
+bun run turbo:test       # Test with Turborepo
 ```
 
 ### CI/CD
 
 ```bash
 # CI/CD specific
-yarn ci:install       # Install with frozen lockfile
-yarn ci:build         # Build for CI
-yarn ci:test          # Test for CI
-yarn ci:lint          # Lint for CI
-yarn ci:type-check    # Type check for CI
+bun run ci:install       # Install with frozen lockfile
+bun run ci:build         # Build for CI
+bun run ci:test          # Test for CI
+bun run ci:lint          # Lint for CI
+bun run ci:type-check    # Type check for CI
 
 # Security
-yarn security:audit   # Run security audit
-yarn security:check   # Check for high severity issues
+bun run security:audit   # Run security audit
+bun run security:check   # Check for high severity issues
 
 # Dependencies
-yarn deps:check       # Check for outdated packages
-yarn deps:update      # Interactive dependency updates
+bun run deps:check       # Check for outdated packages
+bun run deps:update      # Interactive dependency updates
 ```
 
 ## 🔒 Security Features
@@ -214,7 +214,7 @@ yarn deps:update      # Interactive dependency updates
 ```yaml
 # .github/workflows/ci.yml
 security:
-  - yarn audit --level moderate
+  - bun run audit --level moderate
   - Trivy vulnerability scanner
   - GitHub Security tab integration
 ```
@@ -241,28 +241,28 @@ security:
 
    ```bash
    # Clear cache and rebuild
-   yarn cache:clean
-   yarn build:clean
+   bun run cache:clean
+   bun run build:clean
    ```
 
 2. **Dependency Issues**
 
    ```bash
    # Reinstall dependencies
-   yarn install:clean
+   bun install:clean
    ```
 
 3. **TypeScript Errors**
 
    ```bash
    # Run type checking
-   yarn type-check
+   bun run typecheck
    ```
 
 4. **ESLint Errors**
    ```bash
    # Fix linting issues
-   yarn lint:fix
+   bun run lint:fix
    ```
 
 ### Debug Commands
@@ -272,13 +272,13 @@ security:
 node --version
 
 # Check Yarn version
-yarn --version
+bun run --version
 
 # Validate CI configuration
 ./scripts/setup-ci.sh
 
 # Run all checks locally
-yarn ci:lint && yarn ci:type-check && yarn ci:test && yarn ci:build
+bun run ci:lint && bun run ci:type-check && bun run ci:test && bun run ci:build
 ```
 
 ## 📈 Performance Optimization
@@ -295,7 +295,7 @@ yarn ci:lint && yarn ci:type-check && yarn ci:test && yarn ci:build
 # Yarn cache
 - uses: actions/setup-node@v4
   with:
-    cache: "yarn"
+    cache: "bun"
 
 # Build cache
 - uses: actions/cache@v3
@@ -358,7 +358,7 @@ graph LR
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Vercel Documentation](https://vercel.com/docs)
 - [Turborepo Documentation](https://turbo.build/repo/docs)
-- [Yarn Documentation](https://yarnpkg.com/getting-started)
+- [Bun Documentation](https://bun.sh/docs)
 
 ---
 

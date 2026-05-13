@@ -141,7 +141,7 @@ docker-compose logs -f whattoeatnext
 docker-compose up whattoeatnext-dev
 
 # Run specific service
-docker-compose run --rm whattoeatnext-dev yarn test
+docker-compose run --rm whattoeatnext-dev bun run test
 
 # Execute commands in running container
 docker-compose exec whattoeatnext sh
@@ -253,7 +253,7 @@ docker-compose up whattoeatnext-dev
 # Files are mounted from host to container
 
 # 3. Run tests in container
-docker-compose exec whattoeatnext-dev yarn test
+docker-compose exec whattoeatnext-dev bun run test
 
 # 4. Build for production testing
 docker-compose up --build
@@ -264,7 +264,7 @@ docker-compose up --build
 ```bash
 # Build and test
 docker build -t whattoeatnext:test .
-docker run --rm whattoeatnext:test yarn test
+docker run --rm whattoeatnext:test bun run test
 
 # Push to registry
 docker tag whattoeatnext:latest your-registry/whattoeatnext:latest

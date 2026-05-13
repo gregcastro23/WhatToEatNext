@@ -8,6 +8,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import type { Recipe } from "@/types/recipe";
+import { getAssetUrl } from "@/utils/urlUtils";
 import { AddToDiaryModal } from "./food-diary/AddToDiaryModal";
 
 interface RecipeCardProps {
@@ -32,6 +33,8 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
     }
   };
 
+  const displayImage = getAssetUrl(recipe.image as string);
+
   return (
     <>
       <div
@@ -40,9 +43,9 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
       >
         {/* Recipe Image */}
         <div className="relative h-48 w-full overflow-hidden">
-          {recipe.image ? (
+          {displayImage ? (
             <Image
-              src={recipe.image as string}
+              src={displayImage}
               alt={recipe.name}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"

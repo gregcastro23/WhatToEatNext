@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { _logger } from "@/lib/logger";
+import { ensureToolingDir, getToolingFilePath } from "@/utils/toolingDataDir";
 import { buildPerformanceMonitor } from "./BuildPerformanceMonitor";
 import { _errorTrackingSystem } from "./ErrorTrackingSystem";
 
@@ -132,10 +133,8 @@ class QualityMetricsService {
 
   private loadHistoricalData(): void {
     try {
-      const dataPath = path.join(
-        process.cwd(),
-        ".kiro",
-        "metrics",
+      const dataPath = getToolingFilePath(
+        ["metrics"],
         "quality-insights.json",
       );
       if (fs.existsSync(dataPath)) {
@@ -159,11 +158,7 @@ class QualityMetricsService {
 
   private saveHistoricalData(): void {
     try {
-      const metricsDir = path.join(process.cwd(), ".kiro", "metrics");
-      if (!fs.existsSync(metricsDir)) {
-        fs.mkdirSync(metricsDir, { recursive: true });
-      }
-
+      const metricsDir = ensureToolingDir("metrics");
       const dataPath = path.join(metricsDir, "quality-insights.json");
       const data = {
         insights: this.insights.slice(-100),

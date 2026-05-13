@@ -20,6 +20,7 @@ import type {
   InstacartRecipeResponse,
 } from "@/types/instacart";
 import { splitItemsByInventory } from "@/utils/instacart/ingredientIntelligence";
+import { getAssetUrl } from "@/utils/urlUtils";
 import type { NextRequest } from "next/server";
 
 const FETCH_TIMEOUT_MS = 15_000;
@@ -87,10 +88,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const imageUrl = getAssetUrl(body.image_url);
+
     // Build the IDP recipe payload
     const instacartPayload: InstacartRecipeRequest = {
       title: body.title,
-      image_url: body.image_url,
+      image_url: imageUrl,
       author: body.author || "Alchm Kitchen",
       servings: body.servings,
       cooking_time: body.cooking_time,

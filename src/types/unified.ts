@@ -37,6 +37,8 @@ export type {
 export interface Ingredient {
   id?: string;
   name: string;
+  image_url?: string;
+  imageUrl?: string;
   category: string;
   subCategory?: string;
 
@@ -490,7 +492,6 @@ export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange = {
 export const isIngredient = (value: unknown): value is Ingredient =>
   typeof value === "object" &&
   value !== null &&
-  "id" in value &&
   "name" in value &&
   "elementalProperties" in value;
 

@@ -78,7 +78,7 @@ if (fileToCheck) {
 }
 
 // Run TypeScript compiler
-const tsc = spawn("npx", ["tsc", ...tscArgs], { stdio: "inherit" });
+const tsc = spawn( "bunx", ["tsc", ...tscArgs], { stdio: "inherit" });
 
 tsc.on("close", (code) => {
   if (code === 0) {

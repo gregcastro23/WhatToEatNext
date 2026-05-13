@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawAromaticHerbs = {
   thyme: {
-      description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.",
+      image_url: "ingredients/thyme.png",
+    description: "A resilient, woody-stemmed herb (*Thymus vulgaris*) featuring tiny leaves packed with the essential oil thymol. Its earthy, slightly floral, and sharp flavor holds up exceptionally well to long, slow cooking, making it a foundational aromatic for stocks, stews, and roasted meats.",
     name: "Thyme",
     origin: ["Mediterranean"],
     season: ["spring", "summer", "fall"],
@@ -60,7 +61,8 @@ const rawAromaticHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   rosemary: {
-      description: "A fragrant, evergreen shrub (*Salvia rosmarinus*) of the mint family known for its needle-like leaves and robust, pine-and-citrus aroma. Its essential oils contain rosmarinic acid, a powerful antioxidant that helps preserve the flavor and freshness of the foods it's cooked with, making it a classic pairing for roasted meats and root vegetables.\\n\\n",
+      image_url: "ingredients/rosemary.png",
+    description: "A fragrant, evergreen shrub (*Salvia rosmarinus*) of the mint family known for its needle-like leaves and robust, pine-and-citrus aroma. Its essential oils contain rosmarinic acid, a powerful antioxidant that helps preserve the flavor and freshness of the foods it's cooked with, making it a classic pairing for roasted meats and root vegetables.\\n\\n",
     name: "Rosemary",
     origin: ["Mediterranean"],
     season: ["all"],
@@ -130,7 +132,8 @@ const rawAromaticHerbs = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   basil: {
-      description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.",
+      image_url: "ingredients/basil.png",
+    description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.",
     name: "Basil",
     origin: ["South Asia (India)", "Southeast Asia"],
     season: ["summer"],
@@ -178,7 +181,8 @@ const rawAromaticHerbs = {
 
   // Added herbs with culinary properties
   lovage: {
-      description: "A robust, towering herb (*Levisticum officinale*) whose large, dark green leaves pack an intensely concentrated, meaty flavor that tastes like a profound amplification of celery and parsley. Because of its powerful, savory essence, it is the ultimate foundational herb for hearty beef broths and slow-cooked stews.",
+      image_url: "ingredients/lovage.png",
+    description: "A robust, towering herb (*Levisticum officinale*) whose large, dark green leaves pack an intensely concentrated, meaty flavor that tastes like a profound amplification of celery and parsley. Because of its powerful, savory essence, it is the ultimate foundational herb for hearty beef broths and slow-cooked stews.",
     name: "Lovage",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
@@ -228,7 +232,8 @@ const rawAromaticHerbs = {
 },
 
   "lemon verbena": {
-      description: "Lemon Verbena is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/lemon verbena.png",
+    description: "Lemon Verbena is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Lemon Verbena",
     elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 },
     nutritionalProfile: {
@@ -296,7 +301,8 @@ const rawAromaticHerbs = {
 },
 
   savory: {
-      description: "Savory is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/savory.png",
+    description: "Savory is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Savory",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
@@ -367,7 +373,8 @@ const rawAromaticHerbs = {
 },
 
   "curry leaf": {
-      description: "Curry Leaf is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/curry leaf.png",
+    description: "Curry Leaf is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Curry Leaf",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
@@ -442,7 +449,8 @@ const rawAromaticHerbs = {
 },
 
   chervil: {
-      description: "A delicate, highly perishable spring herb (*Anthriscus cerefolium*) featuring lacy, fern-like leaves. It is a cornerstone of the classic French *fines herbes* blend, offering a subtle, refined flavor profile combining parsley and faint anise, which must be added at the absolute last second to avoid destroying its volatile oils.",
+      image_url: "ingredients/chervil.png",
+    description: "A delicate, highly perishable spring herb (*Anthriscus cerefolium*) featuring lacy, fern-like leaves. It is a cornerstone of the classic French *fines herbes* blend, offering a subtle, refined flavor profile combining parsley and faint anise, which must be added at the absolute last second to avoid destroying its volatile oils.",
     name: "Chervil",
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     nutritionalProfile: {
@@ -503,7 +511,8 @@ const rawAromaticHerbs = {
 },
 
   dill: {
-      description: "A feathery, delicate herb (*Anethum graveolens*) with a distinctively clean, grassy flavor featuring notes of anise and celery. It pairs classicly with mild, sweet ingredients like seafood, cucumbers, and yogurt, and its seeds are essential for pickling.",
+      image_url: "ingredients/dill.png",
+    description: "A feathery, delicate herb (*Anethum graveolens*) with a distinctively clean, grassy flavor featuring notes of anise and celery. It pairs classicly with mild, sweet ingredients like seafood, cucumbers, and yogurt, and its seeds are essential for pickling.",
     name: "Dill",
     elementalProperties: {
       Air: 0.4,
@@ -557,7 +566,8 @@ const rawAromaticHerbs = {
 },
 
   bay_leaf: {
-      description: "The aromatic leaf of the sweet bay tree (*Laurus nobilis*), typically used dried. When simmered in liquid for an extended period, it releases complex, woodsy, floral, and slightly menthol notes that add essential savory depth to soups, stews, and braises.",
+      image_url: "ingredients/bay_leaf.png",
+    description: "The aromatic leaf of the sweet bay tree (*Laurus nobilis*), typically used dried. When simmered in liquid for an extended period, it releases complex, woodsy, floral, and slightly menthol notes that add essential savory depth to soups, stews, and braises.",
     name: "Bay Leaf",
     elementalProperties: {
       Air: 0.4,
@@ -608,7 +618,8 @@ const rawAromaticHerbs = {
       culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Bay Leaf is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
 },
   anise: {
-      description: "The seed of the *Pimpinella anisum* plant, yielding a distinctively sweet, highly aromatic, and slightly spicy licorice flavor. It shares the volatile compound anethole with fennel and star anise, making it a foundational flavoring for classic Mediterranean spirits like Ouzo, Sambuca, and Absinthe.",
+      image_url: "ingredients/anise.png",
+    description: "The seed of the *Pimpinella anisum* plant, yielding a distinctively sweet, highly aromatic, and slightly spicy licorice flavor. It shares the volatile compound anethole with fennel and star anise, making it a foundational flavoring for classic Mediterranean spirits like Ouzo, Sambuca, and Absinthe.",
     name: "Anise",
     elementalProperties: {
       Air: 0.4,

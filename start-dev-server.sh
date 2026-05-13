@@ -11,7 +11,7 @@ echo "📍 This bypasses the Yarn 3.6.4 requirement"
 echo ""
 
 # Run using npx with Next.js 15 (matches package.json)
-npx --yes next@15 dev --port 3000
+bun run --bun next dev --port 3000
 
 # Note: This may have some dependency resolution differences from yarn,
 # but should work for basic development and API testing

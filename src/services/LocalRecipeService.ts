@@ -1,10 +1,12 @@
 import { executeQuery } from "@/lib/database";
+import { redisGet, redisSet, redisDel } from "@/lib/redis";
 import type {
   ElementalProperties,
   Recipe,
   RecipeIngredient,
 } from "@/types/recipe";
 import { logger } from "@/utils/logger";
+import { getAssetUrl } from "@/utils/urlUtils";
 
 interface DbRecipeRow {
   id: string;
@@ -24,6 +26,7 @@ interface DbRecipeRow {
   meal_types?: string[] | null;
   seasons?: string[] | null;
   elemental_properties?: unknown;
+  image_url?: string | null;
   created_at?: string | Date | null;
   updated_at?: string | Date | null;
 }
@@ -48,6 +51,7 @@ const RECIPE_QUERY = `
     r.dietary_tags::text[] AS dietary_tags,
     r.allergens::text[] AS allergens,
     r.nutritional_profile,
+    r.image_url,
     r.created_at,
     r.updated_at,
     r.read_model
@@ -161,9 +165,13 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
       mealTypes = [rm.category];
     }
 
+    const imageUrl = getAssetUrl(rm.image_url || row.image_url);
+
     return {
       id: rm.id || row.id,
       name: rm.name || row.name,
+      image: imageUrl,
+      imageUrl,
       description: rm.description || row.description || undefined,
       cuisine: rm.cuisine || row.cuisine || undefined,
       ingredients: normalizeIngredients(rm.ingredients),
@@ -199,10 +207,13 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
   const prepTime = row.prep_time_minutes ?? 0;
   const cookTime = row.cook_time_minutes ?? 0;
   const mealTypes = row.meal_types?.length ? row.meal_types : row.category ? [row.category] : [];
+  const imageUrl = getAssetUrl(row.image_url);
 
   return {
     id: row.id,
     name: row.name,
+    image: imageUrl,
+    imageUrl,
     description: row.description ?? undefined,
     cuisine: row.cuisine ?? row.cuisine_type ?? undefined,
     ingredients: normalizeIngredients(row.ingredients),
@@ -231,10 +242,13 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
   };
 }
 
+const REDIS_CATALOG_KEY = "recipes:catalog:all";
+const REDIS_TTL_SECONDS = 5 * 60; // 5 minutes — matches in-process TTL
+
 export class LocalRecipeService {
   private static _allRecipes: Recipe[] | null = null;
   private static _allRecipesLoadedAt: number | null = null;
-  private static readonly CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+  private static readonly CACHE_TTL_MS = REDIS_TTL_SECONDS * 1000;
 
   private static isCacheFresh(): boolean {
     return (
@@ -251,10 +265,25 @@ export class LocalRecipeService {
   }
 
   static async getAllRecipes(): Promise<Recipe[]> {
+    // L1: in-process memory (warm path — sub-ms)
     if (this.isCacheFresh()) {
       return this._allRecipes!;
     }
 
+    // L2: Redis catalog cache (cross-instance — target <20ms)
+    try {
+      const cached = await redisGet(REDIS_CATALOG_KEY);
+      if (cached) {
+        const recipes = JSON.parse(cached) as Recipe[];
+        this._allRecipes = recipes;
+        this._allRecipesLoadedAt = Date.now();
+        return recipes;
+      }
+    } catch (err) {
+      logger.warn("Redis cache read failed, falling through to DB:", err);
+    }
+
+    // L3: PostgreSQL
     try {
       const recipes = await this.fetchRecipes("ORDER BY r.popularity_score DESC, r.created_at DESC");
 
@@ -268,6 +297,10 @@ export class LocalRecipeService {
 
       this._allRecipes = recipes;
       this._allRecipesLoadedAt = Date.now();
+
+      // Populate Redis asynchronously so we don't block the response
+      redisSet(REDIS_CATALOG_KEY, JSON.stringify(recipes), REDIS_TTL_SECONDS).catch(() => {});
+
       return recipes;
     } catch (error) {
       logger.error("Error loading recipes from database, extracting raw local fallback:", error);
@@ -408,5 +441,6 @@ export class LocalRecipeService {
   static clearCache(): void {
     this._allRecipes = null;
     this._allRecipesLoadedAt = null;
+    redisDel(REDIS_CATALOG_KEY).catch(() => {});
   }
 }

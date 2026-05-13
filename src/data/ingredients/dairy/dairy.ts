@@ -5,7 +5,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawDairy: Record<string, Partial<IngredientMapping>> = {
   // MILKS
   milk: {
-      description: "An opaque, nutrient-rich emulsion of butterfat globules suspended in a water-based fluid containing dissolved carbohydrates (lactose) and proteins (casein and whey). It acts as a foundational binder and tenderizer in baking, while its lactose sugars promote browning and crust formation.",
+      image_url: "ingredients/milk.png",
+    description: "An opaque, nutrient-rich emulsion of butterfat globules suspended in a water-based fluid containing dissolved carbohydrates (lactose) and proteins (casein and whey). It acts as a foundational binder and tenderizer in baking, while its lactose sugars promote browning and crust formation.",
     name: "milk",
     origin: ["Worldwide pastoral cultures"],
     season: ["all"],
@@ -79,7 +80,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   whole_milk: {
-      description: "Dairy milk with its naturally occurring ~3.25% butterfat retained after standardization. The fat carries flavor and fat-soluble vitamins (A, D, E, K), contributes richness and body, and gives whole milk a rounder mouthfeel than reduced-fat versions. Indispensable in café culture for steaming a stable microfoam, in baking for tender crumb, and in homemade cheese-making where fat content affects yield and texture. Ultra-pasteurized whole milk has a longer shelf life but slightly cooked flavor.",
+      image_url: "ingredients/whole_milk.png",
+    description: "Dairy milk with its naturally occurring ~3.25% butterfat retained after standardization. The fat carries flavor and fat-soluble vitamins (A, D, E, K), contributes richness and body, and gives whole milk a rounder mouthfeel than reduced-fat versions. Indispensable in café culture for steaming a stable microfoam, in baking for tender crumb, and in homemade cheese-making where fat content affects yield and texture. Ultra-pasteurized whole milk has a longer shelf life but slightly cooked flavor.",
     name: "whole milk",
     origin: ["Worldwide"],
     season: ["all"],
@@ -153,7 +155,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   buttermilk: {
-      description: "Buttermilk is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
+      image_url: "ingredients/buttermilk.png",
+    description: "Buttermilk is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "buttermilk",
     origin: ["Western Asia (originated)", "Worldwide"],
     season: ["all"],
@@ -224,7 +227,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   evaporated_milk: {
-      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
+      image_url: "ingredients/evaporated_milk.png",
+    description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "evaporated milk",
     origin: ["Worldwide pastoral cultures"],
     season: ["all"],
@@ -290,7 +294,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   skim_milk: {
-      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
+      image_url: "ingredients/skim_milk.png",
+    description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "skim milk",
     origin: ["Worldwide"],
     season: ["all"],
@@ -356,7 +361,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   oat_milk: {
-      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
+      image_url: "ingredients/oat_milk.png",
+    description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "oat milk",
     origin: ["Fertile Crescent", "Northern Europe"],
     season: ["all"],
@@ -422,7 +428,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   almond_milk: {
-      description: "A popular plant-based milk alternative created by blending almonds with water and straining out the solids. It offers a very thin, watery texture and a subtly sweet, distinctly nutty flavor, but it lacks the protein structure to properly foam or emulsify in hot sauces without chemical stabilizers.",
+      image_url: "ingredients/almond_milk.png",
+    description: "A popular plant-based milk alternative created by blending almonds with water and straining out the solids. It offers a very thin, watery texture and a subtly sweet, distinctly nutty flavor, but it lacks the protein structure to properly foam or emulsify in hot sauces without chemical stabilizers.",
     name: "almond milk",
     origin: ["Western Asia (Iran, Levant)"],
     season: ["fall"],
@@ -488,7 +495,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   coconut_milk: {
-      description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
+      image_url: "ingredients/coconut_milk.png",
+    description: "Fresh liquid from lactating dairy cattle, standardized to a fat percentage (whole ~3.25%, 2% reduced-fat, 1%, or skim) and typically pasteurized and homogenized. Beyond drinking, milk is structural in baking (gluten development, tender crumb), enriches sauces (béchamel, bread pudding), and tenderizes meats via slow protein digestion (*milk-braised pork*). Heat above 180°F denatures whey proteins and can cause skin formation; acid or long reduction curdles it. Store sealed at 35–40°F.",
     name: "coconut milk",
     origin: ["Indo-Pacific"],
     season: ["all"],
@@ -556,7 +564,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 
   // CREAMS
   heavy_cream: {
-      description: "The high-fat layer (at least 36% milk fat) skimmed from the top of milk before homogenization. Because of its high fat content, it is highly stable—it can be whipped into a foam to hold air, and it won't curdle or \"break\" when boiled or reduced with acidic ingredients.",
+      image_url: "ingredients/heavy_cream.png",
+    description: "The high-fat layer (at least 36% milk fat) skimmed from the top of milk before homogenization. Because of its high fat content, it is highly stable—it can be whipped into a foam to hold air, and it won't curdle or \"break\" when boiled or reduced with acidic ingredients.",
     name: "heavy cream",
     origin: ["Worldwide"],
     season: ["all"],
@@ -624,7 +633,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   sour_cream: {
-      description: "A thick, rich dairy product created by fermenting regular cream with lactic acid bacteria, which thickens the liquid and imparts a distinctively tart, acidic tang. It acts as an excellent tenderizer in baked goods and a cooling, rich garnish for spicy dishes.",
+      image_url: "ingredients/sour_cream.png",
+    description: "A thick, rich dairy product created by fermenting regular cream with lactic acid bacteria, which thickens the liquid and imparts a distinctively tart, acidic tang. It acts as an excellent tenderizer in baked goods and a cooling, rich garnish for spicy dishes.",
     name: "sour cream",
     origin: ["Eastern Europe"],
     season: ["all"],
@@ -690,7 +700,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   creme_fraiche: {
-      description: "Crème Fraîche is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
+      image_url: "ingredients/creme_fraiche.png",
+    description: "Crème Fraîche is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "crème fraîche",
     origin: ["France"],
     season: ["all"],
@@ -762,7 +773,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   mascarpone: {
-      description: "An Italian cream cheese coagulated through the addition of an acidic substance (like lemon juice or citric acid) rather than rennet. It boasts an exceptionally high butterfat content (up to 75%), yielding an unimaginably rich, velvety texture and a sweet, milky flavor crucial for tiramisu.",
+      image_url: "ingredients/mascarpone.png",
+    description: "An Italian cream cheese coagulated through the addition of an acidic substance (like lemon juice or citric acid) rather than rennet. It boasts an exceptionally high butterfat content (up to 75%), yielding an unimaginably rich, velvety texture and a sweet, milky flavor crucial for tiramisu.",
     name: "mascarpone",
     origin: ["Italy (Lombardy)"],
     season: ["all"],
@@ -834,7 +846,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   clotted_cream: {
-      description: "Clotted Cream is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
+      image_url: "ingredients/clotted_cream.png",
+    description: "Clotted Cream is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "clotted cream",
     origin: ["Worldwide"],
     season: ["all"],
@@ -901,7 +914,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 
   // BUTTERS
   butter: {
-      description: "A dairy emulsion created by churning cream until the butterfat separates from the buttermilk, containing about 80% fat, 15% water, and 5% milk proteins. Its low melting point gives it an unparalleled mouthfeel, while its milk solids undergo the Maillard reaction to create complex, nutty flavors when browned.",
+      image_url: "ingredients/butter.png",
+    description: "A dairy emulsion created by churning cream until the butterfat separates from the buttermilk, containing about 80% fat, 15% water, and 5% milk proteins. Its low melting point gives it an unparalleled mouthfeel, while its milk solids undergo the Maillard reaction to create complex, nutty flavors when browned.",
     name: "butter",
     origin: ["Western Asia"],
     season: ["all"],
@@ -962,7 +976,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   unsalted_butter: {
-      description: "Pure dairy fat (~80%) churned from cream without added salt — the baker's default for precise seasoning control, since salt levels in salted butter vary by brand. Its flavor is pure cream without the distraction of salt, letting the cook decide exact seasoning. Freshness matters more than in salted versions, since salt is a preservative; store unsalted butter refrigerated 1–2 months or frozen up to 6 months. Softened to cool room temperature (65°F), it creams air into cakes and cookies.",
+      image_url: "ingredients/unsalted_butter.png",
+    description: "Pure dairy fat (~80%) churned from cream without added salt — the baker's default for precise seasoning control, since salt levels in salted butter vary by brand. Its flavor is pure cream without the distraction of salt, letting the cook decide exact seasoning. Freshness matters more than in salted versions, since salt is a preservative; store unsalted butter refrigerated 1–2 months or frozen up to 6 months. Softened to cool room temperature (65°F), it creams air into cakes and cookies.",
     name: "unsalted butter",
     origin: ["Western Asia"],
     season: ["all"],
@@ -1021,7 +1036,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   cold_butter: {
-      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
+      image_url: "ingredients/cold_butter.png",
+    description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "cold butter",
     origin: ["Western Asia"],
     season: ["all"],
@@ -1087,7 +1103,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   french_butter: {
-      description: "Premium butter cultured with lactic acid bacteria before churning, and required by French law to contain at least 82% butterfat (compared to the US standard of 80%). The culturing process provides a distinct, complex tanginess, while the higher fat content yields flakier pastries and richer sauces.",
+      image_url: "ingredients/french_butter.png",
+    description: "Premium butter cultured with lactic acid bacteria before churning, and required by French law to contain at least 82% butterfat (compared to the US standard of 80%). The culturing process provides a distinct, complex tanginess, while the higher fat content yields flakier pastries and richer sauces.",
     name: "French butter",
     origin: ["Western Asia"],
     season: ["all"],
@@ -1153,7 +1170,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   clarified_butter: {
-      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
+      image_url: "ingredients/clarified_butter.png",
+    description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "clarified butter",
     origin: ["Western Asia"],
     season: ["all"],
@@ -1224,7 +1242,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   ghee: {
-      description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
+      image_url: "ingredients/ghee.png",
+    description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
     name: "ghee",
     origin: ["South Asia"],
     season: ["all"],
@@ -1290,7 +1309,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   brown_butter: {
-      description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
+      image_url: "ingredients/brown_butter.png",
+    description: "Cultured or sweet-cream dairy fat churned until the butterfat separates from buttermilk, yielding a ~80% fat emulsion. European-style butters have higher fat (82–86%) and richer flavor from cultured cream; American-style is typically 80% fat with a cleaner profile. Salted butter extends shelf life; unsalted is the baker's standard for precise seasoning control. Cold butter laminates pastry; soft butter creams into cakes; melted butter binds doughs; browned butter (*beurre noisette*) adds toasted-hazelnut depth.",
     name: "brown butter",
     origin: ["Western Asia"],
     season: ["all"],
@@ -1357,7 +1377,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 
   // FRESH CHEESES
   cream_cheese: {
-      description: "A soft, highly spreadable fresh cheese made from milk and cream, stabilized with lactic acid bacteria to provide a signature, mild tanginess. Because of its high fat content and stable emulsion, it blends seamlessly into both dense, rich frostings and velvety savory dips.",
+      image_url: "ingredients/cream_cheese.png",
+    description: "A soft, highly spreadable fresh cheese made from milk and cream, stabilized with lactic acid bacteria to provide a signature, mild tanginess. Because of its high fat content and stable emulsion, it blends seamlessly into both dense, rich frostings and velvety savory dips.",
     name: "cream cheese",
     origin: ["United States"],
     season: ["all"],
@@ -1431,7 +1452,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   ricotta: {
-      description: "An incredibly soft, fluffy Italian whey cheese made by reheating the whey left over from producing other cheeses. It has a mild, subtly sweet, and milky flavor profile that makes it a versatile foundational ingredient in both savory pastas (like lasagna) and sweet pastries (like cannoli).",
+      image_url: "ingredients/ricotta.png",
+    description: "An incredibly soft, fluffy Italian whey cheese made by reheating the whey left over from producing other cheeses. It has a mild, subtly sweet, and milky flavor profile that makes it a versatile foundational ingredient in both savory pastas (like lasagna) and sweet pastries (like cannoli).",
     name: "ricotta",
     origin: ["Italy"],
     season: ["all"],
@@ -1497,7 +1519,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   cottage_cheese: {
-      description: "A fresh, unaged cheese consisting of loose, mild curds suspended in a small amount of cream or whey. Its high protein content and very mild, slightly acidic flavor make it a popular base for both savory additions (like black pepper and tomatoes) and sweet pairings (like fruit).",
+      image_url: "ingredients/cottage_cheese.png",
+    description: "A fresh, unaged cheese consisting of loose, mild curds suspended in a small amount of cream or whey. Its high protein content and very mild, slightly acidic flavor make it a popular base for both savory additions (like black pepper and tomatoes) and sweet pairings (like fruit).",
     name: "cottage cheese",
     origin: ["Northern Europe"],
     season: ["all"],
@@ -1563,7 +1586,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   quark: {
-      description: "Quark is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
+      image_url: "ingredients/quark.png",
+    description: "Quark is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "quark",
     origin: ["Worldwide pastoral cultures"],
     season: ["all"],
@@ -1629,7 +1653,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   labneh: {
-      description: "Labneh is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
+      image_url: "ingredients/labneh.png",
+    description: "Labneh is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "labneh",
     origin: ["Worldwide pastoral cultures"],
     season: ["all"],
@@ -1695,7 +1720,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   paneer: {
-      description: "A fresh, unaged, non-melting cheese common in the Indian subcontinent, made by curdling heated milk with lemon juice or vinegar. Because it doesn't melt, its firm, spongy texture is perfect for absorbing the complex, spicy gravies of dishes like Saag Paneer or Matar Paneer.",
+      image_url: "ingredients/paneer.png",
+    description: "A fresh, unaged, non-melting cheese common in the Indian subcontinent, made by curdling heated milk with lemon juice or vinegar. Because it doesn't melt, its firm, spongy texture is perfect for absorbing the complex, spicy gravies of dishes like Saag Paneer or Matar Paneer.",
     name: "paneer",
     origin: ["South Asia"],
     season: ["all"],
@@ -1762,7 +1788,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 
   // SOFT CHEESES
   goat_cheese: {
-      description: "A tart, earthy cheese made from goat's milk (*Capra hircus*), known as chèvre. It contains different fatty acids (caproic, caprylic, and capric acids) than cow's milk, giving it a distinctive tang and a dense, crumbly texture that softens but doesn't melt into strings when heated.",
+      image_url: "ingredients/goat_cheese.png",
+    description: "A tart, earthy cheese made from goat's milk (*Capra hircus*), known as chèvre. It contains different fatty acids (caproic, caprylic, and capric acids) than cow's milk, giving it a distinctive tang and a dense, crumbly texture that softens but doesn't melt into strings when heated.",
     name: "goat cheese",
     origin: ["Western Asia", "Africa"],
     season: ["all"],
@@ -1828,7 +1855,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   brie: {
-      description: "A soft-ripened, bloomy-rind cheese originally from the French region of Brie. The edible white rind (a mold called *Penicillium camemberti*) breaks down the fats and proteins in the cheese from the outside in, creating a luxurious, runny, and buttery paste with notes of mushroom and earth.",
+      image_url: "ingredients/brie.png",
+    description: "A soft-ripened, bloomy-rind cheese originally from the French region of Brie. The edible white rind (a mold called *Penicillium camemberti*) breaks down the fats and proteins in the cheese from the outside in, creating a luxurious, runny, and buttery paste with notes of mushroom and earth.",
     name: "brie",
     origin: ["France (Île-de-France)"],
     season: ["all"],
@@ -1894,7 +1922,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   camembert: {
-      description: "A soft, bloomy-rind cheese from Normandy, France. It is chemically similar to Brie but typically features a slightly deeper, more robust flavor profile with pronounced notes of earth, mushrooms, and truffles due to its specific *Penicillium camemberti* mold and production methods.",
+      image_url: "ingredients/camembert.png",
+    description: "A soft, bloomy-rind cheese from Normandy, France. It is chemically similar to Brie but typically features a slightly deeper, more robust flavor profile with pronounced notes of earth, mushrooms, and truffles due to its specific *Penicillium camemberti* mold and production methods.",
     name: "camembert",
     origin: ["France (Normandy)"],
     season: ["all"],
@@ -1960,7 +1989,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   feta: {
-      description: "A brined curd cheese traditionally made in Greece from sheep's milk (or a mixture of sheep and goat's milk). Its extended aging in salt brine gives it a profound, sharp saltiness and a crumbly, grainy texture that acts as a bright, acidic counterpoint to rich roasted meats or sweet summer fruits.",
+      image_url: "ingredients/feta.png",
+    description: "A brined curd cheese traditionally made in Greece from sheep's milk (or a mixture of sheep and goat's milk). Its extended aging in salt brine gives it a profound, sharp saltiness and a crumbly, grainy texture that acts as a bright, acidic counterpoint to rich roasted meats or sweet summer fruits.",
     name: "feta",
     origin: ["Greece"],
     season: ["all"],
@@ -2026,7 +2056,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   burrata: {
-      description: "An artisanal Italian cheese consisting of a solid outer shell of fresh mozzarella that is hand-tied around a luscious, creamy center of stracciatella (shredded mozzarella curds mixed with heavy cream). Breaking it open reveals an incredibly rich, buttery texture that elevates simple salads.",
+      image_url: "ingredients/burrata.png",
+    description: "An artisanal Italian cheese consisting of a solid outer shell of fresh mozzarella that is hand-tied around a luscious, creamy center of stracciatella (shredded mozzarella curds mixed with heavy cream). Breaking it open reveals an incredibly rich, buttery texture that elevates simple salads.",
     name: "burrata",
     origin: ["Italy (Apulia)"],
     season: ["all"],
@@ -2093,7 +2124,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 
   // SEMI-SOFT CHEESES
   mozzarella: {
-      description: "A southern Italian pasta filata (spun paste) cheese made by stretching heated curds, resulting in a unique, elastic, and stringy texture. Fresh mozzarella is incredibly delicate, milky, and high in moisture, while low-moisture (block) mozzarella is ideal for baking and melting (like on pizza) due to its superior stretch.",
+      image_url: "ingredients/mozzarella.png",
+    description: "A southern Italian pasta filata (spun paste) cheese made by stretching heated curds, resulting in a unique, elastic, and stringy texture. Fresh mozzarella is incredibly delicate, milky, and high in moisture, while low-moisture (block) mozzarella is ideal for baking and melting (like on pizza) due to its superior stretch.",
     name: "mozzarella",
     origin: ["Italy (Campania)"],
     season: ["all"],
@@ -2161,7 +2193,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   havarti: {
-      description: "A semi-soft, buttery cow's milk cheese from Denmark. It features small, irregular holes ('eyes') and a remarkably smooth, sweet, and slightly acidic flavor that melts beautifully, making it an upgraded choice for sophisticated grilled cheese sandwiches.",
+      image_url: "ingredients/havarti.png",
+    description: "A semi-soft, buttery cow's milk cheese from Denmark. It features small, irregular holes ('eyes') and a remarkably smooth, sweet, and slightly acidic flavor that melts beautifully, making it an upgraded choice for sophisticated grilled cheese sandwiches.",
     name: "havarti",
     origin: ["Worldwide pastoral cultures"],
     season: ["all"],
@@ -2227,7 +2260,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   monterey_jack: {
-      description: "A semi-hard, highly meltable cow's milk cheese originating in California. Because its flavor is exceptionally mild and neutral, it acts as the perfect structural melting cheese for dishes that rely on other ingredients for flavor, such as nachos, quesadillas, and spicy dips.",
+      image_url: "ingredients/monterey_jack.png",
+    description: "A semi-hard, highly meltable cow's milk cheese originating in California. Because its flavor is exceptionally mild and neutral, it acts as the perfect structural melting cheese for dishes that rely on other ingredients for flavor, such as nachos, quesadillas, and spicy dips.",
     name: "monterey jack",
     origin: ["United States (California)"],
     season: ["all"],
@@ -2293,7 +2327,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   fontina: {
-      description: "A classic Italian cow's milk cheese boasting a pungent, earthy aroma but a surprisingly mild, sweet, and nutty flavor. Its high fat content and semi-soft texture make it one of the premier melting cheeses in the world, essential for fondue and rich gratins.",
+      image_url: "ingredients/fontina.png",
+    description: "A classic Italian cow's milk cheese boasting a pungent, earthy aroma but a surprisingly mild, sweet, and nutty flavor. Its high fat content and semi-soft texture make it one of the premier melting cheeses in the world, essential for fondue and rich gratins.",
     name: "fontina",
     origin: ["Italy (Aosta Valley)"],
     season: ["all"],
@@ -2359,7 +2394,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   halloumi: {
-      description: "A semi-hard, unripened, brined cheese from Cyprus made from a mixture of goat's and sheep's milk. Its unique chemical structure allows it to withstand incredibly high heat without melting, making it the premier cheese for grilling or pan-frying to a crispy, squeaky golden-brown.",
+      image_url: "ingredients/halloumi.png",
+    description: "A semi-hard, unripened, brined cheese from Cyprus made from a mixture of goat's and sheep's milk. Its unique chemical structure allows it to withstand incredibly high heat without melting, making it the premier cheese for grilling or pan-frying to a crispy, squeaky golden-brown.",
     name: "halloumi",
     origin: ["Cyprus"],
     season: ["all"],
@@ -2426,7 +2462,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 
   // HARD CHEESES
   cheddar_cheese: {
-      description: "A relatively hard, off-white to orange cow's milk cheese that undergoes a unique \"cheddaring\" process—stacking slabs of curds to press out whey. As it ages, enzymes break down proteins and fats into complex amino acids, transforming its flavor from mild and creamy to sharp, crumbly, and deeply savory.\n\n**Selection & Storage:** Look for solid blocks without surface mold or dry, cracked edges. Store wrapped tightly in parchment or wax paper, then placed in a loosely closed plastic bag in the cheese drawer.",
+      image_url: "ingredients/cheddar_cheese.png",
+    description: "A relatively hard, off-white to orange cow's milk cheese that undergoes a unique \"cheddaring\" process—stacking slabs of curds to press out whey. As it ages, enzymes break down proteins and fats into complex amino acids, transforming its flavor from mild and creamy to sharp, crumbly, and deeply savory.\n\n**Selection & Storage:** Look for solid blocks without surface mold or dry, cracked edges. Store wrapped tightly in parchment or wax paper, then placed in a loosely closed plastic bag in the cheese drawer.",
     name: "cheddar cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -2494,7 +2531,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   gruy_re_cheese: {
-      description: "Gruyère Cheese is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
+      image_url: "ingredients/gruy_re_cheese.png",
+    description: "Gruyère Cheese is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "Gruyère cheese",
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
@@ -2560,7 +2598,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   parmesan: {
-      description: "An iconic, hard, granular Italian cheese (*Parmigiano-Reggiano*) made from raw cow's milk and aged for at least 12 months. This long aging process creates an intensely savory, umami-rich flavor and forms crystalline crunches of tyrosine (an amino acid), making it a powerful natural flavor enhancer.",
+      image_url: "ingredients/parmesan.png",
+    description: "An iconic, hard, granular Italian cheese (*Parmigiano-Reggiano*) made from raw cow's milk and aged for at least 12 months. This long aging process creates an intensely savory, umami-rich flavor and forms crystalline crunches of tyrosine (an amino acid), making it a powerful natural flavor enhancer.",
     name: "parmesan",
     origin: ["Italy"],
     season: ["all"],
@@ -2635,7 +2674,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   pecorino_romano: {
-      description: "A family of hard, salty Italian cheeses made specifically from sheep's milk (*pecora* meaning sheep). Pecorino Romano is the most famous—heavily salted, sharply pungent, and granular—serving as the foundational flavor for classic Roman pastas like Cacio e Pepe.\n\n**Selection & Storage:** Purchase in blocks rather than pre-grated. Store wrapped tightly in parchment paper and plastic wrap in the cheese drawer, where it will last for months.",
+      image_url: "ingredients/pecorino_romano.png",
+    description: "A family of hard, salty Italian cheeses made specifically from sheep's milk (*pecora* meaning sheep). Pecorino Romano is the most famous—heavily salted, sharply pungent, and granular—serving as the foundational flavor for classic Roman pastas like Cacio e Pepe.\n\n**Selection & Storage:** Purchase in blocks rather than pre-grated. Store wrapped tightly in parchment paper and plastic wrap in the cheese drawer, where it will last for months.",
     name: "pecorino romano",
     origin: ["Italy"],
     season: ["all"],
@@ -2701,7 +2741,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   manchego: {
-      description: "A firm, buttery sheep's milk cheese from the La Mancha region of Spain. Depending on its age (from semi-curado to añejo), it offers a complex, zesty, and slightly piquante flavor with a distinctly crystalline texture, making it the classic pairing for sweet quince paste (membrillo).",
+      image_url: "ingredients/manchego.png",
+    description: "A firm, buttery sheep's milk cheese from the La Mancha region of Spain. Depending on its age (from semi-curado to añejo), it offers a complex, zesty, and slightly piquante flavor with a distinctly crystalline texture, making it the classic pairing for sweet quince paste (membrillo).",
     name: "manchego",
     origin: ["Spain (La Mancha)"],
     season: ["all"],
@@ -2767,7 +2808,8 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
 },
 
   asiago: {
-      description: "A northern Italian cow's milk cheese that dramatically changes with age. Fresh Asiago (Pressato) is smooth, sweet, and meltable, while aged Asiago (d'Allevo) develops a crumbly texture and an incredibly sharp, savory, and complex flavor profile similar to a young Parmesan.",
+      image_url: "ingredients/asiago.png",
+    description: "A northern Italian cow's milk cheese that dramatically changes with age. Fresh Asiago (Pressato) is smooth, sweet, and meltable, while aged Asiago (d'Allevo) develops a crumbly texture and an incredibly sharp, savory, and complex flavor profile similar to a young Parmesan.",
     name: "asiago",
     origin: ["Worldwide pastoral cultures"],
     season: ["all"],

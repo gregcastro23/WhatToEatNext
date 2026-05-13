@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Test script for alchm.kitchen alchemize API integration
-Tests the integration with Render alchemize API
+Tests the local backend alchemize API integration
 """
 
 import asyncio
@@ -9,7 +9,7 @@ import httpx
 import json
 from datetime import datetime
 
-ALCHEMIZE_API_URL = "https://alchmize.onrender.com/api/alchemize"
+ALCHEMIZE_API_URL = "http://localhost:8000/alchemize"
 
 async def test_alchemize_api():
     """Test the alchemize API integration."""
@@ -19,7 +19,7 @@ async def test_alchemize_api():
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
             # Test 1: Current moment (empty request)
-            print("📡 Test 1: Current moment alchemical calculation")
+            print("📡 Test 1: Current moment local alchemical calculation")
             response = await client.post(ALCHEMIZE_API_URL, json={})
             response.raise_for_status()
             result = response.json()
@@ -57,15 +57,15 @@ async def test_alchemize_api():
             print(f"   Monica: {result2.get('monica', 'N/A')}")
 
             # Test 3: Test our unified backend endpoint (if running)
-            print("\n🏺 Test 3: Unified backend endpoint")
+            print("\n🏺 Test 3: Planetary current endpoint")
             try:
-                response3 = await client.post("http://localhost:8000/alchemize", json={})
+                response3 = await client.get("http://localhost:8000/planetary/current")
                 response3.raise_for_status()
                 result3 = response3.json()
-                print("✅ Unified backend responding")
-                print(f"   Kalchm: {result3.get('kalchm', 'N/A')}")
+                print("✅ Planetary current responding")
+                print(f"   Source: {result3.get('source', 'N/A')}")
             except Exception as e:
-                print(f"⚠️  Unified backend not responding: {e}")
+                print(f"⚠️  Planetary current not responding: {e}")
                 print("   (This is expected if backend service isn't running)")
 
         except httpx.RequestError as e:

@@ -599,23 +599,23 @@ All new modules include comprehensive unit tests:
 
 ```bash
 # Run kinetic compatibility tests
-npm test -- kineticCuisineCompatibility.test.ts
+bun run test -- kineticCuisineCompatibility.test.ts
 
 # Run thermodynamic resonance tests
-npm test -- thermodynamicResonance.test.ts
+bun run test -- thermodynamicResonance.test.ts
 
 # Run circuit-based ranking tests
-npm test -- circuitBasedRecipeRanking.test.ts
+bun run test -- circuitBasedRecipeRanking.test.ts
 
 # Run sauce recommender tests
-npm test -- intelligentSauceRecommender.test.ts
+bun run test -- intelligentSauceRecommender.test.ts
 ```
 
 ### Integration Tests
 
 ```bash
 # Run full enhanced recommender integration tests
-npm test -- enhancedCuisineRecommendationEngine.test.ts
+bun run test -- enhancedCuisineRecommendationEngine.test.ts
 ```
 
 ### Validation Metrics

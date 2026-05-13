@@ -12,7 +12,7 @@ import { execSync } from "child_process";
 function getFilesWithConstAssignmentErrors() {
   try {
     const output = execSync(
-      "yarn eslint --config eslint.config.cjs src --format json",
+      "bun run eslint --config eslint.config.cjs src --format json",
     )
       .toString()
       .trim();
@@ -45,7 +45,7 @@ function fixConstAssignmentErrorsInFile(filePath) {
 
     // Get the lines with const assignment errors using eslint
     const output = execSync(
-      `yarn eslint --config eslint.config.cjs "${filePath}" --format json`,
+      `bun run eslint --config eslint.config.cjs "${filePath}" --format json`,
     )
       .toString()
       .trim();

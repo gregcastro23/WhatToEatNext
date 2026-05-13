@@ -657,7 +657,7 @@ export class AutomatedQualityAssurance {
 
     if (typeof window !== "undefined") {
       window.dispatchEvent(
-        new CustomEvent("kiro-campaign-trigger", {
+        new CustomEvent("quality-campaign-trigger", {
           detail: { campaignType, context },
         }),
       );

@@ -10,6 +10,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { calculateLunarPhase, getLunarPhaseName } from "@/utils/safeAstrology";
 import type { NextRequest } from "next/server";
@@ -25,6 +26,8 @@ const SIGN_TO_ELEMENT: Record<string, string> = {
 };
 
 export async function GET(request: NextRequest) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "astrology" });
+  if (!rl.allowed) return rl.response!;
   try {
     const { searchParams } = new URL(request.url);
     const dateParam = searchParams.get("date");

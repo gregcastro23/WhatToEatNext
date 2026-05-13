@@ -18,6 +18,8 @@ export const TOKEN_TYPES: TokenType[] = ["Spirit", "Essence", "Matter", "Substan
 /** Source of a token transaction */
 export type TransactionSourceType =
   | "daily_yield"
+  | "agents_yield"
+  | "agents_operation"
   | "quest_reward"
   | "purchase"
   | "premium_purchase"
@@ -35,6 +37,7 @@ export interface TokenBalances {
   matter: number;
   substance: number;
   lastDailyClaimAt: string | null;
+  lastDailyClaimAgentsAt: string | null;
   updatedAt: string;
 }
 
@@ -45,6 +48,7 @@ export const EMPTY_BALANCES: TokenBalances = {
   matter: 0,
   substance: 0,
   lastDailyClaimAt: null,
+  lastDailyClaimAgentsAt: null,
   updatedAt: new Date().toISOString(),
 };
 

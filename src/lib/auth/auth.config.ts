@@ -82,6 +82,16 @@ export const authConfig = {
     error: "/auth/error",
   },
   cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === "production" ? `__Secure-authjs.session-token` : `authjs.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        domain: process.env.NODE_ENV === "production" ? ".alchm.kitchen" : undefined,
+      },
+    },
     pkceCodeVerifier: {
       name: "authjs.pkce.code_verifier",
       options: {
@@ -95,19 +105,45 @@ export const authConfig = {
   },
   callbacks: {
     /**
+     * Custom redirect callback to support cross-subdomain SSO.
+     * By default, NextAuth blocks redirects to origins other than baseUrl.
+     * This allows redirects back to agents.alchm.kitchen or other subdomains.
+     */
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+
+      // Allows callback URLs on the same domain (including subdomains)
+      try {
+        const urlObj = new URL(url);
+        if (urlObj.hostname.endsWith(".alchm.kitchen") || urlObj.hostname === "alchm.kitchen") {
+          return url;
+        }
+      } catch {
+        // Fallback for invalid URLs
+      }
+
+      // Allows callback URLs on the same origin
+      if (new URL(url).origin === baseUrl) return url;
+
+      return baseUrl;
+    },
+
+    /**
      * Runs in Edge Runtime (middleware). Must not use any Node.js APIs.
      * The session object here is populated from the JWT cookie, which
      * was enriched by the jwt/session callbacks in auth.ts during sign-in.
      */
     authorized({ auth: session, request }) {
       const { pathname } = request.nextUrl;
-      console.log(`[auth] authorized callback for ${pathname}. Authenticated: ${!!session?.user}`);
 
       // Routes that require authentication
       const isProtected =
         pathname.startsWith("/profile") ||
         pathname.startsWith("/onboarding") ||
-        pathname.startsWith("/admin");
+        pathname.startsWith("/admin") ||
+        pathname.startsWith("/birth-chart") ||
+        pathname.startsWith("/current-chart");
 
       // Routes that require premium tier (authenticated users without premium
       // get redirected to /upgrade instead of seeing errors)
@@ -119,7 +155,6 @@ export const authConfig = {
 
       // Not authenticated -> redirect to login for protected routes
       if ((isProtected || isPremiumRoute) && !session?.user) {
-        console.log(`[auth] Unauthorized access to ${pathname}, redirecting to /login`);
         return Response.redirect(new URL("/login", request.nextUrl.origin));
       }
 
@@ -136,7 +171,6 @@ export const authConfig = {
 
         // Authenticated but onboarding incomplete -> force /onboarding
         if (!onboardingComplete && !onboardingCookie && pathname.startsWith("/profile")) {
-          console.log(`[auth] Profile incomplete for ${user.email}, forcing /onboarding`);
           return Response.redirect(
             new URL("/onboarding", request.nextUrl.origin),
           );
@@ -144,7 +178,6 @@ export const authConfig = {
 
         // Authenticated and onboarding complete -> skip onboarding page
         if ((onboardingComplete || onboardingCookie) && pathname.startsWith("/onboarding")) {
-          console.log(`[auth] Onboarding already complete for ${user.email}, skipping to /profile`);
           return Response.redirect(
             new URL("/profile", request.nextUrl.origin),
           );
@@ -152,7 +185,6 @@ export const authConfig = {
 
         // Admin route protection
         if (pathname.startsWith("/admin") && user.role !== "admin") {
-          console.log(`[auth] Non-admin access attempt to /admin by ${user.email}`);
           return Response.redirect(
             new URL("/profile", request.nextUrl.origin),
           );
@@ -161,7 +193,6 @@ export const authConfig = {
         // Premium route gating — free users see upgrade page, not errors.
         // Admins always have premium access.
         if (isPremiumRoute && tier !== "premium" && !isAdmin) {
-          console.log(`[auth] Premium access required for ${pathname} by ${user.email}`);
           const upgradeUrl = new URL("/upgrade", request.nextUrl.origin);
           upgradeUrl.searchParams.set("from", pathname);
           return Response.redirect(upgradeUrl);

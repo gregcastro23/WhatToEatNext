@@ -58,8 +58,13 @@ function PremiumPageContent() {
 
   useEffect(() => {
     const checkoutStatus = searchParams?.get("checkout");
+    const isTrial = searchParams?.get("trial") === "true";
     if (checkoutStatus === "success") {
-      setCheckoutMessage("Your Premium subscription is now active! Welcome aboard.");
+      setCheckoutMessage(
+        isTrial
+          ? "Your 7-day Premium free trial has started! You can cancel anytime in Manage Billing."
+          : "Your Premium subscription is now active! Welcome aboard.",
+      );
       void refresh();
     } else if (checkoutStatus === "canceled") {
       setCheckoutMessage("Checkout was canceled. No changes were made.");
@@ -289,16 +294,28 @@ function PremiumPageContent() {
                     Current Plan
                   </button>
                 ) : session?.user ? (
-                  <button
-                    onClick={() => { void openCheckout(t); }}
-                    className={`w-full py-3 rounded-xl font-bold transition-all ${
-                      t === "premium"
-                        ? "bg-purple-600 text-white hover:bg-purple-700 shadow-md"
-                        : "bg-white border-2 border-white/10 text-white/80 hover:bg-white/5"
-                    }`}
-                  >
-                    {t === "free" ? "Downgrade to Free" : "Upgrade to Premium"}
-                  </button>
+                  <div className="space-y-2">
+                    {t === "premium" && tier === "free" && !subscription?.stripeSubscriptionId && (
+                      <button
+                        onClick={() => { void openCheckout(t, { trial: true }); }}
+                        className="w-full py-3 rounded-xl font-bold transition-all bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-lg"
+                      >
+                        Try Premium Free for 7 Days
+                      </button>
+                    )}
+                    <button
+                      onClick={() => { void openCheckout(t); }}
+                      className={`w-full py-3 rounded-xl font-bold transition-all ${
+                        t === "premium"
+                          ? (tier === "free" && !subscription?.stripeSubscriptionId
+                              ? "bg-white/10 text-white border-2 border-white/15 hover:bg-white/15"
+                              : "bg-purple-600 text-white hover:bg-purple-700 shadow-md")
+                          : "bg-white border-2 border-white/10 text-white/80 hover:bg-white/5"
+                      }`}
+                    >
+                      {t === "free" ? "Downgrade to Free" : "Upgrade to Premium"}
+                    </button>
+                  </div>
                 ) : (
                   <a
                     href="/login"

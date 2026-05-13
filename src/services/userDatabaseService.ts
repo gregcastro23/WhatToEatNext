@@ -12,6 +12,7 @@ import { _logger } from "@/lib/logger";
 // Extended User type with profile data
 export interface UserWithProfile extends User {
   profile: UserProfile;
+  isAgent?: boolean;
 }
 
 // Check if we should use database (only in server-side contexts with DB available)
@@ -65,10 +66,7 @@ class UserDatabaseService {
 
     const email = data.email.toLowerCase();
 
-    // Check if email already exists
-    if (await this.emailExists(email)) {
-      throw new Error("User with this email already exists");
-    }
+    // The email check is now handled atomically by the database constraint below.
 
     const userId = randomUUID();
     const now = new Date();
@@ -94,13 +92,15 @@ class UserDatabaseService {
     // Try PostgreSQL first
     if (db) {
       try {
+        await db.executeQuery('BEGIN');
         // Insert into users table (uses single 'role' ENUM column per migration 07)
         const primaryRole = user.roles.includes("admin" as UserRole)
           ? "ADMIN"
           : "USER";
-        await db.executeQuery(
+        const insertUserResult = await db.executeQuery(
           `INSERT INTO users (id, email, password_hash, role, is_active, profile, preferences, created_at)
-           VALUES ($1, $2, $3, $4::user_role, $5, $6, $7, $8)`,
+           VALUES ($1, $2, $3, $4::user_role, $5, $6, $7, $8)
+           ON CONFLICT (email) DO NOTHING RETURNING id`,
           [
             userId,
             email,
@@ -112,6 +112,11 @@ class UserDatabaseService {
             now,
           ],
         );
+
+        if (!insertUserResult || insertUserResult.rowCount === 0) {
+          await db.executeQuery('ROLLBACK');
+          throw new Error("User with this email already exists");
+        }
 
         // Insert into user_profiles table
         await db.executeQuery(
@@ -132,11 +137,14 @@ class UserDatabaseService {
           ],
         );
 
+        await db.executeQuery('COMMIT');
+
         _logger.info("User created in PostgreSQL:", {
           userId,
           email: data.email,
         });
       } catch (error) {
+        await db.executeQuery('ROLLBACK').catch(() => {});
         _logger.error(
           "PostgreSQL user creation failed:",
           error,
@@ -255,6 +263,7 @@ class UserDatabaseService {
     // Try PostgreSQL first
     if (db) {
       try {
+        await db.executeQuery('BEGIN');
         // Update users table profile JSONB
         await db.executeQuery(
           `UPDATE users SET profile = $2, preferences = $3, updated_at = CURRENT_TIMESTAMP
@@ -278,7 +287,7 @@ class UserDatabaseService {
              group_members = EXCLUDED.group_members,
              dining_groups = EXCLUDED.dining_groups,
              onboarding_completed = EXCLUDED.onboarding_completed,
-             onboarding_completed_at = CASE WHEN EXCLUDED.onboarding_completed AND NOT user_profiles.onboarding_completed THEN CURRENT_TIMESTAMP ELSE user_profiles.onboarding_completed_at END,
+             onboarding_completed_at = CASE WHEN EXCLUDED.onboarding_completed AND NOT COALESCE(user_profiles.onboarding_completed, false) THEN CURRENT_TIMESTAMP ELSE user_profiles.onboarding_completed_at END,
              updated_at = CURRENT_TIMESTAMP`,
           [
             userId,
@@ -292,9 +301,12 @@ class UserDatabaseService {
           ],
         );
 
+        await db.executeQuery('COMMIT');
         _logger.info("User profile updated in PostgreSQL:", { userId });
       } catch (error) {
+        await db.executeQuery('ROLLBACK').catch(() => {});
         _logger.error("PostgreSQL profile update failed:", error);
+        throw new Error("Failed to update profile in database", { cause: error });
       }
     }
 
@@ -565,6 +577,7 @@ class UserDatabaseService {
       passwordHash: row.password_hash,
       roles: roles as UserRole[],
       isActive: row.is_active,
+      isAgent: row.is_agent === true,
       createdAt: new Date(row.created_at),
       lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
       profile: {

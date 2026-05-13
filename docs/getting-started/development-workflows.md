@@ -30,13 +30,13 @@ git clone https://github.com/your-org/WhatToEatNext.git
 cd WhatToEatNext
 
 # Install dependencies
-yarn install
+bun install
 
 # Start development server
-npm run dev
+bun run dev
 
 # In another terminal, run continuous testing
-npm run test:watch
+bun run test:watch
 ```
 
 ### 1.2 Daily Development Routine
@@ -44,19 +44,19 @@ npm run test:watch
 ```bash
 # Morning routine
 git pull origin main                    # Get latest changes
-npm run type-check                      # Verify TypeScript
-npm run lint                           # Check code quality
-npm test                               # Run test suite
+bun run type-check                      # Verify TypeScript
+bun run lint                           # Check code quality
+bun run test                               # Run test suite
 
 # Development work
 git checkout -b feature/your-feature    # Create feature branch
 # ... make your changes ...
-npm run test                           # Test your changes
+bun run test                           # Test your changes
 git add .                              # Stage changes
 git commit -m "feat: descriptive message"  # Commit with conventional format
 
 # End of day
-npm run build                          # Verify production build
+bun run build                          # Verify production build
 git push origin feature/your-feature    # Push changes
 ```
 
@@ -64,15 +64,15 @@ git push origin feature/your-feature    # Push changes
 
 ```bash
 # Before committing
-npm run lint:fix                       # Auto-fix linting issues
-npm run type-check                     # Verify TypeScript compilation
-npm run test:coverage                  # Check test coverage
-npm run build                          # Verify production build
+bun run lint:fix                       # Auto-fix linting issues
+bun run type-check                     # Verify TypeScript compilation
+bun run test:coverage                  # Check test coverage
+bun run build                          # Verify production build
 
 # Campaign system integration
-npm run campaign:check                 # Check if campaigns needed
-npm run campaign:typescript            # Run TypeScript error reduction
-npm run campaign:lint                  # Run linting improvements
+bun run campaign:check                 # Check if campaigns needed
+bun run campaign:typescript            # Run TypeScript error reduction
+bun run campaign:lint                  # Run linting improvements
 ```
 
 ## 🌟 Workflow 2: Astrological Feature Development
@@ -180,41 +180,41 @@ describe("Astrological Feature", () => {
 
 ```bash
 # Unit testing
-npm run test:unit                      # Run unit tests
-npm run test:unit:watch               # Watch mode for development
+bun run test:unit                      # Run unit tests
+bun run test:unit:watch               # Watch mode for development
 
 # Integration testing
-npm run test:integration              # Test service integrations
-npm run test:astrological            # Test astrological calculations
+bun run test:integration              # Test service integrations
+bun run test:astrological            # Test astrological calculations
 
 # End-to-end testing
-npm run test:e2e                     # Full application testing
-npm run test:e2e:headed              # Visual testing mode
+bun run test:e2e                     # Full application testing
+bun run test:e2e:headed              # Visual testing mode
 
 # Coverage and quality
-npm run test:coverage                # Generate coverage report
-npm run test:coverage:open           # Open coverage in browser
+bun run test:coverage                # Generate coverage report
+bun run test:coverage:open           # Open coverage in browser
 ```
 
 ### 3.2 Campaign System Workflow
 
 ```bash
 # Check current quality metrics
-npm run campaign:status              # View current error counts and metrics
+bun run campaign:status              # View current error counts and metrics
 
 # Run specific campaigns
-npm run campaign:typescript          # TypeScript error reduction
-npm run campaign:lint               # Linting improvement
-npm run campaign:performance        # Performance optimization
-npm run campaign:security           # Security vulnerability fixes
+bun run campaign:typescript          # TypeScript error reduction
+bun run campaign:lint               # Linting improvement
+bun run campaign:performance        # Performance optimization
+bun run campaign:security           # Security vulnerability fixes
 
 # Monitor campaign progress
-npm run campaign:monitor            # Real-time campaign monitoring
-npm run campaign:report             # Generate progress report
+bun run campaign:monitor            # Real-time campaign monitoring
+bun run campaign:report             # Generate progress report
 
 # Emergency procedures
-npm run campaign:rollback           # Rollback last campaign
-npm run campaign:emergency-stop     # Stop all running campaigns
+bun run campaign:rollback           # Rollback last campaign
+bun run campaign:emergency-stop     # Stop all running campaigns
 ```
 
 ### 3.3 Quality Gates Workflow
@@ -329,16 +329,16 @@ interface InclusiveDesign {
 
 ```bash
 # Performance analysis
-npm run analyze:bundle              # Analyze bundle size
-npm run analyze:performance         # Performance profiling
-npm run analyze:memory             # Memory usage analysis
-npm run analyze:calculations       # Astrological calculation speed
+bun run analyze:bundle              # Analyze bundle size
+bun run analyze:performance         # Performance profiling
+bun run analyze:memory             # Memory usage analysis
+bun run analyze:calculations       # Astrological calculation speed
 
 # Optimization implementation
-npm run optimize:images            # Image optimization
-npm run optimize:code              # Code splitting and tree shaking
-npm run optimize:cache             # Cache optimization
-npm run optimize:calculations      # Calculation performance tuning
+bun run optimize:images            # Image optimization
+bun run optimize:code              # Code splitting and tree shaking
+bun run optimize:cache             # Cache optimization
+bun run optimize:calculations      # Calculation performance tuning
 ```
 
 ### 5.2 Caching Strategy Workflow
@@ -417,19 +417,11 @@ describe("Performance Tests", () => {
 ### 6.1 Spec-Driven Development Workflow
 
 ```bash
-# Create new feature spec
-kiro spec create feature-name
-
 # Follow iterative workflow
 1. Requirements gathering and refinement
 2. Design document creation
 3. Task breakdown and planning
 4. Implementation with validation
-
-# Use Kiro's spec system
-kiro spec status                    # Check spec progress
-kiro spec execute task-id           # Execute specific task
-kiro spec validate                  # Validate implementation
 ```
 
 ### 6.2 Campaign Development Workflow
@@ -535,23 +527,23 @@ if __name__ == "__main__":
 
 ```bash
 # Development
-npm run dev                         # Start development server
-npm run build                       # Production build
-npm run type-check                  # TypeScript validation
+bun run dev                         # Start development server
+bun run build                       # Production build
+bun run type-check                  # TypeScript validation
 
 # Testing
-npm run test                        # Run all tests
-npm run test:astrological          # Astrological feature tests
-npm run test:coverage              # Coverage report
+bun run test                        # Run all tests
+bun run test:astrological          # Astrological feature tests
+bun run test:coverage              # Coverage report
 
 # Quality Assurance
-npm run lint                       # Code linting
-npm run campaign:status            # Quality metrics
-npm run campaign:typescript        # Error reduction
+bun run lint                       # Code linting
+bun run campaign:status            # Quality metrics
+bun run campaign:typescript        # Error reduction
 
 # Performance
-npm run analyze:bundle             # Bundle analysis
-npm run optimize:calculations      # Calculation optimization
+bun run analyze:bundle             # Bundle analysis
+bun run optimize:calculations      # Calculation optimization
 ```
 
 ### Documentation Links

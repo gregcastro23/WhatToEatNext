@@ -5,7 +5,7 @@
  * committed at `src/data/generated/ingredientRecipeIndex.json`. Regenerate it
  * whenever cuisines or ingredient slugs change:
  *
- *   yarn build:ingredient-recipe-index
+ *   bun run build:ingredient-recipe-index
  *
  * This module exposes O(1) lookups from an ingredient slug (or display name)
  * to the list of recipes that reference it, with the raw ingredient text and

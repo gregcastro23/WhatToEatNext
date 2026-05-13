@@ -5,6 +5,10 @@ import { sauceRecommender } from "@/services/sauceRecommender";
 import RecipeClient from "./RecipeClient";
 
 export async function generateStaticParams() {
+  if (process.env.ENABLE_RECIPE_STATIC_PARAMS !== "true") {
+    return [];
+  }
+
   const recipes = await LocalRecipeService.getAllRecipes();
   return recipes.map((recipe) => ({
     recipeId: String(recipe.id),

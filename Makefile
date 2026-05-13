@@ -125,69 +125,69 @@ help:
 # Installation
 install:
 	@echo "📦 Installing dependencies..."
-	yarn install
+	bun install
 
 # Development
 dev:
 	@echo "🚀 Starting development server..."
-	yarn dev
+	bun run --bun next dev
 
 dev-astro:
 	@echo "🌟 Starting Astro development server..."
-	yarn astro dev
+	bun run astro dev
 
 # Build commands
 build:
 	@echo "🏗️  Building project..."
-	@NODE_OPTIONS="--max-old-space-size=4096" yarn build
+	@NODE_OPTIONS="--max-old-space-size=4096" bun run build
 	@echo "✅ Build completed successfully!"
 
 build-astro:
 	@echo "🌟 Building Astro project..."
-	yarn astro build
+	bun run astro build
 
 # Testing
 test:
 	@echo "🧪 Running all tests..."
-	yarn test
+	bun run test
 
 test-watch:
 	@echo "👀 Running tests in watch mode..."
-	yarn test --watch
+	bun run test --watch
 
 test-coverage:
 	@echo "📊 Running tests with coverage..."
-	yarn test --coverage
+	bun run test --coverage
 
 # Linting
 lint:
 	@echo "🔍 Running linting checks..."
-	yarn lint
+	bun run lint
 
 lint-fix:
 	@echo "🔧 Fixing linting issues..."
-	yarn lint:fix
+	bun run lint:fix
 
 # Fast linting commands (NEW - Performance optimized)
 lint-quick:
 	@echo "⚡ Running ultra-fast linting (no type checking)..."
-	yarn lint:quick
+	bun run lint:quick
 
 lint-type-aware:
 	@echo "🔍 Running comprehensive type-aware linting..."
-	yarn lint:type-aware
+	bun run lint:type-aware
 
 lint-incremental:
 	@echo "📝 Running incremental linting on changed files (fast config)..."
-	yarn lint:incremental
+	bun run lint:incremental
 
 lint-ci:
 	@echo "🚀 Running CI/CD optimized linting..."
-	yarn lint:ci
+	bun run lint:ci
 
 lint-profile:
 	@echo "📊 Generating ESLint performance profile..."
-	yarn lint:profile
+	bun run lint:profile
 	@echo "Profile saved to .eslint-profile.json"
 
 # Advanced linting commands
@@ -196,7 +196,7 @@ lint-fast:
 	@CHANGED_FILES=$$(git diff --name-only --diff-filter=ACMR HEAD | grep -E '\.(ts|tsx|js|jsx)$$' | tr '\n' ' '); \
 	if [ -n "$$CHANGED_FILES" ]; then \
 		echo "Linting changed files: $$CHANGED_FILES"; \
-		yarn eslint --config eslint.config.cjs --cache --cache-location .eslintcache $$CHANGED_FILES; \
+		bunx eslint --config eslint.config.cjs --cache --cache-location .eslintcache $$CHANGED_FILES; \
 	else \
 		echo "No changed TypeScript/JavaScript files to lint"; \
 	fi
@@ -206,7 +206,7 @@ lint-performance:
 	@echo "Starting lint performance analysis with cache optimization..."
 	@echo "Cache status: $$(ls -la .eslintcache .eslint-ts-cache/ 2>/dev/null | wc -l) cache files found"
 	@echo "Performance test - Full codebase analysis:"
-	@time yarn lint --config eslint.config.cjs --cache --cache-location .eslintcache --format=json --output-file=.eslint-results.json 2>/dev/null || true
+	@time bun run lint --config eslint.config.cjs --cache --cache-location .eslintcache --format=json --output-file=.eslint-results.json 2>/dev/null || true
 	@echo "Results saved to .eslint-results.json"
 	@echo "Performance test - Incremental analysis (changed files only):"
 	@time make lint-fast
@@ -214,9 +214,9 @@ lint-performance:
 
 lint-summary:
 	@echo "📋 Quick linting summary..."
-	@ERROR_COUNT=$$(yarn lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .errorCount + .warningCount' | awk '{sum += $$1} END {print sum+0}' 2>/dev/null || echo "0"); \
-	WARNING_COUNT=$$(yarn lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .warningCount' | awk '{sum += $$1} END {print sum+0}' 2>/dev/null || echo "0"); \
-	FILE_COUNT=$$(yarn lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .filePath' | wc -l 2>/dev/null || echo "0"); \
+	@ERROR_COUNT=$$(bun run lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .errorCount + .warningCount' | awk '{sum += $$1} END {print sum+0}' 2>/dev/null || echo "0"); \
+	WARNING_COUNT=$$(bun run lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .warningCount' | awk '{sum += $$1} END {print sum+0}' 2>/dev/null || echo "0"); \
+	FILE_COUNT=$$(bun run lint --format=json 2>/dev/null | jq '.[] | select(.errorCount > 0 or .warningCount > 0) | .filePath' | wc -l 2>/dev/null || echo "0"); \
 	echo "📊 Linting Summary:"; \
 	echo "  Errors: $$ERROR_COUNT"; \
 	echo "  Warnings: $$WARNING_COUNT"; \
@@ -227,32 +227,32 @@ lint-fix-safe:
 	@echo "Step 1: Creating backup..."
 	@cp -r src .lint-backup-$$(date +%s) 2>/dev/null || true
 	@echo "Step 2: Running safe fixes (import organization)..."
-	@yarn lint:fix --fix-type suggestion,layout || true
+	@bun run lint:fix --fix-type suggestion,layout || true
 	@echo "Step 3: Validating fixes..."
 	@make build-health > /dev/null 2>&1 && echo "✅ Safe fixes applied successfully" || echo "⚠️ Build validation needed"
 
 lint-auto-fix:
 	@echo "🤖 Running comprehensive automated linting fixes..."
 	@echo "Step 1: Import organization..."
-	@yarn lint:fix --rule import/order || true
+	@bun run lint:fix --rule import/order || true
 	@echo "Step 2: Unused variable cleanup..."
-	@yarn lint:unused-vars || true
+	@bun run lint:unused-vars || true
 	@echo "Step 3: Safe TypeScript fixes..."
-	@yarn lint:fix --rule @typescript-eslint/no-unused-vars || true
+	@bun run lint:fix --rule @typescript-eslint/no-unused-vars || true
 	@echo "Step 4: Final validation..."
 	@make lint-summary
 
 lint-domain-astro:
 	@echo "🌟 Running domain-specific linting for astrological calculations..."
-	@yarn eslint --config eslint.config.cjs 'src/calculations/**/*.{ts,tsx}' 'src/data/planets/**/*.{ts,tsx}' 'src/utils/reliableAstronomy.ts' 'src/utils/planetaryConsistencyCheck.ts' 'src/services/*Astrological*.ts' 'src/services/*Alchemical*.ts' --format=compact
+	@bunx eslint --config eslint.config.cjs 'src/calculations/**/*.{ts,tsx}' 'src/data/planets/**/*.{ts,tsx}' 'src/utils/reliableAstronomy.ts' 'src/utils/planetaryConsistencyCheck.ts' 'src/services/*Astrological*.ts' 'src/services/*Alchemical*.ts' --format=compact
 
 lint-domain-campaign:
 	@echo "📈 Running domain-specific linting for campaign system..."
-	@yarn eslint --config eslint.config.cjs 'src/services/campaign/**/*.{ts,tsx}' 'src/types/campaign.ts' 'src/utils/*Campaign*.ts' 'src/utils/*Progress*.ts' --format=compact
+	@bunx eslint --config eslint.config.cjs 'src/services/campaign/**/*.{ts,tsx}' 'src/types/campaign.ts' 'src/utils/*Campaign*.ts' 'src/utils/*Progress*.ts' --format=compact
 
 lint-watch:
 	@echo "👀 Starting linting watch mode..."
-	@yarn eslint --config eslint.config.cjs src --watch --cache --fix
+	@bunx eslint --config eslint.config.cjs src --watch --cache --fix
 
 lint-cache-clear:
 	@echo "🧹 Clearing ESLint cache..."
@@ -266,10 +266,10 @@ lint-performance-test:
 	@echo "Test 1: Cold cache (no previous cache)..."
 	@make lint-cache-clear > /dev/null 2>&1
 	@echo "Starting cold cache test..."
-	@time yarn lint --config eslint.config.cjs --cache --cache-location .eslintcache > /dev/null 2>&1 || true
+	@time bun run lint --config eslint.config.cjs --cache --cache-location .eslintcache > /dev/null 2>&1 || true
 	@echo "Test 2: Warm cache (with cache)..."
 	@echo "Starting warm cache test..."
-	@time yarn lint --config eslint.config.cjs --cache --cache-location .eslintcache > /dev/null 2>&1 || true
+	@time bun run lint --config eslint.config.cjs --cache --cache-location .eslintcache > /dev/null 2>&1 || true
 	@echo "✅ Performance tests completed"
 
 lint-incremental:
@@ -277,7 +277,7 @@ lint-incremental:
 	@CHANGED_FILES=$$(git diff --name-only --diff-filter=ACMR HEAD~1 | grep -E '\.(ts|tsx|js|jsx)$$' | tr '\n' ' '); \
 	if [ -n "$$CHANGED_FILES" ]; then \
 		echo "Linting changed files: $$CHANGED_FILES"; \
-		time yarn eslint --config eslint.config.cjs --cache --cache-location .eslintcache $$CHANGED_FILES; \
+		time bunx eslint --config eslint.config.cjs --cache --cache-location .eslintcache $$CHANGED_FILES; \
 	else \
 		echo "No changed files to lint"; \
 	fi
@@ -285,15 +285,15 @@ lint-incremental:
 lint-parallel:
 	@echo "⚙️ Running parallel linting with optimized workers..."
 	@echo "Using enhanced parallel processing configuration..."
-	@time yarn eslint --config eslint.config.cjs src --cache --cache-location .eslintcache --max-warnings=10000
+	@time bunx eslint --config eslint.config.cjs src --cache --cache-location .eslintcache --max-warnings=10000
 
 # Phase 6.2: Enhanced import resolution and path mapping optimization
 lint-import-test:
 	@echo "🔗 Testing import resolution and path mapping configuration..."
 	@echo "TypeScript path mappings:"
-	@yarn lint:path-mapping-test
+	@bun run lint:path-mapping-test
 	@echo "ESLint import resolver configuration:"
-	@yarn lint:import-resolution-test || echo "Config test complete"
+	@bun run lint:import-resolution-test || echo "Config test complete"
 	@echo "✅ Import resolution test completed"
 
 lint-alias-validation:
@@ -301,26 +301,26 @@ lint-alias-validation:
 	@echo "Checking for @/ imports usage:"
 	@find src -name "*.ts" -o -name "*.tsx" | xargs grep -l "from '@/" | wc -l | xargs echo "Files using @/ aliases:"
 	@echo "Checking for import resolution issues:"
-	@yarn lint --config eslint.config.cjs 2>&1 | grep -i "import/no-unresolved" | head -5 || echo "No unresolved import issues found"
+	@bun run lint --config eslint.config.cjs 2>&1 | grep -i "import/no-unresolved" | head -5 || echo "No unresolved import issues found"
 	@echo "✅ Alias validation completed"
 
 # Phase 6.3: Advanced file-pattern based rule validation
 lint-pattern-validation:
 	@echo "🎯 Validating file-pattern based rule configurations..."
 	@echo "Testing API route patterns:"
-	@find src -path "*/api/*" -name "*.ts" | head -3 | xargs yarn eslint --config eslint.config.cjs --format=compact 2>/dev/null || echo "API pattern test complete"
+	@find src -path "*/api/*" -name "*.ts" | head -3 | xargs bunx eslint --config eslint.config.cjs --format=compact 2>/dev/null || echo "API pattern test complete"
 	@echo "Testing component patterns:"
-	@find src -path "*/components/*" -name "*.tsx" | head -3 | xargs yarn eslint --config eslint.config.cjs --format=compact 2>/dev/null || echo "Component pattern test complete"
+	@find src -path "*/components/*" -name "*.tsx" | head -3 | xargs bunx eslint --config eslint.config.cjs --format=compact 2>/dev/null || echo "Component pattern test complete"
 	@echo "Testing utility patterns:"
-	@find src -path "*/utils/*" -name "*.ts" | head -3 | xargs yarn eslint --config eslint.config.cjs --format=compact 2>/dev/null || echo "Utility pattern test complete"
+	@find src -path "*/utils/*" -name "*.ts" | head -3 | xargs bunx eslint --config eslint.config.cjs --format=compact 2>/dev/null || echo "Utility pattern test complete"
 	@echo "✅ File-pattern validation completed"
 
 lint-domain-validation:
 	@echo "🏢 Validating domain-specific rule configurations..."
 	@echo "Astrological domain files:"
-	@yarn lint:domain-astro --format=compact | head -5 || echo "Astrological domain validation complete"
+	@bun run lint:domain-astro --format=compact | head -5 || echo "Astrological domain validation complete"
 	@echo "Campaign system domain files:"
-	@yarn lint:domain-campaign --format=compact | head -5 || echo "Campaign domain validation complete"
+	@bun run lint:domain-campaign --format=compact | head -5 || echo "Campaign domain validation complete"
 	@echo "✅ Domain-specific validation completed"
 
 # Phase 7.3: Development workflow optimization
@@ -339,7 +339,7 @@ lint-prettier-integration:
 	@echo "Prettier configuration:"
 	@cat .prettierrc | jq . || echo "Prettier config valid"
 	@echo "Running Prettier check on sample files:"
-	@find src -name "*.ts" -o -name "*.tsx" | head -3 | xargs yarn prettier --check || echo "Prettier format check completed"
+	@find src -name "*.ts" -o -name "*.tsx" | head -3 | xargs bunx prettier --check || echo "Prettier format check completed"
 	@echo "✅ Prettier integration tested"
 
 lint-workflow-test:
@@ -390,9 +390,9 @@ lint-system-health:
 	@node -e "console.log('ESLint config syntax check:', require('./eslint.config.cjs') ? '✅ Valid' : '❌ Invalid')"
 	@echo "Performance metrics:"
 	@echo "Estimated full lint time (should be <30s):"
-	@time yarn lint --format=json > /dev/null 2>&1 || echo "Lint performance test completed"
+	@time bun run lint --format=json > /dev/null 2>&1 || echo "Lint performance test completed"
 	@echo "Quality thresholds:"
-	@ERROR_COUNT=$$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"); \
+	@ERROR_COUNT=$$(bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"); \
 	echo "TypeScript errors: $$ERROR_COUNT (target: <100)"
 	@echo "✅ System health check completed"
 
@@ -428,7 +428,7 @@ lint-excellence-report:
 	@echo "  • Performance targets: Sub-30 second analysis achieved"
 	@echo ""
 	@echo "🎯 QUALITY METRICS ACHIEVED:"
-	@ERROR_COUNT=$$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"); \
+	@ERROR_COUNT=$$(bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"); \
 	echo "  • TypeScript errors: $$ERROR_COUNT (Target: <100 ✅)"
 	@echo "  • Build stability: ✅ Maintained throughout campaign"
 	@echo "  • Domain preservation: ✅ Astrological & campaign systems intact"
@@ -486,7 +486,7 @@ lint-config-optimization:
 	@echo "Checking configuration syntax and performance..."
 	@node -e "const config = require('./eslint.config.cjs'); console.log('✅ Configuration valid:', config.length, 'rule sets')"
 	@echo "Validating file pattern coverage..."
-	@find src -name "*.ts" -o -name "*.tsx" | head -10 | xargs yarn eslint --config eslint.config.cjs --print-config | grep -c "files" | xargs echo "Pattern matches found:"
+	@find src -name "*.ts" -o -name "*.tsx" | head -10 | xargs bunx eslint --config eslint.config.cjs --print-config | grep -c "files" | xargs echo "Pattern matches found:"
 	@echo "Performance optimization check..."
 	@ls -la .eslint* 2>/dev/null || echo "Cache directories ready"
 	@echo "✅ Configuration optimization completed"
@@ -581,19 +581,19 @@ lint-excellence-complete:
 # Comprehensive linting workflow integration
 lint-workflow:
 	@echo "🚀 Running comprehensive linting workflow..."
-	yarn lint:workflow
+	bun run lint:workflow
 
 lint-workflow-dry:
 	@echo "🔍 Running comprehensive workflow (dry run)..."
-	yarn lint:workflow-dry
+	bun run lint:workflow-dry
 
 lint-workflow-auto:
 	@echo "🤖 Running automated comprehensive workflow..."
-	yarn lint:workflow-auto
+	bun run lint:workflow-auto
 
 lint-workflow-safe:
 	@echo "🛡️ Running safe comprehensive workflow..."
-	yarn lint:workflow-safe
+	bun run lint:workflow-safe
 
 lint-integration:
 	@echo "🔗 Running integrated error reduction workflow..."
@@ -611,7 +611,7 @@ lint-integration:
 # TypeScript error checking
 check:
 	@echo "🔎 Checking TypeScript errors..."
-	@yarn tsc --noEmit --skipLibCheck
+	@bun run tsc --noEmit --skipLibCheck
 
 errors:
 	@echo "📊 Analyzing current TypeScript errors..."
@@ -620,46 +620,46 @@ errors:
 # Zero-Error Achievement Dashboard Commands
 dashboard:
 	@echo "🎯 Generating Zero-Error Achievement Dashboard..."
-	@node src/scripts/zero-error-dashboard.ts generate
-	@echo "📊 Dashboard generated: .kiro/dashboard/zero-error-achievement-dashboard.md"
+	@bun src/scripts/zero-error-dashboard.ts generate
+	@echo "📊 Dashboard generated: .local/ai/dashboard/zero-error-achievement-dashboard.md"
 
 dashboard-monitor:
 	@echo "👀 Starting Zero-Error Achievement Monitoring..."
 	@echo "📊 Real-time monitoring with 5-minute intervals"
 	@echo "Press Ctrl+C to stop monitoring"
-	@node src/scripts/zero-error-dashboard.ts monitor
+	@bun src/scripts/zero-error-dashboard.ts monitor
 
 dashboard-status:
 	@echo "📊 Zero-Error Achievement Status:"
-	@node src/scripts/zero-error-dashboard.ts status
+	@bun src/scripts/zero-error-dashboard.ts status
 
 dashboard-verbose:
 	@echo "🎯 Generating Verbose Zero-Error Dashboard..."
-	@node src/scripts/zero-error-dashboard.ts generate --verbose
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"
+	@bun src/scripts/zero-error-dashboard.ts generate --verbose
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"
 	@echo ""
 	@echo "Error breakdown by type:"
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | cut -d'(' -f2 | cut -d')' -f1 | sort | uniq -c | sort -nr || echo "No errors found"
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | cut -d'(' -f2 | cut -d')' -f1 | sort | uniq -c | sort -nr || echo "No errors found"
 
 errors-detail:
 	@echo "📋 Detailed error analysis..."
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | tail -20
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | tail -20
 
 errors-by-file:
 	@echo "📁 Errors grouped by file:"
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | cut -d'(' -f1 | sort | uniq -c | sort -nr | head -15
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | cut -d'(' -f1 | sort | uniq -c | sort -nr | head -15
 
 errors-by-type:
 	@echo "🏷️  Errors grouped by type:"
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr
 
 errors-critical:
 	@echo "🚨 Critical errors (TS2xxx series):"
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS2[0-9]{3}" | head -10
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS2[0-9]{3}" | head -10
 
 errors-export:
 	@echo "📤 Export/Import errors (TS2305, TS2459):"
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "(TS2305|TS2459)" | head -10
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "(TS2305|TS2459)" | head -10
 
 # Fix scripts
 scripts:
@@ -725,9 +725,9 @@ commit-checkpoint:
 
 commit-phase:
 	@echo "💾 Creating phase-specific commit..."
-	@echo "Current error count: $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0")"
+	@echo "Current error count: $(shell bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0")"
 	git add .
-	git commit -m "Phase progress - $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") errors remaining - $(shell date '+%Y-%m-%d %H:%M')"
+	git commit -m "Phase progress - $(shell bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") errors remaining - $(shell date '+%Y-%m-%d %H:%M')"
 
 git-history:
 	@echo "📚 Phase-related commit history:"
@@ -759,7 +759,7 @@ deploy:
 # Development workflow helpers
 quick-check:
 	@echo "⚡ Quick development check..."
-	@yarn tsc --noEmit --skipLibCheck | tail -10
+	@bun run tsc --noEmit --skipLibCheck | tail -10
 
 workflow:
 	@echo "🔄 Running complete development workflow..."
@@ -799,7 +799,7 @@ workflow-debug:
 phase-status:
 	@echo "📊 Current Phase Status - Post-Recovery (September 2025):"
 	@echo "Total TypeScript errors:"
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"
 	@echo ""
 	@echo "🏆 Historic Achievements:"
 	@echo "  ✅ Multiple TypeScript error category eliminations (1,800+ errors)"
@@ -818,26 +818,26 @@ phase-status:
 
 phase-validate:
 	@echo "🔍 Phase validation check..."
-	@echo "Current error count: $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0")"
+	@echo "Current error count: $(shell bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0")"
 	@echo "Build stability test:"
-	@yarn tsc --noEmit --skipLibCheck > /dev/null 2>&1 && echo "✅ Build stable" || echo "❌ Build has errors"
+	@bun run tsc --noEmit --skipLibCheck > /dev/null 2>&1 && echo "✅ Build stable" || echo "❌ Build has errors"
 
 phase-checkpoint:
 	@echo "💾 Creating phase checkpoint..."
-	@echo "Error count: $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") errors"
+	@echo "Error count: $(shell bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") errors"
 	git add .
-	git commit -m "Phase checkpoint - $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") errors remaining"
+	git commit -m "Phase checkpoint - $(shell bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") errors remaining"
 	@echo "✅ Checkpoint created!"
 
 phase-report:
 	@echo "📈 Comprehensive phase report:"
-	@echo "Current status: $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") errors"
+	@echo "Current status: $(shell bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") errors"
 	@echo ""
 	@echo "Error patterns:"
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr | head -10 || echo "No errors found"
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr | head -10 || echo "No errors found"
 	@echo ""
 	@echo "Files with most errors:"
-	@yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | cut -d'(' -f1 | sort | uniq -c | sort -nr | head -10 || echo "No errors found"
+	@bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | cut -d'(' -f1 | sort | uniq -c | sort -nr | head -10 || echo "No errors found"
 
 # Emergency helpers
 emergency-restore:
@@ -916,31 +916,31 @@ docker-deploy:
 # Build System Repair Commands
 build-validate:
 	@echo "🔍 Validating build system..."
-	@yarn build:validate
+	@bun run build:validate
 
 build-repair:
 	@echo "🔧 Repairing build system..."
-	@yarn build:repair
+	@bun run build:repair
 
 build-health:
 	@echo "🏥 Checking build system health..."
-	@yarn build:health
+	@bun run build:health
 
 build-comprehensive:
 	@echo "🚀 Running comprehensive build system repair..."
-	@yarn build:comprehensive
+	@bun run build:comprehensive
 
 build-quick:
 	@echo "⚡ Running quick build repair..."
-	@yarn build:quick
+	@bun run build:quick
 
 build-rebuild:
 	@echo "🏗️  Rebuilding with error recovery..."
-	@yarn build:rebuild
+	@bun run build:rebuild
 
 build-emergency:
 	@echo "🚨 Running emergency build recovery..."
-	@yarn build:emergency
+	@bun run build:emergency
 
 # Build system workflow helpers
 build-workflow:
@@ -958,10 +958,10 @@ build-workflow:
 build-status:
 	@echo "📊 Build System Status Report:"
 	@echo "==================================="
-	@yarn build:health
+	@bun run build:health
 	@echo ""
 	@echo "🔍 Validation Results:"
-	@yarn build:validate
+	@bun run build:validate
 	@echo ""
 	@echo "📈 Recent build activity:"
 	@ls -la .next/ 2>/dev/null | head -5 || echo "No build directory found"
@@ -982,11 +982,11 @@ build-safe:
 	@echo "Step 2: Validation..."
 	@make build-validate
 	@echo "Step 3: Repair if needed..."
-	@yarn build:quick
+	@bun run build:quick
 	@echo "Step 4: TypeScript compilation check..."
-	@yarn tsc --noEmit --skipLibCheck
+	@bun run tsc --noEmit --skipLibCheck
 	@echo "Step 5: Production build..."
-	@yarn build
+	@bun run build
 	@echo "Step 6: Post-build validation..."
 	@make build-validate
 	@echo "✅ Safe build completed successfully!"
@@ -1025,7 +1025,7 @@ ci-test:
 	@echo "Step 2: Test coverage..."
 	@make test-coverage
 	@echo "Step 3: Integration tests..."
-	@yarn test --testPathPattern="integration"
+	@bun run test --testPathPattern="integration"
 	@echo "✅ CI testing completed successfully!"
 
 ci-deploy-check:
@@ -1033,7 +1033,7 @@ ci-deploy-check:
 	@echo "Step 1: Final build validation..."
 	@make build-validate
 	@echo "Step 2: Error count check..."
-	@echo "Current TypeScript errors: $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0")"
+	@echo "Current TypeScript errors: $(shell bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0")"
 	@echo "Step 3: Git status check..."
 	@git status --porcelain
 	@echo "Step 4: Docker build test..."
@@ -1043,7 +1043,7 @@ ci-deploy-check:
 ci-quality-gate:
 	@echo "🎯 Running enhanced quality gate validation..."
 	@echo "Step 1: TypeScript error threshold check..."
-	@ERROR_COUNT=$$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"); \
+	@ERROR_COUNT=$$(bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0"); \
 	if [ $$ERROR_COUNT -gt 100 ]; then \
 		echo "❌ Quality gate failed: $$ERROR_COUNT TypeScript errors (threshold: 100)"; \
 		exit 1; \
@@ -1051,14 +1051,14 @@ ci-quality-gate:
 		echo "✅ TypeScript errors within threshold: $$ERROR_COUNT/100"; \
 	fi
 	@echo "Step 2: Linting performance threshold check..."
-	@LINT_TIME=$$(time yarn lint --format=json 2>&1 | grep real | awk '{print $$2}' | sed 's/m.*//'); \
+	@LINT_TIME=$$(time bun run lint --format=json 2>&1 | grep real | awk '{print $$2}' | sed 's/m.*//'); \
 	if [ "$${LINT_TIME:-0}" -gt "0" ]; then \
 		echo "✅ Linting performance acceptable"; \
 	else \
 		echo "⚠️ Linting performance check completed"; \
 	fi
 	@echo "Step 3: Critical linting error check..."
-	@CRITICAL_ERRORS=$$(yarn lint --format=json 2>/dev/null | jq '[.[].messages[] | select(.severity == 2)] | length' 2>/dev/null || echo "0"); \
+	@CRITICAL_ERRORS=$$(bun run lint --format=json 2>/dev/null | jq '[.[].messages[] | select(.severity == 2)] | length' 2>/dev/null || echo "0"); \
 	if [ $$CRITICAL_ERRORS -gt 0 ]; then \
 		echo "❌ Quality gate failed: $$CRITICAL_ERRORS critical linting errors found"; \
 		exit 1; \
@@ -1066,7 +1066,7 @@ ci-quality-gate:
 		echo "✅ No critical linting errors"; \
 	fi
 	@echo "Step 4: Build stability check..."
-	@yarn tsc --noEmit --skipLibCheck > /dev/null 2>&1 && echo "✅ Build stable" || (echo "❌ Build unstable" && exit 1)
+	@bun run tsc --noEmit --skipLibCheck > /dev/null 2>&1 && echo "✅ Build stable" || (echo "❌ Build unstable" && exit 1)
 	@echo "Step 5: Test coverage check..."
 	@make test-coverage > /dev/null 2>&1 && echo "✅ Tests passing" || (echo "❌ Tests failing" && exit 1)
 	@echo "✅ Quality gate validation passed!"
@@ -1095,7 +1095,7 @@ ci-lint-quality-gate:
 ci-lint-deployment-readiness:
 	@echo "🚢 Evaluating linting readiness for deployment..."
 	@echo "Step 1: Zero critical errors requirement..."
-	@CRITICAL_COUNT=$$(yarn lint --format=json 2>/dev/null | jq '[.[].messages[] | select(.severity == 2)] | length' 2>/dev/null || echo "0"); \
+	@CRITICAL_COUNT=$$(bun run lint --format=json 2>/dev/null | jq '[.[].messages[] | select(.severity == 2)] | length' 2>/dev/null || echo "0"); \
 	if [ $$CRITICAL_COUNT -gt 0 ]; then \
 		echo "❌ Deployment blocked: $$CRITICAL_COUNT critical linting errors"; \
 		exit 1; \
@@ -1158,27 +1158,27 @@ docs:
 # Linting Campaign System
 lint-campaign-metrics:
 	@echo "📊 Collecting linting metrics..."
-	@yarn lint:campaign:metrics
+	@bun run lint:campaign:metrics
 
 lint-campaign-report:
 	@echo "📈 Generating progress report..."
-	@yarn lint:campaign:report
+	@bun run lint:campaign:report
 
 lint-campaign-start:
 	@echo "🚀 Starting linting campaign..."
-	@yarn lint:campaign:start
+	@bun run lint:campaign:start
 
 lint-campaign-dry:
 	@echo "🔍 Preview campaign execution..."
-	@yarn lint:campaign:dry
+	@bun run lint:campaign:dry
 
 lint-campaign-gates:
 	@echo "🚪 Evaluating quality gates..."
-	@yarn lint:campaign:gates
+	@bun run lint:campaign:gates
 
 lint-campaign-deploy:
 	@echo "🚢 Checking deployment readiness..."
-	@yarn lint:campaign:deploy
+	@bun run lint:campaign:deploy
 
 # Phase 7.1: Enhanced campaign system integration with linting metrics
 lint-campaign-integrated:
@@ -1222,11 +1222,11 @@ lint-campaign-status:
 
 lint-campaign-trends:
 	@echo "📈 Monitoring quality trends..."
-	@yarn lint:campaign:trends
+	@bun run lint:campaign:trends
 
 lint-campaign-cicd:
 	@echo "🔄 Generating CI/CD report..."
-	@yarn lint:campaign:cicd
+	@bun run lint:campaign:cicd
 
 lint-campaign-help:
 	@echo "🔧 Linting Campaign System Help"
@@ -1343,7 +1343,7 @@ recovery-status:
 	@echo "  ✅ CI/CD pipeline integration and quality gates"
 	@echo ""
 	@echo "📈 CURRENT STATE:"
-	@echo "  - TypeScript errors: $(shell yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") (manageable)"
+	@echo "  - TypeScript errors: $(shell bun run tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | wc -l || echo "0") (manageable)"
 	@echo "  - Build stability: ✅ Maintained"
 	@echo "  - Core functionality: ✅ Preserved"
 	@echo "  - Production readiness: ✅ Achieved"

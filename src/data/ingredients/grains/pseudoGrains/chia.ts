@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawChia: Record<string, Partial<IngredientMapping>> = {
   chia: {
-      description: "Chia Seeds is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/chia.png",
+    description: "Chia Seeds is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "Chia Seeds",
     season: ["all"],
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },

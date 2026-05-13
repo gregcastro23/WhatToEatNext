@@ -117,6 +117,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "assets.alchm.kitchen",
+      },
+      {
+        protocol: "https",
         hostname: "**",
       },
     ],
@@ -135,6 +139,12 @@ const nextConfig = {
   generateEtags: true,
   pageExtensions: ["js", "jsx", "ts", "tsx"],
   bundlePagesRouterDependencies: false,
+
+  eslint: {
+    // Vercel build fails with ESLint v9/v10 flat config incompatibilities
+    // We already run `eslint` fully in the test/lint jobs.
+    ignoreDuringBuilds: true,
+  },
 
   // Move serverExternalPackages out of experimental for Next.js 15
   serverExternalPackages: ["pg", "astronomy-engine"],
@@ -182,6 +192,21 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: getSecurityHeaders(),
+      },
+    ];
+  },
+
+  async redirects() {
+    return [
+      {
+        source: "/meal-plan",
+        destination: "/menu-planner",
+        permanent: true,
+      },
+      {
+        source: "/meal-plan/groceries",
+        destination: "/menu-planner",
+        permanent: true,
       },
     ];
   },

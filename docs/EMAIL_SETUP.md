@@ -31,7 +31,7 @@ The email dependencies should already be in `package.json`:
 Run the installation:
 
 ```bash
-yarn install
+bun install
 ```
 
 ### 2. Configure Environment Variables
@@ -172,7 +172,7 @@ node scripts/test-email.js
 1. Start the development server:
 
    ```bash
-   yarn dev
+   bun run dev
    ```
 
 2. Navigate to the onboarding page:

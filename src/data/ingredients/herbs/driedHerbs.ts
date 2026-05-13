@@ -5,7 +5,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
 const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_basil: {
-      description: "The dehydrated leaves of the sweet basil plant (*Ocimum basilicum*). Unlike oregano or thyme, basil loses almost all of its complex, sweet, and anise-like volatile oils during the drying process, leaving behind a muted, slightly minty flavor that requires long simmering in tomato sauces to rehydrate and extract.",
+      image_url: "ingredients/dried_basil.png",
+    description: "The dehydrated leaves of the sweet basil plant (*Ocimum basilicum*). Unlike oregano or thyme, basil loses almost all of its complex, sweet, and anise-like volatile oils during the drying process, leaving behind a muted, slightly minty flavor that requires long simmering in tomato sauces to rehydrate and extract.",
     name: "Dried Basil",
     origin: ["South Asia (India)", "Southeast Asia"],
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -49,7 +50,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_oregano: {
-      description: "The dehydrated leaves of *Origanum vulgare*. It is one of the few herbs that is generally considered superior when dried rather than fresh; the drying process tames its aggressive bitterness and concentrates its pungent, earthy, and peppery flavor, making it the defining herb of Mediterranean pizza and pasta sauces.",
+      image_url: "ingredients/dried_oregano.png",
+    description: "The dehydrated leaves of *Origanum vulgare*. It is one of the few herbs that is generally considered superior when dried rather than fresh; the drying process tames its aggressive bitterness and concentrates its pungent, earthy, and peppery flavor, making it the defining herb of Mediterranean pizza and pasta sauces.",
     name: "Dried Oregano",
     origin: ["Mediterranean (Greece)"],
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
@@ -98,7 +100,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_thyme: {
-      description: "The dehydrated leaves of *Thymus vulgaris*. Because thyme is a woody, resinous herb, it dries exceptionally well, concentrating its sharp, earthy, and distinctly floral/minty flavor. It is a workhorse pantry staple, providing the aromatic backbone for countless stocks, stews, and roasted meats.",
+      image_url: "ingredients/dried_thyme.png",
+    description: "The dehydrated leaves of *Thymus vulgaris*. Because thyme is a woody, resinous herb, it dries exceptionally well, concentrating its sharp, earthy, and distinctly floral/minty flavor. It is a workhorse pantry staple, providing the aromatic backbone for countless stocks, stews, and roasted meats.",
     name: "Dried Thyme",
     origin: ["Mediterranean"],
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -141,7 +144,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_rosemary: {
-      description: "The dehydrated, needle-like leaves of *Salvia rosmarinus*. Because the leaves are tough and resinous, they retain their powerful pine, wood, and citrus flavor flawlessly when dried. Due to their sharp, brittle texture, they should be minced finely or crushed in a mortar before being added to roasted meats or breads.",
+      image_url: "ingredients/dried_rosemary.png",
+    description: "The dehydrated, needle-like leaves of *Salvia rosmarinus*. Because the leaves are tough and resinous, they retain their powerful pine, wood, and citrus flavor flawlessly when dried. Due to their sharp, brittle texture, they should be minced finely or crushed in a mortar before being added to roasted meats or breads.",
     name: "Dried Rosemary",
     origin: ["Mediterranean"],
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
@@ -184,7 +188,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_sage: {
-      description: "The dehydrated leaves of *Salvia officinalis*. Drying significantly amplifies its already assertive, earthy, slightly astringent, and musky flavor profile. It is incredibly potent and must be used with a light hand, acting as the foundational seasoning for Thanksgiving stuffing and heavy pork sausages.",
+      image_url: "ingredients/dried_sage.png",
+    description: "The dehydrated leaves of *Salvia officinalis*. Drying significantly amplifies its already assertive, earthy, slightly astringent, and musky flavor profile. It is incredibly potent and must be used with a light hand, acting as the foundational seasoning for Thanksgiving stuffing and heavy pork sausages.",
     name: "Dried Sage",
     origin: ["Mediterranean"],
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -231,7 +236,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_bay_leaves: {
-      description: "The dehydrated leaves of the sweet bay tree (*Laurus nobilis*). While fresh bay leaves can be overwhelmingly astringent and menthol-heavy, drying them mellows their bite and concentrates their complex, woody, and floral notes, which release slowly during long braises and stews.",
+      image_url: "ingredients/dried_bay_leaves.png",
+    description: "The dehydrated leaves of the sweet bay tree (*Laurus nobilis*). While fresh bay leaves can be overwhelmingly astringent and menthol-heavy, drying them mellows their bite and concentrates their complex, woody, and floral notes, which release slowly during long braises and stews.",
     name: "Dried Bay Leaves",
     origin: ["Cultivated worldwide"],
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -274,7 +280,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_marjoram: {
-      description: "The dehydrated leaves of *Origanum majorana*. It is closely related to oregano but is significantly sweeter, more floral, and less aggressive. Drying concentrates its mild, pine-and-citrus flavor, making it a staple in traditional German sausages and delicate poultry seasonings.",
+      image_url: "ingredients/dried_marjoram.png",
+    description: "The dehydrated leaves of *Origanum majorana*. It is closely related to oregano but is significantly sweeter, more floral, and less aggressive. Drying concentrates its mild, pine-and-citrus flavor, making it a staple in traditional German sausages and delicate poultry seasonings.",
     name: "Dried Marjoram",
     origin: ["Mediterranean", "Western Asia"],
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -316,7 +323,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_savory: {
-      description: "The dehydrated leaves of the *Satureja* plant, specifically Winter Savory or Summer Savory. It offers a highly pungent, peppery, and robust flavor profile—somewhere between thyme and mint—and is historically famous for its ability to flavor and aid in the digestion of heavy bean stews.",
+      image_url: "ingredients/dried_savory.png",
+    description: "The dehydrated leaves of the *Satureja* plant, specifically Winter Savory or Summer Savory. It offers a highly pungent, peppery, and robust flavor profile—somewhere between thyme and mint—and is historically famous for its ability to flavor and aid in the digestion of heavy bean stews.",
     name: "Dried Savory",
     origin: ["Mediterranean"],
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -358,7 +366,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_chervil: {
-      description: "The dried version of the delicate spring herb (*Anthriscus cerefolium*). Because its subtle parsley-anise flavor is extremely fragile, it survives the drying process poorly; it is best used in large quantities in light, cream-based sauces where it won't be overpowered by other ingredients.",
+      image_url: "ingredients/dried_chervil.png",
+    description: "The dried version of the delicate spring herb (*Anthriscus cerefolium*). Because its subtle parsley-anise flavor is extremely fragile, it survives the drying process poorly; it is best used in large quantities in light, cream-based sauces where it won't be overpowered by other ingredients.",
     name: "Dried Chervil",
     origin: ["Caucasus"],
     elementalProperties: { Air: 0.5, Earth: 0.2, Water: 0.2, Fire: 0.1 },
@@ -400,7 +409,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_tarragon: {
-      description: "The dehydrated leaves of *Artemisia dracunculus*. While it loses some of the bright, fresh nuance of the raw herb, it retains its distinct, sweet anise and licorice flavor reasonably well, making it a convenient pantry staple for classic French cream sauces and chicken salads.",
+      image_url: "ingredients/dried_tarragon.png",
+    description: "The dehydrated leaves of *Artemisia dracunculus*. While it loses some of the bright, fresh nuance of the raw herb, it retains its distinct, sweet anise and licorice flavor reasonably well, making it a convenient pantry staple for classic French cream sauces and chicken salads.",
     name: "Dried Tarragon",
     origin: ["Eurasia"],
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -442,7 +452,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_dill: {
-      description: "The dehydrated, feathery fronds of *Anethum graveolens*. It retains its signature sweet, grassy, and slightly anise-like flavor reasonably well when dried, making it a reliable addition to long-simmering fish chowders, yogurt sauces, and potato salads.",
+      image_url: "ingredients/dried_dill.png",
+    description: "The dehydrated, feathery fronds of *Anethum graveolens*. It retains its signature sweet, grassy, and slightly anise-like flavor reasonably well when dried, making it a reliable addition to long-simmering fish chowders, yogurt sauces, and potato salads.",
     name: "Dried Dill",
     origin: ["Mediterranean", "Russia"],
     elementalProperties: { Air: 0.5, Water: 0.2, Earth: 0.2, Fire: 0.1 },
@@ -484,7 +495,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_mint: {
-      description: "The dehydrated leaves of various *Mentha* species, most commonly spearmint. While it loses the sharp, cooling 'freshness' of raw mint, it develops a deeper, sweeter, and more earthy profile that is absolutely essential for traditional Middle Eastern lamb meatballs (kofta) and yogurt sauces.",
+      image_url: "ingredients/dried_mint.png",
+    description: "The dehydrated leaves of various *Mentha* species, most commonly spearmint. While it loses the sharp, cooling 'freshness' of raw mint, it develops a deeper, sweeter, and more earthy profile that is absolutely essential for traditional Middle Eastern lamb meatballs (kofta) and yogurt sauces.",
     name: "Dried Mint",
     origin: ["Mediterranean", "Western Asia"],
     elementalProperties: { Air: 0.5, Water: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -531,7 +543,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_fennel: {
-      description: "The dehydrated fronds (leaves) of the fennel plant (*Foeniculum vulgare*), not to be confused with fennel seeds. They offer a very mild, sweet licorice/anise flavor that is exceptionally delicate, typically used to lightly season fish broths or delicate pork dishes.",
+      image_url: "ingredients/dried_fennel.png",
+    description: "The dehydrated fronds (leaves) of the fennel plant (*Foeniculum vulgare*), not to be confused with fennel seeds. They offer a very mild, sweet licorice/anise flavor that is exceptionally delicate, typically used to lightly season fish broths or delicate pork dishes.",
     name: "Dried Fennel",
     origin: ["Mediterranean"],
     elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
@@ -578,7 +591,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_parsley: {
-      description: "The dehydrated leaves of *Petroselinum crispum*. Much like dried basil or cilantro, parsley loses almost all of its bright, fresh, and mineral-heavy flavor during the drying process, functioning primarily as a mild, slightly grassy visual garnish.",
+      image_url: "ingredients/dried_parsley.png",
+    description: "The dehydrated leaves of *Petroselinum crispum*. Much like dried basil or cilantro, parsley loses almost all of its bright, fresh, and mineral-heavy flavor during the drying process, functioning primarily as a mild, slightly grassy visual garnish.",
     name: "Dried Parsley",
     origin: ["Mediterranean"],
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
@@ -620,7 +634,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_cilantro: {
-      description: "The dehydrated leaves of the coriander plant (*Coriandrum sativum*). The drying process almost completely destroys the bright, citrusy, and pungent volatile oils that define fresh cilantro, leaving a very subtle, grassy herb that functions mostly as a visual garnish rather than a primary flavoring agent.",
+      image_url: "ingredients/dried_cilantro.png",
+    description: "The dehydrated leaves of the coriander plant (*Coriandrum sativum*). The drying process almost completely destroys the bright, citrusy, and pungent volatile oils that define fresh cilantro, leaving a very subtle, grassy herb that functions mostly as a visual garnish rather than a primary flavoring agent.",
     name: "Dried Cilantro",
     origin: ["Mediterranean", "Western Asia"],
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -662,7 +677,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_chives: {
-      description: "The dehydrated hollow stalks of the smallest onion species (*Allium schoenoprasum*). Drying preserves their distinctively mild, sweet onion flavor surprisingly well, making them a convenient stir-in for sour cream dips, baked potatoes, and savory scones.",
+      image_url: "ingredients/dried_chives.png",
+    description: "The dehydrated hollow stalks of the smallest onion species (*Allium schoenoprasum*). Drying preserves their distinctively mild, sweet onion flavor surprisingly well, making them a convenient stir-in for sour cream dips, baked potatoes, and savory scones.",
     name: "Dried Chives",
     origin: ["Europe", "Asia"],
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -704,7 +720,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_lemon_balm: {
-      description: "The dehydrated leaves of *Melissa officinalis*, a member of the mint family. It retains a bright, distinctively sweet lemon aroma and a mild minty undertone, making it a soothing, aromatic addition to herbal teas, delicate fruit salads, and light chicken marinades.",
+      image_url: "ingredients/dried_lemon_balm.png",
+    description: "The dehydrated leaves of *Melissa officinalis*, a member of the mint family. It retains a bright, distinctively sweet lemon aroma and a mild minty undertone, making it a soothing, aromatic addition to herbal teas, delicate fruit salads, and light chicken marinades.",
     name: "Dried Lemon Balm",
     origin: ["Mediterranean", "Western Asia"],
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -751,7 +768,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_lavender: {
-      description: "The dehydrated, highly aromatic flowers of the *Lavandula* plant, most commonly *Lavandula angustifolia* (English lavender) for culinary use. It imparts a profoundly strong, perfumed, and sweet floral flavor that must be used incredibly sparingly to avoid making food taste like soap.",
+      image_url: "ingredients/dried_lavender.png",
+    description: "The dehydrated, highly aromatic flowers of the *Lavandula* plant, most commonly *Lavandula angustifolia* (English lavender) for culinary use. It imparts a profoundly strong, perfumed, and sweet floral flavor that must be used incredibly sparingly to avoid making food taste like soap.",
     name: "Dried Lavender",
     origin: ["Mediterranean"],
     elementalProperties: { Air: 0.5, Fire: 0.2, Earth: 0.2, Water: 0.1 },
@@ -798,7 +816,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_summer_savory: {
-      description: "Dried Summer Savory is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/dried_summer_savory.png",
+    description: "Dried Summer Savory is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Dried Summer Savory",
     origin: ["Mediterranean"],
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -840,7 +859,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   dried_lovage: {
-      description: "The dehydrated leaves of *Levisticum officinale*, an herb that tastes like an intense, highly concentrated cross between celery and parsley. Because its flavor is so robust and meaty, it survives the drying process exceptionally well and is a powerhouse addition to beef stews and heavy broths.",
+      image_url: "ingredients/dried_lovage.png",
+    description: "The dehydrated leaves of *Levisticum officinale*, an herb that tastes like an intense, highly concentrated cross between celery and parsley. Because its flavor is so robust and meaty, it survives the drying process exceptionally well and is a powerhouse addition to beef stews and heavy broths.",
     name: "Dried Lovage",
     origin: ["Cultivated worldwide"],
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
@@ -882,7 +902,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   chervil: {
-      description: "A delicate, highly perishable spring herb (*Anthriscus cerefolium*) featuring lacy, fern-like leaves. It is a cornerstone of the classic French *fines herbes* blend, offering a subtle, refined flavor profile combining parsley and faint anise, which must be added at the absolute last second to avoid destroying its volatile oils.",
+      image_url: "ingredients/chervil.png",
+    description: "A delicate, highly perishable spring herb (*Anthriscus cerefolium*) featuring lacy, fern-like leaves. It is a cornerstone of the classic French *fines herbes* blend, offering a subtle, refined flavor profile combining parsley and faint anise, which must be added at the absolute last second to avoid destroying its volatile oils.",
     name: "Chervil",
     origin: ["Caucasus"],
     season: ["spring", "fall"],
@@ -916,7 +937,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." }
 },
   bay_leaf: {
-      description: "The aromatic leaf of the sweet bay tree (*Laurus nobilis*), typically used dried. When simmered in liquid for an extended period, it releases complex, woodsy, floral, and slightly menthol notes that add essential savory depth to soups, stews, and braises.",
+      image_url: "ingredients/bay_leaf.png",
+    description: "The aromatic leaf of the sweet bay tree (*Laurus nobilis*), typically used dried. When simmered in liquid for an extended period, it releases complex, woodsy, floral, and slightly menthol notes that add essential savory depth to soups, stews, and braises.",
     name: "Bay Leaf",
     origin: ["Mediterranean (Asia Minor)"],
     season: ["all"],
@@ -951,7 +973,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
 },
 
   anise: {
-      description: "The seed of the *Pimpinella anisum* plant, yielding a distinctively sweet, highly aromatic, and slightly spicy licorice flavor. It shares the volatile compound anethole with fennel and star anise, making it a foundational flavoring for classic Mediterranean spirits like Ouzo, Sambuca, and Absinthe.",
+      image_url: "ingredients/anise.png",
+    description: "The seed of the *Pimpinella anisum* plant, yielding a distinctively sweet, highly aromatic, and slightly spicy licorice flavor. It shares the volatile compound anethole with fennel and star anise, making it a foundational flavoring for classic Mediterranean spirits like Ouzo, Sambuca, and Absinthe.",
     name: "Anise",
     origin: ["Eastern Mediterranean", "Western Asia"],
     season: ["all"],

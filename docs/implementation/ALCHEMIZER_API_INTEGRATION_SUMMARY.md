@@ -164,7 +164,7 @@ node compare-api-outputs.js
 node test-alchemizer-api.js
 # Result: Clean planetary positions output
 
-yarn dev
+bun run dev
 node test-astrologize-api.js
 # Result: Local API working correctly
 ```
@@ -172,7 +172,7 @@ node test-astrologize-api.js
 #### **Build Validation**
 
 ```bash
-yarn build
+bun run build
 # Result: ✅ Build successful with all fixes
 ```
 

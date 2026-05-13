@@ -849,16 +849,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
+          cache: "bun"
 
       - name: Install dependencies
-        run: npm ci
+        run: bun run ci
 
       - name: Run astronomical calculation tests
-        run: npm run test:astronomical
+        run: bun run test:astronomical
 
       - name: Run integration tests
-        run: npm run test:integration
+        run: bun run test:integration
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3

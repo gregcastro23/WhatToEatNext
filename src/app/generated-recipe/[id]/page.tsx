@@ -14,7 +14,7 @@
  */
 
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState, useCallback } from "react";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { getRecipeFromStore } from "@/utils/generatedRecipeStore";
@@ -135,15 +135,20 @@ export default function GeneratedRecipePage() {
   const id = typeof params?.id === "string" ? params.id : Array.isArray(params?.id) ? params.id[0] : "";
 
   const [recipe, setRecipe] = useState<MonicaOptimizedRecipe | null>(null);
+  const [hasCheckedStore, setHasCheckedStore] = useState(false);
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setHasCheckedStore(true);
+      return;
+    }
     const found = getRecipeFromStore(id);
     if (found) {
       setRecipe(found);
     }
+    setHasCheckedStore(true);
   }, [id]);
 
   const handlePrint = useCallback(() => {
@@ -195,22 +200,19 @@ export default function GeneratedRecipePage() {
 
   // ── Loading / Not Found ───────────────────────────────────────────────────
 
-  if (!recipe) {
+  if (!hasCheckedStore) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-purple-50 to-orange-50">
         <div className="text-center p-8 max-w-sm">
-          <p className="text-gray-500 mb-4">
-            Recipe not found. It may have expired from your session.
-          </p>
-          <Link
-            href="/recipe-builder"
-            className="inline-block px-5 py-2.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors font-medium"
-          >
-            Back to Recipe Builder
-          </Link>
+          <div className="w-10 h-10 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-500">Opening generated recipe...</p>
         </div>
       </div>
     );
+  }
+
+  if (!recipe) {
+    notFound();
   }
 
   // ── Derived data ──────────────────────────────────────────────────────────

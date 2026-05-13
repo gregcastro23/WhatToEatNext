@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
+import { rateLimit } from "@/lib/rateLimit";
 import { questService } from "@/services/QuestService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { NextRequest } from "next/server";
@@ -8,8 +9,12 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-// GET a random unverified ingredient
+const RATE_LIMIT = { window: 60_000, max: 60, bucket: "quests-masters-pantry" };
+
 export async function GET(request: NextRequest) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const user = await getDatabaseUserFromRequest(request);
     if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
@@ -43,8 +48,10 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST to verify an ingredient and earn tokens
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const user = await getDatabaseUserFromRequest(request);
     if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });

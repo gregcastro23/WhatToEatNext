@@ -23,12 +23,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const { searchParams } = new URL(request.url);
+    const siteParam = searchParams.get("site");
+    const site: "main" | "agents" = siteParam === "agents" ? "agents" : "main";
+
     const [balances, streak] = await Promise.all([
       tokenEconomy.getBalances(userId),
       streakService.getStreak(userId),
     ]);
 
-    const canClaimDaily = !(await tokenEconomy.hasClaimedToday(userId));
+    const canClaimDaily = !(await tokenEconomy.hasClaimedToday(userId, site));
 
     const response: EconomyBalanceResponse = {
       success: true,

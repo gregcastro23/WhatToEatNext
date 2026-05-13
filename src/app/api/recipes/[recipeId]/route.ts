@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { RecipeSchema } from "@/lib/validation/apiSchemas";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
 
 export const dynamic = "force-dynamic";
 
+const RECIPE_DETAIL_LIMIT = { window: 60_000, max: 60, bucket: "recipe-detail" };
 const HONO_API_URL = process.env.HONO_API_URL;
 
 /** Safely extract cooking methods from a recipe regardless of singular/plural key. */
@@ -24,6 +26,8 @@ function getCookingMethods(recipe: Record<string, unknown>): string[] {
 }
 
 export async function GET(request: Request, props: { params: Promise<{ recipeId: string }> }) {
+  const rl = rateLimit(request, RECIPE_DETAIL_LIMIT);
+  if (!rl.allowed) return rl.response!;
   try {
     const { recipeId } = await props.params;
 

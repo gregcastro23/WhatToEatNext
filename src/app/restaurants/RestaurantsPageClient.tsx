@@ -25,6 +25,9 @@ const POPULAR_CUISINES = [
 export default function RestaurantsPageClient() {
   const params = useSearchParams();
   const initial = params?.get("cuisine") ?? "";
+  const orderStatus = params?.get("order") ?? "";
+  const orderRestaurant = params?.get("restaurant") ?? "";
+  const onboardingStatus = params?.get("onboarding") ?? "";
   const [cuisine, setCuisine] = useState(initial);
   const [draft, setDraft] = useState(initial);
 
@@ -47,6 +50,34 @@ export default function RestaurantsPageClient() {
             ranked by their alignment to the current cosmic moment.
           </p>
         </header>
+
+        {orderStatus && (
+          <div
+            className={`mb-6 rounded-xl border p-4 text-sm ${
+              orderStatus === "success"
+                ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-100"
+                : "border-amber-400/30 bg-amber-500/10 text-amber-100"
+            }`}
+          >
+            {orderStatus === "success"
+              ? `Order checkout completed${orderRestaurant ? ` for ${orderRestaurant}` : ""}.`
+              : `Order checkout was canceled${orderRestaurant ? ` for ${orderRestaurant}` : ""}.`}
+          </div>
+        )}
+
+        {onboardingStatus && (
+          <div
+            className={`mb-6 rounded-xl border p-4 text-sm ${
+              onboardingStatus === "success"
+                ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-100"
+                : "border-amber-400/30 bg-amber-500/10 text-amber-100"
+            }`}
+          >
+            {onboardingStatus === "success"
+              ? "Restaurant payout onboarding was submitted. Stripe will update the account status as requirements are completed."
+              : "Restaurant onboarding needs to be refreshed. Reopen the onboarding link to continue."}
+          </div>
+        )}
 
         {/* Cuisine selector */}
         <section className="mb-8 rounded-2xl border border-white/10 bg-white/5 p-5">

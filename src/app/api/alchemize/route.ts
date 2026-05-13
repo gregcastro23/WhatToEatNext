@@ -13,6 +13,7 @@
  * - enhanced: true to use full enhanced calculation, false for legacy (defaults to true)
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { AlchemizeQuerySchema } from "@/lib/validation/railway";
 import { calculateComprehensiveAspects, type PlanetaryPositionData } from "@/utils/aspectCalculator";
 import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
@@ -35,7 +36,11 @@ const SIGN_TO_MODALITY: Record<string, string> = {
   gemini: "Mutable", virgo: "Mutable", sagittarius: "Mutable", pisces: "Mutable",
 };
 
+const ALCHEMIZE_LIMIT = { window: 60_000, max: 60, bucket: "alchemize" };
+
 export async function GET(request: Request) {
+  const rl = rateLimit(request, ALCHEMIZE_LIMIT);
+  if (!rl.allowed) return rl.response!;
   try {
     const { searchParams } = new URL(request.url);
 

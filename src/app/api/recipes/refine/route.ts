@@ -4,6 +4,7 @@
  */
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { OPERATION_COSTS } from "@/lib/economy/operationCosts";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Recipe } from "@/types/recipe";
@@ -22,11 +23,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}));
     const { cuisine } = body;
 
-    // Deduct 5 Substance tokens
-    const deductResult = await tokenEconomy.debitTokens(user.id, "Substance", 5, "purchase", { description: "Refined Oracle Recommendation" });
+    const cost = OPERATION_COSTS.refine_oracle;
+    const deductResult = await tokenEconomy.debitTokens(user.id, "Substance", cost.substance, "purchase", { description: "Refined Oracle Recommendation" });
     if (!deductResult) {
       return NextResponse.json(
-        { success: false, error: "Insufficient Substance (🝉) tokens. You need 5 Substance." },
+        { success: false, error: `Insufficient Substance (🝉) tokens. You need ${cost.substance} Substance.` },
         { status: 402 }
       );
     }

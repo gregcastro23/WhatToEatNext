@@ -142,7 +142,7 @@ function loadExistingCoverageRows(): UnmatchedRow[] {
 
 function main(): void {
   if (!fs.existsSync(UNMATCHED_PATH)) {
-    throw new Error(`Missing unmatched summary: ${UNMATCHED_PATH}. Run yarn build:ingredient-recipe-index first.`);
+    throw new Error(`Missing unmatched summary: ${UNMATCHED_PATH}. Run bun run build:ingredient-recipe-index first.`);
   }
 
   const unmatched = JSON.parse(fs.readFileSync(UNMATCHED_PATH, "utf8")) as UnmatchedRow[];

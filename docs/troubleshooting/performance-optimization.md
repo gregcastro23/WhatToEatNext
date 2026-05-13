@@ -24,13 +24,13 @@ interface PerformanceTargets {
 
 ```bash
 # Install performance monitoring tools
-yarn add --dev webpack-bundle-analyzer
-yarn add --dev @next/bundle-analyzer
+bun run add --dev webpack-bundle-analyzer
+bun run add --dev @next/bundle-analyzer
 
 # Run performance analysis
-npm run analyze:bundle
-npm run analyze:performance
-npm run profile:memory
+bun run analyze:bundle
+bun run analyze:performance
+bun run profile:memory
 ```
 
 ## 🌟 Astrological Calculation Optimization

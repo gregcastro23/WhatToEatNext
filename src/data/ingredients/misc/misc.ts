@@ -6,7 +6,8 @@ import { recipeCoverageIngredients } from "./recipeCoverageIngredients";
 // Misc ingredients extracted from cuisine files
 const rawMisc: Record<string, Partial<IngredientMapping>> = {
   sugar: {
-      description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
+      image_url: "ingredients/sugar.png",
+    description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
     name: "sugar",
     origin: ["South and Southeast Asia"],
     season: ["all"],
@@ -33,7 +34,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   maple_syrup: {
-      description: "A complex, earthy sweetener created by boiling down the sap of sugar maple trees (*Acer saccharum*). As the sap reduces, intense caramelization occurs, creating a rich flavor profile featuring notes of vanilla, caramel, and wood that pairs perfectly with both sweet breakfast foods and savory glazed meats.",
+      image_url: "ingredients/maple_syrup.png",
+    description: "A complex, earthy sweetener created by boiling down the sap of sugar maple trees (*Acer saccharum*). As the sap reduces, intense caramelization occurs, creating a rich flavor profile featuring notes of vanilla, caramel, and wood that pairs perfectly with both sweet breakfast foods and savory glazed meats.",
     name: "maple syrup",
     origin: ["Northeastern North America"],
     season: ["spring"],
@@ -60,7 +62,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   baking_powder: {
-      description: "A complete chemical leavening agent containing both a base (sodium bicarbonate) and a weak acid. \"Double-acting\" baking powder reacts twice: first when it dissolves in liquid, and again when exposed to heat, providing a reliable, sustained lift to cakes and quick breads.",
+      image_url: "ingredients/baking_powder.png",
+    description: "A complete chemical leavening agent containing both a base (sodium bicarbonate) and a weak acid. \"Double-acting\" baking powder reacts twice: first when it dissolves in liquid, and again when exposed to heat, providing a reliable, sustained lift to cakes and quick breads.",
     name: "baking powder",
     origin: ["Worldwide"],
     season: ["all"],
@@ -86,7 +89,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   microgreens: {
-      description: "Microgreens is a seasoning ingredient used to adjust balance, aroma, and perceived intensity across savory and sweet cooking. Add in stages so you can control extraction during cooking and precision at the finish. Keep sealed and dry to preserve potency and prevent clumping or flavor drift.",
+      image_url: "ingredients/microgreens.png",
+    description: "Microgreens is a seasoning ingredient used to adjust balance, aroma, and perceived intensity across savory and sweet cooking. Add in stages so you can control extraction during cooking and precision at the finish. Keep sealed and dry to preserve potency and prevent clumping or flavor drift.",
     name: "microgreens",
     origin: ["Worldwide"],
     season: ["all"],
@@ -112,7 +116,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   fresh_herbs: {
-      description: "Fresh Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/fresh_herbs.png",
+    description: "Fresh Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "fresh herbs",
     origin: ["Worldwide"],
     season: ["all"],
@@ -138,7 +143,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mixed_berries: {
-      description: "Mixed Berries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
+      image_url: "ingredients/mixed_berries.png",
+    description: "Mixed Berries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "mixed berries",
     origin: ["Worldwide"],
     season: ["all"],
@@ -164,7 +170,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   honey: {
-      description: "A viscous, supersaturated sugar solution produced by bees from floral nectar. In addition to sweetness, it provides complex floral notes, humectant properties (retaining moisture in baked goods), and promotes rapid browning due to its high fructose and glucose content.",
+      image_url: "ingredients/honey.png",
+    description: "A viscous, supersaturated sugar solution produced by bees from floral nectar. In addition to sweetness, it provides complex floral notes, humectant properties (retaining moisture in baked goods), and promotes rapid browning due to its high fructose and glucose content.",
     name: "honey",
     origin: ["Worldwide (apiculture)"],
     season: ["all"],
@@ -191,7 +198,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   granola: {
-      description: "Granola is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/granola.png",
+    description: "Granola is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "granola",
     origin: ["Worldwide"],
     season: ["all"],
@@ -217,7 +225,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pumpkin_puree: {
-      description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
+      image_url: "ingredients/pumpkin_puree.png",
+    description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
     name: "pumpkin puree",
     origin: ["North America"],
     season: ["fall"],
@@ -243,7 +252,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pecans: {
-      description: "A buttery, rich tree nut (*Carya illinoinensis*) native to North America, boasting one of the highest fat contents of any nut. This fat gives them a melt-in-the-mouth texture and a naturally sweet, maple-like flavor that makes them a classic pairing for caramel and brown sugar.\n\n**Selection & Storage:** Look for uniform, plump halves without excessive broken pieces. Like walnuts, their high fat content makes them prone to spoiling quickly; store them in the refrigerator or freezer.",
+      image_url: "ingredients/pecans.png",
+    description: "A buttery, rich tree nut (*Carya illinoinensis*) native to North America, boasting one of the highest fat contents of any nut. This fat gives them a melt-in-the-mouth texture and a naturally sweet, maple-like flavor that makes them a classic pairing for caramel and brown sugar.\n\n**Selection & Storage:** Look for uniform, plump halves without excessive broken pieces. Like walnuts, their high fat content makes them prone to spoiling quickly; store them in the refrigerator or freezer.",
     name: "pecans",
     origin: ["North America"],
     season: ["fall"],
@@ -269,7 +279,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cranberries: {
-      description: "Cranberries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
+      image_url: "ingredients/cranberries.png",
+    description: "Cranberries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "cranberries",
     origin: ["North America"],
     season: ["fall"],
@@ -295,7 +306,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   walnuts: {
-      description: "A brain-shaped tree nut (*Juglans regia*) known for its high concentration of polyunsaturated fats (omega-3s) and a slightly bitter, astringent papery skin. Toasting them mellows this bitterness, bringing forward a rich, buttery, and deeply earthy flavor that pairs beautifully with dark chocolate or blue cheese.\n\n**Selection & Storage:** Buy shelled walnuts that look plump and light-colored; shriveled or very dark nuts may be old. They are highly susceptible to rancidity, so always store them in an airtight container in the freezer.",
+      image_url: "ingredients/walnuts.png",
+    description: "A brain-shaped tree nut (*Juglans regia*) known for its high concentration of polyunsaturated fats (omega-3s) and a slightly bitter, astringent papery skin. Toasting them mellows this bitterness, bringing forward a rich, buttery, and deeply earthy flavor that pairs beautifully with dark chocolate or blue cheese.\n\n**Selection & Storage:** Buy shelled walnuts that look plump and light-colored; shriveled or very dark nuts may be old. They are highly susceptible to rancidity, so always store them in an airtight container in the freezer.",
     name: "walnuts",
     origin: ["Western Asia"],
     season: ["fall"],
@@ -321,7 +333,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   hamburger_buns: {
-      description: "Hamburger Buns is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/hamburger_buns.png",
+    description: "Hamburger Buns is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "hamburger buns",
     origin: ["Worldwide"],
     season: ["all"],
@@ -347,7 +360,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   ketchup: {
-      description: "A globally beloved table condiment characterized by a delicate balance of sweetness (sugar), acidity (vinegar), and umami (concentrated tomatoes). Its high viscosity and complex flavor profile make it a powerful base for barbecue sauces, glazes, and meatloaf.",
+      image_url: "ingredients/ketchup.png",
+    description: "A globally beloved table condiment characterized by a delicate balance of sweetness (sugar), acidity (vinegar), and umami (concentrated tomatoes). Its high viscosity and complex flavor profile make it a powerful base for barbecue sauces, glazes, and meatloaf.",
     name: "ketchup",
     origin: ["Worldwide"],
     season: ["all"],
@@ -373,7 +387,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mustard: {
-      description: "A pungent condiment made from the crushed seeds of various mustard plants (*Brassica* and *Sinapis* species), blended with water, vinegar, or wine. The sharp heat comes from isothiocyanates, which develop when enzymes are activated by liquid. Mustard acts as both a flavor amplifier and a powerful culinary emulsifier, crucial for stabilizing vinaigrettes and binding rich sauces. Dijon offers sharp tang, whole-grain provides texture, and yellow mustard delivers mild, turmeric-tinted brightness.",
+      image_url: "ingredients/mustard.png",
+    description: "A pungent condiment made from the crushed seeds of various mustard plants (*Brassica* and *Sinapis* species), blended with water, vinegar, or wine. The sharp heat comes from isothiocyanates, which develop when enzymes are activated by liquid. Mustard acts as both a flavor amplifier and a powerful culinary emulsifier, crucial for stabilizing vinaigrettes and binding rich sauces. Dijon offers sharp tang, whole-grain provides texture, and yellow mustard delivers mild, turmeric-tinted brightness.",
     name: "mustard",
     origin: ["Worldwide"],
     season: ["all"],
@@ -399,7 +414,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   bacon: {
-      description: "Salt-cured pork belly that is typically smoked, resulting in an incredibly savory, salty, and richly flavored ingredient. As it cooks, its high fat content renders out, crisping the meat while providing a highly flavorful cooking fat (lard) that can be used to fry eggs or sauté vegetables.",
+      image_url: "ingredients/bacon.png",
+    description: "Salt-cured pork belly that is typically smoked, resulting in an incredibly savory, salty, and richly flavored ingredient. As it cooks, its high fat content renders out, crisping the meat while providing a highly flavorful cooking fat (lard) that can be used to fry eggs or sauté vegetables.",
     name: "bacon",
     origin: ["Europe"],
     season: ["all"],
@@ -425,7 +441,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   clams: {
-      description: "A bivalve mollusk providing a briny, chewy, and distinctly oceanic flavor. Hard-shell clams (like littlenecks or cherrystones) are perfect for eating raw or tossing into pastas, while softer-shelled varieties (like steamers) are excellent for frying or broths.\n\n**Selection & Storage:** Buy clams that are tightly closed; if slightly open, they should snap shut when tapped. Store them in a breathable bag or bowl covered with a damp cloth in the refrigerator.",
+      image_url: "ingredients/clams.png",
+    description: "A bivalve mollusk providing a briny, chewy, and distinctly oceanic flavor. Hard-shell clams (like littlenecks or cherrystones) are perfect for eating raw or tossing into pastas, while softer-shelled varieties (like steamers) are excellent for frying or broths.\n\n**Selection & Storage:** Buy clams that are tightly closed; if slightly open, they should snap shut when tapped. Store them in a breathable bag or bowl covered with a damp cloth in the refrigerator.",
     name: "clams",
     origin: ["Worldwide"],
     season: ["fall", "winter"],
@@ -451,7 +468,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   puff_pastry: {
-      description: "Puff Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/puff_pastry.png",
+    description: "Puff Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "puff pastry",
     origin: ["Worldwide"],
     season: ["all"],
@@ -477,7 +495,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   lobster_meat: {
-      description: "A large marine crustacean whose meat is synonymous with luxury, offering an incredibly sweet, rich flavor and a firm, snappy texture. The tail provides dense, meaty portions, while the claws yield softer, more delicate meat that bathes perfectly in drawn butter.\n\n**Selection & Storage:** Live lobsters should be highly active and hold their tails tightly curled when picked up. Cook live lobsters the day you buy them; keep them in the refrigerator wrapped in damp newspaper, never in fresh water.",
+      image_url: "ingredients/lobster_meat.png",
+    description: "A large marine crustacean whose meat is synonymous with luxury, offering an incredibly sweet, rich flavor and a firm, snappy texture. The tail provides dense, meaty portions, while the claws yield softer, more delicate meat that bathes perfectly in drawn butter.\n\n**Selection & Storage:** Live lobsters should be highly active and hold their tails tightly curled when picked up. Cook live lobsters the day you buy them; keep them in the refrigerator wrapped in damp newspaper, never in fresh water.",
     name: "lobster meat",
     origin: ["North Atlantic", "Pacific"],
     season: ["summer", "fall"],
@@ -503,7 +522,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mayonnaise: {
-      description: "A thick, creamy culinary emulsion created by slowly suspending droplets of oil in water (usually lemon juice or vinegar) utilizing the natural emulsifier lecithin found in egg yolks. It adds rich moisture to sandwiches, binds salads together, and promotes exceptional browning when spread on bread before grilling.",
+      image_url: "ingredients/mayonnaise.png",
+    description: "A thick, creamy culinary emulsion created by slowly suspending droplets of oil in water (usually lemon juice or vinegar) utilizing the natural emulsifier lecithin found in egg yolks. It adds rich moisture to sandwiches, binds salads together, and promotes exceptional browning when spread on bread before grilling.",
     name: "mayonnaise",
     origin: ["Worldwide"],
     season: ["all"],
@@ -529,7 +549,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   split_top_buns: {
-      description: "Split-top Buns is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/split_top_buns.png",
+    description: "Split-top Buns is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "split-top buns",
     origin: ["Worldwide"],
     season: ["all"],
@@ -555,7 +576,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sliced_turkey: {
-      description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
+      image_url: "ingredients/sliced_turkey.png",
+    description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
     name: "sliced turkey",
     origin: ["Mesoamerica"],
     season: ["fall", "winter"],
@@ -581,7 +603,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cranberry_sauce: {
-      description: "A small, exceptionally tart, and astringent berry (*Vaccinium macrocarpon*) native to North American bogs. Because of their intense acidity and low sugar content, they are rarely eaten raw; instead, they are cooked with sugar to create brightly colored, pectin-rich sauces that cut through rich holiday roasts.\n\n**Selection & Storage:** Fresh cranberries should be firm, plump, and bright red; they should bounce if dropped. Store fresh berries in the refrigerator for up to a month, or freeze them indefinitely.",
+      image_url: "ingredients/cranberry_sauce.png",
+    description: "A small, exceptionally tart, and astringent berry (*Vaccinium macrocarpon*) native to North American bogs. Because of their intense acidity and low sugar content, they are rarely eaten raw; instead, they are cooked with sugar to create brightly colored, pectin-rich sauces that cut through rich holiday roasts.\n\n**Selection & Storage:** Fresh cranberries should be firm, plump, and bright red; they should bounce if dropped. Store fresh berries in the refrigerator for up to a month, or freeze them indefinitely.",
     name: "cranberry sauce",
     origin: ["North America"],
     season: ["fall"],
@@ -607,7 +630,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   stuffing: {
-      description: "Stuffing is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/stuffing.png",
+    description: "Stuffing is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "stuffing",
     origin: ["Worldwide"],
     season: ["all"],
@@ -633,7 +657,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   bbq_sauce: {
-      description: "A thick, highly complex condiment built on a foundation of sweetness (molasses or brown sugar), acidity (vinegar), umami (ketchup or tomato paste), and often liquid smoke. Its high sugar content makes it an exceptional glazing agent that caramelizes beautifully over indirect heat, though it will scorch quickly over open flames.",
+      image_url: "ingredients/bbq_sauce.png",
+    description: "A thick, highly complex condiment built on a foundation of sweetness (molasses or brown sugar), acidity (vinegar), umami (ketchup or tomato paste), and often liquid smoke. Its high sugar content makes it an exceptional glazing agent that caramelizes beautifully over indirect heat, though it will scorch quickly over open flames.",
     name: "BBQ sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -659,7 +684,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   brown_sugar: {
-      description: "Granulated white sugar that has had molasses reintroduced to it (or left in during refining). The molasses provides a deeper, caramel-like flavor, slight acidity, and additional moisture (making baked goods softer and chewier), but it also causes the sugar to pack tightly together.",
+      image_url: "ingredients/brown_sugar.png",
+    description: "Granulated white sugar that has had molasses reintroduced to it (or left in during refining). The molasses provides a deeper, caramel-like flavor, slight acidity, and additional moisture (making baked goods softer and chewier), but it also causes the sugar to pack tightly together.",
     name: "brown sugar",
     origin: ["Worldwide"],
     season: ["all"],
@@ -685,7 +711,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   lamb_chops: {
-      description: "The meat of young domestic sheep (*Ovis aries*), renowned for its distinctive, slightly gamey, and grassy flavor profile, caused by branched-chain fatty acids in its fat. It pairs beautifully with strong, astringent aromatics like rosemary, mint, and garlic that cut through its rich intensity.\n\n**Selection & Storage:** Choose cuts with a light, rosy-red color and stark white, firm fat; dark red meat indicates an older animal (mutton). Keep tightly wrapped in the coldest section of the refrigerator and cook within 3-5 days.",
+      image_url: "ingredients/lamb_chops.png",
+    description: "The meat of young domestic sheep (*Ovis aries*), renowned for its distinctive, slightly gamey, and grassy flavor profile, caused by branched-chain fatty acids in its fat. It pairs beautifully with strong, astringent aromatics like rosemary, mint, and garlic that cut through its rich intensity.\n\n**Selection & Storage:** Choose cuts with a light, rosy-red color and stark white, firm fat; dark red meat indicates an older animal (mutton). Keep tightly wrapped in the coldest section of the refrigerator and cook within 3-5 days.",
     name: "lamb chops",
     origin: ["Western Asia"],
     season: ["spring"],
@@ -711,7 +738,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cedar_plank: {
-      description: "Cedar Plank is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/cedar_plank.png",
+    description: "Cedar Plank is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "cedar plank",
     origin: ["Worldwide"],
     season: ["all"],
@@ -737,7 +765,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   whole_turkey: {
-      description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
+      image_url: "ingredients/whole_turkey.png",
+    description: "A large poultry bird (*Meleagris gallopavo*) that yields exceptionally lean, mildly flavored meat. Due to the stark structural differences between its white breast meat (which cooks quickly and dries out) and dark leg meat (which requires longer cooking to break down collagen), it often requires careful heat management or brining.\n\n**Selection & Storage:** Fresh turkey meat should look plump, firm, and slightly pink with no off-odors. Keep fresh turkey refrigerated at 40°F (4°C) or below and use within two days.",
     name: "whole turkey",
     origin: ["Mesoamerica"],
     season: ["fall", "winter"],
@@ -763,7 +792,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   white_sugar: {
-      description: "Highly refined sucrose extracted from sugarcane or sugar beets. Its pure, neutral sweetness makes it a structural cornerstone in baking, where it aerates fats (creaming), stabilizes egg foams (meringues), and undergoes caramelization at high temperatures to build flavor and color.",
+      image_url: "ingredients/white_sugar.png",
+    description: "Highly refined sucrose extracted from sugarcane or sugar beets. Its pure, neutral sweetness makes it a structural cornerstone in baking, where it aerates fats (creaming), stabilizes egg foams (meringues), and undergoes caramelization at high temperatures to build flavor and color.",
     name: "white sugar",
     origin: ["South and Southeast Asia"],
     season: ["all"],
@@ -789,7 +819,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   chocolate_chips: {
-      description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
+      image_url: "ingredients/chocolate_chips.png",
+    description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
     name: "chocolate chips",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -815,7 +846,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   graham_crackers: {
-      description: "Graham Crackers is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/graham_crackers.png",
+    description: "Graham Crackers is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "graham crackers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -841,7 +873,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   vanilla_extract: {
-      description: "A potent liquid flavoring created by macerating vanilla beans in a solution of ethanol and water, which extracts the complex vanillin compounds. It serves as a universal flavor enhancer in baking, adding perceived sweetness and floral depth to cookies, cakes, and custards.",
+      image_url: "ingredients/vanilla_extract.png",
+    description: "A potent liquid flavoring created by macerating vanilla beans in a solution of ethanol and water, which extracts the complex vanillin compounds. It serves as a universal flavor enhancer in baking, adding perceived sweetness and floral depth to cookies, cakes, and custards.",
     name: "vanilla extract",
     origin: ["Mexico (Totonac region)"],
     season: ["all"],
@@ -867,7 +900,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   fresh_strawberries: {
-      description: "Fresh Strawberries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
+      image_url: "ingredients/fresh_strawberries.png",
+    description: "Fresh Strawberries is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "fresh strawberries",
     origin: ["Europe", "Americas"],
     season: ["spring", "summer"],
@@ -893,7 +927,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   marshmallows: {
-      description: "A highly aerated, spongy confection originally made from the mucilaginous sap of the marsh-mallow plant (*Althaea officinalis*), but modernly constructed from a whipped matrix of sugar, corn syrup, and gelatin. It is a structural marvel, trapping massive amounts of air that expand and violently caramelize when exposed to the intense heat of an open flame.\n\n**Selection & Storage:** Keep tightly sealed in a dry pantry; exposure to ambient humidity will cause them to become sticky, while extreme dryness will turn them stale and hard.",
+      image_url: "ingredients/marshmallows.png",
+    description: "A highly aerated, spongy confection originally made from the mucilaginous sap of the marsh-mallow plant (*Althaea officinalis*), but modernly constructed from a whipped matrix of sugar, corn syrup, and gelatin. It is a structural marvel, trapping massive amounts of air that expand and violently caramelize when exposed to the intense heat of an open flame.\n\n**Selection & Storage:** Keep tightly sealed in a dry pantry; exposure to ambient humidity will cause them to become sticky, while extreme dryness will turn them stale and hard.",
     name: "marshmallows",
     origin: ["Worldwide"],
     season: ["all"],
@@ -919,7 +954,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   chocolate_sauce: {
-      description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
+      image_url: "ingredients/chocolate_sauce.png",
+    description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
     name: "chocolate sauce",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -945,7 +981,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sea_salt: {
-      description: "A broad category of salt obtained directly through the evaporation of seawater, rather than mined from subterranean rock deposits. While it is chemically mostly sodium chloride, it retains trace oceanic minerals (like magnesium and calcium) that provide a slightly more complex, 'briny' flavor profile than highly refined table salt.",
+      image_url: "ingredients/sea_salt.png",
+    description: "A broad category of salt obtained directly through the evaporation of seawater, rather than mined from subterranean rock deposits. While it is chemically mostly sodium chloride, it retains trace oceanic minerals (like magnesium and calcium) that provide a slightly more complex, 'briny' flavor profile than highly refined table salt.",
     name: "sea salt",
     origin: ["Worldwide coasts"],
     season: ["all"],
@@ -971,7 +1008,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pie_crust: {
-      description: "Pie Crust is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/pie_crust.png",
+    description: "Pie Crust is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "pie crust",
     origin: ["Worldwide"],
     season: ["all"],
@@ -997,7 +1035,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   molasses: {
-      description: "The dark, viscous byproduct of the sugar refining process, containing concentrated sugars, minerals, and complex Maillard reaction products. Light molasses is sweeter and used in baking (like gingerbread), while blackstrap molasses is intensely bitter, salty, and best used sparingly in savory barbecue sauces or baked beans.",
+      image_url: "ingredients/molasses.png",
+    description: "The dark, viscous byproduct of the sugar refining process, containing concentrated sugars, minerals, and complex Maillard reaction products. Light molasses is sweeter and used in baking (like gingerbread), while blackstrap molasses is intensely bitter, salty, and best used sparingly in savory barbecue sauces or baked beans.",
     name: "molasses",
     origin: ["Worldwide cane regions"],
     season: ["all"],
@@ -1023,7 +1062,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   salt: {
-      description: "A crystalline mineral composed primarily of sodium chloride (NaCl). It is the single most important ingredient in cooking, as it suppresses bitterness, enhances sweetness, and drastically amplifies volatile aromatic compounds, making food taste more like itself.",
+      image_url: "ingredients/salt.png",
+    description: "A crystalline mineral composed primarily of sodium chloride (NaCl). It is the single most important ingredient in cooking, as it suppresses bitterness, enhances sweetness, and drastically amplifies volatile aromatic compounds, making food taste more like itself.",
     name: "salt",
     origin: ["Worldwide mineral and sea sources"],
     season: ["all"],
@@ -1049,7 +1089,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   char_siu_bao: {
-      description: "Char Siu Bao is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/char_siu_bao.png",
+    description: "Char Siu Bao is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "char siu bao",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1075,7 +1116,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   spring_rolls: {
-      description: "Spring Rolls is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/spring_rolls.png",
+    description: "Spring Rolls is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "spring rolls",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1101,7 +1143,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   whole_duck: {
-      description: "A rich, fatty waterfowl (*Anas platyrhynchos*) known for its dark, deeply flavorful meat and thick layer of subcutaneous fat. Unlike chicken, its breast meat is typically served medium-rare to maintain tenderness, while the legs are slowly braised (often in their own fat as confit) to break down tough collagen.\n\n**Selection & Storage:** Look for plump birds or breasts with an intact, creamy white layer of skin and fat. Store in the coldest part of the refrigerator and cook within two days, or freeze.",
+      image_url: "ingredients/whole_duck.png",
+    description: "A rich, fatty waterfowl (*Anas platyrhynchos*) known for its dark, deeply flavorful meat and thick layer of subcutaneous fat. Unlike chicken, its breast meat is typically served medium-rare to maintain tenderness, while the legs are slowly braised (often in their own fat as confit) to break down tough collagen.\n\n**Selection & Storage:** Look for plump birds or breasts with an intact, creamy white layer of skin and fat. Store in the coldest part of the refrigerator and cook within two days, or freeze.",
     name: "whole duck",
     origin: ["East Asia"],
     season: ["fall", "winter"],
@@ -1127,7 +1170,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pastry_dough: {
-      description: "Pastry Dough is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/pastry_dough.png",
+    description: "Pastry Dough is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "pastry dough",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1153,7 +1197,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   dried_fruits: {
-      description: "Dried Fruits is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
+      image_url: "ingredients/dried_fruits.png",
+    description: "Dried Fruits is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "dried fruits",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1179,7 +1224,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   nuts: {
-      description: "Hard-shelled seeds of various trees, valued for their dense concentration of fats, proteins, and rich, earthy flavors. While botanical definitions vary, culinary nuts encompass everything from walnuts and pecans to almonds and cashews. Their high oil content makes them prone to rancidity but also allows them to toast beautifully, enhancing their crunch and deepening their aromatic profile via the Maillard reaction. Store in the freezer to prolong freshness.",
+      image_url: "ingredients/nuts.png",
+    description: "Hard-shelled seeds of various trees, valued for their dense concentration of fats, proteins, and rich, earthy flavors. While botanical definitions vary, culinary nuts encompass everything from walnuts and pecans to almonds and cashews. Their high oil content makes them prone to rancidity but also allows them to toast beautifully, enhancing their crunch and deepening their aromatic profile via the Maillard reaction. Store in the freezer to prolong freshness.",
     name: "nuts",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1205,7 +1251,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cr_me_fra_che: {
-      description: "Crème Fraîche is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
+      image_url: "ingredients/cr_me_fra_che.png",
+    description: "Crème Fraîche is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "crème fraîche",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1231,7 +1278,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   fine_herbs: {
-      description: "Fine Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/fine_herbs.png",
+    description: "Fine Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "fine herbs",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1257,7 +1305,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   brioche: {
-      description: "Brioche is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/brioche.png",
+    description: "Brioche is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "brioche",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1283,7 +1332,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   granulated_sugar: {
-      description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
+      image_url: "ingredients/granulated_sugar.png",
+    description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
     name: "granulated sugar",
     origin: ["South and Southeast Asia"],
     season: ["all"],
@@ -1309,7 +1359,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   white_ham: {
-      description: "White Ham is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
+      image_url: "ingredients/white_ham.png",
+    description: "White Ham is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "white ham",
     origin: ["Europe", "East Asia"],
     season: ["all"],
@@ -1335,7 +1386,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   bechamel_sauce: {
-      description: "Béchamel Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/bechamel_sauce.png",
+    description: "Béchamel Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "béchamel sauce",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1361,7 +1413,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   anchovies: {
-      description: "Small, oily forage fish (*Engraulis encrasicolus*) primarily preserved through heavy salt-curing and packing in oil. While aggressively fishy and salty on their own, they dissolve completely when heated, acting as a secret, umami-rich backbone for Caesar dressings, tomato sauces, and braises.",
+      image_url: "ingredients/anchovies.png",
+    description: "Small, oily forage fish (*Engraulis encrasicolus*) primarily preserved through heavy salt-curing and packing in oil. While aggressively fishy and salty on their own, they dissolve completely when heated, acting as a secret, umami-rich backbone for Caesar dressings, tomato sauces, and braises.",
     name: "anchovies",
     origin: ["Mediterranean"],
     season: ["spring", "summer"],
@@ -1387,7 +1440,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   vinaigrette: {
-      description: "Vinaigrette is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/vinaigrette.png",
+    description: "Vinaigrette is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "vinaigrette",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1413,7 +1467,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   baguette: {
-      description: "A classic French yeast bread characterized by its elongated shape, crisp, deeply browned crust, and chewy, open-crumb interior. Built from a lean dough of simply flour, water, yeast, and salt, its texture relies on a slow fermentation and baking in a steam-injected oven. Highly perishable due to its lack of fat, it is best consumed the day it is baked or repurposed into crostini, croutons, or bread pudding.",
+      image_url: "ingredients/baguette.png",
+    description: "A classic French yeast bread characterized by its elongated shape, crisp, deeply browned crust, and chewy, open-crumb interior. Built from a lean dough of simply flour, water, yeast, and salt, its texture relies on a slow fermentation and baking in a steam-injected oven. Highly perishable due to its lack of fat, it is best consumed the day it is baked or repurposed into crostini, croutons, or bread pudding.",
     name: "baguette",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1439,7 +1494,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   lardons: {
-      description: "Lardons is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
+      image_url: "ingredients/lardons.png",
+    description: "Lardons is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "lardons",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1465,7 +1521,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   bouquet_garni: {
-      description: "Bouquet Garni is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/bouquet_garni.png",
+    description: "Bouquet Garni is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "bouquet garni",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1491,7 +1548,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   cognac: {
-      description: "Cognac is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
+      image_url: "ingredients/cognac.png",
+    description: "Cognac is a liquid culinary ingredient used for hydration, extraction, and flavor transport. Temperature and dilution directly affect aroma release and mouthfeel, so tune handling to the dish rather than treating it as neutral water. Store as directed and keep containers sealed between uses to preserve freshness.",
     name: "cognac",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1517,7 +1575,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sole_fillets: {
-      description: "Sole Fillets is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
+      image_url: "ingredients/sole_fillets.png",
+    description: "Sole Fillets is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "sole fillets",
     origin: ["Atlantic Ocean"],
     season: ["spring", "summer"],
@@ -1543,7 +1602,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   bacon_or_pancetta: {
-      description: "An Italian salumi made from pork belly meat that is salt-cured, heavily seasoned with black pepper, and often rolled into a tight cylinder (*arrotolata*), but importantly, it is not smoked. It provides a rich, porky saltiness to dishes without the overwhelming wood-smoke flavor of bacon.\n\n**Selection & Storage:** Buy whole pieces if using for cooking (to dice into lardons) or thinly sliced for wrapping. Store tightly sealed in the refrigerator for up to 3 weeks.",
+      image_url: "ingredients/bacon_or_pancetta.png",
+    description: "An Italian salumi made from pork belly meat that is salt-cured, heavily seasoned with black pepper, and often rolled into a tight cylinder (*arrotolata*), but importantly, it is not smoked. It provides a rich, porky saltiness to dishes without the overwhelming wood-smoke flavor of bacon.\n\n**Selection & Storage:** Buy whole pieces if using for cooking (to dice into lardons) or thinly sliced for wrapping. Store tightly sealed in the refrigerator for up to 3 weeks.",
     name: "bacon or pancetta",
     origin: ["Europe"],
     season: ["all"],
@@ -1569,7 +1629,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sugar_for_caramelizing: {
-      description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
+      image_url: "ingredients/sugar_for_caramelizing.png",
+    description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
     name: "sugar for caramelizing",
     origin: ["South and Southeast Asia"],
     season: ["all"],
@@ -1595,7 +1656,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   shortcrust_pastry: {
-      description: "Shortcrust Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/shortcrust_pastry.png",
+    description: "Shortcrust Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "shortcrust pastry",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1621,7 +1683,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   choux_pastry: {
-      description: "Choux Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/choux_pastry.png",
+    description: "Choux Pastry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "choux pastry",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1647,7 +1710,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   dark_chocolate: {
-      description: "A rich confection made from cocoa mass (cocoa solids and cocoa butter) and sugar, with no milk added. Higher percentages (70% and above) indicate more cocoa mass and less sugar, resulting in an intensely bitter, complex, and astringent flavor profile that balances exceptionally sweet baked goods.",
+      image_url: "ingredients/dark_chocolate.png",
+    description: "A rich confection made from cocoa mass (cocoa solids and cocoa butter) and sugar, with no milk added. Higher percentages (70% and above) indicate more cocoa mass and less sugar, resulting in an intensely bitter, complex, and astringent flavor profile that balances exceptionally sweet baked goods.",
     name: "dark chocolate",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -1673,7 +1737,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   phyllo_dough: {
-      description: "Paper-thin sheets of unleavened flour-and-water dough, central to Middle Eastern and Balkan pastries like baklava and spanakopita. Lacking internal fat, phyllo relies on being layered and individually brushed with melted butter or oil before baking, resulting in a shatteringly crisp, flaky structure. It dries out and cracks rapidly when exposed to air, requiring cooks to keep unused sheets covered with a damp towel during assembly.",
+      image_url: "ingredients/phyllo_dough.png",
+    description: "Paper-thin sheets of unleavened flour-and-water dough, central to Middle Eastern and Balkan pastries like baklava and spanakopita. Lacking internal fat, phyllo relies on being layered and individually brushed with melted butter or oil before baking, resulting in a shatteringly crisp, flaky structure. It dries out and cracks rapidly when exposed to air, requiring cooks to keep unused sheets covered with a damp towel during assembly.",
     name: "phyllo dough",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1699,7 +1764,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   semolina: {
-      description: "A coarse, pale-yellow flour milled from hard durum wheat (*Triticum durum*). Its extraordinarily high protein content and coarse grind make it the international standard for creating structured, resilient dried pasta, and it provides a gritty, satisfying crunch when dusted on pizza peels.",
+      image_url: "ingredients/semolina.png",
+    description: "A coarse, pale-yellow flour milled from hard durum wheat (*Triticum durum*). Its extraordinarily high protein content and coarse grind make it the international standard for creating structured, resilient dried pasta, and it provides a gritty, satisfying crunch when dusted on pizza peels.",
     name: "semolina",
     origin: ["Mediterranean"],
     season: ["all"],
@@ -1725,7 +1791,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   almonds: {
-      description: "The edible seeds of the *Prunus dulcis* tree, highly valued for their subtle sweetness, firm crunch, and woody flavor. Blanched almonds (skins removed) are often ground into fine flours for delicate pastries like macarons, while skin-on, roasted almonds provide robust texture and bitterness to savory dishes.",
+      image_url: "ingredients/almonds.png",
+    description: "The edible seeds of the *Prunus dulcis* tree, highly valued for their subtle sweetness, firm crunch, and woody flavor. Blanched almonds (skins removed) are often ground into fine flours for delicate pastries like macarons, while skin-on, roasted almonds provide robust texture and bitterness to savory dishes.",
     name: "almonds",
     origin: ["Western Asia"],
     season: ["fall"],
@@ -1751,7 +1818,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   urad_dal: {
-      description: "Urad Dal is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/urad_dal.png",
+    description: "Urad Dal is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "urad dal",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1777,7 +1845,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   toor_dal: {
-      description: "Toor Dal is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/toor_dal.png",
+    description: "Toor Dal is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "toor dal",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1803,7 +1872,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sambar_powder: {
-      description: "Sambar Powder is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/sambar_powder.png",
+    description: "Sambar Powder is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "sambar powder",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1829,7 +1899,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   vegetables: {
-      description: "Any edible plant material — leaves, roots, stems, tubers, flowers, fruits used as savory ingredients — delivering fiber, vitamins, phytochemicals, and the flavor backbone of non-meat-forward cooking. Treat by structural group: hard roots (carrots, beets) need more heat and time; leafy greens cook in seconds; fungi need dry heat to develop depth; brassicas reward high heat for caramelization and charring. Freshness matters more than variety — a peak-season common vegetable beats an out-of-season rare one.",
+      image_url: "ingredients/vegetables.png",
+    description: "Any edible plant material — leaves, roots, stems, tubers, flowers, fruits used as savory ingredients — delivering fiber, vitamins, phytochemicals, and the flavor backbone of non-meat-forward cooking. Treat by structural group: hard roots (carrots, beets) need more heat and time; leafy greens cook in seconds; fungi need dry heat to develop depth; brassicas reward high heat for caramelization and charring. Freshness matters more than variety — a peak-season common vegetable beats an out-of-season rare one.",
     name: "vegetables",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1855,7 +1926,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   puri_shells: {
-      description: "Puri Shells is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/puri_shells.png",
+    description: "Puri Shells is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "puri shells",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1881,7 +1953,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   tamarind: {
-      description: "The sticky, highly acidic pulp extracted from the seed pods of the *Tamarindus indica* tree. It provides a profoundly complex, fruity, and intensely tart flavor profile that acts as the primary souring agent in Pad Thai, Indian chutneys, and Worcestershire sauce.",
+      image_url: "ingredients/tamarind.png",
+    description: "The sticky, highly acidic pulp extracted from the seed pods of the *Tamarindus indica* tree. It provides a profoundly complex, fruity, and intensely tart flavor profile that acts as the primary souring agent in Pad Thai, Indian chutneys, and Worcestershire sauce.",
     name: "tamarind",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1907,7 +1980,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   black_salt: {
-      description: "The mineral sodium chloride (NaCl), the single most important culinary seasoning — amplifier of sweetness, suppressor of bitterness, enabler of fermentation, and the substance without which most cooking falls flat. Form matters: table salt dissolves fast for baking; kosher has large flakes that coat meats evenly; fleur de sel and Maldon finish with crunch and bright brine. Salt early in cooking for penetration, at the end for texture; sprinkle deliberately rather than reflexively.",
+      image_url: "ingredients/black_salt.png",
+    description: "The mineral sodium chloride (NaCl), the single most important culinary seasoning — amplifier of sweetness, suppressor of bitterness, enabler of fermentation, and the substance without which most cooking falls flat. Form matters: table salt dissolves fast for baking; kosher has large flakes that coat meats evenly; fleur de sel and Maldon finish with crunch and bright brine. Salt early in cooking for penetration, at the end for texture; sprinkle deliberately rather than reflexively.",
     name: "black salt",
     origin: ["Worldwide mineral and sea sources"],
     season: ["all"],
@@ -1933,7 +2007,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sprouted_moong: {
-      description: "Sprouted Moong is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/sprouted_moong.png",
+    description: "Sprouted Moong is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "sprouted moong",
     origin: ["Worldwide"],
     season: ["all"],
@@ -1959,7 +2034,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pistachios: {
-      description: "The mildly sweet, pale green seed of a desert tree (*Pistacia vera*) encased in a hard, beige shell. They offer a rich, earthy, and distinctly piney flavor, making them equally prized as a standalone snack, folded into mortadella, or ground into sweet Middle Eastern pastries like baklava.\n\n**Selection & Storage:** Look for pistachios with partially open shells, indicating full maturity. Store shelled pistachios in an airtight container in the refrigerator or freezer to protect their delicate oils.",
+      image_url: "ingredients/pistachios.png",
+    description: "The mildly sweet, pale green seed of a desert tree (*Pistacia vera*) encased in a hard, beige shell. They offer a rich, earthy, and distinctly piney flavor, making them equally prized as a standalone snack, folded into mortadella, or ground into sweet Middle Eastern pastries like baklava.\n\n**Selection & Storage:** Look for pistachios with partially open shells, indicating full maturity. Store shelled pistachios in an airtight container in the refrigerator or freezer to protect their delicate oils.",
     name: "pistachios",
     origin: ["Western Asia"],
     season: ["all"],
@@ -1985,7 +2061,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   almond_granita: {
-      description: "A teardrop-shaped tree nut (*Prunus dulcis*) prized for its subtle sweetness, woody flavor, and firm crunch. Blanched almonds (skins removed) are often ground into fine flours for delicate pastries like macarons, while skin-on, roasted almonds provide robust texture and bitterness to savory dishes.\n\n**Selection & Storage:** Choose almonds that smell sweet and nutty, avoiding any that smell sharp or like paint (a sign of rancidity). Store them in an airtight container in the refrigerator or freezer to preserve their volatile oils.",
+      image_url: "ingredients/almond_granita.png",
+    description: "A teardrop-shaped tree nut (*Prunus dulcis*) prized for its subtle sweetness, woody flavor, and firm crunch. Blanched almonds (skins removed) are often ground into fine flours for delicate pastries like macarons, while skin-on, roasted almonds provide robust texture and bitterness to savory dishes.\n\n**Selection & Storage:** Choose almonds that smell sweet and nutty, avoiding any that smell sharp or like paint (a sign of rancidity). Store them in an airtight container in the refrigerator or freezer to preserve their volatile oils.",
     name: "almond granita",
     origin: ["Western Asia (Iran, Levant)"],
     season: ["fall"],
@@ -2011,7 +2088,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mascarpone: {
-      description: "An Italian cream cheese coagulated through the addition of an acidic substance (like lemon juice or citric acid) rather than rennet. It boasts an exceptionally high butterfat content (up to 75%), yielding an unimaginably rich, velvety texture and a sweet, milky flavor crucial for tiramisu.",
+      image_url: "ingredients/mascarpone.png",
+    description: "An Italian cream cheese coagulated through the addition of an acidic substance (like lemon juice or citric acid) rather than rennet. It boasts an exceptionally high butterfat content (up to 75%), yielding an unimaginably rich, velvety texture and a sweet, milky flavor crucial for tiramisu.",
     name: "mascarpone",
     origin: ["Italy (Lombardy)"],
     season: ["all"],
@@ -2037,7 +2115,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   natto: {
-      description: "Natto is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
+      image_url: "ingredients/natto.png",
+    description: "Natto is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     name: "natto",
     origin: ["Japan"],
     season: ["all"],
@@ -2063,7 +2142,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   umeboshi: {
-      description: "Umeboshi is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/umeboshi.png",
+    description: "Umeboshi is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "umeboshi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2089,7 +2169,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   dashi: {
-      description: "The foundational soup stock of Japanese cuisine, typically built from *kombu* (kelp) and *katsuobushi* (dried, fermented bonito flakes). This elemental pairing creates an intense synergy of glutamates and inosinates, yielding a profound, clear umami broth in minutes without the long simmering required for Western meat stocks. Dashi forms the backbone of miso soup, noodle broths, and simmering liquids, imparting a distinct, refined oceanic depth to dishes.",
+      image_url: "ingredients/dashi.png",
+    description: "The foundational soup stock of Japanese cuisine, typically built from *kombu* (kelp) and *katsuobushi* (dried, fermented bonito flakes). This elemental pairing creates an intense synergy of glutamates and inosinates, yielding a profound, clear umami broth in minutes without the long simmering required for Western meat stocks. Dashi forms the backbone of miso soup, noodle broths, and simmering liquids, imparting a distinct, refined oceanic depth to dishes.",
     name: "dashi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2115,7 +2196,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   gyoza_wrappers: {
-      description: "Gyoza Wrappers is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/gyoza_wrappers.png",
+    description: "Gyoza Wrappers is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "gyoza wrappers",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2141,7 +2223,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   soy_sauce: {
-      description: "An essential East Asian liquid condiment produced by fermenting soybeans, roasted wheat, water, and salt with the mold *Aspergillus oryzae*. This long fermentation breaks down proteins into free amino acids (especially glutamate), creating a profoundly complex, salty, and umami-rich liquid.",
+      image_url: "ingredients/soy_sauce.png",
+    description: "An essential East Asian liquid condiment produced by fermenting soybeans, roasted wheat, water, and salt with the mold *Aspergillus oryzae*. This long fermentation breaks down proteins into free amino acids (especially glutamate), creating a profoundly complex, salty, and umami-rich liquid.",
     name: "soy sauce",
     origin: ["China"],
     season: ["all"],
@@ -2167,7 +2250,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sake: {
-      description: "A Japanese alcoholic beverage made by fermenting rice that has been polished to remove the bran. In cooking, it functions similarly to white wine, providing subtle acidity, tenderizing meats, and dissolving flavor compounds that are soluble only in alcohol.",
+      image_url: "ingredients/sake.png",
+    description: "A Japanese alcoholic beverage made by fermenting rice that has been polished to remove the bran. In cooking, it functions similarly to white wine, providing subtle acidity, tenderizing meats, and dissolving flavor compounds that are soluble only in alcohol.",
     name: "sake",
     origin: ["Japan"],
     season: ["all"],
@@ -2193,7 +2277,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   aged_kimchi: {
-      description: "A traditional Korean side dish (banchan) of salted and fermented vegetables, most commonly napa cabbage and Korean radishes. It is fermented by lactic acid bacteria in a paste of gochugaru, garlic, ginger, and salted seafood, resulting in a profoundly complex, sour, spicy, and umami-rich flavor.\n\n**Selection & Storage:** Kimchi is a living food; it will continue to ferment and sour over time. Keep it tightly sealed in the refrigerator; older, sour kimchi is superior for cooking stews (jjigae).",
+      image_url: "ingredients/aged_kimchi.png",
+    description: "A traditional Korean side dish (banchan) of salted and fermented vegetables, most commonly napa cabbage and Korean radishes. It is fermented by lactic acid bacteria in a paste of gochugaru, garlic, ginger, and salted seafood, resulting in a profoundly complex, sour, spicy, and umami-rich flavor.\n\n**Selection & Storage:** Kimchi is a living food; it will continue to ferment and sour over time. Keep it tightly sealed in the refrigerator; older, sour kimchi is superior for cooking stews (jjigae).",
     name: "aged kimchi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2219,7 +2304,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   perilla_leaves: {
-      description: "Perilla Leaves is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/perilla_leaves.png",
+    description: "Perilla Leaves is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "perilla leaves",
     origin: ["East Asia"],
     season: ["summer"],
@@ -2245,7 +2331,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   ssamjang: {
-      description: "Ssamjang is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/ssamjang.png",
+    description: "Ssamjang is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "ssamjang",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2271,7 +2358,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   kimchi: {
-      description: "A traditional Korean side dish (banchan) of salted and fermented vegetables, most commonly napa cabbage and Korean radishes. It is fermented by lactic acid bacteria in a paste of gochugaru, garlic, ginger, and salted seafood, resulting in a profoundly complex, sour, spicy, and umami-rich flavor.",
+      image_url: "ingredients/kimchi.png",
+    description: "A traditional Korean side dish (banchan) of salted and fermented vegetables, most commonly napa cabbage and Korean radishes. It is fermented by lactic acid bacteria in a paste of gochugaru, garlic, ginger, and salted seafood, resulting in a profoundly complex, sour, spicy, and umami-rich flavor.",
     name: "kimchi",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2297,7 +2385,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   gochugaru: {
-      description: "A coarsely ground Korean chili powder made from sun-dried peppers (*Capsicum annuum*). It possesses a unique flavor profile that is simultaneously spicy, sweet, and slightly smoky, providing the essential flavor base and vibrant red color for kimchi and gochujang.",
+      image_url: "ingredients/gochugaru.png",
+    description: "A coarsely ground Korean chili powder made from sun-dried peppers (*Capsicum annuum*). It possesses a unique flavor profile that is simultaneously spicy, sweet, and slightly smoky, providing the essential flavor base and vibrant red color for kimchi and gochujang.",
     name: "gochugaru",
     origin: ["Korea"],
     season: ["all"],
@@ -2323,7 +2412,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   gochujang: {
-      description: "A savory, sweet, and spicy fermented Korean condiment made from gochugaru (chili powder), glutinous rice, meju (fermented soybean) powder, and salt. Its long fermentation process creates an incredibly thick, sticky paste that acts as the foundational flavor base for tteokbokki and bibimbap.",
+      image_url: "ingredients/gochujang.png",
+    description: "A savory, sweet, and spicy fermented Korean condiment made from gochugaru (chili powder), glutinous rice, meju (fermented soybean) powder, and salt. Its long fermentation process creates an incredibly thick, sticky paste that acts as the foundational flavor base for tteokbokki and bibimbap.",
     name: "gochujang",
     origin: ["Korea"],
     season: ["all"],
@@ -2349,7 +2439,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   saeujeot: {
-      description: "Saeujeot is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/saeujeot.png",
+    description: "Saeujeot is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "saeujeot",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2375,7 +2466,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   shaved_ice: {
-      description: "Shaved Ice is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/shaved_ice.png",
+    description: "Shaved Ice is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "shaved ice",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2401,7 +2493,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   sesame_seeds: {
-      description: "Tiny, oil-rich seeds (*Sesamum indicum*) available in white, black, and brown varieties. Toasting them is essential to release their volatile aromatics, which provide an intensely nutty, savory, and almost meaty flavor profile that defines many Asian and Middle Eastern cuisines.\n\n**Selection & Storage:** Look for seeds that smell fresh and sweet. Because they are mostly oil, store them in a tightly sealed container in the refrigerator or freezer to prevent them from going rancid quickly.",
+      image_url: "ingredients/sesame_seeds.png",
+    description: "Tiny, oil-rich seeds (*Sesamum indicum*) available in white, black, and brown varieties. Toasting them is essential to release their volatile aromatics, which provide an intensely nutty, savory, and almost meaty flavor profile that defines many Asian and Middle Eastern cuisines.\n\n**Selection & Storage:** Look for seeds that smell fresh and sweet. Because they are mostly oil, store them in a tightly sealed container in the refrigerator or freezer to prevent them from going rancid quickly.",
     name: "sesame seeds",
     origin: ["Africa", "India"],
     season: ["all"],
@@ -2427,7 +2520,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pine_needles: {
-      description: "Pine Needles is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/pine_needles.png",
+    description: "Pine Needles is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "pine needles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2453,7 +2547,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mixed_fruits: {
-      description: "Mixed Fruits is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
+      image_url: "ingredients/mixed_fruits.png",
+    description: "Mixed Fruits is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "mixed fruits",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2479,7 +2574,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   dried_hominy: {
-      description: "Dried Hominy is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/dried_hominy.png",
+    description: "Dried Hominy is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "dried hominy",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -2505,7 +2601,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   mixed_dried_chiles: {
-      description: "Mixed Dried Chiles is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/mixed_dried_chiles.png",
+    description: "Mixed Dried Chiles is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "mixed dried chiles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2531,7 +2628,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   chocolate: {
-      description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
+      image_url: "ingredients/chocolate.png",
+    description: "A complex, semi-solid suspension of cocoa solids and cocoa butter extracted from the fermented, roasted seeds of the *Theobroma cacao* tree. Dark chocolate offers intense, bitter-roasted notes and snaps cleanly; milk chocolate is mellowed by dairy solids; and white chocolate relies entirely on cocoa butter without solids. Temperature control is critical: chocolate must be carefully tempered to align its fat crystals, ensuring a glossy finish and stable texture at room temperature.",
     name: "chocolate",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -2557,7 +2655,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   poblano_chiles: {
-      description: "A mild to moderately hot, dark green chili pepper (*Capsicum annuum*). Its thick flesh and wide cavity make it the premier choice for stuffing (as in Chiles Rellenos), and roasting it transforms its mild, earthy flavor into something deeply savory, rich, and slightly sweet.\n\n**Selection & Storage:** Select dark green, firm peppers that feel heavy for their size. Store in the crisper drawer, though they are best roasted and peeled soon after purchase.",
+      image_url: "ingredients/poblano_chiles.png",
+    description: "A mild to moderately hot, dark green chili pepper (*Capsicum annuum*). Its thick flesh and wide cavity make it the premier choice for stuffing (as in Chiles Rellenos), and roasting it transforms its mild, earthy flavor into something deeply savory, rich, and slightly sweet.\n\n**Selection & Storage:** Select dark green, firm peppers that feel heavy for their size. Store in the crisper drawer, though they are best roasted and peeled soon after purchase.",
     name: "poblano chiles",
     origin: ["Mexico (Puebla)"],
     season: ["summer", "fall"],
@@ -2583,7 +2682,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   masa_harina: {
-      description: "A traditional Mexican flour made by drying and grinding corn that has undergone nixtamalization (soaking in an alkaline solution, usually calcium hydroxide). This process unlocks the corn's nutritional value, vastly improves its flavor, and allows the dough to bind together to form tortillas and tamales.",
+      image_url: "ingredients/masa_harina.png",
+    description: "A traditional Mexican flour made by drying and grinding corn that has undergone nixtamalization (soaking in an alkaline solution, usually calcium hydroxide). This process unlocks the corn's nutritional value, vastly improves its flavor, and allows the dough to bind together to form tortillas and tamales.",
     name: "masa harina",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -2609,7 +2709,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   fresh_fruit: {
-      description: "Fresh Fruit is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
+      image_url: "ingredients/fresh_fruit.png",
+    description: "Fresh Fruit is a fruit ingredient used for sweetness, acidity, aroma, and moisture balance. Ripeness and processing method meaningfully change flavor concentration and texture, so adjust sugar and acid around the ingredient's current state. Use chilled for freshness-driven dishes or cooked to concentrate body and flavor.",
     name: "fresh fruit",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2635,7 +2736,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   lamb_shoulder: {
-      description: "The meat of young domestic sheep (*Ovis aries*), renowned for its distinctive, slightly gamey, and grassy flavor profile, caused by branched-chain fatty acids in its fat. It pairs beautifully with strong, astringent aromatics like rosemary, mint, and garlic that cut through its rich intensity.\n\n**Selection & Storage:** Choose cuts with a light, rosy-red color and stark white, firm fat; dark red meat indicates an older animal (mutton). Keep tightly wrapped in the coldest section of the refrigerator and cook within 3-5 days.",
+      image_url: "ingredients/lamb_shoulder.png",
+    description: "The meat of young domestic sheep (*Ovis aries*), renowned for its distinctive, slightly gamey, and grassy flavor profile, caused by branched-chain fatty acids in its fat. It pairs beautifully with strong, astringent aromatics like rosemary, mint, and garlic that cut through its rich intensity.\n\n**Selection & Storage:** Choose cuts with a light, rosy-red color and stark white, firm fat; dark red meat indicates an older animal (mutton). Keep tightly wrapped in the coldest section of the refrigerator and cook within 3-5 days.",
     name: "lamb shoulder",
     origin: ["Western Asia (domestication)"],
     season: ["spring"],
@@ -2661,7 +2763,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   jameed: {
-      description: "Jameed is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
+      image_url: "ingredients/jameed.png",
+    description: "Jameed is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     name: "jameed",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2687,7 +2790,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pine_nuts: {
-      description: "The small, teardrop-shaped edible seeds extracted from the cones of certain pine trees (*Pinus*). They possess a soft texture and a sweet, intensely buttery, and slightly resinous flavor that is greatly amplified by light toasting, serving as the essential base for classic Genovese pesto.\n\n**Selection & Storage:** Due to their exceptionally high oil content, they are highly prone to rancidity. Always store pine nuts in an airtight container in the refrigerator or freezer.",
+      image_url: "ingredients/pine_nuts.png",
+    description: "The small, teardrop-shaped edible seeds extracted from the cones of certain pine trees (*Pinus*). They possess a soft texture and a sweet, intensely buttery, and slightly resinous flavor that is greatly amplified by light toasting, serving as the essential base for classic Genovese pesto.\n\n**Selection & Storage:** Due to their exceptionally high oil content, they are highly prone to rancidity. Always store pine nuts in an airtight container in the refrigerator or freezer.",
     name: "pine nuts",
     origin: ["Mediterranean"],
     season: ["all"],
@@ -2713,7 +2817,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   kataifi_dough: {
-      description: "Kataifi Dough is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
+      image_url: "ingredients/kataifi_dough.png",
+    description: "Kataifi Dough is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     name: "kataifi dough",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2739,7 +2844,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pickles: {
-      description: "Vegetables or fruits preserved through anaerobic fermentation in brine or immersion in vinegar, resulting in a tart, tangy, and often crunchy condiment. Lactic acid bacteria produce the complex sourness in naturally fermented pickles, while vinegar-based pickles rely on acetic acid. They provide an essential acidic counterpoint to rich, fatty, or umami-heavy dishes, acting as a palate cleanser in sandwiches, burgers, and traditional charcuterie boards.",
+      image_url: "ingredients/pickles.png",
+    description: "Vegetables or fruits preserved through anaerobic fermentation in brine or immersion in vinegar, resulting in a tart, tangy, and often crunchy condiment. Lactic acid bacteria produce the complex sourness in naturally fermented pickles, while vinegar-based pickles rely on acetic acid. They provide an essential acidic counterpoint to rich, fatty, or umami-heavy dishes, acting as a palate cleanser in sandwiches, burgers, and traditional charcuterie boards.",
     name: "pickles",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2765,7 +2871,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   green_papaya: {
-      description: "A large, tropical berry (*Carica papaya*) featuring vibrant orange flesh and a central cavity filled with peppery, edible black seeds. It contains papain, a powerful proteolytic enzyme used globally as a meat tenderizer, and offers a sweet, slightly musky, and floral flavor.\n\n**Selection & Storage:** A ripe papaya will be mostly yellow/orange and yield to gentle pressure. Ripen at room temperature, then store in the refrigerator; green papaya is used unripe as a crisp vegetable in Southeast Asian salads.",
+      image_url: "ingredients/green_papaya.png",
+    description: "A large, tropical berry (*Carica papaya*) featuring vibrant orange flesh and a central cavity filled with peppery, edible black seeds. It contains papain, a powerful proteolytic enzyme used globally as a meat tenderizer, and offers a sweet, slightly musky, and floral flavor.\n\n**Selection & Storage:** A ripe papaya will be mostly yellow/orange and yield to gentle pressure. Ripen at room temperature, then store in the refrigerator; green papaya is used unripe as a crisp vegetable in Southeast Asian salads.",
     name: "green papaya",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -2791,7 +2898,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   red_syrup: {
-      description: "Red Syrup is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/red_syrup.png",
+    description: "Red Syrup is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "red syrup",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2817,7 +2925,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   green_syrup: {
-      description: "Green Syrup is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/green_syrup.png",
+    description: "Green Syrup is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "green syrup",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2843,7 +2952,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   palm_seeds: {
-      description: "Palm Seeds is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/palm_seeds.png",
+    description: "Palm Seeds is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "palm seeds",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2869,7 +2979,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   grass_jelly: {
-      description: "Grass Jelly is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/grass_jelly.png",
+    description: "Grass Jelly is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "grass jelly",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2895,7 +3006,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   red_food_coloring: {
-      description: "Red Food Coloring is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/red_food_coloring.png",
+    description: "Red Food Coloring is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "red food coloring",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2921,7 +3033,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   palm_sugar: {
-      description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
+      image_url: "ingredients/palm_sugar.png",
+    description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",
     name: "palm sugar",
     origin: ["Southeast Asia"],
     season: ["all"],
@@ -2947,7 +3060,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   jackfruit: {
-      description: "The largest tree-borne fruit in the world (*Artocarpus heterophyllus*). When ripe, the golden bulbs are intensely sweet and taste like a blend of mango, banana, and pineapple; when unripe (green), the flesh is neutral, stringy, and fibrous, acting as an incredibly popular vegan substitute for pulled pork or braised chicken.",
+      image_url: "ingredients/jackfruit.png",
+    description: "The largest tree-borne fruit in the world (*Artocarpus heterophyllus*). When ripe, the golden bulbs are intensely sweet and taste like a blend of mango, banana, and pineapple; when unripe (green), the flesh is neutral, stringy, and fibrous, acting as an incredibly popular vegan substitute for pulled pork or braised chicken.",
     name: "jackfruit",
     origin: ["South India", "Southeast Asia"],
     season: ["summer"],
@@ -2973,7 +3087,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   crushed_ice: {
-      description: "Crushed Ice is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/crushed_ice.png",
+    description: "Crushed Ice is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "crushed ice",
     origin: ["Worldwide"],
     season: ["all"],
@@ -2999,7 +3114,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pandan_extract: {
-      description: "Pandan Extract is a seasoning ingredient used to adjust balance, aroma, and perceived intensity across savory and sweet cooking. Add in stages so you can control extraction during cooking and precision at the finish. Keep sealed and dry to preserve potency and prevent clumping or flavor drift.",
+      image_url: "ingredients/pandan_extract.png",
+    description: "Pandan Extract is a seasoning ingredient used to adjust balance, aroma, and perceived intensity across savory and sweet cooking. Add in stages so you can control extraction during cooking and precision at the finish. Keep sealed and dry to preserve potency and prevent clumping or flavor drift.",
     name: "pandan extract",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3025,7 +3141,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   kabocha_pumpkin: {
-      description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
+      image_url: "ingredients/kabocha_pumpkin.png",
+    description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
     name: "kabocha pumpkin",
     origin: ["Japan", "Central America"],
     season: ["fall", "winter"],
@@ -3051,7 +3168,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pandan_leaves: {
-      description: "Pandan Leaves is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/pandan_leaves.png",
+    description: "Pandan Leaves is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "pandan leaves",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3077,7 +3195,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   tapioca_starch: {
-      description: "A pure starch extracted from the storage roots of the cassava plant (*Manihot esculenta*). It provides a remarkably chewy, elastic texture when formed into pearls (boba), or acts as an excellent thickener for fruit pies, creating a perfectly clear gel that doesn't break down when frozen.\n\n**Selection & Storage:** Available as flour, flakes, or pearls. Store in an airtight container in a cool, dark pantry; it has an exceptionally long shelf life.",
+      image_url: "ingredients/tapioca_starch.png",
+    description: "A pure starch extracted from the storage roots of the cassava plant (*Manihot esculenta*). It provides a remarkably chewy, elastic texture when formed into pearls (boba), or acts as an excellent thickener for fruit pies, creating a perfectly clear gel that doesn't break down when frozen.\n\n**Selection & Storage:** Available as flour, flakes, or pearls. Store in an airtight container in a cool, dark pantry; it has an exceptionally long shelf life.",
     name: "tapioca starch",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3103,7 +3222,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   herbs_mix: {
-      description: "Herbs Mix is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/herbs_mix.png",
+    description: "Herbs Mix is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "herbs mix",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3129,7 +3249,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   annatto_seeds: {
-      description: "The small, deeply red, triangular seeds of the achiote tree (*Bixa orellana*), native to the tropical Americas. While they offer a very mild, slightly peppery, and earthy flavor, their primary culinary function is to impart a brilliant yellow-orange dye to dishes like Mexican cochinita pibil and cheddar cheese.",
+      image_url: "ingredients/annatto_seeds.png",
+    description: "The small, deeply red, triangular seeds of the achiote tree (*Bixa orellana*), native to the tropical Americas. While they offer a very mild, slightly peppery, and earthy flavor, their primary culinary function is to impart a brilliant yellow-orange dye to dishes like Mexican cochinita pibil and cheddar cheese.",
     name: "annatto seeds",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3155,7 +3276,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   vietnamese_herbs: {
-      description: "Vietnamese Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
+      image_url: "ingredients/vietnamese_herbs.png",
+    description: "Vietnamese Herbs is an aromatic herb used to brighten savory dishes with fresh, volatile flavor compounds. Add early for mellow infusion or late for sharper aromatic lift, depending on the recipe goal. Because aroma degrades quickly with heat and air, keep it cold and dry, and chop just before use when possible.",
     name: "Vietnamese herbs",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3181,7 +3303,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pickled_vegetables: {
-      description: "Any edible plant material — leaves, roots, stems, tubers, flowers, fruits used as savory ingredients — delivering fiber, vitamins, phytochemicals, and the flavor backbone of non-meat-forward cooking. Treat by structural group: hard roots (carrots, beets) need more heat and time; leafy greens cook in seconds; fungi need dry heat to develop depth; brassicas reward high heat for caramelization and charring. Freshness matters more than variety — a peak-season common vegetable beats an out-of-season rare one.",
+      image_url: "ingredients/pickled_vegetables.png",
+    description: "Any edible plant material — leaves, roots, stems, tubers, flowers, fruits used as savory ingredients — delivering fiber, vitamins, phytochemicals, and the flavor backbone of non-meat-forward cooking. Treat by structural group: hard roots (carrots, beets) need more heat and time; leafy greens cook in seconds; fungi need dry heat to develop depth; brassicas reward high heat for caramelization and charring. Freshness matters more than variety — a peak-season common vegetable beats an out-of-season rare one.",
     name: "pickled vegetables",
     origin: ["Worldwide"],
     season: ["all"],
@@ -3207,7 +3330,8 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, cool dry.", notes: "Check package for specific shelf life." }
 },
   pandan_jelly: {
-      description: "Pandan Jelly is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
+      image_url: "ingredients/pandan_jelly.png",
+    description: "Pandan Jelly is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     name: "pandan jelly",
     origin: ["Worldwide"],
     season: ["all"],

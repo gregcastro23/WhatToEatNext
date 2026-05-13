@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawAmaranth = {
   amaranth: {
-      description: "An ancient, tiny pseudocereal seed (*Amaranthus*) that was a staple of the Aztec diet. It has a peppery, deeply earthy flavor and never entirely softens when boiled, retaining a gelatinous, caviar-like crunch that thickens porridges and soups.",
+      image_url: "ingredients/amaranth.png",
+    description: "An ancient, tiny pseudocereal seed (*Amaranthus*) that was a staple of the Aztec diet. It has a peppery, deeply earthy flavor and never entirely softens when boiled, retaining a gelatinous, caviar-like crunch that thickens porridges and soups.",
     name: "Amaranth",
     season: ["all"],
     elementalProperties: { Earth: 0.3, Fire: 0.3, Air: 0.2, Water: 0.2 },

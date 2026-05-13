@@ -52,9 +52,9 @@ approach achieves **99.9% type safety** with **zero build corruption**.
 ### **Installation**
 
 ```bash
-npm install extended-interface-patterns
+bun install extended-interface-patterns
 # or
-yarn add extended-interface-patterns
+bun run add extended-interface-patterns
 ```
 
 ### **Basic Usage**
@@ -265,9 +265,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
-        run: yarn install
+        run: bun install
       - name: Run any-type validation
-        run: npm run validate-any-types
+        run: bun run validate-any-types
 ```
 
 ---
@@ -352,7 +352,7 @@ jobs:
 
 ### **Installation Guide**
 
-1. **Install package**: `npm install extended-interface-patterns`
+1. **Install package**: `bun install extended-interface-patterns`
 2. **Read methodology**:
    [Complete Guide](docs/EXTENDED_INTERFACE_PATTERN_METHODOLOGY.md)
 3. **Start with dry run**: Test patterns safely

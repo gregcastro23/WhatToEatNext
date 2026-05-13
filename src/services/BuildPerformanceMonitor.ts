@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { performance } from "perf_hooks";
 import { _logger } from "@/lib/logger";
+import { ensureToolingDir, getToolingFilePath } from "@/utils/toolingDataDir";
 import type { PerformanceReport } from "./PerformanceMetricsAnalytics";
 
 export interface BuildMetrics {
@@ -74,12 +75,7 @@ class BuildPerformanceMonitor {
 
   private loadHistoricalData(): void {
     try {
-      const historyPath = path.join(
-        process.cwd(),
-        ".kiro",
-        "metrics",
-        "build-history.json",
-      );
+      const historyPath = getToolingFilePath(["metrics"], "build-history.json");
       if (fs.existsSync(historyPath)) {
         const data = JSON.parse(fs.readFileSync(historyPath, "utf8")) as Record<
           string,
@@ -101,11 +97,7 @@ class BuildPerformanceMonitor {
 
   private saveHistoricalData(): void {
     try {
-      const metricsDir = path.join(process.cwd(), ".kiro", "metrics");
-      if (!fs.existsSync(metricsDir)) {
-        fs.mkdirSync(metricsDir, { recursive: true });
-      }
-
+      const metricsDir = ensureToolingDir("metrics");
       const historyPath = path.join(metricsDir, "build-history.json");
       const data = {
         buildHistory: this.buildHistory.slice(-100), // Keep last 100 builds
@@ -139,7 +131,7 @@ class BuildPerformanceMonitor {
     const startTime = performance.now();
     try {
       // Run TypeScript compilation with timing
-      const result = execSync("yarn tsc --noEmit --skipLibCheck", {
+      const result = execSync("bun run tsc --noEmit --skipLibCheck", {
         encoding: "utf8",
         stdio: "pipe",
         timeout: 120000, // 2 minute timeout
@@ -199,7 +191,7 @@ class BuildPerformanceMonitor {
     try {
       // Measure TypeScript compilation
       const tsStartTime = performance.now();
-      execSync("yarn tsc --noEmit --skipLibCheck", {
+      execSync("bun run tsc --noEmit --skipLibCheck", {
         encoding: "utf8",
         stdio: "pipe",
         timeout: 120000,
@@ -208,7 +200,7 @@ class BuildPerformanceMonitor {
 
       // Measure full build (use production build to be deterministic)
       const buildCommand =
-        buildType === "production" ? "yarn build" : "yarn build";
+        buildType === "production" ? "bun run build" : "bun run build";
       execSync(buildCommand, {
         encoding: "utf8",
         stdio: "pipe",
@@ -264,7 +256,7 @@ class BuildPerformanceMonitor {
   public identifyBottlenecks(): CompilationBottleneck[] {
     try {
       const result = execSync(
-        "yarn tsc --noEmit --skipLibCheck --listFiles --extendedDiagnostics",
+        "bun run tsc --noEmit --skipLibCheck --listFiles --extendedDiagnostics",
         {
           encoding: "utf8",
           stdio: "pipe",

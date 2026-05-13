@@ -209,7 +209,7 @@ make clean-full && make install  # Nuclear option
 
 ```bash
 # Instead of:
-yarn tsc --noEmit --skipLibCheck
+bun run tsc --noEmit --skipLibCheck
 
 # Use:
 make check
@@ -217,7 +217,7 @@ make check
 
 ```bash
 # Instead of:
-yarn build
+bun run build
 
 # Use:
 make build  # Includes TypeScript check + build

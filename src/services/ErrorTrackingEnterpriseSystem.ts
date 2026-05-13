@@ -480,7 +480,7 @@ export class ErrorTrackingEnterpriseSystem {
 
   private calculateBuildStabilityScore(): number {
     try {
-      execSync("yarn tsc --noEmit --skipLibCheck", {
+      execSync("bun run tsc --noEmit --skipLibCheck", {
         stdio: "pipe",
         timeout: 30000,
       });

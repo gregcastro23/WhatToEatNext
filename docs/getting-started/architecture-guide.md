@@ -357,24 +357,18 @@ interface APIIntegrationPattern {
 
 ### MCP (Model Context Protocol) Integration
 
-```json
-{
-  "mcpServers": {
-    "astrology-server": {
-      "command": "uvx",
-      "args": ["mcp-servers/astrology-server.py"],
-      "autoApprove": ["get_planetary_positions", "get_lunar_phase"],
-      "fallbackStrategy": "local-cache"
-    },
-    "nutrition-server": {
-      "command": "uvx",
-      "args": ["mcp-servers/nutrition-server.py"],
-      "autoApprove": ["get_nutritional_data", "search_ingredients"],
-      "rateLimiting": "respectful"
-    }
-  }
-}
-```
+This repo does not currently ship project-local MCP server definitions.
+
+- Codex MCP servers are configured at the user level in `~/.codex/config.toml`.
+- A starter template for Codex MCP configuration lives at
+  `.codex/config.toml.example`.
+- Vercel's official remote MCP server is available at
+  `https://mcp.vercel.com` and uses OAuth.
+- Claude-specific local permissions live in `.claude/settings.local.json`.
+- Legacy references to `.kiro/settings/mcp.json` are stale and should not be
+  used for setup or debugging.
+- If a server requires authentication, complete auth in the MCP client first,
+  then verify the connection from that client before assuming a repo problem.
 
 ## 🎨 Cultural Sensitivity Architecture
 

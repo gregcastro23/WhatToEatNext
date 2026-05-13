@@ -13,7 +13,7 @@ variables:
   NEXT_PUBLIC_API_CACHE_TIME: "3600"
   CI: "true"
   NODE_OPTIONS: "--max-old-space-size=4096"
-  YARN_CACHE_FOLDER: .yarn-cache
+  BUN_CACHE_DIR: .bun-cache
 
   # Docker configuration
   DOCKER_DRIVER: overlay2
@@ -37,25 +37,22 @@ stages:
 .cache_template: &cache_template
   key:
     files:
-      - yarn.lock
+      - bun.lock
   paths:
     - node_modules/
-    - .yarn-cache/
+    - .bun-cache/
     - .next/cache/
     - .eslintcache
   policy: pull-push
 
-# Node + Yarn setup template
+# Bun setup template
 .node_setup: &node_setup
-  image: node:${NODE_VERSION}
+  image: oven/bun:latest
   before_script:
-    - echo "Setting up Node.js ${NODE_VERSION} environment..."
-    - node --version
-    - corepack enable
-    - corepack prepare yarn@stable --activate
-    - yarn --version
+    - echo "Setting up Bun environment..."
+    - bun --version
     - echo "Installing dependencies..."
-    - yarn install --frozen-lockfile --network-timeout 300000
+    - bun install --frozen-lockfile
 
 # Setup stage - Install dependencies
 setup:dependencies:
@@ -66,7 +63,7 @@ setup:dependencies:
     policy: push
   script:
     - echo "Dependencies installed successfully"
-    - yarn info --name-only
+    - bun --version
   artifacts:
     paths:
       - node_modules/
@@ -87,7 +84,7 @@ validate:lint:
     - setup:dependencies
   script:
     - echo "Running ESLint with fast configuration..."
-    - yarn lint:ci --max-warnings=2500 || echo "Linting found issues (expected)"
+    - bun run lint:ci --max-warnings=2500 || echo "Linting found issues (expected)"
     - echo "Linting completed"
   allow_failure: true
   only:
@@ -105,7 +102,7 @@ validate:typescript:
     - setup:dependencies
   script:
     - echo "Running TypeScript type checking..."
-    - yarn tsc --noEmit --skipLibCheck
+    - bun run tsc --noEmit --skipLibCheck
     - echo "TypeScript validation completed"
   allow_failure: true
   only:
@@ -144,13 +141,10 @@ test:unit:
   variables:
     POSTGRES_HOST_AUTH_METHOD: trust
   before_script:
-    - echo "Setting up Node.js ${NODE_VERSION} environment..."
-    - node --version
-    - corepack enable
-    - corepack prepare yarn@stable --activate
-    - yarn --version
+    - echo "Setting up Bun environment..."
+    - bun --version
     - echo "Installing dependencies..."
-    - yarn install --frozen-lockfile --network-timeout 300000
+    - bun install --frozen-lockfile
     - echo "Installing PostgreSQL client tools..."
     - apt-get update && apt-get install -y postgresql-client
   script:
@@ -159,7 +153,7 @@ test:unit:
     - until pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}; do sleep 2; done
     - echo "PostgreSQL 17 is ready"
     - echo "Running unit tests..."
-    - yarn test --passWithNoTests --coverage --maxWorkers=2 --verbose 2>&1 | tee test-output.log
+    - bun run test --passWithNoTests --coverage --maxWorkers=2 --verbose 2>&1 | tee test-output.log
     - echo "=== TEST EXECUTION SUMMARY ==="
     - cat test-output.log | grep -A 10 "Test Suites:" || echo "No test suites found (expected if no tests exist)"
     - cat test-output.log | grep -A 20 "FAIL " || echo "No test failures found"
@@ -199,13 +193,10 @@ test:database:
     POSTGRES_DB: postgres
     DATABASE_URL: postgresql://postgres@postgres:5432/alchm_kitchen
   before_script:
-    - echo "Setting up Node.js ${NODE_VERSION} environment..."
-    - node --version
-    - corepack enable
-    - corepack prepare yarn@stable --activate
-    - yarn --version
+    - echo "Setting up Bun environment..."
+    - bun --version
     - echo "Installing dependencies..."
-    - yarn install --frozen-lockfile --network-timeout 300000
+    - bun install --frozen-lockfile
     - echo "Installing PostgreSQL client tools..."
     - apt-get update && apt-get install -y postgresql-client
   script:
@@ -228,7 +219,7 @@ test:database:
       fi
     - echo "Databases ready"
     - echo "Running database integration tests..."
-    - yarn test --testPathPattern="integration" --testPathIgnorePatterns="docs/archived-tests|.temp-disabled-tests" --passWithNoTests --maxWorkers=2
+    - bun run test --testPathPattern="integration" --testPathIgnorePatterns="docs/archived-tests|.temp-disabled-tests" --passWithNoTests --maxWorkers=2
   allow_failure: true
   only:
     - branches
@@ -278,7 +269,7 @@ build:production:
     - echo "NODE_ENV=production" >> .env.production
     - echo "JWT_SECRET=build-time-dummy-secret-not-for-production" >> .env.production
     - echo "Building Next.js application for production..."
-    - yarn build
+    - bun run build
     - echo "Build completed successfully"
     - ls -la .next/
   artifacts:
@@ -393,19 +384,16 @@ quality-gate:comprehensive:
   variables:
     POSTGRES_HOST_AUTH_METHOD: trust
   before_script:
-    - echo "Setting up Node.js ${NODE_VERSION} environment..."
-    - node --version
-    - corepack enable
-    - corepack prepare yarn@stable --activate
-    - yarn --version
+    - echo "Setting up Bun environment..."
+    - bun --version
     - echo "Installing dependencies..."
-    - yarn install --frozen-lockfile --network-timeout 300000
+    - bun install --frozen-lockfile
     - echo "Installing PostgreSQL client tools..."
     - apt-get update && apt-get install -y postgresql-client
   script:
     - echo "=== Quality Gate Validation ==="
     - echo "1. Checking TypeScript errors..."
-    - ERROR_COUNT=$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0")
+    - ERROR_COUNT=$(bun run tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0")
     - echo "TypeScript errors found $ERROR_COUNT"
     - |
       if [ "$ERROR_COUNT" -gt 100 ]; then
@@ -441,9 +429,9 @@ quality-gate:linting:
   script:
     - echo "=== Linting Excellence Quality Gate ==="
     - echo "Running comprehensive linting campaign validation..."
-    - yarn lint:campaign:gates || echo "Campaign gates checked"
+    - bun run lint:campaign:gates || echo "Campaign gates checked"
     - echo "Checking deployment readiness..."
-    - yarn lint:campaign:deploy || echo "Deployment readiness checked"
+    - bun run lint:campaign:deploy || echo "Deployment readiness checked"
     - echo "=== Linting Quality Gate PASSED ==="
   allow_failure: true
   only:
@@ -539,15 +527,15 @@ nightly:full-validation:
   script:
     - echo "=== Nightly Full Validation ==="
     - echo "1. Full lint check..."
-    - yarn lint --max-warnings=500
+    - bun run lint --max-warnings=500
     - echo "2. Comprehensive TypeScript check..."
-    - yarn tsc --noEmit
+    - bun run tsc --noEmit
     - echo "3. All tests with coverage..."
-    - yarn test --coverage --maxWorkers=4
+    - bun run test --coverage --maxWorkers=4
     - echo "4. Build validation..."
-    - yarn build
+    - bun run build
     - echo "5. Performance metrics..."
-    - yarn lint:performance || echo "Performance metrics collected"
+    - bun run lint:performance || echo "Performance metrics collected"
     - echo "=== Nightly Validation Complete ==="
   artifacts:
     paths:

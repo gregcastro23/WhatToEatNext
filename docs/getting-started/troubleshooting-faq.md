@@ -9,18 +9,18 @@ the WhatToEatNext project.
 
 ```bash
 # Build is broken
-npm run campaign:emergency-stop     # Stop all campaigns
+bun run campaign:emergency-stop     # Stop all campaigns
 git stash                          # Stash current changes
-npm run build                      # Test clean build
+bun run build                      # Test clean build
 
 # TypeScript errors overwhelming
-npm run campaign:typescript        # Run error reduction campaign
-npm run type-check                 # Check current status
+bun run campaign:typescript        # Run error reduction campaign
+bun run type-check                 # Check current status
 
 # Development server won't start
 rm -rf node_modules .next          # Clean installation
-yarn install                        # Reinstall dependencies
-yarn dev                        # Restart server
+bun install                        # Reinstall dependencies
+bun run dev                        # Restart server
 ```
 
 ## 🏗️ Setup and Installation Issues
@@ -40,7 +40,7 @@ nvm install 20.18.0
 nvm use 20.18.0
 
 # Use safe development script
-npm run dev:safe
+bun run dev:safe
 
 # Or use direnv for automatic switching
 direnv allow
@@ -48,20 +48,20 @@ direnv allow
 
 ### Q: Dependencies won't install
 
-**Problem**: npm/yarn installation failures
+**Problem**: bun/bun installation failures
 
 **Solutions**:
 
 ```bash
 # Clear caches
-npm cache clean --force
+bun run cache clean --force
 rm -rf node_modules package-lock.json
 
 # Reinstall
-yarn install
+bun install
 
-# If still failing, try yarn
-yarn install
+# If still failing, try bun
+bun install
 
 # Check for Node.js version compatibility
 node --version  # Should be 20.18.0+
@@ -69,7 +69,7 @@ node --version  # Should be 20.18.0+
 
 ### Q: Development server fails to start
 
-**Problem**: `npm run dev` throws errors
+**Problem**: `bun run dev` throws errors
 
 **Solutions**:
 
@@ -80,13 +80,13 @@ kill -9 <PID>                     # Kill process if needed
 
 # Clean build artifacts
 rm -rf .next
-npm run build                     # Rebuild
+bun run build                     # Rebuild
 
 # Check environment variables
 cp .env.example .env.local        # Create local environment file
 
 # Verify TypeScript compilation
-npm run type-check
+bun run type-check
 ```
 
 ## 🌟 Astrological Feature Issues
@@ -192,46 +192,28 @@ interface TransitDates {
 }
 ```
 
-## 🎯 Kiro-Specific Issues
+## 🎯 AI Tooling Issues
 
-### Q: Kiro steering files not loading
+### Q: Project guidance is not loading in the AI client
 
-**Problem**: Kiro doesn't seem to understand project context
-
-**Solutions**:
-
-```bash
-# Verify steering files exist
-ls .kiro/steering/                # Should show all steering files
-
-# Check file format
-head .kiro/steering/product.md    # Verify markdown format
-
-# Restart Kiro
-# Close and reopen Kiro to reload steering files
-
-# Check inclusion patterns
-grep -r "inclusion:" .kiro/steering/
-```
-
-### Q: Agent hooks not triggering
-
-**Problem**: File changes don't trigger automated hooks
+**Problem**: The assistant is missing repo context or using stale assumptions
 
 **Solutions**:
 
 ```bash
-# Check hook configurations
-ls .kiro/hooks/                   # Verify hook files exist
+# Verify repo-local instructions exist
+ls AGENTS.md CLAUDE.md
 
-# Test specific hook
-# Make a change to src/data/planets/mars.ts
-# Save file and check if validation runs
+# Check Codex project trust and MCP config
+sed -n '1,200p' ~/.codex/config.toml
 
-# Check Kiro's Agent Hooks panel
-# View > Agent Hooks to see status
+# Review the repo template if you need to add or repair server definitions
+sed -n '1,200p' .codex/config.toml.example
 
-# Restart Kiro if hooks seem stuck
+# Confirm Claude local permissions file exists
+sed -n '1,200p' .claude/settings.local.json
+
+# Restart the client after config changes
 ```
 
 ### Q: MCP servers not connecting
@@ -241,20 +223,17 @@ ls .kiro/hooks/                   # Verify hook files exist
 **Solutions**:
 
 ```bash
-# Check Python/uv installation
-uv --version
-uvx --version
+# Check Codex MCP configuration
+sed -n '1,200p' ~/.codex/config.toml
 
-# Install if missing
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# Compare against the repo template
+sed -n '1,200p' .codex/config.toml.example
 
-# Check MCP configuration
-cat .kiro/settings/mcp.json
+# Check Claude local project permissions if Claude is the active client
+sed -n '1,200p' .claude/settings.local.json
 
-# Test server manually
-uvx mcp-servers/astrology-server.py
-
-# Check Kiro's MCP panel for error messages
+# If resources/templates remain empty, re-authenticate in the MCP client UI
+# and start a new Codex session before testing again
 ```
 
 ### Q: Campaign system not working
@@ -265,13 +244,13 @@ uvx mcp-servers/astrology-server.py
 
 ```bash
 # Check campaign status
-npm run campaign:status
+bun run campaign:status
 
 # View campaign logs
 ls logs/                          # Check for campaign log files
 
 # Test simple campaign
-npm run campaign:typescript --dry-run
+bun run campaign:typescript --dry-run
 
 # Check git status (campaigns need clean working directory)
 git status
@@ -291,18 +270,18 @@ node --version                    # Should be 20.18.0+
 
 ```bash
 # Run specific test categories
-npm run test:unit                 # Unit tests only
-npm run test:integration          # Integration tests only
-npm run test:astrological        # Astrological feature tests
+bun run test:unit                 # Unit tests only
+bun run test:integration          # Integration tests only
+bun run test:astrological        # Astrological feature tests
 
 # Check test coverage
-npm run test:coverage
+bun run test:coverage
 
 # Debug specific test
-npm test -- --testNamePattern="specific test name"
+bun run test -- --testNamePattern="specific test name"
 
 # Update snapshots if needed
-npm test -- --updateSnapshot
+bun run test -- --updateSnapshot
 ```
 
 ### Q: TypeScript errors overwhelming
@@ -313,16 +292,16 @@ npm test -- --updateSnapshot
 
 ```bash
 # Check current error count
-npm run type-check 2>&1 | grep -c "error TS"
+bun run type-check 2>&1 | grep -c "error TS"
 
 # Run automated error reduction
-npm run campaign:typescript
+bun run campaign:typescript
 
 # Check campaign progress
-npm run campaign:monitor
+bun run campaign:monitor
 
 # Focus on high-impact files
-npm run type-check 2>&1 | grep "error TS" | head -20
+bun run type-check 2>&1 | grep "error TS" | head -20
 ```
 
 ### Q: Linting warnings excessive
@@ -333,16 +312,16 @@ npm run type-check 2>&1 | grep "error TS" | head -20
 
 ```bash
 # Check current warning count
-npm run lint 2>&1 | grep -c "warning"
+bun run lint 2>&1 | grep -c "warning"
 
 # Run automated linting improvements
-npm run campaign:lint
+bun run campaign:lint
 
 # Fix auto-fixable issues
-npm run lint:fix
+bun run lint:fix
 
 # Check specific file
-npx eslint src/path/to/file.ts
+bunx eslint src/path/to/file.ts
 ```
 
 ## 🌍 Cultural and Accessibility Issues
@@ -375,7 +354,7 @@ npx eslint src/path/to/file.ts
 
 ```bash
 # Run accessibility tests
-npm run test:a11y
+bun run test:a11y
 
 # Check color contrast
 # Use browser dev tools accessibility panel
@@ -428,17 +407,17 @@ const memoizedCalculation = useMemo(() => {
 
 ```bash
 # Analyze bundle
-npm run analyze:bundle
+bun run analyze:bundle
 
 # Check for large dependencies
-npx webpack-bundle-analyzer .next/static/chunks/
+bunx webpack-bundle-analyzer .next/static/chunks/
 
 # Implement code splitting
 # Use dynamic imports for astrological features
 const AstrologyChart = lazy(() => import('./AstrologyChart'));
 
 # Optimize images
-npm run optimize:images
+bun run optimize:images
 ```
 
 ### Q: Memory leaks
@@ -577,7 +556,7 @@ if (isElement(userInput)) {
 - **[Architecture Guide](architecture-guide.md)** - System design and patterns
 - **[Development Workflows](development-workflows.md)** - Common development
   tasks
-- **[Kiro Setup Guide](kiro-setup-guide.md)** - Kiro configuration and usage
+- **AI assistant setup** - Codex/Claude configuration and MCP auth
 - **[Campaign System Docs](../../src/services/campaign/README.md)** - Quality
   improvement system
 
@@ -605,7 +584,7 @@ if (isElement(userInput)) {
 - ✅ Elemental compatibility scores always ≥ 0.7
 - ✅ Cultural features reviewed by experts
 - ✅ Campaign system running smoothly
-- ✅ Kiro providing helpful contextual assistance
+- ✅ AI tooling loading repo context and MCP resources correctly
 
 ### Red flags to address:
 

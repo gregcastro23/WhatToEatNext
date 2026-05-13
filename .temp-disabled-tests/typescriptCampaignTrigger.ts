@@ -258,7 +258,7 @@ async function getTypeScriptErrorAnalysis(): Promise<ErrorAnalysisResult> {
 async function getTypeScriptErrors(): Promise<string> {
   try {
     // Run TypeScript compiler to get errors
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
+    const output = execSync('bun run tsc --noEmit --skipLibCheck 2>&1', {
       encoding: 'utf8',
       stdio: 'pipe'
     });

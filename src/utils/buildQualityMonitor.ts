@@ -280,7 +280,7 @@ async function getBuildTiming(): Promise<{
 
     try {
       // Check if build is successful by running type check
-      execSync("yarn tsc --noEmit --skipLibCheck", {
+      execSync("bun run tsc --noEmit --skipLibCheck", {
         stdio: "pipe",
         timeout: 30000, // 30 second timeout
       });
@@ -332,7 +332,7 @@ async function getErrorAndWarningCounts(): Promise<{
 
     // Get TypeScript errors
     try {
-      const tscOutput = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+      const tscOutput = execSync("bun run tsc --noEmit --skipLibCheck 2>&1", {
         encoding: "utf8",
         stdio: "pipe",
       });
@@ -352,7 +352,7 @@ async function getErrorAndWarningCounts(): Promise<{
 
     // Get ESLint warnings
     try {
-      const eslintOutput = execSync("yarn lint --format=json 2>/dev/null", {
+      const eslintOutput = execSync("bun run lint --format=json 2>/dev/null", {
         encoding: "utf8",
         stdio: "pipe",
       });
@@ -950,7 +950,7 @@ async function generateQualityMetricsReport(): Promise<QualityMetricsReport> {
  */
 async function getTypeScriptErrorCount(): Promise<number> {
   try {
-    const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+    const output = execSync("bun run tsc --noEmit --skipLibCheck 2>&1", {
       encoding: "utf8",
       stdio: "pipe",
     });
@@ -971,7 +971,7 @@ async function getTypeScriptErrorCount(): Promise<number> {
  */
 async function getLintingWarningCount(): Promise<number> {
   try {
-    const output = execSync("yarn lint --format=json 2>/dev/null", {
+    const output = execSync("bun run lint --format=json 2>/dev/null", {
       encoding: "utf8",
       stdio: "pipe",
     });

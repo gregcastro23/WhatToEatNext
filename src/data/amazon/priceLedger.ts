@@ -1,15 +1,11 @@
 /**
  * Amazon Fresh / Whole Foods Price Ledger & MOQ (Minimum Orderable Quantity)
  * 
- * This file tracks current market prices (estimated) and the minimum
- * unit size available on Amazon for each ingredient to prevent 
- * impractical orders (e.g., ordering 3 cloves of garlic).
- * 
- * Last Updated: May 6, 2026
+ * This file is not an ASIN source of truth. ASINs must come from the verified
+ * allow-list in ingredientAsins.ts or live catalog lookup in /api/amazon/search.
  */
 
 export interface AmazonLedgerEntry {
-  asin: string;
   price: number;
   unit: string;      // e.g., "lb", "oz", "count", "head"
   minOrder: number;  // The smallest unit Amazon sells (usually 1)
@@ -19,49 +15,42 @@ export interface AmazonLedgerEntry {
 export const amazonPriceLedger: Record<string, AmazonLedgerEntry> = {
   // ─── Vegetables ──────────────────────────────────────────────────────
   "carrot": {
-    asin: "B0787Y4YCW",
     price: 1.29,
     unit: "lb",
     minOrder: 1,
     description: "Whole Carrots, 1lb bag"
   },
   "garlic": {
-    asin: "B0787YSB1Y",
     price: 0.50,
     unit: "bulb",
     minOrder: 1,
     description: "Organic Garlic Bulb"
   },
   "onion": {
-    asin: "B0787XCFMT",
     price: 1.05,
     unit: "lb",
     minOrder: 1,
     description: "Yellow Onion"
   },
   "potato": {
-    asin: "B0787YC4M5",
     price: 4.99,
     unit: "bag",
     minOrder: 1,
     description: "Russet Potatoes, 5lb Bag"
   },
   "spinach": {
-    asin: "B0787X7MJ5",
     price: 2.50,
     unit: "oz",
     minOrder: 1,
     description: "Organic Baby Spinach, 5oz"
   },
   "broccoli": {
-    asin: "B0787XHMPJ",
     price: 1.99,
     unit: "head",
     minOrder: 1,
     description: "Fresh Broccoli Crown"
   },
   "ginger": {
-    asin: "B07V5H2JNY",
     price: 1.50,
     unit: "unit",
     minOrder: 1,
@@ -70,14 +59,12 @@ export const amazonPriceLedger: Record<string, AmazonLedgerEntry> = {
 
   // ─── Proteins ────────────────────────────────────────────────────────
   "chicken thigh": {
-    asin: "B07BHKP7Y5",
     price: 6.49,
     unit: "lb",
     minOrder: 1,
     description: "Organic Chicken Thighs, approx 1.5lb"
   },
   "egg": {
-    asin: "B0787YC4M5",
     price: 4.29,
     unit: "dozen",
     minOrder: 1,
@@ -86,14 +73,12 @@ export const amazonPriceLedger: Record<string, AmazonLedgerEntry> = {
   
   // ─── Dairy ───────────────────────────────────────────────────────────
   "milk": {
-    asin: "B0787YC4M5",
     price: 3.89,
     unit: "gallon",
     minOrder: 1,
     description: "Whole Milk, 1 Gallon"
   },
   "butter": {
-    asin: "B0787X7MJ5",
     price: 5.49,
     unit: "pack",
     minOrder: 1,

@@ -9,7 +9,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
-      description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
+      image_url: "ingredients/olive_oil.png",
+    description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
     name: "Olive Oil",
     origin: ["Mediterranean"],
     category: "oil",
@@ -111,7 +112,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   coconut_oil: {
-      description: "An edible oil extracted from the meat of mature coconuts (*Cocos nucifera*), characterized by its high concentration of saturated fat, which makes it solid at room temperature. Virgin coconut oil retains a distinct tropical coconut aroma, while refined coconut oil is neutral and has a much higher smoke point for frying.",
+      image_url: "ingredients/coconut_oil.png",
+    description: "An edible oil extracted from the meat of mature coconuts (*Cocos nucifera*), characterized by its high concentration of saturated fat, which makes it solid at room temperature. Virgin coconut oil retains a distinct tropical coconut aroma, while refined coconut oil is neutral and has a much higher smoke point for frying.",
     name: "Coconut Oil",
     origin: ["Indo-Pacific"],
     category: "oil",
@@ -196,7 +198,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   sesame_oil: {
-      description: "An incredibly potent oil pressed from sesame seeds (*Sesamum indicum*). Toasted sesame oil (dark brown) provides a massive burst of savory, nutty pyrazines and should be used exclusively as a finishing oil, while plain sesame oil (pale yellow) is neutral and suitable for cooking.",
+      image_url: "ingredients/sesame_oil.png",
+    description: "An incredibly potent oil pressed from sesame seeds (*Sesamum indicum*). Toasted sesame oil (dark brown) provides a massive burst of savory, nutty pyrazines and should be used exclusively as a finishing oil, while plain sesame oil (pale yellow) is neutral and suitable for cooking.",
     name: "Sesame Oil",
     origin: ["East Asia", "Africa"],
     category: "oil",
@@ -304,7 +307,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   ghee: {
-      description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
+      image_url: "ingredients/ghee.png",
+    description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
     name: "Ghee",
     origin: ["South Asia"],
     category: "oil",
@@ -393,7 +397,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   avocado_oil: {
-      description: "An oil pressed from the fleshy pulp of avocados. It boasts the highest smoke point of any common culinary oil (up to 520°F / 271°C) and a very mild, buttery flavor, making it a premium choice for aggressive high-heat searing, grilling, and broiling.",
+      image_url: "ingredients/avocado_oil.png",
+    description: "An oil pressed from the fleshy pulp of avocados. It boasts the highest smoke point of any common culinary oil (up to 520°F / 271°C) and a very mild, buttery flavor, making it a premium choice for aggressive high-heat searing, grilling, and broiling.",
     name: "Avocado Oil",
     origin: ["Mesoamerica"],
     category: "oil",
@@ -482,7 +487,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   walnut_oil: {
-      description: "A specialty finishing oil pressed from walnuts, boasting an intense, deeply roasted, and slightly astringent walnut flavor. Because heat destroys its delicate, volatile aromatics, it should never be used for cooking, but rather drizzled over roasted squash, blue cheese, or fresh pastas.",
+      image_url: "ingredients/walnut_oil.png",
+    description: "A specialty finishing oil pressed from walnuts, boasting an intense, deeply roasted, and slightly astringent walnut flavor. Because heat destroys its delicate, volatile aromatics, it should never be used for cooking, but rather drizzled over roasted squash, blue cheese, or fresh pastas.",
     name: "Walnut Oil",
     origin: ["France", "Western Asia"],
     category: "oil",
@@ -567,7 +573,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   flaxseed_oil: {
-      description: "An oil cold-pressed from flaxseeds, prized for its exceptionally high levels of omega-3 fatty acids. Because of its extremely low smoke point and delicate chemical structure, it must never be heated; it is used strictly as a finishing oil or nutritional supplement in smoothies.",
+      image_url: "ingredients/flaxseed_oil.png",
+    description: "An oil cold-pressed from flaxseeds, prized for its exceptionally high levels of omega-3 fatty acids. Because of its extremely low smoke point and delicate chemical structure, it must never be heated; it is used strictly as a finishing oil or nutritional supplement in smoothies.",
     name: "Flaxseed Oil",
     origin: ["Northern Europe"],
     category: "oil",
@@ -651,7 +658,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   peanut_oil: {
-      description: "An oil pressed from peanuts, available in both refined (neutral) and unrefined (roasted) varieties. Refined peanut oil has an exceptionally high smoke point (450°F / 232°C) and does not absorb flavors, making it the premier choice for deep-frying foods and high-heat wok stir-frying.",
+      image_url: "ingredients/peanut_oil.png",
+    description: "An oil pressed from peanuts, available in both refined (neutral) and unrefined (roasted) varieties. Refined peanut oil has an exceptionally high smoke point (450°F / 232°C) and does not absorb flavors, making it the premier choice for deep-frying foods and high-heat wok stir-frying.",
     name: "Peanut Oil",
     origin: ["South America (Brazil)"],
     category: "oil",
@@ -700,7 +708,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   mustard_oil: {
-      description: "An intensely pungent, deeply yellow oil extracted from mustard seeds, forming the culinary backbone of traditional Bengali and Northern Indian cuisines. It contains extraordinarily high levels of allyl isothiocyanate, providing a sharp, vaporous, horseradish-like heat that must be brought to a smoking point before cooking to mellow its aggressive bite.",
+      image_url: "ingredients/mustard_oil.png",
+    description: "An intensely pungent, deeply yellow oil extracted from mustard seeds, forming the culinary backbone of traditional Bengali and Northern Indian cuisines. It contains extraordinarily high levels of allyl isothiocyanate, providing a sharp, vaporous, horseradish-like heat that must be brought to a smoking point before cooking to mellow its aggressive bite.",
     name: "Mustard Oil",
     origin: ["South Asia"],
     category: "oil",
@@ -748,7 +757,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   rice_bran_oil: {
-      description: "A highly stable oil extracted from the hard outer brown layer (bran) of rice grains. It boasts an exceptionally high smoke point (450°F / 232°C) and a very mild, slightly nutty flavor, making it a highly prized, premium oil for deep-frying delicate foods like Japanese tempura without imparting greasy flavors.",
+      image_url: "ingredients/rice_bran_oil.png",
+    description: "A highly stable oil extracted from the hard outer brown layer (bran) of rice grains. It boasts an exceptionally high smoke point (450°F / 232°C) and a very mild, slightly nutty flavor, making it a highly prized, premium oil for deep-frying delicate foods like Japanese tempura without imparting greasy flavors.",
     name: "Rice Bran Oil",
     origin: ["East and South Asia"],
     category: "oil",
@@ -796,7 +806,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   chili_oil: {
-      description: "A vibrant red, infused condiment made by gently heating a neutral oil and pouring it over crushed chili flakes, aromatics (like garlic and star anise), and often Sichuan peppercorns. It provides immense depth, slow-building heat, and a glossy, fiery finish to dumplings, noodles, and broths.",
+      image_url: "ingredients/chili_oil.png",
+    description: "A vibrant red, infused condiment made by gently heating a neutral oil and pouring it over crushed chili flakes, aromatics (like garlic and star anise), and often Sichuan peppercorns. It provides immense depth, slow-building heat, and a glossy, fiery finish to dumplings, noodles, and broths.",
     name: "Chili Oil",
     origin: ["Sichuan (China)"],
     category: "oil",
@@ -844,7 +855,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   perilla_oil: {
-      description: "A deeply toasted, powerfully aromatic oil pressed from the seeds of the *Perilla frutescens* plant, essential to Korean cuisine. It boasts an intensely rich, nutty, and distinctly earthy flavor profile (often compared to toasted sesame oil but deeper), used exclusively as a finishing oil over namul (vegetable side dishes).",
+      image_url: "ingredients/perilla_oil.png",
+    description: "A deeply toasted, powerfully aromatic oil pressed from the seeds of the *Perilla frutescens* plant, essential to Korean cuisine. It boasts an intensely rich, nutty, and distinctly earthy flavor profile (often compared to toasted sesame oil but deeper), used exclusively as a finishing oil over namul (vegetable side dishes).",
     name: "Perilla Oil",
     origin: ["East Asia"],
     category: "oil",
@@ -892,7 +904,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   camellia_oil: {
-      description: "Camellia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/camellia_oil.png",
+    description: "Camellia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Camellia Oil",
     origin: ["Cultivated worldwide"],
     category: "oil",
@@ -940,7 +953,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   grapeseed_oil: {
-      description: "A byproduct of the winemaking industry, pressed from the seeds of grapes. It has a moderately high smoke point and a remarkably clean, light, and unobtrusive flavor, making it highly favored by chefs for creating herb-infused oils and delicate vinaigrettes.",
+      image_url: "ingredients/grapeseed_oil.png",
+    description: "A byproduct of the winemaking industry, pressed from the seeds of grapes. It has a moderately high smoke point and a remarkably clean, light, and unobtrusive flavor, making it highly favored by chefs for creating herb-infused oils and delicate vinaigrettes.",
     name: "Grapeseed Oil",
     origin: ["Mediterranean"],
     category: "oil",
@@ -990,7 +1004,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   macadamia_oil: {
-      description: "A highly prized, golden culinary oil cold-pressed from macadamia nuts. It features an extraordinarily high concentration of monounsaturated fats (making it highly stable at high temperatures) and an intensely buttery, slightly sweet, and luxurious nutty flavor that shines in both baking and searing.",
+      image_url: "ingredients/macadamia_oil.png",
+    description: "A highly prized, golden culinary oil cold-pressed from macadamia nuts. It features an extraordinarily high concentration of monounsaturated fats (making it highly stable at high temperatures) and an intensely buttery, slightly sweet, and luxurious nutty flavor that shines in both baking and searing.",
     name: "Macadamia Oil",
     origin: ["Australia"],
     category: "oil",
@@ -1038,7 +1053,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   palm_oil: {
-      description: "A highly saturated, semi-solid fat extracted from the fleshy fruit of oil palms (*Elaeis guineensis*). Refined palm oil is completely neutral in flavor and boasts incredible oxidative stability, making it the globally dominant, workhorse fat used in commercial baking and processed snack foods.",
+      image_url: "ingredients/palm_oil.png",
+    description: "A highly saturated, semi-solid fat extracted from the fleshy fruit of oil palms (*Elaeis guineensis*). Refined palm oil is completely neutral in flavor and boasts incredible oxidative stability, making it the globally dominant, workhorse fat used in commercial baking and processed snack foods.",
     name: "Palm Oil",
     origin: ["West Africa"],
     category: "oil",
@@ -1086,7 +1102,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   tea_seed_oil: {
-      description: "Also known as camellia oil, this pale, golden oil is cold-pressed from the seeds of *Camellia oleifera* (closely related to the tea plant). It boasts an incredibly high smoke point (485°F / 252°C) and a very delicate, slightly herbaceous and sweet flavor, making it a premium oil for delicate Asian stir-fries.",
+      image_url: "ingredients/tea_seed_oil.png",
+    description: "Also known as camellia oil, this pale, golden oil is cold-pressed from the seeds of *Camellia oleifera* (closely related to the tea plant). It boasts an incredibly high smoke point (485°F / 252°C) and a very delicate, slightly herbaceous and sweet flavor, making it a premium oil for delicate Asian stir-fries.",
     name: "Tea Seed Oil",
     origin: ["Southwest China"],
     category: "oil",
@@ -1134,7 +1151,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   shiso_oil: {
-      description: "An oil cold-pressed from the seeds of the *Perilla frutescens* plant (shiso/perilla), predominantly used in East Asian cuisine. It offers a deeply complex, savory, and distinctly herbaceous flavor that pairs flawlessly with raw fish and delicate vegetables.",
+      image_url: "ingredients/shiso_oil.png",
+    description: "An oil cold-pressed from the seeds of the *Perilla frutescens* plant (shiso/perilla), predominantly used in East Asian cuisine. It offers a deeply complex, savory, and distinctly herbaceous flavor that pairs flawlessly with raw fish and delicate vegetables.",
     name: "Shiso Oil",
     origin: ["East Asia"],
     category: "oil",
@@ -1182,7 +1200,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   argan_oil: {
-      description: "A highly prized, intensely nutty oil pressed from the kernels of the argan tree (*Argania spinosa*), endemic to Morocco. Culinary argan oil is made from lightly roasted kernels, resulting in a profound, toasted hazelnut flavor that is used exclusively as a finishing oil over couscous, dips, or desserts.",
+      image_url: "ingredients/argan_oil.png",
+    description: "A highly prized, intensely nutty oil pressed from the kernels of the argan tree (*Argania spinosa*), endemic to Morocco. Culinary argan oil is made from lightly roasted kernels, resulting in a profound, toasted hazelnut flavor that is used exclusively as a finishing oil over couscous, dips, or desserts.",
     name: "Argan Oil",
     origin: ["Morocco"],
     category: "oil",
@@ -1230,7 +1249,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   hazelnut_oil: {
-      description: "A specialty finishing oil pressed from hazelnuts, boasting an intense, deeply roasted, and slightly astringent hazelnut flavor. Because heat destroys its delicate, volatile aromatics, it should never be used for cooking, but rather drizzled over roasted squash, blue cheese, or fresh pastas.",
+      image_url: "ingredients/hazelnut_oil.png",
+    description: "A specialty finishing oil pressed from hazelnuts, boasting an intense, deeply roasted, and slightly astringent hazelnut flavor. Because heat destroys its delicate, volatile aromatics, it should never be used for cooking, but rather drizzled over roasted squash, blue cheese, or fresh pastas.",
     name: "Hazelnut Oil",
     origin: ["France", "Italy"],
     category: "oil",
@@ -1278,7 +1298,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   pistachio_oil: {
-      description: "A luxurious, deep green finishing oil pressed from pistachios (*Pistacia vera*). It delivers a profoundly rich, earthy, and distinctly roasted pistachio flavor that acts as a stunning drizzle over fresh burrata, delicate white fish, or simple citrus salads.",
+      image_url: "ingredients/pistachio_oil.png",
+    description: "A luxurious, deep green finishing oil pressed from pistachios (*Pistacia vera*). It delivers a profoundly rich, earthy, and distinctly roasted pistachio flavor that acts as a stunning drizzle over fresh burrata, delicate white fish, or simple citrus salads.",
     name: "Pistachio Oil",
     origin: ["Western Asia (Iran)"],
     category: "oil",
@@ -1326,7 +1347,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   hemp_seed_oil: {
-      description: "An oil cold-pressed from hemp seeds (*Cannabis sativa*), known for its dark green color and earthy, distinctly grassy, and nutty flavor. It is rich in polyunsaturated fats and possesses a very low smoke point, making it suitable only as a finishing oil for salads or hummus.",
+      image_url: "ingredients/hemp_seed_oil.png",
+    description: "An oil cold-pressed from hemp seeds (*Cannabis sativa*), known for its dark green color and earthy, distinctly grassy, and nutty flavor. It is rich in polyunsaturated fats and possesses a very low smoke point, making it suitable only as a finishing oil for salads or hummus.",
     name: "Hemp Seed Oil",
     origin: ["Central Asia"],
     category: "oil",
@@ -1374,7 +1396,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   black_seed_oil: {
-      description: "A potent oil pressed from the seeds of *Nigella sativa*, featuring a dark amber color and a highly distinct, aggressive flavor profile described as a mix of cumin, black pepper, and oregano. Because of its intense bitterness and pungency, it is used very sparingly as a finishing oil or for medicinal purposes.",
+      image_url: "ingredients/black_seed_oil.png",
+    description: "A potent oil pressed from the seeds of *Nigella sativa*, featuring a dark amber color and a highly distinct, aggressive flavor profile described as a mix of cumin, black pepper, and oregano. Because of its intense bitterness and pungency, it is used very sparingly as a finishing oil or for medicinal purposes.",
     name: "Black Seed Oil",
     origin: ["Cultivated worldwide"],
     category: "oil",
@@ -1422,7 +1445,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   almond_oil: {
-      description: "A culinary oil pressed from almonds, offering a clean, subtle, and sweet marzipan-like flavor. While refined almond oil has a high enough smoke point for sautéing, unrefined roasted almond oil is best used as a finishing touch for delicate fish, pastries, or salads.",
+      image_url: "ingredients/almond_oil.png",
+    description: "A culinary oil pressed from almonds, offering a clean, subtle, and sweet marzipan-like flavor. While refined almond oil has a high enough smoke point for sautéing, unrefined roasted almond oil is best used as a finishing touch for delicate fish, pastries, or salads.",
     name: "Almond Oil",
     origin: ["Mediterranean"],
     category: "oil",
@@ -1471,7 +1495,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   sunflower_oil: {
-      description: "A light, neutral oil extracted from sunflower seeds. Refined sunflower oil behaves similarly to canola or vegetable oil in high-heat applications, while unrefined (cold-pressed) sunflower oil retains a distinct, nutty, and buttery flavor ideal for dressing salads.",
+      image_url: "ingredients/sunflower_oil.png",
+    description: "A light, neutral oil extracted from sunflower seeds. Refined sunflower oil behaves similarly to canola or vegetable oil in high-heat applications, while unrefined (cold-pressed) sunflower oil retains a distinct, nutty, and buttery flavor ideal for dressing salads.",
     name: "Sunflower Oil",
     origin: ["North America", "Eastern Europe (cultivation)"],
     category: "oil",
@@ -1520,7 +1545,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   safflower_oil: {
-      description: "An oil extracted from the seeds of the safflower plant, possessing a completely neutral flavor and an extremely high smoke point (up to 510°F / 265°C). It remains liquid at cold temperatures, making it an excellent choice for vinaigrettes that will be stored in the fridge.",
+      image_url: "ingredients/safflower_oil.png",
+    description: "An oil extracted from the seeds of the safflower plant, possessing a completely neutral flavor and an extremely high smoke point (up to 510°F / 265°C). It remains liquid at cold temperatures, making it an excellent choice for vinaigrettes that will be stored in the fridge.",
     name: "Safflower Oil",
     origin: ["Western Asia", "Mediterranean"],
     category: "oil",
@@ -1571,7 +1597,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   white_truffle_oil: {
-      description: "A finishing oil meant to mimic the incredibly rare, pungent aroma of the white Alba truffle (*Tuber magnatum*). It relies on synthesized aromatic compounds (primarily bis(methylthio)methane) to provide a piercing, garlicky, and deeply musky aroma intended to elevate neutral dishes like risotto or mashed potatoes.",
+      image_url: "ingredients/white_truffle_oil.png",
+    description: "A finishing oil meant to mimic the incredibly rare, pungent aroma of the white Alba truffle (*Tuber magnatum*). It relies on synthesized aromatic compounds (primarily bis(methylthio)methane) to provide a piercing, garlicky, and deeply musky aroma intended to elevate neutral dishes like risotto or mashed potatoes.",
     name: "White Truffle Oil",
     origin: ["Italy (Alba)"],
     category: "oil",
@@ -1619,7 +1646,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   red_palm_oil: {
-      description: "An unrefined, highly saturated oil extracted from the fruit of the oil palm (*Elaeis guineensis*). Its striking, vibrant red-orange color comes from an incredibly high concentration of carotenes, and it imparts a strong, earthy, and slightly smoky flavor essential to authentic West African and Brazilian cuisines.",
+      image_url: "ingredients/red_palm_oil.png",
+    description: "An unrefined, highly saturated oil extracted from the fruit of the oil palm (*Elaeis guineensis*). Its striking, vibrant red-orange color comes from an incredibly high concentration of carotenes, and it imparts a strong, earthy, and slightly smoky flavor essential to authentic West African and Brazilian cuisines.",
     name: "Red Palm Oil",
     origin: ["West Africa"],
     category: "oil",
@@ -1667,7 +1695,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   roasted_pumpkin_seed_oil: {
-      description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
+      image_url: "ingredients/roasted_pumpkin_seed_oil.png",
+    description: "A large, thick-skinned winter squash (*Cucurbita pepo*) prized for its sweet, earthy flesh and edible seeds. While large field pumpkins are bred for carving, smaller \"sugar\" or \"pie\" pumpkins have dense, less watery flesh ideal for roasting, pureeing, and baking.\n\n**Selection & Storage:** For cooking, select small pie pumpkins that feel dense and heavy with hard, unblemished rinds and an intact stem. Store whole in a cool, dark, dry place for several months.",
     name: "Roasted Pumpkin Seed Oil",
     origin: ["Austria (Styria)"],
     category: "oil",
@@ -1719,7 +1748,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   mustard_seed_oil: {
-      description: "A pungent condiment made from the crushed seeds of various mustard plants (*Brassica* and *Sinapis* species), blended with water, vinegar, or wine. The sharp heat comes from isothiocyanates, which develop when enzymes are activated by liquid. Mustard acts as both a flavor amplifier and a powerful culinary emulsifier, crucial for stabilizing vinaigrettes and binding rich sauces. Dijon offers sharp tang, whole-grain provides texture, and yellow mustard delivers mild, turmeric-tinted brightness.",
+      image_url: "ingredients/mustard_seed_oil.png",
+    description: "A pungent condiment made from the crushed seeds of various mustard plants (*Brassica* and *Sinapis* species), blended with water, vinegar, or wine. The sharp heat comes from isothiocyanates, which develop when enzymes are activated by liquid. Mustard acts as both a flavor amplifier and a powerful culinary emulsifier, crucial for stabilizing vinaigrettes and binding rich sauces. Dijon offers sharp tang, whole-grain provides texture, and yellow mustard delivers mild, turmeric-tinted brightness.",
     name: "Mustard Seed Oil",
     origin: ["Mediterranean", "South Asia"],
     category: "oil",
@@ -1771,7 +1801,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   babassu_oil: {
-      description: "A clear, light oil extracted from the seeds of the babassu palm (*Attalea speciosa*) native to the Amazon region. It is chemically very similar to coconut oil—solid at room temperature and melting quickly upon skin contact—but lacks the distinct tropical coconut aroma, making it a versatile, neutral fat for baking and frying.",
+      image_url: "ingredients/babassu_oil.png",
+    description: "A clear, light oil extracted from the seeds of the babassu palm (*Attalea speciosa*) native to the Amazon region. It is chemically very similar to coconut oil—solid at room temperature and melting quickly upon skin contact—but lacks the distinct tropical coconut aroma, making it a versatile, neutral fat for baking and frying.",
     name: "Babassu Oil",
     origin: ["Cultivated worldwide"],
     category: "oil",
@@ -1823,7 +1854,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   apricot_kernel_oil: {
-      description: "A pale, delicate oil pressed from the kernels (seeds) of apricots. It possesses a very mild, slightly sweet, and nutty flavor profile (reminiscent of almonds) and a high smoke point, making it suitable for both high-heat sautéing and delicate salad dressings.",
+      image_url: "ingredients/apricot_kernel_oil.png",
+    description: "A pale, delicate oil pressed from the kernels (seeds) of apricots. It possesses a very mild, slightly sweet, and nutty flavor profile (reminiscent of almonds) and a high smoke point, making it suitable for both high-heat sautéing and delicate salad dressings.",
     name: "Apricot Kernel Oil",
     origin: ["Central Asia (Armenia)"],
     category: "oil",
@@ -1871,7 +1903,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   canola_oil: {
-      description: "A highly refined, neutral-tasting vegetable oil extracted from a specific, low-erucic acid variety of the rapeseed plant. Its high smoke point (400°F / 204°C) and lack of flavor make it a ubiquitous, all-purpose oil for deep-frying, baking, and emulsifying mild mayonnaises.",
+      image_url: "ingredients/canola_oil.png",
+    description: "A highly refined, neutral-tasting vegetable oil extracted from a specific, low-erucic acid variety of the rapeseed plant. Its high smoke point (400°F / 204°C) and lack of flavor make it a ubiquitous, all-purpose oil for deep-frying, baking, and emulsifying mild mayonnaises.",
     name: "Canola Oil",
     origin: ["Canada"],
     category: "oil",
@@ -1941,7 +1974,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   mct_oil: {
-      description: "A highly refined supplement oil composed exclusively of Medium-Chain Triglycerides, typically extracted from coconut or palm kernel oil. Because these specific fats are metabolized rapidly by the liver rather than stored, it is extremely popular in ketogenic diets and 'bulletproof' coffee, possessing a completely neutral, flavorless profile.",
+      image_url: "ingredients/mct_oil.png",
+    description: "A highly refined supplement oil composed exclusively of Medium-Chain Triglycerides, typically extracted from coconut or palm kernel oil. Because these specific fats are metabolized rapidly by the liver rather than stored, it is extremely popular in ketogenic diets and 'bulletproof' coffee, possessing a completely neutral, flavorless profile.",
     name: "MCT Oil",
     origin: ["Cultivated worldwide"],
     category: "oil",
@@ -2017,7 +2051,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   vegetable_oil: {
-      description: "A generic term for any refined, plant-based oil, though in modern supermarkets it is almost exclusively 100% soybean oil. Like canola, it is completely flavorless and boasts a high smoke point, functioning purely as a structural cooking fat or heat-transfer medium.",
+      image_url: "ingredients/vegetable_oil.png",
+    description: "A generic term for any refined, plant-based oil, though in modern supermarkets it is almost exclusively 100% soybean oil. Like canola, it is completely flavorless and boasts a high smoke point, functioning purely as a structural cooking fat or heat-transfer medium.",
     name: "Vegetable Oil",
     origin: ["Worldwide industrial blends"],
     category: "oil",
@@ -2071,7 +2106,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
   // NEW OILS BELOW
 
   basil_infused_olive_oil: {
-      description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.\n\n**Selection & Storage:** Choose vibrant, unblemished leaves; avoid any with black spots. Store fresh basil like a bouquet of flowers: stems in a glass of water at room temperature, loosely covered with a plastic bag.",
+      image_url: "ingredients/basil_infused_olive_oil.png",
+    description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.\n\n**Selection & Storage:** Choose vibrant, unblemished leaves; avoid any with black spots. Store fresh basil like a bouquet of flowers: stems in a glass of water at room temperature, loosely covered with a plastic bag.",
     name: "Basil-Infused Olive Oil",
     origin: ["South Asia (India)", "Southeast Asia"],
     category: "oil",
@@ -2119,7 +2155,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   garlic_infused_olive_oil: {
-      description: "A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows dramatically into deep, sweet nuttiness when roasted whole or slow-sautéed in fat. Look for firm, heavy bulbs with dry, unbroken papery skins and no green shoots — green means sprouting and bitterness.",
+      image_url: "ingredients/garlic_infused_olive_oil.png",
+    description: "A pungent bulb (*Allium sativum*) belonging to the onion genus, prized globally for its intense, savory flavor and aroma. When its cells are crushed or chopped, an enzyme reaction produces allicin, the compound responsible for its signature bite and potent antimicrobial properties. This sharpness mellows dramatically into deep, sweet nuttiness when roasted whole or slow-sautéed in fat. Look for firm, heavy bulbs with dry, unbroken papery skins and no green shoots — green means sprouting and bitterness.",
     name: "Garlic-Infused Olive Oil",
     origin: ["Central Asia"],
     category: "oil",
@@ -2171,7 +2208,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   lemon_infused_olive_oil: {
-      description: "The oval yellow citrus fruit (*Citrus × limon*) delivering 5–6% citric acid plus fragrant d-limonene in the peel — essentially a complete seasoning of acid, aroma, and brightness in one package. Meyer lemons are sweeter with floral notes; Eureka and Lisbon are standard supermarket varieties. Use the whole fruit: zest for aroma (before juicing — the tool ruins the peel otherwise), juice for acid, rind for preserved lemons. Rolling the lemon before cutting breaks internal membranes and yields more juice.",
+      image_url: "ingredients/lemon_infused_olive_oil.png",
+    description: "The oval yellow citrus fruit (*Citrus × limon*) delivering 5–6% citric acid plus fragrant d-limonene in the peel — essentially a complete seasoning of acid, aroma, and brightness in one package. Meyer lemons are sweeter with floral notes; Eureka and Lisbon are standard supermarket varieties. Use the whole fruit: zest for aroma (before juicing — the tool ruins the peel otherwise), juice for acid, rind for preserved lemons. Rolling the lemon before cutting breaks internal membranes and yields more juice.",
     name: "Lemon-Infused Olive Oil",
     origin: ["South Asia", "Mediterranean (cultivated)"],
     category: "oil",
@@ -2223,7 +2261,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   black_truffle_oil: {
-      description: "A finishing oil meant to mimic the incredibly rare, earthy, and musky aroma of black truffles (*Tuber melanosporum*). Most commercial truffle oils are synthesized using the chemical compound 2,4-dithiapentane rather than real truffles, providing an intense, sometimes overpowering burst of umami aroma.",
+      image_url: "ingredients/black_truffle_oil.png",
+    description: "A finishing oil meant to mimic the incredibly rare, earthy, and musky aroma of black truffles (*Tuber melanosporum*). Most commercial truffle oils are synthesized using the chemical compound 2,4-dithiapentane rather than real truffles, providing an intense, sometimes overpowering burst of umami aroma.",
     name: "Black Truffle Oil",
     origin: ["France (Périgord)"],
     category: "oil",
@@ -2271,7 +2310,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   pumpkin_seed_oil: {
-      description: "An intensely dark green-red oil pressed from roasted pumpkin seeds (*Cucurbita pepo*), heavily utilized in Austrian cuisine. It boasts an incredibly profound, nutty, and slightly sweet flavor profile that is utterly ruined by heat, meaning it must only be used raw as a drizzle over soups, salads, or vanilla ice cream.",
+      image_url: "ingredients/pumpkin_seed_oil.png",
+    description: "An intensely dark green-red oil pressed from roasted pumpkin seeds (*Cucurbita pepo*), heavily utilized in Austrian cuisine. It boasts an incredibly profound, nutty, and slightly sweet flavor profile that is utterly ruined by heat, meaning it must only be used raw as a drizzle over soups, salads, or vanilla ice cream.",
     name: "Pumpkin Seed Oil",
     origin: ["Austria (Styria)"],
     category: "oil",
@@ -2319,7 +2359,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   chia_seed_oil: {
-      description: "A highly nutritious oil cold-pressed from chia seeds (*Salvia hispanica*), boasting one of the highest botanical concentrations of omega-3 fatty acids. It has a very mild, slightly nutty flavor and a low smoke point, meaning it should never be heated but instead used as a finishing oil or in smoothies.",
+      image_url: "ingredients/chia_seed_oil.png",
+    description: "A highly nutritious oil cold-pressed from chia seeds (*Salvia hispanica*), boasting one of the highest botanical concentrations of omega-3 fatty acids. It has a very mild, slightly nutty flavor and a low smoke point, meaning it should never be heated but instead used as a finishing oil or in smoothies.",
     name: "Chia Seed Oil",
     origin: ["Mesoamerica"],
     category: "oil",
@@ -2370,7 +2411,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   moringa_oil: {
-      description: "An incredibly stable, nutrient-dense oil cold-pressed from the seeds of the *Moringa oleifera* tree. It possesses a mild, pleasant, slightly nutty flavor resembling peanut oil and an extraordinarily high smoke point, making it suitable for both delicate salad dressings and high-heat frying.",
+      image_url: "ingredients/moringa_oil.png",
+    description: "An incredibly stable, nutrient-dense oil cold-pressed from the seeds of the *Moringa oleifera* tree. It possesses a mild, pleasant, slightly nutty flavor resembling peanut oil and an extraordinarily high smoke point, making it suitable for both delicate salad dressings and high-heat frying.",
     name: "Moringa Oil",
     origin: ["Cultivated worldwide"],
     category: "oil",
@@ -2418,7 +2460,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   neem_oil: {
-      description: "Neem Oil (Culinary Grade) is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/neem_oil.png",
+    description: "Neem Oil (Culinary Grade) is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Neem Oil (Culinary Grade)",
     origin: ["Cultivated worldwide"],
     category: "oil",
@@ -2470,7 +2513,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   cottonseed_oil: {
-      description: "A highly processed, neutral-tasting vegetable oil extracted from the seeds of the cotton plant. Like corn oil, it has an incredibly high smoke point and is chemically stable, making it a very common (though increasingly less popular) choice for commercial deep-frying and processed snack foods.",
+      image_url: "ingredients/cottonseed_oil.png",
+    description: "A highly processed, neutral-tasting vegetable oil extracted from the seeds of the cotton plant. Like corn oil, it has an incredibly high smoke point and is chemically stable, making it a very common (though increasingly less popular) choice for commercial deep-frying and processed snack foods.",
     name: "Cottonseed Oil",
     origin: ["Cultivated worldwide"],
     category: "oil",
@@ -2518,7 +2562,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   soybean_oil: {
-      description: "A highly processed, neutral vegetable oil extracted from the seeds of the soybean (*Glycine max*). It is one of the most widely consumed cooking oils globally, offering a very high smoke point (450°F / 232°C) and a completely flavorless profile that acts purely as a structural cooking fat for frying and baking.",
+      image_url: "ingredients/soybean_oil.png",
+    description: "A highly processed, neutral vegetable oil extracted from the seeds of the soybean (*Glycine max*). It is one of the most widely consumed cooking oils globally, offering a very high smoke point (450°F / 232°C) and a completely flavorless profile that acts purely as a structural cooking fat for frying and baking.",
     name: "Soybean Oil",
     origin: ["East Asia"],
     category: "oil",
@@ -2567,7 +2612,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   corn_oil: {
-      description: "A highly refined oil extracted from the germ of corn kernels. Because it is highly processed, it is almost entirely flavorless and boasts a very high smoke point (450°F / 232°C), making it a stable, workhorse fat ideal for deep-frying and high-heat stovetop cooking.",
+      image_url: "ingredients/corn_oil.png",
+    description: "A highly refined oil extracted from the germ of corn kernels. Because it is highly processed, it is almost entirely flavorless and boasts a very high smoke point (450°F / 232°C), making it a stable, workhorse fat ideal for deep-frying and high-heat stovetop cooking.",
     name: "Corn Oil",
     origin: ["North America"],
     category: "oil",
@@ -2616,7 +2662,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   rapeseed_oil: {
-      description: "Rapeseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/rapeseed_oil.png",
+    description: "Rapeseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "Rapeseed Oil",
     origin: ["Northern Europe"],
     category: "oil",
@@ -2668,7 +2715,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 },
 
   sacha_inchi_oil: {
-      description: "A highly specialized oil cold-pressed from the star-shaped seed pods of the *Plukenetia volubilis* plant native to the Amazon rainforest. It boasts one of the highest plant-based concentrations of omega-3 fatty acids and features a distinct, earthy, and strongly herbaceous/nutty flavor, used strictly as a finishing oil.",
+      image_url: "ingredients/sacha_inchi_oil.png",
+    description: "A highly specialized oil cold-pressed from the star-shaped seed pods of the *Plukenetia volubilis* plant native to the Amazon rainforest. It boasts one of the highest plant-based concentrations of omega-3 fatty acids and features a distinct, earthy, and strongly herbaceous/nutty flavor, used strictly as a finishing oil.",
     name: "Sacha Inchi Oil",
     origin: ["Cultivated worldwide"],
     category: "oil",

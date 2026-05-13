@@ -26,7 +26,6 @@ services:
     environment:
       - DATABASE_URL=postgresql://user:password@postgres:5432/whattoeatnext
       - REDIS_URL=redis://redis:6379
-      - ALCHEMIZE_API_URL=https://alchmize.onrender.com/api/alchemize
       - SERVICE_NAME=websocket-service
     depends_on:
       postgres:

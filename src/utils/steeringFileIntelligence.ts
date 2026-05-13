@@ -1,7 +1,7 @@
 /**
  * Steering File Intelligence Integration
  *
- * This utility integrates the guidance from Kiro steering files to enhance
+ * This utility integrates project steering guidance to enhance
  * component development with astrological calculation guidelines, elemental
  * principles enforcement, and cultural sensitivity guidelines.
  */
@@ -9,7 +9,7 @@
 import { logger } from "@/utils/logger";
 import { getReliablePlanetaryPositions } from "@/utils/reliableAstronomy";
 
-// Elemental Principles from steering files
+// Elemental principles from project guidance
 export interface ElementalCompatibilityMatrix {
   Fire: { Fire: number; Water: number; Earth: number; Air: number };
   Water: { Water: number; Fire: number; Earth: number; Air: number };

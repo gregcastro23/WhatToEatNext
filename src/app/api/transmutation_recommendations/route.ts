@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
+import { rateLimit } from "@/lib/rateLimit";
 import type { Planet } from "@/types/celestial";
 import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -207,6 +208,8 @@ async function getRecommendations(request: NextRequest): Promise<TransmutationRe
 }
 
 export async function GET(request: NextRequest) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "transmutation-recommendations" });
+  if (!rl.allowed) return rl.response!;
   try {
     const recommendations = await getRecommendations(request);
     return NextResponse.json(recommendations);
@@ -220,6 +223,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "transmutation-recommendations" });
+  if (!rl.allowed) return rl.response!;
   try {
     const recommendations = await getRecommendations(request);
     return NextResponse.json(recommendations);

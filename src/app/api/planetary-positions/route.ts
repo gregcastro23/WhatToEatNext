@@ -6,8 +6,11 @@
  * Used by useAlchemical, astrologyDataProvider, astrologyValidation.
  */
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 import type { NextRequest } from "next/server";
+
+const PLANETARY_LIMIT = { window: 60_000, max: 60, bucket: "planetary-positions" };
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -167,6 +170,8 @@ function toResponse(
 }
 
 export async function GET(request: NextRequest) {
+  const rl = rateLimit(request, PLANETARY_LIMIT);
+  if (!rl.allowed) return rl.response!;
   try {
     const params = parsePlanetaryRequest(request);
     const backendPositions = await fetchFromBackend(params);
@@ -194,6 +199,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(request, PLANETARY_LIMIT);
+  if (!rl.allowed) return rl.response!;
   try {
     const body = (await request.json()) as PlanetaryRequestBody;
     const backendPositions = await fetchFromBackend(body || {});

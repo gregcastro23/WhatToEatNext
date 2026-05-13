@@ -17,24 +17,24 @@ lint-help:
 # Install dependencies
 lint-install:
 	@echo "Installing ESLint dependencies..."
-	yarn install
+	bun install
 	@echo "✅ Dependencies installed"
 
 # Test configuration
 lint-test:
 	@echo "Testing ESLint configuration..."
 	@echo "\n📋 Testing fast config..."
-	yarn lint:quick 2>&1 | head -50 || true
+	bun run lint:quick 2>&1 | head -50 || true
 	@echo "\n✅ Fast config works"
 	@echo "\n📋 Testing main config..."
-	yarn lint 2>&1 | head -50 || true
+	bun run lint 2>&1 | head -50 || true
 	@echo "\n✅ Main config works"
 
 # Create baseline
 lint-baseline:
 	@echo "Creating ESLint baseline..."
 	@mkdir -p reports
-	yarn lint > reports/eslint-baseline-$$(date +%Y%m%d).txt 2>&1 || true
+	bun run lint > reports/eslint-baseline-$$(date +%Y%m%d).txt 2>&1 || true
 	@echo "\n📊 Baseline Statistics:"
 	@grep -E "problems|errors|warnings" reports/eslint-baseline-$$(date +%Y%m%d).txt | tail -1
 	@echo "\n✅ Baseline saved to reports/eslint-baseline-$$(date +%Y%m%d).txt"
@@ -69,7 +69,7 @@ lint-campaign-setup:
 lint-stats:
 	@echo "ESLint Statistics:"
 	@echo "\n📊 Current Error Counts:"
-	@yarn lint 2>&1 | grep -E "@typescript-eslint/no-explicit-any|@typescript-eslint/no-unused-vars|import/no-unresolved|react-hooks|complexity" | \
+	@bun run lint 2>&1 | grep -E "@typescript-eslint/no-explicit-any|@typescript-eslint/no-unused-vars|import/no-unresolved|react-hooks|complexity" | \
 		awk '{print $$NF}' | sort | uniq -c | sort -rn || echo "Run 'make lint-baseline' first"
 
 # Cleanup
@@ -86,4 +86,4 @@ lint-upgrade-workflow: lint-install lint-test lint-baseline lint-campaign-setup
 	@echo "\nNext steps:"
 	@echo "1. Review baseline: cat reports/eslint-baseline-*.txt"
 	@echo "2. Start campaign: Review ESLINT_UPGRADE_GUIDE.md"
-	@echo "3. Run: yarn lint to begin"
+	@echo "3. Run: bun run lint to begin"

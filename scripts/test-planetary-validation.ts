@@ -3,7 +3,7 @@
  *
  * Tests the astronomical validation logic with known-good and known-bad data
  *
- * Run with: npx tsx scripts/test-planetary-validation.ts
+ * Run with: bun scripts/test-planetary-validation.ts
  */
 
 import { validatePlanetaryPositions, formatValidationResult } from "../src/utils/astrology/planetaryValidation";

@@ -70,9 +70,8 @@ def get_db_engine() -> Engine:
             else:
                 logger.error(f"❌ Failed to connect to database: {error_msg}")
             
-            # Re-raise to prevent app from starting with bad DB in production
-            if os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("PORT"):
-                raise
+            # Log warning but don't crash in production - allow fallback mechanisms to take over
+            logger.warning("⚠️ Application starting in degraded mode without database connectivity")
             
     return _engine
 

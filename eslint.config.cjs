@@ -56,6 +56,7 @@ module.exports = [
       'react/jsx-uses-react': 'off',
       'react/jsx-uses-vars': 'error',
       'react/prop-types': 'off',
+      'react/display-name': 'off',
 
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': [

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
+import { getAmazonLink, getAmazonButtonText } from "@/lib/amazonUrl";
 
 export function GroceryCartDrawer() {
   const {
@@ -20,10 +21,10 @@ export function GroceryCartDrawer() {
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     setCheckingOut(true);
     try {
-      const count = checkoutToAmazon();
+      const count = await checkoutToAmazon();
       if (count === 0) {
         showToast("No items could be matched to Amazon products.", "error");
       } else {
@@ -104,19 +105,6 @@ export function GroceryCartDrawer() {
                         <div className="text-sm font-semibold text-white capitalize truncate">
                           {item.name}
                         </div>
-                        {item.asin ? (
-                          <span className="shrink-0 w-2 h-2 rounded-full bg-green-400" title="Available on Amazon" />
-                        ) : (
-                          <a
-                            href={`https://www.amazon.com/s?k=${encodeURIComponent(`${item.name} grocery`)}&tag=${AMAZON_ASSOCIATE_TAG}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="shrink-0 text-[9px] text-yellow-400 hover:text-yellow-300 underline"
-                            title="Search on Amazon"
-                          >
-                            search
-                          </a>
-                        )}
                       </div>
                       <div className="mt-1 flex items-center gap-2">
                         <button
@@ -146,7 +134,16 @@ export function GroceryCartDrawer() {
                         >
                           +
                         </button>
-                        <span className="text-xs text-gray-400">{item.unit}</span>
+                        <span className="text-xs text-gray-400 flex-1">{item.unit}</span>
+                        <a
+                          href={getAmazonLink(`${item.name} grocery`, item.asin)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 text-[10px] font-semibold text-black bg-[#FF9900] hover:bg-[#FFB347] px-2 py-1 rounded transition-colors"
+                          title={item.asin ? "Buy on Amazon" : "Search on Amazon"}
+                        >
+                          {getAmazonButtonText(item.asin)}
+                        </a>
                       </div>
                       {item.recipeIds.length > 0 && (
                         <p className="mt-1.5 text-[11px] text-gray-500 italic truncate">
@@ -193,32 +190,32 @@ export function GroceryCartDrawer() {
                       </div>
                       <form 
                         className="flex items-center gap-1 pl-2"
-                        onSubmit={async (e) => {
+                        onSubmit={(e) => {
                           e.preventDefault();
                           const form = e.currentTarget;
                           const formData = new FormData(form);
                           const asin = formData.get('asin') as string;
                           if (!asin) return;
-                          
-                          // Optimistic local update — always apply regardless of auth status
                           updateAsin(item.id, asin);
                           form.reset();
-                          try {
-                            const res = await fetch('/api/amazon/feedback', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ ingredientName: item.name, asin })
-                            });
-                            if (res.ok) {
-                              showToast('ASIN mapped and saved to database!', 'success');
-                            } else if (res.status === 401) {
-                              showToast('Mapped locally (sign in to save permanently)', 'success');
-                            } else {
-                              showToast('Mapped locally (database save failed)', 'success');
+                          void (async () => {
+                            try {
+                              const res = await fetch('/api/amazon/feedback', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ ingredientName: item.name, asin })
+                              });
+                              if (res.ok) {
+                                showToast('ASIN mapped and saved to database!', 'success');
+                              } else if (res.status === 401) {
+                                showToast('Mapped locally (sign in to save permanently)', 'success');
+                              } else {
+                                showToast('Mapped locally (database save failed)', 'success');
+                              }
+                            } catch {
+                              showToast('Mapped locally (offline — database save skipped)', 'success');
                             }
-                          } catch {
-                            showToast('Mapped locally (offline — database save skipped)', 'success');
-                          }
+                          })();
                         }}
                       >
                         <input 
@@ -238,7 +235,9 @@ export function GroceryCartDrawer() {
             )}
             <button
               type="button"
-              onClick={handleCheckout}
+              onClick={() => {
+                void handleCheckout();
+              }}
               disabled={checkingOut || mappedCount === 0}
               className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm hover:from-orange-400 hover:to-amber-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >

@@ -248,7 +248,7 @@ automatically based on real astronomical conditions.
 
 ## 🚀 Next Steps
 
-1. **Start your development server**: `yarn dev`
+1. **Start your development server**: `bun run dev`
 2. **Test the integration**: Visit `/api/planetary-positions`
 3. **Add the component**: Use `RealtimeAlchemicalCalculator` in your app
 4. **Customize the mapping**: Adjust how planetary positions convert to

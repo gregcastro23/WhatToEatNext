@@ -4,7 +4,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Spices ingredients extracted from cuisine files
 const rawSpices: Record<string, Partial<IngredientMapping>> = {
   ginger: {
-      description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
+      image_url: "ingredients/ginger.png",
+    description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
     name: "ginger",
     origin: ["Maritime Southeast Asia"],
     season: ["all"],
@@ -37,7 +38,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   cinnamon: {
-      description: "A warm, sweet spice derived from the inner bark of trees (*Cinnamomum*). Cassia cinnamon is strong, spicy, and common in baking, while true \"Ceylon\" cinnamon is softer, more floral, and delicate; both provide a deep, aromatic warmth that enhances both sweet pastries and savory curries.",
+      image_url: "ingredients/cinnamon.png",
+    description: "A warm, sweet spice derived from the inner bark of trees (*Cinnamomum*). Cassia cinnamon is strong, spicy, and common in baking, while true \"Ceylon\" cinnamon is softer, more floral, and delicate; both provide a deep, aromatic warmth that enhances both sweet pastries and savory curries.",
     name: "cinnamon",
     origin: ["Sri Lanka", "Southeast Asia"],
     season: ["all"],
@@ -70,7 +72,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   nutmeg: {
-      description: "The hard, inner seed of the fruit from a tropical evergreen (*Myristica fragrans*). It possesses an intensely warm, sweet, and slightly woody flavor that is classically paired with dairy (like in béchamel or eggnog) or baked goods to add depth and warmth.",
+      image_url: "ingredients/nutmeg.png",
+    description: "The hard, inner seed of the fruit from a tropical evergreen (*Myristica fragrans*). It possesses an intensely warm, sweet, and slightly woody flavor that is classically paired with dairy (like in béchamel or eggnog) or baked goods to add depth and warmth.",
     name: "nutmeg",
     origin: ["Indonesia (Banda Islands)"],
     season: ["all"],
@@ -103,7 +106,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   paprika: {
-      description: "A vibrantly red spice made from dried and ground sweet peppers (*Capsicum annuum*). Sweet paprika provides a mild, fruity earthiness and brilliant color, while smoked paprika (Pimentón de la Vera) adds a profound, deep wood-smoke flavor that instantly imparts a 'cooked over fire' quality to any dish.",
+      image_url: "ingredients/paprika.png",
+    description: "A vibrantly red spice made from dried and ground sweet peppers (*Capsicum annuum*). Sweet paprika provides a mild, fruity earthiness and brilliant color, while smoked paprika (Pimentón de la Vera) adds a profound, deep wood-smoke flavor that instantly imparts a 'cooked over fire' quality to any dish.",
     name: "paprika",
     origin: ["Central America", "Hungary (cultivated)"],
     season: ["all"],
@@ -136,7 +140,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   red_bean_paste: {
-      description: "Red Bean Paste is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/red_bean_paste.png",
+    description: "Red Bean Paste is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "red bean paste",
     origin: ["Tropical and subtropical regions"],
     season: ["all"],
@@ -169,7 +174,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   curry_leaves: {
-      description: "Curry Leaves is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/curry_leaves.png",
+    description: "Curry Leaves is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "curry leaves",
     origin: ["South Asia"],
     season: ["all"],
@@ -202,7 +208,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   mustard_seeds: {
-      description: "Tiny, round seeds of various mustard plants (*Brassica* and *Sinapis*) available in yellow, brown, and black varieties. The seeds themselves have no heat until crushed and mixed with a cold liquid, which triggers an enzyme reaction creating the sharp, pungent compound allyl isothiocyanate.\n\n**Selection & Storage:** Yellow seeds are the mildest, while black and brown are much sharper and more pungent. Store whole seeds in an airtight container in a dark pantry, as they keep indefinitely.",
+      image_url: "ingredients/mustard_seeds.png",
+    description: "Tiny, round seeds of various mustard plants (*Brassica* and *Sinapis*) available in yellow, brown, and black varieties. The seeds themselves have no heat until crushed and mixed with a cold liquid, which triggers an enzyme reaction creating the sharp, pungent compound allyl isothiocyanate.\n\n**Selection & Storage:** Yellow seeds are the mildest, while black and brown are much sharper and more pungent. Store whole seeds in an airtight container in a dark pantry, as they keep indefinitely.",
     name: "mustard seeds",
     origin: ["Mediterranean", "South Asia"],
     season: ["all"],
@@ -240,7 +247,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   turmeric: {
-      description: "A bright yellow-orange rhizome (*Curcuma longa*) of the ginger family, containing the powerful anti-inflammatory compound curcumin. It offers a distinctly earthy, slightly bitter, and mustard-like flavor, and is primarily used to impart a brilliant golden color to curries, rice, and mustards.",
+      image_url: "ingredients/turmeric.png",
+    description: "A bright yellow-orange rhizome (*Curcuma longa*) of the ginger family, containing the powerful anti-inflammatory compound curcumin. It offers a distinctly earthy, slightly bitter, and mustard-like flavor, and is primarily used to impart a brilliant golden color to curries, rice, and mustards.",
     name: "turmeric",
     origin: ["South Asia"],
     season: ["all"],
@@ -273,7 +281,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   green_chilies: {
-      description: "Green Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/green_chilies.png",
+    description: "Green Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "green chilies",
     origin: ["Tropical and subtropical regions"],
     season: ["all"],
@@ -306,7 +315,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   chole_masala: {
-      description: "Chole Masala is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/chole_masala.png",
+    description: "Chole Masala is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "chole masala",
     origin: ["Tropical and subtropical regions"],
     season: ["all"],
@@ -339,7 +349,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   chaat_masala: {
-      description: "Chaat Masala is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/chaat_masala.png",
+    description: "Chaat Masala is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "chaat masala",
     origin: ["Tropical and subtropical regions"],
     season: ["all"],
@@ -372,7 +383,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   cumin_seeds: {
-      description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
+      image_url: "ingredients/cumin_seeds.png",
+    description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
     name: "cumin seeds",
     origin: ["Western Asia", "Mediterranean"],
     season: ["all"],
@@ -405,7 +417,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   garam_masala: {
-      description: "A deeply warming, complex spice blend originating from the Indian subcontinent, translating roughly to 'hot spices' (referring to metabolic heat, not chili spice). It typically contains heavily aromatic, sweet spices like cardamom, cinnamon, clove, cumin, and nutmeg, and is usually added near the end of cooking to preserve its aromatics.",
+      image_url: "ingredients/garam_masala.png",
+    description: "A deeply warming, complex spice blend originating from the Indian subcontinent, translating roughly to 'hot spices' (referring to metabolic heat, not chili spice). It typically contains heavily aromatic, sweet spices like cardamom, cinnamon, clove, cumin, and nutmeg, and is usually added near the end of cooking to preserve its aromatics.",
     name: "garam masala",
     origin: ["South Asia"],
     season: ["all"],
@@ -438,7 +451,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   cardamom: {
-      description: "A highly aromatic, resinous spice (*Elettaria cardamomum*) enclosed in small green or black pods. Green cardamom offers a complex, cooling, eucalyptus-and-citrus sweetness essential for Scandinavian baking and Indian sweets, while black cardamom is heavily smoked and deeply savory.",
+      image_url: "ingredients/cardamom.png",
+    description: "A highly aromatic, resinous spice (*Elettaria cardamomum*) enclosed in small green or black pods. Green cardamom offers a complex, cooling, eucalyptus-and-citrus sweetness essential for Scandinavian baking and Indian sweets, while black cardamom is heavily smoked and deeply savory.",
     name: "cardamom",
     origin: ["South India", "Sri Lanka"],
     season: ["all"],
@@ -471,7 +485,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   saffron: {
-      description: "The world's most expensive spice, consisting of the dried crimson stigmas of the *Crocus sativus* flower. It imparts a brilliant golden-yellow hue and a highly complex, honey-like, floral, and slightly metallic or earthy flavor, making it the defining characteristic of classic dishes like paella and risotto alla milanese.",
+      image_url: "ingredients/saffron.png",
+    description: "The world's most expensive spice, consisting of the dried crimson stigmas of the *Crocus sativus* flower. It imparts a brilliant golden-yellow hue and a highly complex, honey-like, floral, and slightly metallic or earthy flavor, making it the defining characteristic of classic dishes like paella and risotto alla milanese.",
     name: "saffron",
     origin: ["Western Asia (Iran, Greece)"],
     season: ["fall"],
@@ -504,7 +519,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   curry_roux: {
-      description: "Curry Roux is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/curry_roux.png",
+    description: "Curry Roux is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "curry roux",
     origin: ["Tropical and subtropical regions"],
     season: ["all"],
@@ -537,7 +553,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   chili_powder: {
-      description: "A generic term that can refer either to pure ground dried chilies (like cayenne or ancho) or to a Tex-Mex spice blend containing ground chilies, cumin, oregano, and garlic powder. It provides earthy warmth, savory depth, and varying levels of capsaicin-driven heat depending on the chilies used.",
+      image_url: "ingredients/chili_powder.png",
+    description: "A generic term that can refer either to pure ground dried chilies (like cayenne or ancho) or to a Tex-Mex spice blend containing ground chilies, cumin, oregano, and garlic powder. It provides earthy warmth, savory depth, and varying levels of capsaicin-driven heat depending on the chilies used.",
     name: "chili powder",
     origin: ["Mesoamerica"],
     season: ["all"],
@@ -570,7 +587,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   cumin: {
-      description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
+      image_url: "ingredients/cumin.png",
+    description: "A potent, earthy spice derived from the seeds of a parsley relative (*Cuminum cyminum*). When toasted, it releases powerful, warm, and slightly musky pyrazines that form the backbone of savory flavor profiles in Mexican, Indian, and Middle Eastern cuisines.",
     name: "cumin",
     origin: ["Western Asia", "Mediterranean"],
     season: ["all"],
@@ -603,7 +621,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   coriander: {
-      description: "The dried seeds of the cilantro plant (*Coriandrum sativum*), yielding a completely different flavor profile than its leaves. The seeds provide a warm, floral, and slightly citrusy sweetness that is a crucial balancing component in heavy, spicy curry blends and pickling brines.",
+      image_url: "ingredients/coriander.png",
+    description: "The dried seeds of the cilantro plant (*Coriandrum sativum*), yielding a completely different flavor profile than its leaves. The seeds provide a warm, floral, and slightly citrusy sweetness that is a crucial balancing component in heavy, spicy curry blends and pickling brines.",
     name: "coriander",
     origin: ["Mediterranean"],
     season: ["spring", "fall"],
@@ -636,7 +655,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   thai_chilies: {
-      description: "Thai Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
+      image_url: "ingredients/thai_chilies.png",
+    description: "Thai Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "Thai chilies",
     origin: ["Tropical and subtropical regions"],
     season: ["all"],
@@ -669,7 +689,8 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
   shrimp_paste: {
-      description: "A widely consumed crustacean known for its sweet, briny flavor and firm, snappy texture. They cook incredibly fast—turning pink and opaque in minutes as heat denatures their proteins—and become tough and rubbery if exposed to high heat for too long.\n\n**Selection & Storage:** Look for firm bodies attached tightly to their shells with a clean, mild saltwater scent; avoid any with black spots (melanosis) on their shells or a smell of ammonia. Store over ice in the refrigerator and consume within a day.",
+      image_url: "ingredients/shrimp_paste.png",
+    description: "A widely consumed crustacean known for its sweet, briny flavor and firm, snappy texture. They cook incredibly fast—turning pink and opaque in minutes as heat denatures their proteins—and become tough and rubbery if exposed to high heat for too long.\n\n**Selection & Storage:** Look for firm bodies attached tightly to their shells with a clean, mild saltwater scent; avoid any with black spots (melanosis) on their shells or a smell of ammonia. Store over ice in the refrigerator and consume within a day.",
     name: "shrimp paste",
     origin: ["Worldwide warm waters"],
     season: ["summer", "fall"],

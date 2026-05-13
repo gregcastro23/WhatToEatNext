@@ -26,10 +26,10 @@ This will:
 
 ```bash
 # Check current TypeScript error count
-yarn tsc --noEmit 2>&1 | grep -c "error TS"
+bun run tsc --noEmit 2>&1 | grep -c "error TS"
 
 # Verify build status
-yarn build
+bun run build
 ```
 
 ### Step 3: Start with Highest Impact Fixes
@@ -95,13 +95,13 @@ After each script run:
 
 ```bash
 # Check error reduction
-yarn tsc --noEmit 2>&1 | grep -c "error TS"
+bun run tsc --noEmit 2>&1 | grep -c "error TS"
 
 # Verify build still works
-yarn build
+bun run build
 
 # Test core functionality
-yarn dev  # Check that pages load
+bun run dev  # Check that pages load
 ```
 
 **Target Goals**:
@@ -132,7 +132,7 @@ yarn dev  # Check that pages load
 Before running any `--execute` commands:
 
 1. **Always run dry-run first**: `--dry-run` shows what would change
-2. **Check build status**: Ensure `yarn build` works before and after
+2. **Check build status**: Ensure `bun run build` works before and after
 3. **Verify core functionality**: Test that astrologize integration still works
 4. **Small batch testing**: Fix small groups of errors and validate
 

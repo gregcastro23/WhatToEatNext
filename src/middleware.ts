@@ -31,6 +31,8 @@ export const config = {
     "/profile/:path*",
     "/onboarding/:path*",
     "/admin/:path*",
+    "/birth-chart/:path*",
+    "/current-chart/:path*",
     "/recipe-generator/:path*",
     "/planetary-chart/:path*",
     "/restaurant-creator/:path*",

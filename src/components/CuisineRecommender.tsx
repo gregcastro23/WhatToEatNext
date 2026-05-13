@@ -737,7 +737,7 @@ export default function CuisineRecommender() {
             <div 
               key={cuisine.id}
               className={`rounded border p-2 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedCuisine === cuisine.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200'}`}
-              onClick={() => handleCuisineSelect(cuisine.id)}
+              onClick={() => { void handleCuisineSelect(cuisine.id); }}
             >
               <div className="flex justify-between items-center mb-1">
                 <h3 className="font-medium text-sm">{cuisineData.name}</h3>

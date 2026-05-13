@@ -6,7 +6,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
 const rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
-      description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
+      image_url: "ingredients/olive_oil.png",
+    description: "A liquid fat extracted by pressing whole olives (*Olea europaea*). Extra-virgin olive oil (EVOO) is mechanically extracted without heat or chemicals, retaining high levels of antioxidants and an intensely grassy, peppery, and fruity flavor best reserved for finishing dishes or low-heat cooking.",
     name: "Olive Oil",
     origin: ["Mediterranean"],
     category: "oil",
@@ -70,7 +71,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "coconut oil": {
-      description: "Coconut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/coconut oil.png",
+    description: "Coconut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "coconut oil",
     origin: ["Indo-Pacific"],
     category: "oil",
@@ -119,7 +121,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   sesame_oil: {
-      description: "An incredibly potent oil pressed from sesame seeds (*Sesamum indicum*). Toasted sesame oil (dark brown) provides a massive burst of savory, nutty pyrazines and should be used exclusively as a finishing oil, while plain sesame oil (pale yellow) is neutral and suitable for cooking.",
+      image_url: "ingredients/sesame_oil.png",
+    description: "An incredibly potent oil pressed from sesame seeds (*Sesamum indicum*). Toasted sesame oil (dark brown) provides a massive burst of savory, nutty pyrazines and should be used exclusively as a finishing oil, while plain sesame oil (pale yellow) is neutral and suitable for cooking.",
     name: "Sesame Oil",
     origin: ["East Asia", "Africa"],
     category: "oil",
@@ -183,7 +186,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   ghee: {
-      description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
+      image_url: "ingredients/ghee.png",
+    description: "A class of clarified butter originating in ancient India, created by simmering butter until the water evaporates and the milk solids toast and sink to the bottom. Once strained, the resulting pure butterfat boasts an intensely nutty, caramel-like flavor and a massive smoke point (482°F / 250°C), making it ideal for high-heat frying.",
     name: "Ghee",
     origin: ["South Asia"],
     category: "oil",
@@ -229,7 +233,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   avocado_oil: {
-      description: "An oil pressed from the fleshy pulp of avocados. It boasts the highest smoke point of any common culinary oil (up to 520°F / 271°C) and a very mild, buttery flavor, making it a premium choice for aggressive high-heat searing, grilling, and broiling.",
+      image_url: "ingredients/avocado_oil.png",
+    description: "An oil pressed from the fleshy pulp of avocados. It boasts the highest smoke point of any common culinary oil (up to 520°F / 271°C) and a very mild, buttery flavor, making it a premium choice for aggressive high-heat searing, grilling, and broiling.",
     name: "Avocado Oil",
     origin: ["Mesoamerica"],
     category: "oil",
@@ -276,7 +281,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "peanut oil": {
-      description: "Peanut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/peanut oil.png",
+    description: "Peanut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "peanut oil",
     origin: ["South America (Brazil)"],
     category: "oil",
@@ -325,7 +331,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "mustard oil": {
-      description: "Mustard Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/mustard oil.png",
+    description: "Mustard Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "mustard oil",
     origin: ["South Asia"],
     category: "oil",
@@ -361,7 +368,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "walnut oil": {
-      description: "Walnut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/walnut oil.png",
+    description: "Walnut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "walnut oil",
     origin: ["France", "Western Asia"],
     category: "oil",
@@ -410,7 +418,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "rice bran oil": {
-      description: "Rice Bran Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/rice bran oil.png",
+    description: "Rice Bran Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "rice bran oil",
     origin: ["East and South Asia"],
     category: "oil",
@@ -446,7 +455,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "chili oil": {
-      description: "Chili Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/chili oil.png",
+    description: "Chili Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "chili oil",
     origin: ["Sichuan (China)"],
     category: "oil",
@@ -482,7 +492,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "perilla oil": {
-      description: "Perilla Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/perilla oil.png",
+    description: "Perilla Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "perilla oil",
     origin: ["East Asia"],
     category: "oil",
@@ -518,7 +529,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "camellia oil": {
-      description: "Camellia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/camellia oil.png",
+    description: "Camellia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "camellia oil",
     origin: ["Worldwide"],
     category: "oil",
@@ -554,7 +566,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "grapeseed oil": {
-      description: "Grapeseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/grapeseed oil.png",
+    description: "Grapeseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "grapeseed oil",
     origin: ["Mediterranean"],
     category: "oil",
@@ -604,7 +617,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "macadamia oil": {
-      description: "Macadamia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/macadamia oil.png",
+    description: "Macadamia Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "macadamia oil",
     origin: ["Australia"],
     category: "oil",
@@ -640,7 +654,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "palm oil": {
-      description: "Palm Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/palm oil.png",
+    description: "Palm Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "palm oil",
     origin: ["West Africa"],
     category: "oil",
@@ -676,7 +691,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "tea seed oil": {
-      description: "Tea Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/tea seed oil.png",
+    description: "Tea Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "tea seed oil",
     origin: ["Southwest China"],
     category: "oil",
@@ -712,7 +728,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "shiso oil": {
-      description: "Shiso Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/shiso oil.png",
+    description: "Shiso Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "shiso oil",
     origin: ["East Asia"],
     category: "oil",
@@ -748,7 +765,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "argan oil": {
-      description: "Argan Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/argan oil.png",
+    description: "Argan Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "argan oil",
     origin: ["Morocco"],
     category: "oil",
@@ -784,7 +802,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "hazelnut oil": {
-      description: "Hazelnut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/hazelnut oil.png",
+    description: "Hazelnut Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "hazelnut oil",
     origin: ["France", "Italy"],
     category: "oil",
@@ -820,7 +839,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "pistachio oil": {
-      description: "Pistachio Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/pistachio oil.png",
+    description: "Pistachio Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "pistachio oil",
     origin: ["Western Asia (Iran)"],
     category: "oil",
@@ -856,7 +876,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "hemp seed oil": {
-      description: "Hemp Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/hemp seed oil.png",
+    description: "Hemp Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "hemp seed oil",
     origin: ["Central Asia"],
     category: "oil",
@@ -892,7 +913,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "black seed oil": {
-      description: "Black Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/black seed oil.png",
+    description: "Black Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "black seed oil",
     origin: ["Worldwide"],
     category: "oil",
@@ -928,7 +950,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "almond oil": {
-      description: "Almond Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/almond oil.png",
+    description: "Almond Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "almond oil",
     origin: ["Mediterranean"],
     category: "oil",
@@ -977,7 +1000,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "sunflower oil": {
-      description: "Sunflower Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/sunflower oil.png",
+    description: "Sunflower Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "sunflower oil",
     origin: ["North America", "Eastern Europe (cultivation)"],
     category: "oil",
@@ -1026,7 +1050,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "safflower oil": {
-      description: "Safflower Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/safflower oil.png",
+    description: "Safflower Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "safflower oil",
     origin: ["Western Asia", "Mediterranean"],
     category: "oil",
@@ -1065,7 +1090,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "white truffle oil": {
-      description: "White Truffle Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/white truffle oil.png",
+    description: "White Truffle Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "white truffle oil",
     origin: ["Italy (Alba)"],
     category: "oil",
@@ -1101,7 +1127,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "flaxseed oil": {
-      description: "Flaxseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/flaxseed oil.png",
+    description: "Flaxseed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "flaxseed oil",
     origin: ["Northern Europe"],
     category: "oil",
@@ -1150,7 +1177,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "red palm oil": {
-      description: "Red Palm Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/red palm oil.png",
+    description: "Red Palm Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "red palm oil",
     origin: ["West Africa"],
     category: "oil",
@@ -1186,7 +1214,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "roasted pumpkin seed oil": {
-      description: "Roasted Pumpkin Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/roasted pumpkin seed oil.png",
+    description: "Roasted Pumpkin Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "roasted pumpkin seed oil",
     origin: ["Austria (Styria)"],
     category: "oil",
@@ -1226,7 +1255,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "mustard seed oil": {
-      description: "Mustard Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/mustard seed oil.png",
+    description: "Mustard Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "mustard seed oil",
     origin: ["Mediterranean", "South Asia"],
     category: "oil",
@@ -1266,7 +1296,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "babassu oil": {
-      description: "Babassu Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/babassu oil.png",
+    description: "Babassu Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "babassu oil",
     origin: ["Worldwide"],
     category: "oil",
@@ -1306,7 +1337,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "apricot kernel oil": {
-      description: "Apricot Kernel Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/apricot kernel oil.png",
+    description: "Apricot Kernel Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "apricot kernel oil",
     origin: ["Central Asia (Armenia)"],
     category: "oil",
@@ -1342,7 +1374,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   "grape seed oil": {
-      description: "Grape Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
+      image_url: "ingredients/grape seed oil.png",
+    description: "Grape Seed Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     name: "grape seed oil",
     origin: ["Western Asia", "Mediterranean"],
     category: "oil",
@@ -1396,7 +1429,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   canola_oil: {
-      description: "A highly refined, neutral-tasting vegetable oil extracted from a specific, low-erucic acid variety of the rapeseed plant. Its high smoke point (400°F / 204°C) and lack of flavor make it a ubiquitous, all-purpose oil for deep-frying, baking, and emulsifying mild mayonnaises.",
+      image_url: "ingredients/canola_oil.png",
+    description: "A highly refined, neutral-tasting vegetable oil extracted from a specific, low-erucic acid variety of the rapeseed plant. Its high smoke point (400°F / 204°C) and lack of flavor make it a ubiquitous, all-purpose oil for deep-frying, baking, and emulsifying mild mayonnaises.",
     name: "Canola Oil",
     origin: ["Canada"],
     category: "oil",
@@ -1459,7 +1493,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
   mct_oil: {
-      description: "A highly refined supplement oil composed exclusively of Medium-Chain Triglycerides, typically extracted from coconut or palm kernel oil. Because these specific fats are metabolized rapidly by the liver rather than stored, it is extremely popular in ketogenic diets and 'bulletproof' coffee, possessing a completely neutral, flavorless profile.",
+      image_url: "ingredients/mct_oil.png",
+    description: "A highly refined supplement oil composed exclusively of Medium-Chain Triglycerides, typically extracted from coconut or palm kernel oil. Because these specific fats are metabolized rapidly by the liver rather than stored, it is extremely popular in ketogenic diets and 'bulletproof' coffee, possessing a completely neutral, flavorless profile.",
     name: "MCT Oil",
     origin: ["Worldwide"],
     category: "oil",

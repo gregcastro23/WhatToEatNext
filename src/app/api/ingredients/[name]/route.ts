@@ -6,6 +6,7 @@ import {
   resolveIngredientSlug,
 } from "@/data/ingredientRecipeIndex";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { rateLimit } from "@/lib/rateLimit";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
@@ -63,9 +64,11 @@ function buildSubstitutions(
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   props: { params: Promise<{ name: string }> },
 ) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "ingredients-by-name" });
+  if (!rl.allowed) return rl.response!;
   try {
     const { name } = await props.params;
 

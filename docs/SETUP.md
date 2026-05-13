@@ -7,11 +7,11 @@ we recommend using one of these approaches:
 
 ### Option 1: Use the Safe Development Script (Recommended)
 
-Instead of running `yarn dev` directly, use our safe wrapper script:
+Instead of running `bun run dev` directly, use our safe wrapper script:
 
 ```bash
 # This automatically switches to the correct Node.js version
-yarn dev:safe
+bun run dev:safe
 ```
 
 Or run the script directly:
@@ -111,7 +111,7 @@ load-nvmrc
 1. **Clone the repository**
 2. **Use the safe development script**:
    ```bash
-   yarn dev:safe
+   bun run dev:safe
    ```
 
 That's it! The script will handle everything automatically.
@@ -125,7 +125,7 @@ Option 2 above.
 
 ### "Node.js version incompatible"
 
-If you see this error when running `yarn dev`, use `yarn dev:safe` instead,
+If you see this error when running `bun run dev`, use `bun run dev:safe` instead,
 which will automatically fix the version issue.
 
 ### Manual Version Check
@@ -149,9 +149,9 @@ And verify it meets the requirement (20.18.0 or higher).
 
 ## Development Commands
 
-- `yarn dev:safe` - Start development server with automatic Node.js version
+- `bun run dev:safe` - Start development server with automatic Node.js version
   handling
-- `yarn dev` - Start development server (requires correct Node.js version)
-- `yarn build` - Build for production
-- `yarn lint` - Run linting
-- `yarn test` - Run tests
+- `bun run dev` - Start development server (requires correct Node.js version)
+- `bun run build` - Build for production
+- `bun run lint` - Run linting
+- `bun run test` - Run tests

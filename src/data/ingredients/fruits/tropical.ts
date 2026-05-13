@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   mango: {
-      description: "A tropical stone fruit (*Mangifera indica*) with a uniquely resinous, floral sweetness and a vibrant orange, fleshy interior. Its high sugar content and tender texture make it a staple in chutneys, salsas, and purees, functioning equally well as a dessert or a cooling element in spicy savory dishes.",
+      image_url: "ingredients/mango.png",
+    description: "A tropical stone fruit (*Mangifera indica*) with a uniquely resinous, floral sweetness and a vibrant orange, fleshy interior. Its high sugar content and tender texture make it a staple in chutneys, salsas, and purees, functioning equally well as a dessert or a cooling element in spicy savory dishes.",
     name: "Mango",
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     quantityBase: { amount: 100, unit: "g" },
@@ -100,7 +101,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   },
 
   pineapple: {
-      description: "A large, spiky tropical fruit (*Ananas comosus*) characterized by its intensely sweet, tart, and vibrant yellow flesh. It contains the enzyme bromelain, which actively breaks down proteins, making fresh pineapple an incredibly effective (and sometimes overpowering) meat tenderizer in marinades.",
+      image_url: "ingredients/pineapple.png",
+    description: "A large, spiky tropical fruit (*Ananas comosus*) characterized by its intensely sweet, tart, and vibrant yellow flesh. It contains the enzyme bromelain, which actively breaks down proteins, making fresh pineapple an incredibly effective (and sometimes overpowering) meat tenderizer in marinades.",
     name: "Pineapple",
     origin: ["South America"],
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -174,7 +176,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   papaya: {
-      description: "A large, tropical berry (*Carica papaya*) featuring vibrant orange flesh and a central cavity filled with peppery, edible black seeds. It contains papain, a powerful proteolytic enzyme used globally as a meat tenderizer, and offers a sweet, slightly musky, and floral flavor.",
+      image_url: "ingredients/papaya.png",
+    description: "A large, tropical berry (*Carica papaya*) featuring vibrant orange flesh and a central cavity filled with peppery, edible black seeds. It contains papain, a powerful proteolytic enzyme used globally as a meat tenderizer, and offers a sweet, slightly musky, and floral flavor.",
     name: "Papaya",
     origin: ["Mesoamerica"],
     elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
@@ -248,7 +251,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   passion_fruit: {
-      description: "The small, tough-skinned fruit of a climbing vine (*Passiflora edulis*), filled with a gelatinous, intensely aromatic, and sharply acidic yellow pulp containing crunchy black seeds. Its explosive, tropical tartness makes it an unparalleled flavor enhancer for sweet meringues, curds, and cocktails.",
+      image_url: "ingredients/passion_fruit.png",
+    description: "The small, tough-skinned fruit of a climbing vine (*Passiflora edulis*), filled with a gelatinous, intensely aromatic, and sharply acidic yellow pulp containing crunchy black seeds. Its explosive, tropical tartness makes it an unparalleled flavor enhancer for sweet meringues, curds, and cocktails.",
     name: "Passion Fruit",
     origin: ["South America"],
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -329,7 +333,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   guava: {
-      description: "A highly aromatic tropical fruit (*Psidium guajava*) with an edible rind, ranging in interior color from white to deep pink. It provides an intense, perfumed sweetness and a distinctively gritty texture from its small, edible seeds, making it a favorite for purees, jams, and Latin American pastries (pastelitos).",
+      image_url: "ingredients/guava.png",
+    description: "A highly aromatic tropical fruit (*Psidium guajava*) with an edible rind, ranging in interior color from white to deep pink. It provides an intense, perfumed sweetness and a distinctively gritty texture from its small, edible seeds, making it a favorite for purees, jams, and Latin American pastries (pastelitos).",
     name: "Guava",
     origin: ["Central America"],
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -403,7 +408,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   dragon_fruit: {
-      description: "Also known as pitaya (*Selenicereus undatus*), this striking fruit of a cactus features bright pink or yellow skin with green, leafy scales. Despite its dramatic appearance, its white or magenta flesh offers a very mild, subtly sweet flavor—similar to a cross between a pear and a kiwi—with a crunchy texture from its tiny black seeds.",
+      image_url: "ingredients/dragon_fruit.png",
+    description: "Also known as pitaya (*Selenicereus undatus*), this striking fruit of a cactus features bright pink or yellow skin with green, leafy scales. Despite its dramatic appearance, its white or magenta flesh offers a very mild, subtly sweet flavor—similar to a cross between a pear and a kiwi—with a crunchy texture from its tiny black seeds.",
     name: "Dragon Fruit",
     origin: ["Mesoamerica"],
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
@@ -477,7 +483,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   lychee: {
-      description: "A small tropical fruit (*Litchi chinensis*) native to China, encased in a rough, pinkish-red rind. Peeling the rind reveals a translucent, pearl-white flesh that is incredibly juicy, crisp, and boasts a profound, floral sweetness reminiscent of rosewater and muscat grapes.",
+      image_url: "ingredients/lychee.png",
+    description: "A small tropical fruit (*Litchi chinensis*) native to China, encased in a rough, pinkish-red rind. Peeling the rind reveals a translucent, pearl-white flesh that is incredibly juicy, crisp, and boasts a profound, floral sweetness reminiscent of rosewater and muscat grapes.",
     name: "Lychee",
     origin: ["Southern China"],
     elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
@@ -551,7 +558,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   rambutan: {
-      description: "A tropical fruit (*Nephelium lappaceum*) covered in a striking, hairy, bright red rind. The translucent white flesh inside is similar to a lychee but is generally sweeter, creamier, and slightly less acidic, making it a highly refreshing raw snack.",
+      image_url: "ingredients/rambutan.png",
+    description: "A tropical fruit (*Nephelium lappaceum*) covered in a striking, hairy, bright red rind. The translucent white flesh inside is similar to a lychee but is generally sweeter, creamier, and slightly less acidic, making it a highly refreshing raw snack.",
     name: "Rambutan",
     origin: ["Southeast Asia"],
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -625,7 +633,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   longan: {
-      description: "A small tropical fruit (*Dimocarpus longan*) closely related to the lychee, often referred to as 'dragon eye' due to the appearance of its translucent flesh encasing a single black seed. It offers a deeply sweet, slightly musky, and floral flavor profile that is less acidic and more earthy than a lychee.",
+      image_url: "ingredients/longan.png",
+    description: "A small tropical fruit (*Dimocarpus longan*) closely related to the lychee, often referred to as 'dragon eye' due to the appearance of its translucent flesh encasing a single black seed. It offers a deeply sweet, slightly musky, and floral flavor profile that is less acidic and more earthy than a lychee.",
     name: "Longan",
     origin: ["Southern China"],
     elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
@@ -699,7 +708,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   starfruit: {
-      description: "Also known as carambola (*Averrhoa carambola*), a uniquely shaped tropical fruit that forms a perfect five-pointed star when sliced horizontally. Its crisp, watery texture and mild, sweet-tart flavor (reminiscent of green apples and citrus) make it a beautiful, refreshing garnish or addition to fruit salads.",
+      image_url: "ingredients/starfruit.png",
+    description: "Also known as carambola (*Averrhoa carambola*), a uniquely shaped tropical fruit that forms a perfect five-pointed star when sliced horizontally. Its crisp, watery texture and mild, sweet-tart flavor (reminiscent of green apples and citrus) make it a beautiful, refreshing garnish or addition to fruit salads.",
     name: "Starfruit",
     origin: ["Southeast Asia"],
     elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
@@ -773,7 +783,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   persimmon: {
-      description: "A vibrant orange fruit (*Diospyros kaki*) that must be fully understood before eating. The Hachiya variety is highly astringent (due to tannins) until it becomes entirely soft and jelly-like, while the Fuyu variety is non-astringent, crisp like an apple, and mildly sweet with notes of honey and cinnamon.",
+      image_url: "ingredients/persimmon.png",
+    description: "A vibrant orange fruit (*Diospyros kaki*) that must be fully understood before eating. The Hachiya variety is highly astringent (due to tannins) until it becomes entirely soft and jelly-like, while the Fuyu variety is non-astringent, crisp like an apple, and mildly sweet with notes of honey and cinnamon.",
     name: "Persimmon",
     origin: ["East Asia"],
     elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
@@ -847,7 +858,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   kiwi: {
-      description: "A small, fuzzy brown fruit (*Actinidia deliciosa*) harboring bright green flesh and tiny, edible black seeds. It delivers a uniquely tart, sweet flavor—reminiscent of strawberries and melon—and, like pineapple, contains actinidain, an enzyme that tenderizes meat and prevents gelatin from setting.",
+      image_url: "ingredients/kiwi.png",
+    description: "A small, fuzzy brown fruit (*Actinidia deliciosa*) harboring bright green flesh and tiny, edible black seeds. It delivers a uniquely tart, sweet flavor—reminiscent of strawberries and melon—and, like pineapple, contains actinidain, an enzyme that tenderizes meat and prevents gelatin from setting.",
     name: "Kiwi",
     origin: ["China", "New Zealand (cultivated)"],
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
@@ -921,7 +933,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   jackfruit: {
-      description: "The largest tree-borne fruit in the world (*Artocarpus heterophyllus*). When ripe, the golden bulbs are intensely sweet and taste like a blend of mango, banana, and pineapple; when unripe (green), the flesh is neutral, stringy, and fibrous, acting as an incredibly popular vegan substitute for pulled pork or braised chicken.",
+      image_url: "ingredients/jackfruit.png",
+    description: "The largest tree-borne fruit in the world (*Artocarpus heterophyllus*). When ripe, the golden bulbs are intensely sweet and taste like a blend of mango, banana, and pineapple; when unripe (green), the flesh is neutral, stringy, and fibrous, acting as an incredibly popular vegan substitute for pulled pork or braised chicken.",
     name: "Jackfruit",
     origin: ["South India", "Southeast Asia"],
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -995,7 +1008,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   durian: {
-      description: "A massive, spiky tropical fruit native to Southeast Asia, famously known for its overpowering, highly divisive odor (often compared to rotting onions or raw sewage). However, the custard-like flesh inside is incredibly rich, buttery, and profoundly sweet, tasting of almond, caramel, and complex savory notes.",
+      image_url: "ingredients/durian.png",
+    description: "A massive, spiky tropical fruit native to Southeast Asia, famously known for its overpowering, highly divisive odor (often compared to rotting onions or raw sewage). However, the custard-like flesh inside is incredibly rich, buttery, and profoundly sweet, tasting of almond, caramel, and complex savory notes.",
     name: "Durian",
     origin: ["Southeast Asia (Borneo, Sumatra)"],
     elementalProperties: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
@@ -1069,7 +1083,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 },
 
   coconut: {
-      description: "A large, hard-shelled seed (*Cocos nucifera*) containing sweet, clear water and rich, fatty white meat. Its high concentration of saturated lauric acid gives coconut milk, cream, and oil a uniquely rich, tropical flavor that forms the creamy base of many Southeast Asian and Indian curries.",
+      image_url: "ingredients/coconut.png",
+    description: "A large, hard-shelled seed (*Cocos nucifera*) containing sweet, clear water and rich, fatty white meat. Its high concentration of saturated lauric acid gives coconut milk, cream, and oil a uniquely rich, tropical flavor that forms the creamy base of many Southeast Asian and Indian curries.",
     name: "Coconut",
     origin: ["Indo-Pacific"],
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },

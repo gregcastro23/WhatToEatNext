@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawEggs: Record<string, Partial<IngredientMapping>> = {
   chicken_egg: {
+      image_url: "ingredients/chicken_egg.png",
     name: "Chicken Egg",
     description:
       "The reproductive ovum of the domestic chicken (*Gallus gallus domesticus*) and the world's most consumed egg. A nearly perfect food: complete protein, essential fats, emulsifiers (lecithin), and a full spectrum of B vitamins. Culinary uses are unmatched — binders, leaveners, thickeners, emulsifiers, glazes, and protein centerpiece. Fresh eggs from pasture-raised hens have deep orange yolks, firm upstanding whites, and far richer flavor than commodity-cage eggs. Select eggs with clean, uncracked shells; store pointy-end down.",
@@ -121,6 +122,7 @@ const rawEggs: Record<string, Partial<IngredientMapping>> = {
   },
 
   duck_egg: {
+      image_url: "ingredients/duck_egg.png",
     name: "Duck Egg",
     description:
       "Larger, richer cousin of the chicken egg, laid by domestic ducks (*Anas platyrhynchos domesticus*, *Cairina moschata*). About 50% larger, with proportionally more yolk, giving custards, pastas, and baked goods unmatched richness and lift. Higher in fat and fat-soluble vitamins than chicken eggs. Prized in East and Southeast Asian cuisines (salted duck eggs, century eggs) and by modern bakers and pasta-makers. Shells are thicker and more porous — they age differently and should be used fresher.",
@@ -228,6 +230,7 @@ const rawEggs: Record<string, Partial<IngredientMapping>> = {
   },
 
   quail_egg: {
+      image_url: "ingredients/quail_egg.png",
     name: "Quail Egg",
     description:
       "Tiny speckled eggs from the domestic Japanese quail (*Coturnix japonica*), weighing only about 9–10g — one-fifth the size of a chicken egg. A higher yolk-to-white ratio gives them disproportionately rich flavor. Popular in Japanese, Korean, Filipino, French, and Mediterranean cuisines for garnishes, canapés, ramen toppings, and upscale bite-sized preparations. Speckled cream-and-chocolate shells make them visually striking on the plate.",
@@ -334,6 +337,7 @@ const rawEggs: Record<string, Partial<IngredientMapping>> = {
   },
 
   goose_egg: {
+      image_url: "ingredients/goose_egg.png",
     name: "Goose Egg",
     description:
       "Very large egg from the domestic goose (*Anser anser domesticus*, *Anser cygnoides*) — roughly twice the size of a chicken egg and with an even higher yolk ratio than duck eggs. Extremely rich, almost meaty flavor; whites are firmer and more gelatinous when cooked. Available only seasonally (spring to early summer) because geese lay fewer eggs than chickens or ducks. Traditional in Eastern European and North African cooking; a prize for artisan pasta-makers and pastry chefs.",
@@ -430,6 +434,7 @@ const rawEggs: Record<string, Partial<IngredientMapping>> = {
   },
 
   egg_white: {
+      image_url: "ingredients/egg_white.png",
     name: "Egg White (Albumen)",
     description:
       "The clear, gelatinous protein-rich fraction of an egg — about 67% of the total liquid weight of a chicken egg. Pure lean protein (primarily ovalbumin) with negligible fat or carbohydrate. Coagulates between 62–65°C (144–149°F), forms firm, glossy foams when whipped with sugar, and clarifies stocks and consommés. Essential in meringues, macarons, angel food cake, Swiss buttercream, soufflés, marshmallows, and cocktail sours.",
@@ -532,6 +537,7 @@ const rawEggs: Record<string, Partial<IngredientMapping>> = {
   },
 
   egg_yolk: {
+      image_url: "ingredients/egg_yolk.png",
     name: "Egg Yolk",
     description:
       "The golden-orange fat- and nutrient-dense center of an egg — about 33% of the liquid weight but the majority of the calories, fat, vitamins, and emulsifiers (lecithin). Coagulates between 65–70°C (149–158°F). The workhorse of classical cuisine: emulsifies hollandaise, béarnaise, mayonnaise, and aioli; enriches custards, ice creams, pasta, pastry cream, and zabaglione; glazes breads to a glossy deep brown.",

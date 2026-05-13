@@ -27,7 +27,10 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "What to Eat Next",
+  title: {
+    default: "Alchm Kitchen — What to Eat Next",
+    template: "%s | Alchm Kitchen",
+  },
   description:
     "Personalized food recommendations based on your chakra energies and astrological harmony",
   manifest: "/manifest.json",
@@ -107,7 +110,7 @@ export default function RootLayout({
                     aria-label="Main navigation"
                   >
                     <Link href="/cuisines" className="px-3 py-2 rounded-lg bg-purple-900/50 hover:bg-purple-800/70 text-purple-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-500/30" aria-label="Explore cuisines">🍽️ Cuisines</Link>
-                    <Link href="/#ingredients" className="px-3 py-2 rounded-lg bg-green-900/40 hover:bg-green-800/60 text-green-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-500/30" aria-label="Browse ingredients">🥬 Ingredients</Link>
+                    <Link href="/ingredients" className="px-3 py-2 rounded-lg bg-green-900/40 hover:bg-green-800/60 text-green-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-green-500/30" aria-label="Browse ingredients">🥬 Ingredients</Link>
                     <Link href="/cooking-methods" className="px-3 py-2 rounded-lg bg-orange-900/40 hover:bg-orange-800/60 text-orange-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-orange-500/30" aria-label="Discover cooking methods">🔥 Cooking Methods</Link>
                     <Link href="/menu-planner" className="px-3 py-2 rounded-lg bg-purple-900/50 hover:bg-purple-800/70 text-purple-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-purple-500/30" aria-label="Plan your weekly menu">📅 Menu Planner</Link>
                     <Link href="/pantry" className="px-3 py-2 rounded-lg bg-emerald-900/40 hover:bg-emerald-800/60 text-emerald-200 hover:text-white font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-md border border-emerald-500/30" aria-label="Track ingredients in your pantry">🥫 Pantry</Link>

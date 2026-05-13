@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { streakService } from "@/services/StreakService";
 import { getStreakMultiplier } from "@/types/economy";
 import type { NextRequest } from "next/server";
@@ -12,7 +13,12 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+const RATE_LIMIT = { window: 60_000, max: 60, bucket: "quests-streak" };
+
 export async function GET(request: NextRequest) {
+  const rl = rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const userId = await getUserIdFromRequest(request);
     if (!userId) {

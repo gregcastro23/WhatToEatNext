@@ -1,0 +1,125 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+
+const REWARDS = [
+  {
+    symbol: "🝙",
+    color: "emerald",
+    amount: "+50",
+    label: "First Cart",
+    description: "One-time achievement",
+  },
+  {
+    symbol: "🝙",
+    color: "emerald",
+    amount: "+20",
+    label: "Weekly Cart",
+    description: "Every week you send",
+  },
+] as const;
+
+const STEPS = [
+  { icon: "⚗️", text: "Browse the ingredients storefront" },
+  { icon: "🛒", text: "Add items and send to Amazon Fresh" },
+  { icon: "🝙", text: "Earn Matter tokens automatically" },
+];
+
+export function AmazonFreshPromotion() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 90, damping: 20, delay: 0.1 }}
+      className="relative rounded-3xl overflow-hidden border border-emerald-500/20 bg-[#0a0f0a]/80 backdrop-blur-xl shadow-2xl shadow-emerald-900/10"
+    >
+      {/* Ambient glows */}
+      <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-600/8 rounded-full blur-[100px] pointer-events-none -mr-20 -mt-20" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-600/6 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20" />
+
+      <div className="relative z-10 p-6 md:p-8">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4 mb-5">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-bold tracking-widest text-emerald-400/80 uppercase">
+                Community Mission
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-400">
+                🝙 Earn Tokens
+              </span>
+            </div>
+            <h2 className="text-xl md:text-2xl font-bold text-white/90 leading-tight">
+              Open the Alchemist&rsquo;s Market
+            </h2>
+            <p className="mt-1.5 text-sm text-white/40 leading-relaxed max-w-lg">
+              We need 3 qualifying Amazon Fresh orders to unlock live product
+              pricing and images for the marketplace. Every cart you send earns{" "}
+              <span className="text-emerald-400 font-semibold">🝙 Matter</span> tokens
+              and brings us one step closer to the full storefront.
+            </p>
+          </div>
+
+          {/* Progress pip */}
+          <div className="shrink-0 flex flex-col items-center gap-1 px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/5">
+            <span className="text-2xl font-black text-white/80">0</span>
+            <span className="text-[10px] text-white/30 text-center leading-tight">
+              of 3<br />orders
+            </span>
+          </div>
+        </div>
+
+        {/* Reward cards */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          {REWARDS.map((r) => (
+            <div
+              key={r.label}
+              className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/[0.03] border border-emerald-500/10 hover:border-emerald-500/25 transition-colors"
+            >
+              <div className="flex items-center gap-1">
+                <span className="text-emerald-400 text-lg">{r.symbol}</span>
+                <span className="text-lg font-black text-emerald-400">{r.amount}</span>
+              </div>
+              <div>
+                <div className="text-xs font-bold text-white/80">{r.label}</div>
+                <div className="text-[10px] text-white/30">{r.description}</div>
+              </div>
+            </div>
+          ))}
+
+          {/* Locked reward hint */}
+          <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/[0.02] border border-white/5 opacity-50">
+            <span className="text-white/30 text-lg">🔒</span>
+            <div>
+              <div className="text-xs font-bold text-white/40">Live Marketplace</div>
+              <div className="text-[10px] text-white/20">Unlocks at 3 orders</div>
+            </div>
+          </div>
+        </div>
+
+        {/* How it works */}
+        <div className="flex flex-wrap gap-x-6 gap-y-2 mb-6">
+          {STEPS.map((step, i) => (
+            <div key={i} className="flex items-center gap-2 text-xs text-white/40">
+              <span>{step.icon}</span>
+              <span>{step.text}</span>
+              {i < STEPS.length - 1 && (
+                <span className="text-white/20 hidden md:inline">→</span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <Link
+          href="/ingredients"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 hover:border-emerald-500/50 text-emerald-300 font-semibold text-sm transition-all duration-200 group"
+        >
+          Browse Ingredients & Earn Tokens
+          <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
+        </Link>
+      </div>
+    </motion.div>
+  );
+}

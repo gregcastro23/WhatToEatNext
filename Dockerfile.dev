@@ -1,7 +1,7 @@
 # Development Dockerfile for WhatToEatNext
-# Optimized for hot reloading and development workflows
+# Optimized for hot reloading and development workflows with Bun
 
-FROM node:25-alpine
+FROM oven/bun:alpine
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -10,17 +10,14 @@ RUN apk add --no-cache \
     git \
     && rm -rf /var/cache/apk/*
 
-# Enable Yarn
-RUN corepack enable
-
 # Set working directory
 WORKDIR /app
 
 # Copy package files
-COPY package.json yarn.lock .yarnrc ./
+COPY package.json bun.lock ./
 
 # Install all dependencies (including devDependencies)
-RUN yarn install --frozen-lockfile
+RUN bun install
 
 # Copy source code
 COPY . .
@@ -38,4 +35,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000 || exit 1
 
 # Start development server
-CMD ["yarn", "dev"] 
+CMD ["bun", "run", "dev"]

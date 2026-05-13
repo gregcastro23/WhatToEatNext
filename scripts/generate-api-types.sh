@@ -6,8 +6,8 @@
 # auto-generated OpenAPI (Swagger) schema.
 #
 # USAGE:
-#   yarn generate-types              # uses BACKEND_URL from .env.local
-#   BACKEND_URL=https://... yarn generate-types
+#   bun run generate-types              # uses BACKEND_URL from .env.local
+#   BACKEND_URL=https://... bun run generate-types
 #
 # OUTPUT:
 #   src/types/generated/railway-api.ts
@@ -44,7 +44,7 @@ fi
 
 mkdir -p "$(dirname "${OUT_FILE}")"
 
-npx openapi-typescript "${OPENAPI_URL}" --output "${OUT_FILE}"
+bunx openapi-typescript "${OPENAPI_URL}" --output "${OUT_FILE}"
 
 echo "✅  Types written to ${OUT_FILE}"
 echo ""

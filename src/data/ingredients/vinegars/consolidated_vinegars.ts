@@ -5,7 +5,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawVinegars = {
   rice_vinegar: {
-      description: "A mild, slightly sweet vinegar made by fermenting rice wine (sake). Its exceptionally low acidity (around 4%) and subtle, floral sweetness make it an unobtrusive, delicate acid essential for seasoning sushi rice and balancing sharp Asian dipping sauces.",
+      image_url: "ingredients/rice_vinegar.png",
+    description: "A mild, slightly sweet vinegar made by fermenting rice wine (sake). Its exceptionally low acidity (around 4%) and subtle, floral sweetness make it an unobtrusive, delicate acid essential for seasoning sushi rice and balancing sharp Asian dipping sauces.",
     name: "Rice Vinegar",
     category: "vinegars",
     subCategory: "grain",
@@ -54,7 +55,8 @@ const rawVinegars = {
       pairingRecommendations: { complementary: ["oil", "honey", "mustard", "shallot", "herbs"], contrasting: ["dairy", "egg"], toAvoid: [] }
 },
   apple_cider_vinegar: {
-      description: "A fruity, moderately acidic vinegar made by fermenting apple cider, first into alcohol and then into acetic acid via an *Acetobacter* culture (the \"mother\"). Its subtle apple flavor and mild acidity make it excellent for tenderizing pork marinades, quick pickling, and deglazing pans.",
+      image_url: "ingredients/apple_cider_vinegar.png",
+    description: "A fruity, moderately acidic vinegar made by fermenting apple cider, first into alcohol and then into acetic acid via an *Acetobacter* culture (the \"mother\"). Its subtle apple flavor and mild acidity make it excellent for tenderizing pork marinades, quick pickling, and deglazing pans.",
     name: "Apple Cider Vinegar",
     category: "vinegars",
     subCategory: "fruit",
@@ -103,7 +105,8 @@ const rawVinegars = {
       pairingRecommendations: { complementary: ["oil", "honey", "mustard", "shallot", "herbs"], contrasting: ["dairy", "egg"], toAvoid: [] }
 },
   balsamic_vinegar: {
-      description: "A deeply complex, dark vinegar originating from Modena, Italy, made from the reduced must (juice) of Trebbiano grapes. Traditional balsamic is aged for decades in wooden barrels, transforming into a thick, sweet, and syrupy elixir, while commercial varieties mimic this with added caramel coloring and thickeners.",
+      image_url: "ingredients/balsamic_vinegar.png",
+    description: "A deeply complex, dark vinegar originating from Modena, Italy, made from the reduced must (juice) of Trebbiano grapes. Traditional balsamic is aged for decades in wooden barrels, transforming into a thick, sweet, and syrupy elixir, while commercial varieties mimic this with added caramel coloring and thickeners.",
     name: "Balsamic Vinegar",
     category: "vinegars",
     subCategory: "wine",
@@ -152,7 +155,8 @@ const rawVinegars = {
       pairingRecommendations: { complementary: ["oil", "honey", "mustard", "shallot", "herbs"], contrasting: ["dairy", "egg"], toAvoid: [] }
 },
   red_wine_vinegar: {
-      description: "A sharp, robust vinegar created by fermenting red wine with an *Acetobacter* culture. It retains the complex fruit notes and tannins of the original wine, making it the classic, assertive acidic backbone for traditional French vinaigrettes and hearty beef marinades.",
+      image_url: "ingredients/red_wine_vinegar.png",
+    description: "A sharp, robust vinegar created by fermenting red wine with an *Acetobacter* culture. It retains the complex fruit notes and tannins of the original wine, making it the classic, assertive acidic backbone for traditional French vinaigrettes and hearty beef marinades.",
     name: "Red Wine Vinegar",
     category: "vinegars",
     subCategory: "wine",
@@ -201,7 +205,8 @@ const rawVinegars = {
       pairingRecommendations: { complementary: ["oil", "honey", "mustard", "shallot", "herbs"], contrasting: ["dairy", "egg"], toAvoid: [] }
 },
   white_wine_vinegar: {
-      description: "A bright, moderately sharp vinegar made by fermenting white wine. It is significantly less assertive and tannic than red wine vinegar, offering a delicate, slightly floral acidity that perfectly balances lighter dishes like chicken salads, delicate fish, or hollandaise sauce.",
+      image_url: "ingredients/white_wine_vinegar.png",
+    description: "A bright, moderately sharp vinegar made by fermenting white wine. It is significantly less assertive and tannic than red wine vinegar, offering a delicate, slightly floral acidity that perfectly balances lighter dishes like chicken salads, delicate fish, or hollandaise sauce.",
     name: "White Wine Vinegar",
     category: "vinegars",
     subCategory: "wine",

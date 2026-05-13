@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   black_beans: {
+      image_url: "ingredients/black_beans.png",
     name: "Black Beans",
     description:
       "Small, shiny, deep-black beans (*Phaseolus vulgaris*) with cream-colored flesh and a dense, meaty texture. The foundational legume of Latin American and Caribbean cuisines — at the heart of Cuban moros y cristianos, Brazilian feijoada, Mexican frijoles negros, and countless soups, stews, and bowl meals. Rich, earthy, almost mushroomy flavor when well-seasoned. Excellent complete-protein partner with rice, corn, or wheat tortillas.",
@@ -101,6 +102,7 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   },
 
   chickpeas: {
+      image_url: "ingredients/chickpeas.png",
     name: "Chickpeas (Garbanzo Beans)",
     description:
       "Round, beige legumes (*Cicer arietinum*) with a firm, nutty, almost buttery texture. Among humanity's oldest cultivated crops, central to Mediterranean, Middle Eastern, North African, and Indian cuisines. The base of hummus, falafel, socca, chana masala, and Mediterranean stews. Two main types: the larger, paler kabuli (most common globally) and the smaller, darker desi (dominant in South Asia). Hold their shape when cooked whole or puree to silken smoothness.",
@@ -199,6 +201,7 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   },
 
   lentils: {
+      image_url: "ingredients/lentils.png",
     name: "Lentils",
     description:
       "Small, lens-shaped seeds of *Lens culinaris*, one of humanity's oldest cultivated crops (cultivated for ~10,000 years). Among the quickest-cooking legumes — no soaking required. Available in an astonishing range of colors and textures: firm French Puy for salads, soft red dal for puree, meaty black beluga for showcase dishes. Central to Indian, Middle Eastern, French, and Ethiopian cooking. Outstanding source of plant protein, folate, and iron.",
@@ -315,6 +318,7 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   },
 
   pinto_beans: {
+      image_url: "ingredients/pinto_beans.png",
     name: "Pinto Beans",
     description:
       "Speckled beige-and-brown beans (*Phaseolus vulgaris*) — the signature bean of the American Southwest and Mexican cuisine. Creamy, slightly sweet flesh with an unmistakable earthy flavor. The bean in classic refried beans (frijoles refritos), cowboy beans, chilis, and burritos. Turn a solid pinkish-brown when cooked. Cook patiently with pork or aromatics for fullest flavor.",
@@ -412,6 +416,7 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   },
 
   kidney_beans: {
+      image_url: "ingredients/kidney_beans.png",
     name: "Kidney Beans",
     description:
       "Large, kidney-shaped beans (*Phaseolus vulgaris*) with deep red skin and cream-colored flesh. Firm, meaty texture that holds up well in long-cooked dishes. Star of red beans and rice, chili con carne, Italian fagioli dishes, and Indian rajma. Must be fully cooked — raw or undercooked kidney beans contain phytohaemagglutinin toxin. Darker (dark red) and lighter (light red/white cannellini-close) varieties exist.",
@@ -514,6 +519,7 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   },
 
   split_peas: {
+      image_url: "ingredients/split_peas.png",
     name: "Split Peas",
     description:
       "Field peas (*Pisum sativum*) dried, dehulled, and mechanically split along the natural seam. Available as green (slightly sweeter) or yellow (earthier, more common in Scandinavia and South Asia). Break down into creamy purees during cooking — the foundation of split-pea soup, Indian chana dal, Swedish ärtsoppa, and Greek fava. No soaking required; cook in 45–60 minutes to velvet-smooth puree.",
@@ -607,6 +613,7 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   },
 
   tempeh: {
+      image_url: "ingredients/tempeh.png",
     name: "Tempeh",
     description:
       "Traditional Indonesian fermented food made by binding cooked soybeans (*Glycine max*) with a *Rhizopus oligosporus* culture into a firm, sliceable cake. Dense, nutty, faintly mushroomy flavor with a meaty bite. A complete protein, with the fermentation process unlocking nutrients and improving digestibility. Pan-fries to golden crisp on the outside, stays tender inside; steams to a more neutral base; marinates deeply. A cornerstone of plant-based and Indonesian cooking.",

@@ -1,3 +1,8 @@
 #!/bin/sh
-command -v git-lfs >/dev/null 2>&1 || { printf >&2 "\n%s\n\n" "This repository is configured for Git LFS but 'git-lfs' was not found on your path. If you no longer wish to use Git LFS, remove this hook by deleting the 'pre-push' file in the hooks directory (set by 'core.hookspath'; usually '.git/hooks')."; exit 2; }
+# git-lfs pre-push: warn if lfs is missing but don't block the push,
+# since most pushes contain only code (no tracked binary files).
+if ! command -v git-lfs >/dev/null 2>&1; then
+  printf >&2 "\nWarning: git-lfs not found — skipping LFS pre-push check.\nInstall git-lfs if you need to push large binary assets.\n\n"
+  exit 0
+fi
 git lfs pre-push "$@"

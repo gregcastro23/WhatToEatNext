@@ -3,6 +3,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   onion: {
+      image_url: "ingredients/onion.png",
     name: "onion",
     category: "vegetable",
     subcategory: "allium_bulb",
@@ -152,6 +153,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   garlic: {
+      image_url: "ingredients/garlic.png",
     name: "garlic",
     category: "vegetable",
     subcategory: "allium_bulb",
@@ -308,6 +310,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   onions: {
+      image_url: "ingredients/onions.png",
     description: "Foundational aromatics (*Allium cepa*) that build savory depth across global cuisines. Their concentric layers contain sulfur compounds which, under heat, undergo Maillard reactions to create complex flavors from sharp when raw to deeply caramel when slow-cooked. Yellow onions are the all-purpose workhorse for mirepoix and stocks; sweet varieties for raw eating; red for salads and quick pickles; pearl for whole-braising. Always use a sharp knife to minimize the enzymatic release that causes tears.",
     name: "onions",
     origin: ["Central Asia", "Persia"],
@@ -350,6 +353,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   yellow_onions: {
+      image_url: "ingredients/yellow_onions.png",
     description: "Foundational aromatics (*Allium cepa*) that build savory depth across global cuisines. Their concentric layers contain sulfur compounds which, under heat, undergo Maillard reactions to create complex flavors from sharp when raw to deeply caramel when slow-cooked. Yellow onions are the all-purpose workhorse for mirepoix and stocks; sweet varieties for raw eating; red for salads and quick pickles; pearl for whole-braising. Always use a sharp knife to minimize the enzymatic release that causes tears.",
     name: "yellow onions",
     origin: ["Central Asia"],
@@ -377,6 +381,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   pearl_onions: {
+      image_url: "ingredients/pearl_onions.png",
     description: "Foundational aromatics (*Allium cepa*) that build savory depth across global cuisines. Their concentric layers contain sulfur compounds which, under heat, undergo Maillard reactions to create complex flavors from sharp when raw to deeply caramel when slow-cooked. Yellow onions are the all-purpose workhorse for mirepoix and stocks; sweet varieties for raw eating; red for salads and quick pickles; pearl for whole-braising. Always use a sharp knife to minimize the enzymatic release that causes tears.",
     name: "pearl onions",
     origin: ["Cultivated worldwide"],
@@ -404,6 +409,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   shallots: {
+      image_url: "ingredients/shallots.png",
     description: "A small, teardrop-shaped allium (*Allium cepa var. aggregatum*) that grows in clusters similar to garlic. It offers a more delicate, sweeter, and less pungent flavor profile than standard onions, making it the classic choice for refined sauces, vinaigrettes, and raw applications.\n\n**Selection & Storage:** Look for firm, heavy bulbs with intact, coppery-pink papery skins. Keep them in a cool, dry, and dark environment with good air circulation to maximize their shelf life.",
     name: "shallots",
     origin: ["Central Asia"],
@@ -431,6 +437,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   green_onions: {
+      image_url: "ingredients/green_onions.png",
     description: "Foundational aromatics (*Allium cepa*) that build savory depth across global cuisines. Their concentric layers contain sulfur compounds which, under heat, undergo Maillard reactions to create complex flavors from sharp when raw to deeply caramel when slow-cooked. Yellow onions are the all-purpose workhorse for mirepoix and stocks; sweet varieties for raw eating; red for salads and quick pickles; pearl for whole-braising. Always use a sharp knife to minimize the enzymatic release that causes tears.",
     name: "green onions",
     origin: ["China"],
@@ -458,6 +465,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   yellow_onion: {
+      image_url: "ingredients/yellow_onion.png",
     description: "A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds which, when exposed to heat, undergo Maillard reaction to create sweet, complex flavors ranging from sharp when raw to deeply caramel when slow-cooked. Yellow is the all-purpose workhorse; sweet (Vidalia, Walla Walla) for quick raw use; red for salads and pickling; pearl and cipollini for whole-roasting. Slice with a sharp blade to minimize enzymatic tear-gas release.",
     name: "yellow onion",
     origin: ["Central Asia"],
@@ -485,6 +493,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   red_onion: {
+      image_url: "ingredients/red_onion.png",
     description: "A foundational aromatic (*Allium cepa*) that builds savory depth in nearly every global cuisine. Its concentric layers contain sulfur compounds which, when exposed to heat, undergo Maillard reaction to create sweet, complex flavors ranging from sharp when raw to deeply caramel when slow-cooked. Yellow is the all-purpose workhorse; sweet (Vidalia, Walla Walla) for quick raw use; red for salads and pickling; pearl and cipollini for whole-roasting. Slice with a sharp blade to minimize enzymatic tear-gas release.",
     name: "red onion",
     origin: ["Central Asia"],

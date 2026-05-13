@@ -24,7 +24,7 @@ services:
     ports:
       - "3000:3000"
       - "9229:9229" # Node.js debugger port
-    command: yarn dev
+    command: bun dev
 
     # Development-specific health check
     healthcheck:

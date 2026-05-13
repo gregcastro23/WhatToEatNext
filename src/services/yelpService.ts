@@ -570,4 +570,18 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }
 
-export const yelpService = YelpService.getInstance();
+export const yelpService = {
+  isConfigured(): boolean {
+    return YelpService.getInstance().isConfigured();
+  },
+  searchRestaurants(
+    params: Parameters<YelpService["searchRestaurants"]>[0],
+  ): ReturnType<YelpService["searchRestaurants"]> {
+    return YelpService.getInstance().searchRestaurants(params);
+  },
+  getScoredRestaurants(
+    params: Parameters<YelpService["getScoredRestaurants"]>[0],
+  ): ReturnType<YelpService["getScoredRestaurants"]> {
+    return YelpService.getInstance().getScoredRestaurants(params);
+  },
+};

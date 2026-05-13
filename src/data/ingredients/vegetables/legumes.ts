@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   chickpeas: {
-      description: "Also known as garbanzo beans (*Cicer arietinum*), these versatile legumes maintain a firm, meaty texture even after long cooking. Their mild, nutty flavor and high starch-to-protein ratio make them ideal for blending into creamy hummus, roasting until crispy, or bulking up stews.",
+      image_url: "ingredients/chickpeas.png",
+    description: "Also known as garbanzo beans (*Cicer arietinum*), these versatile legumes maintain a firm, meaty texture even after long cooking. Their mild, nutty flavor and high starch-to-protein ratio make them ideal for blending into creamy hummus, roasting until crispy, or bulking up stews.",
     name: "chickpeas",
     origin: ["Western Asia"],
     season: ["all"],
@@ -51,7 +52,8 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   dried_chickpeas: {
-      description: "Also known as garbanzo beans (*Cicer arietinum*), these versatile legumes maintain a firm, meaty texture even after long cooking. Their mild, nutty flavor and high starch-to-protein ratio make them ideal for blending into creamy hummus, roasting until crispy, or bulking up stews.\n\n**Selection & Storage:** Dried chickpeas should be uniform in color and unbroken. Store dried beans in an airtight container in a dark pantry; canned chickpeas should be stored at room temperature until opened.",
+      image_url: "ingredients/dried_chickpeas.png",
+    description: "Also known as garbanzo beans (*Cicer arietinum*), these versatile legumes maintain a firm, meaty texture even after long cooking. Their mild, nutty flavor and high starch-to-protein ratio make them ideal for blending into creamy hummus, roasting until crispy, or bulking up stews.\n\n**Selection & Storage:** Dried chickpeas should be uniform in color and unbroken. Store dried beans in an airtight container in a dark pantry; canned chickpeas should be stored at room temperature until opened.",
     name: "dried chickpeas",
     origin: ["Western Asia"],
     season: ["all"],
@@ -77,7 +79,8 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   peanuts: {
-      description: "Botanically a legume but culinary treated as a nut (*Arachis hypogaea*), peanuts grow underground. They boast a high fat and protein content that, when roasted, develops complex pyrazines—yielding a deeply savory, universally appealing flavor ideal for both sweet baked goods and savory Asian sauces.\n\n**Selection & Storage:** If buying in the shell, look for clean, unblemished pods that feel heavy. Because of their high oil content, shelled peanuts should be stored in an airtight container in the refrigerator to prevent rancidity.",
+      image_url: "ingredients/peanuts.png",
+    description: "Botanically a legume but culinary treated as a nut (*Arachis hypogaea*), peanuts grow underground. They boast a high fat and protein content that, when roasted, develops complex pyrazines—yielding a deeply savory, universally appealing flavor ideal for both sweet baked goods and savory Asian sauces.\n\n**Selection & Storage:** If buying in the shell, look for clean, unblemished pods that feel heavy. Because of their high oil content, shelled peanuts should be stored in an airtight container in the refrigerator to prevent rancidity.",
     name: "peanuts",
     origin: ["Cultivated worldwide"],
     season: ["varies by variety"],
@@ -103,7 +106,8 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   crushed_peanuts: {
-      description: "Botanically a legume but culinary treated as a nut (*Arachis hypogaea*), peanuts grow underground. They boast a high fat and protein content that, when roasted, develops complex pyrazines—yielding a deeply savory, universally appealing flavor ideal for both sweet baked goods and savory Asian sauces.\n\n**Selection & Storage:** If buying in the shell, look for clean, unblemished pods that feel heavy. Because of their high oil content, shelled peanuts should be stored in an airtight container in the refrigerator to prevent rancidity.",
+      image_url: "ingredients/crushed_peanuts.png",
+    description: "Botanically a legume but culinary treated as a nut (*Arachis hypogaea*), peanuts grow underground. They boast a high fat and protein content that, when roasted, develops complex pyrazines—yielding a deeply savory, universally appealing flavor ideal for both sweet baked goods and savory Asian sauces.\n\n**Selection & Storage:** If buying in the shell, look for clean, unblemished pods that feel heavy. Because of their high oil content, shelled peanuts should be stored in an airtight container in the refrigerator to prevent rancidity.",
     name: "crushed peanuts",
     origin: ["Cultivated worldwide"],
     season: ["varies by variety"],

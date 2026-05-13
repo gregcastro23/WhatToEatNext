@@ -18,8 +18,6 @@ WhatToEatNext project, organized by problem domain and complexity level.
 
 ### Specialized Guides
 
-- **[Kiro Integration Issues](kiro-integration-issues.md)** - Kiro-specific
-  troubleshooting
 - **[Campaign System Debugging](campaign-system-debugging.md)** - Campaign
   system troubleshooting
 - **[API Integration Issues](api-integration-issues.md)** - External API and MCP
@@ -33,30 +31,29 @@ WhatToEatNext project, organized by problem domain and complexity level.
 
 ```bash
 # System completely broken
-npm run emergency:reset           # Reset to last known good state
-git stash && npm run build       # Quick recovery test
+bun run emergency:reset           # Reset to last known good state
+git stash && bun run build       # Quick recovery test
 
 # Astrological calculations failing
-npm run debug:astronomy          # Run astronomical diagnostics
-npm run fallback:enable          # Enable fallback mode
+bun run debug:astronomy          # Run astronomical diagnostics
+bun run fallback:enable          # Enable fallback mode
 
 # Performance severely degraded
-npm run performance:profile      # Generate performance report
-npm run cache:clear              # Clear all caches
+bun run performance:profile      # Generate performance report
+bun run cache:clear              # Clear all caches
 ```
 
 ### Diagnostic Commands
 
 ```bash
 # System health check
-npm run health:check             # Comprehensive system check
-npm run health:astrological      # Astrological system check
-npm run health:performance       # Performance metrics check
+bun run health:check             # Comprehensive system check
+bun run health:astrological      # Astrological system check
+bun run health:performance       # Performance metrics check
 
 # Debug information
-npm run debug:info               # System debug information
-npm run debug:kiro               # Kiro integration status
-npm run debug:campaigns          # Campaign system status
+bun run debug:info               # System debug information
+bun run debug:campaigns          # Campaign system status
 ```
 
 ## 🎯 Problem Classification
@@ -116,7 +113,7 @@ npm run debug:campaigns          # Campaign system status
 
 **🎨 Integration Issues**
 
-- Kiro steering file problems
+- AI client configuration problems
 - Agent hook failures
 - MCP server connectivity
 - Campaign system errors
@@ -149,11 +146,11 @@ interface SystemHealth {
 
 ### Built-in Debugging
 
-- **Debug Console**: `npm run debug:console` - Interactive debugging
-- **Performance Profiler**: `npm run profile:performance` - Performance analysis
-- **Astrological Validator**: `npm run validate:astronomy` - Calculation
+- **Debug Console**: `bun run debug:console` - Interactive debugging
+- **Performance Profiler**: `bun run profile:performance` - Performance analysis
+- **Astrological Validator**: `bun run validate:astronomy` - Calculation
   validation
-- **Integration Tester**: `npm run test:integrations` - Integration testing
+- **Integration Tester**: `bun run test:integrations` - Integration testing
 
 ### External Tools
 
@@ -183,7 +180,7 @@ interface SystemHealth {
 
 ### Prevention Strategies
 
-- **Regular Health Checks**: Run `npm run health:check` daily
+- **Regular Health Checks**: Run `bun run health:check` daily
 - **Performance Monitoring**: Monitor key metrics continuously
 - **Proactive Updates**: Keep dependencies and data current
 - **Testing**: Comprehensive test coverage for critical paths

@@ -1,6 +1,5 @@
 "use client";
 
-import { experimental_useObject as useObject } from '@ai-sdk/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -8,7 +7,7 @@ import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
-import { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
+import type { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
 import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
 import type { z } from 'zod';
@@ -187,16 +186,25 @@ export default function CosmicRecipeGenerator() {
   const preferredCuisineRef = useRef<string>("");
   preferredCuisineRef.current = preferredCuisine;
 
-  const { object: rawObject, submit, isLoading } = useObject({
-    api: '/api/generate-cosmic-recipe',
-    schema: cosmicRecipeSchema as any,
-    onFinish: async (event: any) => {
-       if (event.object?.title) {
-          // Persist to the shared localStorage store so /generated-recipe/[id]
-          // can render the full view, and so the builder queue can reference it.
+  const [object, setObject] = useState<Partial<CosmicRecipe> | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const submit = async (payload: any) => {
+    setIsLoading(true);
+    setObject(undefined);
+    try {
+      const res = await fetch('/api/generate-cosmic-recipe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setObject(data);
+        if (data?.title) {
           try {
             const stored = mapCosmicToStoreRecipe(
-              event.object as CosmicRecipe,
+              data as CosmicRecipe,
               preferredCuisineRef.current || undefined,
             );
             saveRecipeToStore(stored);
@@ -204,16 +212,20 @@ export default function CosmicRecipeGenerator() {
           } catch (err) {
             console.error("Failed to persist cosmic recipe", err);
           }
-          await generateImage(event.object?.title, event.object?.short_description || "");
-       }
+          await generateImage(data.title, data.short_description || "");
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
     }
-  });
-  const object = rawObject as Partial<CosmicRecipe> | undefined;
+  };
 
   const handleGenerate = () => {
     setImageUrl(null);
     setSavedRecipeId(null);
-    submit({
+    void submit({
       prompt: prompt || "A nourishing, restorative meal",
       diet,
       ingredients_main: ingredientsMain.split(',').map(i => i.trim()).filter(Boolean),

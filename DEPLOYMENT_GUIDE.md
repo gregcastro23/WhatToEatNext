@@ -241,7 +241,7 @@ docker run -d \
 ### Prerequisites
 
 - Vercel account
-- Vercel CLI: `npm install -g vercel`
+- Vercel CLI: `bunx vercel` (or `bun add -g vercel`)
 
 ### Deployment Steps
 
@@ -309,9 +309,9 @@ If you prefer to keep your existing nameservers, configure the following records
 
 ```json
 {
-  "buildCommand": "yarn build",
-  "devCommand": "yarn dev",
-  "installCommand": "yarn install",
+  "buildCommand": "bun run build",
+  "devCommand": "bun run --bun next dev",
+  "installCommand": "bun install",
   "framework": "nextjs",
   "regions": ["iad1"],
   "env": {
@@ -353,10 +353,10 @@ If you prefer to keep your existing nameservers, configure the following records
   - [ ] Cache headers configured
 
 - [ ] **Code Quality**
-  - [ ] TypeScript errors checked: `yarn check`
-  - [ ] Linting passed: `yarn lint`
-  - [ ] Tests run (if applicable): `yarn test`
-  - [ ] Build successful: `yarn build`
+  - [ ] TypeScript errors checked: `bun run check`
+  - [ ] Linting passed: `bun run lint`
+  - [ ] Tests run (if applicable): `bun run test`
+  - [ ] Build successful: `bun run build`
 
 - [ ] **Monitoring Setup**
   - [ ] Health check endpoint tested
@@ -525,7 +525,7 @@ docker logs whattoeatnext 2>&1 | grep "ERROR"
 
 ```
 Error: Server answered with HTTP 403 when performing the request to
-https://repo.yarnpkg.com/3.6.4/packages/yarnpkg-cli/bin/yarn.js
+https://repo.bunpkg.com/3.6.4/packages/bunpkg-cli/bin/bun.js
 ```
 
 **Solution A**: Use the workaround script
@@ -560,15 +560,15 @@ docker-compose -f docker-compose.simple.yml up -d
 make check 2>&1 | head -20
 
 # 2. Increase Node memory
-NODE_OPTIONS="--max-old-space-size=4096" yarn build
+NODE_OPTIONS="--max-old-space-size=4096" bun run build
 
 # 3. Use production TypeScript config
-yarn build --config tsconfig.prod.json
+bun run build --config tsconfig.prod.json
 
 # 4. Clear caches and rebuild
 rm -rf .next node_modules/.cache
-yarn install
-yarn build
+bun install
+bun run build
 ```
 
 #### 3. TypeScript Errors (149 remaining)
@@ -608,7 +608,7 @@ lsof -i :3000
 kill -9 <PID>
 
 # Or use different port
-PORT=3001 yarn dev
+PORT=3001 bun run --bun next dev
 ```
 
 #### 5. Memory Issues
@@ -626,7 +626,7 @@ PORT=3001 yarn dev
 docker update --memory="2g" --memory-swap="2g" whattoeatnext
 
 # Increase Node memory
-NODE_OPTIONS="--max-old-space-size=2048" yarn start
+NODE_OPTIONS="--max-old-space-size=2048" bun run start
 
 # Check current usage
 docker stats whattoeatnext

@@ -9,8 +9,8 @@
  * → 1820 samples. JSON ≈ 1.5 MB un-gzipped, ≈ 250 KB gzipped over the wire.
  *
  * Run:
- *   npx tsx scripts/generateAlchemicalSamples.ts
- *   npx tsx scripts/generateAlchemicalSamples.ts --past=730 --future=180 --interval=6
+ *   bun scripts/generateAlchemicalSamples.ts
+ *   bun scripts/generateAlchemicalSamples.ts --past=730 --future=180 --interval=6
  *
  * The output file is intentionally checked in. Re-run weekly (or via cron)
  * to keep the "future" portion fresh.

@@ -15,7 +15,7 @@ in 30-60 minutes.
 ### Optional but Helpful
 
 - **Astrological Concepts**: Basic understanding helpful but not required
-- **Node.js Ecosystem**: npm/yarn, package management
+- **Node.js Ecosystem**: bun/bun, package management
 - **Testing**: Jest, unit testing concepts
 - **CSS**: Tailwind CSS experience
 
@@ -29,27 +29,27 @@ git clone https://github.com/your-org/WhatToEatNext.git
 cd WhatToEatNext
 
 # Install dependencies
-yarn install
+bun install
 # or
-yarn install
+bun install
 
 # Start development server
-npm run dev
+bun run dev
 # or
-yarn dev
+bun run dev
 ```
 
 ### 2. Verify Setup
 
 ```bash
 # Check TypeScript compilation
-npm run type-check
+bun run typecheck
 
 # Run tests
-npm test
+bun run test
 
 # Check linting
-npm run lint
+bun run lint
 ```
 
 ### 3. Open in Browser
@@ -170,9 +170,9 @@ git add .
 git commit -m "feat: add astrological feature"
 
 # Run quality checks
-npm run type-check
-npm run lint
-npm test
+bun run typecheck
+bun run lint
+bun run test
 
 # Push and create PR
 git push origin feature/your-feature-name
@@ -227,21 +227,21 @@ async function safeAstrologicalCalculation<T>(
 
 ```bash
 # Development
-npm run dev              # Start development server
-npm run build           # Build for production
-npm run start           # Start production server
+bun run dev              # Start development server
+bun run build           # Build for production
+bun run start           # Start production server
 
 # Quality Assurance
-npm run type-check      # TypeScript compilation check
-npm run lint            # ESLint checking
-npm run lint:fix        # Auto-fix linting issues
-npm test                # Run test suite
-npm run test:coverage   # Test with coverage report
+bun run typecheck      # TypeScript compilation check
+bun run lint            # ESLint checking
+bun run lint:fix        # Auto-fix linting issues
+bun run test                # Run test suite
+bun run test:coverage   # Test with coverage report
 
 # Campaign System
-npm run campaign:ts     # Run TypeScript error reduction
-npm run campaign:lint   # Run linting improvement
-npm run campaign:perf   # Run performance optimization
+bun run campaign:ts     # Run TypeScript error reduction
+bun run campaign:lint   # Run linting improvement
+bun run campaign:perf   # Run performance optimization
 ```
 
 ### IDE Setup Recommendations
@@ -271,7 +271,7 @@ npm run campaign:perf   # Run performance optimization
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run dev"
+      "command": "bun run dev"
     }
   ]
 }
@@ -453,12 +453,13 @@ function generateCulturallyAwareRecommendations(
 - `src/services/campaign/CampaignController.ts` - Quality improvement
 - `src/calculations/culinary/` - Culinary astrology
 
-### Steering Files (Kiro Context)
+### AI Project Context
 
-- `.kiro/steering/tech.md` - Technology stack guidance
-- `.kiro/steering/astrology-rules.md` - Astrological calculation rules
-- `.kiro/steering/elemental-principles.md` - Four-element system enforcement
-- `.kiro/steering/campaign-integration.md` - Campaign system patterns
+- `AGENTS.md` - Primary repo instructions for Codex sessions
+- `CLAUDE.md` - Claude-specific project guidance
+- `.codex/config.toml.example` - Starter MCP config template for Codex
+- `.claude/settings.local.json` - Claude local permissions for this repo
+- `~/.codex/config.toml` - User-level Codex configuration, including MCP setup
 
 ## 🤝 Getting Help
 

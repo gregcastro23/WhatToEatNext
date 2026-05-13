@@ -22,19 +22,19 @@ interface CampaignSystemComponents {
 
 ```bash
 # Campaign system health check
-npm run campaign:health-check
+bun run campaign:health-check
 
 # Check campaign status
-npm run campaign:status
+bun run campaign:status
 
 # View campaign logs
-npm run campaign:logs
+bun run campaign:logs
 
 # Test campaign safety protocols
-npm run campaign:test-safety
+bun run campaign:test-safety
 
 # Emergency campaign stop
-npm run campaign:emergency-stop
+bun run campaign:emergency-stop
 ```
 
 ## 🔍 Common Campaign Issues
@@ -56,7 +56,7 @@ No campaign process visible
 ```bash
 # 1. Check system prerequisites
 node --version                    # Should be 20.18.0+
-npm --version
+bun run --version
 git status                       # Should be clean working directory
 
 # 2. Check campaign configuration
@@ -88,13 +88,13 @@ git status  // Should show "working tree clean"
 
 // Issue: Campaign already running
 // Solution: Stop existing campaign
-npm run campaign:stop
+bun run campaign:stop
 killall node  // If necessary
 
 // Issue: Missing dependencies
 // Solution: Reinstall dependencies
-rm -rf node_modules yarn.lock
-yarn install
+rm -rf node_modules bun.lock
+bun install
 ```
 
 #### Issue: Campaign Configuration Errors
@@ -203,10 +203,10 @@ top -p $(pgrep -f campaign)
 tail -f logs/campaign-execution.log
 
 # 3. Check for deadlocks
-npm run campaign:debug-deadlock
+bun run campaign:debug-deadlock
 
 # 4. Monitor system resources
-npm run campaign:monitor-resources
+bun run campaign:monitor-resources
 ```
 
 **Deadlock Detection:**
@@ -411,16 +411,16 @@ Some files not processed
 
 ```bash
 # 1. Check actual error count
-npm run type-check 2>&1 | grep -c "error TS"
+bun run type-check 2>&1 | grep -c "error TS"
 
 # 2. Compare with campaign report
 cat logs/campaign-final-report.json
 
 # 3. Check for unprocessed files
-npm run campaign:check-coverage
+bun run campaign:check-coverage
 
 # 4. Validate specific error types
-npm run type-check 2>&1 | grep "error TS" | cut -d':' -f4 | sort | uniq -c
+bun run type-check 2>&1 | grep "error TS" | cut -d':' -f4 | sort | uniq -c
 ```
 
 **Error Count Validation:**
@@ -511,10 +511,10 @@ git stash list
 git stash show -p stash@{0}
 
 # 3. Verify file restoration
-npm run campaign:verify-rollback
+bun run campaign:verify-rollback
 
 # 4. Check for partial rollbacks
-npm run campaign:check-rollback-completeness
+bun run campaign:check-rollback-completeness
 ```
 
 **Rollback Validation:**
@@ -600,7 +600,7 @@ class BuildValidationDebugger {
 
   async testManualBuild() {
     try {
-      const result = await execAsync("npm run build");
+      const result = await execAsync("bun run build");
       return { success: true, output: result };
     } catch (error) {
       return { success: false, error: error.message };
@@ -616,7 +616,7 @@ class BuildValidationDebugger {
     };
 
     try {
-      const result = await execAsync("npm run build", { env });
+      const result = await execAsync("bun run build", { env });
       return { success: true, output: result };
     } catch (error) {
       return { success: false, error: error.message };
@@ -630,12 +630,12 @@ class BuildValidationDebugger {
     const nodeVersion = process.version;
     console.log("Node.js version:", nodeVersion);
 
-    // Check npm version
-    const npmVersion = await execAsync("npm --version");
-    console.log("npm version:", npmVersion.trim());
+    // Check bun run version
+    const bunVersion = await execAsync("bun run --version");
+    console.log("bun run version:", bunVersion.trim());
 
     // Check TypeScript version
-    const tsVersion = await execAsync("npx tsc --version");
+    const tsVersion = await execAsync("bunx tsc --version");
     console.log("TypeScript version:", tsVersion.trim());
 
     // Check environment variables
@@ -709,7 +709,7 @@ class CorruptionDetectionDebugger {
 
     // Check TypeScript files
     try {
-      const result = await execAsync("npx tsc --noEmit --skipLibCheck");
+      const result = await execAsync("bunx tsc --noEmit --skipLibCheck");
       console.log("✅ TypeScript syntax validation passed");
     } catch (error) {
       console.warn("⚠️ TypeScript syntax errors found");
@@ -720,7 +720,7 @@ class CorruptionDetectionDebugger {
     const jsonFiles = [
       "package.json",
       "tsconfig.json",
-      ".kiro/settings/mcp.json",
+      ".claude/settings.local.json",
     ];
 
     for (const file of jsonFiles) {
@@ -797,7 +797,7 @@ class ProgressTrackingDebugger {
     // Test TypeScript command directly
     try {
       const result = await execAsync(
-        'npx tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        'bunx tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
       );
       console.log("Direct error count:", result.trim());
     } catch (error) {
@@ -805,7 +805,7 @@ class ProgressTrackingDebugger {
 
       // Try alternative method
       try {
-        const result = await execAsync("npx tsc --noEmit --skipLibCheck");
+        const result = await execAsync("bunx tsc --noEmit --skipLibCheck");
         console.log("No TypeScript errors found");
       } catch (tsError) {
         const errorLines = tsError.message
@@ -904,19 +904,19 @@ class CampaignIntelligenceDebugger {
 echo "🔧 Daily Campaign System Maintenance"
 
 # 1. Check campaign system health
-npm run campaign:health-check
+bun run campaign:health-check
 
 # 2. Clean up old logs
 find logs/ -name "campaign-*.log" -mtime +7 -delete
 
 # 3. Validate campaign configuration
-npm run campaign:validate-config
+bun run campaign:validate-config
 
 # 4. Check for stuck campaigns
-npm run campaign:check-stuck
+bun run campaign:check-stuck
 
 # 5. Update campaign metrics
-npm run campaign:update-metrics
+bun run campaign:update-metrics
 
 echo "✅ Daily maintenance completed"
 ```
@@ -930,19 +930,19 @@ echo "✅ Daily maintenance completed"
 echo "🔧 Weekly Campaign System Maintenance"
 
 # 1. Archive old campaign data
-npm run campaign:archive-old-data
+bun run campaign:archive-old-data
 
 # 2. Update campaign intelligence models
-npm run campaign:update-intelligence
+bun run campaign:update-intelligence
 
 # 3. Validate safety protocols
-npm run campaign:test-safety-protocols
+bun run campaign:test-safety-protocols
 
 # 4. Performance optimization
-npm run campaign:optimize-performance
+bun run campaign:optimize-performance
 
 # 5. Generate maintenance report
-npm run campaign:generate-maintenance-report
+bun run campaign:generate-maintenance-report
 
 echo "✅ Weekly maintenance completed"
 ```
@@ -958,21 +958,21 @@ echo "✅ Weekly maintenance completed"
 echo "🚨 Emergency Campaign System Recovery"
 
 # 1. Stop all running campaigns
-npm run campaign:emergency-stop-all
+bun run campaign:emergency-stop-all
 
 # 2. Check system integrity
-npm run campaign:check-integrity
+bun run campaign:check-integrity
 
 # 3. Restore from backup if needed
 if [ "$1" = "--restore-backup" ]; then
-    npm run campaign:restore-backup
+    bun run campaign:restore-backup
 fi
 
 # 4. Reset campaign system
-npm run campaign:reset-system
+bun run campaign:reset-system
 
 # 5. Validate recovery
-npm run campaign:validate-recovery
+bun run campaign:validate-recovery
 
 echo "✅ Emergency recovery completed"
 ```

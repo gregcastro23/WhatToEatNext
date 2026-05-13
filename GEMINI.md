@@ -1,6 +1,6 @@
 # WhatToEatNext - AI Assistant Guide (Alchm.kitchen)
 
-_Version: 2.2.0 | Last Updated: May 5, 2026_
+_Version: 2.3.0 | Last Updated: May 9, 2026_
 
 ## Project Overview
 
@@ -8,26 +8,30 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ## Current Project Status (May 2026)
 
-### 🎉 **INFRASTRUCTURE OPTIMIZATION COMPLETE**
+### 🎉 **INFRASTRUCTURE & TOOLCHAIN OPTIMIZED**
 
+- **Toolchain**: ✅ **BUN** (Migrated from Yarn for 10x faster installs/builds)
 - **Backend Hosting**: ✅ **RAILWAY** (Standalone Service)
-- **Frontend Hosting**: ✅ **VERCEL** (Next.js)
+- **Frontend Hosting**: ✅ **VERCEL** (Next.js with Bun build pipeline)
 - **Database**: ✅ **RAILWAY POSTGRES** (Migrated from Neon | Internal: `postgres.railway.internal`)
 - **Latency**: ✅ **SUB-1MS** (Internal Railway Networking)
 - **Recipe Catalog**: ✅ **579 recipes** with Denormalized Read Models
-- **Build Status**: ✅ **BUILDING ON RAILWAY** (Optimized with .railwayignore)
-- **Assets**: ✅ **OPTIMIZED** (Logo/Hero images reduced by 90%+)
 
-### 🚀 **MAJOR CHANGES (Version 2.2.0)**
+### 🚀 **MAJOR CHANGES (Version 2.3.0)**
 
-#### **Read Model Optimization**
+#### **Bun Toolchain Migration**
+- ✅ **Performance**: Switched from Yarn to Bun, reducing dependency installation from 60s+ to <10s.
+- ✅ **Native TS**: Eliminated `ts-node` and `tsx` dependencies in favor of Bun's native TypeScript execution.
+- ✅ **Vercel Integration**: Configured `vercel.json` and `bun.lock` for automated Bun-powered CI/CD.
+
+#### **Read Model Optimization (v2.2.0)**
 - ✅ **Denormalized Recipes**: Added `read_model` JSONB column to `recipes` table for high-speed delivery.
 - ✅ **Batch Queries**: Eliminated N+1 query bottlenecks in recommendation engines.
 - ✅ **10x Faster Migration**: Rewrote migration logic for bulk SQL inserts.
 
-#### **Infrastructure Migration**
-- ✅ **Neon to Railway**: Successfully moved all data to Railway-native Postgres.
-- ✅ **Internal Networking**: Configured backend to communicate via `postgres.railway.internal`.
+#### **Asset & Storage Optimization**
+- ✅ **R2 Custom Domain**: Migrated asset delivery from `alchm.kitchen` to `assets.alchm.kitchen` to resolve 404 conflicts with the main application domain.
+- ✅ **Automated Prefixing**: Updated frontend components and image generation pipelines to automatically route `ingredients/` and `recipes/` paths to the new dedicated asset domain.
 - ✅ **Asset Optimization**: Reduced `Aklogo.jpg` from 1.7MB to 69KB and hero image by 90%.
 
 ---

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { allCookingMethods } from "@/data/cooking/methods";
+import { rateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -59,9 +60,11 @@ const VERB_ALIASES: Record<string, string> = {
 };
 
 export async function GET(
-  _request: Request,
+  request: Request,
   props: { params: Promise<{ name: string }> },
 ) {
+  const rl = rateLimit(request, { window: 60_000, max: 60, bucket: "techniques-by-name" });
+  if (!rl.allowed) return rl.response!;
   try {
     const { name } = await props.params;
     const queryRaw = decodeURIComponent(name);

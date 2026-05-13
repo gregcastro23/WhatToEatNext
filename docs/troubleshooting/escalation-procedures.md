@@ -108,8 +108,8 @@ of problems.
 
 ```bash
 # 1. Assess and contain the issue
-npm run emergency:assess          # Quick system assessment
-npm run emergency:contain         # Contain the issue if possible
+bun run emergency:assess          # Quick system assessment
+bun run emergency:contain         # Contain the issue if possible
 
 # 2. Notify stakeholders immediately
 # - Send alert to #critical-alerts Slack channel
@@ -136,11 +136,11 @@ Communications Lead: For stakeholder updates
 
 ```bash
 # 1. Implement immediate workaround if possible
-npm run emergency:workaround      # Apply temporary fix
+bun run emergency:workaround      # Apply temporary fix
 
 # 2. Investigate root cause
-npm run debug:comprehensive       # Full system diagnostic
-npm run logs:critical            # Gather all relevant logs
+bun run debug:comprehensive       # Full system diagnostic
+bun run logs:critical            # Gather all relevant logs
 
 # 3. Implement permanent fix
 # - Create hotfix branch
@@ -159,8 +159,8 @@ npm run logs:critical            # Gather all relevant logs
 
 ```bash
 # 1. Acknowledge and assess
-npm run health:check             # System health assessment
-npm run debug:targeted           # Focused debugging
+bun run health:check             # System health assessment
+bun run debug:targeted           # Focused debugging
 
 # 2. Notify relevant team members
 # - Post in #dev-alerts Slack channel
@@ -168,8 +168,8 @@ npm run debug:targeted           # Focused debugging
 # - Update project status if needed
 
 # 3. Begin investigation
-npm run investigate:issue        # Start detailed investigation
-npm run logs:recent             # Gather recent logs and metrics
+bun run investigate:issue        # Start detailed investigation
+bun run logs:recent             # Gather recent logs and metrics
 ```
 
 #### Resolution Process (2-24 hours)

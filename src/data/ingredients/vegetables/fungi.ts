@@ -3,7 +3,8 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawFungi: Record<string, Partial<IngredientMapping>> = {
   mushrooms: {
-      description: "The fleshy, spore-bearing fruiting body of a fungus (e.g., *Agaricus bisporus*). They are composed largely of chitin and water, and contain immense amounts of glutamate, lending a profoundly deep, savory, and meaty umami flavor to dishes, especially when roasted or sautéed until deeply browned.\n\n**Selection & Storage:** Select firm, dry mushrooms without slimy spots or excessive bruising. Store them in a paper bag in the main compartment of the refrigerator, as plastic traps moisture and accelerates rot.",
+      image_url: "ingredients/mushrooms.png",
+    description: "The fleshy, spore-bearing fruiting body of a fungus (e.g., *Agaricus bisporus*). They are composed largely of chitin and water, and contain immense amounts of glutamate, lending a profoundly deep, savory, and meaty umami flavor to dishes, especially when roasted or sautéed until deeply browned.\n\n**Selection & Storage:** Select firm, dry mushrooms without slimy spots or excessive bruising. Store them in a paper bag in the main compartment of the refrigerator, as plastic traps moisture and accelerates rot.",
     name: "mushrooms",
     origin: ["Cultivated worldwide"],
     season: ["varies by variety"],
@@ -29,7 +30,8 @@ const rawFungi: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
   cremini_mushrooms: {
-      description: "The adolescent stage of the *Agaricus bisporus* mushroom (between a white button and a mature portobello). They are light brown, firmer than white buttons, and offer a deeper, more pronounced earthy flavor, making them an excellent, versatile upgrade for sautés and stews.\n\n**Selection & Storage:** Choose firm mushrooms with tightly closed caps (where the veil completely covers the gills). Store unwashed in a paper bag in the refrigerator.",
+      image_url: "ingredients/cremini_mushrooms.png",
+    description: "The adolescent stage of the *Agaricus bisporus* mushroom (between a white button and a mature portobello). They are light brown, firmer than white buttons, and offer a deeper, more pronounced earthy flavor, making them an excellent, versatile upgrade for sautés and stews.\n\n**Selection & Storage:** Choose firm mushrooms with tightly closed caps (where the veil completely covers the gills). Store unwashed in a paper bag in the refrigerator.",
     name: "cremini mushrooms",
     origin: ["Europe", "North America"],
     season: ["fall", "winter"],

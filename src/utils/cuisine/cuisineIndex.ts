@@ -2,7 +2,7 @@
  * Cuisine Index
  *
  * Typed loader over `src/utils/cuisineSignatures.generated.ts`. The generated
- * file is produced by `yarn cuisines:process-all` and contains the statistical
+ * file is produced by `bun run cuisines:process-all` and contains the statistical
  * aggregate properties and signatures for every primary cuisine.
  *
  * Responsibilities:

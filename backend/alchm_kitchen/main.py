@@ -5,7 +5,7 @@ Phase 1 Infrastructure Migration - September 26, 2025
 Phase 2 Stability Patch - May 6, 2026 (SQL Fixes & Transaction Safety)
 
 Architecture:
-- Calls Render alchemize API for planetary calculations
+- Calculates alchemical and planetary data locally with Swiss Ephemeris
 - Provides unified API for frontend
 - Manages PostgreSQL database for recipes and recommendations
 """
@@ -14,8 +14,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
+import math
 import random
-import httpx
 import asyncio
 from sqlalchemy.orm import Session
 from sqlalchemy import text
@@ -78,10 +78,6 @@ except ImportError:
     SAUCES_AVAILABLE = False
     allSauces = {}
 
-# Configuration for external APIs
-ALCHEMIZE_API_URL = os.getenv("ALCHEMIZE_API_URL", "https://alchmize.onrender.com/api/alchemize")
-# Fallback URL if the above doesn't work
-ALCHEMIZE_API_URL_FALLBACK = os.getenv("ALCHEMIZE_API_URL", "https://alchmize.onrender.com")
 PLANETARY_AGENTS_URL = os.getenv("PLANETARY_AGENTS_URL", "http://localhost:8000")
 
 # Helper function for logging system metrics
@@ -281,23 +277,26 @@ async def get_all_ingredients():
 
 @app.get("/health")
 @app.get("/api/v1/health")
-async def health_check(db: Session = Depends(get_db)):
+async def health_check():
     """Comprehensive health check including database connectivity."""
     db_status = "offline"
     try:
+        from backend.database.connection import get_db_engine
+
+        engine = get_db_engine()
         # Perform low-overhead heartbeat query
-        db.execute(text("SELECT 1"))
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
         db_status = "online"
     except Exception as e:
         print(f"Database health check failed: {e}")
-    
+
     return {
         "status": "healthy" if db_status == "online" else "degraded",
         "database": db_status,
         "timestamp": datetime.now().isoformat(),
         "service": "alchm-backend"
     }
-
 # ==========================================
 # PROTECTED USER ROUTE
 # ==========================================
@@ -402,7 +401,7 @@ async def calculate_alchemical_quantities_endpoint(request: AlchemicalQuantities
 
 
 # ==========================================
-# ALCHEMICAL CALCULATIONS (via Render API)
+# ALCHEMICAL CALCULATIONS (local Swiss Ephemeris)
 # ==========================================
 
 class AlchemizeRequest(BaseModel):
@@ -427,30 +426,263 @@ class AlchemizeResponse(BaseModel):
     confidence: float
     metadata: Dict[str, Any]
 
-async def call_render_alchemize_api(request_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Call the Render alchemize API for planetary calculations."""
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        # Try primary URL first
-        urls_to_try = [ALCHEMIZE_API_URL, ALCHEMIZE_API_URL_FALLBACK]
+PLANET_ALCHM_PERIODS = {
+    "Pluto": 247.94,
+    "Neptune": 164.79,
+    "Uranus": 84.01,
+    "Saturn": 29.46,
+    "Jupiter": 11.86,
+    "Mars": 1.88,
+    "Sun": 1.0,
+    "Venus": 0.615,
+    "Mercury": 0.241,
+    "Moon": 0.075,
+    "Ascendant": 0.003,
+}
+PERIOD_LOG_MIN = math.log10(0.003)
+PERIOD_LOG_MAX = math.log10(247.94)
 
-        for url in urls_to_try:
-            try:
-                response = await client.post(url, json=request_data)
-                response.raise_for_status()
-                return response.json()
-            except (httpx.RequestError, httpx.HTTPStatusError) as e:
-                print(f"Failed to call {url}: {e}")
-                continue
+PLANETARY_ALCHEMY = {
+    "Sun": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
+    "Moon": {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
+    "Mercury": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 1},
+    "Venus": {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
+    "Mars": {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
+    "Jupiter": {"Spirit": 1, "Essence": 1, "Matter": 0, "Substance": 0},
+    "Saturn": {"Spirit": 1, "Essence": 0, "Matter": 1, "Substance": 0},
+    "Uranus": {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
+    "Neptune": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 1},
+    "Pluto": {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
+    "Ascendant": {"Spirit": 1, "Essence": 1, "Matter": 1, "Substance": 1},
+}
 
-        # If both URLs fail, raise an error
-        raise HTTPException(status_code=503, detail=f"Failed to call alchemize API after trying {len(urls_to_try)} URLs")
+PLANETARY_SECTARIAN_ELEMENTS = {
+    "Sun": {"diurnal": "Fire", "nocturnal": "Fire"},
+    "Moon": {"diurnal": "Water", "nocturnal": "Water"},
+    "Mercury": {"diurnal": "Air", "nocturnal": "Earth"},
+    "Venus": {"diurnal": "Water", "nocturnal": "Earth"},
+    "Mars": {"diurnal": "Fire", "nocturnal": "Water"},
+    "Jupiter": {"diurnal": "Air", "nocturnal": "Fire"},
+    "Saturn": {"diurnal": "Air", "nocturnal": "Earth"},
+    "Uranus": {"diurnal": "Water", "nocturnal": "Air"},
+    "Neptune": {"diurnal": "Water", "nocturnal": "Water"},
+    "Pluto": {"diurnal": "Earth", "nocturnal": "Water"},
+}
+
+ZODIAC_ELEMENTS = {
+    "aries": "Fire",
+    "taurus": "Earth",
+    "gemini": "Air",
+    "cancer": "Water",
+    "leo": "Fire",
+    "virgo": "Earth",
+    "libra": "Air",
+    "scorpio": "Water",
+    "sagittarius": "Fire",
+    "capricorn": "Earth",
+    "aquarius": "Air",
+    "pisces": "Water",
+}
+
+ZODIAC_MODALITIES = {
+    "aries": "Cardinal",
+    "cancer": "Cardinal",
+    "libra": "Cardinal",
+    "capricorn": "Cardinal",
+    "taurus": "Fixed",
+    "leo": "Fixed",
+    "scorpio": "Fixed",
+    "aquarius": "Fixed",
+    "gemini": "Mutable",
+    "virgo": "Mutable",
+    "sagittarius": "Mutable",
+    "pisces": "Mutable",
+}
+
+PLANETARY_DIGNITY = {
+    "Sun": {"leo": 1, "aries": 2, "aquarius": -1, "libra": -2},
+    "Moon": {"cancer": 1, "taurus": 2, "capricorn": -1, "scorpio": -2},
+    "Mercury": {"gemini": 1, "virgo": 3, "sagittarius": 1, "pisces": -3},
+    "Venus": {"libra": 1, "taurus": 1, "pisces": 2, "aries": -1, "scorpio": -1, "virgo": -2},
+    "Mars": {"aries": 1, "scorpio": 1, "capricorn": 2, "taurus": -1, "libra": -1, "cancer": -2},
+    "Jupiter": {"pisces": 1, "sagittarius": 1, "cancer": 2, "gemini": -1, "virgo": -1, "capricorn": -2},
+    "Saturn": {"aquarius": 1, "capricorn": 1, "libra": 2, "cancer": -1, "leo": -1, "aries": -2},
+    "Uranus": {"aquarius": 1, "scorpio": 2, "taurus": -3},
+    "Neptune": {"pisces": 1, "cancer": 2, "virgo": -1, "capricorn": -2},
+    "Pluto": {"scorpio": 1, "leo": 2, "taurus": -1, "aquarius": -2},
+}
+
+def normalize_alchm_weight(period_years: float) -> float:
+    return (math.log10(max(period_years, 1e-9)) - PERIOD_LOG_MIN) / (PERIOD_LOG_MAX - PERIOD_LOG_MIN)
+
+def is_sect_diurnal(moment: datetime) -> bool:
+    return 6 <= moment.hour < 18
+
+def get_planetary_sect_element(planet: str, diurnal: bool) -> str:
+    entry = PLANETARY_SECTARIAN_ELEMENTS.get(planet)
+    if not entry:
+        return "Air"
+    return entry["diurnal"] if diurnal else entry["nocturnal"]
+
+def get_planetary_dignity(planet: str, sign: str) -> int:
+    return PLANETARY_DIGNITY.get(planet, {}).get(sign.lower(), 0)
+
+def parse_alchemize_moment(request: AlchemizeRequest) -> datetime:
+    now = datetime.utcnow()
+    return datetime(
+        request.year if request.year is not None else now.year,
+        request.month if request.month is not None else now.month,
+        request.date if request.date is not None else now.day,
+        request.hour if request.hour is not None else now.hour,
+        request.minute if request.minute is not None else now.minute,
+    )
+
+def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
+    """Calculate the alchemize payload locally, matching the frontend engine contract."""
+    moment = parse_alchemize_moment(request)
+    latitude = request.latitude if request.latitude is not None else FOREST_HILLS_COORDINATES["latitude"]
+    longitude = request.longitude if request.longitude is not None else FOREST_HILLS_COORDINATES["longitude"]
+    zodiac_system = request.zodiacSystem or "tropical"
+
+    if request.planetaryPositions:
+        positions = request.planetaryPositions
+        positions_source = "request"
+    else:
+        calculated = calculate_planetary_positions_swisseph(
+            moment.year,
+            moment.month,
+            moment.day,
+            moment.hour,
+            moment.minute,
+            latitude,
+            longitude,
+            zodiac_system,
+        )
+        if "positions" not in calculated:
+            raise HTTPException(status_code=500, detail=calculated.get("error", "Failed to calculate planetary positions"))
+        positions = calculated["positions"]
+        positions_source = calculated.get("source", "local")
+
+    totals = {
+        "Spirit": 0.0,
+        "Essence": 0.0,
+        "Matter": 0.0,
+        "Substance": 0.0,
+        "Fire": 0.0,
+        "Water": 0.0,
+        "Air": 0.0,
+        "Earth": 0.0,
+    }
+    modality_counts = {"Cardinal": 0, "Fixed": 0, "Mutable": 0}
+    planetary_momentum = {}
+    diurnal = is_sect_diurnal(moment)
+
+    for planet, position in positions.items():
+        if not isinstance(position, dict):
+            continue
+        sign = str(position.get("sign", "")).lower()
+        if not sign:
+            continue
+
+        alchemy = PLANETARY_ALCHEMY.get(planet)
+        period = PLANET_ALCHM_PERIODS.get(planet, 1.0)
+        alchm_weight = 1.0 if planet == "Ascendant" else normalize_alchm_weight(period)
+        if alchemy:
+            dignity_multiplier = max(0.5, 1.0 + get_planetary_dignity(planet, sign) * 0.15)
+            for key, value in alchemy.items():
+                totals[key] += value * dignity_multiplier * alchm_weight
+
+        sign_element = ZODIAC_ELEMENTS.get(sign, "Air")
+        sect_element = get_planetary_sect_element(planet, diurnal)
+        totals[sign_element] += 0.6
+        totals[sect_element] += 0.4
+
+        modality = ZODIAC_MODALITIES.get(sign)
+        if modality:
+            modality_counts[modality] += 1
+        planetary_momentum[planet] = 0
+
+    spirit = totals["Spirit"]
+    essence = totals["Essence"]
+    matter = totals["Matter"]
+    substance = totals["Substance"]
+    fire = totals["Fire"]
+    water = totals["Water"]
+    air = totals["Air"]
+    earth = totals["Earth"]
+
+    heat_num = spirit ** 2 + fire ** 2
+    heat_den = (substance + essence + matter + water + air + earth) ** 2
+    heat = heat_num / (heat_den or 1)
+
+    entropy_num = spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2
+    entropy_den = (essence + matter + earth + water) ** 2
+    entropy = entropy_num / (entropy_den or 1)
+
+    reactivity_num = spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2
+    reactivity = (reactivity_num / (matter or 1)) + earth ** 2
+    gregs_energy = heat - entropy * reactivity
+
+    kalchm_denominator = (matter ** matter) * (substance ** substance)
+    kalchm = ((spirit ** spirit) * (essence ** essence)) / (kalchm_denominator or 1)
+    monica = 1.0
+    if kalchm > 0 and math.isfinite(kalchm):
+        ln_k = math.log(kalchm)
+        if ln_k != 0 and reactivity != 0:
+            monica = -gregs_energy / (reactivity * ln_k)
+
+    element_total = max(1.0, fire + water + air + earth)
+    elemental_properties = {
+        "Fire": fire / element_total,
+        "Water": water / element_total,
+        "Earth": earth / element_total,
+        "Air": air / element_total,
+    }
+    dominant_element = max({"Fire": fire, "Water": water, "Air": air, "Earth": earth}.items(), key=lambda item: item[1])[0]
+    dominant_modality = max(modality_counts.items(), key=lambda item: item[1])[0]
+    sun_position = positions.get("Sun", {}) if isinstance(positions.get("Sun"), dict) else {}
+    sun_sign = str(sun_position.get("sign", ""))
+    score = min(1.0, max(0.0, (spirit + essence + matter + substance + fire + water + air + earth) / 20))
+
+    return {
+        "elementalProperties": elemental_properties,
+        "thermodynamicProperties": {
+            "heat": heat,
+            "entropy": entropy,
+            "reactivity": reactivity,
+            "gregsEnergy": gregs_energy,
+        },
+        "esms": {
+            "Spirit": spirit,
+            "Essence": essence,
+            "Matter": matter,
+            "Substance": substance,
+        },
+        "planetaryPositions": positions,
+        "planetaryMomentum": planetary_momentum,
+        "kalchm": kalchm,
+        "monica": monica,
+        "score": score,
+        "normalized": True,
+        "confidence": 0.8,
+        "metadata": {
+            "source": "local_swiss_ephemeris_alchemize",
+            "positionsSource": positions_source,
+            "dominantElement": dominant_element,
+            "dominantModality": dominant_modality,
+            "sunSign": sun_sign,
+            "chartRuler": ZODIAC_ELEMENTS.get(sun_sign.lower(), "Air"),
+            "isDiurnal": diurnal,
+            "timestamp": moment.isoformat(),
+            "zodiacSystem": zodiac_system,
+        },
+    }
 
 @app.post("/alchemize", response_model=AlchemizeResponse)
 async def alchemize_current_moment(request: AlchemizeRequest):
-    """Get current alchemical state from Render API."""
+    """Get current alchemical state from the local alchemize engine."""
     try:
-        request_data = request.model_dump(exclude_unset=True)
-        result = await call_render_alchemize_api(request_data)
+        result = calculate_local_alchemize(request)
 
         # Transform response to match our interface
         return AlchemizeResponse(
@@ -469,14 +701,25 @@ async def alchemize_current_moment(request: AlchemizeRequest):
 
 @app.get("/planetary/current")
 async def get_current_planetary_positions():
-    """Get current planetary positions via Render API."""
+    """Get current planetary positions from the local Swiss Ephemeris engine."""
     try:
-        # Call with current moment (no date specified)
-        result = await call_render_alchemize_api({})
+        now = datetime.utcnow()
+        result = calculate_planetary_positions_swisseph(
+            now.year,
+            now.month,
+            now.day,
+            now.hour,
+            now.minute,
+            FOREST_HILLS_COORDINATES["latitude"],
+            FOREST_HILLS_COORDINATES["longitude"],
+            "tropical",
+        )
+        if "positions" not in result:
+            raise HTTPException(status_code=500, detail=result.get("error", "Failed to calculate planetary positions"))
         return {
-            "planetary_positions": result.get('planetaryPositions', {}),
+            "planetary_positions": result["positions"],
             "timestamp": datetime.now().isoformat(),
-            "source": "render_alchemize_api"
+            "source": result.get("source", "local")
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get planetary positions: {str(e)}")
@@ -1120,20 +1363,41 @@ async def get_current_moment_cuisine_recommendations(
 
         if not zodiac_sign or not season:
             try:
-                # Import and use current moment calculation
-                from src.utils.astrologyUtils import getCurrentAstrologicalState
-
-                current_state = await getCurrentAstrologicalState()
-                zodiac_sign = zodiac_sign or current_state.get('currentZodiac')
-                season = season or current_state.get('currentSeason')
+                # Use backend-native calculation
+                now = datetime.utcnow()
+                result = calculate_planetary_positions_swisseph(
+                    now.year, now.month, now.day, now.hour, now.minute,
+                    FOREST_HILLS_COORDINATES["latitude"],
+                    FOREST_HILLS_COORDINATES["longitude"],
+                    "tropical"
+                )
+                
+                if "positions" in result:
+                    sun_pos = result["positions"].get("Sun", {})
+                    zodiac_sign = zodiac_sign or sun_pos.get("sign")
+                
+                # Determine season from month
+                if not season:
+                    month = now.month
+                    if month in [3, 4, 5]: season = "Spring"
+                    elif month in [6, 7, 8]: season = "Summer"
+                    elif month in [9, 10, 11]: season = "Autumn"
+                    else: season = "Winter"
             except Exception as e:
+                print(f"Native astrological state calculation failed: {e}")
                 # Fallback to defaults
                 zodiac_sign = zodiac_sign or 'Libra'
                 season = season or 'Autumn'
 
         # Normalize and validate inputs
-        zodiac_sign = zodiac_sign.capitalize() if zodiac_sign else None
-        season = season.capitalize() if season else None
+        if zodiac_sign:
+            zodiac_sign = zodiac_sign.capitalize()
+        
+        if season:
+            season = season.capitalize()
+            # Map Fall to Autumn for database compatibility
+            if season == "Fall":
+                season = "Autumn"
         meal_type = meal_type.lower() if meal_type else None
 
         valid_signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
@@ -1207,18 +1471,24 @@ async def get_current_moment_cuisine_recommendations(
 async def calculate_cuisine_astrological_compatibility(zodiac_sign: str, season: str, db: Session) -> Dict[str, float]:
     """Calculate cuisine compatibility scores based on astrological factors."""
     scores = {}
+    zodiac_affinities = []
+    seasonal_assocs = []
 
-    # Zodiac affinity scores
-    zodiac_affinities = db.query(ZodiacAffinity).filter(
-        ZodiacAffinity.zodiac_sign == zodiac_sign,
-        ZodiacAffinity.affinity_strength > 0.5
-    ).all()
+    try:
+        # Zodiac affinity scores
+        zodiac_affinities = db.query(ZodiacAffinity).filter(
+            ZodiacAffinity.zodiac_sign == zodiac_sign,
+            ZodiacAffinity.affinity_strength > 0.5
+        ).all()
 
-    # Seasonal compatibility scores
-    seasonal_assocs = db.query(SeasonalAssociation).filter(
-        SeasonalAssociation.season == season,
-        SeasonalAssociation.strength > 0.6
-    ).all()
+        # Seasonal compatibility scores
+        seasonal_assocs = db.query(SeasonalAssociation).filter(
+            SeasonalAssociation.season == season,
+            SeasonalAssociation.strength > 0.6
+        ).all()
+    except Exception as e:
+        print(f"Database query failed in calculate_cuisine_astrological_compatibility: {e}")
+        # Continue with empty affinities/associations (will fall back to base weights)
 
     # Combine scores for each cuisine
     cuisine_weights = {
@@ -1231,15 +1501,17 @@ async def calculate_cuisine_astrological_compatibility(zodiac_sign: str, season:
     for cuisine_id, base_weight in cuisine_weights.items():
         # Calculate zodiac score
         zodiac_score = 0
-        cuisine_affinities = [a for a in zodiac_affinities if a.entity_type == 'cuisine' and str(a.entity_id) == cuisine_id]
-        if cuisine_affinities:
-            zodiac_score = max(a.affinity_strength for a in cuisine_affinities)
+        if zodiac_affinities:
+            cuisine_affinities = [a for a in zodiac_affinities if a.entity_type == 'cuisine' and str(a.entity_id) == cuisine_id]
+            if cuisine_affinities:
+                zodiac_score = max(a.affinity_strength for a in cuisine_affinities)
 
         # Calculate seasonal score
         seasonal_score = 0
-        cuisine_seasonals = [s for s in seasonal_assocs if s.entity_type == 'cuisine' and str(s.entity_id) == cuisine_id]
-        if cuisine_seasonals:
-            seasonal_score = max(s.strength for s in cuisine_seasonals)
+        if seasonal_assocs:
+            cuisine_seasonals = [s for s in seasonal_assocs if s.entity_type == 'cuisine' and str(s.entity_id) == cuisine_id]
+            if cuisine_seasonals:
+                seasonal_score = max(s.strength for s in cuisine_seasonals)
 
         # Combine scores with base weight
         combined_score = (zodiac_score * 0.4 + seasonal_score * 0.4 + base_weight * 0.2)
@@ -2006,67 +2278,6 @@ async def generate_personalized_recipe(request: RecipeGeneratorRequest, db: Sess
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate personalized recipe: {str(e)}")
-
-class AlchemicalImageRequest(BaseModel):
-    recipe_id: Optional[str] = None
-    title: Optional[str] = None
-    description: Optional[str] = None
-    elemental_properties: Optional[Dict[str, float]] = None
-
-@app.post("/api/generate-alchemical-image")
-async def generate_alchemical_image(
-    request: AlchemicalImageRequest,
-    db: Session = Depends(get_db)
-):
-    """
-    Synthesizes a 150-word alchemical visual prompt based on recipe properties 
-    and returns a generated image URL via OpenAI DALL-E 3.
-    """
-    try:
-        title = request.title or "Cosmic Dish"
-        desc = request.description or "A mystical culinary creation"
-        
-        if request.recipe_id:
-            recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
-            if recipe:
-                title = recipe.name
-                desc = recipe.description or ""
-                
-        prompt = f"Professional, high-end culinary photography of {title}. {desc}. Incorporate subtle mystical and alchemical visual elements. Cinematic lighting, depth of field, 8k resolution, food photography style."
-        
-        import os
-        from openai import AsyncOpenAI
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            raise ValueError("OPENAI_API_KEY is not set in the environment.")
-            
-        client = AsyncOpenAI(api_key=api_key)
-        
-        response = await client.images.generate(
-            model="dall-e-3",
-            prompt=prompt[:1000], # DALL-E prompt length limit
-            size="1024x1024",
-            quality="standard",
-            n=1,
-        )
-        
-        image_url = response.data[0].url
-        
-        # Save to DB if recipe_id provided
-        if request.recipe_id:
-            recipe = db.query(Recipe).filter(Recipe.id == request.recipe_id).first()
-            if recipe:
-                recipe.image_url = image_url
-                db.commit()
-                
-        return {
-            "url": image_url,
-            "prompt": prompt
-        }
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f"Failed to generate alchemical image: {str(e)}")
 
 # ==========================================
 # PREMIUM TIER CHECK DEPENDENCY

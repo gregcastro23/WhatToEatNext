@@ -165,7 +165,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
   // (14 capitalized + 14 lowercase aliases) causing each cuisine to be processed twice
   const cuisineDataPromises = PRIMARY_KEYS.map(
     async (cuisineName) => {
-      const cuisineData = cuisinesMap[cuisineName as keyof typeof cuisinesMap];
+      const cuisineData = cuisinesMap[cuisineName];
       if (!cuisineData) return;
       try {
         logger.debug(`Processing cuisine: ${cuisineName}`);
