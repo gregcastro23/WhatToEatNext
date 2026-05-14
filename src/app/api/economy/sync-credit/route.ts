@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import { TokenType } from "@/types/economy";
+import { TokenType, TransactionSourceType } from "@/types/economy";
 
 /**
  * POST /api/economy/sync-credit
@@ -19,6 +19,18 @@ import { TokenType } from "@/types/economy";
  *     idempotencyKey: string
  *   }
  */
+interface SyncCreditBody {
+  userEmail: string;
+  amounts: {
+    spirit?: number;
+    essence?: number;
+    matter?: number;
+    substance?: number;
+  };
+  source?: TransactionSourceType;
+  idempotencyKey: string;
+}
+
 export async function POST(req: NextRequest) {
   try {
     // 1. Validate Sync Secret
@@ -32,7 +44,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const body = await req.json();
+    const body = (await req.json()) as SyncCreditBody;
     const { userEmail, amounts, source, idempotencyKey } = body;
 
     if (!userEmail || !amounts || !idempotencyKey) {
@@ -73,10 +85,10 @@ export async function POST(req: NextRequest) {
 
     // 4. Transform amounts to Credit array
     const credits: Array<{ tokenType: TokenType; amount: number }> = [
-      { tokenType: "Spirit", amount: amounts.spirit || 0 },
-      { tokenType: "Essence", amount: amounts.essence || 0 },
-      { tokenType: "Matter", amount: amounts.matter || 0 },
-      { tokenType: "Substance", amount: amounts.substance || 0 },
+      { tokenType: "Spirit" as const, amount: amounts.spirit || 0 },
+      { tokenType: "Essence" as const, amount: amounts.essence || 0 },
+      { tokenType: "Matter" as const, amount: amounts.matter || 0 },
+      { tokenType: "Substance" as const, amount: amounts.substance || 0 },
     ].filter(c => c.amount > 0);
 
     // 5. Apply credits
