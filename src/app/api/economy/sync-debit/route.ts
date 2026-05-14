@@ -1,7 +1,6 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
-import { withTransaction } from "@/lib/database";
-import type { TokenType } from "@/types/economy";
+import { executeQuery } from "@/lib/database";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -13,10 +12,7 @@ export const runtime = "nodejs";
  * to debit ESMS tokens from an agentic user when they perform an action
  * (feed post, transmutation, etc).
  *
- * Headers:
- *   X-Sync-Secret: <ALCHM_KITCHEN_SYNC_SECRET>
- *
- * Body: see SyncDebitBody.
+ * Auth: X-Sync-Secret header matched against ALCHM_KITCHEN_SYNC_SECRET env var.
  *
  * Responses:
  *   200 { ok: true, transactionGroupId, balances }
@@ -30,6 +26,21 @@ export const runtime = "nodejs";
 
 const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 
+function deriveAgentDisplayName(
+  email: string,
+  metadata: Record<string, unknown> | undefined,
+): string {
+  const fromMeta = typeof metadata?.agentName === "string" ? metadata.agentName.trim() : "";
+  if (fromMeta) return fromMeta;
+  const local = email.split("@")[0] ?? "";
+  if (!local) return "Agent";
+  return local
+    .split("-")
+    .map((part) => (part ? part[0].toUpperCase() + part.slice(1) : ""))
+    .join(" ")
+    .trim() || "Agent";
+}
+
 interface SyncDebitBody {
   userEmail: string;
   amounts: {
@@ -42,22 +53,6 @@ interface SyncDebitBody {
   source?: string;
   idempotencyKey: string;
   metadata?: Record<string, unknown>;
-}
-
-type BalancesDto = {
-  spirit: number;
-  essence: number;
-  matter: number;
-  substance: number;
-};
-
-function toBalances(row: Record<string, unknown> | undefined): BalancesDto {
-  return {
-    spirit: parseFloat(String(row?.spirit ?? 0)) || 0,
-    essence: parseFloat(String(row?.essence ?? 0)) || 0,
-    matter: parseFloat(String(row?.matter ?? 0)) || 0,
-    substance: parseFloat(String(row?.substance ?? 0)) || 0,
-  };
 }
 
 export async function POST(req: NextRequest) {
@@ -89,6 +84,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Parse and validate amounts — pass as strings so pg sends text, avoiding
+  // 'operator is not unique' on DECIMAL columns
   const spirit = Math.max(0, Number(amounts.spirit) || 0);
   const essence = Math.max(0, Number(amounts.essence) || 0);
   const matter = Math.max(0, Number(amounts.matter) || 0);
@@ -96,179 +93,178 @@ export async function POST(req: NextRequest) {
 
   if (spirit + essence + matter + substance <= 0) {
     return NextResponse.json(
-      {
-        ok: false,
-        reason: "invalid_request",
-        message: "At least one token amount must be positive",
-      },
+      { ok: false, reason: "invalid_request", message: "At least one token amount must be positive" },
       { status: 400 },
     );
   }
 
-  const description = operationType
-    ? `Agent op: ${operationType}${source ? ` (${source})` : ""}`
-    : `Agent op${source ? ` (${source})` : ""}`;
-  const sourceId = operationType ?? null;
+  // Pass amounts as fixed-point strings so pg treats them as text and Postgres
+  // can unambiguously coerce to DECIMAL(12,4)
+  const sSpirit = spirit.toFixed(4);
+  const sEssence = essence.toFixed(4);
+  const sMatter = matter.toFixed(4);
+  const sSubstance = substance.toFixed(4);
+
   const email = userEmail.toLowerCase();
+  const description = [
+    operationType ? `Agent op: ${operationType}` : "Agent op",
+    source ? `(${source})` : null,
+    metadata && Object.keys(metadata).length > 0 ? JSON.stringify(metadata) : null,
+  ].filter(Boolean).join(" ");
 
   try {
-    const result = await withTransaction(async (client) => {
-      // 1. Look up user — auto-provision if this is an agentic email and the
-      //    user doesn't exist yet. Pre-seeding is therefore optional.
-      let userRes = await client.query<{ id: string }>(
-        "SELECT id FROM users WHERE email = $1 LIMIT 1",
-        [email],
-      );
+    // 1. Look up user — auto-provision agentic emails
+    let userResult = await executeQuery<{ id: string }>(
+      "SELECT id FROM users WHERE email = $1 LIMIT 1",
+      [email],
+    );
 
-      if (userRes.rowCount === 0) {
-        if (!email.endsWith(AGENTIC_EMAIL_DOMAIN)) {
-          return { kind: "user_not_found" as const };
-        }
-        userRes = await client.query<{ id: string }>(
-          `INSERT INTO users (email, password_hash, role, is_active, email_verified, is_agent, profile, preferences)
-           VALUES ($1, 'AGENT_NO_LOGIN', 'ALCHEMIST'::user_role, true, true, true, $2, '{}'::jsonb)
-           ON CONFLICT (email) DO UPDATE SET is_agent = true
-           RETURNING id`,
-          [email, JSON.stringify({ email, isAgent: true })],
-        );
+    if (userResult.rows.length === 0) {
+      if (!email.endsWith(AGENTIC_EMAIL_DOMAIN)) {
+        return NextResponse.json({ ok: false, reason: "user_not_found" }, { status: 404 });
       }
-      const userId = userRes.rows[0].id;
-
-      // 2. Idempotency check — child keys are per-token-type derived below.
-      //    Any prior debit row for this group means this request was already applied.
-      const dup = await client.query(
-        `SELECT 1 FROM token_transactions
-         WHERE idempotency_key LIKE $1 || ':%' LIMIT 1`,
-        [idempotencyKey],
+      const displayName = deriveAgentDisplayName(email, metadata);
+      userResult = await executeQuery<{ id: string }>(
+        `INSERT INTO users (email, password_hash, role, is_active, email_verified, is_agent, name, profile, preferences, login_count, created_at, updated_at)
+         VALUES ($1, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true, $2, $3, '{}'::jsonb, 0, now(), now())
+         ON CONFLICT (email) DO UPDATE SET is_agent = true
+         RETURNING id`,
+        [email, displayName, JSON.stringify({ email, isAgent: true, name: displayName })],
       );
-      if ((dup.rowCount ?? 0) > 0) {
-        return { kind: "already_applied" as const };
-      }
+      // Create matching user_profiles row so feed/commensals lookups surface a name.
+      // Done as a separate statement (with ON CONFLICT) so it's a no-op for concurrent inserts.
+      await executeQuery(
+        `INSERT INTO user_profiles (user_id, name)
+         VALUES ($1, $2)
+         ON CONFLICT (user_id) DO UPDATE SET name = EXCLUDED.name, updated_at = now()`,
+        [userResult.rows[0].id, displayName],
+      );
+    }
+    const userId = userResult.rows[0].id;
 
-      // 3. Ensure a balance row exists, then atomically check + debit all
-      //    four token columns in a single UPDATE. If any column is short,
-      //    rowCount = 0 and we return 402 with the current balances.
-      await client.query(
-        `INSERT INTO token_balances (user_id) VALUES ($1)
-         ON CONFLICT (user_id) DO NOTHING`,
+    // 2. Idempotency check
+    const dup = await executeQuery(
+      `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
+      [`${idempotencyKey}:%`],
+    );
+    if (dup.rows.length > 0) {
+      return NextResponse.json({ ok: false, reason: "already_applied" }, { status: 409 });
+    }
+
+    // 3. Ensure balance row, read current balances
+    await executeQuery(
+      `INSERT INTO token_balances (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
+      [userId],
+    );
+    const balRow = await executeQuery<{
+      spirit: string; essence: string; matter: string; substance: string;
+    }>(
+      `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1`,
+      [userId],
+    );
+    const bal = balRow.rows[0] ?? { spirit: "0", essence: "0", matter: "0", substance: "0" };
+    const curSpirit = parseFloat(bal.spirit) || 0;
+    const curEssence = parseFloat(bal.essence) || 0;
+    const curMatter = parseFloat(bal.matter) || 0;
+    const curSubstance = parseFloat(bal.substance) || 0;
+
+    if (curSpirit < spirit || curEssence < essence || curMatter < matter || curSubstance < substance) {
+      return NextResponse.json(
+        {
+          ok: false,
+          reason: "insufficient_funds",
+          balances: { spirit: curSpirit, essence: curEssence, matter: curMatter, substance: curSubstance },
+        },
+        { status: 402 },
+      );
+    }
+
+    // 4. Atomic debit — UPDATE using text-cast params to avoid operator ambiguity.
+    //    The amounts are passed as fixed-point strings (e.g. "2.0000"), which
+    //    Postgres coerces to DECIMAL without ambiguity.
+    const groupId = randomUUID();
+    const updateRes = await executeQuery<{ spirit: string; essence: string; matter: string; substance: string }>(
+      `UPDATE token_balances
+       SET spirit    = spirit    - $2::decimal,
+           essence   = essence   - $3::decimal,
+           matter    = matter    - $4::decimal,
+           substance = substance - $5::decimal,
+           updated_at = now()
+       WHERE user_id = $1
+         AND spirit    >= $2::decimal
+         AND essence   >= $3::decimal
+         AND matter    >= $4::decimal
+         AND substance >= $5::decimal
+       RETURNING spirit::text, essence::text, matter::text, substance::text`,
+      [userId, sSpirit, sEssence, sMatter, sSubstance],
+    );
+
+    if (updateRes.rows.length === 0) {
+      // Race condition lost — re-read and return 402
+      const cur2 = await executeQuery<{ spirit: string; essence: string; matter: string; substance: string }>(
+        `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1`,
         [userId],
       );
-
-      const updateRes = await client.query(
-        `UPDATE token_balances
-         SET spirit = spirit - $2,
-             essence = essence - $3,
-             matter = matter - $4,
-             substance = substance - $5,
-             updated_at = now()
-         WHERE user_id = $1
-           AND spirit >= $2
-           AND essence >= $3
-           AND matter >= $4
-           AND substance >= $5
-         RETURNING spirit, essence, matter, substance`,
-        [userId, spirit, essence, matter, substance],
-      );
-
-      if (updateRes.rowCount === 0) {
-        const currentRes = await client.query(
-          `SELECT spirit, essence, matter, substance
-           FROM token_balances WHERE user_id = $1`,
-          [userId],
-        );
-        return {
-          kind: "insufficient_funds" as const,
-          balances: toBalances(currentRes.rows[0]),
-        };
-      }
-
-      // 4. Write one ledger row per non-zero token type. The UNIQUE
-      //    idempotency_key constraint is the ultimate guard against
-      //    concurrent duplicates — if two requests race past step 2,
-      //    the second INSERT will throw 23505 and roll back the txn.
-      const groupId = randomUUID();
-      const ledgerEntries: Array<{ token: TokenType; amount: number }> = (
-        [
-          { token: "Spirit", amount: spirit },
-          { token: "Essence", amount: essence },
-          { token: "Matter", amount: matter },
-          { token: "Substance", amount: substance },
-        ] as Array<{ token: TokenType; amount: number }>
-      ).filter((e) => e.amount > 0);
-
-      const metadataDescription =
-        metadata && Object.keys(metadata).length > 0
-          ? `${description} ${JSON.stringify(metadata)}`
-          : description;
-
-      for (const entry of ledgerEntries) {
-        await client.query(
-          `INSERT INTO token_transactions
-             (transaction_group_id, user_id, token_type, amount,
-              source_type, source_id, description, idempotency_key)
-           VALUES ($1, $2, $3, -$4, 'agents_operation', $5, $6, $7)`,
-          [
-            groupId,
-            userId,
-            entry.token,
-            entry.amount,
-            sourceId,
-            metadataDescription,
-            `${idempotencyKey}:${entry.token}`,
-          ],
-        );
-      }
-
-      return {
-        kind: "ok" as const,
-        transactionGroupId: groupId,
-        balances: toBalances(updateRes.rows[0]),
-      };
-    });
-
-    switch (result.kind) {
-      case "ok":
-        return NextResponse.json({
-          ok: true,
-          transactionGroupId: result.transactionGroupId,
-          balances: result.balances,
-        });
-      case "user_not_found":
-        return NextResponse.json(
-          { ok: false, reason: "user_not_found" },
-          { status: 404 },
-        );
-      case "already_applied":
-        return NextResponse.json(
-          { ok: false, reason: "already_applied" },
-          { status: 409 },
-        );
-      case "insufficient_funds":
-        return NextResponse.json(
-          {
-            ok: false,
-            reason: "insufficient_funds",
-            balances: result.balances,
-          },
-          { status: 402 },
-        );
-    }
-  } catch (error) {
-    // Unique-violation on idempotency_key means a concurrent duplicate slipped
-    // past the pre-check — surface it as the same 409.
-    if ((error as { code?: string })?.code === "23505") {
+      const b2 = cur2.rows[0] ?? { spirit: "0", essence: "0", matter: "0", substance: "0" };
       return NextResponse.json(
-        { ok: false, reason: "already_applied" },
-        { status: 409 },
+        {
+          ok: false,
+          reason: "insufficient_funds",
+          balances: {
+            spirit: parseFloat(b2.spirit) || 0,
+            essence: parseFloat(b2.essence) || 0,
+            matter: parseFloat(b2.matter) || 0,
+            substance: parseFloat(b2.substance) || 0,
+          },
+        },
+        { status: 402 },
       );
+    }
+
+    // 5. Write ledger rows — per non-zero token type, with child idempotency keys
+    const tokenEntries: Array<{ type: string; amount: string }> = [
+      { type: "Spirit", amount: sSpirit },
+      { type: "Essence", amount: sEssence },
+      { type: "Matter", amount: sMatter },
+      { type: "Substance", amount: sSubstance },
+    ].filter((e) => parseFloat(e.amount) > 0);
+
+    for (const entry of tokenEntries) {
+      await executeQuery(
+        `INSERT INTO token_transactions
+           (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+         VALUES ($1, $2, $3, -$4::decimal, 'agents_operation', $5, $6, $7)`,
+        [
+          groupId,
+          userId,
+          entry.type,
+          entry.amount,
+          operationType ?? null,
+          description,
+          `${idempotencyKey}:${entry.type}`,
+        ],
+      );
+    }
+
+    const final = updateRes.rows[0];
+    return NextResponse.json({
+      ok: true,
+      transactionGroupId: groupId,
+      balances: {
+        spirit: parseFloat(final.spirit) || 0,
+        essence: parseFloat(final.essence) || 0,
+        matter: parseFloat(final.matter) || 0,
+        substance: parseFloat(final.substance) || 0,
+      },
+    });
+  } catch (error) {
+    // Unique-violation on idempotency_key (race condition) → 409
+    if ((error as { code?: string })?.code === "23505") {
+      return NextResponse.json({ ok: false, reason: "already_applied" }, { status: 409 });
     }
     console.error("[sync-debit] Internal Error:", error);
     return NextResponse.json(
-      {
-        ok: false,
-        reason: "internal_error",
-        message: (error as Error).message,
-      },
+      { ok: false, reason: "internal_error", message: (error as Error).message },
       { status: 500 },
     );
   }
