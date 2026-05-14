@@ -92,59 +92,56 @@ class UserDatabaseService {
     // Try PostgreSQL first
     if (db) {
       try {
-        await db.executeQuery('BEGIN');
-        // Insert into users table (uses single 'role' ENUM column per migration 07)
+        // Uses single 'role' ENUM column per migration 07
         const primaryRole = user.roles.includes("admin" as UserRole)
           ? "ADMIN"
           : "USER";
-        const insertUserResult = await db.executeQuery(
-          `INSERT INTO users (id, email, password_hash, role, is_active, profile, preferences, created_at)
-           VALUES ($1, $2, $3, $4::user_role, $5, $6, $7, $8)
-           ON CONFLICT (email) DO NOTHING RETURNING id`,
-          [
-            userId,
-            email,
-            user.passwordHash,
-            primaryRole,
-            true,
-            JSON.stringify(user.profile),
-            JSON.stringify(user.profile.preferences || {}),
-            now,
-          ],
-        );
 
-        if (!insertUserResult || insertUserResult.rowCount === 0) {
-          await db.executeQuery('ROLLBACK');
-          throw new Error("User with this email already exists");
-        }
+        await db.withTransaction(async (client) => {
+          const insertUserResult = await client.query(
+            `INSERT INTO users (id, email, password_hash, role, is_active, profile, preferences, created_at)
+             VALUES ($1, $2, $3, $4::user_role, $5, $6, $7, $8)
+             ON CONFLICT (email) DO NOTHING RETURNING id`,
+            [
+              userId,
+              email,
+              user.passwordHash,
+              primaryRole,
+              true,
+              JSON.stringify(user.profile),
+              JSON.stringify(user.profile.preferences || {}),
+              now,
+            ],
+          );
 
-        // Insert into user_profiles table
-        await db.executeQuery(
-          `INSERT INTO user_profiles (user_id, name, dietary_preferences, birth_data, natal_chart, group_members, dining_groups)
-           VALUES ($1, $2, $3, $4, $5, $6, $7)
-           ON CONFLICT (user_id) DO UPDATE SET
-             name = EXCLUDED.name,
-             dietary_preferences = EXCLUDED.dietary_preferences,
-             updated_at = CURRENT_TIMESTAMP`,
-          [
-            userId,
-            data.name,
-            JSON.stringify(user.profile.preferences || {}),
-            JSON.stringify(data.profile?.birthData || {}),
-            JSON.stringify(data.profile?.natalChart || {}),
-            JSON.stringify(data.profile?.groupMembers || []),
-            JSON.stringify(data.profile?.diningGroups || []),
-          ],
-        );
+          if (!insertUserResult || insertUserResult.rowCount === 0) {
+            throw new Error("User with this email already exists");
+          }
 
-        await db.executeQuery('COMMIT');
+          await client.query(
+            `INSERT INTO user_profiles (user_id, name, dietary_preferences, birth_data, natal_chart, group_members, dining_groups)
+             VALUES ($1, $2, $3, $4, $5, $6, $7)
+             ON CONFLICT (user_id) DO UPDATE SET
+               name = EXCLUDED.name,
+               dietary_preferences = EXCLUDED.dietary_preferences,
+               updated_at = CURRENT_TIMESTAMP`,
+            [
+              userId,
+              data.name,
+              JSON.stringify(data.profile?.dietaryPreferences || {}),
+              JSON.stringify(data.profile?.birthData || {}),
+              JSON.stringify(data.profile?.natalChart || {}),
+              JSON.stringify(data.profile?.groupMembers || []),
+              JSON.stringify(data.profile?.diningGroups || []),
+            ],
+          );
+        });
 
         _logger.info("User created in PostgreSQL:", {
           userId,
           email: data.email,
         });
       } catch (error) {
-        await db.executeQuery('ROLLBACK').catch(() => {});
         _logger.error(
           "PostgreSQL user creation failed:",
           error,
@@ -176,7 +173,7 @@ class UserDatabaseService {
                   up.dietary_preferences, up.group_members, up.dining_groups, up.onboarding_completed
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
-           WHERE u.id::text = $1`,
+           WHERE u.id = $1::uuid`,
           [userId],
         );
 
@@ -258,53 +255,87 @@ class UserDatabaseService {
       ...profileData,
       userId, // Ensure userId doesn't change
     };
+    updatedProfile.onboardingComplete =
+      profileData.onboardingComplete ??
+      updatedProfile.onboardingComplete ??
+      !!(updatedProfile.birthData && updatedProfile.natalChart);
     user.profile = updatedProfile;
 
     // Try PostgreSQL first
     if (db) {
       try {
-        await db.executeQuery('BEGIN');
-        // Update users table profile JSONB
-        await db.executeQuery(
-          `UPDATE users SET profile = $2, preferences = $3, updated_at = CURRENT_TIMESTAMP
-           WHERE id::text = $1`,
-          [
-            userId,
-            JSON.stringify(updatedProfile),
-            JSON.stringify(updatedProfile.preferences || {}),
-          ],
+        // Only touch dietary_preferences when the caller actually provided one,
+        // so general-preferences callers don't clobber the dietary column.
+        const hasDietaryUpdate = Object.prototype.hasOwnProperty.call(
+          profileData,
+          "dietaryPreferences",
         );
+        const onboardingComplete = updatedProfile.onboardingComplete === true;
 
-        // Update user_profiles table
-        await db.executeQuery(
-          `INSERT INTO user_profiles (user_id, name, birth_data, natal_chart, dietary_preferences, group_members, dining_groups, onboarding_completed)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-           ON CONFLICT (user_id) DO UPDATE SET
-             name = EXCLUDED.name,
-             birth_data = EXCLUDED.birth_data,
-             natal_chart = EXCLUDED.natal_chart,
-             dietary_preferences = EXCLUDED.dietary_preferences,
-             group_members = EXCLUDED.group_members,
-             dining_groups = EXCLUDED.dining_groups,
-             onboarding_completed = EXCLUDED.onboarding_completed,
-             onboarding_completed_at = CASE WHEN EXCLUDED.onboarding_completed AND NOT COALESCE(user_profiles.onboarding_completed, false) THEN CURRENT_TIMESTAMP ELSE user_profiles.onboarding_completed_at END,
-             updated_at = CURRENT_TIMESTAMP`,
-          [
-            userId,
-            updatedProfile.name || "",
-            JSON.stringify(updatedProfile.birthData || {}),
-            JSON.stringify(updatedProfile.natalChart || {}),
-            JSON.stringify(updatedProfile.preferences || {}),
-            JSON.stringify(updatedProfile.groupMembers || []),
-            JSON.stringify(updatedProfile.diningGroups || []),
-            !!(updatedProfile.birthData && updatedProfile.natalChart),
-          ],
-        );
+        await db.withTransaction(async (client) => {
+          await client.query(
+            `UPDATE users SET profile = $2, preferences = $3, updated_at = CURRENT_TIMESTAMP
+             WHERE id = $1::uuid`,
+            [
+              userId,
+              JSON.stringify(updatedProfile),
+              JSON.stringify(updatedProfile.preferences || {}),
+            ],
+          );
 
-        await db.executeQuery('COMMIT');
+          if (hasDietaryUpdate) {
+            await client.query(
+              `INSERT INTO user_profiles (user_id, name, birth_data, natal_chart, dietary_preferences, group_members, dining_groups, onboarding_completed)
+               VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+               ON CONFLICT (user_id) DO UPDATE SET
+                 name = EXCLUDED.name,
+                 birth_data = EXCLUDED.birth_data,
+                 natal_chart = EXCLUDED.natal_chart,
+                 dietary_preferences = EXCLUDED.dietary_preferences,
+                 group_members = EXCLUDED.group_members,
+                 dining_groups = EXCLUDED.dining_groups,
+                 onboarding_completed = EXCLUDED.onboarding_completed,
+                 onboarding_completed_at = CASE WHEN EXCLUDED.onboarding_completed AND NOT COALESCE(user_profiles.onboarding_completed, false) THEN CURRENT_TIMESTAMP ELSE user_profiles.onboarding_completed_at END,
+                 updated_at = CURRENT_TIMESTAMP`,
+              [
+                userId,
+                updatedProfile.name || "",
+                JSON.stringify(updatedProfile.birthData || {}),
+                JSON.stringify(updatedProfile.natalChart || {}),
+                JSON.stringify(updatedProfile.dietaryPreferences || {}),
+                JSON.stringify(updatedProfile.groupMembers || []),
+                JSON.stringify(updatedProfile.diningGroups || []),
+                onboardingComplete,
+              ],
+            );
+          } else {
+            await client.query(
+              `INSERT INTO user_profiles (user_id, name, birth_data, natal_chart, group_members, dining_groups, onboarding_completed)
+               VALUES ($1, $2, $3, $4, $5, $6, $7)
+               ON CONFLICT (user_id) DO UPDATE SET
+                 name = EXCLUDED.name,
+                 birth_data = EXCLUDED.birth_data,
+                 natal_chart = EXCLUDED.natal_chart,
+                 group_members = EXCLUDED.group_members,
+                 dining_groups = EXCLUDED.dining_groups,
+                 onboarding_completed = EXCLUDED.onboarding_completed,
+                 onboarding_completed_at = CASE WHEN EXCLUDED.onboarding_completed AND NOT COALESCE(user_profiles.onboarding_completed, false) THEN CURRENT_TIMESTAMP ELSE user_profiles.onboarding_completed_at END,
+                 updated_at = CURRENT_TIMESTAMP`,
+              [
+                userId,
+                updatedProfile.name || "",
+                JSON.stringify(updatedProfile.birthData || {}),
+                JSON.stringify(updatedProfile.natalChart || {}),
+                JSON.stringify(updatedProfile.groupMembers || []),
+                JSON.stringify(updatedProfile.diningGroups || []),
+                onboardingComplete,
+              ],
+            );
+          }
+        });
+
         _logger.info("User profile updated in PostgreSQL:", { userId });
       } catch (error) {
-        await db.executeQuery('ROLLBACK').catch(() => {});
         _logger.error("PostgreSQL profile update failed:", error);
         throw new Error("Failed to update profile in database", { cause: error });
       }
@@ -388,7 +419,7 @@ class UserDatabaseService {
       try {
         const primaryRole = (role as string).toUpperCase();
         await db.executeQuery(
-          `UPDATE users SET role = $2::user_role, updated_at = CURRENT_TIMESTAMP WHERE id::text = $1`,
+          `UPDATE users SET role = $2::user_role, updated_at = CURRENT_TIMESTAMP WHERE id = $1::uuid`,
           [userId, primaryRole],
         );
         _logger.info("User role updated in PostgreSQL:", { userId, role });
@@ -553,10 +584,21 @@ class UserDatabaseService {
       typeof row.natal_chart === "string"
         ? JSON.parse(row.natal_chart)
         : row.natal_chart;
-    const preferences =
+    const dietaryPreferences =
       typeof row.dietary_preferences === "string"
         ? JSON.parse(row.dietary_preferences)
-        : row.dietary_preferences || row.preferences || {};
+        : row.dietary_preferences || {};
+    // users.preferences is the canonical store for general preferences.
+    // For legacy rows where general prefs were written to dietary_preferences,
+    // fall back to that column if users.preferences is empty.
+    const rawUserPrefs =
+      typeof row.preferences === "string"
+        ? JSON.parse(row.preferences)
+        : row.preferences || {};
+    const preferences =
+      Object.keys(rawUserPrefs || {}).length > 0
+        ? rawUserPrefs
+        : dietaryPreferences;
     const groupMembers =
       typeof row.group_members === "string"
         ? JSON.parse(row.group_members)
@@ -585,6 +627,8 @@ class UserDatabaseService {
         name: row.profile_name || row.name,
         email: row.email,
         preferences,
+        dietaryPreferences,
+        onboardingComplete: row.onboarding_completed === true,
         birthData:
           Object.keys(birthData || {}).length > 0 ? birthData : undefined,
         natalChart:
