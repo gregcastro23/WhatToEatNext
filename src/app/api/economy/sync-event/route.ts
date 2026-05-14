@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { questService, type QuestEventMetadata } from "@/services/QuestService";
+import type { NextRequest} from "next/server";
 
 /**
  * POST /api/economy/sync-event
@@ -104,7 +105,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { id: userId, is_agent } = userResult.rows[0];
+    const { id: userId, is_agent: isAgent } = userResult.rows[0];
 
     // 3. Report Event to QuestService
     const completed = await questService.reportEvent(userId, event, metadata);
@@ -112,7 +113,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       event,
-      isAgent: is_agent === true,
+      isAgent: isAgent === true,
       completedCount: completed.length,
       completed,
     });
