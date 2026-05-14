@@ -125,8 +125,8 @@ export async function POST(req: NextRequest) {
           return { kind: "user_not_found" as const };
         }
         userRes = await client.query<{ id: string }>(
-          `INSERT INTO users (email, password_hash, role, is_active, email_verified, is_agent, profile)
-           VALUES ($1, 'AGENT_NO_LOGIN', 'ALCHEMIST'::user_role, true, true, true, $2)
+          `INSERT INTO users (email, password_hash, role, is_active, email_verified, is_agent, profile, preferences)
+           VALUES ($1, 'AGENT_NO_LOGIN', 'ALCHEMIST'::user_role, true, true, true, $2, '{}'::jsonb)
            ON CONFLICT (email) DO UPDATE SET is_agent = true
            RETURNING id`,
           [email, JSON.stringify({ email, isAgent: true })],
