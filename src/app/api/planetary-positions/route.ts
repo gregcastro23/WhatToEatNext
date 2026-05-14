@@ -7,6 +7,7 @@
  */
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
+import { redisGet, redisSet } from "@/lib/redis";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 import type { NextRequest } from "next/server";
 

@@ -42,6 +42,8 @@ export interface Recipe {
   name: string;
   description?: string;
   cuisine?: string;
+  image?: string;
+  imageUrl?: string;
   // Ingredients and instructions
   ingredients: RecipeIngredient[];
   instructions: string[];
