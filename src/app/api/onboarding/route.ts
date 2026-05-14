@@ -266,7 +266,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      onboardingComplete: (user.profile as any).onboardingComplete ?? false,
+      onboardingComplete: user.profile.onboardingComplete ?? false,
       hasNatalChart: !!user.profile.natalChart,
       hasBirthData: !!user.profile.birthData,
     });

@@ -47,6 +47,8 @@ interface UserProfile {
   name?: string;
   email?: string;
   preferences?: Record<string, unknown>;
+  dietaryPreferences?: Record<string, unknown>;
+  onboardingComplete?: boolean;
   birthData?: BirthData;
   natalChart?: NatalChart;
   groupMembers?: GroupMember[];

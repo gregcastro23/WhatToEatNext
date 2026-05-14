@@ -113,18 +113,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const { userDatabase } = await import("@/services/userDatabaseService");
           logger.info(`Creating new user. isAdmin: ${isAdmin}`);
 
-          // Add a timeout to createUser to prevent total hang
-          dbUser = await Promise.race([
-            userDatabase.createUser({
-              email: user.email,
-              name: user.name || "",
-              roles: isAdmin
-                ? [UserRole.ADMIN, UserRole.USER]
-                : [UserRole.USER],
-            }),
-            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 3500))
-          ]);
-          
+          dbUser = await userDatabase.createUser({
+            email: user.email,
+            name: user.name || "",
+            roles: isAdmin
+              ? [UserRole.ADMIN, UserRole.USER]
+              : [UserRole.USER],
+          });
+
           if (dbUser) {
             userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
           }
@@ -154,10 +150,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const { commensalDatabase } = await import("@/services/commensalDatabaseService");
                 
                 const newChart = await calculateNatalChart(profile.birthData);
-                await userDatabase.updateUserProfile(dbUser.id, { 
+                await userDatabase.updateUserProfile(dbUser.id, {
                   natalChart: newChart,
-                  onboardingComplete: true
-                } as any);
+                  onboardingComplete: true,
+                });
                 
                 // Store in saved charts (Cosmic Identity registry)
                 try {

@@ -33,7 +33,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onClick }) => {
     }
   };
 
-  const displayImage = getAssetUrl(recipe.image as string);
+  const displayImage = getAssetUrl(recipe.image);
 
   return (
     <>
