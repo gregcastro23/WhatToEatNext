@@ -57,6 +57,7 @@ class UserDatabaseService {
   async createUser(data: {
     email: string;
     name: string;
+    image?: string;
     passwordHash?: string;
     roles?: UserRole[];
     profile?: Partial<UserProfile>;
@@ -96,15 +97,16 @@ class UserDatabaseService {
         const primaryRole = user.roles.includes("admin" as UserRole)
           ? "ADMIN"
           : "USER";
-
         await db.withTransaction(async (client) => {
           const insertUserResult = await client.query(
-            `INSERT INTO users (id, email, password_hash, role, is_active, profile, preferences, created_at)
-             VALUES ($1, $2, $3, $4::user_role, $5, $6, $7, $8)
+            `INSERT INTO users (id, email, name, image, password_hash, role, is_active, profile, preferences, created_at)
+             VALUES ($1, $2, $3, $4, $5, $6::user_role, $7, $8, $9, $10)
              ON CONFLICT (email) DO NOTHING RETURNING id`,
             [
               userId,
               email,
+              data.name,
+              data.image || null,
               user.passwordHash,
               primaryRole,
               true,
@@ -134,6 +136,16 @@ class UserDatabaseService {
               JSON.stringify(data.profile?.groupMembers || []),
               JSON.stringify(data.profile?.diningGroups || []),
             ],
+          );
+
+          // Seed token_balances and user_streaks per audit issue #9
+          await client.query(
+            `INSERT INTO token_balances (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
+            [userId]
+          );
+          await client.query(
+            `INSERT INTO user_streaks (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
+            [userId]
           );
         });
 

@@ -113,14 +113,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const { userDatabase } = await import("@/services/userDatabaseService");
           logger.info(`Creating new user. isAdmin: ${isAdmin}`);
 
-          dbUser = await userDatabase.createUser({
-            email: user.email,
-            name: user.name || "",
-            roles: isAdmin
-              ? [UserRole.ADMIN, UserRole.USER]
-              : [UserRole.USER],
-          });
-
+          // Add a timeout to createUser to prevent total hang
+          dbUser = await Promise.race([
+            userDatabase.createUser({
+              email: user.email,
+              name: user.name || "",
+              image: user.image || undefined,
+              roles: isAdmin
+                ? [UserRole.ADMIN, UserRole.USER]
+                : [UserRole.USER],
+            }),
+            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 3500))
+          ]);
           if (dbUser) {
             userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
           }

@@ -381,6 +381,7 @@ export async function getDatabaseUserFromRequest(
               user = await userDb.createUser({
                 email: session.user.email,
                 name: session.user.name || "Cosmic Citizen",
+                image: session.user.image || undefined,
                 roles: session.user.email.includes("admin") ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
               });
             } catch (createError) {
