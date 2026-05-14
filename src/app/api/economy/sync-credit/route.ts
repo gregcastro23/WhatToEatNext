@@ -14,7 +14,7 @@ import { TokenType, TransactionSourceType } from "@/types/economy";
  * Body:
  *   {
  *     userEmail: string,
- *     amounts: { spirit: number, essence: number, matter: number, substance: number },
+ *     amounts: { spirit: string, essence: string, matter: string, substance: string },
  *     source: string,
  *     idempotencyKey: string
  *   }
@@ -22,10 +22,10 @@ import { TokenType, TransactionSourceType } from "@/types/economy";
 interface SyncCreditBody {
   userEmail: string;
   amounts: {
-    spirit?: number;
-    essence?: number;
-    matter?: number;
-    substance?: number;
+    spirit?: number | string;
+    essence?: number | string;
+    matter?: number | string;
+    substance?: number | string;
   };
   source?: TransactionSourceType;
   idempotencyKey: string;
@@ -54,16 +54,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Look up user ID by email
-    const userResult = await executeQuery<{ id: string }>(
+    // 2. Look up user ID by email — auto-provision agentic users
+    let userResult = await executeQuery<{ id: string }>(
       "SELECT id FROM users WHERE email = $1 LIMIT 1",
       [userEmail]
     );
 
     if (userResult.rows.length === 0) {
-      return NextResponse.json(
-        { ok: false, reason: "user_not_found" },
-        { status: 404 }
+      const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
+      if (!userEmail.toLowerCase().endsWith(AGENTIC_EMAIL_DOMAIN)) {
+        return NextResponse.json(
+          { ok: false, reason: "user_not_found" },
+          { status: 404 }
+        );
+      }
+
+      // Auto-provision agentic user
+      userResult = await executeQuery<{ id: string }>(
+        `INSERT INTO users (email, password_hash, role, is_active, email_verified, is_agent, profile, preferences, login_count, created_at, updated_at)
+         VALUES ($1, 'AGENT_NO_LOGIN', 'ALCHEMIST'::user_role, true, true, true, $2, '{}'::jsonb, 0, now(), now())
+         ON CONFLICT (email) DO UPDATE SET is_agent = true
+         RETURNING id`,
+        [userEmail.toLowerCase(), JSON.stringify({ email: userEmail, isAgent: true })]
       );
     }
 
@@ -85,10 +97,10 @@ export async function POST(req: NextRequest) {
 
     // 4. Transform amounts to Credit array
     const credits: Array<{ tokenType: TokenType; amount: number }> = [
-      { tokenType: "Spirit" as const, amount: amounts.spirit || 0 },
-      { tokenType: "Essence" as const, amount: amounts.essence || 0 },
-      { tokenType: "Matter" as const, amount: amounts.matter || 0 },
-      { tokenType: "Substance" as const, amount: amounts.substance || 0 },
+      { tokenType: "Spirit" as const, amount: Math.max(0, Number(amounts.spirit) || 0) },
+      { tokenType: "Essence" as const, amount: Math.max(0, Number(amounts.essence) || 0) },
+      { tokenType: "Matter" as const, amount: Math.max(0, Number(amounts.matter) || 0) },
+      { tokenType: "Substance" as const, amount: Math.max(0, Number(amounts.substance) || 0) },
     ].filter(c => c.amount > 0);
 
     // 5. Apply credits

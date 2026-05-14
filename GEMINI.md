@@ -29,10 +29,10 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 - ✅ **Batch Queries**: Eliminated N+1 query bottlenecks in recommendation engines.
 - ✅ **10x Faster Migration**: Rewrote migration logic for bulk SQL inserts.
 
-#### **Asset & Storage Optimization**
-- ✅ **R2 Custom Domain**: Migrated asset delivery from `alchm.kitchen` to `assets.alchm.kitchen` to resolve 404 conflicts with the main application domain.
-- ✅ **Automated Prefixing**: Updated frontend components and image generation pipelines to automatically route `ingredients/` and `recipes/` paths to the new dedicated asset domain.
-- ✅ **Asset Optimization**: Reduced `Aklogo.jpg` from 1.7MB to 69KB and hero image by 90%.
+#### **Debugging & Performance Tools**
+- ✅ **React DevTools**: Added standalone `react-devtools` for browser debugging (Components/Profiler).
+- ✅ **React Scan**: Integrated `react-scan` for real-time re-render tracking in development.
+- ✅ **Debug Scripts**: Added `bun run debug:devtools` and `bun run debug:scan`.
 
 ---
 

@@ -12,7 +12,8 @@ export type NotificationType =
   | 'daily_insight'
   | 'commensal_request'
   | 'commensal_accepted'
-  | 'quest_completed';
+  | 'quest_completed'
+  | 'master_quest_broadcast';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
@@ -22,6 +23,15 @@ export interface NotificationMetadata {
   questSlug?: string;
   tokenType?: string;
   tokenAmount?: number;
+  agentName?: string;
+  sacredStat?: string;
+  completedByUserId?: string;
+  communityRewardAmount?: number;
+  communityBuff?: {
+    kind: string;
+    yieldMultiplier?: number;
+    expiresAt?: string;
+  };
   [key: string]: unknown;
 }
 
@@ -54,4 +64,5 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   commensal_request:  { bg: '#FCE4EC', border: '#F48FB1', icon: '🍽️' },
   commensal_accepted: { bg: '#F3E5F5', border: '#CE93D8', icon: '🎉' },
   quest_completed:    { bg: '#E0F7FA', border: '#7986CB', icon: '🏆' },
+  master_quest_broadcast: { bg: '#FFF3E0', border: '#FFB74D', icon: '🌌' },
 };

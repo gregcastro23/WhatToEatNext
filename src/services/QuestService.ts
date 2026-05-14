@@ -40,6 +40,56 @@ const getDbModule = async () => {
 const memoryQuests: QuestDefinition[] = [];
 const memoryProgress = new Map<string, { progress: number; completedAt: string | null; claimedAt: string | null }>();
 
+const MASTER_QUEST_DEFINITIONS = [
+  {
+    slug: "master-curie-transmutation",
+    title: "Master Quest: Curie's Transmutation",
+    description: "Marie Curie demonstrates an alchemical transmutation for the human community.",
+    questType: "achievement",
+    tokenRewardType: "Substance",
+    tokenRewardAmount: 20,
+    triggerEvent: "agent_alchemical_transmutation",
+    triggerThreshold: 1,
+    sortOrder: 90,
+  },
+  {
+    slug: "master-da-vinci-geometry",
+    title: "Master Quest: Da Vinci's Geometry",
+    description: "Leonardo da Vinci opens a sacred geometry design pattern for the human community.",
+    questType: "achievement",
+    tokenRewardType: "Spirit",
+    tokenRewardAmount: 20,
+    triggerEvent: "agent_sacred_geometry_design",
+    triggerThreshold: 1,
+    sortOrder: 91,
+  },
+  {
+    slug: "master-tesla-harmonics",
+    title: "Master Quest: Tesla Harmonics",
+    description: "Nikola Tesla calibrates an energy harmonic that rewards the human community.",
+    questType: "achievement",
+    tokenRewardType: "Matter",
+    tokenRewardAmount: 20,
+    triggerEvent: "agent_energy_harmonic_calibration",
+    triggerThreshold: 1,
+    sortOrder: 92,
+  },
+] as const;
+
+const MASTER_QUEST_EVENTS = new Set<string>(MASTER_QUEST_DEFINITIONS.map(q => q.triggerEvent));
+const MASTER_QUEST_SLUGS = new Set<string>(MASTER_QUEST_DEFINITIONS.map(q => q.slug));
+const COMMUNITY_REWARD_AMOUNT = 0.1;
+const DECIMAL_PRECISION = 4;
+const formatDecimal = (n: number): string => n.toFixed(DECIMAL_PRECISION);
+let masterQuestsEnsured = false;
+
+export interface QuestEventMetadata {
+  agentName?: string;
+  sacredStat?: string;
+  planetarySignature?: Record<string, unknown>;
+  [key: string]: unknown;
+}
+
 // ─── Row Converters ───────────────────────────────────────────────────
 
 function rowToQuestDef(row: any): QuestDefinition {
@@ -93,6 +143,47 @@ class QuestService {
   // QUEST DEFINITIONS
   // ═══════════════════════════════════════════════════════════════════
 
+  private async ensureMasterQuests(): Promise<void> {
+    if (masterQuestsEnsured) return;
+
+    const db = await getDbModule();
+    if (!db) return;
+
+    try {
+      for (const quest of MASTER_QUEST_DEFINITIONS) {
+        await db.executeQuery(
+          `INSERT INTO quest_definitions
+             (slug, title, description, quest_type, token_reward_type, token_reward_amount, trigger_event, trigger_threshold, sort_order)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+           ON CONFLICT (slug) DO UPDATE SET
+             title = EXCLUDED.title,
+             description = EXCLUDED.description,
+             quest_type = EXCLUDED.quest_type,
+             token_reward_type = EXCLUDED.token_reward_type,
+             token_reward_amount = EXCLUDED.token_reward_amount,
+             trigger_event = EXCLUDED.trigger_event,
+             trigger_threshold = EXCLUDED.trigger_threshold,
+             sort_order = EXCLUDED.sort_order,
+             is_active = true`,
+          [
+            quest.slug,
+            quest.title,
+            quest.description,
+            quest.questType,
+            quest.tokenRewardType,
+            quest.tokenRewardAmount,
+            quest.triggerEvent,
+            quest.triggerThreshold,
+            quest.sortOrder,
+          ],
+        );
+      }
+      masterQuestsEnsured = true;
+    } catch (error) {
+      _logger.error("[QuestService] ensureMasterQuests failed:", error);
+    }
+  }
+
   /**
    * Get all active quest definitions.
    */
@@ -101,6 +192,7 @@ class QuestService {
 
     if (db) {
       try {
+        await this.ensureMasterQuests();
         const result = await db.executeQuery(
           `SELECT * FROM quest_definitions WHERE is_active = true ORDER BY sort_order ASC`,
         );
@@ -217,7 +309,17 @@ class QuestService {
   async reportEvent(
     userId: string,
     event: string,
+    eventMetadata?: QuestEventMetadata,
   ): Promise<Array<{ questSlug: string; tokensAwarded: number; tokenType: string }>> {
+    const isMasterEvent = MASTER_QUEST_EVENTS.has(event);
+    if (isMasterEvent && !(await this.isAgenticUser(userId))) {
+      _logger.warn("[QuestService] Ignoring agent-only master quest event from human user", {
+        userId,
+        event,
+      });
+      return [];
+    }
+
     const quests = await this.getActiveQuests();
     const matchingQuests = quests.filter(q => q.triggerEvent === event);
     const completed: Array<{ questSlug: string; tokensAwarded: number; tokenType: string }> = [];
@@ -226,6 +328,9 @@ class QuestService {
       const result = await this.incrementProgress(userId, quest);
       if (result) {
         completed.push(result);
+        if (MASTER_QUEST_SLUGS.has(quest.slug)) {
+          await this.broadcastMasterQuestReward(userId, quest, eventMetadata);
+        }
       }
     }
 
@@ -430,6 +535,173 @@ class QuestService {
         tokensAwarded: quest.tokenRewardAmount,
         tokenType: quest.tokenRewardType,
       };
+    }
+  }
+
+  private async isAgenticUser(userId: string): Promise<boolean> {
+    const db = await getDbModule();
+    if (!db) return false;
+
+    try {
+      const result = await db.executeQuery(
+        `SELECT COALESCE(is_agent, false) AS is_agent
+         FROM users
+         WHERE id = $1
+         LIMIT 1`,
+        [userId],
+      );
+      return result.rows[0]?.is_agent === true;
+    } catch (error) {
+      _logger.error("[QuestService] isAgenticUser failed:", error);
+      return false;
+    }
+  }
+
+  private async broadcastMasterQuestReward(
+    completedByUserId: string,
+    quest: QuestDefinition,
+    eventMetadata?: QuestEventMetadata,
+  ): Promise<void> {
+    const db = await getDbModule();
+    if (!db) return;
+
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    const agentName = eventMetadata?.agentName?.trim() || "A planetary agent";
+    const sacredStat = eventMetadata?.sacredStat;
+
+    // ESMS columns mirror token_balances; map TokenType -> column name.
+    const columnOf = (t: TokenType): "spirit" | "essence" | "matter" | "substance" =>
+      t.toLowerCase() as "spirit" | "essence" | "matter" | "substance";
+
+    // Build a single credit-list keyed by token type. For "all" rewards, split
+    // evenly across the four ESMS tokens; otherwise the full amount goes to
+    // the quest's target type. Amounts are formatted as fixed-point strings
+    // to satisfy the DECIMAL(12,4) operator constraints.
+    const credits: Array<{ tokenType: TokenType; amount: string }> = [];
+    if (quest.tokenRewardType === "all") {
+      const per = COMMUNITY_REWARD_AMOUNT / TOKEN_TYPES.length;
+      for (const t of TOKEN_TYPES) credits.push({ tokenType: t, amount: formatDecimal(per) });
+    } else {
+      credits.push({
+        tokenType: quest.tokenRewardType,
+        amount: formatDecimal(COMMUNITY_REWARD_AMOUNT),
+      });
+    }
+
+    try {
+      // Single set-based credit per token type. Ledger insert is gated by a
+      // composite idempotency key so the broadcast can only land once per
+      // (quest, completing agent, day) for each recipient — replays of the
+      // same agent event do not double-credit.
+      for (const { tokenType, amount } of credits) {
+        const column = columnOf(tokenType);
+        const idempotencyPrefix =
+          `master_reward:${quest.id}:${completedByUserId}:${todayStr}:${tokenType}`;
+
+        await db.executeQuery(
+          `WITH recipients AS (
+             SELECT id AS user_id
+             FROM users
+             WHERE COALESCE(is_agent, false) = false
+               AND COALESCE(is_active, true) = true
+               AND id <> $1
+           ),
+           ensure_balances AS (
+             INSERT INTO token_balances (user_id)
+             SELECT user_id FROM recipients
+             ON CONFLICT (user_id) DO NOTHING
+           ),
+           ledger AS (
+             INSERT INTO token_transactions
+               (transaction_group_id, user_id, token_type, amount,
+                source_type, source_id, description, idempotency_key)
+             SELECT
+               uuid_generate_v4(),
+               r.user_id,
+               $2::varchar,
+               $3::numeric,
+               'quest_reward'::varchar,
+               $4::varchar,
+               $5::text,
+               $6 || ':' || r.user_id
+             FROM recipients r
+             ON CONFLICT (idempotency_key) DO NOTHING
+             RETURNING user_id
+           )
+           UPDATE token_balances tb
+           SET ${column} = tb.${column} + $3::numeric,
+               updated_at = now()
+           FROM ledger l
+           WHERE tb.user_id = l.user_id`,
+          [
+            completedByUserId,
+            tokenType,
+            amount,
+            quest.slug,
+            `Community reward: ${quest.title}`,
+            idempotencyPrefix,
+          ],
+        );
+      }
+
+      // Set-based notification insert. notifications.id is UUID, so we derive
+      // a deterministic v5 UUID from (quest, agent, day, recipient) — that
+      // gives us a stable dedup key without needing an extra unique column.
+      const broadcastKeyPrefix =
+        `master_broadcast:${quest.id}:${completedByUserId}:${todayStr}`;
+      const rewardAmountStr = formatDecimal(COMMUNITY_REWARD_AMOUNT);
+      const summaryTokenLabel =
+        quest.tokenRewardType === "all" ? "ESMS" : quest.tokenRewardType;
+      const sacredStatPhrase = sacredStat ? ` (${sacredStat})` : "";
+      const title = "Master Quest Broadcast";
+      const message =
+        `${agentName} completed "${quest.title}"${sacredStatPhrase}. ` +
+        `You received ${rewardAmountStr} ${summaryTokenLabel}.`;
+      const metadata = JSON.stringify({
+        questSlug: quest.slug,
+        completedByUserId,
+        communityRewardAmount: COMMUNITY_REWARD_AMOUNT,
+        tokenType: quest.tokenRewardType,
+        agentName,
+        sacredStat: sacredStat ?? null,
+        communityBuff: {
+          kind: "master_quest_resonance",
+          yieldMultiplier: 1.05,
+          expiresAt,
+        },
+      });
+
+      await db.executeQuery(
+        `INSERT INTO notifications
+           (id, user_id, type, title, message, metadata, expires_at)
+         SELECT
+           uuid_generate_v5(
+             '6ba7b810-9dad-11d1-80b4-00c04fd430c8'::uuid,
+             $1 || ':' || u.id::text
+           ),
+           u.id,
+           'master_quest_broadcast'::notification_type,
+           $2,
+           $3,
+           $4::jsonb,
+           $5::timestamptz
+         FROM users u
+         WHERE COALESCE(u.is_agent, false) = false
+           AND COALESCE(u.is_active, true) = true
+           AND u.id <> $6
+         ON CONFLICT (id) DO NOTHING`,
+        [
+          broadcastKeyPrefix,
+          title,
+          message,
+          metadata,
+          expiresAt,
+          completedByUserId,
+        ],
+      );
+    } catch (error) {
+      _logger.error("[QuestService] broadcastMasterQuestReward failed:", error);
     }
   }
 

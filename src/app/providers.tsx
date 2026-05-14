@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { MasterQuestBroadcastListener } from "@/components/MasterQuestBroadcastListener";
 import { ToastProvider } from "@/components/ToastProvider";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { AlchemicalDataProvider } from "@/contexts/AlchemicalDataContext";
@@ -23,7 +24,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 <AlchemicalDataProvider>
                   <AlchemicalProvider>
                     <RecipeBuilderProvider>
-                      <GroceryCartProvider>{children}</GroceryCartProvider>
+                      <GroceryCartProvider>
+                        <MasterQuestBroadcastListener />
+                        {children}
+                      </GroceryCartProvider>
                     </RecipeBuilderProvider>
                   </AlchemicalProvider>
                 </AlchemicalDataProvider>

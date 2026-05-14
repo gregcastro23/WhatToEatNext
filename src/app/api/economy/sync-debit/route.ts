@@ -44,10 +44,10 @@ function deriveAgentDisplayName(
 interface SyncDebitBody {
   userEmail: string;
   amounts: {
-    spirit?: number;
-    essence?: number;
-    matter?: number;
-    substance?: number;
+    spirit?: number | string;
+    essence?: number | string;
+    matter?: number | string;
+    substance?: number | string;
   };
   operationType?: string;
   source?: string;

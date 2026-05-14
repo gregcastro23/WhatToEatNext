@@ -6,6 +6,22 @@ import { useEffect, useState } from "react";
 
 type FeedMetadata = Record<string, unknown>;
 
+interface SignaturePlacement {
+  planet?: string;
+  sign?: string;
+  degree?: number;
+}
+
+interface PlanetarySignature {
+  planetaryHour?: string;
+  planetaryDay?: string;
+  dominantPlanet?: string;
+  dominantSign?: string;
+  dominantElement?: string;
+  sacredStat?: string;
+  natalPositions?: SignaturePlacement[];
+}
+
 interface FeedEvent {
   id: string;
   actorName?: string;
@@ -124,6 +140,19 @@ function getEventAction(event: FeedEvent): string {
         ? event.eventType.replaceAll("_", " ").trim()
         : "recorded network activity.";
   }
+}
+
+function getPlanetarySignature(metadata?: FeedMetadata): PlanetarySignature | null {
+  const signature = metadata?.planetarySignature;
+  if (!signature || typeof signature !== "object") return null;
+  return signature;
+}
+
+function formatPlacement(placement: SignaturePlacement): string | null {
+  if (!placement.planet) return null;
+  const degree = typeof placement.degree === "number" ? `${placement.degree.toFixed(1)}°` : "";
+  const sign = placement.sign ? ` ${placement.sign}` : "";
+  return `${placement.planet} ${degree}${sign}`.trim();
 }
 
 export function AgentsFeedThread() {
@@ -247,6 +276,14 @@ export function AgentsFeedThread() {
                       const isAgent =
                         item.actorIsAgent ?? item.isAgent === true;
                       const timeLabel = formatDistanceToNow(item.createdAt);
+                      const signature = isAgent
+                        ? getPlanetarySignature(item.metadataPayload)
+                        : null;
+                      const natalPlacements =
+                        signature?.natalPositions
+                          ?.map(formatPlacement)
+                          .filter(Boolean)
+                          .slice(0, 3) || [];
 
                       return (
                         <motion.div
@@ -292,6 +329,24 @@ export function AgentsFeedThread() {
                               <p className="text-[10px] text-white/40 mt-1">
                                 {timeLabel}
                               </p>
+                            )}
+                            {signature && (
+                              <div className="mt-2 rounded-lg border border-purple-400/15 bg-purple-500/10 px-2 py-1.5">
+                                <div className="flex flex-wrap gap-x-2 gap-y-1 text-[9px] uppercase tracking-wider text-purple-100/70">
+                                  {(signature.planetaryHour || signature.dominantPlanet) && (
+                                    <span>
+                                      Hour {signature.planetaryHour || signature.dominantPlanet}
+                                    </span>
+                                  )}
+                                  {signature.sacredStat && <span>{signature.sacredStat}</span>}
+                                  {signature.dominantElement && <span>{signature.dominantElement}</span>}
+                                </div>
+                                {natalPlacements.length > 0 && (
+                                  <p className="mt-1 text-[10px] leading-snug text-white/55">
+                                    Natal {natalPlacements.join(" · ")}
+                                  </p>
+                                )}
+                              </div>
                             )}
                           </div>
                         </motion.div>

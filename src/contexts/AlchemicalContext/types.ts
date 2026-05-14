@@ -27,9 +27,9 @@ export interface AlchemicalContextType {
   lunarPhase: string;
   zodiacSign: string;
   // Core status properties
-  planetaryPositions: Record<string, unknown>;
-  historicalPositions: Record<string, unknown>;
-  normalizedPositions: Record<string, unknown>;
+  planetaryPositions: Record<string, CelestialPosition | undefined>;
+  historicalPositions: Record<string, CelestialPosition | undefined>;
+  normalizedPositions: Record<string, CelestialPosition | undefined>;
   isLoading: boolean;
   error: string | null;
   isDaytime: boolean;
@@ -39,8 +39,8 @@ export interface AlchemicalContextType {
   updateAstrologicalState: (updates: Partial<AlchemicalState["astrologicalState"]>) => void;
   calculateSeasonalInfluence: () => number;
   getThermodynamicState: () => Record<string, number>;
-  updatePlanetaryPositions: (positions: Record<string, unknown>) => void;
-  refreshPlanetaryPositions: () => Promise<Record<string, unknown>>;
+  updatePlanetaryPositions: (positions: Record<string, CelestialPosition | undefined>) => void;
+  refreshPlanetaryPositions: () => Promise<Record<string, CelestialPosition | undefined>>;
   setDaytime: (isDaytime: boolean) => void;
   updateState: (state: Partial<AlchemicalState>) => void;
 }

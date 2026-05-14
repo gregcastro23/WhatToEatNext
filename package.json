@@ -159,7 +159,9 @@
     "vercel-ignore-build": "bash scripts/vercel-ignore-build.sh",
     "sync:vercel": "bash scripts/sync-vercel-env.sh",
     "sync:railway": "bash scripts/sync-railway-env.sh",
-    "server:hono": "bun src/server/hono-api.ts"
+    "server:hono": "bun src/server/hono-api.ts",
+    "debug:devtools": "react-devtools",
+    "debug:scan": "react-scan"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1045.0",
@@ -218,6 +220,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.1.0",
     "@types/bcryptjs": "^3.0.0",
+    "@types/esrecurse": "^4.3.1",
     "@types/ioredis": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "20.19.40",
@@ -254,6 +257,8 @@
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "react-devtools": "^6.1.1",
+    "react-scan": "^0.5.6",
     "semver": "^7.7.1",
     "ts-jest": "^29.4.9",
     "ts-morph": "^28.0.0",

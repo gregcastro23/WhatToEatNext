@@ -28,6 +28,34 @@ interface FeedEvent {
   createdAt: string;
 }
 
+interface SignaturePlacement {
+  planet?: string;
+  sign?: string;
+  degree?: number;
+}
+
+interface PlanetarySignature {
+  planetaryHour?: string;
+  planetaryDay?: string;
+  dominantPlanet?: string;
+  dominantSign?: string;
+  dominantElement?: string;
+  sacredStat?: string;
+  natalPositions?: SignaturePlacement[];
+}
+
+function getPlanetarySignature(metadata: any): PlanetarySignature | null {
+  const signature = metadata?.planetarySignature;
+  return signature && typeof signature === "object" ? signature : null;
+}
+
+function formatPlacement(placement: SignaturePlacement): string | null {
+  if (!placement.planet) return null;
+  const degree = typeof placement.degree === "number" ? `${placement.degree.toFixed(1)}°` : "";
+  const sign = placement.sign ? ` ${placement.sign}` : "";
+  return `${placement.planet} ${degree}${sign}`.trim();
+}
+
 export default function FeedPage() {
   const [events, setEvents] = useState<FeedEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -122,39 +150,71 @@ export default function FeedPage() {
         ) : (
           <div className="space-y-4">
             <AnimatePresence>
-              {events.map((event, index) => (
-                <motion.div
-                  key={event.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="glass-card-premium rounded-2xl p-5 border-white/8 hover:border-purple-500/20 transition-all flex items-start gap-4"
-                >
-                  <div className="w-10 h-10 rounded-full glass-base flex items-center justify-center text-xl shrink-0 border border-white/5">
-                    {getEventIcon(event.eventType)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white/80">
-                      {event.actorIsAgent ? (
-                        <span className="font-bold text-amber-400 mr-1">{event.actorName}</span>
-                      ) : (
-                        <span className="font-bold text-white mr-1">{event.actorName}</span>
-                      )}
-                      <span className="text-white/60">{getEventText(event)}</span>
-                    </p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="text-[10px] text-white/30 font-mono">
-                        {formatDistanceToNow(event.createdAt)}
-                      </span>
-                      {event.actorIsAgent && (
-                        <span className="text-[8px] font-black uppercase tracking-widest bg-amber-500/10 text-amber-400/80 px-2 py-0.5 rounded-full border border-amber-500/20">
-                          Historical Agent
+              {events.map((event, index) => {
+                const signature = event.actorIsAgent
+                  ? getPlanetarySignature(event.metadataPayload)
+                  : null;
+                const natalPlacements =
+                  signature?.natalPositions
+                    ?.map(formatPlacement)
+                    .filter(Boolean)
+                    .slice(0, 4) || [];
+
+                return (
+                  <motion.div
+                    key={event.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className={`glass-card-premium rounded-2xl p-5 transition-all flex items-start gap-4 ${
+                      event.actorIsAgent
+                        ? "border-amber-500/20 hover:border-amber-400/35"
+                        : "border-white/8 hover:border-purple-500/20"
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-full glass-base flex items-center justify-center text-xl shrink-0 border border-white/5">
+                      {getEventIcon(event.eventType)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white/80">
+                        {event.actorIsAgent ? (
+                          <span className="font-bold text-amber-400 mr-1">{event.actorName}</span>
+                        ) : (
+                          <span className="font-bold text-white mr-1">{event.actorName}</span>
+                        )}
+                        <span className="text-white/60">{getEventText(event)}</span>
+                      </p>
+                      <div className="flex items-center gap-3 mt-2">
+                        <span className="text-[10px] text-white/30 font-mono">
+                          {formatDistanceToNow(event.createdAt)}
                         </span>
+                        {event.actorIsAgent && (
+                          <span className="text-[8px] font-black uppercase tracking-widest bg-amber-500/10 text-amber-400/80 px-2 py-0.5 rounded-full border border-amber-500/20">
+                            Historical Agent
+                          </span>
+                        )}
+                      </div>
+                      {signature && (
+                        <div className="mt-3 rounded-xl border border-amber-400/15 bg-amber-500/10 px-3 py-2">
+                          <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-bold uppercase tracking-wider text-amber-100/75">
+                            {(signature.planetaryHour || signature.dominantPlanet) && (
+                              <span>Hour {signature.planetaryHour || signature.dominantPlanet}</span>
+                            )}
+                            {signature.planetaryDay && <span>Day {signature.planetaryDay}</span>}
+                            {signature.sacredStat && <span>{signature.sacredStat}</span>}
+                            {signature.dominantElement && <span>{signature.dominantElement}</span>}
+                          </div>
+                          {natalPlacements.length > 0 && (
+                            <p className="mt-1.5 text-xs leading-relaxed text-white/55">
+                              Natal signature: {natalPlacements.join(" · ")}
+                            </p>
+                          )}
+                        </div>
                       )}
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </div>
         )}

@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useEffect, useRef, memo } from 'react';
@@ -26,31 +25,34 @@ const DebugInfoInner = () => {
     renderCountRef.current += 1;
   }
 
+  // Safe access to alchemical values and elemental state
+  const alchemicalValues = state?.alchemicalValues || { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+  const elementalState = state?.elementalState || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+
   return (
-    <div className="p-4 bg-gray-100 rounded-lg my-4">
-      <h2 className="text-lg font-semibold mb-2">Debug Info</h2>
-      <div className="space-y-2 text-sm">
-        <p>Mounted: {hasRenderedRef.current ? 'true' : 'false'}</p>
-        <p>Renders: {renderCountRef.current}</p>
-        // @ts-expect-error - Auto-fixed by script
-        <p>Current Sign: {planetaryPositions?.sun?.sign || 'unknown'}</p>
-        <p>Planetary Hour: {state?.planetaryHour || 'Unknown'}</p>
-        <p>Lunar Phase: {state?.lunarPhase || 'Unknown'}</p>
+    <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg my-4 border border-gray-200 dark:border-gray-700 shadow-sm">
+      <h2 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Debug Info</h2>
+      <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+        <p><span className="font-medium">Mounted:</span> {hasRenderedRef.current ? 'true' : 'false'}</p>
+        <p><span className="font-medium">Renders:</span> {renderCountRef.current}</p>
+        <p><span className="font-medium">Current Sign:</span> {planetaryPositions?.sun?.sign || 'unknown'}</p>
+        <p><span className="font-medium">Planetary Hour:</span> {state?.planetaryHour || 'Unknown'}</p>
+        <p><span className="font-medium">Lunar Phase:</span> {state?.lunarPhase || 'Unknown'}</p>
         
-        <h3 className="font-medium mt-3">Alchemical Tokens:</h3>
-        <ul className="space-y-1">
-          <li>⦿ Spirit: {state?.alchemicalValues?.Spirit.toFixed(4) || '0.0000'}</li>
-          <li>⦿ Essence: {state?.alchemicalValues?.Essence.toFixed(4) || '0.0000'}</li>
-          <li>⦿ Matter: {state?.alchemicalValues?.Matter.toFixed(4) || '0.0000'}</li>
-          <li>⦿ Substance: {state?.alchemicalValues?.Substance.toFixed(4) || '0.0000'}</li>
+        <h3 className="font-medium mt-3 text-purple-600 dark:text-purple-400">Alchemical Tokens:</h3>
+        <ul className="space-y-1 ml-2">
+          <li>⦿ Spirit: {alchemicalValues.Spirit.toFixed(4)}</li>
+          <li>⦿ Essence: {alchemicalValues.Essence.toFixed(4)}</li>
+          <li>⦿ Matter: {alchemicalValues.Matter.toFixed(4)}</li>
+          <li>⦿ Substance: {alchemicalValues.Substance.toFixed(4)}</li>
         </ul>
         
-        <h3 className="font-medium mt-3">Elemental Balance:</h3>
-        <ul className="space-y-1">
-          <li>Fire: {(state?.elementalState?.Fire * 100).toFixed(1)}%</li>
-          <li>Water: {(state?.elementalState?.Water * 100).toFixed(1)}%</li>
-          <li>Earth: {(state?.elementalState?.Earth * 100).toFixed(1)}%</li>
-          <li>Air: {(state?.elementalState?.Air * 100).toFixed(1)}%</li>
+        <h3 className="font-medium mt-3 text-orange-600 dark:text-orange-400">Elemental Balance:</h3>
+        <ul className="space-y-1 ml-2">
+          <li>Fire: {(elementalState.Fire * 100).toFixed(1)}%</li>
+          <li>Water: {(elementalState.Water * 100).toFixed(1)}%</li>
+          <li>Earth: {(elementalState.Earth * 100).toFixed(1)}%</li>
+          <li>Air: {(elementalState.Air * 100).toFixed(1)}%</li>
         </ul>
       </div>
     </div>

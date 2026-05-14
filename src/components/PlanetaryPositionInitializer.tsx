@@ -76,9 +76,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
         }
 
         logger.info('Successfully updated planetary positions', {
-          // @ts-expect-error - Auto-fixed by script
           sunPosition: positions.sun?.sign,
-          // @ts-expect-error - Auto-fixed by script
           moonPosition: positions.moon?.sign,
           timestamp: new Date().toISOString()
         });
