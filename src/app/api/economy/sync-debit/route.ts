@@ -142,6 +142,31 @@ export async function POST(req: NextRequest) {
     }
     const userId = userResult.rows[0].id;
 
+    // 1.5 Update Agent Profile if metadata present
+    if (metadata?.agentProfile) {
+      const ap = metadata.agentProfile;
+      await executeQuery(
+        `UPDATE user_profiles SET
+           bio = $2,
+           natal_chart = $3,
+           natal_positions = $4,
+           dominant_element = $5,
+           monica_constant = $6,
+           birth_data = $7,
+           updated_at = now()
+         WHERE user_id = $1`,
+        [
+          userId,
+          ap.bio || ap.monicaCreationStory || null,
+          JSON.stringify(ap.natalChart || {}),
+          JSON.stringify(ap.natalPositions || []),
+          ap.dominantElement || null,
+          ap.monicaConstant || null,
+          JSON.stringify({ date: ap.birthDate, time: ap.birthTime, location: ap.birthLocation }),
+        ]
+      );
+    }
+
     // 2. Idempotency check
     const dup = await executeQuery(
       `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
