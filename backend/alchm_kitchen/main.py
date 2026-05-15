@@ -9,7 +9,7 @@ Architecture:
 - Provides unified API for frontend
 - Manages PostgreSQL database for recipes and recommendations
 """
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -2611,6 +2611,115 @@ async def get_group_compatibility(
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Compatibility analysis error: {str(e)}")
+
+
+# ==========================================
+# Agent Identity Sync (planetary_agents ↔ WTEN)
+# ==========================================
+
+class AgentSyncRequest(BaseModel):
+    email: str
+    displayName: Optional[str] = None
+    agentMetadata: Optional[Dict[str, Any]] = None
+
+AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen"
+
+@app.post("/api/internal/agent-sync")
+async def agent_sync(request: AgentSyncRequest, req: Request, db: Session = Depends(get_db)):
+    """
+    POST /api/internal/agent-sync
+
+    Creates or links a WTEN user record for a planetary_agents agentic persona.
+    Returns the WTEN userId so planetary_agents can persist it as alchmKitchenUserId.
+
+    Auth: X-Sync-Secret header matched against ALCHM_KITCHEN_SYNC_SECRET env var.
+    Only accepts @agentic.alchm.kitchen email addresses.
+    """
+    import time
+
+    t0 = time.time()
+
+    sync_secret = os.getenv("ALCHM_KITCHEN_SYNC_SECRET", "")
+    auth_header = req.headers.get("X-Sync-Secret", "")
+    if not sync_secret or auth_header != sync_secret:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    email = request.email.lower().strip()
+    if not email.endswith(AGENTIC_EMAIL_DOMAIN):
+        raise HTTPException(
+            status_code=422,
+            detail=f"Only {AGENTIC_EMAIL_DOMAIN} addresses are accepted"
+        )
+
+    # Derive display name
+    raw_display = (request.displayName or "").strip()
+    if raw_display:
+        display_name = raw_display
+    else:
+        local = email.split("@")[0]
+        display_name = " ".join(p.capitalize() for p in local.split("-") if p) or "Agent"
+
+    try:
+        existing = db.execute(
+            text("SELECT id FROM users WHERE email = :email LIMIT 1"),
+            {"email": email}
+        ).fetchone()
+
+        created = False
+        if existing:
+            wten_user_id = str(existing[0])
+            db.execute(
+                text("UPDATE users SET is_agent = true, updated_at = now() WHERE id = :id"),
+                {"id": wten_user_id}
+            )
+        else:
+            row = db.execute(
+                text("""
+                    INSERT INTO users
+                      (email, password_hash, role, is_active, email_verified, is_agent,
+                       name, profile, preferences, login_count, created_at, updated_at)
+                    VALUES
+                      (:email, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true,
+                       :name, :profile::jsonb, '{}'::jsonb, 0, now(), now())
+                    ON CONFLICT (email) DO UPDATE
+                      SET is_agent   = true,
+                          name       = COALESCE(EXCLUDED.name, users.name),
+                          updated_at = now()
+                    RETURNING id
+                """),
+                {
+                    "email": email,
+                    "name": display_name,
+                    "profile": f'{{"email":"{email}","isAgent":true,"name":"{display_name}"}}'
+                }
+            ).fetchone()
+            wten_user_id = str(row[0])
+            created = True
+
+        # Upsert user_profiles so the feed Agents tab surfaces the name
+        db.execute(
+            text("""
+                INSERT INTO user_profiles (user_id, name)
+                VALUES (:user_id, :name)
+                ON CONFLICT (user_id) DO UPDATE
+                  SET name       = COALESCE(EXCLUDED.name, user_profiles.name),
+                      updated_at = now()
+            """),
+            {"user_id": wten_user_id, "name": display_name}
+        )
+        db.commit()
+
+        elapsed_ms = int((time.time() - t0) * 1000)
+        print(f"agent_sync email={email} wtenUserId={wten_user_id} created={created} elapsed_ms={elapsed_ms}")
+
+        return {"ok": True, "wtenUserId": wten_user_id, "created": created}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        print(f"[agent-sync] Internal Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":
