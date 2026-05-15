@@ -5,6 +5,11 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
+import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
+import AgentProfile from "./AgentProfile";
+import { useSession } from "next-auth/react";
+import { PROFILE_BLOCKS, ProfileTab } from "@/components/profile/ProfileBlockRegistry";
+import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 
 interface NatalPosition {
   planet?: string;
@@ -24,15 +29,19 @@ interface PublicProfile {
   handle: string | null;
   name: string;
   isAgent: boolean;
+  agentSlug: string | null;
+  agentProfile: CraftedAgentProfile | null;
   bio: string | null;
   dominantElement: string | null;
-  monicaConstant: number | null;
   natalChart: any;
   natalPositions: NatalPosition[];
   birthData: { date?: string; time?: string; location?: string } | null;
   createdAt: string;
   balances: { spirit: number; essence: number; matter: number; substance: number };
   recentActivity: RecentActivity[];
+  dietary_preferences?: any;
+  profile_layout?: string[];
+  tasteGraph?: any;
 }
 
 const ELEMENT_COLORS: Record<string, { glow: string; text: string }> = {
@@ -81,6 +90,12 @@ export default function PublicProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { data: session } = useSession();
+  const isOwner = session?.user?.id === profile?.userId;
+  const [activeTab, setActiveTab] = useState<ProfileTab>("Palate");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [layout, setLayout] = useState<string[]>([]);
+
   useEffect(() => {
     if (!userId) return;
     let cancelled = false;
@@ -93,6 +108,7 @@ export default function PublicProfilePage() {
           setError(data.message || "Profile unavailable");
         } else {
           setProfile(data.profile);
+          setLayout(data.profile.profile_layout || ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
         }
       } catch (_err) {
         if (!cancelled) setError("Network error");
@@ -110,8 +126,10 @@ export default function PublicProfilePage() {
     .map(formatPlacement)
     .filter(Boolean) as string[];
 
+  const hasEnrichedAgent = !!(profile?.isAgent && profile.agentProfile);
+
   return (
-    <main className="min-h-screen bg-[#08080e] pb-24">
+    <main className="min-h-screen bg-[#08080e] pb-24 text-white">
       <Header onServingsChange={() => {}} />
 
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -120,12 +138,22 @@ export default function PublicProfilePage() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 pt-32">
-        <Link
-          href="/feed"
-          className="inline-flex items-center gap-2 text-xs text-white/50 hover:text-white uppercase tracking-widest mb-8"
-        >
-          ← Back to Network Feed
-        </Link>
+        <div className="flex justify-between items-center mb-8">
+          <Link
+            href="/feed"
+            className="inline-flex items-center gap-2 text-xs text-white/50 hover:text-white uppercase tracking-widest"
+          >
+            ← Back to Network Feed
+          </Link>
+          {isOwner && (
+            <button
+              onClick={() => setIsDrawerOpen(true)}
+              className="px-4 py-2 bg-purple-500/10 text-purple-300 border border-purple-500/20 hover:bg-purple-500/20 rounded-full text-xs font-bold uppercase tracking-widest transition-colors"
+            >
+              Customize Layout
+            </button>
+          )}
+        </div>
 
         {loading ? (
           <div className="glass-card-premium rounded-3xl p-12 border-white/8 text-center">
@@ -135,6 +163,12 @@ export default function PublicProfilePage() {
           <div className="glass-card-premium rounded-3xl p-12 border-white/8 text-center">
             <p className="text-white/40 text-sm">{error || "Profile not found."}</p>
           </div>
+        ) : hasEnrichedAgent ? (
+          <AgentProfile
+            agent={profile.agentProfile!}
+            balances={profile.balances}
+            handle={profile.handle}
+          />
         ) : (
           <>
             <motion.section
@@ -194,7 +228,34 @@ export default function PublicProfilePage() {
               </div>
             </motion.section>
 
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="flex space-x-6 border-b border-white/10 mb-6">
+              {(["Essence", "Palate", "Practice"] as ProfileTab[]).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`pb-2 text-sm uppercase tracking-widest font-bold transition-colors ${
+                    activeTab === tab 
+                      ? "border-b-2 border-purple-500 text-purple-400" 
+                      : "text-white/40 hover:text-white/70"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-4 mb-8">
+              {layout.map((blockId: string) => {
+                const block = PROFILE_BLOCKS[blockId];
+                if (!block) return null;
+                if (block.tab !== activeTab) return null;
+                if (block.visibleTo === "owner" && !isOwner) return null;
+
+                return <div key={blockId} className="text-white bg-white/5 border border-white/10 rounded-xl overflow-hidden">{block.render({ data: profile, isOwner })}</div>;
+              })}
+            </div>
+
+            <div className="grid md:grid-cols-4 gap-4 mb-8">
               {(["spirit", "essence", "matter", "substance"] as const).map((key) => {
                 const visual = TOKEN_VISUAL[key];
                 return (
@@ -214,19 +275,6 @@ export default function PublicProfilePage() {
                   </div>
                 );
               })}
-              {profile.monicaConstant !== null && (
-                <div className="glass-base rounded-2xl p-4 border border-white/8 flex items-center gap-3">
-                  <span className="text-xl text-pink-400">∞</span>
-                  <div>
-                    <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold">
-                      Monica Constant
-                    </p>
-                    <p className="text-lg font-black text-white tabular-nums">
-                      {profile.monicaConstant.toFixed(4)}
-                    </p>
-                  </div>
-                </div>
-              )}
             </div>
 
             {placements.length > 0 && (
@@ -246,37 +294,46 @@ export default function PublicProfilePage() {
                 </div>
               </section>
             )}
-
-            <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8">
-              <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">
-                Recent Activity
-              </h2>
-              {profile.recentActivity.length === 0 ? (
-                <p className="text-sm text-white/40">No recorded actions yet.</p>
-              ) : (
-                <ul className="space-y-3">
-                  {profile.recentActivity.map((event) => (
-                    <li
-                      key={event.id}
-                      className="flex items-start gap-3 p-3 rounded-2xl border border-white/5 bg-white/[0.02]"
-                    >
-                      <span className="text-lg">✨</span>
-                      <div className="flex-1">
-                        <p className="text-sm text-white/85">
-                          {EVENT_LABEL[event.eventType] || event.eventType.replace(/_/g, " ")}
-                        </p>
-                        <p className="text-[10px] uppercase tracking-widest text-white/30 mt-1">
-                          {formatRelativeTime(event.createdAt)}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
           </>
         )}
+
+        {!loading && !error && profile && (
+          <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8">
+            <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">
+              Recent Activity
+            </h2>
+            {profile.recentActivity.length === 0 ? (
+              <p className="text-sm text-white/40">No recorded actions yet.</p>
+            ) : (
+              <ul className="space-y-3">
+                {profile.recentActivity.map((event) => (
+                  <li
+                    key={event.id}
+                    className="flex items-start gap-3 p-3 rounded-2xl border border-white/5 bg-white/[0.02]"
+                  >
+                    <span className="text-lg">✨</span>
+                    <div className="flex-1">
+                      <p className="text-sm text-white/85">
+                        {EVENT_LABEL[event.eventType] || event.eventType.replace(/_/g, " ")}
+                      </p>
+                      <p className="text-[10px] uppercase tracking-widest text-white/30 mt-1">
+                        {formatRelativeTime(event.createdAt)}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
       </div>
+      <CustomizeDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        layout={layout}
+        onUpdateLayout={(newLayout) => setLayout(newLayout)}
+      />
     </main>
   );
 }
+

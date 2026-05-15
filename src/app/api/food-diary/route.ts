@@ -144,6 +144,23 @@ export async function POST(request: NextRequest) {
     // Meal-type-specific events allow quests like "log breakfast 3 days in a row"
     await reportQuestEventBestEffort(userId, `log_${entry.mealType}`);
 
+    // Track interaction for personalization (Data Hose injection)
+    try {
+      const { recordInteraction } = await import("@/services/userInteractionsService");
+      void recordInteraction({
+        userId,
+        type: "food_diary_entry",
+        payload: {
+          entryId: entry.id,
+          foodName: entry.foodName,
+          mealType: entry.mealType,
+          foodSource: entry.foodName,
+        },
+      }).catch((err) => console.error("Failed to record food_diary_entry interaction:", err));
+    } catch (err) {
+      console.warn("Food diary entry interaction tracking skipped:", err);
+    }
+
     // Streak-aware events: fire log_streak_3_days / log_streak_7_days when
     // today's entry pushes the user across a threshold.
     try {

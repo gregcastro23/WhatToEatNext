@@ -8,6 +8,11 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
+import {
+  agentSlugFromEmail,
+  fetchAgentProfile,
+} from "@/lib/agents/fetchAgentProfile";
+import { computeTasteGraph } from "@/services/userInteractionsService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -21,8 +26,9 @@ interface ProfileRow {
   natal_chart: any;
   natal_positions: any;
   dominant_element: string | null;
-  monica_constant: string | null;
   birth_data: any;
+  dietary_preferences: any;
+  profile_layout: any;
   created_at: string;
 }
 
@@ -73,7 +79,7 @@ export async function GET(
     const profileResult = await executeQuery<ProfileRow>(
       `SELECT u.id AS user_id, u.email, COALESCE(u.is_agent, false) AS is_agent,
               up.name, up.bio, up.natal_chart, up.natal_positions,
-              up.dominant_element, up.monica_constant, up.birth_data,
+              up.dominant_element, up.birth_data, up.dietary_preferences, up.profile_layout,
               u.created_at
          FROM users u
          LEFT JOIN user_profiles up ON up.user_id = u.id
@@ -92,7 +98,7 @@ export async function GET(
     const row = profileResult.rows[0];
     const realUserId = row.user_id;
 
-    const [feedResult, balanceResult] = await Promise.all([
+    const [feedResult, balanceResult, tasteGraph] = await Promise.all([
       executeQuery<FeedRow>(
         `SELECT id, event_type, metadata_payload, created_at
            FROM feed_events
@@ -108,6 +114,7 @@ export async function GET(
           LIMIT 1`,
         [realUserId],
       ),
+      computeTasteGraph(realUserId),
     ]);
 
     const balance = balanceResult.rows[0] ?? {
@@ -120,6 +127,14 @@ export async function GET(
     const natalChart = parseJsonField<Record<string, unknown>>(row.natal_chart, {});
     const natalPositions = parseJsonField<unknown[]>(row.natal_positions, []);
     const birthData = parseJsonField<Record<string, unknown>>(row.birth_data, {});
+    const dietary_preferences = parseJsonField<Record<string, unknown>>(row.dietary_preferences, {});
+    const profile_layout = parseJsonField<unknown[]>(row.profile_layout, ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
+
+    // For agent users, pull the rich CraftedAgent profile from
+    // planetary_agents-main. Cached 24h upstream-side; falls back to null
+    // (and the page degrades to the locally-mirrored fields) on any failure.
+    const slug = row.is_agent ? agentSlugFromEmail(row.email) : null;
+    const agentProfile = slug ? await fetchAgentProfile(slug) : null;
 
     return NextResponse.json({
       success: true,
@@ -129,12 +144,16 @@ export async function GET(
         handle: row.is_agent ? row.email : null,
         name: row.name || (row.is_agent ? row.email.split("@")[0] : "Alchemist"),
         isAgent: row.is_agent,
+        agentSlug: slug,
+        agentProfile,
         bio: row.bio,
         dominantElement: row.dominant_element,
-        monicaConstant: row.monica_constant ? parseFloat(row.monica_constant) : null,
         natalChart,
         natalPositions,
         birthData,
+        dietary_preferences,
+        profile_layout,
+        tasteGraph,
         createdAt: row.created_at,
         balances: {
           spirit: parseFloat(balance.spirit) || 0,

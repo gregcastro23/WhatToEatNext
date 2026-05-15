@@ -71,6 +71,23 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
+    // Track interaction for personalization (Data Hose injection)
+    try {
+      const { recordInteraction } = await import("@/services/userInteractionsService");
+      void recordInteraction({
+        userId,
+        type: "food_rating",
+        payload: {
+          entryId,
+          foodName: entry.foodName,
+          rating,
+          moodTags,
+        },
+      }).catch((err) => console.error("Failed to record food_rating interaction:", err));
+    } catch (err) {
+      console.warn("Food rating interaction tracking skipped:", err);
+    }
+
     // Update wouldEatAgain if provided
     if (wouldEatAgain !== undefined) {
       await foodDiaryService.updateEntry(userId, {

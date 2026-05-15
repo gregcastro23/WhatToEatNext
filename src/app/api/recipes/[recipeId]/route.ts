@@ -83,6 +83,30 @@ export async function GET(request: Request, props: { params: Promise<{ recipeId:
       allRecipes,
     );
 
+    // Track interaction if user is logged in (Data Hose injection)
+    try {
+      const { auth } = await import("@/lib/auth/auth");
+      const session = await auth();
+      if (session?.user?.id) {
+        const { recordInteraction } = await import("@/services/userInteractionsService");
+        void recordInteraction({
+          userId: session.user.id,
+          type: "recipe_view",
+          payload: {
+            recipeId,
+            cuisine: recipe.cuisine,
+            cookingMethod: cookingMethods[0],
+            ingredients: recipe.ingredients.map((i: any) => i.name),
+            complexity: (recipe as any).complexity || "moderate",
+            elementalBalance: recipe.elementalProperties,
+          },
+        }).catch((err) => console.error("Failed to record recipe_view interaction:", err));
+      }
+    } catch (err) {
+      // Best effort; don't break the response if auth/tracking fails
+      console.warn("Interaction tracking skipped:", err);
+    }
+
     return NextResponse.json({ success: true, recipe, recommendedSauces, recommendedRecipes });
   } catch (error) {
     console.error("[recipeId] Error:", error);

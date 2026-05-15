@@ -352,12 +352,21 @@ export async function GET(request: NextRequest) {
   const params = parseParams(searchParams);
 
   const honoData = await fetchFromHono(params);
-  if (honoData) return NextResponse.json(honoData);
+  if (honoData) {
+    void trackAstrologyQuery(honoData);
+    return NextResponse.json(honoData);
+  }
 
   const railwayData = await fetchFromRailway(params);
-  if (railwayData) return NextResponse.json(formatRailwayResponse(railwayData, params));
+  if (railwayData) {
+    const formatted = formatRailwayResponse(railwayData, params);
+    void trackAstrologyQuery(formatted);
+    return NextResponse.json(formatted);
+  }
 
-  return NextResponse.json(calculateLocally(params));
+  const localData = calculateLocally(params);
+  void trackAstrologyQuery(localData);
+  return NextResponse.json(localData);
 }
 
 export async function POST(request: NextRequest) {
@@ -381,12 +390,21 @@ export async function POST(request: NextRequest) {
     const params = parsed.data;
 
     const honoData = await fetchFromHono(params);
-    if (honoData) return NextResponse.json(honoData);
+    if (honoData) {
+      void trackAstrologyQuery(honoData);
+      return NextResponse.json(honoData);
+    }
 
     const railwayData = await fetchFromRailway(params);
-    if (railwayData) return NextResponse.json(formatRailwayResponse(railwayData, params));
+    if (railwayData) {
+      const formatted = formatRailwayResponse(railwayData, params);
+      void trackAstrologyQuery(formatted);
+      return NextResponse.json(formatted);
+    }
 
-    return NextResponse.json(calculateLocally(params));
+    const localData = calculateLocally(params);
+    void trackAstrologyQuery(localData);
+    return NextResponse.json(localData);
   } catch (error) {
     console.error("Astrologize API error:", error);
     return NextResponse.json(
@@ -397,5 +415,32 @@ export async function POST(request: NextRequest) {
       },
       { status: 500 },
     );
+  }
+}
+
+/**
+ * Best-effort interaction tracking for astrology queries
+ */
+async function trackAstrologyQuery(data: AstrologizeResponse) {
+  try {
+    const { auth } = await import("@/lib/auth/auth");
+    const session = await auth();
+    if (session?.user?.id) {
+      const { recordInteraction } = await import("@/services/userInteractionsService");
+      // Record engagement with the sun/ascendant as proxies for planetary interest
+      const dominantPlanet = data._celestialBodies.sun ? "Sun" : "Planets";
+      await recordInteraction({
+        userId: session.user.id,
+        type: "planetary_query",
+        payload: {
+          planet: dominantPlanet,
+          engagement: 1.0,
+          source: data.source,
+          precision: data.precision,
+        },
+      });
+    }
+  } catch (err) {
+    console.warn("Astrology interaction tracking failed:", err);
   }
 }
