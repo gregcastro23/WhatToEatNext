@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import { TokenType, TransactionSourceType } from "@/types/economy";
+import type { TokenType, TransactionSourceType } from "@/types/economy";
+import type { NextRequest} from "next/server";
 
 /**
  * POST /api/economy/sync-credit

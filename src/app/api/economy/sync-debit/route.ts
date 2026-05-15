@@ -142,27 +142,50 @@ export async function POST(req: NextRequest) {
     }
     const userId = userResult.rows[0].id;
 
-    // 1.5 Update Agent Profile if metadata present
-    if (metadata?.agentProfile) {
-      const ap = metadata.agentProfile;
+    // 1.5 Update Agent Profile if metadata present.
+    // Treat the payload as Record<string, unknown> — the planetary-agents
+    // engine ships untyped JSON so we can't lean on the route's own interface.
+    const agentProfileRaw = (metadata)?.agentProfile;
+    if (agentProfileRaw && typeof agentProfileRaw === "object") {
+      const ap = agentProfileRaw as Record<string, unknown>;
+      const bioCandidate =
+        (ap.bio as string | undefined) ||
+        (ap.monicaCreationStory as string | undefined) ||
+        null;
+      const dominantElementCandidate = (ap.dominantElement as string | undefined) ?? null;
+      const monicaCandidate = (ap.monicaConstant as number | string | undefined) ?? null;
+      const hasNatalChart =
+        ap.natalChart && typeof ap.natalChart === "object" && Object.keys(ap.natalChart).length > 0;
+      const hasNatalPositions = Array.isArray(ap.natalPositions) && (ap.natalPositions as unknown[]).length > 0;
+      const hasBirthData = ap.birthDate || ap.birthTime || ap.birthLocation;
+
+      // COALESCE so a null/empty field in this fire never wipes a previously
+      // written value — every tick keeps the row fresh without regression.
       await executeQuery(
         `UPDATE user_profiles SET
-           bio = $2,
-           natal_chart = $3,
-           natal_positions = $4,
-           dominant_element = $5,
-           monica_constant = $6,
-           birth_data = $7,
-           updated_at = now()
+           bio              = COALESCE($2, bio),
+           natal_chart      = CASE WHEN $3::boolean THEN $4::jsonb ELSE natal_chart END,
+           natal_positions  = CASE WHEN $5::boolean THEN $6::jsonb ELSE natal_positions END,
+           dominant_element = COALESCE($7, dominant_element),
+           monica_constant  = COALESCE($8::numeric, monica_constant),
+           birth_data       = CASE WHEN $9::boolean THEN $10::jsonb ELSE birth_data END,
+           updated_at       = now()
          WHERE user_id = $1`,
         [
           userId,
-          ap.bio || ap.monicaCreationStory || null,
+          bioCandidate,
+          hasNatalChart,
           JSON.stringify(ap.natalChart || {}),
+          hasNatalPositions,
           JSON.stringify(ap.natalPositions || []),
-          ap.dominantElement || null,
-          ap.monicaConstant || null,
-          JSON.stringify({ date: ap.birthDate, time: ap.birthTime, location: ap.birthLocation }),
+          dominantElementCandidate,
+          monicaCandidate,
+          hasBirthData,
+          JSON.stringify({
+            date: ap.birthDate ?? null,
+            time: ap.birthTime ?? null,
+            location: ap.birthLocation ?? null,
+          }),
         ]
       );
     }
@@ -173,7 +196,12 @@ export async function POST(req: NextRequest) {
       [`${idempotencyKey}:%`],
     );
     if (dup.rows.length > 0) {
-      return NextResponse.json({ ok: false, reason: "already_applied" }, { status: 409 });
+      // Even on idempotency hit, return userId so the caller can persist the
+      // alchm.kitchen UUID for downstream profile linking.
+      return NextResponse.json(
+        { ok: false, reason: "already_applied", userId },
+        { status: 409 },
+      );
     }
 
     // 3. Ensure balance row, read current balances
@@ -198,6 +226,7 @@ export async function POST(req: NextRequest) {
         {
           ok: false,
           reason: "insufficient_funds",
+          userId,
           balances: { spirit: curSpirit, essence: curEssence, matter: curMatter, substance: curSubstance },
         },
         { status: 402 },
@@ -235,6 +264,7 @@ export async function POST(req: NextRequest) {
         {
           ok: false,
           reason: "insufficient_funds",
+          userId,
           balances: {
             spirit: parseFloat(b2.spirit) || 0,
             essence: parseFloat(b2.essence) || 0,
@@ -274,6 +304,7 @@ export async function POST(req: NextRequest) {
     const final = updateRes.rows[0];
     return NextResponse.json({
       ok: true,
+      userId,
       transactionGroupId: groupId,
       balances: {
         spirit: parseFloat(final.spirit) || 0,

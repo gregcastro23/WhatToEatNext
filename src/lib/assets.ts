@@ -1,5 +1,5 @@
-import { redisGet, redisSet } from "./redis";
 import { ASSET_DOMAIN } from "@/constants";
+import { redisGet, redisSet } from "./redis";
 
 const ASSET_CACHE_TTL = 60 * 60 * 24; // 24 hours
 

@@ -24,6 +24,8 @@ interface PlanetarySignature {
 
 interface FeedEvent {
   id: string;
+  actorId?: string;
+  userId?: string;
   actorName?: string;
   user?: string;
   actorIsAgent?: boolean;
@@ -275,6 +277,8 @@ export function AgentsFeedThread() {
                       const actorName = item.actorName || item.user;
                       const isAgent =
                         item.actorIsAgent ?? item.isAgent === true;
+                      const actorId = item.actorId || item.userId;
+                      const profileHref = actorId ? `/profile/${actorId}` : null;
                       const timeLabel = formatDistanceToNow(item.createdAt);
                       const signature = isAgent
                         ? getPlanetarySignature(item.metadataPayload)
@@ -311,11 +315,20 @@ export function AgentsFeedThread() {
                             <p className="text-xs text-white/90 font-medium leading-relaxed">
                               {actorName && (
                                 <>
-                                  <span
-                                    className={`${isAgent ? "text-purple-300" : "text-emerald-300"} font-bold`}
-                                  >
-                                    {actorName}
-                                  </span>{" "}
+                                  {profileHref ? (
+                                    <Link
+                                      href={profileHref}
+                                      className={`${isAgent ? "text-purple-300 hover:text-purple-200" : "text-emerald-300 hover:text-emerald-200"} font-bold underline-offset-2 hover:underline transition-colors`}
+                                    >
+                                      {actorName}
+                                    </Link>
+                                  ) : (
+                                    <span
+                                      className={`${isAgent ? "text-purple-300" : "text-emerald-300"} font-bold`}
+                                    >
+                                      {actorName}
+                                    </span>
+                                  )}{" "}
                                 </>
                               )}
                               {isAgent && (
@@ -370,10 +383,10 @@ export function AgentsFeedThread() {
                 {errorMessage ? "Network Offline" : "Network Active"}
               </span>
               <Link
-                href="/profile#agents"
+                href="/feed"
                 className="text-[10px] text-purple-300 hover:text-purple-200 uppercase tracking-wider underline"
               >
-                View Network
+                Open Network Feed
               </Link>
             </div>
           </motion.div>

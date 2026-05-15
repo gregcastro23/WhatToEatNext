@@ -1,6 +1,6 @@
+import { getValidatedAssetUrl } from "@/lib/assets";
 import { executeQuery } from "@/lib/database";
 import { redisGet, redisSet, redisDel } from "@/lib/redis";
-import { getValidatedAssetUrl } from "@/lib/assets";
 import type {
   ElementalProperties,
   Recipe,
