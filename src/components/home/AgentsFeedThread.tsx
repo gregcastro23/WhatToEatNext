@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ELEMENT_COLORS } from "@/lib/elementColors";
 
 type FeedMetadata = Record<string, unknown>;
 
@@ -42,13 +43,6 @@ interface FeedResponse {
   events?: FeedEvent[];
   message?: string;
 }
-
-const ELEMENT_COLORS: Record<string, string> = {
-  Fire: "text-amber-400 border-amber-500/20 bg-amber-500/10",
-  Water: "text-blue-400 border-blue-500/20 bg-blue-500/10",
-  Earth: "text-emerald-400 border-emerald-500/20 bg-emerald-500/10",
-  Air: "text-purple-400 border-purple-500/20 bg-purple-500/10",
-};
 
 const LOADING_SKELETON_KEYS = [
   "feed-skeleton-1",
@@ -363,10 +357,8 @@ export function AgentsFeedThread() {
                             {signature && (
                               <div
                                 className={`mt-2 rounded-lg border px-2 py-1.5 ${
-                                  signature.dominantElement
-                                    ? ELEMENT_COLORS[signature.dominantElement] ||
-                                      "border-purple-400/15 bg-purple-500/10 text-purple-100/70"
-                                    : "border-purple-400/15 bg-purple-500/10 text-purple-100/70"
+                                  ELEMENT_COLORS[signature.dominantElement ?? ""] ??
+                                  "border-purple-400/15 bg-purple-500/10 text-purple-100/70"
                                 }`}
                               >
                                 <div className="flex flex-wrap gap-x-2 gap-y-1 text-[9px] uppercase tracking-wider font-bold">

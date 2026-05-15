@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 import math
 import random
 import asyncio
+import time
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 
@@ -2635,8 +2636,6 @@ async def agent_sync(request: AgentSyncRequest, req: Request, db: Session = Depe
     Auth: X-Sync-Secret header matched against ALCHM_KITCHEN_SYNC_SECRET env var.
     Only accepts @agentic.alchm.kitchen email addresses.
     """
-    import time
-
     t0 = time.time()
 
     sync_secret = os.getenv("ALCHM_KITCHEN_SYNC_SECRET", "")
@@ -2651,7 +2650,6 @@ async def agent_sync(request: AgentSyncRequest, req: Request, db: Session = Depe
             detail=f"Only {AGENTIC_EMAIL_DOMAIN} addresses are accepted"
         )
 
-    # Derive display name
     raw_display = (request.displayName or "").strip()
     if raw_display:
         display_name = raw_display
@@ -2660,43 +2658,30 @@ async def agent_sync(request: AgentSyncRequest, req: Request, db: Session = Depe
         display_name = " ".join(p.capitalize() for p in local.split("-") if p) or "Agent"
 
     try:
-        existing = db.execute(
-            text("SELECT id FROM users WHERE email = :email LIMIT 1"),
-            {"email": email}
+        # Single upsert — (created_at = updated_at) detects a fresh insert vs update
+        row = db.execute(
+            text("""
+                INSERT INTO users
+                  (email, password_hash, role, is_active, email_verified, is_agent,
+                   name, profile, preferences, login_count, created_at, updated_at)
+                VALUES
+                  (:email, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true,
+                   :name, :profile::jsonb, '{}'::jsonb, 0, now(), now())
+                ON CONFLICT (email) DO UPDATE
+                  SET is_agent   = true,
+                      name       = COALESCE(EXCLUDED.name, users.name),
+                      updated_at = now()
+                RETURNING id, (created_at = updated_at) AS is_new_row
+            """),
+            {
+                "email": email,
+                "name": display_name,
+                "profile": json.dumps({"email": email, "isAgent": True, "name": display_name}),
+            }
         ).fetchone()
+        wten_user_id = str(row[0])
+        created = bool(row[1])
 
-        created = False
-        if existing:
-            wten_user_id = str(existing[0])
-            db.execute(
-                text("UPDATE users SET is_agent = true, updated_at = now() WHERE id = :id"),
-                {"id": wten_user_id}
-            )
-        else:
-            row = db.execute(
-                text("""
-                    INSERT INTO users
-                      (email, password_hash, role, is_active, email_verified, is_agent,
-                       name, profile, preferences, login_count, created_at, updated_at)
-                    VALUES
-                      (:email, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true,
-                       :name, :profile::jsonb, '{}'::jsonb, 0, now(), now())
-                    ON CONFLICT (email) DO UPDATE
-                      SET is_agent   = true,
-                          name       = COALESCE(EXCLUDED.name, users.name),
-                          updated_at = now()
-                    RETURNING id
-                """),
-                {
-                    "email": email,
-                    "name": display_name,
-                    "profile": f'{{"email":"{email}","isAgent":true,"name":"{display_name}"}}'
-                }
-            ).fetchone()
-            wten_user_id = str(row[0])
-            created = True
-
-        # Upsert user_profiles so the feed Agents tab surfaces the name
         db.execute(
             text("""
                 INSERT INTO user_profiles (user_id, name)
