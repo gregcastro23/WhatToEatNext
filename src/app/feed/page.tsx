@@ -29,11 +29,19 @@ interface FeedEvent {
   id: string;
   actorId: string;
   actorName: string;
+  actorImage?: string;
   actorIsAgent: boolean;
   eventType: string;
   metadataPayload: any;
   createdAt: string;
 }
+
+const ELEMENT_COLORS: Record<string, string> = {
+  Fire: "text-amber-400 border-amber-500/20 bg-amber-500/10",
+  Water: "text-blue-400 border-blue-500/20 bg-blue-500/10",
+  Earth: "text-emerald-400 border-emerald-500/20 bg-emerald-500/10",
+  Air: "text-purple-400 border-purple-500/20 bg-purple-500/10",
+};
 
 interface AgentSummary {
   userId: string;
@@ -346,8 +354,17 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
                   : "border-white/8 hover:border-purple-500/20"
               }`}
             >
-              <div className="w-10 h-10 rounded-full glass-base flex items-center justify-center text-xl shrink-0 border border-white/5">
-                {getEventIcon(event.eventType)}
+              <div className="w-10 h-10 rounded-full glass-base flex items-center justify-center text-xl shrink-0 border border-white/5 overflow-hidden">
+                {event.actorImage ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={event.actorImage}
+                    alt={event.actorName || "Avatar"}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  getEventIcon(event.eventType)
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white/80">
@@ -358,7 +375,7 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
                     }`}
                   >
                     {event.actorName}
-                  </Link>
+                  </Link>{" "}
                   <span className="text-white/60">{getEventText(event)}</span>
                 </p>
                 <div className="flex items-center gap-3 mt-2">
@@ -372,8 +389,15 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
                   )}
                 </div>
                 {signature && (
-                  <div className="mt-3 rounded-xl border border-amber-400/15 bg-amber-500/10 px-3 py-2">
-                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-bold uppercase tracking-wider text-amber-100/75">
+                  <div
+                    className={`mt-3 rounded-xl border px-3 py-2 ${
+                      signature.dominantElement
+                        ? ELEMENT_COLORS[signature.dominantElement] ||
+                          "border-amber-400/15 bg-amber-500/10 text-amber-100/75"
+                        : "border-amber-400/15 bg-amber-500/10 text-amber-100/75"
+                    }`}
+                  >
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-bold uppercase tracking-wider">
                       {(signature.planetaryHour || signature.dominantPlanet) && (
                         <span>Hour {signature.planetaryHour || signature.dominantPlanet}</span>
                       )}
@@ -382,7 +406,7 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
                       {signature.dominantElement && <span>{signature.dominantElement}</span>}
                     </div>
                     {natalPlacements.length > 0 && (
-                      <p className="mt-1.5 text-xs leading-relaxed text-white/55">
+                      <p className="mt-1.5 text-xs leading-relaxed opacity-80">
                         Natal signature: {natalPlacements.join(" · ")}
                       </p>
                     )}

@@ -27,6 +27,7 @@ interface FeedEvent {
   actorId?: string;
   userId?: string;
   actorName?: string;
+  actorImage?: string;
   user?: string;
   actorIsAgent?: boolean;
   isAgent?: boolean;
@@ -41,6 +42,13 @@ interface FeedResponse {
   events?: FeedEvent[];
   message?: string;
 }
+
+const ELEMENT_COLORS: Record<string, string> = {
+  Fire: "text-amber-400 border-amber-500/20 bg-amber-500/10",
+  Water: "text-blue-400 border-blue-500/20 bg-blue-500/10",
+  Earth: "text-emerald-400 border-emerald-500/20 bg-emerald-500/10",
+  Air: "text-purple-400 border-purple-500/20 bg-purple-500/10",
+};
 
 const LOADING_SKELETON_KEYS = [
   "feed-skeleton-1",
@@ -303,13 +311,22 @@ export function AgentsFeedThread() {
                           className="flex gap-3 items-start group"
                         >
                           <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border text-sm shadow-inner transition-colors ${
+                            className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border text-sm shadow-inner transition-colors overflow-hidden ${
                               isAgent
                                 ? "bg-purple-900/50 border-purple-500/20 shadow-purple-500/10"
                                 : "bg-emerald-900/40 border-emerald-500/20 shadow-emerald-500/10"
                             }`}
                           >
-                            {getEventIcon(item.eventType)}
+                            {item.actorImage ? (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img
+                                src={item.actorImage}
+                                alt={actorName || "Avatar"}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              getEventIcon(item.eventType)
+                            )}
                           </div>
                           <div className="flex-1">
                             <p className="text-xs text-white/90 font-medium leading-relaxed">
@@ -335,7 +352,7 @@ export function AgentsFeedThread() {
                                 <span className="inline-block px-1 py-0.5 ml-1 mr-1 rounded text-[8px] uppercase tracking-wider bg-purple-500/20 text-purple-200">
                                   Agent
                                 </span>
-                              )}
+                              )}{" "}
                               {getEventAction(item)}
                             </p>
                             {timeLabel && (
@@ -344,8 +361,15 @@ export function AgentsFeedThread() {
                               </p>
                             )}
                             {signature && (
-                              <div className="mt-2 rounded-lg border border-purple-400/15 bg-purple-500/10 px-2 py-1.5">
-                                <div className="flex flex-wrap gap-x-2 gap-y-1 text-[9px] uppercase tracking-wider text-purple-100/70">
+                              <div
+                                className={`mt-2 rounded-lg border px-2 py-1.5 ${
+                                  signature.dominantElement
+                                    ? ELEMENT_COLORS[signature.dominantElement] ||
+                                      "border-purple-400/15 bg-purple-500/10 text-purple-100/70"
+                                    : "border-purple-400/15 bg-purple-500/10 text-purple-100/70"
+                                }`}
+                              >
+                                <div className="flex flex-wrap gap-x-2 gap-y-1 text-[9px] uppercase tracking-wider font-bold">
                                   {(signature.planetaryHour || signature.dominantPlanet) && (
                                     <span>
                                       Hour {signature.planetaryHour || signature.dominantPlanet}
@@ -355,7 +379,7 @@ export function AgentsFeedThread() {
                                   {signature.dominantElement && <span>{signature.dominantElement}</span>}
                                 </div>
                                 {natalPlacements.length > 0 && (
-                                  <p className="mt-1 text-[10px] leading-snug text-white/55">
+                                  <p className="mt-1 text-[10px] leading-snug opacity-80">
                                     Natal {natalPlacements.join(" · ")}
                                   </p>
                                 )}

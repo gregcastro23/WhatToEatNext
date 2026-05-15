@@ -145,9 +145,21 @@ export async function POST(req: NextRequest) {
     // 1.5 Update Agent Profile if metadata present.
     // Treat the payload as Record<string, unknown> — the planetary-agents
     // engine ships untyped JSON so we can't lean on the route's own interface.
-    const agentProfileRaw = (metadata)?.agentProfile;
+    const agentProfileRaw = metadata?.agentProfile;
     if (agentProfileRaw && typeof agentProfileRaw === "object") {
       const ap = agentProfileRaw as Record<string, unknown>;
+
+      // Ensure base user identity stays fresh
+      if (ap.image || ap.name) {
+        await executeQuery(
+          `UPDATE users SET
+             image = COALESCE($2, image),
+             name = COALESCE($3, name)
+           WHERE id = $1`,
+          [userId, (ap.image as string) || null, (ap.name as string) || null],
+        );
+      }
+
       const bioCandidate =
         (ap.bio as string | undefined) ||
         (ap.monicaCreationStory as string | undefined) ||
