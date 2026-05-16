@@ -55,8 +55,9 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 export default function AgentProfile({ agent, balances, handle }: AgentProfileProps) {
   const accent = agent.appearance?.color || "#7c3aed";
+  const dominantElement = agent.consciousness?.dominantElement;
   const tint =
-    ELEMENT_TINT[agent.consciousness?.dominantElement] ||
+    (dominantElement && ELEMENT_TINT[dominantElement]) ||
     "from-violet-500/25 via-[#08080e]/30 to-fuchsia-500/10";
 
   const planets = agent.consciousness?.natalChart?.planets ?? {};
@@ -163,19 +164,22 @@ export default function AgentProfile({ agent, balances, handle }: AgentProfilePr
         <section className="mb-8">
           <SectionLabel>Essence · Expression · Emotion</SectionLabel>
           <div className="grid md:grid-cols-3 gap-4">
-            {(["essence", "expression", "emotion"] as const).map((k) => (
-              <div
-                key={k}
-                className="glass-base rounded-2xl p-5 border border-white/8"
-              >
-                <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-2 capitalize">
-                  {k}
-                </p>
-                <p className="text-sm text-white/80 leading-relaxed">
-                  {personality.core[k]}
-                </p>
-              </div>
-            ))}
+            {(["essence", "expression", "emotion"] as const).map((k) => {
+              const core = personality.core!;
+              return (
+                <div
+                  key={k}
+                  className="glass-base rounded-2xl p-5 border border-white/8"
+                >
+                  <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-2 capitalize">
+                    {k}
+                  </p>
+                  <p className="text-sm text-white/80 leading-relaxed">
+                    {core[k]}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </section>
       )}
@@ -486,37 +490,37 @@ export default function AgentProfile({ agent, balances, handle }: AgentProfilePr
             </p>
           )}
           <div className="grid md:grid-cols-3 gap-5">
-            {diet.staples?.length > 0 && (
+            {(diet.staples?.length ?? 0) > 0 && (
               <div>
                 <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-2">
                   Staples
                 </p>
                 <ul className="space-y-1 text-sm text-white/75">
-                  {diet.staples.map((s, i) => (
+                  {diet.staples?.map((s, i) => (
                     <li key={i}>· {s}</li>
                   ))}
                 </ul>
               </div>
             )}
-            {diet.favoriteFoods?.length > 0 && (
+            {(diet.favoriteFoods?.length ?? 0) > 0 && (
               <div>
                 <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-2">
                   Favorites
                 </p>
                 <ul className="space-y-1 text-sm text-white/75">
-                  {diet.favoriteFoods.map((s, i) => (
+                  {diet.favoriteFoods?.map((s, i) => (
                     <li key={i}>· {s}</li>
                   ))}
                 </ul>
               </div>
             )}
-            {diet.avoidedFoods?.length > 0 && (
+            {(diet.avoidedFoods?.length ?? 0) > 0 && (
               <div>
                 <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-2">
                   Avoided
                 </p>
                 <ul className="space-y-1 text-sm text-white/75">
-                  {diet.avoidedFoods.map((s, i) => (
+                  {diet.avoidedFoods?.map((s, i) => (
                     <li key={i}>· {s}</li>
                   ))}
                 </ul>
