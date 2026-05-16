@@ -312,6 +312,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Resolve role, tier, and onboarding status from DB (on sign-in or session update)
       if (token.email && (user || trigger === "update")) {
         try {
+          // On explicit session update (e.g. after onboarding), bypass the 30-second
+          // in-process cache so the JWT reflects the freshly-persisted profile data.
+          if (trigger === "update") {
+            userCache.delete(token.email);
+          }
           const dbUser = await getCachedUser(token.email);
           
           if (dbUser) {

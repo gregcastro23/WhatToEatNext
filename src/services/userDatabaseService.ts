@@ -92,6 +92,11 @@ class UserDatabaseService {
 
     // Try PostgreSQL first
     if (db) {
+      // Flag set inside the transaction when email already exists (race/cache-miss).
+      // We resolve it AFTER the transaction to avoid a nested pool-connection inside
+      // an open transaction (which could deadlock under pool exhaustion).
+      let conflictOccurred = false;
+
       try {
         // Uses single 'role' ENUM column per migration 07
         const primaryRole = user.roles.includes("admin" as UserRole)
@@ -117,7 +122,10 @@ class UserDatabaseService {
           );
 
           if (!insertUserResult || insertUserResult.rowCount === 0) {
-            throw new Error("User with this email already exists");
+            // The email already exists (concurrent sign-in race or auth-cache miss).
+            // Set the flag and return — withTransaction will COMMIT the no-op cleanly.
+            conflictOccurred = true;
+            return;
           }
 
           await client.query(
@@ -149,16 +157,30 @@ class UserDatabaseService {
           );
         });
 
-        _logger.info("User created in PostgreSQL:", {
-          userId,
-          email: data.email,
-        });
+        if (!conflictOccurred) {
+          _logger.info("User created in PostgreSQL:", {
+            userId,
+            email: data.email,
+          });
+        }
       } catch (error) {
         _logger.error(
           "PostgreSQL user creation failed:",
           error,
         );
         throw new Error("Failed to create user in database", { cause: error });
+      }
+
+      // Resolve conflict outside the transaction to avoid nested pool connections.
+      if (conflictOccurred) {
+        const existing = await this.getUserByEmail(data.email);
+        if (existing) {
+          this.users.set(existing.id, existing);
+          this.emailIndex.set(email, existing.id);
+          _logger.info("createUser: conflict resolved — returned existing user:", { email });
+          return existing;
+        }
+        throw new Error("createUser: conflict detected but existing user not found in DB");
       }
     }
 
