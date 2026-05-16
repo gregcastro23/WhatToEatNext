@@ -10,10 +10,14 @@ import { userDatabase } from "@/services/userDatabaseService";
 
 export const dynamic = "force-dynamic";
 
+if (!process.env.INTERNAL_API_SECRET) {
+  console.warn("[feed] INTERNAL_API_SECRET is not set — the POST handler will accept all agent writes without authentication");
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get("limit") || "50", 10);
+    const limit = Math.min(parseInt(searchParams.get("limit") ?? "20", 10), 100);
     const offset = parseInt(searchParams.get("offset") || "0", 10);
 
     const events = await feedDatabase.getRecentEvents(limit, offset);

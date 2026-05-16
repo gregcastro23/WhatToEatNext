@@ -596,10 +596,11 @@ class TokenEconomyService {
         substance: number;
       };
       descriptionSuffix?: string;
+      idempotencyKey?: string;
     },
   ): Promise<
     | { success: true; balances: TokenBalances; transactionGroupId: string }
-    | { success: false; reason: "item_not_found" | "already_owned" | "insufficient_funds" | "purchase_failed" }
+    | { success: false; reason: "item_not_found" | "already_owned" | "already_applied" | "insufficient_funds" | "purchase_failed" }
   > {
     const db = await getDbModule();
 
@@ -630,6 +631,19 @@ class TokenEconomyService {
           }
         }
 
+        // 2b. Idempotency pre-check: reject duplicate submissions (client retry after network error)
+        const idemKey = opts?.idempotencyKey ?? null;
+        if (idemKey) {
+          const dup = await db.executeQuery(
+            `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
+            [`${idemKey}:%`],
+          );
+          if (dup.rows.length > 0) {
+            _logger.info("[TokenEconomy] Duplicate purchase blocked by idempotency key:", idemKey);
+            return { success: false, reason: "already_applied" };
+          }
+        }
+
         const costs = opts?.overrideCosts || {
           spirit: parseFloat(item.cost_spirit) || 0,
           essence: parseFloat(item.cost_essence) || 0,
@@ -640,7 +654,11 @@ class TokenEconomyService {
           ? `Shop: ${item.title} (${opts.descriptionSuffix})`
           : `Shop: ${item.title}`;
 
-        // 3. Atomic: check balance + debit + record purchase in one CTE
+        // 3. Atomic: check balance + debit + record purchase in one CTE.
+        //    $8 is the idempotency key prefix (null when not provided).
+        //    Each debit_* INSERT includes idempotency_key = $8 || ':<TokenType>'
+        //    so the unique constraint on token_transactions.idempotency_key catches
+        //    any concurrent duplicate that slips past the pre-check above.
         const result = await db.executeQuery(
           `WITH ensure_balance AS (
             INSERT INTO token_balances (user_id) VALUES ($1)
@@ -654,29 +672,33 @@ class TokenEconomyService {
             SELECT uuid_generate_v4() AS gid
           ),
           debit_spirit AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT g.gid, $1, 'Spirit', -$2, 'premium_purchase', $6, $7
+            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            SELECT g.gid, $1, 'Spirit', -$2, 'premium_purchase', $6, $7,
+                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Spirit' ELSE NULL END
             FROM balance_check bc, new_group g
             WHERE $2 > 0
             RETURNING id
           ),
           debit_essence AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT g.gid, $1, 'Essence', -$3, 'premium_purchase', $6, $7
+            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            SELECT g.gid, $1, 'Essence', -$3, 'premium_purchase', $6, $7,
+                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Essence' ELSE NULL END
             FROM balance_check bc, new_group g
             WHERE $3 > 0
             RETURNING id
           ),
           debit_matter AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT g.gid, $1, 'Matter', -$4, 'premium_purchase', $6, $7
+            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            SELECT g.gid, $1, 'Matter', -$4, 'premium_purchase', $6, $7,
+                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Matter' ELSE NULL END
             FROM balance_check bc, new_group g
             WHERE $4 > 0
             RETURNING id
           ),
           debit_substance AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT g.gid, $1, 'Substance', -$5, 'premium_purchase', $6, $7
+            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            SELECT g.gid, $1, 'Substance', -$5, 'premium_purchase', $6, $7,
+                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Substance' ELSE NULL END
             FROM balance_check bc, new_group g
             WHERE $5 > 0
             RETURNING id
@@ -707,6 +729,7 @@ class TokenEconomyService {
             costs.substance,
             item.id,
             description,
+            idemKey,
           ],
         );
 
@@ -721,6 +744,10 @@ class TokenEconomyService {
           transactionGroupId: result.rows[0].txn_group_id,
         };
       } catch (error) {
+        // Unique-violation on idempotency_key (race condition) → already_applied
+        if ((error as { code?: string })?.code === "23505") {
+          return { success: false, reason: "already_applied" };
+        }
         _logger.error("[TokenEconomy] purchaseShopItem failed:", error);
         return { success: false, reason: "purchase_failed" };
       }

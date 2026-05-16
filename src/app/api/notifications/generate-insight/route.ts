@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { generateDailyInsightNotification } from "@/services/dailyInsightService";
 import type { NextRequest } from "next/server";
 
@@ -20,6 +21,9 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
+
+    const rl = await rateLimit(request, { window: 60_000, max: 5, bucket: "generate-insight", identifier: user.id });
+    if (!rl.allowed) return rl.response!;
 
     // Check premium tier
     const tier = (user as any).tier || (user as any).profile?.tier || "free";

@@ -13,6 +13,7 @@ import {
   InstacartConfigurationError,
   mapInstacartProxyError,
 } from "@/lib/instacart/idpClient";
+import { rateLimit } from "@/lib/rateLimit";
 import type {
   InstacartShoppingListRequest,
   InstacartShoppingListResponse,
@@ -98,6 +99,9 @@ function parseIngredientString(ingredient: string): InstacartLineItem {
 
 export async function POST(request: NextRequest) {
   try {
+    const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "instacart-shopping-list" });
+    if (!rl.allowed) return rl.response!;
+
     const body = (await request.json()) as InstacartShoppingListRequest;
     
     let parsedLineItems: InstacartLineItem[] = [];

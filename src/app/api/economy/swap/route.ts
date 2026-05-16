@@ -12,6 +12,7 @@ import crypto from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { findRate, getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { rateLimit } from "@/lib/rateLimit";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
@@ -35,6 +36,9 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
+
+    const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "economy-swap", identifier: userId });
+    if (!rl.allowed) return rl.response!;
 
     let body: SwapRequestBody;
     try {

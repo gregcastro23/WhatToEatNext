@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { dailyYieldService } from "@/services/DailyYieldService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { subscriptionService } from "@/services/subscriptionService";
@@ -27,6 +28,9 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
+
+    const rl = await rateLimit(request, { window: 60_000, max: 5, bucket: "economy-claim-daily", identifier: user.id });
+    if (!rl.allowed) return rl.response!;
 
     // Extract natal chart positions from user profile
     const natalChart = user.profile?.natalChart;
