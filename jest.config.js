@@ -3,7 +3,7 @@
 const config = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  extensionsToTreatAsEsm: [".ts", ".tsx", ".mjs"],
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^react$": "<rootDir>/node_modules/react",
