@@ -10,6 +10,8 @@ const config = {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^react$": "<rootDir>/node_modules/react",
     "^react-dom$": "<rootDir>/node_modules/react-dom",
+    // Stub @upstash/redis to avoid ESM-only uncrypto transitive in tests
+    "^@upstash/redis$": "<rootDir>/tests/setup/upstash-redis-stub.ts",
   },
   transform: {
     "^.+\\.(ts|tsx|mjs)$": [
