@@ -105,7 +105,7 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div className="relative z-10">
+            <div className="relative z-10 max-h-[70vh] overflow-y-auto custom-scrollbar">
               <EnhancedIngredientRecommender />
             </div>
           </div>
