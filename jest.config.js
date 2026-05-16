@@ -3,7 +3,9 @@
 const config = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  extensionsToTreatAsEsm: [".ts", ".tsx", ".mjs"],
+  // Note: do NOT include ".mjs" here — Jest always treats .mjs as ESM and
+  // rejects the config if .mjs is listed explicitly.
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^react$": "<rootDir>/node_modules/react",
