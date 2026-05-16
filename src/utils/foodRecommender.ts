@@ -1,8 +1,9 @@
+import { dairy } from "@/data/ingredients/dairy";
 import { fruits } from "@/data/ingredients/fruits";
 import { grains } from "@/data/ingredients/grains";
 import { herbs } from "@/data/ingredients/herbs";
-// import { oils } from "@/data/ingredients/oils";
-const oils: any = {}; // Commented out non-existent export
+import { miscIngredients } from "@/data/ingredients/misc/misc";
+import { oils } from "@/data/ingredients/oils";
 import {
   legumes,
   meats,
@@ -13,7 +14,6 @@ import {
 } from "@/data/ingredients/proteins";
 import { seasonings } from "@/data/ingredients/seasonings";
 import { spices } from "@/data/ingredients/spices";
-// Removed unused, import: IngredientMapping
 import { vegetables } from "@/data/ingredients/vegetables";
 import { vinegars } from "@/data/ingredients/vinegars";
 import { getCurrentSeason } from "@/data/integrations/seasonal";
@@ -25,13 +25,9 @@ import type {
 // Removed unused, _imports: LunarPhase, Season, Element
 import type { Modality, Planet } from "@/types/celestial";
 
-// Create eggs and dairy from _proteins by filtering category
+// Extract eggs from _proteins by filtering category (eggs has no dedicated barrel export)
 const eggs = Object.entries(_proteins)
   .filter(([_, value]) => (value as any).category === "egg")
-  .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-
-const dairy = Object.entries(_proteins)
-  .filter(([_, value]) => (value as any).category === "dairy")
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export interface EnhancedIngredient {
@@ -107,6 +103,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     { name: "Oils", data: oils },
     { name: "Seasonings", data: seasonings },
     { name: "Vinegars", data: vinegars },
+    { name: "Misc", data: miscIngredients },
   ];
 
   // Track counts for categories of interest

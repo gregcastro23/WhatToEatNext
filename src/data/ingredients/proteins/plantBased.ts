@@ -1813,6 +1813,72 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
     },
   }),
+
+  flax_seeds: {
+    name: "flax seeds",
+    description: "Tiny brown or golden seeds of *Linum usitatissimum*, exceptionally rich in alpha-linolenic acid (plant omega-3), lignans, and soluble fiber. Whole seeds pass through largely undigested — grind just before use to access their nutrients. Mixed with water, ground flax forms a gel ('flax egg') that binds vegan baked goods.",
+    origin: ["Mediterranean", "Middle East"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.1, Water: 0.25, Earth: 0.55, Air: 0.1 },
+    qualities: ["nutty", "omega-rich", "binding", "fibrous", "plant-based"],
+    category: "protein",
+    subCategory: "seed",
+    astrologicalProfile: {
+      rulingPlanets: ["Mercury", "Saturn"],
+      favorableZodiac: ["virgo", "capricorn"],
+      seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "2 tbsp ground (14g)",
+      calories: 75,
+      macros: { protein: 3, carbs: 4, fat: 6, fiber: 4, sugar: 0, sodium: 0 },
+      vitamins: { thiamin: 0.15 },
+      minerals: { manganese: 0.35, magnesium: 0.18, phosphorus: 0.1 },
+    },
+    sensoryProfile: { taste: { sweet: 0.1, salty: 0, sour: 0, bitter: 0.1, umami: 0.1, spicy: 0 }, aroma: { earthy: 0.5, woody: 0.3 }, texture: { crunchy: 0.5, silky: 0.3 } },
+    culinaryProfile: { flavorProfile: { primary: ["nutty"], secondary: ["earthy"], notes: "Grind in a spice grinder right before use; oils oxidize quickly." }, cookingMethods: ["grind", "bake", "sprinkle", "bind"], cuisineAffinity: ["vegan", "Scandinavian", "American"], preparationTips: ["1 tbsp ground + 3 tbsp water = vegan egg substitute.", "Refrigerate ground meal to prevent rancidity."] },
+    pairingRecommendations: { complementary: ["oats", "yogurt", "berries", "honey", "smoothies"], contrasting: ["citrus"], toAvoid: [] },
+    storage: {
+      dried: {
+        temperature: "refrigerator if ground; pantry if whole",
+        duration: "12 months whole, 90 days ground",
+        method: "airtight container",
+      },
+    },
+  },
+
+  hemp_hearts: {
+    name: "hemp hearts",
+    description: "Shelled seeds of *Cannabis sativa* (industrial hemp, non-psychoactive). Soft, slightly nutty seeds with a notable 10g protein per 3 tbsp serving and a near-ideal 3:1 omega-6:omega-3 ratio. Eaten raw on yogurt, salads, smoothies; no grinding required for digestion.",
+    origin: ["Central Asia"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
+    qualities: ["nutty", "protein-rich", "omega-balanced", "plant-based", "raw"],
+    category: "protein",
+    subCategory: "seed",
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn", "Mercury"],
+      favorableZodiac: ["aquarius", "virgo"],
+      seasonalAffinity: ["summer", "fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "3 tbsp (30g)",
+      calories: 170,
+      macros: { protein: 10, carbs: 3, fat: 14, fiber: 1, sugar: 0, sodium: 0 },
+      vitamins: { E: 0.05, thiamin: 0.3 },
+      minerals: { magnesium: 0.5, iron: 0.2, zinc: 0.3, phosphorus: 0.35 },
+    },
+    sensoryProfile: { taste: { sweet: 0.15, salty: 0, sour: 0, bitter: 0.1, umami: 0.15, spicy: 0 }, aroma: { earthy: 0.4, herbal: 0.2 }, texture: { tender: 0.5, creamy: 0.3 } },
+    culinaryProfile: { flavorProfile: { primary: ["nutty"], secondary: ["soft", "fresh"], notes: "Eat raw or sprinkle over finished dishes — heat dulls the omega-3 oils." }, cookingMethods: ["sprinkle", "blend", "no-cook"], cuisineAffinity: ["raw", "vegan", "modern American"], preparationTips: ["Stir into smoothies for a protein boost.", "Blend with water for a fast 'hemp milk'."] },
+    pairingRecommendations: { complementary: ["berries", "yogurt", "spinach", "lemon", "avocado"], contrasting: [], toAvoid: [] },
+    storage: {
+      dried: {
+        temperature: "refrigerator",
+        duration: "12 months sealed, 6 months opened",
+        method: "airtight container",
+      },
+    },
+  },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

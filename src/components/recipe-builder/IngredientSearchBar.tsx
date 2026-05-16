@@ -37,31 +37,53 @@ const ELEMENT_COLORS: Record<
 };
 
 /**
- * Simple fuzzy match: checks if query characters appear in order within the target.
- * Returns a score (lower is better match) or -1 if no match.
+ * Normalize a string for matching: lowercase, collapse separators (-,_,space)
+ * to single spaces, strip non-alphanumeric, and drop a simple trailing plural 's'.
+ * Users typing "oat milk", "oat_milk", "oatmilk", or "oat-milk" should all hit.
  */
-function fuzzyMatch(query: string, target: string): number {
-  const q = query.toLowerCase();
-  const t = target.toLowerCase();
+function normalizeForMatch(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[_-]+/g, " ")
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-  // Exact prefix match gets highest priority
-  if (t.startsWith(q)) return 0;
+/**
+ * Fuzzy match against a list of candidate strings (name, key, aliases).
+ * Returns the best (lowest) score, or -1 if nothing matches.
+ */
+function fuzzyMatch(query: string, candidates: string[]): number {
+  const qRaw = query.toLowerCase().trim();
+  if (!qRaw) return -1;
+  const qNorm = normalizeForMatch(qRaw);
+  const qCompact = qNorm.replace(/\s+/g, "");
 
-  // Contains match
-  if (t.includes(q)) return 1;
+  let best = -1;
+  for (const cand of candidates) {
+    if (!cand) continue;
+    const tNorm = normalizeForMatch(cand);
+    const tCompact = tNorm.replace(/\s+/g, "");
 
-  // Fuzzy character-order match
-  let qi = 0;
-  let gaps = 0;
-  for (let ti = 0; ti < t.length && qi < q.length; ti++) {
-    if (t[ti] === q[qi]) {
-      qi++;
-    } else if (qi > 0) {
-      gaps++;
+    let score = -1;
+    if (tNorm === qNorm || tCompact === qCompact) score = 0;
+    else if (tNorm.startsWith(qNorm) || tCompact.startsWith(qCompact)) score = 0;
+    else if (tNorm.includes(qNorm) || tCompact.includes(qCompact)) score = 1;
+    else {
+      // Subsequence match on the compact form: tolerant of separators.
+      let qi = 0;
+      let gaps = 0;
+      for (let ti = 0; ti < tCompact.length && qi < qCompact.length; ti++) {
+        if (tCompact[ti] === qCompact[qi]) qi++;
+        else if (qi > 0) gaps++;
+      }
+      if (qi === qCompact.length) score = 2 + gaps;
     }
-  }
 
-  return qi === q.length ? 2 + gaps : -1;
+    if (score !== -1 && (best === -1 || score < best)) best = score;
+  }
+  return best;
 }
 
 /**
@@ -271,7 +293,20 @@ export default function IngredientSearchBar({
     // Search filter
     if (query.trim().length >= 1) {
       const scored = filtered
-        .map((ing) => ({ ing, score: fuzzyMatch(query, ing.name) }))
+        .map((ing) => {
+          const i = ing as typeof ing & {
+            id?: string;
+            aliases?: string[];
+            subCategory?: string;
+          };
+          const candidates: string[] = [
+            i.name,
+            i.id ?? "",
+            i.subCategory ?? "",
+            ...(Array.isArray(i.aliases) ? i.aliases : []),
+          ];
+          return { ing, score: fuzzyMatch(query, candidates) };
+        })
         .filter((item) => item.score >= 0)
         .sort((a, b) => a.score - b.score);
 

@@ -1443,6 +1443,27 @@ const rawWholeGrains = {
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
       storage: { pantry: "Airtight container in cool, dry place.", shelfLife: "Up to 1 year dry.", notes: "Refrigerate or freeze whole-grain flours to prevent rancidity." }
 },
+
+  rolled_oats: {
+    name: "rolled oats",
+    description: "Whole oat groats that have been steamed, then flattened between heavy rollers. Cook faster than steel-cut (~5 min) while keeping more texture and beta-glucan fiber than instant. The everyday workhorse of overnight oats, oatmeal, granola, energy bites, and homemade oat milk.",
+    origin: ["Northern Europe"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.05, Water: 0.2, Earth: 0.65, Air: 0.1 },
+    qualities: ["nutty", "fibrous", "creamy when cooked", "binding", "whole-grain"],
+    category: "grain",
+    subCategory: "oat",
+    astrologicalProfile: {
+      rulingPlanets: ["Venus", "Saturn"],
+      favorableZodiac: ["taurus", "capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+      sensoryProfile: { taste: { sweet: 0.25, salty: 0.0, sour: 0.0, bitter: 0.05, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.5, nutty: 0.4, roasted: 0.2 }, texture: { chewy: 0.5, creamy: 0.4, soft: 0.4 } },
+      nutritionalProfile: { serving_size: "1/2 cup dry (40g)", calories: 150, macros: { protein: 5, carbs: 27, fat: 3, fiber: 4, sugar: 1, sodium: 0 }, vitamins: { thiamin: 0.2, B5: 0.1 }, minerals: { manganese: 0.6, phosphorus: 0.15, magnesium: 0.15, iron: 0.1 }, source: "USDA FoodData Central" },
+      culinaryProfile: { flavorProfile: { primary: ["nutty"], secondary: ["sweet", "earthy"], notes: "Bloom in warm liquid for creamy texture; toast in dry pan for nuttier flavor." }, cookingMethods: ["simmer", "soak", "bake", "blend", "toast"], cuisineAffinity: ["American", "British", "Scandinavian"], preparationTips: ["1:2 oats-to-liquid for oatmeal; 1:1 for overnight oats.", "Pulse in a blender to make quick oat flour."] },
+      pairingRecommendations: { complementary: ["banana", "cinnamon", "honey", "berries", "almond butter", "yogurt"], contrasting: ["citrus"], toAvoid: [] },
+      storage: { pantry: "Airtight, cool, dry.", shelfLife: "12 months sealed.", notes: "Refrigerate or freeze for extended life; protect from moisture." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

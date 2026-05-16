@@ -562,6 +562,123 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       storage: { refrigerated: "35-40°F, sealed.", notes: "Fresh dairy: 5-10 days; aged cheese: weeks to months wrapped in wax paper." }
 },
 
+  cashew_milk: {
+      image_url: "ingredients/cashew_milk.png",
+    description: "A creamy plant-based milk made by blending soaked cashews with water. Naturally richer and silkier than almond milk due to higher fat content, with a subtle, neutral-sweet flavor that makes it a versatile substitute in coffee, sauces, and baking. Often fortified with calcium, vitamin D, and B12 in commercial cartons.",
+    name: "cashew milk",
+    origin: ["Brazil", "India"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.28, Air: 0.12 },
+    alchemicalProperties: { Spirit: 0.1, Essence: 0.33, Matter: 0.3, Substance: 0.27 },
+    quantityBase: { amount: 240, unit: "g" },
+    scaledElemental: { Fire: 0.1, Water: 0.5, Earth: 0.28, Air: 0.12 },
+    kineticsImpact: { thermalDirection: -0.32, forceMagnitude: 0.48 },
+    qualities: ["creamy", "neutral", "plant-based", "rich", "silky"],
+    category: "dairy",
+    sensoryProfile: {
+      taste: { sweet: 0.35, salty: 0.05, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 },
+      aroma: { floral: 0.05, fruity: 0.05, herbal: 0.0, spicy: 0.0, earthy: 0.3, woody: 0.25 },
+      texture: { crisp: 0.0, tender: 0.0, creamy: 0.7, chewy: 0.0, crunchy: 0.0, silky: 0.6 },
+    },
+    pairingRecommendations: {
+      complementary: ["coffee", "cacao", "vanilla", "berries", "oats"],
+      contrasting: ["citrus", "espresso"],
+      toAvoid: ["delicate teas"],
+    },
+    astrologicalProfile: {
+      rulingPlanets: ["Venus", "Moon"],
+      favorableZodiac: ["taurus", "cancer", "libra"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (240ml)",
+      calories: 50,
+      macros: { protein: 1, carbs: 2, fat: 4, fiber: 0, sugar: 0, sodium: 160 },
+      vitamins: { D: 0.25, B12: 0.5, A: 0.1 },
+      minerals: { calcium: 0.45 },
+    },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["nutty", "neutral"], notes: "Heats well without separating; ideal for cream sauces and lattes." }, cookingMethods: ["blend", "steam", "sauce", "bake"], cuisineAffinity: ["American", "European", "Indian"], preparationTips: ["Shake before pouring — solids settle.", "Stays stable in coffee better than almond milk."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "7-10 days after opening; shelf-stable carton until opened." }
+},
+
+  soy_milk: {
+      image_url: "ingredients/soy_milk.png",
+    description: "Plant-based milk made from soaking, grinding, and straining soybeans. Has the highest protein content of any commercial plant milk (matching dairy milk), making it the best alternative for baking structure and frothing. Mild beany flavor that recedes when sweetened or used in savory applications. Long-standing staple in East Asian cuisines.",
+    name: "soy milk",
+    origin: ["East Asia"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
+    alchemicalProperties: { Spirit: 0.1, Essence: 0.3, Matter: 0.35, Substance: 0.25 },
+    quantityBase: { amount: 240, unit: "g" },
+    scaledElemental: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
+    kineticsImpact: { thermalDirection: -0.3, forceMagnitude: 0.5 },
+    qualities: ["protein-rich", "creamy", "plant-based", "neutral", "frothable"],
+    category: "dairy",
+    sensoryProfile: {
+      taste: { sweet: 0.3, salty: 0.05, sour: 0.0, bitter: 0.1, umami: 0.15, spicy: 0.0 },
+      aroma: { floral: 0.0, fruity: 0.05, herbal: 0.1, spicy: 0.0, earthy: 0.4, woody: 0.1 },
+      texture: { crisp: 0.0, tender: 0.0, creamy: 0.5, chewy: 0.0, crunchy: 0.0, silky: 0.55 },
+    },
+    pairingRecommendations: {
+      complementary: ["matcha", "coffee", "honey", "cocoa", "ginger"],
+      contrasting: ["citrus", "acidic teas"],
+      toAvoid: [],
+    },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["cancer", "capricorn", "virgo"],
+      seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (240ml)",
+      calories: 100,
+      macros: { protein: 8, carbs: 4, fat: 4, fiber: 1, sugar: 1, sodium: 90 },
+      vitamins: { D: 0.3, B12: 0.5, riboflavin: 0.2 },
+      minerals: { calcium: 0.3, potassium: 0.08 },
+    },
+      culinaryProfile: { flavorProfile: { primary: ["creamy"], secondary: ["beany", "neutral"], notes: "Best plant milk for baking and steaming — protein structure mimics dairy." }, cookingMethods: ["blend", "steam", "bake", "sauce"], cuisineAffinity: ["East Asian", "American", "European"], preparationTips: ["Shake well.", "Curdles in very acidic coffee — use barista blends for lattes."] },
+      storage: { refrigerated: "35-40°F, sealed.", notes: "7-10 days after opening; shelf-stable carton until opened." }
+},
+
+  coconut_cream: {
+      image_url: "ingredients/coconut_cream.png",
+    description: "The thick, high-fat layer that separates and rises in canned coconut milk, sold concentrated on its own. Roughly 24-30% fat, far richer than coconut milk — used for whipping into dairy-free 'whipped cream', enriching curries, finishing soups, and stabilizing dairy-free ice creams. Solidifies when chilled; warms back to pourable.",
+    name: "coconut cream",
+    origin: ["Southeast Asia", "Pacific Islands"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 },
+    alchemicalProperties: { Spirit: 0.08, Essence: 0.35, Matter: 0.37, Substance: 0.2 },
+    quantityBase: { amount: 240, unit: "g" },
+    scaledElemental: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 },
+    kineticsImpact: { thermalDirection: -0.18, forceMagnitude: 0.55 },
+    qualities: ["rich", "fatty", "tropical", "plant-based", "whippable"],
+    category: "dairy",
+    sensoryProfile: {
+      taste: { sweet: 0.5, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.05, spicy: 0.0 },
+      aroma: { floral: 0.1, fruity: 0.4, herbal: 0.0, spicy: 0.0, earthy: 0.2, woody: 0.2 },
+      texture: { crisp: 0.0, tender: 0.0, creamy: 0.85, chewy: 0.0, crunchy: 0.0, silky: 0.5 },
+    },
+    pairingRecommendations: {
+      complementary: ["lime", "lemongrass", "curry paste", "chocolate", "mango", "rum"],
+      contrasting: ["chili", "ginger"],
+      toAvoid: [],
+    },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Venus"],
+      favorableZodiac: ["cancer", "pisces", "taurus"],
+      seasonalAffinity: ["summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "2 tbsp (30g)",
+      calories: 100,
+      macros: { protein: 1, carbs: 2, fat: 10, fiber: 1, sugar: 1, saturatedFat: 9, sodium: 5 },
+      vitamins: {},
+      minerals: { iron: 0.06, manganese: 0.1 },
+    },
+      culinaryProfile: { flavorProfile: { primary: ["rich"], secondary: ["sweet", "tropical"], notes: "Chill cans overnight to separate fat for whipping." }, cookingMethods: ["whip", "simmer", "reduce", "emulsify"], cuisineAffinity: ["Thai", "Indian", "Caribbean", "Filipino"], preparationTips: ["Stir well — separates in can.", "Add late to curries to avoid breaking."] },
+      storage: { pantry: "Cool, dry place unopened.", notes: "Refrigerate after opening; use within 5-7 days." }
+},
+
   // CREAMS
   heavy_cream: {
       image_url: "ingredients/heavy_cream.png",

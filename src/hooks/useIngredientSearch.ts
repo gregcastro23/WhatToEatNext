@@ -61,26 +61,40 @@ export function useIngredientSearch() {
     };
     void loadIngredients();
   }, []);
-  // Fuzzy search function
+  // Normalize for separator-tolerant matching: "oat_milk", "oat-milk",
+  // "oatmilk", and "oat milk" all collapse to the same compact form.
+  const normalizeForMatch = (s: string): string =>
+    s
+      .toLowerCase()
+      .replace(/[_-]+/g, " ")
+      .replace(/[^a-z0-9\s]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+  // Fuzzy search function (scores 0..1, higher is better).
   const fuzzyMatch = (searchTerm: string, target: string): number => {
-    const search = searchTerm.toLowerCase();
-    const text = target.toLowerCase();
-    // Exact match gets highest score
-    if (text === search) return 1.0;
-    // Starts with gets high score
-    if (text.startsWith(search)) return 0.9;
-    // Contains gets medium score
-    if (text.includes(search)) return 0.7;
-    // Fuzzy character matching
-    let searchIndex = 0;
+    if (!searchTerm || !target) return 0;
+    const qNorm = normalizeForMatch(searchTerm);
+    const tNorm = normalizeForMatch(target);
+    const qCompact = qNorm.replace(/\s+/g, "");
+    const tCompact = tNorm.replace(/\s+/g, "");
+    if (!qNorm || !tNorm) return 0;
+    // Exact match (separator-insensitive) gets highest score
+    if (tNorm === qNorm || tCompact === qCompact) return 1.0;
+    // Starts with
+    if (tNorm.startsWith(qNorm) || tCompact.startsWith(qCompact)) return 0.9;
+    // Contains
+    if (tNorm.includes(qNorm) || tCompact.includes(qCompact)) return 0.7;
+    // Fuzzy character matching on compact form
+    let qi = 0;
     let matches = 0;
-    for (let i = 0; i < text.length && searchIndex < search.length; i++) {
-      if (text[i] === search[searchIndex]) {
+    for (let i = 0; i < tCompact.length && qi < qCompact.length; i++) {
+      if (tCompact[i] === qCompact[qi]) {
         matches++;
-        searchIndex++;
+        qi++;
       }
     }
-    return searchIndex === search.length ? (matches / text.length) * 0.5 : 0;
+    return qi === qCompact.length ? (matches / tCompact.length) * 0.5 : 0;
   };
   // Search and filter ingredients
   const searchResults = useMemo(() => {

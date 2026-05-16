@@ -722,6 +722,58 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["onion", "garlic", "oil", "salt", "complementary spices"], contrasting: ["acid", "dairy"], toAvoid: [] },
       storage: { pantry: "Airtight, dark container, 6-12 months whole; 3-6 months ground.", notes: "Test potency by smelling — if faint, replace." }
 },
+
+  matcha: {
+    name: "matcha",
+    description: "Vibrant green powder ground from shade-grown *Camellia sinensis* leaves (tencha). Because the whole leaf is consumed rather than steeped and discarded, matcha delivers ~3x the caffeine and L-theanine of regular green tea plus a concentrated dose of catechin antioxidants. Used in tea ceremony, lattes, smoothies, and baking.",
+    origin: ["Japan"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.15, Water: 0.2, Earth: 0.3, Air: 0.35 },
+    qualities: ["bitter", "umami", "vegetal", "caffeinated", "energizing"],
+    category: "spice",
+    astrologicalProfile: {
+      rulingPlanets: ["Mercury", "Moon"],
+      favorableZodiac: ["virgo", "cancer"],
+      seasonalAffinity: ["spring"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp (2g)",
+      calories: 5,
+      macros: { protein: 0, carbs: 1, fat: 0, fiber: 1, sugar: 0, sodium: 0 },
+      vitamins: { K: 0.05, A: 0.05 },
+      minerals: {},
+    },
+      sensoryProfile: { taste: { sweet: 0.05, salty: 0, sour: 0, bitter: 0.5, umami: 0.5, spicy: 0 }, aroma: { herbal: 0.6, earthy: 0.3, floral: 0.1 }, texture: { powdery: 0.7, silky: 0.4 } },
+      culinaryProfile: { flavorProfile: { primary: ["vegetal", "umami"], secondary: ["bitter"], notes: "Ceremonial-grade for whisked tea; culinary-grade for lattes and baking." }, cookingMethods: ["whisk", "blend", "bake"], cuisineAffinity: ["Japanese", "modern American", "patisserie"], preparationTips: ["Whisk with 175°F water — boiling water scorches and turns it bitter.", "Sift before use to break clumps."] },
+      pairingRecommendations: { complementary: ["white chocolate", "vanilla", "coconut milk", "honey", "strawberry"], contrasting: ["citrus", "ginger"], toAvoid: [] },
+      storage: { pantry: "Airtight, dark, refrigerated for ceremonial grade.", notes: "Use within 6 weeks of opening for peak color and flavor." }
+},
+
+  spirulina: {
+    name: "spirulina",
+    description: "Deep blue-green powder made from dried *Arthrospira platensis* cyanobacteria. One of the densest plant proteins by weight (~60% protein) with bioavailable iron, B vitamins, and phycocyanin pigment. Strong marine-vegetal flavor, so typically blended into smoothies, energy bars, or dressings.",
+    origin: ["Mexico", "Africa", "Hawaii"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.05, Water: 0.4, Earth: 0.45, Air: 0.1 },
+    qualities: ["umami", "marine", "earthy", "protein-rich", "nutrient-dense"],
+    category: "spice",
+    astrologicalProfile: {
+      rulingPlanets: ["Neptune", "Saturn"],
+      favorableZodiac: ["pisces", "capricorn"],
+      seasonalAffinity: ["spring", "summer", "fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp (3g)",
+      calories: 10,
+      macros: { protein: 2, carbs: 1, fat: 0, fiber: 0, sugar: 0, sodium: 30 },
+      vitamins: { B1: 0.1, B2: 0.2, B3: 0.05 },
+      minerals: { iron: 0.1, copper: 0.5, manganese: 0.05 },
+    },
+      sensoryProfile: { taste: { sweet: 0, salty: 0.2, sour: 0, bitter: 0.3, umami: 0.5, spicy: 0 }, aroma: { earthy: 0.6, marine: 0.4 }, texture: { powdery: 0.6 } },
+      culinaryProfile: { flavorProfile: { primary: ["marine"], secondary: ["earthy", "umami"], notes: "Start with 1/4 tsp — flavor is strong and dominant. Pair with sweet fruit to balance." }, cookingMethods: ["blend", "stir", "sprinkle"], cuisineAffinity: ["raw", "wellness", "vegan"], preparationTips: ["Hide flavor by blending with pineapple, banana, or mango.", "Heat above 200°F degrades nutrients — add cold or warm only."] },
+      pairingRecommendations: { complementary: ["pineapple", "banana", "lemon", "ginger", "honey"], contrasting: ["dairy"], toAvoid: [] },
+      storage: { pantry: "Airtight, cool, dark.", notes: "1 year sealed; absorbs odors readily." }
+},
 };
 
 // Export spices ingredients for use in spices/index.ts
