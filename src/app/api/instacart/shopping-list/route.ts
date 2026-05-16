@@ -13,12 +13,12 @@ import {
   InstacartConfigurationError,
   mapInstacartProxyError,
 } from "@/lib/instacart/idpClient";
+import { rateLimit } from "@/lib/rateLimit";
 import type {
   InstacartShoppingListRequest,
   InstacartShoppingListResponse,
   InstacartLineItem,
 } from "@/types/instacart";
-import { rateLimit } from "@/lib/rateLimit";
 import type { NextRequest } from "next/server";
 
 const FETCH_TIMEOUT_MS = 15_000;

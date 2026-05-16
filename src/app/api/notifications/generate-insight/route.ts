@@ -5,8 +5,8 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import { generateDailyInsightNotification } from "@/services/dailyInsightService";
 import { rateLimit } from "@/lib/rateLimit";
+import { generateDailyInsightNotification } from "@/services/dailyInsightService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
