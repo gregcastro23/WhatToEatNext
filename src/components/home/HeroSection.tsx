@@ -134,16 +134,28 @@ export function HeroSection({ planetaryHour, timeOfDay }: HeroSectionProps) {
         {seasonMsg}
       </motion.p>
 
-      {/* Time-based CTA */}
-      <motion.a
-        href="/menu-planner"
-        className="inline-block px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
-        variants={{ hidden: { y: 20, opacity: 0 }, show: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 20 } } }}
-        whileHover={{ scale: 1.07 }}
-        whileTap={{ scale: 0.97 }}
-      >
-        {cta} &rarr;
-      </motion.a>
+      {/* CTAs */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <motion.a
+          href="/menu-planner"
+          className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold rounded-2xl shadow-lg shadow-orange-900/20 hover:shadow-orange-900/30 transition-all duration-200"
+          variants={{ hidden: { y: 20, opacity: 0 }, show: { y: 0, opacity: 1 } }}
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {cta} &rarr;
+        </motion.a>
+
+        <motion.a
+          href="/profile"
+          className="w-full sm:w-auto px-8 py-3.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold rounded-2xl backdrop-blur-sm transition-all duration-200"
+          variants={{ hidden: { y: 20, opacity: 0 }, show: { y: 0, opacity: 1 } }}
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Create your Alchm.kitchen profile
+        </motion.a>
+      </div>
     </motion.div>
   );
 }
