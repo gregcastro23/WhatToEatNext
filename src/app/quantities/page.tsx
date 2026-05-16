@@ -15,7 +15,6 @@ import {
   FaCoins,
 } from "react-icons/fa";
 import AlchmKinetics from "@/components/alchm-kinetics";
-import AlchmQuantitiesDisplay from "@/components/alchm-quantities-display";
 import { QuestPanel } from "@/components/economy/QuestPanel";
 import { TokenRainParticles } from "@/components/economy/TokenRainParticles";
 import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";
@@ -47,6 +46,16 @@ const HistoricalEchoes = dynamic(
 
 const TokenBalanceTrends = dynamic(
   () => import("@/components/economy/TokenBalanceTrends").then(mod => mod.TokenBalanceTrends),
+  { ssr: false }
+);
+
+const ZodiacWheelInteractive = dynamic(
+  () => import("@/components/time-laboratory/zodiac-wheel-interactive").then(mod => mod.ZodiacWheelInteractive),
+  { ssr: false }
+);
+
+const PlanetaryAgentsView = dynamic(
+  () => import("@/components/time-laboratory/planetary-agents-view").then(mod => mod.PlanetaryAgentsView),
   { ssr: false }
 );
 
@@ -137,23 +146,25 @@ const TOKEN_CONFIG = [
 
 // ─── Tab Definition ───────────────────────────────────────────────────────────
 
-type Tab = "economy" | "quantities" | "kinetics" | "aspects" | "trends" | "statistics" | "quests";
+type Tab = "economy" | "kinetics" | "aspects" | "trends" | "statistics" | "quests" | "zodiac" | "agents";
 
 const VALID_TABS: Set<Tab> = new Set([
   "economy",
-  "quantities",
   "kinetics",
   "aspects",
   "trends",
   "statistics",
   "quests",
+  "zodiac",
+  "agents",
 ]);
 
 const TABS: Array<{ id: Tab; label: string; icon: string }> = [
   { id: "economy", label: "Token Economy", icon: "⚗️" },
-  { id: "quantities", label: "Live Quantities", icon: "🔮" },
-  { id: "kinetics", label: "Kinetics", icon: "⚡" },
+  { id: "kinetics", label: "Physics", icon: "⚡" },
   { id: "aspects", label: "Aspects", icon: "☌" },
+  { id: "zodiac", label: "Zodiac Wheel", icon: "🌌" },
+  { id: "agents", label: "Agents", icon: "👥" },
   { id: "trends", label: "Trends", icon: "📈" },
   { id: "statistics", label: "Statistics", icon: "📊" },
   { id: "quests", label: "Quests", icon: "🎯" },
@@ -717,6 +728,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
                     value={val ?? 0}
                     stroke={stroke}
                     showRange={false}
+                    showBadgeCompact={false}
                     className="justify-end"
                   />
                 </div>
@@ -734,6 +746,23 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
                   value={alchData.kalchm ?? 0}
                   stroke="#fbbf24"
                   showRange={false}
+                  showBadgeCompact={false}
+                  className="justify-end"
+                />
+              </div>
+              <div className="space-y-1 pt-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-white/30 font-medium">Monica</span>
+                  <span className="text-sm font-mono font-bold text-pink-400 tabular-nums">
+                    {(alchData.monica ?? 0).toFixed(4)}
+                  </span>
+                </div>
+                <QuantityContextStrip
+                  path="thermo.monica"
+                  value={alchData.monica ?? 0}
+                  stroke="#f472b6"
+                  showRange={false}
+                  showBadgeCompact={false}
                   className="justify-end"
                 />
               </div>
@@ -985,21 +1014,6 @@ function QuantitiesPageContent() {
               />
             )}
 
-            {activeTab === "quantities" && (
-              <SectionCard
-                title="Current Alchm Quantities"
-                subtitle="Real-time ESMS values from live planetary positions — updated every 30 s"
-                icon="🔮"
-                gradientFrom="rgba(251,146,60,0.08)"
-                gradientTo="rgba(220,38,38,0.05)"
-                borderColor="border-orange-500/20"
-              >
-                <Suspense fallback={<Spinner />}>
-                  <AlchmQuantitiesDisplay />
-                </Suspense>
-              </SectionCard>
-            )}
-
             {activeTab === "kinetics" && (
               <SectionCard
                 title="Kinetic Analysis"
@@ -1042,6 +1056,41 @@ function QuantitiesPageContent() {
                   </Suspense>
                 </SectionCard>
               </div>
+            )}
+
+            {activeTab === "zodiac" && (
+              <SectionCard
+                title="Zodiac Wheel"
+                subtitle="Interactive 360° zodiac wheel showing transiting planetary positions and agent activations"
+                icon="🌌"
+                gradientFrom="rgba(244,114,182,0.08)"
+                gradientTo="rgba(192,132,252,0.05)"
+                borderColor="border-pink-500/20"
+              >
+                <Suspense fallback={<Spinner />}>
+                  <ZodiacWheelInteractive />
+                </Suspense>
+              </SectionCard>
+            )}
+
+            {activeTab === "agents" && (
+              <SectionCard
+                title="Planetary Agents"
+                subtitle="Explore qualitative insights and consciousness synthesis from the Planetary Council"
+                icon="👥"
+                gradientFrom="rgba(52,211,153,0.08)"
+                gradientTo="rgba(56,189,248,0.05)"
+                borderColor="border-emerald-500/20"
+              >
+                <Suspense fallback={<Spinner />}>
+                  <PlanetaryAgentsView
+                    userId="demo-user"
+                    selectedDate={new Date()}
+                    onAgentChat={(id, name) => console.log('Chat with', id, name)}
+                    onGroupChat={async () => console.log('Group chat triggered')}
+                  />
+                </Suspense>
+              </SectionCard>
             )}
 
             {activeTab === "statistics" && (

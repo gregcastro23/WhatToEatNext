@@ -116,31 +116,31 @@ const getZScoreBadge = (value: number, stat?: { mean: number; stdDev: number }) 
   if (!stat || stat.stdDev === 0) return null;
   const zScore = (value - stat.mean) / stat.stdDev;
 
-  let color = "text-gray-400";
-  let text = "Avg";
+  let color = "text-emerald-400";
+  let text = "Common";
+  let glow = "";
 
-  if (zScore > 2.0) {
-    color = "text-red-400";
-    text = `+${zScore.toFixed(1)}σ Ext`;
-  } else if (zScore > 1.0) {
-    color = "text-orange-400";
-    text = `+${zScore.toFixed(1)}σ High`;
-  } else if (zScore > 0.5) {
-    color = "text-yellow-400";
-    text = `+${zScore.toFixed(1)}σ H`;
-  } else if (zScore < -2.0) {
+  if (zScore >= 2.0) {
+    color = "text-amber-400";
+    text = `+${zScore.toFixed(1)}σ Legendary`;
+    glow = "shadow-[0_0_8px_rgba(251,191,36,0.3)]";
+  } else if (zScore >= 1.0) {
+    color = "text-purple-400";
+    text = `+${zScore.toFixed(1)}σ Epic`;
+    glow = "shadow-[0_0_8px_rgba(192,132,252,0.25)]";
+  } else if (zScore >= 0.5) {
     color = "text-blue-400";
-    text = `${zScore.toFixed(1)}σ Ext Low`;
-  } else if (zScore < -1.0) {
-    color = "text-cyan-400";
-    text = `${zScore.toFixed(1)}σ Low`;
-  } else if (zScore < -0.5) {
-    color = "text-teal-400";
-    text = `${zScore.toFixed(1)}σ L`;
+    text = `+${zScore.toFixed(1)}σ Rare`;
+  } else if (zScore <= -1.0) {
+    color = "text-rose-400";
+    text = `${zScore.toFixed(1)}σ Depleted`;
+  } else if (zScore <= -0.5) {
+    color = "text-gray-400";
+    text = `${zScore.toFixed(1)}σ Depleted`;
   }
 
   return (
-    <div className={`mt-0.5 text-[0.6rem] font-medium ${color}`}>
+    <div className={`mt-0.5 text-[0.6rem] font-medium px-1 rounded inline-block bg-black/40 border border-white/5 ${color} ${glow}`}>
       {text}
     </div>
   );
