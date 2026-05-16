@@ -10,6 +10,7 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { auth } from "@/lib/auth/auth";
 import { _logger } from "@/lib/logger";
 import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
@@ -97,6 +98,26 @@ export async function POST(request: NextRequest) {
     const user = await getDatabaseUserFromRequest(request);
 
     if (!user) {
+      // Distinguish "not logged in" (401) from "logged in but DB unavailable" (503).
+      // getDatabaseUserFromRequest already attempted JIT creation; if it still returned
+      // null, check whether a valid NextAuth session exists so the client knows whether
+      // to prompt re-login or to retry after a moment.
+      let hasValidSession = false;
+      try {
+        const session = await auth();
+        hasValidSession = !!(session?.user?.email);
+      } catch {
+        // auth() failed — treat as unauthenticated
+      }
+
+      if (hasValidSession) {
+        _logger.warn("[POST /api/onboarding] Session valid but DB lookup failed — returning 503 for client retry");
+        return NextResponse.json(
+          { success: false, message: "Service temporarily unavailable. Please try again in a moment." },
+          { status: 503 },
+        );
+      }
+
       _logger.warn("[POST /api/onboarding] User not found or not authenticated");
       return NextResponse.json(
         { success: false, message: "User not found. Please sign in first." },

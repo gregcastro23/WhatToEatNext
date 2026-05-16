@@ -98,14 +98,21 @@ export default function OnboardingPage() {
         throw new Error(`Invalid birth data: ${Object.values(parsedPayload.error.flatten().fieldErrors).flat().join(", ")}`);
       }
 
-      const response = await fetch("/api/onboarding", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsedPayload.data),
-      });
+      // POST with automatic retry on 503 (DB temporarily unavailable after OAuth).
+      // New users occasionally hit this when the connection pool is saturated during sign-in.
+      let response: Response | null = null;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        response = await fetch("/api/onboarding", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(parsedPayload.data),
+        });
+        if (response.status !== 503) break;
+        if (attempt < 3) await new Promise(r => setTimeout(r, attempt * 1500));
+      }
 
-      if (!response.ok) throw new Error(`Server error (${response.status})`);
-      const data = await response.json();
+      if (!response!.ok) throw new Error(`Server error (${response!.status})`);
+      const data = await response!.json();
 
       if (!data.success) {
         throw new Error(data.message || "Onboarding failed");

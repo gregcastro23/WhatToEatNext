@@ -22,10 +22,11 @@ export const databaseConfig = {
   password: process.env.DB_PASSWORD || "pass",
   ssl: process.env.DB_SSL === "true",
 
-  // Connection pool settings
-  maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || "50", 10),
-  idleTimeout: parseInt(process.env.DB_IDLE_TIMEOUT || "30000", 10),
-  connectionTimeout: parseInt(process.env.DB_CONNECTION_TIMEOUT || "10000", 10),
+  // Connection pool settings — kept small for serverless (each Vercel invocation
+  // owns its own pool; 50 concurrent connections per instance would exhaust Railway).
+  maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || "5", 10),
+  idleTimeout: parseInt(process.env.DB_IDLE_TIMEOUT || "10000", 10),
+  connectionTimeout: parseInt(process.env.DB_CONNECTION_TIMEOUT || "5000", 10),
 
   // Application settings
   environment: process.env.NODE_ENV || "development",
