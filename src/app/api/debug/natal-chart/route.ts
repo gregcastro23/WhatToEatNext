@@ -53,9 +53,10 @@ export async function GET(request: NextRequest) {
     // Compare positions
     const comparison: Record<string, any> = {};
     const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+    const natalPlanetaryPositions = natalChart.planetaryPositions as Record<string, string> | undefined;
 
     for (const planet of planets) {
-      const natalSign = natalChart.planetaryPositions?.[planet];
+      const natalSign = natalPlanetaryPositions?.[planet];
       const currentSign = currentPositions[planet]?.sign;
       const areIdentical = natalSign?.toLowerCase() === currentSign?.toLowerCase();
 
@@ -80,14 +81,14 @@ export async function GET(request: NextRequest) {
     // Convert natal chart format to validation format
     for (const planet of [...planets, 'Ascendant']) {
       const planetInfo = natalChart.planets?.find(p => p.name === planet);
-      const sign = natalChart.planetaryPositions?.[planet];
+      const sign = natalPlanetaryPositions?.[planet];
 
       if (sign && planetInfo) {
         const degree = Math.floor(planetInfo.position % 30);
         const minute = Math.floor(((planetInfo.position % 30) - degree) * 60);
 
         natalPositionsForValidation[planet] = {
-          sign,
+          sign: sign as PlanetPosition["sign"],
           degree,
           minute,
           exactLongitude: planetInfo.position,

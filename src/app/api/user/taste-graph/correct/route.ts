@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { updateTasteCorrections } from "@/services/userInteractionsService";
 import { auth } from "@/lib/auth/auth";
+import { updateTasteCorrections } from "@/services/userInteractionsService";
 
 export async function POST(request: Request) {
   try {

@@ -100,7 +100,7 @@ const DietaryPrefsBlock = ({ data, isOwner }: { data: any, isOwner: boolean }) =
           </div>
           <div className="flex gap-2 justify-end">
             <button onClick={() => setIsEditing(false)} className="text-xs text-white/50 hover:text-white">Cancel</button>
-            <button onClick={handleSave} disabled={saving} className="text-xs bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-400">
+            <button onClick={() => void handleSave()} disabled={saving} className="text-xs bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-400">
               {saving ? 'Saving...' : 'Save'}
             </button>
           </div>
@@ -152,7 +152,7 @@ const DataPrivacyBlock = ({ data, isOwner }: { data: any, isOwner: boolean }) =>
           </div>
           <button 
             onClick={() => {
-              const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+              const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`;
               const downloadAnchorNode = document.createElement('a');
               downloadAnchorNode.setAttribute("href",     dataStr);
               downloadAnchorNode.setAttribute("download", "alchm_profile.json");

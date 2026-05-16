@@ -110,7 +110,18 @@ export async function POST(request: NextRequest) {
     ];
 
     // Chart comparison (only if natal chart available and requested)
-    let chartComparison = null;
+    let chartComparison: {
+      overallHarmony: number;
+      elementalHarmony: number;
+      alchemicalAlignment: number;
+      planetaryResonance: number;
+      insights: {
+        favorableElements: string[];
+        challengingElements: string[];
+        harmonicPlanets: string[];
+        recommendations: string[];
+      };
+    } | null = null;
     if (includeChartAnalysis && Object.keys(natalPositions).length > 0) {
       const natalDiurnal = natalChart?.birthData?.dateTime ? isSectDiurnal(new Date(natalChart.birthData.dateTime)) : true;
       const currentDiurnal = isSectDiurnal(new Date());
@@ -153,7 +164,6 @@ export async function POST(request: NextRequest) {
 
       const overallHarmony = (alchemicalAlignment * 0.4 + elementalHarmony * 0.35 + planetaryResonance * 0.25);
 
-      // @ts-expect-error - Auto-fixed by script
       chartComparison = {
         overallHarmony,
         elementalHarmony,

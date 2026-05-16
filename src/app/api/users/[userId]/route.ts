@@ -7,11 +7,11 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
-import { executeQuery } from "@/lib/database";
 import {
   agentSlugFromEmail,
   fetchAgentProfile,
 } from "@/lib/agents/fetchAgentProfile";
+import { executeQuery } from "@/lib/database";
 import { computeTasteGraph } from "@/services/userInteractionsService";
 
 export const dynamic = "force-dynamic";
@@ -127,8 +127,8 @@ export async function GET(
     const natalChart = parseJsonField<Record<string, unknown>>(row.natal_chart, {});
     const natalPositions = parseJsonField<unknown[]>(row.natal_positions, []);
     const birthData = parseJsonField<Record<string, unknown>>(row.birth_data, {});
-    const dietary_preferences = parseJsonField<Record<string, unknown>>(row.dietary_preferences, {});
-    const profile_layout = parseJsonField<unknown[]>(row.profile_layout, ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
+    const dietaryPreferences = parseJsonField<Record<string, unknown>>(row.dietary_preferences, {});
+    const profileLayout = parseJsonField<unknown[]>(row.profile_layout, ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
 
     // For agent users, pull the rich CraftedAgent profile from
     // planetary_agents-main. Cached 24h upstream-side; falls back to null
@@ -151,8 +151,8 @@ export async function GET(
         natalChart,
         natalPositions,
         birthData,
-        dietary_preferences,
-        profile_layout,
+        dietary_preferences: dietaryPreferences,
+        profile_layout: profileLayout,
         tasteGraph,
         createdAt: row.created_at,
         balances: {
