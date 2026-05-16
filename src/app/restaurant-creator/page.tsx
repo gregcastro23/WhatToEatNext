@@ -95,11 +95,12 @@ export default function RestaurantCreatorPage() {
       Mars: "Martian", Jupiter: "Jovian", Saturn: "Saturnine",
     }[planetaryDay] || "Cosmic";
 
-    const nameSuffix = {
+    const zodiacSuffixMap: Record<string, string> = {
       aries: "Flame", taurus: "Garden", gemini: "Mirror", cancer: "Tide",
       leo: "Crown", virgo: "Harvest", libra: "Balance", scorpio: "Depth",
       sagittarius: "Arrow", capricorn: "Summit", aquarius: "Stream", pisces: "Dream",
-    }[zodiac?.toLowerCase()] || "Table";
+    };
+    const nameSuffix = zodiacSuffixMap[zodiac?.toLowerCase()] ?? "Table";
 
     const randomFusion =
       CUISINE_FUSIONS[Math.floor(Math.random() * CUISINE_FUSIONS.length)];

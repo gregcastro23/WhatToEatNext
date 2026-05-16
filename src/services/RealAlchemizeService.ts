@@ -47,7 +47,7 @@ export interface PlanetaryPosition {
   sign: any;
   degree: number;
   minute: number;
-  isRetrograde: boolean;
+  isRetrograde?: boolean;
   exactLongitude?: number;
 }
 export interface ThermodynamicProperties {

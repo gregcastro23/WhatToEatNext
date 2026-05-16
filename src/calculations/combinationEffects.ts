@@ -1,4 +1,5 @@
 import { ELEMENT_COMBINATIONS } from "@/constants/elementalCore";
+import type { IngredientMapping } from "@/data/ingredients/types";
 import type {
   CombinationEffect,
   EffectType,
@@ -8,6 +9,8 @@ import type {
 import type { Element } from "@/types/celestial";
 import { ingredientMappings } from "@/utils/elementalMappings/ingredients";
 import { logger } from "@/utils/logger";
+
+const ingredientLookup = ingredientMappings as Record<string, IngredientMapping | undefined>;
 
 type CookingMethod =
   | "simmered"
@@ -150,8 +153,8 @@ const calculateElementalInteractions = (
   const effects: CombinationEffect[] = [];
   const ingredientPairs = getPairs(ingredients);
   ingredientPairs.forEach(([ing1, ing2]) => {
-    const elem1 = ingredientMappings[ing1]?.elementalProperties;
-    const elem2 = ingredientMappings[ing2]?.elementalProperties;
+    const elem1 = ingredientLookup[ing1]?.elementalProperties;
+    const elem2 = ingredientLookup[ing2]?.elementalProperties;
 
     if (!elem1 || !elem2) return;
     if (isHarmoniousCombination(elem1, elem2)) {
@@ -253,7 +256,7 @@ const calculateCombinedElements = (
   };
 
   ingredients.forEach((ing) => {
-    const elements = ingredientMappings[ing]?.elementalProperties;
+    const elements = ingredientLookup[ing]?.elementalProperties;
     if (elements) {
       Object.entries(elements).forEach(([element, value]) => {
         // Pattern KK-1: Safe arithmetic with type validation

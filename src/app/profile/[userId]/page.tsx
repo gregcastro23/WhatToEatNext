@@ -3,13 +3,13 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
+import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
+import { PROFILE_BLOCKS, type ProfileTab } from "@/components/profile/ProfileBlockRegistry";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
 import AgentProfile from "./AgentProfile";
-import { useSession } from "next-auth/react";
-import { PROFILE_BLOCKS, ProfileTab } from "@/components/profile/ProfileBlockRegistry";
-import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 
 interface NatalPosition {
   planet?: string;

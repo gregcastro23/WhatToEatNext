@@ -158,7 +158,7 @@ export function CustomizeDrawer({
             Cancel
           </button>
           <button
-            onClick={handleSave}
+            onClick={() => void handleSave()}
             disabled={saving}
             className="flex-1 py-2 text-xs bg-purple-500 hover:bg-purple-400 text-white font-bold rounded-lg transition-colors disabled:opacity-50"
           >
