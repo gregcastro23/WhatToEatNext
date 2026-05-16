@@ -10,6 +10,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
+import { rateLimit } from "@/lib/rateLimit";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { NextRequest } from "next/server";
 
@@ -81,7 +82,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let body: { shopItemSlug?: string };
+    const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "economy-purchase", identifier: user.id });
+    if (!rl.allowed) return rl.response!;
+
+    let body: { shopItemSlug?: string; idempotencyKey?: string };
     try {
       body = await request.json();
     } catch {
@@ -91,7 +95,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { shopItemSlug } = body;
+    const { shopItemSlug, idempotencyKey } = body;
     if (!shopItemSlug || typeof shopItemSlug !== "string") {
       return NextResponse.json(
         { success: false, message: "shopItemSlug is required" },
@@ -123,6 +127,7 @@ export async function POST(request: NextRequest) {
     const result = await tokenEconomy.purchaseShopItem(user.id, shopItemSlug, {
       overrideCosts: liveCost,
       descriptionSuffix: `live x${pricing.multiplier.toFixed(2)}`,
+      idempotencyKey: idempotencyKey ? `purchase:${idempotencyKey}` : undefined,
     });
     if (!result.success) {
       if (result.reason === "already_owned") {
@@ -132,6 +137,13 @@ export async function POST(request: NextRequest) {
             reason: "already_owned",
             message: "You already unlocked this item.",
           },
+          { status: 409 },
+        );
+      }
+
+      if (result.reason === "already_applied") {
+        return NextResponse.json(
+          { success: false, reason: "already_applied", message: "This purchase was already processed." },
           { status: 409 },
         );
       }

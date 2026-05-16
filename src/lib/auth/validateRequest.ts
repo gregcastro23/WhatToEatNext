@@ -376,7 +376,7 @@ export async function getDatabaseUserFromRequest(
           }
 
           if (!user) {
-            console.warn("[getDatabaseUserFromRequest] User authenticated via NextAuth but missing or lookup failed in Postgres. JIT healing sequence initiated.");
+            console.warn("[getDatabaseUserFromRequest] User authenticated via NextAuth but missing or lookup failed in Postgres. JIT healing sequence initiated.", { path: request.nextUrl.pathname, email: session.user.email });
             try {
               user = await userDb.createUser({
                 email: session.user.email,
@@ -385,8 +385,10 @@ export async function getDatabaseUserFromRequest(
                 roles: session.user.email.includes("admin") ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
               });
             } catch (createError) {
-              console.error("[getDatabaseUserFromRequest] JIT creation failed:", createError);
-              // Cannot proceed without DB user
+              // Re-throw so the calling route can return 503 instead of silently
+              // proceeding with a null user, which would produce a misleading 401.
+              console.error("[getDatabaseUserFromRequest] JIT creation failed — DB unavailable:", { path: request.nextUrl.pathname, email: session.user.email, error: createError instanceof Error ? createError.message : String(createError) });
+              throw createError;
             }
           }
         }

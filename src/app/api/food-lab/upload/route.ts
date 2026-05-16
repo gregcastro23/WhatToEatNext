@@ -9,6 +9,7 @@
 
 import { NextResponse } from "next/server";
 import { validateRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +22,9 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 export async function POST(request: NextRequest) {
   const authResult = await validateRequest(request);
   if ("error" in authResult) return authResult.error;
+
+  const rl = await rateLimit(request, { window: 60_000, max: 20, bucket: "food-lab-upload", identifier: authResult.user.userId });
+  if (!rl.allowed) return rl.response!;
 
   let formData: FormData;
   try {

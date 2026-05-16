@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { CreateFoodDiaryEntrySchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
@@ -102,6 +103,9 @@ export async function POST(request: NextRequest) {
   try {
     // Prefer session auth, fall back to body userId for backwards compat
     let userId = await getUserIdFromRequest(request);
+
+    const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "food-diary-post", identifier: userId ?? undefined });
+    if (!rl.allowed) return rl.response!;
 
     let body: unknown;
     try {

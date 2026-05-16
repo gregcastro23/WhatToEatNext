@@ -10,6 +10,8 @@
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { UpdateFoodDiaryEntryInput } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
@@ -18,7 +20,6 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const UpdateEntryBodySchema = z.object({
-  userId: z.string().min(1, "userId is required"),
   quantity: z.number().nonnegative().optional(),
   serving: z
     .object({
@@ -77,6 +78,17 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
+    const userId = await getUserIdFromRequest(request);
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 },
+      );
+    }
+
+    const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "food-diary-write", identifier: userId });
+    if (!rl.allowed) return rl.response!;
+
     const { entryId } = await params;
     let rawBody: unknown;
     try {
@@ -100,11 +112,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { userId, ...updateData } = parsed.data;
-
     const input: UpdateFoodDiaryEntryInput = {
       id: entryId,
-      ...(updateData as Omit<UpdateFoodDiaryEntryInput, "id">),
+      ...(parsed.data as Omit<UpdateFoodDiaryEntryInput, "id">),
     };
 
     const entry = await foodDiaryService.updateEntry(userId, input);
@@ -135,16 +145,18 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { entryId } = await params;
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-
+    const userId = await getUserIdFromRequest(request);
     if (!userId) {
       return NextResponse.json(
-        { success: false, message: "userId is required" },
-        { status: 400 },
+        { success: false, message: "Authentication required" },
+        { status: 401 },
       );
     }
+
+    const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "food-diary-write", identifier: userId });
+    if (!rl.allowed) return rl.response!;
+
+    const { entryId } = await params;
 
     const success = await foodDiaryService.deleteEntry(userId, entryId);
 

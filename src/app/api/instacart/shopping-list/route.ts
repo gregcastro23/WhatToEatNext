@@ -18,6 +18,7 @@ import type {
   InstacartShoppingListResponse,
   InstacartLineItem,
 } from "@/types/instacart";
+import { rateLimit } from "@/lib/rateLimit";
 import type { NextRequest } from "next/server";
 
 const FETCH_TIMEOUT_MS = 15_000;
@@ -98,6 +99,9 @@ function parseIngredientString(ingredient: string): InstacartLineItem {
 
 export async function POST(request: NextRequest) {
   try {
+    const rl = await rateLimit(request, { window: 60_000, max: 10, bucket: "instacart-shopping-list" });
+    if (!rl.allowed) return rl.response!;
+
     const body = (await request.json()) as InstacartShoppingListRequest;
     
     let parsedLineItems: InstacartLineItem[] = [];

@@ -423,10 +423,14 @@ export async function POST(request: Request) {
 
         const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);
         if (sub) {
+          // Downgrade to free immediately so server-side DB checks return the
+          // correct tier while the JWT (which caches the old tier for up to 24h)
+          // is still in circulation.
           await subscriptionService.updateSubscription(sub.userId, {
+            tier: "free",
             status: "past_due",
           });
-          console.log(`[webhook] Invoice payment failed: ${invoice.id} for user=${sub.userId}`);
+          console.log(`[webhook] Invoice payment failed: ${invoice.id} for user=${sub.userId} — downgraded to free`);
         }
         break;
       }

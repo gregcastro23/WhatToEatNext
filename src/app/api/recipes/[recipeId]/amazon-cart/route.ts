@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { resolveAsin, getStandardizedQuantity } from "@/data/amazon";
 import { executeQuery } from "@/lib/database/connection";
+import { rateLimit } from "@/lib/rateLimit";
 
 interface IngredientAsin {
   ingredient_name: string;
@@ -9,11 +10,15 @@ interface IngredientAsin {
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ recipeId: string }> },
 ) {
+  try {
+  const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "amazon-cart" });
+  if (!rl.allowed) return rl.response!;
+
   const { recipeId } = await params;
-  
+
   // 1. Try relational query first
   const result = await executeQuery<IngredientAsin>(
     `SELECT
@@ -65,5 +70,9 @@ export async function GET(
     .map((ing) => ing.name);
 
   return NextResponse.json({ items, missing });
+  } catch (error) {
+    console.error("[amazon-cart] Error:", error);
+    return NextResponse.json({ error: "Failed to build cart" }, { status: 500 });
+  }
 }
 

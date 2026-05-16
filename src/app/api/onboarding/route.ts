@@ -232,7 +232,7 @@ export async function POST(request: NextRequest) {
       _logger.error("[POST /api/onboarding] Failed to send admin notification:", err);
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       user: {
         id: updatedUser?.id || userId,
@@ -242,6 +242,19 @@ export async function POST(request: NextRequest) {
       profile: updatedUser?.profile ?? null,
       natalChart,
     });
+
+    // Set server-side cookie so the middleware authorized() callback can skip
+    // the /onboarding redirect on the very next navigation (before the JWT is
+    // refreshed). The client also sets this cookie client-side as a fallback.
+    response.cookies.set("onboarding_completed", "1", {
+      path: "/",
+      maxAge: 30 * 24 * 60 * 60,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: false,
+    });
+
+    return response;
   } catch (error) {
     _logger.error("[POST /api/onboarding] Onboarding error", error);
     return NextResponse.json(

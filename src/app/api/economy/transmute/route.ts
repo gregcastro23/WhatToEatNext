@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { TOKEN_TYPES, TRANSMUTATION_RATIO } from "@/types/economy";
 import type { TokenType, TransmuteResponse } from "@/types/economy";
@@ -22,6 +23,9 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
+
+    const rl = await rateLimit(request, { window: 60_000, max: 20, bucket: "economy-transmute", identifier: userId });
+    if (!rl.allowed) return rl.response!;
 
     let body: { fromToken: string; toToken: string; amount: number };
     try {
