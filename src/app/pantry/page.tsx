@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { usePantry } from "@/hooks/usePantry";
+import { looseIncludes } from "@/utils/searchNormalize";
 
 function formatName(name: string): string {
   return name
@@ -24,10 +25,9 @@ export default function PantryPage() {
   }, [items]);
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
     return items
       .filter((i) => categoryFilter === "all" || i.category === categoryFilter)
-      .filter((i) => !q || i.name.toLowerCase().includes(q))
+      .filter((i) => looseIncludes(i.name, query))
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [items, query, categoryFilter]);
 

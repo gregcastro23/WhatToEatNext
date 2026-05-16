@@ -54,6 +54,7 @@ import type {
   AmazonSearchResult,
 } from "@/types/amazon";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
+import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
 
 type ElementKey = "Fire" | "Water" | "Earth" | "Air";
@@ -420,7 +421,6 @@ export default function IngredientsPage() {
   }, [amazonLookups, lookupStatus, resonance]);
 
   const filteredCandidates = useMemo(() => {
-    const q = search.trim().toLowerCase();
     const cat = CATEGORY_CHOICES.find((c) => c.id === category) ?? CATEGORY_CHOICES[0];
     return derived
       .filter(({ ingredient, dominant, amazon, seasons: s }) => {
@@ -429,14 +429,19 @@ export default function IngredientsPage() {
         if (chakra !== "all" && amazon.chakraAlignment !== chakra) return false;
         if (element !== "all" && dominant !== element) return false;
         if (season !== "all" && !s.includes(season)) return false;
-        if (q) {
-          const hay = `${ingredient.name} ${ingredient.category} ${
-            ingredient.description || ""
-          } ${amazon.optimizedSearchString} ${amazon.primaryBrand} ${
-            amazon.categoryNode
-          } ${amazon.chakraAlignment
-          }`.toLowerCase();
-          if (!hay.includes(q)) return false;
+        if (search.trim()) {
+          const haystack = [
+            ingredient.name,
+            ingredient.category,
+            ingredient.description,
+            amazon.optimizedSearchString,
+            amazon.primaryBrand,
+            amazon.categoryNode,
+            amazon.chakraAlignment,
+          ];
+          if (!haystack.some((field) => looseIncludes(field, search))) {
+            return false;
+          }
         }
         return true;
       })

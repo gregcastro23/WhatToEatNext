@@ -26,6 +26,7 @@ import {
   elementalToAlchemicalApproximation,
   calculateKAlchm,
 } from "@/utils/monicaKalchmCalculations";
+import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
 
 // Pagination constant - items shown before expansion
@@ -754,96 +755,46 @@ export const EnhancedIngredientRecommender: React.FC<
 
     // Filter by search query — covers culinary fields so "tomato dishes",
     // "bloom", "pesto", "complementary" etc. surface the right ingredients.
+    // Uses the shared separator-tolerant matcher so "tomato_paste", "tomato
+    // paste", and "tomato-paste" all hit the same items.
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
+      const matches = (value: unknown): boolean =>
+        looseIncludes(typeof value === "string" ? value : String(value), searchQuery);
+      const anyMatches = (values: unknown): boolean =>
+        Array.isArray(values) && values.some(matches);
+
       filtered = filtered.filter((ing) => {
         const root = ing as unknown as Record<string, unknown>;
-        if (ing.name.toLowerCase().includes(query)) return true;
-        if (ing.description?.toLowerCase().includes(query)) return true;
-        if (ing.qualities?.some((q) => q.toLowerCase().includes(query)))
-          return true;
-        if (ing.origin?.some((o) => o.toLowerCase().includes(query)))
-          return true;
+        if (matches(ing.name)) return true;
+        if (ing.description && matches(ing.description)) return true;
+        if (anyMatches(ing.qualities)) return true;
+        if (anyMatches(ing.origin)) return true;
 
-        // culinaryApplications.commonUses
         const apps = root.culinaryApplications as
           | Record<string, unknown>
           | undefined;
-        if (
-          Array.isArray(apps?.commonUses) &&
-          apps?.commonUses.some((u) => String(u).toLowerCase().includes(query))
-        )
-          return true;
+        if (anyMatches(apps?.commonUses)) return true;
 
-        // culinaryProfile.cookingMethods, cuisineAffinity, preparationTips
         const profile = root.culinaryProfile as
           | Record<string, unknown>
           | undefined;
-        if (
-          Array.isArray(profile?.cookingMethods) &&
-          profile?.cookingMethods.some((m) =>
-            String(m).toLowerCase().includes(query),
-          )
-        )
-          return true;
-        if (
-          Array.isArray(profile?.cuisineAffinity) &&
-          profile?.cuisineAffinity.some((c) =>
-            String(c).toLowerCase().includes(query),
-          )
-        )
-          return true;
-        if (
-          Array.isArray(profile?.preparationTips) &&
-          profile?.preparationTips.some((t) =>
-            String(t).toLowerCase().includes(query),
-          )
-        )
-          return true;
+        if (anyMatches(profile?.cookingMethods)) return true;
+        if (anyMatches(profile?.cuisineAffinity)) return true;
+        if (anyMatches(profile?.preparationTips)) return true;
 
-        // top-level cookingMethods
-        if (
-          Array.isArray(root.cookingMethods) &&
-          root.cookingMethods.some((m) =>
-            String(m).toLowerCase().includes(query),
-          )
-        )
-          return true;
+        if (anyMatches(root.cookingMethods)) return true;
 
-        // pairingRecommendations (object or array)
         const pr = root.pairingRecommendations;
-        if (
-          Array.isArray(pr) &&
-          pr.some((p) => String(p).toLowerCase().includes(query))
-        )
-          return true;
+        if (anyMatches(pr)) return true;
         if (pr && typeof pr === "object" && !Array.isArray(pr)) {
           const prObj = pr as Record<string, unknown>;
-          for (const key of [
-            "complementary",
-            "contrasting",
-            "toAvoid",
-          ] as const) {
-            if (
-              Array.isArray(prObj[key]) &&
-              prObj[key].some((p) => String(p).toLowerCase().includes(query))
-            )
-              return true;
+          for (const key of ["complementary", "contrasting", "toAvoid"] as const) {
+            if (anyMatches(prObj[key])) return true;
           }
         }
 
-        // affinities
-        if (
-          Array.isArray(root.affinities) &&
-          root.affinities.some((a) => String(a).toLowerCase().includes(query))
-        )
-          return true;
-
-        // flavorProfile string
-        if (
-          typeof root.flavorProfile === "string" &&
-          root.flavorProfile.toLowerCase().includes(query)
-        )
+        if (anyMatches(root.affinities)) return true;
+        if (typeof root.flavorProfile === "string" && matches(root.flavorProfile))
           return true;
 
         return false;

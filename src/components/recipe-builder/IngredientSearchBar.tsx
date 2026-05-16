@@ -22,6 +22,7 @@ import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import type { SelectedIngredient } from "@/contexts/RecipeBuilderContext";
 import { getAllIngredients } from "@/utils/foodRecommender";
 import { createLogger } from "@/utils/logger";
+import { fuzzyScore } from "@/utils/searchNormalize";
 
 const logger = createLogger("IngredientSearchBar");
 
@@ -36,55 +37,9 @@ const ELEMENT_COLORS: Record<
   Air: { bg: "bg-sky-50", text: "text-sky-700", bar: "bg-sky-400" },
 };
 
-/**
- * Normalize a string for matching: lowercase, collapse separators (-,_,space)
- * to single spaces, strip non-alphanumeric, and drop a simple trailing plural 's'.
- * Users typing "oat milk", "oat_milk", "oatmilk", or "oat-milk" should all hit.
- */
-function normalizeForMatch(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/[_-]+/g, " ")
-    .replace(/[^a-z0-9\s]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/**
- * Fuzzy match against a list of candidate strings (name, key, aliases).
- * Returns the best (lowest) score, or -1 if nothing matches.
- */
-function fuzzyMatch(query: string, candidates: string[]): number {
-  const qRaw = query.toLowerCase().trim();
-  if (!qRaw) return -1;
-  const qNorm = normalizeForMatch(qRaw);
-  const qCompact = qNorm.replace(/\s+/g, "");
-
-  let best = -1;
-  for (const cand of candidates) {
-    if (!cand) continue;
-    const tNorm = normalizeForMatch(cand);
-    const tCompact = tNorm.replace(/\s+/g, "");
-
-    let score = -1;
-    if (tNorm === qNorm || tCompact === qCompact) score = 0;
-    else if (tNorm.startsWith(qNorm) || tCompact.startsWith(qCompact)) score = 0;
-    else if (tNorm.includes(qNorm) || tCompact.includes(qCompact)) score = 1;
-    else {
-      // Subsequence match on the compact form: tolerant of separators.
-      let qi = 0;
-      let gaps = 0;
-      for (let ti = 0; ti < tCompact.length && qi < qCompact.length; ti++) {
-        if (tCompact[ti] === qCompact[qi]) qi++;
-        else if (qi > 0) gaps++;
-      }
-      if (qi === qCompact.length) score = 2 + gaps;
-    }
-
-    if (score !== -1 && (best === -1 || score < best)) best = score;
-  }
-  return best;
-}
+// Search matching is delegated to the shared `fuzzyScore` util in
+// `@/utils/searchNormalize` so every search bar in the app behaves
+// identically.
 
 /**
  * Elemental property bar visualization
@@ -305,7 +260,7 @@ export default function IngredientSearchBar({
             i.subCategory ?? "",
             ...(Array.isArray(i.aliases) ? i.aliases : []),
           ];
-          return { ing, score: fuzzyMatch(query, candidates) };
+          return { ing, score: fuzzyScore(query, candidates) };
         })
         .filter((item) => item.score >= 0)
         .sort((a, b) => a.score - b.score);

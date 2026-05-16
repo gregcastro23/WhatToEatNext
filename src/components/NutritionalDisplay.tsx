@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import type { NutritionalProfile } from '@/types/alchemy';
 import { getNutritionalData, getAvailableNutritionalIngredients } from '@/utils/nutritionalUtils';
+import { looseIncludes } from '@/utils/searchNormalize';
 
 interface NutritionalDisplayProps {
   ingredientName?: string;
@@ -59,9 +60,7 @@ export default function NutritionalDisplay({
             {searchTerm && (
               <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-b mt-1 max-h-60 overflow-y-auto">
                 {availableIngredients
-                  .filter(item => 
-                    item.toLowerCase().includes(searchTerm.toLowerCase())
-                  )
+                  .filter(item => looseIncludes(item, searchTerm))
                   .map((item, index) => (
                     <div
                       key={index}

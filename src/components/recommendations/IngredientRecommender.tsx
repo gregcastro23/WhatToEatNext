@@ -8,6 +8,7 @@ import {
 } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
+import { looseIncludes } from "@/utils/searchNormalize";
 
 interface IngredientRecommenderProps {
   initialCategory?: string | null;
@@ -69,9 +70,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   const filteredIngredients = useMemo(
     () =>
       allIngredients.filter((item) => {
-        const matchesSearch =
-          !searchQuery ||
-          item.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = looseIncludes(item.name, searchQuery);
         const matchesCategory =
           !selectedCategory ||
           item.category.toLowerCase() === selectedCategory.toLowerCase();

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import { looseIncludes } from "@/utils/searchNormalize";
 
 interface User {
   id: string;
@@ -135,13 +136,12 @@ export default function AdminUsersPage() {
     }
   };
 
-  const filteredUsers = users.filter((user) => {
-    const matchesSearch =
+  const filteredUsers = users.filter(
+    (user) =>
       !search ||
-      user.email.toLowerCase().includes(search.toLowerCase()) ||
-      user.name?.toLowerCase().includes(search.toLowerCase());
-    return matchesSearch;
-  });
+      looseIncludes(user.email, search) ||
+      looseIncludes(user.name, search),
+  );
 
   return (
     <div>

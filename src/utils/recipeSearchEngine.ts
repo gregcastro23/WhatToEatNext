@@ -10,6 +10,11 @@ import type { MealType, DayOfWeek } from "@/types/menuPlanner";
 import { getPlanetaryDayCharacteristics } from "@/types/menuPlanner";
 import type { Recipe, ElementalProperties } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
+import {
+  jaccardSimilarity,
+  looseIncludes,
+  normalizeForMatch,
+} from "@/utils/searchNormalize";
 
 const logger = createLogger("RecipeSearchEngine");
 
@@ -88,16 +93,12 @@ export interface ScoredRecipe extends Recipe {
 }
 
 /**
- * Calculate text similarity score (simple Jaccard similarity)
+ * Calculate text similarity score (Jaccard similarity over normalized tokens).
+ * Backed by the shared search-normalization util so it tolerates separators
+ * and punctuation consistently with the rest of the app's search bars.
  */
 function calculateTextSimilarity(text1: string, text2: string): number {
-  const words1 = new Set(text1.toLowerCase().split(/\s+/));
-  const words2 = new Set(text2.toLowerCase().split(/\s+/));
-
-  const intersection = new Set([...words1].filter((x) => words2.has(x)));
-  const union = new Set([...words1, ...words2]);
-
-  return union.size > 0 ? intersection.size / union.size : 0;
+  return jaccardSimilarity(text1, text2);
 }
 
 /**
@@ -207,12 +208,9 @@ function hasExcludedIngredients(
   if (!excludeList || excludeList.length === 0) return false;
   if (!recipe.ingredients || recipe.ingredients.length === 0) return false;
 
-  const excludeLower = excludeList.map((i) => i.toLowerCase());
-
-  return recipe.ingredients.some((ingredient) => {
-    const ingName = ingredient.name.toLowerCase();
-    return excludeLower.some((excluded) => ingName.includes(excluded));
-  });
+  return recipe.ingredients.some((ingredient) =>
+    excludeList.some((excluded) => looseIncludes(ingredient.name, excluded)),
+  );
 }
 
 /**
@@ -233,42 +231,46 @@ function calculateRecipeScore(
     timeMatch: 0,
   };
 
-  // 1. Name match (0-100 points) - also searches description and ingredients
+  // 1. Name match (0-100 points). Uses separator-tolerant matching so
+  // "chicken_tikka", "chicken-tikka", and "chicken tikka" all hit equally.
+  // Also scores against cuisine and tags, since users often type those
+  // directly into the search box (e.g. "italian", "weeknight").
   if (options.query) {
-    const query = options.query.toLowerCase();
-    const name = recipe.name.toLowerCase();
+    const queryNorm = normalizeForMatch(options.query);
+    const nameNorm = normalizeForMatch(recipe.name);
 
-    if (name === query) {
+    if (nameNorm && nameNorm === queryNorm) {
       details.nameMatch = 100;
-    } else if (name.includes(query)) {
-      details.nameMatch = 50 + (query.length / name.length) * 50;
+    } else if (looseIncludes(recipe.name, options.query) && nameNorm) {
+      details.nameMatch = 50 + (queryNorm.length / nameNorm.length) * 50;
+    } else if (looseIncludes(recipe.cuisine, options.query)) {
+      details.nameMatch = 45;
+    } else if (
+      Array.isArray(recipe.tags) &&
+      recipe.tags.some((tag) => looseIncludes(tag, options.query))
+    ) {
+      details.nameMatch = 42;
+    } else if (
+      recipe.ingredients?.some((ing) => looseIncludes(ing.name, options.query))
+    ) {
+      details.nameMatch = 40;
+    } else if (looseIncludes(recipe.description, options.query)) {
+      details.nameMatch = 35;
     } else {
-      // Check description for query match
-      const description = recipe.description?.toLowerCase() || "";
-      if (description.includes(query)) {
-        details.nameMatch = 35;
-      } else {
-        // Check if any ingredient names contain the query
-        const ingredientMatch = recipe.ingredients?.some((ing) =>
-          ing.name.toLowerCase().includes(query),
-        );
-        if (ingredientMatch) {
-          details.nameMatch = 40; // Good match - query found in ingredient list
-        } else {
-          details.nameMatch = calculateTextSimilarity(name, query) * 30;
-        }
-      }
+      details.nameMatch =
+        calculateTextSimilarity(recipe.name, options.query) * 30;
     }
   }
 
   // 2. Ingredient match (0-50 points)
   if (options.includeIngredients && options.includeIngredients.length > 0) {
-    const includeLower = options.includeIngredients.map((i) => i.toLowerCase());
     let matchCount = 0;
-
     recipe.ingredients?.forEach((ingredient) => {
-      const ingName = ingredient.name.toLowerCase();
-      if (includeLower.some((included) => ingName.includes(included))) {
+      if (
+        options.includeIngredients!.some((included) =>
+          looseIncludes(ingredient.name, included),
+        )
+      ) {
         matchCount++;
       }
     });
@@ -279,9 +281,8 @@ function calculateRecipeScore(
 
   // 3. Cuisine match (0-40 points)
   if (options.cuisine && options.cuisine.length > 0) {
-    const recipeCuisine = recipe.cuisine?.toLowerCase() || "";
     const matchesCuisine = options.cuisine.some((c) =>
-      recipeCuisine.includes(c.toLowerCase()),
+      looseIncludes(recipe.cuisine, c),
     );
     details.cuisineMatch = matchesCuisine ? 40 : 0;
   }
@@ -407,12 +408,10 @@ export function searchRecipes(
 
     // 4. Filter by excluded cuisines
     if (options.excludeCuisine && options.excludeCuisine.length > 0) {
-      results = results.filter((r) => {
-        const recipeCuisine = r.cuisine?.toLowerCase() || "";
-        return !options.excludeCuisine!.some((c) =>
-          recipeCuisine.includes(c.toLowerCase()),
-        );
-      });
+      results = results.filter(
+        (r) =>
+          !options.excludeCuisine!.some((c) => looseIncludes(r.cuisine, c)),
+      );
     }
 
     // 5. Filter by spice level
@@ -440,31 +439,34 @@ export function searchRecipes(
 
     // 6. Filter by season
     if (options.season && options.season.length > 0) {
+      const wanted = options.season.map((s) => normalizeForMatch(s));
       results = results.filter((r) => {
         if (!r.season) return false;
         const recipeSeasons = Array.isArray(r.season) ? r.season : [r.season];
         return recipeSeasons.some((s) =>
-          options.season!.some((os) => s.toLowerCase() === os.toLowerCase()),
+          wanted.includes(normalizeForMatch(s)),
         );
       });
     }
 
     // 7. Filter by tags
     if (options.tags && options.tags.length > 0) {
+      const wanted = options.tags.map((t) => normalizeForMatch(t));
       results = results.filter((r) => {
         if (!r.tags || r.tags.length === 0) return false;
-        return options.tags!.some((tag) =>
-          r.tags!.some((rt) => rt.toLowerCase() === tag.toLowerCase()),
+        return wanted.some((tag) =>
+          r.tags!.some((rt) => normalizeForMatch(rt) === tag),
         );
       });
     }
 
     // 8. Exclude by tags
     if (options.excludeTags && options.excludeTags.length > 0) {
+      const excluded = options.excludeTags.map((t) => normalizeForMatch(t));
       results = results.filter((r) => {
         if (!r.tags || r.tags.length === 0) return true;
-        return !options.excludeTags!.some((tag) =>
-          r.tags!.some((rt) => rt.toLowerCase() === tag.toLowerCase()),
+        return !excluded.some((tag) =>
+          r.tags!.some((rt) => normalizeForMatch(rt) === tag),
         );
       });
     }
@@ -592,58 +594,40 @@ export function searchRecipesByIngredients(
   }
 
   const { matchAll = false, excludeIngredients = [], limit = 20 } = options;
-  const ingredientsLower = ingredients.map((i) => i.toLowerCase().trim());
-  const excludeLower = excludeIngredients.map((i) => i.toLowerCase().trim());
+  const searchTerms = ingredients.map((i) => i.trim()).filter(Boolean);
 
   // Filter recipes by ingredient match
   const filteredRecipes = recipes.filter((recipe) => {
     if (!recipe.ingredients || recipe.ingredients.length === 0) return false;
 
     // Check excluded ingredients first
-    if (excludeLower.length > 0) {
+    if (excludeIngredients.length > 0) {
       const hasExcluded = recipe.ingredients.some((ing) =>
-        excludeLower.some((ex) => ing.name.toLowerCase().includes(ex)),
+        excludeIngredients.some((ex) => looseIncludes(ing.name, ex)),
       );
       if (hasExcluded) return false;
     }
 
-    const recipeIngredients = recipe.ingredients.map((ing) =>
-      ing.name.toLowerCase(),
-    );
+    const ings = recipe.ingredients;
+    const check = (searchIng: string): boolean =>
+      ings.some((ing) => looseIncludes(ing.name, searchIng));
 
-    if (matchAll) {
-      // All search ingredients must be in recipe
-      return ingredientsLower.every((searchIng) =>
-        recipeIngredients.some((recipeIng) => recipeIng.includes(searchIng)),
-      );
-    } else {
-      // At least one search ingredient must be in recipe
-      return ingredientsLower.some((searchIng) =>
-        recipeIngredients.some((recipeIng) => recipeIng.includes(searchIng)),
-      );
-    }
+    return matchAll ? searchTerms.every(check) : searchTerms.some(check);
   });
 
   // Score recipes by number of matching ingredients
   const scoredRecipes: ScoredRecipe[] = filteredRecipes.map((recipe) => {
-    let matchCount = 0;
-    const matchedIngredients: string[] = [];
-
+    const matchedIngredients = new Set<string>();
     recipe.ingredients?.forEach((ing) => {
-      const ingLower = ing.name.toLowerCase();
-      ingredientsLower.forEach((searchIng) => {
-        if (
-          ingLower.includes(searchIng) &&
-          !matchedIngredients.includes(searchIng)
-        ) {
-          matchCount++;
-          matchedIngredients.push(searchIng);
+      searchTerms.forEach((searchIng) => {
+        if (looseIncludes(ing.name, searchIng)) {
+          matchedIngredients.add(searchIng);
         }
       });
     });
 
-    // Calculate score: higher score for more matched ingredients
-    const matchRatio = matchCount / ingredientsLower.length;
+    const matchRatio =
+      searchTerms.length > 0 ? matchedIngredients.size / searchTerms.length : 0;
     const ingredientScore = matchRatio * 80; // Max 80 points for ingredient match
 
     return {
@@ -691,7 +675,9 @@ export function getAllUniqueIngredients(recipes: Recipe[]): string[] {
 }
 
 /**
- * Search ingredients for autocomplete
+ * Search ingredients for autocomplete. Uses the shared separator-tolerant
+ * normalizer so "oat_milk", "oat-milk", and "oatmilk" all surface the same
+ * stored ingredient names.
  */
 export function searchIngredients(
   recipes: Recipe[],
@@ -701,15 +687,24 @@ export function searchIngredients(
   if (!query || query.length < 2) return [];
 
   const allIngredients = getAllUniqueIngredients(recipes);
-  const queryLower = query.toLowerCase();
+  const queryNorm = normalizeForMatch(query);
+  if (!queryNorm) return [];
+  const queryCompact = queryNorm.replace(/\s+/g, "");
 
-  // Filter ingredients that start with or contain the query
-  const matches = allIngredients.filter((ing) => ing.includes(queryLower));
+  const matches = allIngredients.filter((ing) => looseIncludes(ing, query));
 
-  // Sort: prioritize ingredients that start with query
+  // Sort: prioritise ingredients whose normalized form starts with the query
   matches.sort((a, b) => {
-    const aStarts = a.startsWith(queryLower) ? 0 : 1;
-    const bStarts = b.startsWith(queryLower) ? 0 : 1;
+    const an = normalizeForMatch(a);
+    const bn = normalizeForMatch(b);
+    const aStarts =
+      an.startsWith(queryNorm) || an.replace(/\s+/g, "").startsWith(queryCompact)
+        ? 0
+        : 1;
+    const bStarts =
+      bn.startsWith(queryNorm) || bn.replace(/\s+/g, "").startsWith(queryCompact)
+        ? 0
+        : 1;
     if (aStarts !== bStarts) return aStarts - bStarts;
     return a.localeCompare(b);
   });

@@ -13,6 +13,7 @@ import type { Sauce } from "@/data/sauces";
 import type { ElementalProperties } from "@/types/recipe";
 import { recommendSauces } from "@/utils/cuisine/intelligentSauceRecommender";
 import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
+import { looseIncludes } from "@/utils/searchNormalize";
 
 interface SauceSelectorProps {
   isOpen: boolean;
@@ -225,11 +226,10 @@ export default function SauceSelector({
     return Object.entries(allSauces).filter(([_id, sauce]) => {
       if (cuisineFilter !== "all" && sauce.cuisine !== cuisineFilter) return false;
       if (searchQuery) {
-        const q = searchQuery.toLowerCase();
         return (
-          sauce.name.toLowerCase().includes(q) ||
-          sauce.keyIngredients.some((ing) => ing.toLowerCase().includes(q)) ||
-          (sauce.cuisine && sauce.cuisine.toLowerCase().includes(q))
+          looseIncludes(sauce.name, searchQuery) ||
+          sauce.keyIngredients.some((ing) => looseIncludes(ing, searchQuery)) ||
+          looseIncludes(sauce.cuisine, searchQuery)
         );
       }
       return true;
