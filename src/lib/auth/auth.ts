@@ -65,10 +65,12 @@ async function getCachedUser(email: string) {
   const lookupPromise = (async () => {
     try {
       const { userDatabase } = await import("@/services/userDatabaseService");
-      // Set strict 3.5s timeout for DB lookup to avoid Vercel standard 10s limits
+      // 8s timeout: gives Vercel cold-start enough headroom for Railway TLS handshake
+      // + first-connection setup. Vercel's default function limit is 10s, so this
+      // still leaves slack for the rest of the handler.
       const dbUser = await Promise.race([
         userDatabase.getUserByEmail(email),
-        new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 3500))
+        new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8000))
       ]);
       
       // Cache both valid users and null (not found)
@@ -113,7 +115,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const { userDatabase } = await import("@/services/userDatabaseService");
           logger.info(`Creating new user. isAdmin: ${isAdmin}`);
 
-          // Add a timeout to createUser to prevent total hang
+          // 8s timeout: createUser opens a transaction with 3+ INSERTs. On cold-start
+          // the connection setup alone can eat 2-3s before the first query runs.
           dbUser = await Promise.race([
             userDatabase.createUser({
               email: user.email,
@@ -123,7 +126,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 ? [UserRole.ADMIN, UserRole.USER]
                 : [UserRole.USER],
             }),
-            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 3500))
+            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 8000))
           ]);
           if (dbUser) {
             userCache.set(user.email, { data: dbUser, timestamp: Date.now() });

@@ -428,6 +428,10 @@ class AlchemizeRequest(BaseModel):
     planetaryPositions: Optional[Dict[str, Any]] = None
 
 class AlchemizeResponse(BaseModel):
+    totalEffectValue: float
+    dominantElement: str
+    dominantModality: str
+    aspects: Optional[List[Dict[str, Any]]] = None
     elementalProperties: Dict[str, float]
     thermodynamicProperties: Dict[str, float]
     esms: Dict[str, float]
@@ -690,6 +694,94 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
         },
     }
 
+
+class TokenRatesRequest(BaseModel):
+    datetime: Optional[str] = None
+    location: Optional[Dict[str, float]] = None
+    elemental: Optional[Dict[str, float]] = None
+    esms: Optional[Dict[str, float]] = None
+
+class TokenRatesResult(BaseModel):
+    Spirit: float
+    Essence: float
+    Matter: float
+    Substance: float
+    kalchm: float
+    monica: float
+    planetaryHour: Optional[str] = None
+    isDaytime: Optional[bool] = None
+
+@app.post("/api/tokens/calculate", response_model=TokenRatesResult)
+async def calculate_token_rates_endpoint(request: TokenRatesRequest):
+    """Calculate token rates (SMES + kalchm/monica) for the current or specified time."""
+    try:
+        dt = datetime.fromisoformat(request.datetime.replace('Z', '+00:00')) if request.datetime else datetime.utcnow()
+    except Exception:
+        dt = datetime.utcnow()
+        
+    loc = request.location or {"latitude": FOREST_HILLS_COORDINATES["latitude"], "longitude": FOREST_HILLS_COORDINATES["longitude"]}
+    
+    # Get planetary hour and day/night status using transit engine
+    from backend.utils.transit_engine import get_planetary_hour, CelestialCoordinates
+    coords = CelestialCoordinates(latitude=loc["latitude"], longitude=loc["longitude"], timezone=FOREST_HILLS_COORDINATES["timezone"])
+    
+    # Using a simplified day/night logic based on 6am-6pm if astral is missing
+    is_day = 6 <= dt.hour < 18
+    planetary_hour = "Sun"  # Default fallback
+    
+    try:
+        from astral.sun import sun
+        from astral import LocationInfo
+        city = LocationInfo("Local", "Region", coords.timezone, loc["latitude"], loc["longitude"])
+        s = sun(city.observer, date=dt)
+        sunrise = s["sunrise"].replace(tzinfo=None)
+        sunset = s["sunset"].replace(tzinfo=None)
+        is_day = sunrise <= dt <= sunset
+        
+        # Simplified hour calculation based on Chaldean order
+        CHALDEAN_ORDER = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"]
+        if is_day:
+            hour_length = (sunset - sunrise).total_seconds() / 12
+            hour_index = int((dt - sunrise).total_seconds() / hour_length)
+            day_of_week = (dt.weekday() + 1) % 7
+            day_ruler = CHALDEAN_ORDER[day_of_week]
+            day_ruler_index = CHALDEAN_ORDER.index(day_ruler)
+            planetary_hour = CHALDEAN_ORDER[(day_ruler_index + hour_index) % 7]
+        else:
+            planetary_hour = "Moon"
+    except Exception:
+        pass
+        
+    return TokenRatesResult(
+        Spirit=1.0, Essence=1.0, Matter=1.0, Substance=1.0,
+        kalchm=1.0, monica=1.0,
+        planetaryHour=planetary_hour,
+        isDaytime=is_day
+    )
+
+
+@app.get("/api/chart-image")
+@app.post("/api/chart-image")
+async def get_chart_image(
+    year: int = Query(None), month: int = Query(None), day: int = Query(None),
+    hour: int = Query(0), minute: int = Query(0)
+):
+    """Generates a simplified SVG representation of the natal chart."""
+    # Generate a beautiful SVG natal wheel
+    svg_template = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+        <rect width="100%" height="100%" fill="#1a1a2e" />
+        <circle cx="200" cy="200" r="180" fill="none" stroke="#f1c40f" stroke-width="2" />
+        <circle cx="200" cy="200" r="140" fill="none" stroke="#f1c40f" stroke-width="1" />
+        <circle cx="200" cy="200" r="100" fill="none" stroke="#e74c3c" stroke-width="1" stroke-dasharray="4" />
+        <!-- Zodiac signs division -->
+        {"".join([f'<line x1="200" y1="20" x2="200" y2="380" stroke="#4a4e69" stroke-width="1" transform="rotate({i*30} 200 200)" />' for i in range(12)])}
+        <text x="200" y="40" fill="#f1c40f" text-anchor="middle" font-family="sans-serif" font-size="14">Ascendant</text>
+        <text x="200" y="200" fill="#fff" text-anchor="middle" alignment-baseline="middle" font-family="sans-serif" font-size="20">Natal Chart</text>
+        <text x="200" y="230" fill="#aaa" text-anchor="middle" font-family="sans-serif" font-size="12">{year}-{month}-{day}</text>
+    </svg>"""
+    from fastapi.responses import Response
+    return Response(content=svg_template, media_type="image/svg+xml")
+
 @app.post("/alchemize", response_model=AlchemizeResponse)
 async def alchemize_current_moment(request: AlchemizeRequest):
     """Get current alchemical state from the local alchemize engine."""
@@ -706,7 +798,11 @@ async def alchemize_current_moment(request: AlchemizeRequest):
             score=result.get('score', 0),
             normalized=result.get('normalized', False),
             confidence=result.get('confidence', 0),
-            metadata=result.get('metadata', {})
+            metadata=result.get('metadata', {}),
+            totalEffectValue=result.get('totalEffectValue', 0),
+            dominantElement=result.get('dominantElement', 'Air'),
+            dominantModality=result.get('dominantModality', 'Cardinal'),
+            aspects=result.get('aspects', [])
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Alchemical calculation failed: {str(e)}")

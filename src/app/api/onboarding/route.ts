@@ -9,8 +9,8 @@
  */
 
 import { NextResponse } from "next/server";
-import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { auth } from "@/lib/auth/auth";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";

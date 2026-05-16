@@ -258,6 +258,7 @@ export function classifyZScore(z: number): {
   label: string;
   direction: "above" | "below" | "at";
   magnitude: "typical" | "normal" | "elevated" | "high" | "extreme";
+  rpgTier: "Legendary" | "Epic" | "Rare" | "Common" | "Depleted";
 } {
   const abs = Math.abs(z);
   let magnitude: "typical" | "normal" | "elevated" | "high" | "extreme";
@@ -278,5 +279,12 @@ export function classifyZScore(z: number): {
   else if (magnitude === "high") label = `strongly ${direction} mean`;
   else label = `extremely ${direction} mean`;
 
-  return { label, direction, magnitude };
+  let rpgTier: "Legendary" | "Epic" | "Rare" | "Common" | "Depleted";
+  if (z >= 2.0) rpgTier = "Legendary";
+  else if (z >= 1.0) rpgTier = "Epic";
+  else if (z >= 0.5) rpgTier = "Rare";
+  else if (z <= -0.5) rpgTier = "Depleted";
+  else rpgTier = "Common";
+
+  return { label, direction, magnitude, rpgTier };
 }

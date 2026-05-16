@@ -197,6 +197,47 @@ def calculate_planetary_positions_swisseph(
         except Exception as house_error:
             print(f"Error calculating houses: {house_error}")
 
+        
+        # Calculate Aspects
+        aspects = []
+        planet_names = list(planets.keys())
+        for i in range(len(planet_names)):
+            for j in range(i + 1, len(planet_names)):
+                p1 = planet_names[i]
+                p2 = planet_names[j]
+                if p1 not in positions or p2 not in positions:
+                    continue
+                
+                lon1 = positions[p1].get("exactLongitude", 0)
+                lon2 = positions[p2].get("exactLongitude", 0)
+                
+                diff = abs(lon1 - lon2)
+                if diff > 180:
+                    diff = 360 - diff
+                    
+                # Aspects with orbs
+                orb = 8
+                aspect_types = [
+                    ("Conjunction", 0, orb),
+                    ("Sextile", 60, 6),
+                    ("Square", 90, orb),
+                    ("Trine", 120, orb),
+                    ("Opposition", 180, orb)
+                ]
+                
+                for a_name, a_angle, a_orb in aspect_types:
+                    if abs(diff - a_angle) <= a_orb:
+                        exactness = 1.0 - (abs(diff - a_angle) / a_orb)
+                        aspects.append({
+                            "planet1": p1,
+                            "planet2": p2,
+                            "aspect": a_name,
+                            "angle": round(diff, 2),
+                            "orb": a_orb,
+                            "exactness": round(exactness, 4)
+                        })
+        positions["_aspects"] = aspects
+
         return {
             "positions": positions,
             "source": "pyswisseph",
@@ -287,6 +328,47 @@ def calculate_planetary_positions_pyephem(
                 }
             except Exception as planet_error:
                 print(f"Error calculating {planet_name} with pyephem: {planet_error}")
+
+        
+        # Calculate Aspects
+        aspects = []
+        planet_names = list(planets.keys())
+        for i in range(len(planet_names)):
+            for j in range(i + 1, len(planet_names)):
+                p1 = planet_names[i]
+                p2 = planet_names[j]
+                if p1 not in positions or p2 not in positions:
+                    continue
+                
+                lon1 = positions[p1].get("exactLongitude", 0)
+                lon2 = positions[p2].get("exactLongitude", 0)
+                
+                diff = abs(lon1 - lon2)
+                if diff > 180:
+                    diff = 360 - diff
+                    
+                # Aspects with orbs
+                orb = 8
+                aspect_types = [
+                    ("Conjunction", 0, orb),
+                    ("Sextile", 60, 6),
+                    ("Square", 90, orb),
+                    ("Trine", 120, orb),
+                    ("Opposition", 180, orb)
+                ]
+                
+                for a_name, a_angle, a_orb in aspect_types:
+                    if abs(diff - a_angle) <= a_orb:
+                        exactness = 1.0 - (abs(diff - a_angle) / a_orb)
+                        aspects.append({
+                            "planet1": p1,
+                            "planet2": p2,
+                            "aspect": a_name,
+                            "angle": round(diff, 2),
+                            "orb": a_orb,
+                            "exactness": round(exactness, 4)
+                        })
+        positions["_aspects"] = aspects
 
         return {
             "positions": positions,

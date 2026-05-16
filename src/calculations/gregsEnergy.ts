@@ -159,7 +159,13 @@ export function calculateGregsEnergy(
       Math.pow(Air, 2) +
       Math.pow(Water, 2);
     const reactivityDen = Math.pow(Matter + Earth, 2);
-    const reactivity = reactivityDen > 0 ? reactivityNum / reactivityDen : 0;
+    // Soft cap at 10 to prevent gregsEnergy blow-up when Matter + Earth → 0
+    // (high-Fire cooking methods like stir-fry can drive Earth elemental near zero,
+    // sending reactivity into the thousands and producing nonsensical gregsEnergy)
+    const reactivity = Math.min(
+      reactivityDen > 0 ? reactivityNum / reactivityDen : 0,
+      10,
+    );
 
     // Greg's Energy (free energy metric)
     // Note: Greg's Energy can be negative (heat - entropy * reactivity)

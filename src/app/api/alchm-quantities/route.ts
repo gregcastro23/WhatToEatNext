@@ -357,7 +357,11 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.json(validated.data);
+    return NextResponse.json(validated.data, {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=59",
+      },
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     const stack = error instanceof Error ? error.stack : "No stack";

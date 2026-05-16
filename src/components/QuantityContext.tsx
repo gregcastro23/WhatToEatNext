@@ -45,27 +45,18 @@ function formatNumber(n: number, digits = 4): string {
   return n.toFixed(digits);
 }
 
-function zToColor(z: number): { fg: string; bg: string; border: string } {
-  const abs = Math.abs(z);
-  if (abs < 0.5)
-    return { fg: "text-white/60", bg: "bg-white/5", border: "border-white/10" };
-  if (abs < 1)
-    return {
-      fg: z > 0 ? "text-emerald-300" : "text-sky-300",
-      bg: z > 0 ? "bg-emerald-500/10" : "bg-sky-500/10",
-      border: z > 0 ? "border-emerald-500/20" : "border-sky-500/20",
-    };
-  if (abs < 2)
-    return {
-      fg: z > 0 ? "text-amber-300" : "text-indigo-300",
-      bg: z > 0 ? "bg-amber-500/10" : "bg-indigo-500/10",
-      border: z > 0 ? "border-amber-500/30" : "border-indigo-500/30",
-    };
-  return {
-    fg: z > 0 ? "text-rose-300" : "text-violet-300",
-    bg: z > 0 ? "bg-rose-500/10" : "bg-violet-500/10",
-    border: z > 0 ? "border-rose-500/40" : "border-violet-500/40",
-  };
+function zToColor(z: number): { fg: string; bg: string; border: string; glow: string } {
+  if (z >= 2.0)
+    return { fg: "text-amber-400", bg: "bg-amber-500/20", border: "border-amber-400/50", glow: "shadow-[0_0_15px_rgba(251,191,36,0.3)]" };
+  if (z >= 1.0)
+    return { fg: "text-purple-400", bg: "bg-purple-500/20", border: "border-purple-400/50", glow: "shadow-[0_0_12px_rgba(192,132,252,0.25)]" };
+  if (z >= 0.5)
+    return { fg: "text-blue-400", bg: "bg-blue-500/15", border: "border-blue-400/40", glow: "shadow-[0_0_8px_rgba(96,165,250,0.15)]" };
+  if (z <= -1.0)
+    return { fg: "text-rose-400", bg: "bg-rose-500/15", border: "border-rose-400/40", glow: "" };
+  if (z <= -0.5)
+    return { fg: "text-gray-400", bg: "bg-gray-500/15", border: "border-gray-500/40", glow: "" };
+  return { fg: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-400/30", glow: "" };
 }
 
 // ─── Sparkline ────────────────────────────────────────────────────────────────
@@ -182,17 +173,17 @@ export function QuantityZBadge({
   z: number;
   compact?: boolean;
 }) {
-  const { fg, bg, border } = zToColor(z);
+  const { fg, bg, border, glow } = zToColor(z);
   const cls = classifyZScore(z);
   const sign = z > 0 ? "+" : "";
   return (
     <span
       title={cls.label}
-      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold tabular-nums uppercase tracking-wider border ${border} ${bg} ${fg}`}
+      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold tabular-nums uppercase tracking-wider border ${border} ${bg} ${fg} ${glow}`}
     >
       <span aria-hidden="true">σ</span>
       <span>{sign}{z.toFixed(2)}</span>
-      {!compact && <span className="opacity-60">{cls.magnitude}</span>}
+      {!compact && <span className="opacity-80 ml-0.5">{cls.rpgTier}</span>}
     </span>
   );
 }
@@ -240,6 +231,7 @@ export function QuantityContextStrip({
   stroke = "#a78bfa",
   showSparkline = true,
   showRange = true,
+  showBadgeCompact = true,
   className = "",
 }: {
   path: string;
@@ -247,6 +239,7 @@ export function QuantityContextStrip({
   stroke?: string;
   showSparkline?: boolean;
   showRange?: boolean;
+  showBadgeCompact?: boolean;
   className?: string;
 }) {
   const ctx = useQuantityContext(path);
@@ -261,7 +254,7 @@ export function QuantityContextStrip({
   const z = ctx.stdDev > 1e-12 ? (observed - ctx.mean) / ctx.stdDev : 0;
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      <QuantityZBadge z={z} compact />
+      <QuantityZBadge z={z} compact={showBadgeCompact} />
       {showSparkline && (
         <QuantitySparkline
           series={ctx.spark}
