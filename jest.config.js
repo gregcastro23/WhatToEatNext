@@ -3,14 +3,14 @@
 const config = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  extensionsToTreatAsEsm: [".ts", ".tsx"],
+  extensionsToTreatAsEsm: [".ts", ".tsx", ".mjs"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^react$": "<rootDir>/node_modules/react",
     "^react-dom$": "<rootDir>/node_modules/react-dom",
   },
   transform: {
-    "^.+\\.(ts|tsx)$": [
+    "^.+\\.(ts|tsx|mjs)$": [
       "ts-jest",
       {
         tsconfig: "tsconfig.jest.json",
