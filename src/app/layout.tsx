@@ -65,24 +65,22 @@ export default function RootLayout({
             <div className="mx-auto max-w-[1400px] px-4 md:px-8">
               <div className="flex flex-col xl:flex-row items-center xl:items-start justify-between gap-6">
                 {/* Left Side: Logo and Title */}
-                <Link href="/" className="group flex flex-col sm:flex-row items-center sm:items-start gap-4 flex-shrink-0 w-full xl:w-1/3 min-h-[44px]">
-                  <div className="flex-shrink-0 shadow-lg shadow-purple-900/40 rounded-2xl overflow-hidden border-2 border-purple-500/40 group-hover:scale-105 transition-transform duration-300">
+                <Link href="/" className="group flex flex-row items-center gap-4 flex-shrink-0 w-full xl:w-1/3 min-h-[44px]">
+                  <div className="flex-shrink-0 shadow-xl shadow-purple-900/30 rounded-full overflow-hidden border-2 border-purple-500/50 group-hover:scale-105 group-hover:shadow-purple-500/40 transition-all duration-300">
                     <Image
                       src="/Aklogo.jpg"
                       alt="Alchm Kitchen Logo"
-                      width={160}
-                      height={160}
-                      unoptimized
+                      width={120}
+                      height={120}
                       priority
-                      className="object-cover w-[100px] h-[100px] sm:w-[140px] sm:h-[140px] xl:w-[160px] xl:h-[160px] block"
+                      className="object-cover w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] xl:w-[90px] xl:h-[90px] block"
                     />
                   </div>
-                  <div className="text-center sm:text-left mt-2 sm:mt-0">
-                    <h1 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-orange-400 group-hover:from-purple-300 group-hover:to-orange-300 transition-all leading-tight">
-                      Alchm <br className="hidden sm:block" />
-                      Kitchen
+                  <div className="text-left">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-orange-400 group-hover:from-purple-300 group-hover:to-orange-300 transition-all leading-tight">
+                      Alchm Kitchen
                     </h1>
-                    <p className="hidden sm:block mt-2 text-gray-400 text-sm md:text-base font-medium tracking-wide">
+                    <p className="hidden sm:block mt-1 text-gray-400 text-xs md:text-sm font-medium tracking-wide max-w-[280px]">
                       The Menu of the Moment in the Stars and Elements
                     </p>
                   </div>
