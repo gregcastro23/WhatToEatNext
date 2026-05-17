@@ -2,18 +2,11 @@
 
 import {
   Users,
-  MessageCircle,
   Send,
   Plus,
   X,
-  Sparkles,
-  Brain,
-  Zap,
   Star,
   Loader2,
-  Crown,
-  Eye,
-  Target,
 } from 'lucide-react'
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -29,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 // Types
 interface PlanetaryAgent {
@@ -199,7 +191,7 @@ const MessageBubble: React.FC<{ message: ConversationMessage }> = ({ message }) 
 
 export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
   availableAgents,
-  userId = 'demo-user',
+  userId: _userId = 'demo-user',
   initialAgents = [],
   onClose,
   maxAgents = 5,

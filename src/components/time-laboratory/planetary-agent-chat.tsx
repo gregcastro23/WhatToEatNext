@@ -1,16 +1,10 @@
 'use client'
 
 import {
-  MessageCircle,
   Send,
   Sparkles,
   Brain,
-  Zap,
   Users,
-  Star,
-  Moon,
-  Sun,
-  Eye,
   Target,
   Flame,
   Droplets,
@@ -20,10 +14,9 @@ import {
   X,
   Settings,
   History,
-  RotateCcw,
 } from 'lucide-react'
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -224,7 +217,7 @@ const MessageBubble: React.FC<{ message: ChatMessage }> = ({ message }) => {
 
 export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
   agent,
-  userId = 'demo-user',
+  userId: _userId = 'demo-user',
   initialContext,
   onClose,
   onAgentEvolution,
@@ -364,7 +357,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
     (e: React.KeyboardEvent) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault()
-        handleSendMessage()
+        void handleSendMessage()
       }
     },
     [handleSendMessage]

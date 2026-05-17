@@ -1087,7 +1087,7 @@ function QuantitiesPageContent() {
                     userId="demo-user"
                     selectedDate={new Date()}
                     onAgentChat={(id, name) => console.log('Chat with', id, name)}
-                    onGroupChat={async () => console.log('Group chat triggered')}
+                    onGroupChat={() => console.log('Group chat triggered')}
                   />
                 </Suspense>
               </SectionCard>

@@ -213,7 +213,7 @@ export async function GET(request: Request) {
     // separating aspects as inductive (resistance to change). The elemental
     // mix becomes resistive impedance R. Net reactance X = ωL − 1/(ωC).
     // -----------------------------------------------------------------------
-    type Vec3 = { x: number; y: number; z: number };
+    interface Vec3 { x: number; y: number; z: number }
     const ZERO_VEC: Vec3 = { x: 0, y: 0, z: 0 };
     const addVec = (a: Vec3, b: Vec3): Vec3 => ({
       x: a.x + b.x,
@@ -316,7 +316,7 @@ export async function GET(request: Request) {
       if (diff > 180) diff = 360 - diff;
       return Math.abs(diff - target);
     };
-    const ASPECT_DEFS: { type: string; angle: number; maxOrb: number }[] = [
+    const ASPECT_DEFS: Array<{ type: string; angle: number; maxOrb: number }> = [
       { type: "conjunction", angle: 0, maxOrb: 8 },
       { type: "opposition", angle: 180, maxOrb: 8 },
       { type: "trine", angle: 120, maxOrb: 8 },

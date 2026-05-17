@@ -9,9 +9,7 @@ import {
   Wind,
   Mountain,
   RotateCcw,
-  Users,
   Sparkles,
-  Target,
 } from 'lucide-react'
 import React, { useState, useCallback, useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
@@ -345,7 +343,7 @@ export const AgentFilterPanel: React.FC<AgentFilterPanelProps> = ({
             <div className="flex flex-wrap gap-1">
               {filters.searchTerm && (
                 <Badge variant="secondary" className="cosmic-badge text-xs">
-                  Search: "{filters.searchTerm}"
+                  Search: &quot;{filters.searchTerm}&quot;
                   <button
                     onClick={() => updateFilters({ searchTerm: '' })}
                     className="ml-1 hover:text-red-400"
