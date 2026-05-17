@@ -4,10 +4,15 @@
  */
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import {
+  applyPersonalizedPricing,
+  getPersonalizedPricingContext,
+} from "@/lib/economy/livePricing";
 import { OPERATION_COSTS } from "@/lib/economy/operationCosts";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Recipe } from "@/types/recipe";
+import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -20,14 +25,43 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
 
+    // Throttling: Substance token spend (debited below) is the economic gate.
+    // No per-minute rate cap — logged-in users are paced by their token balance.
+
     const body = await request.json().catch(() => ({}));
     const { cuisine } = body;
 
-    const cost = OPERATION_COSTS.refine_oracle;
-    const deductResult = await tokenEconomy.debitTokens(user.id, "Substance", cost.substance, "purchase", { description: "Refined Oracle Recommendation" });
+    // Personalised live pricing: even though refine debits only Substance, run
+    // it through the same chart × current-sky multiplier so the economy stays
+    // self-consistent. A user the universe says Substance is hard to come by
+    // for right now feels that friction here too.
+    const baseSubstance = OPERATION_COSTS.refine_oracle.substance ?? 0;
+    const natalPositions = getCapitalizedNatalPositions(user.profile?.natalChart);
+    const pricing = await getPersonalizedPricingContext(natalPositions);
+    const { substance: liveSubstance } = applyPersonalizedPricing(
+      { spirit: 0, essence: 0, matter: 0, substance: baseSubstance },
+      pricing,
+    );
+
+    const deductResult = await tokenEconomy.debitTokens(
+      user.id,
+      "Substance",
+      liveSubstance,
+      "purchase",
+      {
+        description: pricing.personalized
+          ? `Refined Oracle Recommendation (live x${pricing.multiplier.toFixed(2)} · personalized)`
+          : `Refined Oracle Recommendation (live x${pricing.multiplier.toFixed(2)})`,
+      },
+    );
     if (!deductResult) {
       return NextResponse.json(
-        { success: false, error: `Insufficient Substance (🝉) tokens. You need ${cost.substance} Substance.` },
+        {
+          success: false,
+          error: `Insufficient Substance (🝉) tokens. You need ${liveSubstance.toFixed(2)} Substance right now${pricing.personalized ? " (your chart's rate)" : ""}.`,
+          liveCost: { substance: liveSubstance },
+          pricing,
+        },
         { status: 402 }
       );
     }

@@ -34,7 +34,6 @@ import type {
   MealCircuitMetrics,
   CircuitBottleneck,
   CircuitImprovementSuggestion,
-  CircuitOptimizationGoal as _CircuitOptimizationGoal,
 } from "@/types/kinetics";
 import type {
   WeeklyMenu,
@@ -61,16 +60,11 @@ import {
   getMealsForDay,
 } from "@/utils/dayCircuitCalculations";
 import { generateGroceryList } from "@/utils/groceryListGenerator";
-import {
-  estimateWeeklyGroceryCost,
-  calculateRecipeEstimatedCost as _calculateRecipeEstimatedCost,
-  type RecipeCostEstimate as _RecipeCostEstimate,
-} from "@/utils/instacart/priceEstimator";
+import { estimateWeeklyGroceryCost } from "@/utils/instacart/priceEstimator";
 import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
 import {
   generateDayRecommendations,
-  type RecommendedMeal as _RecommendedMeal,
   type AstrologicalState,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
@@ -404,8 +398,39 @@ function hydrateMenuDates(menu: WeeklyMenu): WeeklyMenu {
   };
 }
 
+const GROCERY_LIST_OPTIONS = {
+  consolidateBy: "ingredient" as const,
+  convertUnits: true,
+  excludePantryItems: false,
+};
+
+/**
+ * Rebuild the menu envelope around an updated meal list and regenerate the
+ * derived grocery list in one shot. Used by every sauce mutation to keep the
+ * meal/menu/grocery triad in sync without three near-identical inline blocks.
+ */
+function applyMealUpdate(
+  menu: WeeklyMenu,
+  updatedMeals: MealSlot[],
+): { menu: WeeklyMenu; groceryList: GroceryItem[] } {
+  return {
+    menu: { ...menu, meals: updatedMeals, updatedAt: new Date() },
+    groceryList: generateGroceryList(updatedMeals, GROCERY_LIST_OPTIONS),
+  };
+}
+
 /**
  * Menu Planner Provider Component
+ *
+ * TODO(refactor): This provider is ~2100 lines and exposes 89 fields. Planned
+ * extractions, in order of payoff:
+ *   1. Meal copy/move/swap operations → `utils/mealSlotUpdates.ts`
+ *   2. Cost estimation effect+state → `hooks/useCostEstimation.ts`
+ *   3. PantryManager sync → `hooks/usePantrySync.ts`
+ *   4. Split contextValue useMemo (currently 59 deps → cascading re-renders)
+ *   5. Optional: split into MealGenerationContext / BudgetContext / CircuitMetricsContext
+ * Done in this pass: dead imports removed; sauce apply-and-refresh duped block
+ * factored into applyMealUpdate above.
  */
 export function MenuPlannerProvider({ children }: { children: ReactNode }) {
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(() =>
@@ -1205,17 +1230,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         return meal;
       });
 
-      const updatedMenu = {
-        ...currentMenu,
-        meals: updatedMeals,
-        updatedAt: new Date(),
-      };
-      const newGroceryList = generateGroceryList(updatedMeals, {
-        consolidateBy: "ingredient",
-        convertUnits: true,
-        excludePantryItems: false,
-      });
-
+      const { menu: updatedMenu, groceryList: newGroceryList } = applyMealUpdate(
+        currentMenu,
+        updatedMeals,
+      );
       setCurrentMenu(updatedMenu);
       setGroceryList(newGroceryList);
       logger.info(`Added sauce ${sauceData.name} to meal ${mealSlotId}`);
@@ -1241,17 +1259,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         return meal;
       });
 
-      const updatedMenu = {
-        ...currentMenu,
-        meals: updatedMeals,
-        updatedAt: new Date(),
-      };
-      const newGroceryList = generateGroceryList(updatedMeals, {
-        consolidateBy: "ingredient",
-        convertUnits: true,
-        excludePantryItems: false,
-      });
-
+      const { menu: updatedMenu, groceryList: newGroceryList } = applyMealUpdate(
+        currentMenu,
+        updatedMeals,
+      );
       setCurrentMenu(updatedMenu);
       setGroceryList(newGroceryList);
       logger.info(`Removed sauce from meal ${mealSlotId}`);
@@ -1280,17 +1291,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
         return meal;
       });
 
-      const updatedMenu = {
-        ...currentMenu,
-        meals: updatedMeals,
-        updatedAt: new Date(),
-      };
-      const newGroceryList = generateGroceryList(updatedMeals, {
-        consolidateBy: "ingredient",
-        convertUnits: true,
-        excludePantryItems: false,
-      });
-
+      const { menu: updatedMenu, groceryList: newGroceryList } = applyMealUpdate(
+        currentMenu,
+        updatedMeals,
+      );
       setCurrentMenu(updatedMenu);
       setGroceryList(newGroceryList);
       logger.info(`Updated sauce servings to ${servings} for meal ${mealSlotId}`);
@@ -1706,11 +1710,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
 
     try {
       // Generate using enhanced grocery list generator
-      const newGroceryList = generateGroceryList(currentMenu.meals, {
-        consolidateBy: "ingredient",
-        convertUnits: true,
-        excludePantryItems: false,
-      });
+      const newGroceryList = generateGroceryList(
+        currentMenu.meals,
+        GROCERY_LIST_OPTIONS,
+      );
 
       setGroceryList(newGroceryList);
       logger.info(`Generated grocery list with ${newGroceryList.length} items`);

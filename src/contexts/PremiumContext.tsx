@@ -33,7 +33,6 @@ const BROADCAST_CHANNEL = "alchm_subscription_sync";
 
 interface CachedSubscription {
   subscription: UserSubscription;
-  recipeUsage: number;
   cachedAt: number;
 }
 
@@ -44,14 +43,8 @@ interface PremiumContextValue {
   tier: SubscriptionTier;
   /** Whether the subscription data is still loading */
   isLoading: boolean;
-  /** Number of recipe generations used this month */
-  recipeUsage: number;
-  /** Max recipe generations for current tier */
-  recipeLimit: number;
-  /** Check if user has access to a premium feature */
+  /** Check if user has access to a premium feature (boolean flag only). */
   hasFeature: (feature: string) => boolean;
-  /** Track a recipe generation and return updated count */
-  trackRecipeGeneration: () => Promise<number>;
   /** Open Stripe checkout for an upgrade */
   openCheckout: (tier: SubscriptionTier, options?: { trial?: boolean }) => Promise<void>;
   /** Open Stripe customer portal for managing subscription */
@@ -66,10 +59,7 @@ const PremiumContext = createContext<PremiumContextValue>({
   subscription: null,
   tier: "free",
   isLoading: true,
-  recipeUsage: 0,
-  recipeLimit: 10,
   hasFeature: () => false,
-  trackRecipeGeneration: async () => 0,
   openCheckout: async () => {},
   openPortal: async () => {},
   refresh: async () => {},
@@ -94,12 +84,11 @@ function readCache(): CachedSubscription | null {
 }
 
 /** Write subscription to sessionStorage cache */
-function writeCache(subscription: UserSubscription, recipeUsage: number) {
+function writeCache(subscription: UserSubscription) {
   if (typeof window === "undefined") return;
   try {
     const cached: CachedSubscription = {
       subscription,
-      recipeUsage,
       cachedAt: Date.now(),
     };
     sessionStorage.setItem(CACHE_KEY, JSON.stringify(cached));
@@ -120,7 +109,6 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     null,
   );
   const [isLoading, setIsLoading] = useState(true);
-  const [recipeUsage, setRecipeUsage] = useState(0);
   const broadcastRef = useRef<BroadcastChannel | null>(null);
 
   // Effective tier: JWT tier is the instant source of truth,
@@ -130,8 +118,6 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     ? "premium"
     : subscription?.tier || jwtTier;
   const isPremium = tier === "premium";
-  const limits = TIER_LIMITS[tier];
-  const recipeLimit = limits.monthlyRecipeGenerations;
 
   // Cross-tab synchronization via BroadcastChannel
   useEffect(() => {
@@ -145,14 +131,10 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
         const data = event.data as {
           type: string;
           subscription?: UserSubscription;
-          recipeUsage?: number;
         };
         if (data.type === "subscription_updated" && data.subscription) {
           setSubscription(data.subscription);
-          if (data.recipeUsage !== undefined) {
-            setRecipeUsage(data.recipeUsage);
-          }
-          writeCache(data.subscription, data.recipeUsage || 0);
+          writeCache(data.subscription);
         }
       };
 
@@ -167,7 +149,6 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
           try {
             const cached: CachedSubscription = JSON.parse(e.newValue);
             setSubscription(cached.subscription);
-            setRecipeUsage(cached.recipeUsage);
           } catch {
             // Ignore parse errors
           }
@@ -180,12 +161,11 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
 
   /** Broadcast subscription update to other tabs */
   const broadcastUpdate = useCallback(
-    (sub: UserSubscription, usage: number) => {
+    (sub: UserSubscription) => {
       try {
         broadcastRef.current?.postMessage({
           type: "subscription_updated",
           subscription: sub,
-          recipeUsage: usage,
         });
       } catch {
         // Channel closed or unavailable — non-critical
@@ -204,7 +184,6 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     const cached = readCache();
     if (cached) {
       setSubscription(cached.subscription);
-      setRecipeUsage(cached.recipeUsage);
       setIsLoading(false);
       // Still fetch fresh data in background
     }
@@ -228,20 +207,18 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
       }
 
       const data = await res.json();
-      
+
       if (res.ok) {
         setSubscription(data.subscription);
-        setRecipeUsage(data.recipeUsage || 0);
         // Cache for fast subsequent loads
         if (data.subscription) {
-          writeCache(data.subscription, data.recipeUsage || 0);
-          broadcastUpdate(data.subscription, data.recipeUsage || 0);
+          writeCache(data.subscription);
+          broadcastUpdate(data.subscription);
         }
       } else {
         // Non-200 response — try to use parsed data if available as it might be a fallback
         if (data.subscription) {
           setSubscription(data.subscription);
-          setRecipeUsage(data.recipeUsage || 0);
         }
       }
     } catch (error: any) {
@@ -265,41 +242,13 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
     (feature: string): boolean => {
       // Admins have access to everything
       if (isAdmin) return true;
-
+      // Pure boolean feature-flag lookup. Usage rates (recipe gen, etc.) are
+      // throttled by the token economy, not gated here.
       const tierLimits = TIER_LIMITS[tier];
-      if (feature === "monthlyRecipeGenerations") {
-        return recipeUsage < tierLimits.monthlyRecipeGenerations;
-      }
       return !!(tierLimits as Record<string, unknown>)[feature];
     },
-    [tier, recipeUsage, isAdmin],
+    [tier, isAdmin],
   );
-
-  const trackRecipeGeneration = useCallback(async (): Promise<number> => {
-    try {
-      const res = await fetch("/api/subscription/usage", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ feature: "recipe_generation" }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setRecipeUsage(data.count);
-        // Update cache and broadcast
-        if (subscription) {
-          writeCache(subscription, data.count);
-          broadcastUpdate(subscription, data.count);
-        }
-        return data.count;
-      }
-    } catch (error) {
-      console.error("[PremiumContext] Usage tracking failed:", error);
-    }
-    // Optimistic fallback
-    const newCount = recipeUsage + 1;
-    setRecipeUsage(newCount);
-    return newCount;
-  }, [recipeUsage, subscription, broadcastUpdate]);
 
   const openCheckout = useCallback(
     async (targetTier: SubscriptionTier, options?: { trial?: boolean }) => {
@@ -338,10 +287,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
         subscription,
         tier,
         isLoading,
-        recipeUsage,
-        recipeLimit,
         hasFeature,
-        trackRecipeGeneration,
         openCheckout,
         openPortal,
         refresh: fetchSubscription,

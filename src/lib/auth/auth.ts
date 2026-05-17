@@ -254,6 +254,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               }
             }
             
+            // TODO(agent-sync): On first sign-in for an @agentic.alchm.kitchen
+            // email, POST to the FastAPI backend's /api/internal/agent-sync
+            // (defined in backend/alchm_kitchen/main.py:2724) with
+            // X-Sync-Secret=ALCHM_KITCHEN_SYNC_SECRET so the planetary_agents
+            // DB row gets its alchmKitchenUserId without waiting for the
+            // periodic scripts/backfill-agent-sync.ts run. Wrap in a fire-and-
+            // forget IIFE — must never block sign-in.
+
             // 1. Auto-provision premium
             if (isAdminEmail(user.email!) || isPremiumEmail(user.email!)) {
               const { subscriptionService } = await import("@/services/subscriptionService");
@@ -270,6 +278,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 });
                 logger.info(`Auto-provisioned premium for ${user.email}`);
               }
+            }
+
+            // 1b. Welcome token grant — every new user starts with a small
+            // even balance so they can try a couple of actions before
+            // claiming their first daily Cosmic Yield (which itself requires
+            // a completed natal chart). Idempotent via the per-user key, so
+            // repeated sign-ins do not re-grant.
+            try {
+              const { tokenEconomy } = await import("@/services/TokenEconomyService");
+              await tokenEconomy.creditMultipleTokens(
+                dbUser.id,
+                [
+                  { tokenType: "Spirit", amount: 5 },
+                  { tokenType: "Essence", amount: 5 },
+                  { tokenType: "Matter", amount: 5 },
+                  { tokenType: "Substance", amount: 5 },
+                ],
+                "signup_grant",
+                {
+                  description: "Welcome to Alchm.kitchen — starter cosmic balance",
+                  idempotencyKey: `signup_grant:${dbUser.id}`,
+                },
+              );
+            } catch (grantError) {
+              logger.warn("Welcome token grant failed (non-blocking):", grantError);
             }
 
             // 2. Send emails
