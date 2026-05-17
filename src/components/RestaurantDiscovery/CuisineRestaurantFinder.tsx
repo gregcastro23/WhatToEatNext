@@ -9,6 +9,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AddToDiaryModal } from "@/components/food-diary/AddToDiaryModal";
+import { ReservationModal } from "@/components/RestaurantDiscovery/ReservationModal";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
 import type { SavedRestaurant } from "@/types/restaurant";
@@ -38,10 +39,10 @@ const ELEMENT_DECORATION: Record<
   AlchmScoredRestaurant["dominantElement"],
   { emoji: string; label: string; chipClass: string }
 > = {
-  Fire:  { emoji: "🔥", label: "Fire",  chipClass: "bg-rose-100 text-rose-700 border-rose-200" },
-  Water: { emoji: "💧", label: "Water", chipClass: "bg-blue-100 text-blue-700 border-blue-200" },
-  Earth: { emoji: "🌿", label: "Earth", chipClass: "bg-emerald-100 text-emerald-700 border-emerald-200" },
-  Air:   { emoji: "💨", label: "Air",   chipClass: "bg-sky-100 text-sky-700 border-sky-200" },
+  Fire:  { emoji: "🔥", label: "Fire",  chipClass: "bg-rose-500/15 text-rose-200 border-rose-400/30" },
+  Water: { emoji: "💧", label: "Water", chipClass: "bg-blue-500/15 text-blue-200 border-blue-400/30" },
+  Earth: { emoji: "🌿", label: "Earth", chipClass: "bg-emerald-500/15 text-emerald-200 border-emerald-400/30" },
+  Air:   { emoji: "💨", label: "Air",   chipClass: "bg-sky-500/15 text-sky-200 border-sky-400/30" },
 };
 
 const ZODIAC_GLYPH: Record<string, string> = {
@@ -101,6 +102,7 @@ export function CuisineRestaurantFinder({
   );
   const [locationError, setLocationError] = useState<string | null>(null);
   const [loggingItem, setLoggingItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [reservingItem, setReservingItem] = useState<AlchmScoredRestaurant | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const { currentUser, updateProfile } = useUser();
@@ -304,7 +306,7 @@ export function CuisineRestaurantFinder({
 
   return (
     <section
-      className={`mt-4 rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-rose-50 p-4 ${
+      className={`mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-[#0c0c14]/90 to-[#16101e]/90 backdrop-blur-xl p-6 shadow-2xl shadow-purple-900/20 ${
         className ?? ""
       }`}
       aria-label="Restaurant discovery"
@@ -312,26 +314,26 @@ export function CuisineRestaurantFinder({
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-sm font-extrabold text-amber-900 flex items-center gap-2">
-            <span aria-hidden>✦</span>
+          <h3 className="text-sm font-extrabold text-purple-100 flex items-center gap-2 uppercase tracking-[0.18em]">
+            <span aria-hidden className="text-purple-300">✦</span>
             Order it — Restaurants Aligned to the Moment
           </h3>
-          <p className="text-[11px] text-amber-700/80 mt-0.5">
+          <p className="text-[11px] text-white/50 mt-1 font-medium">
             {cuisineType ? `${cuisineType} cuisine, scored by current cosmic state` : "Search for a cuisine to discover restaurants near you."}
           </p>
         </div>
-        
+
         <form onSubmit={handleSearch} className="flex w-full md:w-auto gap-2">
           <input
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search cuisine..."
-            className="flex-1 md:w-48 px-3 py-1.5 text-xs rounded-lg border border-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-500/30 bg-white/80 text-amber-950"
+            className="flex-1 md:w-48 px-3 py-2 text-xs rounded-lg border border-white/10 bg-black/40 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400/40 focus:border-purple-400/50"
           />
           <button
             type="submit"
-            className="px-3 py-1.5 bg-amber-600 text-white text-xs font-bold rounded-lg hover:bg-amber-700 transition-colors"
+            className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-black uppercase tracking-wider rounded-lg shadow-lg shadow-purple-900/30 hover:brightness-110 transition-all"
           >
             Find
           </button>
@@ -340,20 +342,20 @@ export function CuisineRestaurantFinder({
 
       {/* Body */}
       {status.kind === "needs-location" && (
-        <div className="rounded-lg bg-white/60 border border-amber-200 p-6 text-center">
-          <div className="text-2xl mb-3">📍</div>
-          <p className="text-xs text-amber-900 mb-4">
+        <div className="rounded-2xl bg-black/30 border border-white/10 p-8 text-center">
+          <div className="text-3xl mb-3">📍</div>
+          <p className="text-xs text-white/70 mb-4">
             Enable location to discover {cuisineType || "matching"} restaurants near you.
           </p>
           <button
             type="button"
             onClick={requestLocation}
-            className="px-4 py-2 bg-amber-600 text-white text-xs font-bold rounded-xl hover:bg-amber-700 transition-colors shadow-sm"
+            className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-lg shadow-purple-900/30 hover:brightness-110 transition-all"
           >
             Use my location
           </button>
           {locationError && (
-            <p className="text-[11px] text-rose-600 mt-3">{locationError}</p>
+            <p className="text-[11px] text-rose-300 mt-3">{locationError}</p>
           )}
         </div>
       )}
@@ -363,12 +365,12 @@ export function CuisineRestaurantFinder({
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="animate-pulse flex gap-3 p-4 rounded-xl bg-white/60 border border-amber-100"
+              className="animate-pulse flex gap-3 p-4 rounded-xl bg-black/30 border border-white/5"
             >
-              <div className="h-12 w-12 rounded-lg bg-amber-100 shrink-0" />
+              <div className="h-12 w-12 rounded-lg bg-white/10 shrink-0" />
               <div className="flex-1 space-y-3">
-                <div className="h-3 bg-amber-100 rounded w-2/3" />
-                <div className="h-2 bg-amber-100/70 rounded w-1/2" />
+                <div className="h-3 bg-white/10 rounded w-2/3" />
+                <div className="h-2 bg-white/10 rounded w-1/2" />
               </div>
             </div>
           ))}
@@ -376,32 +378,32 @@ export function CuisineRestaurantFinder({
       )}
 
       {status.kind === "not-configured" && (
-        <div className="rounded-lg bg-white/60 border border-amber-200 p-3 text-xs text-amber-900 leading-snug">
+        <div className="rounded-lg bg-black/30 border border-white/10 p-3 text-xs text-white/70 leading-snug">
           Restaurant discovery isn&apos;t configured yet. Add{" "}
-          <code className="font-mono bg-amber-100 px-1 rounded">GOOGLE_PLACES_API_KEY</code> for Google Nearby Search.
+          <code className="font-mono bg-white/10 text-purple-200 px-1 rounded">GOOGLE_PLACES_API_KEY</code> for Google Nearby Search.
         </div>
       )}
 
       {status.kind === "error" && (
-        <div className="rounded-lg bg-rose-50 border border-rose-200 p-3 text-xs text-rose-700">
+        <div className="rounded-lg bg-rose-500/10 border border-rose-400/30 p-3 text-xs text-rose-200">
           ⚠️ {status.message}
         </div>
       )}
 
       {status.kind === "empty" && (
-        <div className="rounded-lg bg-white/60 border border-amber-200 p-8 text-center">
-          <div className="text-2xl mb-2">🍽️</div>
-          <p className="text-xs text-amber-900 font-medium">
+        <div className="rounded-2xl bg-black/30 border border-white/10 p-8 text-center">
+          <div className="text-3xl mb-2">🍽️</div>
+          <p className="text-xs text-white/70 font-medium">
             No {cuisineType} restaurants found in your area right now.
           </p>
-          <p className="text-[10px] text-amber-700/60 mt-1">Try searching for a broader cuisine or adjusting your location.</p>
+          <p className="text-[10px] text-white/40 mt-1">Try searching for a broader cuisine or adjusting your location.</p>
         </div>
       )}
 
       {status.kind === "ready" && (
         <>
           {status.data.sourceNotice && (
-            <div className="mb-4 rounded-lg border border-amber-300 bg-amber-100/60 p-3 text-[11px] text-amber-900 leading-snug">
+            <div className="mb-4 rounded-lg border border-purple-400/30 bg-purple-500/10 p-3 text-[11px] text-purple-100 leading-snug">
               ✦ {status.data.sourceNotice}
             </div>
           )}
@@ -421,17 +423,17 @@ export function CuisineRestaurantFinder({
               return (
                 <li
                   key={business.id}
-                  className={`flex flex-col sm:flex-row items-start gap-4 p-4 rounded-xl bg-white border shadow-sm transition-all hover:shadow-md ${
+                  className={`flex flex-col sm:flex-row items-start gap-4 p-4 rounded-2xl bg-black/40 border backdrop-blur-sm transition-all hover:bg-black/50 ${
                     isPartner
-                      ? "border-emerald-300 ring-1 ring-emerald-200/50"
-                      : "border-amber-100"
+                      ? "border-emerald-400/40 ring-1 ring-emerald-400/20"
+                      : "border-white/10"
                   }`}
                 >
                   {/* Score / source badge */}
                   <div className="flex sm:flex-col items-center gap-2 sm:gap-1.5 shrink-0">
                     {isScored ? (
                       <>
-                        <div className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 text-white text-xs font-black shadow-sm">
+                        <div className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs font-black shadow-lg shadow-purple-900/40">
                           {scorePct}% <span aria-hidden>✦</span>
                         </div>
                         {decoration && (
@@ -445,7 +447,7 @@ export function CuisineRestaurantFinder({
                         )}
                       </>
                     ) : (
-                      <div className="px-2 py-1 rounded-md bg-blue-100 text-blue-700 text-[10px] font-bold border border-blue-200">
+                      <div className="px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 text-[10px] font-bold border border-purple-400/30">
                         {providerLabel}
                       </div>
                     )}
@@ -454,19 +456,19 @@ export function CuisineRestaurantFinder({
                   {/* Details */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <h4 className="text-sm font-black text-amber-950 truncate">
+                      <h4 className="text-sm font-black text-white truncate">
                         {business.name}
                       </h4>
                       {isPartner && (
-                        <span className="shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-emerald-700">
+                        <span className="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-500/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-emerald-200">
                           Partner
                         </span>
                       )}
                     </div>
-                    
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-amber-800/60 mt-1 font-medium">
+
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-white/50 mt-1 font-medium">
                       {typeof business.rating === "number" && business.rating > 0 && (
-                        <span className="text-amber-600 font-bold">
+                        <span className="text-amber-300 font-bold">
                           ★ {business.rating.toFixed(1)}
                         </span>
                       )}
@@ -476,19 +478,19 @@ export function CuisineRestaurantFinder({
                         </span>
                       )}
                       {business.price && (
-                        <span className="text-emerald-700 font-black">
+                        <span className="text-emerald-300 font-black">
                           {business.price}
                         </span>
                       )}
                       {distance && <span>· {distance}</span>}
                     </div>
-                    
+
                     {isScored && reasons.length > 0 && (
-                      <ul className="mt-2 space-y-1 border-l-2 border-amber-100 pl-3">
+                      <ul className="mt-2 space-y-1 border-l-2 border-purple-400/30 pl-3">
                         {reasons.map((reason, i) => (
                           <li
                             key={i}
-                            className="text-[10px] text-amber-800/70 font-medium leading-relaxed italic"
+                            className="text-[10px] text-white/60 font-medium leading-relaxed italic"
                           >
                             {reason}
                           </li>
@@ -502,38 +504,46 @@ export function CuisineRestaurantFinder({
                     {isPartner && entry.partnerRestaurantId ? (
                       <a
                         href={`/restaurants/${encodeURIComponent(entry.partnerRestaurantId)}/menu`}
-                        className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-colors text-center bg-emerald-600 hover:bg-emerald-700 shadow-sm"
+                        className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all text-center bg-gradient-to-r from-emerald-500 to-emerald-600 hover:brightness-110 shadow-lg shadow-emerald-900/30"
                       >
                         Order Now
                       </a>
                     ) : (
+                      <button
+                        type="button"
+                        onClick={() => setReservingItem(entry)}
+                        className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all text-center bg-gradient-to-r from-purple-500 to-pink-500 hover:brightness-110 shadow-lg shadow-purple-900/30"
+                      >
+                        Reserve
+                      </button>
+                    )}
+
+                    <div className="flex gap-2 flex-1 sm:w-32">
                       <a
                         href={business.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-colors text-center bg-amber-600 hover:bg-amber-700 shadow-sm"
+                        className="flex-1 px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest text-center bg-white/5 text-white/80 border border-white/10 hover:bg-white/10 transition-colors"
                       >
-                        View Menu
+                        Menu
                       </a>
-                    )}
-                    
-                    <div className="flex gap-2 flex-1 sm:w-32">
                       <button
                         type="button"
                         onClick={() => void saveRestaurant(entry, source)}
                         disabled={isSaved}
-                        className={`flex-1 px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                        className={`px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
                           isSaved
-                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default"
-                            : "bg-white text-purple-700 border border-purple-200 hover:bg-purple-50 shadow-sm"
+                            ? "bg-emerald-500/15 text-emerald-200 border border-emerald-400/30 cursor-default"
+                            : "bg-white/5 text-purple-200 border border-purple-400/30 hover:bg-purple-500/15"
                         }`}
+                        title={isSaved ? "Saved" : "Save restaurant"}
                       >
-                        {isSaved ? "Saved" : "Save"}
+                        {isSaved ? "✓" : "♡"}
                       </button>
                       <button
                         type="button"
                         onClick={() => setLoggingItem(entry)}
-                        className="px-3 py-2 bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-amber-200 transition-colors shadow-sm"
+                        className="px-3 py-2 bg-white/5 text-white/80 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors"
                         title="Log to Food Diary"
                       >
                         +
@@ -555,16 +565,25 @@ export function CuisineRestaurantFinder({
         />
       )}
 
+      {reservingItem && (
+        <ReservationModal
+          entry={reservingItem}
+          source={status.kind === "ready" ? (status.data.source ?? "google") : "google"}
+          cuisineType={cuisineType}
+          onClose={() => setReservingItem(null)}
+        />
+      )}
+
       {/* Cosmic context line */}
       {cosmicLine && (
-        <p className="mt-6 text-[10px] text-amber-700/60 font-bold uppercase tracking-[0.2em] text-center">
+        <p className="mt-6 text-[10px] text-purple-300/60 font-bold uppercase tracking-[0.2em] text-center">
           Aligned to {cosmicLine}
         </p>
       )}
 
       {/* Provider attribution */}
       {status.kind === "ready" && (
-        <p className="mt-4 text-[9px] text-gray-400 text-center uppercase tracking-widest font-bold">
+        <p className="mt-4 text-[9px] text-white/30 text-center uppercase tracking-widest font-bold">
           Data source: {sourceLabel(status.data.source)}
         </p>
       )}
