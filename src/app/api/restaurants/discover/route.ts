@@ -29,6 +29,9 @@ const GOOGLE_FIELD_MASK = [
   "places.formattedAddress",
   "places.rating",
   "places.photos",
+  "places.primaryType",
+  "places.primaryTypeDisplayName",
+  "places.types",
 ].join(",");
 
 interface DiscoverBody {
@@ -45,6 +48,9 @@ interface GooglePlaceRaw {
   formattedAddress?: string;
   rating?: number;
   photos?: Array<{ name?: string }>;
+  primaryType?: string;
+  primaryTypeDisplayName?: { text?: string };
+  types?: string[];
 }
 
 interface NormalizedGoogleRestaurant {
@@ -54,6 +60,59 @@ interface NormalizedGoogleRestaurant {
   rating: number;
   imageUrl?: string;
   business: YelpBusiness;
+  cuisineLabel?: string;
+  primaryType?: string;
+}
+
+const PLACE_TYPE_TO_CUISINE: Record<string, string> = {
+  italian_restaurant: "Italian",
+  pizza_restaurant: "Italian",
+  chinese_restaurant: "Chinese",
+  japanese_restaurant: "Japanese",
+  sushi_restaurant: "Japanese",
+  ramen_restaurant: "Japanese",
+  korean_restaurant: "Korean",
+  thai_restaurant: "Thai",
+  vietnamese_restaurant: "Vietnamese",
+  indian_restaurant: "Indian",
+  mexican_restaurant: "Mexican",
+  american_restaurant: "American",
+  hamburger_restaurant: "American",
+  steak_house: "American",
+  french_restaurant: "French",
+  greek_restaurant: "Greek",
+  mediterranean_restaurant: "Middle Eastern",
+  middle_eastern_restaurant: "Middle Eastern",
+  lebanese_restaurant: "Middle Eastern",
+  turkish_restaurant: "Middle Eastern",
+  african_restaurant: "African",
+  ethiopian_restaurant: "African",
+  russian_restaurant: "Russian",
+  seafood_restaurant: "Seafood",
+  vegetarian_restaurant: "Vegetarian",
+  vegan_restaurant: "Vegan",
+  brunch_restaurant: "Brunch",
+  breakfast_restaurant: "Breakfast",
+  bakery: "Bakery",
+  cafe: "Café",
+  coffee_shop: "Café",
+  bar: "Bar",
+  fast_food_restaurant: "Fast Food",
+};
+
+function deriveCuisineLabel(raw: GooglePlaceRaw): string | undefined {
+  if (raw.primaryType && PLACE_TYPE_TO_CUISINE[raw.primaryType]) {
+    return PLACE_TYPE_TO_CUISINE[raw.primaryType];
+  }
+  if (raw.primaryTypeDisplayName?.text) {
+    return raw.primaryTypeDisplayName.text;
+  }
+  if (Array.isArray(raw.types)) {
+    for (const t of raw.types) {
+      if (PLACE_TYPE_TO_CUISINE[t]) return PLACE_TYPE_TO_CUISINE[t];
+    }
+  }
+  return undefined;
 }
 
 interface PartnerRestaurantRow {
@@ -119,6 +178,8 @@ function normalizeGooglePlace(raw: GooglePlaceRaw): NormalizedGoogleRestaurant |
     rating: business.rating,
     imageUrl: undefined,
     business,
+    cuisineLabel: deriveCuisineLabel(raw),
+    primaryType: raw.primaryType,
   };
 }
 
@@ -152,6 +213,8 @@ function toEntry(
       ? ["Partner restaurant with in-app menu ordering"]
       : ["Nearby restaurant from Google Places"],
     cuisineElement: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    cuisineLabel: restaurant.cuisineLabel,
+    primaryType: restaurant.primaryType,
   };
 }
 

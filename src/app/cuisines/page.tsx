@@ -28,6 +28,16 @@ const CuisineRestaurantFinder = dynamic(
   { loading: () => <SectionLoader /> },
 );
 
+const CuisineBrowseGrid = dynamic(
+  () => import("@/components/RestaurantDiscovery/CuisineBrowseGrid"),
+  { loading: () => <SectionLoader /> },
+);
+
+const LocalCuisineGroups = dynamic(
+  () => import("@/components/RestaurantDiscovery/LocalCuisineGroups"),
+  { loading: () => <SectionLoader /> },
+);
+
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -64,14 +74,18 @@ export default function CuisinesPage() {
           </p>
         </motion.header>
 
-        <motion.section 
+        <motion.section variants={fadeInItem}>
+          <CuisineBrowseGrid />
+        </motion.section>
+
+        <motion.section
           variants={fadeInItem}
         >
           <div className="glass-card-premium rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl shadow-purple-900/20 relative overflow-hidden bg-[#0c0c14]/80 backdrop-blur-xl">
             {/* Ambient Background Glow */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px] pointer-events-none -mr-20 -mt-20" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-600/10 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20" />
-            
+
             <div className="relative z-10">
               {/* Cuisine recommender is shown to everyone (also on the home page
                   as a marketing preview). The premium-only piece is the sauce
@@ -81,13 +95,12 @@ export default function CuisinesPage() {
           </div>
         </motion.section>
 
-        <motion.section
-          variants={fadeInItem}
-          className="mt-8"
-        >
-          <div className="glass-card-premium rounded-3xl p-1 border border-white/5 relative overflow-hidden bg-[#0c0c14]/50 backdrop-blur-sm">
-             <CuisineRestaurantFinder />
-          </div>
+        <motion.section variants={fadeInItem}>
+          <LocalCuisineGroups />
+        </motion.section>
+
+        <motion.section variants={fadeInItem}>
+          <CuisineRestaurantFinder />
         </motion.section>
 
         <motion.section

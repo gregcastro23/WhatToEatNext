@@ -74,6 +74,10 @@ export interface AlchmScoredRestaurant {
   partnerOnboardingStatus?: string;
   stripeConnectAccountId?: string;
   deliverectLocationId?: string;
+  /** Human-readable cuisine label derived from the provider's place classification. */
+  cuisineLabel?: string;
+  /** Raw provider type identifier (e.g. Google Places primaryType). */
+  primaryType?: string;
 }
 
 export interface CosmicContext {
