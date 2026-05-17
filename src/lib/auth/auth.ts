@@ -93,6 +93,24 @@ async function getCachedUser(email: string) {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   debug: process.env.NODE_ENV === "development" || process.env.DEBUG === "true",
+  events: {
+    async signOut(message) {
+      // In JWT mode NextAuth passes { token } — delete the DB session record so
+      // the session slot is freed and can no longer be used to verify revocation.
+      const sessionId = (message as any)?.token?.sessionId as string | undefined;
+      if (sessionId) {
+        try {
+          const { executeQuery } = await import("@/lib/database");
+          await executeQuery(
+            `DELETE FROM sessions WHERE "sessionToken" = $1`,
+            [sessionId]
+          );
+        } catch (e) {
+          logger.warn("Session cleanup on signOut failed (non-blocking):", e);
+        }
+      }
+    },
+  },
   callbacks: {
     // Preserve the edge-safe authorized and session callbacks
     ...authConfig.callbacks,
@@ -139,6 +157,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           // Refresh cache
           dbUser.roles = [UserRole.ADMIN, UserRole.USER];
           userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
+        }
+
+        // Persist OAuth account link so accounts table stays in sync.
+        // Wrapped in a short race to avoid blocking sign-in on DB hiccups.
+        if (account) {
+          void (async () => {
+            try {
+              const { executeQuery } = await import("@/lib/database");
+              await executeQuery(
+                `INSERT INTO accounts ("userId", type, provider, "providerAccountId", refresh_token, access_token, expires_at, token_type, scope, id_token, session_state)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                 ON CONFLICT (provider, "providerAccountId") DO UPDATE SET
+                   access_token = EXCLUDED.access_token,
+                   refresh_token = EXCLUDED.refresh_token,
+                   expires_at = EXCLUDED.expires_at,
+                   updated_at = NOW()`,
+                [
+                  dbUser.id,
+                  account.type,
+                  account.provider,
+                  account.providerAccountId,
+                  account.refresh_token ?? null,
+                  account.access_token ?? null,
+                  account.expires_at ?? null,
+                  account.token_type ?? null,
+                  account.scope ?? null,
+                  account.id_token ?? null,
+                  account.session_state ?? null,
+                ]
+              );
+            } catch (e) {
+              logger.warn("Account link upsert failed (non-blocking):", e);
+            }
+          })();
         }
 
         // Fire-and-forget non-critical tasks
@@ -326,9 +378,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.userId = dbUser.id;
             const isAdmin = dbUser.roles.includes(UserRole.ADMIN);
             token.role = isAdmin ? "admin" : "user";
-            token.onboardingComplete = !!(
-              dbUser.profile.birthData && dbUser.profile.natalChart
-            );
+            token.onboardingComplete = dbUser.profile.onboardingComplete === true;
+
+            // On initial sign-in: write a session record so sessions are revocable.
+            // We use a UUID as the token (not the full JWT) so it fits VARCHAR(255).
+            if (user && !token.sessionId) {
+              try {
+                const sessionId = crypto.randomUUID();
+                const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+                const { executeQuery } = await import("@/lib/database");
+                await executeQuery(
+                  `INSERT INTO sessions ("sessionToken", "userId", expires)
+                   VALUES ($1, $2, $3) ON CONFLICT ("sessionToken") DO NOTHING`,
+                  [sessionId, dbUser.id, expiresAt]
+                );
+                token.sessionId = sessionId;
+              } catch (e) {
+                logger.warn("Session DB write failed (non-blocking):", e);
+              }
+            }
 
             // Embed subscription tier into JWT for instant access everywhere
             // Admins always get premium regardless of subscription state
