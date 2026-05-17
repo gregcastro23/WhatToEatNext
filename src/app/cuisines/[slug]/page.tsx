@@ -1,6 +1,6 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import dynamic from "next/dynamic";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { cuisineToSlug, slugToCuisineKey } from "@/utils/cuisineSlug";
 

@@ -134,12 +134,16 @@ export function ReservationModal({
         </p>
 
         <div className="mt-6">
-          <label className="text-[10px] font-black uppercase tracking-[0.18em] text-purple-200/70">
+          <label
+            htmlFor="reservation-amount"
+            className="text-[10px] font-black uppercase tracking-[0.18em] text-purple-200/70"
+          >
             Amount
           </label>
           <div className="mt-2 flex items-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 focus-within:border-purple-400/60">
             <span className="text-2xl font-extrabold text-white/40">$</span>
             <input
+              id="reservation-amount"
               type="number"
               inputMode="decimal"
               min={1}

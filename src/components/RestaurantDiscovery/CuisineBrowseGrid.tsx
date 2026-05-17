@@ -7,8 +7,8 @@
  * cuisine deep page at /cuisines/[slug].
  */
 
-import Link from "next/link";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
 import type { Variants } from "framer-motion";
