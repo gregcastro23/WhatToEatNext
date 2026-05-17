@@ -9,7 +9,7 @@ Architecture:
 - Provides unified API for frontend
 - Manages PostgreSQL database for recipes and recommendations
 """
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Depends, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
