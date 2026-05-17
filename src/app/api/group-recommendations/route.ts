@@ -3,6 +3,7 @@ import { CUISINES } from "@/data/cuisines/index";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
+import { subscriptionService } from "@/services/subscriptionService";
 import type { AlchemicalProperties } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
@@ -96,6 +97,19 @@ export async function POST(request: NextRequest) {
       );
     }
     const userId = currentUser.id;
+
+    // Server-side premium gate. The client renders a <PremiumGate> around this
+    // feature, but a direct POST would otherwise bypass it. `diningCompanions`
+    // is the TIER_LIMITS flag that controls group/companion functionality.
+    // (Feature gate — NOT a usage rate cap; logged-in users are paced by tokens.)
+    const access = await subscriptionService.canUseFeature(userId, "diningCompanions");
+    if (!access.allowed) {
+      return NextResponse.json(
+        { success: false, reason: "premium_required", message: access.reason },
+        { status: 402 },
+      );
+    }
+
     let body: Record<string, unknown>;
     try {
       body = await request.json();

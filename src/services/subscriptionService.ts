@@ -263,28 +263,21 @@ class SubscriptionService {
     return newCount;
   }
 
+  /**
+   * Boolean feature-flag check: does the user's tier unlock this feature?
+   *
+   * NOTE: this is a feature-ACCESS gate, not a usage-rate cap. Usage rates
+   * (recipe generation etc.) are throttled by the token economy. Don't
+   * re-add a `monthlyRecipeGenerations` branch — see feedback_throttling_model.
+   */
   async canUseFeature(
     userId: string,
     feature: keyof typeof TIER_LIMITS.free,
-  ): Promise<{ allowed: boolean; reason?: string; currentUsage?: number; limit?: number }> {
+  ): Promise<{ allowed: boolean; reason?: string }> {
     const sub = await this.getOrCreateSubscription(userId);
     const limits = TIER_LIMITS[sub.tier];
 
-    if (feature === "monthlyRecipeGenerations") {
-      const usage = await this.getUsage(userId, "recipe_generation");
-      const limit = limits.monthlyRecipeGenerations;
-      if (usage >= limit) {
-        return {
-          allowed: false,
-          reason: `You've used ${usage}/${limit} recipe generations this month. Upgrade for more!`,
-          currentUsage: usage,
-          limit,
-        };
-      }
-      return { allowed: true, currentUsage: usage, limit };
-    }
-
-    const hasAccess = limits[feature as keyof typeof limits];
+    const hasAccess = limits[feature];
     if (!hasAccess) {
       return {
         allowed: false,

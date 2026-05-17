@@ -7,6 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { NextRequest } from "next/server";
 
@@ -15,20 +16,18 @@ export const runtime = "nodejs";
 
 /**
  * GET /api/food-diary/insights
- * Get AI-generated nutrition insights based on food diary data
- *
- * Query params:
- * - userId: string (required)
+ * Get AI-generated nutrition insights based on food diary data for the
+ * authenticated caller. The userId is resolved from the session — accepting
+ * it as a query param previously let any unauthenticated client read any
+ * user's diary, which was an authorization bug.
  */
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-
+    const userId = await getUserIdFromRequest(request);
     if (!userId) {
       return NextResponse.json(
-        { success: false, message: "userId is required" },
-        { status: 400 },
+        { success: false, message: "Authentication required" },
+        { status: 401 },
       );
     }
 

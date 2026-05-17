@@ -33,7 +33,6 @@ function fallbackResponse(tier: string = "free") {
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     },
-    recipeUsage: 0,
   };
 }
 
@@ -72,13 +71,14 @@ export async function GET(request: Request) {
       console.log(`[api/user/subscription] Syncing status for user: ${session.user.id}`);
     }
 
-    // 2. Fetch subscription and usage with timeout/abort signal
+    // 2. Fetch subscription with timeout/abort signal.
+    // (Recipe-usage counter was removed when the monthly cap was retired —
+    // the token economy is the throttle, and the client has no use for it.)
     const subscriptionPromise = subscriptionService.getOrCreateSubscription(session.user.id);
-    const usagePromise = subscriptionService.getUsage(session.user.id, "recipe_generation");
 
     // Race against the signal (aborted by the 8s timeout)
-    const [subscription, recipeUsage] = await Promise.race([
-      Promise.all([subscriptionPromise, usagePromise]),
+    const subscription = await Promise.race([
+      subscriptionPromise,
       new Promise<never>((_, reject) => {
         signal.addEventListener("abort", () => reject(new Error("Request timed out")));
       })
@@ -97,7 +97,6 @@ export async function GET(request: Request) {
         ...subscription,
         tier // Ensure subscription object reflects admin status
       },
-      recipeUsage,
     });
   } catch (error: any) {
     if (error.name === "AbortError" || error.message === "Request timed out") {

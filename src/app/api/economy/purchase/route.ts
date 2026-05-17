@@ -9,9 +9,13 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
+import {
+  applyPersonalizedPricing,
+  getPersonalizedPricingContext,
+} from "@/lib/economy/livePricing";
 import { rateLimit } from "@/lib/rateLimit";
 import { tokenEconomy } from "@/services/TokenEconomyService";
+import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -112,21 +116,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const pricing = await getLivePricingContext();
-    const liveCost = applyLivePricing(
+    // Personalized live pricing: per-token multipliers adjusted by the user's
+    // natal chart × the chart of the moment. Falls back to the global
+    // multiplier when the user hasn't completed onboarding yet.
+    const natalPositions = getCapitalizedNatalPositions(user.profile?.natalChart);
+    const pricing = await getPersonalizedPricingContext(natalPositions);
+    const liveCost = applyPersonalizedPricing(
       {
         spirit: item.costSpirit,
         essence: item.costEssence,
         matter: item.costMatter,
         substance: item.costSubstance,
       },
-      pricing.multiplier,
+      pricing,
     );
 
     // Attempt purchase
     const result = await tokenEconomy.purchaseShopItem(user.id, shopItemSlug, {
       overrideCosts: liveCost,
-      descriptionSuffix: `live x${pricing.multiplier.toFixed(2)}`,
+      descriptionSuffix: pricing.personalized
+        ? `live x${pricing.multiplier.toFixed(2)} · personalized`
+        : `live x${pricing.multiplier.toFixed(2)}`,
       idempotencyKey: idempotencyKey ? `purchase:${idempotencyKey}` : undefined,
     });
     if (!result.success) {

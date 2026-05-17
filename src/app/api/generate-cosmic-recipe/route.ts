@@ -3,14 +3,18 @@
  * Requests a structured cosmic recipe using the planetary_agents microservice.
  * Uses the cosmicRecipeSchema for structured output.
  */
-import { auth } from "@/lib/auth/auth";
-import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
+import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import {
+  applyPersonalizedPricing,
+  getPersonalizedPricingContext,
+} from "@/lib/economy/livePricing";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
+import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import {
   SIGN_TO_ELEMENT,
@@ -23,98 +27,89 @@ import {
 } from "@/utils/cuisine/cuisineIndex";
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-export async function POST(request: Request) {
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "Authentication required" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+export async function POST(request: NextRequest) {
+  // Auth'd users → token economy (Spirit/Essence per cosmic recipe) is the throttle.
+  // Anonymous → 2 demo cosmic recipes per IP per day, then sign-in nudge.
+  const access = await gateDemoOrAuth(request, {
+    dailyDemoQuota: 2,
+    feature: "cosmic recipe",
+  });
+  if (access.mode === "denied") return access.blocked;
 
-  // 1. Enforce monthly generation cap (defense-in-depth alongside token economy).
-  const featureCheck = await subscriptionService.canUseFeature(
-    userId,
-    "monthlyRecipeGenerations",
-  );
-  if (!featureCheck.allowed) {
-    return new Response(
-      JSON.stringify({
-        error: "monthly_limit_reached",
-        message: featureCheck.reason,
-        currentUsage: featureCheck.currentUsage,
-        limit: featureCheck.limit,
-      }),
-      {
-        status: 429,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
+  // Auth'd path: token economy is the throttle. Premium users skip the
+  // shop-item debit but everyone else pays personalized live pricing — the
+  // user's natal chart × the chart of the moment shapes the per-token cost.
+  if (access.mode === "auth") {
+    const userId = access.userId;
 
-  // 2. Check if user is premium
-  const sub = await subscriptionService.getUserSubscription(userId);
-  const isPremium = sub?.tier === "premium";
+    const sub = await subscriptionService.getUserSubscription(userId);
+    const isPremium = sub?.tier === "premium";
 
-  // 3. If not premium, they MUST spend tokens OR have a valid monthly slot
-  // (We'll prioritize tokens for 'cosmic' recipes as they are special sinks)
-  // Apply live pricing so the debit matches what the Token Shop displays.
-  if (!isPremium) {
-    const item = await tokenEconomy.getShopItem("unlock-cosmic-recipe");
-    if (!item || !item.isActive) {
-      return new Response(JSON.stringify({
-        error: "shop_item_unavailable",
-        message: "Cosmic recipe unlock is not configured.",
-      }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+    if (!isPremium) {
+      const item = await tokenEconomy.getShopItem("unlock-cosmic-recipe");
+      if (!item || !item.isActive) {
+        return new Response(JSON.stringify({
+          error: "shop_item_unavailable",
+          message: "Cosmic recipe unlock is not configured.",
+        }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
 
-    const pricing = await getLivePricingContext();
-    const liveCost = applyLivePricing(
-      {
-        spirit: item.costSpirit,
-        essence: item.costEssence,
-        matter: item.costMatter,
-        substance: item.costSubstance,
-      },
-      pricing.multiplier,
-    );
+      // Fetch natal chart for per-user pricing. Falls back to global multiplier
+      // when the user hasn't onboarded a chart yet.
+      const { userDatabase } = await import("@/services/userDatabaseService");
+      const dbUser = await userDatabase.getUserById(userId);
+      const natalPositions = getCapitalizedNatalPositions(dbUser?.profile?.natalChart);
 
-    const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe", {
-      overrideCosts: liveCost,
-      descriptionSuffix: `live x${pricing.multiplier.toFixed(2)}`,
-    });
-    if (!purchase.success && purchase.reason !== "already_owned") {
-      return new Response(JSON.stringify({
-        error: "Insufficient tokens",
-        message: `Cosmic recipes require ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence (live x${pricing.multiplier.toFixed(2)}). Earn more or upgrade to Premium!`,
-        liveCost,
+      const pricing = await getPersonalizedPricingContext(natalPositions);
+      const liveCost = applyPersonalizedPricing(
+        {
+          spirit: item.costSpirit,
+          essence: item.costEssence,
+          matter: item.costMatter,
+          substance: item.costSubstance,
+        },
         pricing,
-      }), {
-        status: 402,
-        headers: { "Content-Type": "application/json" },
+      );
+
+      const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe", {
+        overrideCosts: liveCost,
+        descriptionSuffix: pricing.personalized
+          ? `live x${pricing.multiplier.toFixed(2)} · personalized`
+          : `live x${pricing.multiplier.toFixed(2)}`,
       });
+      if (!purchase.success && purchase.reason !== "already_owned") {
+        return new Response(JSON.stringify({
+          error: "Insufficient tokens",
+          message: `Cosmic recipes require ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence right now${pricing.personalized ? " (your chart's rate)" : ""}. Earn more via the daily Cosmic Yield or upgrade to Premium!`,
+          liveCost,
+          pricing,
+        }), {
+          status: 402,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
     }
+
+    // Cosmic recipes count toward both the generic "Culinary Explorer" tiers
+    // and the one-shot "Cosmic Chef" premium quest.
+    await reportQuestEventBestEffort(userId, "generate_recipe");
+    await reportQuestEventBestEffort(userId, "generate_premium_recipe");
   }
 
-  // 4. Increment usage counter
-  try {
-    await subscriptionService.incrementUsage(userId, "recipe_generation");
-  } catch (error) {
-    console.warn("[generate-cosmic-recipe] Failed to increment usage", error);
-  }
-  // Cosmic recipes count toward both the generic "Culinary Explorer" tiers
-  // and the one-shot "Cosmic Chef" premium quest.
-  await reportQuestEventBestEffort(userId, "generate_recipe");
-  await reportQuestEventBestEffort(userId, "generate_premium_recipe");
+  // Beyond this point, both auth and demo paths build the same prompt and call
+  // the agents network. Demo users skip personalization that requires a userId
+  // (food history note) but still see the wow grounding payload.
+  const demoMode = access.mode === "demo";
+  const userId: string | null = access.mode === "auth" ? access.userId : null;
 
   const body = await request.json();
   const {
@@ -190,10 +185,13 @@ export async function POST(request: Request) {
     );
   }
 
-  // Fetch recent history for personalization
-  const recentEntries = await foodDiaryService.getEntries(userId, { limit: 10 });
+  // Fetch recent history for personalization (auth path only — demo users
+  // have no diary to draw from, and the LLM still gets the current-sky context).
+  const recentEntries = userId
+    ? await foodDiaryService.getEntries(userId, { limit: 10 })
+    : [];
   const recentFoods = recentEntries.map(e => e.foodName).join(", ");
-  const historyNote = recentFoods 
+  const historyNote = recentFoods
     ? `User recently consumed: ${recentFoods}. Ensure variety or complementary pairings.`
     : "";
 
@@ -287,6 +285,16 @@ ${cuisineEntry ? `- Honours the statistical profile of ${cuisineEntry.cuisine} c
   } catch (error) {
     console.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
     return new Response(JSON.stringify({ error: "Internal server error contacting agents network" }), { status: 500, headers: { "Content-Type": "application/json" } });
+  }
+
+  // Annotate demo responses so the client can render a "sign in to save / get
+  // personalized" CTA instead of treating this as a saved cosmic recipe.
+  if (demoMode) {
+    responseJson = {
+      ...responseJson,
+      demo: true,
+      demoRemaining: access.mode === "demo" ? access.demoRemaining : undefined,
+    };
   }
 
   const response = new Response(JSON.stringify(responseJson), {

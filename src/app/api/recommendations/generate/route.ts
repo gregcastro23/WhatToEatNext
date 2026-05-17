@@ -8,11 +8,15 @@
 
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
-import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { applyLivePricing, getLivePricingContext } from "@/lib/economy/livePricing";
+import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import {
+  applyPersonalizedPricing,
+  getPersonalizedPricingContext,
+} from "@/lib/economy/livePricing";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { DayOfWeek } from "@/types/menuPlanner";
+import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import {
   generateDayRecommendations,
   type AstrologicalState,
@@ -157,13 +161,14 @@ interface GenerateRequestBody {
 
 export async function POST(request: NextRequest) {
   const tStart = Date.now();
-  const userId = await getUserIdFromRequest(request);
-  if (!userId) {
-    return NextResponse.json(
-      { success: false, message: "Authentication required" },
-      { status: 401 },
-    );
-  }
+
+  // Auth'd users → token economy is the throttle.
+  // Anonymous → 5 demo runs per IP per day, then sign-in nudge.
+  const access = await gateDemoOrAuth(request, {
+    dailyDemoQuota: 5,
+    feature: "recipe recommendation",
+  });
+  if (access.mode === "denied") return access.blocked;
 
   let body: GenerateRequestBody;
   try {
@@ -188,6 +193,56 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
+
+  // ── Demo path: anonymous visitor inside their daily demo budget. ──
+  // Skip memo cache, monthly cap, premium check, token debit, retry grant,
+  // and usage tracking — none of those apply without a user. Just run the
+  // generator so the visitor sees real output and is enticed to sign in.
+  if (access.mode === "demo") {
+    try {
+      const tGen = Date.now();
+      const recommendations = await withTimeout(
+        generateDayRecommendations(dayOfWeek, astroState, options),
+        55_000,
+      );
+      const genMs = Date.now() - tGen;
+      const totalMs = Date.now() - tStart;
+      return NextResponse.json(
+        {
+          success: true,
+          recommendations,
+          charged: false,
+          usedRetryWindow: false,
+          demo: true,
+          demoRemaining: access.demoRemaining,
+          emptyResult: recommendations.length === 0,
+        },
+        {
+          headers: {
+            "Server-Timing": `generate;dur=${genMs}, total;dur=${totalMs}`,
+          },
+        },
+      );
+    } catch (error) {
+      if (error instanceof Error && error.message === "GENERATION_TIMEOUT") {
+        return NextResponse.json(
+          {
+            success: false,
+            reason: "timeout",
+            message: "Generation timed out. Please try again.",
+          },
+          { status: 504 },
+        );
+      }
+      return NextResponse.json(
+        { success: false, reason: "generation_failed", message: "Recipe generation failed." },
+        { status: 500 },
+      );
+    }
+  }
+
+  // Auth path beyond this point — access.mode is narrowed to "auth".
+  const userId = access.userId;
 
   // ── Memo cache hit: return immediately without charging tokens ──
   //
@@ -217,24 +272,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Enforce monthly generation cap (defense-in-depth alongside token economy).
-  const featureCheck = await subscriptionService.canUseFeature(
-    userId,
-    "monthlyRecipeGenerations",
-  );
-  if (!featureCheck.allowed) {
-    return NextResponse.json(
-      {
-        success: false,
-        reason: "monthly_limit_reached",
-        message: featureCheck.reason,
-        currentUsage: featureCheck.currentUsage,
-        limit: featureCheck.limit,
-      },
-      { status: 429 },
-    );
-  }
-
   const sub = await subscriptionService.getUserSubscription(userId);
   const isPremium = sub?.tier === "premium";
 
@@ -243,14 +280,16 @@ export async function POST(request: NextRequest) {
   let activeRetryGrant: RetryGrant | null = null;
 
   // Strict server-side per-click consumption for non-premium users.
+  // Tokens (priced per user × current sky) are the only throttle — no
+  // per-minute caps, no monthly quotas. If the user can afford it, it runs.
   if (!isPremium) {
     const reusedGrant = lookupRetryGrant(userId, retryToken);
     if (reusedGrant) {
       usedRetryWindow = true;
       activeRetryGrant = reusedGrant;
     } else {
-      // Resolve the item to read base costs, then apply the live pricing
-      // multiplier so generation matches the in-shop price experience.
+      // Resolve the item to read base costs, then apply personalised live
+      // pricing so the user's natal chart shapes the per-token cost.
       const item = await tokenEconomy.getShopItem("unlock-basic-recipe");
       if (!item || !item.isActive) {
         return NextResponse.json(
@@ -263,20 +302,26 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const pricing = await getLivePricingContext();
-      const liveCost = applyLivePricing(
+      const { userDatabase } = await import("@/services/userDatabaseService");
+      const dbUser = await userDatabase.getUserById(userId);
+      const natalPositions = getCapitalizedNatalPositions(dbUser?.profile?.natalChart);
+
+      const pricing = await getPersonalizedPricingContext(natalPositions);
+      const liveCost = applyPersonalizedPricing(
         {
           spirit: item.costSpirit,
           essence: item.costEssence,
           matter: item.costMatter,
           substance: item.costSubstance,
         },
-        pricing.multiplier,
+        pricing,
       );
 
       const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-basic-recipe", {
         overrideCosts: liveCost,
-        descriptionSuffix: `live x${pricing.multiplier.toFixed(2)}`,
+        descriptionSuffix: pricing.personalized
+          ? `live x${pricing.multiplier.toFixed(2)} · personalized`
+          : `live x${pricing.multiplier.toFixed(2)}`,
       });
       if (!purchase.success) {
         if (purchase.reason === "insufficient_funds") {
@@ -284,7 +329,7 @@ export async function POST(request: NextRequest) {
             {
               success: false,
               reason: "insufficient_tokens",
-              message: `Insufficient tokens for recipe generation. Cost: ${liveCost.spirit.toFixed(2)} Spirit + ${liveCost.essence.toFixed(2)} Essence (live x${pricing.multiplier.toFixed(2)}).`,
+              message: `Insufficient tokens for recipe generation. Cost: ${liveCost.spirit.toFixed(2)} Spirit + ${liveCost.essence.toFixed(2)} Essence${pricing.personalized ? " (your chart's rate)" : ""}.`,
               liveCost,
               pricing,
             },
@@ -321,16 +366,6 @@ export async function POST(request: NextRequest) {
 
     // Cache the result for the TTL window so repeat clicks are instant.
     storeMemo(cacheKey, recommendations);
-
-    // Increment usage counter so canUseFeature can enforce monthly caps.
-    // Skip on retry-window reuse: the original request already counted.
-    if (!usedRetryWindow) {
-      try {
-        await subscriptionService.incrementUsage(userId, "recipe_generation");
-      } catch (error) {
-        console.warn("[recommendations/generate] Failed to increment usage", error);
-      }
-    }
 
     const totalMs = Date.now() - tStart;
     return NextResponse.json(

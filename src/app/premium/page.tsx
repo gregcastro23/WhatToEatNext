@@ -45,8 +45,6 @@ function PremiumPageContent() {
     subscription,
     tier,
     isLoading,
-    recipeUsage,
-    recipeLimit,
     openCheckout,
     openPortal,
     refresh,
@@ -94,9 +92,6 @@ function PremiumPageContent() {
     );
   }
 
-  const usagePercent =
-    recipeLimit === Infinity ? 0 : Math.min(100, (recipeUsage / recipeLimit) * 100);
-
   return (
     <div className="min-h-screen bg-[#08080e] text-white via-purple-50 to-indigo-50">
       <div className="max-w-4xl mx-auto px-4 py-12">
@@ -106,8 +101,9 @@ function PremiumPageContent() {
             Alchm Kitchen Premium
           </h1>
           <p className="text-lg text-white/60 max-w-xl mx-auto">
-            Unlock unlimited recipe generation, the Cosmic Restaurant Creator,
-            advanced planetary charts, and more.
+            Unlock the Cosmic Recipe Generator, the Cosmic Restaurant Creator,
+            advanced planetary charts, dining companions, and 2× daily
+            Cosmic Yield — all powered by your natal chart.
           </p>
         </div>
 
@@ -160,8 +156,8 @@ function PremiumPageContent() {
                 </div>
                 <p className="text-white/60">
                   {tier === "free"
-                    ? "Free tier — 10 recipe generations per month"
-                    : `$${TIER_LIMITS.premium.price}/month — Unlimited access`}
+                    ? "Free tier — pay-as-you-go with cosmic tokens (Spirit / Essence / Matter / Substance)"
+                    : `$${TIER_LIMITS.premium.price}/month — unlocks premium features + 2× daily Cosmic Yield`}
                 </p>
               </div>
 
@@ -175,31 +171,7 @@ function PremiumPageContent() {
               )}
             </div>
 
-            <div className="mt-8 grid md:grid-cols-3 gap-6">
-              <div className="bg-white/5 rounded-xl p-5">
-                <p className="text-xs font-bold text-white/60 uppercase tracking-wider mb-2">
-                  Recipe Generations
-                </p>
-                <div className="flex items-end gap-2 mb-3">
-                  <span className="text-3xl font-black text-white">
-                    {recipeUsage}
-                  </span>
-                  <span className="text-white/60 font-medium pb-1">
-                    / {recipeLimit === Infinity ? "\u221E" : recipeLimit}
-                  </span>
-                </div>
-                {tier === "free" && (
-                  <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all duration-700 ${
-                        usagePercent > 80 ? "bg-red-500" : usagePercent > 50 ? "bg-amber-500" : "bg-purple-500"
-                      }`}
-                      style={{ width: `${usagePercent}%` }}
-                    />
-                  </div>
-                )}
-              </div>
-
+            <div className="mt-8 grid md:grid-cols-2 gap-6">
               <div className="bg-white/5 rounded-xl p-5">
                 <p className="text-xs font-bold text-white/60 uppercase tracking-wider mb-2">
                   Renewal
@@ -207,7 +179,7 @@ function PremiumPageContent() {
                 <p className="text-lg font-semibold text-white/80">
                   {subscription?.currentPeriodEnd && tier === "premium"
                     ? new Date(subscription.currentPeriodEnd).toLocaleDateString()
-                    : "Monthly reset"}
+                    : tier === "premium" ? "Monthly reset" : "No subscription"}
                 </p>
               </div>
 

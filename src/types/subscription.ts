@@ -38,12 +38,19 @@ export interface UsageRecord {
   periodEnd: string;
 }
 
-/** Feature limits per tier */
+/**
+ * Feature flags per tier.
+ *
+ * NOTE: there is intentionally no `monthlyRecipeGenerations` cap. Recipe
+ * generation is throttled purely by the token economy (Spirit/Essence cost
+ * per call, personalised to the user's chart × current sky). Free vs Premium
+ * is a feature-access distinction (cosmic recipes, dining companions, etc.),
+ * not a usage quota.
+ */
 export const TIER_LIMITS: Record<
   SubscriptionTier,
   {
     label: string;
-    monthlyRecipeGenerations: number;
     cosmicRecipeAccess: boolean;
     restaurantCreator: boolean;
     advancedPlanetaryCharts: boolean;
@@ -56,7 +63,6 @@ export const TIER_LIMITS: Record<
 > = {
   free: {
     label: "Free",
-    monthlyRecipeGenerations: 10,
     cosmicRecipeAccess: false,
     restaurantCreator: false,
     advancedPlanetaryCharts: false,
@@ -68,7 +74,6 @@ export const TIER_LIMITS: Record<
   },
   premium: {
     label: "Premium",
-    monthlyRecipeGenerations: Infinity,
     cosmicRecipeAccess: true,
     restaurantCreator: true,
     advancedPlanetaryCharts: true,
@@ -83,10 +88,10 @@ export const TIER_LIMITS: Record<
 /** Feature metadata for display in comparison tables */
 export const FEATURE_LIST = [
   {
-    key: "monthlyRecipeGenerations",
-    label: "Monthly Recipe Generations",
-    free: "10",
-    premium: "Unlimited",
+    key: "recipeGeneration",
+    label: "Recipe Generation",
+    free: "Pay-as-you-go with cosmic tokens",
+    premium: "Pay-as-you-go with cosmic tokens",
   },
   {
     key: "cosmicRecipeAccess",

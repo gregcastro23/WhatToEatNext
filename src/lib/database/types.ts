@@ -321,6 +321,7 @@ export interface TokenTransactionRecord {
     | "purchase"
     | "transmutation"
     | "streak_bonus"
+    | "signup_grant"
     | "admin";
   source_id?: string;
   description?: string;

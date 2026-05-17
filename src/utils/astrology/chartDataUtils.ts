@@ -36,6 +36,28 @@ export function extractPlanetaryPositions(natalChart: NatalChart): Record<string
       positions[planet] = p.sign;
     }
   });
-  
+
   return positions;
+}
+
+/**
+ * Same as `extractPlanetaryPositions` but returns sign names capitalised to
+ * the shape that `calculateAlchemicalFromPlanets` / `DailyYieldService` /
+ * `getPersonalizedPricingContext` expect (e.g. `"Aries"`, not `"aries"`).
+ *
+ * Returns `null` when no usable planet → sign pairs can be extracted — call
+ * sites should treat that as "not onboarded, skip personalization".
+ */
+export function getCapitalizedNatalPositions(
+  natalChart: NatalChart | null | undefined,
+): Record<string, string> | null {
+  if (!natalChart) return null;
+  const signs = extractPlanetaryPositions(natalChart);
+  const positions: Record<string, string> = {};
+  for (const [planet, sign] of Object.entries(signs)) {
+    if (typeof sign === "string" && sign.length > 0) {
+      positions[planet] = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
+    }
+  }
+  return Object.keys(positions).length > 0 ? positions : null;
 }
