@@ -167,7 +167,7 @@ export default function OnboardingPage() {
         </div>
 
         {/* Onboarding Form */}
-        <div className="alchm-card p-8">
+        <div className="bg-white shadow-xl border border-purple-100/60 rounded-2xl p-8">
           {/* Show who is logged in */}
           <div className="mb-6 p-4 bg-purple-50 rounded-lg border border-purple-200">
             <p className="text-sm text-purple-700">
