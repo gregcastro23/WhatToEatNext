@@ -1,6 +1,6 @@
 'use client'
 
-import { Target, Search, ArrowRight, RotateCcw, Zap, Star, Sparkles } from 'lucide-react'
+import { Target, Search, ArrowRight, Zap, Star, Sparkles } from 'lucide-react'
 import React, { useState, useCallback } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -53,7 +53,7 @@ interface DegreeAgentSelectorProps {
 export const DegreeAgentSelector: React.FC<DegreeAgentSelectorProps> = ({
   selectedDegree,
   onDegreeChange,
-  onAgentChat,
+  onAgentChat: _onAgentChat,
 }) => {
   const [inputDegree, setInputDegree] = useState(selectedDegree?.toString() || '0')
   const [sliderDegree, setSliderDegree] = useState(selectedDegree || 0)

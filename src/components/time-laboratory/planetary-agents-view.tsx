@@ -20,10 +20,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { fetchAgentsForDate } from '@/lib/planetaryAgentsClient'
-
-// Import interactive components
 import { AgentFilterPanel, type AgentFilters } from './agent-filter-panel'
 import { DegreeAgentSelector } from './degree-agent-selector'
 import { MultiAgentConversation } from './multi-agent-conversation'
@@ -220,14 +217,14 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
   const [activations, setActivations] = useState<PlanetaryAgentActivation[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [lastUpdated, setLastUpdated] = useState<Date>(new Date())
+  const [_lastUpdated, setLastUpdated] = useState<Date>(new Date())
 
   // Interactive features state
   const [selectedDegree, setSelectedDegree] = useState<number | undefined>(undefined)
   const [viewMode, setViewMode] = useState<'overview' | 'interactive' | 'chat'>('interactive')
   const [chatMode, setChatMode] = useState<'single' | 'council'>('single')
   const [selectedChatAgent, setSelectedChatAgent] = useState<PlanetaryAgentActivation | null>(null)
-  const [filters, setFilters] = useState<AgentFilters>({
+  const [_filters, setFilters] = useState<AgentFilters>({
     searchTerm: '',
     elements: [],
     dignities: [],
@@ -255,10 +252,10 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
   }, [selectedDate])
 
   useEffect(() => {
-    loadAgentActivations()
+    void loadAgentActivations()
   }, [loadAgentActivations])
 
-  const handleAgentChat = useCallback(
+  const _handleAgentChat = useCallback(
     (activation: PlanetaryAgentActivation) => {
       if (onAgentChat) {
         onAgentChat(activation.agent.id, activation.agent.name, {
@@ -273,7 +270,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
     [onAgentChat, selectedDate]
   )
 
-  const handleDegreeClick = useCallback((degree: number, sign: string) => {
+  const handleDegreeClick = useCallback((degree: number, _sign: string) => {
     setSelectedDegree(degree)
   }, [])
 
@@ -586,7 +583,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
           <div className="pt-3 border-t border-purple-500/20">
             <p>
               <strong>Degree Activation:</strong> Each degree of the zodiac has a unique planetary
-              agent associated with it. The agent's strength depends on planetary dignity and
+              agent associated with it. The agent&apos;s strength depends on planetary dignity and
               elemental harmony. Use the interactive wheel to explore different degrees and discover
               their associated intelligences.
             </p>

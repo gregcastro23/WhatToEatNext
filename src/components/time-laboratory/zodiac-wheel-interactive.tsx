@@ -13,7 +13,7 @@ import {
   Eye,
   Target,
 } from 'lucide-react'
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { fetchAllDegreeAgents } from '@/lib/planetaryAgentsClient'
@@ -217,7 +217,7 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
       }
       setDegreeData(data);
     }
-    loadAgents();
+    void loadAgents();
     return () => { mounted = false; };
   }, []);
 

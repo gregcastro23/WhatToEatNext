@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
 import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
+import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 import { AVERAGE_DAILY_MOTION } from "@/utils/planetaryTransitions";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
-import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 const logger = createLogger("PlanetaryAspectsAPI");
 
