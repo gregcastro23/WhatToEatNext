@@ -528,9 +528,15 @@ function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
       new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000),
     ); // 2 days before
 
-    // Check if position is decreasing (retrograde)
-    const currentLong = Astronomy.EclipticLongitude(body, astroTime);
-    const prevLong = Astronomy.EclipticLongitude(body, prevTime);
+    // Check if position is decreasing (retrograde). Retrograde is a GEOCENTRIC
+    // phenomenon — Astronomy.EclipticLongitude is heliocentric for non-Moon
+    // bodies and never reverses, so we must go through GeoVector → Ecliptic.
+    const currentLong = Astronomy.Ecliptic(
+      Astronomy.GeoVector(body, astroTime, true),
+    ).elon;
+    const prevLong = Astronomy.Ecliptic(
+      Astronomy.GeoVector(body, prevTime, true),
+    ).elon;
 
     // Adjust for crossing 0/360 boundary
     let diff = currentLong - prevLong;

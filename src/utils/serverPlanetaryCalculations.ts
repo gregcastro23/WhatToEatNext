@@ -96,6 +96,11 @@ async function calculatePlanetaryPositionsBackend(
         minute: pos.minute,
         exactLongitude: pos.exactLongitude,
         isRetrograde: pos.isRetrograde,
+        longitudeSpeed: pos.longitudeSpeed,
+        eclipticLatitude: pos.eclipticLatitude,
+        latitudeSpeed: pos.latitudeSpeed,
+        distance: pos.distance,
+        distanceSpeed: pos.distanceSpeed,
       };
     }
 
@@ -168,61 +173,78 @@ function calculatePositionsWithAstronomyEngine(
     { name: "Pluto", body: Astronomy.Body.Pluto },
   ];
 
-  // Create proper AstroTime object for astronomy-engine
+  // Create proper AstroTime objects for astronomy-engine.
+  // dt = 1 hour for finite-difference kinematics. Anchored on the requested
+  // moment so longitude/latitude reflect `date`, not the midpoint.
+  const FD_HOURS = 1;
   const astroTime = new Astronomy.AstroTime(date);
+  const astroTimeFuture = new Astronomy.AstroTime(
+    new Date(date.getTime() + FD_HOURS * 60 * 60 * 1000),
+  );
+  const dtDays = FD_HOURS / 24;
+
+  // Astrology is GEOCENTRIC. All bodies — including Sun and Moon — are reduced
+  // to geocentric ecliptic coordinates (longitude, latitude, Earth-distance).
+  //
+  // Sun: GeoVector(Sun) gives the apparent geocentric vector to the Sun (≈ -Earth
+  //      heliocentric vector). We do NOT use the "Earth+180°, r=1 AU" shortcut —
+  //      Earth's distance from the Sun varies (~0.983–1.017 AU), and that variation
+  //      modulates the inverse-square coupling in the alchemical force calculation.
+  // Moon: GeoMoon(t) returns equatorial geocentric (AU); convert via Ecliptic().
+  // Planets: GeoVector → Ecliptic, distance is the geocentric range in AU.
+  const geoEcliptic = (
+    body: any,
+    at: any,
+  ): { elon: number; elat: number; r: number } | null => {
+    try {
+      if (body === Astronomy.Body.Moon) {
+        // Astronomy.GeoMoon returns geocentric Moon vector in AU (J2000 ecliptic).
+        const moonVec = Astronomy.GeoMoon(at);
+        const ecl = Astronomy.Ecliptic(moonVec);
+        const r = Math.sqrt(
+          moonVec.x * moonVec.x +
+            moonVec.y * moonVec.y +
+            moonVec.z * moonVec.z,
+        );
+        return { elon: ecl.elon, elat: ecl.elat ?? 0, r };
+      }
+      // Sun and planets: aberration-corrected geocentric vector → ecliptic.
+      const geoVec = Astronomy.GeoVector(body, at, true);
+      const ecl = Astronomy.Ecliptic(geoVec);
+      const r = Math.sqrt(
+        geoVec.x * geoVec.x + geoVec.y * geoVec.y + geoVec.z * geoVec.z,
+      );
+      return { elon: ecl.elon, elat: ecl.elat ?? 0, r };
+    } catch {
+      return null;
+    }
+  };
+
+  const wrapDeltaLon = (diff: number): number => {
+    let d = diff;
+    if (d > 180) d -= 360;
+    else if (d < -180) d += 360;
+    return d;
+  };
 
   for (const planet of planets) {
     try {
-      let longitude: number;
+      const ecl = geoEcliptic(planet.body, astroTime);
+      if (!ecl) throw new Error("ecliptic calc failed");
+      const longitude = ecl.elon;
 
-      if (planet.body === Astronomy.Body.Sun) {
-        // Sun geocentric longitude = Earth heliocentric longitude + 180°
-        const earthLong = Astronomy.EclipticLongitude(
-          Astronomy.Body.Earth,
-          astroTime,
-        );
-        longitude = (earthLong + 180) % 360;
-      } else if (planet.body === Astronomy.Body.Moon) {
-        // Moon: EclipticLongitude already returns geocentric ecliptic longitude
-        longitude = Astronomy.EclipticLongitude(planet.body, astroTime);
-      } else {
-        // All other planets: compute GEOCENTRIC ecliptic longitude.
-        // Astronomy.EclipticLongitude() returns HELIOCENTRIC for non-Moon bodies,
-        // which is wrong for astrology. We must use GeoVector → Ecliptic instead.
-        const geoVec = Astronomy.GeoVector(planet.body, astroTime, true);
-        const eclipticCoords = Astronomy.Ecliptic(geoVec);
-        longitude = eclipticCoords.elon;
+      const eclFuture = geoEcliptic(planet.body, astroTimeFuture);
+      let longitudeSpeed = 0;
+      let latitudeSpeed = 0;
+      let distanceSpeed = 0;
+      if (eclFuture) {
+        longitudeSpeed = wrapDeltaLon(eclFuture.elon - longitude) / dtDays;
+        latitudeSpeed = (eclFuture.elat - ecl.elat) / dtDays;
+        distanceSpeed = (eclFuture.r - ecl.r) / dtDays;
       }
+      const isRetrograde = longitudeSpeed < 0;
 
       const zodiacPos = longitudeToZodiacPosition(longitude);
-
-      let isRetrograde = false;
-      try {
-        if (
-          planet.body !== Astronomy.Body.Sun &&
-          planet.body !== Astronomy.Body.Moon
-        ) {
-          // Check retrograde by comparing geocentric longitude 2 days ago vs today
-          const prevDate = new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000);
-          const prevAstroTime = new Astronomy.AstroTime(prevDate);
-          const prevGeoVec = Astronomy.GeoVector(planet.body, prevAstroTime, true);
-          const prevEcliptic = Astronomy.Ecliptic(prevGeoVec);
-          const prevLongitude = prevEcliptic.elon;
-
-          // Adjust for crossing 0/360 boundary
-          let diff = longitude - prevLongitude;
-          if (Math.abs(diff) > 180) {
-            diff = diff > 0 ? diff - 360 : diff + 360;
-          }
-          isRetrograde = diff < 0;
-        }
-      } catch (retroError) {
-        logger.debug(
-          `Error checking retrograde for ${planet.name}:`,
-          retroError,
-        );
-        isRetrograde = false;
-      }
 
       positions[planet.name] = {
         sign: zodiacPos.sign,
@@ -230,6 +252,11 @@ function calculatePositionsWithAstronomyEngine(
         minute: zodiacPos.minute,
         exactLongitude: longitude,
         isRetrograde,
+        longitudeSpeed,
+        eclipticLatitude: ecl.elat,
+        latitudeSpeed,
+        distance: ecl.r,
+        distanceSpeed,
       };
     } catch (planetError) {
       logger.warn(

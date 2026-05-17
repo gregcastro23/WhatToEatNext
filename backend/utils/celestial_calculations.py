@@ -77,9 +77,16 @@ def calculate_planetary_positions_swisseph(
                     result = swe.calc_ut(julian_day, planet_id, swe.FLG_SWIEPH | swe.FLG_SPEED)
 
                 # Extract values correctly - result is ((positions...), flags)
+                # swe.calc_ut with FLG_SPEED returns:
+                #   [0]=longitude(deg), [1]=latitude(deg), [2]=distance(AU),
+                #   [3]=longitude_speed(deg/day), [4]=latitude_speed(deg/day), [5]=distance_speed(AU/day)
                 positions_array = result[0]
                 longitude = positions_array[0]
+                ecliptic_latitude = positions_array[1]
+                distance_au = positions_array[2]
                 longitude_speed = positions_array[3]
+                latitude_speed = positions_array[4]
+                distance_speed = positions_array[5]
 
                 # Normalize longitude to 0-360
                 longitude = longitude % 360
@@ -106,7 +113,11 @@ def calculate_planetary_positions_swisseph(
                     "exactLongitude": longitude,
                     "isRetrograde": is_retrograde,
                     "retrogradeSymbol": retrograde_symbol,
-                    "longitudeSpeed": longitude_speed,  # degrees/day
+                    "longitudeSpeed": longitude_speed,  # degrees/day (signed; negative = retrograde)
+                    "eclipticLatitude": ecliptic_latitude,  # degrees, positive = N of ecliptic
+                    "latitudeSpeed": latitude_speed,  # degrees/day
+                    "distance": distance_au,  # AU
+                    "distanceSpeed": distance_speed,  # AU/day
                     "arcminutesPerDay": round(arcminutes_per_day, 2),  # arcminutes/day (more granular)
                     "speedDisplay": f"{arcminutes_per_day:+.1f}'/day" if abs(arcminutes_per_day) < 60 else f"{longitude_speed:+.2f}°/day"
                 }
@@ -258,8 +269,16 @@ def calculate_planetary_positions_pyephem(
 ) -> Dict[str, Any]:
     """
     Fallback planetary position calculation using pyephem.
+
+    Astrology is GEOCENTRIC: planet positions are computed as seen from Earth.
+    pyephem's `body.hlon`/`body.hlat` are HELIOCENTRIC and must not be used here.
+    We use `ephem.Ecliptic(body)` instead, which converts the apparent geocentric
+    equatorial coords (already computed by `body.compute(observer)`) into geocentric
+    ecliptic coordinates.
+
     Lower precision than Swiss Ephemeris but more reliable availability.
     """
+    import math
     if not ephem:
         print("pyephem not available, cannot calculate planetary positions.")
         return {"error": "pyephem not installed or available."}
@@ -291,40 +310,64 @@ def calculate_planetary_positions_pyephem(
         ]
 
         positions = {}
+        # 1-hour finite difference for kinematics (degrees/day).
+        DT_HOURS = 1.0
+        DT_DAYS = DT_HOURS / 24.0
+        future_observer = ephem.Observer()
+        future_observer.lat = observer.lat
+        future_observer.lon = observer.lon
+        future_observer.date = observer.date + DT_HOURS / 24.0
 
         for planet_name, planet_obj in planets_map.items():
             try:
+                # Geocentric apparent position from this observer
                 planet_obj.compute(observer)
+                ecl_now = ephem.Ecliptic(planet_obj)
+                lon_deg = math.degrees(float(ecl_now.lon)) % 360
+                lat_deg = math.degrees(float(ecl_now.lat))
+                # pyephem reports earth_distance in AU for all bodies (including Moon).
+                dist_au = float(planet_obj.earth_distance) \
+                    if hasattr(planet_obj, "earth_distance") else 1.0
 
-                # Get ecliptic longitude in degrees
-                longitude_rad = float(planet_obj.hlon)
-                longitude = longitude_rad * 180 / 3.14159265359  # Convert to degrees
+                # Finite-difference velocity at t + 1 hour
+                future_planet = type(planet_obj)()
+                future_planet.compute(future_observer)
+                ecl_next = ephem.Ecliptic(future_planet)
+                lon_next = math.degrees(float(ecl_next.lon)) % 360
+                lat_next = math.degrees(float(ecl_next.lat))
+                dist_next = float(future_planet.earth_distance) \
+                    if hasattr(future_planet, "earth_distance") else dist_au
 
-                # Normalize to 0-360
-                longitude = longitude % 360
+                d_lon = ((lon_next - lon_deg + 540) % 360) - 180  # wrap to (-180, 180]
+                longitude_speed = d_lon / DT_DAYS
+                latitude_speed = (lat_next - lat_deg) / DT_DAYS
+                distance_speed = (dist_next - dist_au) / DT_DAYS
 
-                # Calculate sign and position
-                sign_index = int(longitude / 30)
-                degree_in_sign = longitude % 30
+                is_retrograde = (
+                    longitude_speed < 0
+                    if planet_name not in ["Sun", "Moon"]
+                    else False
+                )
+
+                sign_index = int(lon_deg / 30)
+                degree_in_sign = lon_deg % 30
                 degree = int(degree_in_sign)
                 minute_in_sign = int((degree_in_sign - degree) * 60)
-
-                # Approximate retrograde detection (compare with position 1 day later)
-                observer.date = observer.date + 1  # Add 1 day
-                planet_obj.compute(observer)
-                future_longitude = float(planet_obj.hlon) * 180 / 3.14159265359
-                observer.date = observer.date - 1  # Reset
-
-                # Calculate if retrograde (future position is less than current)
-                delta = ((future_longitude - longitude + 540) % 360) - 180
-                is_retrograde = delta < 0 if planet_name not in ["Sun", "Moon"] else False
+                arcminutes_per_day = longitude_speed * 60
 
                 positions[planet_name] = {
                     "sign": zodiac_signs[sign_index],
                     "degree": degree,
                     "minute": minute_in_sign,
-                    "exactLongitude": longitude,
-                    "isRetrograde": is_retrograde
+                    "exactLongitude": lon_deg,
+                    "isRetrograde": is_retrograde,
+                    "retrogradeSymbol": "℞" if is_retrograde else "",
+                    "longitudeSpeed": longitude_speed,
+                    "eclipticLatitude": lat_deg,
+                    "latitudeSpeed": latitude_speed,
+                    "distance": dist_au,
+                    "distanceSpeed": distance_speed,
+                    "arcminutesPerDay": round(arcminutes_per_day, 2),
                 }
             except Exception as planet_error:
                 print(f"Error calculating {planet_name} with pyephem: {planet_error}")

@@ -10,7 +10,7 @@ import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
-import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { isSectDiurnal, PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
@@ -192,6 +192,257 @@ export async function GET(request: Request) {
 
     const isDiurnalNow = isSectDiurnal(now);
 
+    // -----------------------------------------------------------------------
+    // VECTOR ESMS + REACTIVE P=IV CIRCUIT — GEOCENTRIC FRAME
+    //
+    // Reference frame: GEOCENTRIC ecliptic of date. All inputs (exactLongitude,
+    // eclipticLatitude, distance, *Speed fields) are measured with Earth at the
+    // origin — this is the only frame astrology recognizes.
+    //   - exactLongitude/longitudeSpeed: geocentric apparent ecliptic longitude
+    //     and its time derivative (deg/day). longitudeSpeed < 0 ⇒ retrograde
+    //     (an artifact of geocentric perspective; planets don't truly reverse).
+    //   - eclipticLatitude/latitudeSpeed: out-of-ecliptic-plane component.
+    //   - distance/distanceSpeed: Earth-to-body range in AU and its rate.
+    //
+    // Each planet contributes a 3D position vector (geocentric ecliptic
+    // Cartesian: x toward 0° Aries, y toward 90° Cancer, z toward N ecliptic
+    // pole) and a velocity vector derived by chain rule from the three speeds.
+    // We sum these into four ESMS vectors weighted by PLANETARY_ALCHEMY[planet].
+    //
+    // The circuit treats applying aspects as capacitive (energy storage) and
+    // separating aspects as inductive (resistance to change). The elemental
+    // mix becomes resistive impedance R. Net reactance X = ωL − 1/(ωC).
+    // -----------------------------------------------------------------------
+    type Vec3 = { x: number; y: number; z: number };
+    const ZERO_VEC: Vec3 = { x: 0, y: 0, z: 0 };
+    const addVec = (a: Vec3, b: Vec3): Vec3 => ({
+      x: a.x + b.x,
+      y: a.y + b.y,
+      z: a.z + b.z,
+    });
+    const scaleVec = (v: Vec3, s: number): Vec3 => ({
+      x: v.x * s,
+      y: v.y * s,
+      z: v.z * s,
+    });
+    const magnitude = (v: Vec3): number =>
+      Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    const roundVec = (v: Vec3, digits = 6): Vec3 => ({
+      x: round(v.x, digits),
+      y: round(v.y, digits),
+      z: round(v.z, digits),
+    });
+
+    const DEG2RAD = Math.PI / 180;
+
+    // Build 3D ecliptic Cartesian + velocity for a position record.
+    // Distance defaults to 1 AU when the source didn't provide it.
+    const positionVec = (pos: any): { r: Vec3; v: Vec3 } => {
+      const lon = toFinite(pos?.exactLongitude) * DEG2RAD;
+      const lat = toFinite(pos?.eclipticLatitude) * DEG2RAD;
+      const r = toFinite(pos?.distance, 1);
+      const lonDot = toFinite(pos?.longitudeSpeed) * DEG2RAD; // rad/day
+      const latDot = toFinite(pos?.latitudeSpeed) * DEG2RAD; // rad/day
+      const rDot = toFinite(pos?.distanceSpeed); // AU/day
+
+      const cosLat = Math.cos(lat);
+      const sinLat = Math.sin(lat);
+      const cosLon = Math.cos(lon);
+      const sinLon = Math.sin(lon);
+
+      const position: Vec3 = {
+        x: r * cosLat * cosLon,
+        y: r * cosLat * sinLon,
+        z: r * sinLat,
+      };
+      // dP/dt by chain rule
+      const velocity: Vec3 = {
+        x:
+          rDot * cosLat * cosLon -
+          r * sinLat * latDot * cosLon -
+          r * cosLat * sinLon * lonDot,
+        y:
+          rDot * cosLat * sinLon -
+          r * sinLat * latDot * sinLon +
+          r * cosLat * cosLon * lonDot,
+        z: rDot * sinLat + r * cosLat * latDot,
+      };
+      return { r: position, v: velocity };
+    };
+
+    // ESMS vector field: sum planet velocities weighted by alchemical contribution.
+    // Result is the directional "flow" of each ESMS axis through 3D space.
+    const esmsVectors: Record<EsmsKey, Vec3> = {
+      Spirit: { ...ZERO_VEC },
+      Essence: { ...ZERO_VEC },
+      Matter: { ...ZERO_VEC },
+      Substance: { ...ZERO_VEC },
+    };
+    const esmsForce: Record<EsmsKey, Vec3> = {
+      Spirit: { ...ZERO_VEC },
+      Essence: { ...ZERO_VEC },
+      Matter: { ...ZERO_VEC },
+      Substance: { ...ZERO_VEC },
+    };
+
+    for (const [planet, pos] of Object.entries(nowPositions)) {
+      const alch = (PLANETARY_ALCHEMY as any)[planet];
+      if (!alch) continue;
+      const { r, v } = positionVec(pos);
+      // Force magnitude scales with 1/r² (inverse-square coupling),
+      // direction along velocity (motion = force-of-becoming).
+      const coupling = 1 / Math.max(magnitude(r) * magnitude(r), 0.01);
+      for (const key of ESMS_KEYS) {
+        const w = toFinite(alch[key]);
+        if (w === 0) continue;
+        esmsVectors[key] = addVec(esmsVectors[key], scaleVec(v, w));
+        esmsForce[key] = addVec(esmsForce[key], scaleVec(v, w * coupling));
+      }
+    }
+
+    // Aspects: signed orb velocity per pair → applying (negative) vs separating.
+    // We reuse computeOrb-style math inline to avoid an extra API hop.
+    const SIGN_LIST = [
+      "aries","taurus","gemini","cancer","leo","virgo",
+      "libra","scorpio","sagittarius","capricorn","aquarius","pisces",
+    ];
+    const longitudeOf = (pos: any): number => {
+      if (pos?.exactLongitude !== undefined) return toFinite(pos.exactLongitude);
+      const idx = SIGN_LIST.indexOf(String(pos?.sign ?? "").toLowerCase());
+      return Math.max(0, idx) * 30 + toFinite(pos?.degree) + toFinite(pos?.minute) / 60;
+    };
+    const orbBetween = (L1: number, L2: number, target: number): number => {
+      let diff = Math.abs(L1 - L2) % 360;
+      if (diff > 180) diff = 360 - diff;
+      return Math.abs(diff - target);
+    };
+    const ASPECT_DEFS: { type: string; angle: number; maxOrb: number }[] = [
+      { type: "conjunction", angle: 0, maxOrb: 8 },
+      { type: "opposition", angle: 180, maxOrb: 8 },
+      { type: "trine", angle: 120, maxOrb: 8 },
+      { type: "square", angle: 90, maxOrb: 7 },
+      { type: "sextile", angle: 60, maxOrb: 6 },
+    ];
+
+    let applyingStrengthSum = 0;
+    let separatingStrengthSum = 0;
+    let relAngVelMagSum = 0;
+    let aspectCount = 0;
+    const DT_DAYS = 1 / 24;
+    const planetNames = Object.keys(nowPositions).filter(
+      (n) => (PLANETARY_ALCHEMY as any)[n],
+    );
+    for (let i = 0; i < planetNames.length; i++) {
+      for (let j = i + 1; j < planetNames.length; j++) {
+        const p1 = planetNames[i];
+        const p2 = planetNames[j];
+        const pos1 = nowPositions[p1];
+        const pos2 = nowPositions[p2];
+        const L1 = longitudeOf(pos1);
+        const L2 = longitudeOf(pos2);
+        const m1 = toFinite(pos1?.longitudeSpeed);
+        const m2 = toFinite(pos2?.longitudeSpeed);
+        for (const def of ASPECT_DEFS) {
+          const orb0 = orbBetween(L1, L2, def.angle);
+          if (orb0 > def.maxOrb) continue;
+          const L1n = (L1 + m1 * DT_DAYS + 360) % 360;
+          const L2n = (L2 + m2 * DT_DAYS + 360) % 360;
+          const orb1 = orbBetween(L1n, L2n, def.angle);
+          const orbVel = (orb1 - orb0) / DT_DAYS;
+          const strength = Math.max(0, 1 - orb0 / def.maxOrb);
+          if (orbVel < 0) applyingStrengthSum += strength;
+          else separatingStrengthSum += strength;
+          relAngVelMagSum += Math.abs(m1 - m2);
+          aspectCount += 1;
+        }
+      }
+    }
+
+    // ω: characteristic angular frequency of the system (rad/day).
+    // Empty-aspect fallback: 2π/365.25 ≈ Earth's mean motion.
+    const omega = aspectCount > 0
+      ? (relAngVelMagSum / aspectCount) * DEG2RAD
+      : (2 * Math.PI) / 365.25;
+
+    // Capacitance C: energy storage from applying aspects. Floor avoids ÷0.
+    const capacitance = Math.max(0.01, applyingStrengthSum + 0.1);
+    // Inductance L: resistance to change from separating aspects.
+    const inductance = Math.max(0.01, separatingStrengthSum + 0.1);
+    // Resistance R: elemental dissipation. Earth/Water resist, Fire/Air conduct.
+    const el = nowAlch.elementalProperties;
+    const resistance = Math.max(
+      0.01,
+      toFinite(el.Earth) * 2 + toFinite(el.Water) * 1.5 +
+      toFinite(el.Fire) * 0.5 + toFinite(el.Air) * 0.3,
+    );
+
+    // Reactance X = ωL − 1/(ωC); |Z| = √(R² + X²)
+    const inductiveReactance = omega * inductance;
+    const capacitiveReactance = 1 / (omega * capacitance);
+    const reactance = inductiveReactance - capacitiveReactance;
+    const impedance = Math.sqrt(resistance * resistance + reactance * reactance);
+    const phaseAngle = Math.atan2(reactance, resistance); // radians
+    const powerFactor = impedance > 0 ? resistance / impedance : 1;
+
+    // Voltage = the existing potentialDifference (energy per charge);
+    // Current = V / |Z|; Real/Reactive/Apparent power decomposition.
+    const acCurrent = impedance > 0 ? potentialDifference / impedance : 0;
+    const apparentPower = potentialDifference * acCurrent; // VA
+    const realPower = apparentPower * powerFactor;
+    const reactivePower = apparentPower * Math.sin(phaseAngle);
+
+    const dominantState: "capacitive" | "inductive" | "resistive" =
+      Math.abs(reactance) < resistance * 0.1
+        ? "resistive"
+        : reactance < 0
+          ? "capacitive"
+          : "inductive";
+
+    const vectorCircuit = {
+      // ESMS as 3D vector field (raw velocity-weighted sums)
+      esmsField: {
+        Spirit: roundVec(esmsVectors.Spirit),
+        Essence: roundVec(esmsVectors.Essence),
+        Matter: roundVec(esmsVectors.Matter),
+        Substance: roundVec(esmsVectors.Substance),
+      },
+      // ESMS force vectors (1/r² coupling applied)
+      esmsForce: {
+        Spirit: roundVec(esmsForce.Spirit),
+        Essence: roundVec(esmsForce.Essence),
+        Matter: roundVec(esmsForce.Matter),
+        Substance: roundVec(esmsForce.Substance),
+      },
+      // Scalar magnitudes (useful for legacy displays / gauges)
+      esmsMagnitude: {
+        Spirit: round(magnitude(esmsVectors.Spirit), 6),
+        Essence: round(magnitude(esmsVectors.Essence), 6),
+        Matter: round(magnitude(esmsVectors.Matter), 6),
+        Substance: round(magnitude(esmsVectors.Substance), 6),
+      },
+      // Aspect-driven circuit parameters
+      omega: round(omega, 6),
+      capacitance: round(capacitance, 6),
+      inductance: round(inductance, 6),
+      resistance: round(resistance, 6),
+      inductiveReactance: round(inductiveReactance, 6),
+      capacitiveReactance: round(capacitiveReactance, 6),
+      reactance: round(reactance, 6),
+      impedance: round(impedance, 6),
+      phaseAngle: round(phaseAngle, 6),
+      powerFactor: round(powerFactor, 6),
+      // AC power triangle
+      acCurrent: round(acCurrent, 6),
+      realPower: round(realPower, 6),
+      reactivePower: round(reactivePower, 6),
+      apparentPower: round(apparentPower, 6),
+      dominantState,
+      // Aspect coupling summary
+      applyingStrength: round(applyingStrengthSum, 6),
+      separatingStrength: round(separatingStrengthSum, 6),
+      aspectCount,
+    };
+
     // Cross-backend verification of quantities
     let crossVerification: any = undefined;
     const isVerificationEnabled =
@@ -340,6 +591,7 @@ export async function GET(request: Request) {
       planetaryMomentum: nowAlch.planetaryMomentum,
       historicalContext: historicalContext || undefined,
       crossVerification,
+      vectorCircuit,
     };
 
     const validated = AlchmQuantitiesApiResponseSchema.safeParse(payload);

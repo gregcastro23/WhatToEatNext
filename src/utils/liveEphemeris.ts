@@ -184,20 +184,22 @@ export function calculateLivePositions(
     try {
       let longitude: number;
 
-      if (planet.body === Astronomy.Body.Sun) {
-        // Sun = Earth heliocentric longitude + 180
-        const earthLong = Astronomy.EclipticLongitude(
-          Astronomy.Body.Earth,
-          astroTime,
-        );
-        longitude = (earthLong + 180) % 360;
-      } else {
+      // GEOCENTRIC astrology. Astronomy.EclipticLongitude(body) returns
+      // HELIOCENTRIC ecliptic for non-Moon bodies, so for Sun and planets we
+      // must go through GeoVector → Ecliptic. The Moon's helper is already
+      // geocentric.
+      if (planet.body === Astronomy.Body.Moon) {
         longitude = Astronomy.EclipticLongitude(planet.body, astroTime);
+      } else {
+        const geoVec = Astronomy.GeoVector(planet.body, astroTime, true);
+        longitude = Astronomy.Ecliptic(geoVec).elon;
       }
 
       const zodiac = longitudeToZodiac(longitude);
 
-      // Retrograde detection (compare with position 2 days prior)
+      // Retrograde detection — must compare GEOCENTRIC longitudes; heliocentric
+      // longitudes never reverse so the old code always returned false for
+      // outer planets.
       let isRetrograde = false;
       if (
         planet.body !== Astronomy.Body.Sun &&
@@ -207,7 +209,8 @@ export function calculateLivePositions(
           const prev = new Astronomy.AstroTime(
             new Date(date.getTime() - 2 * 86_400_000),
           );
-          const prevLong = Astronomy.EclipticLongitude(planet.body, prev);
+          const prevGeo = Astronomy.GeoVector(planet.body, prev, true);
+          const prevLong = Astronomy.Ecliptic(prevGeo).elon;
           let diff = longitude - prevLong;
           if (Math.abs(diff) > 180) diff += diff > 0 ? -360 : 360;
           isRetrograde = diff < 0;

@@ -71,10 +71,13 @@ export function getSignFromLongitude(longitude: number): { sign: string; degree:
 
 function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
   if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) return false;
+  // Retrograde is GEOCENTRIC. Astronomy.EclipticLongitude returns heliocentric
+  // for non-Moon bodies (which never goes retrograde), so we must use
+  // GeoVector → Ecliptic here.
   const astroTime = new Astronomy.AstroTime(date);
   const prevTime = new Astronomy.AstroTime(new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000));
-  const currentLong = Astronomy.EclipticLongitude(body, astroTime);
-  const prevLong = Astronomy.EclipticLongitude(body, prevTime);
+  const currentLong = Astronomy.Ecliptic(Astronomy.GeoVector(body, astroTime, true)).elon;
+  const prevLong = Astronomy.Ecliptic(Astronomy.GeoVector(body, prevTime, true)).elon;
   let diff = currentLong - prevLong;
   if (Math.abs(diff) > 180) diff = diff > 0 ? diff - 360 : diff + 360;
   return diff < 0;

@@ -40,13 +40,20 @@ function getZodiacPosition(longitude: number): { sign: ZodiacSign; degree: numbe
  */
 function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
   if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) return false;
-  
+
+  // Retrograde is a GEOCENTRIC phenomenon — must compare geocentric longitudes.
+  // EclipticLongitude(body) returns heliocentric for non-Moon bodies, which
+  // never goes retrograde, so this used to silently always return false.
   const astroTime = new Astronomy.AstroTime(date);
   const hourAgo = new Astronomy.AstroTime(new Date(date.getTime() - 3600000));
-  
-  const currentLong = Astronomy.EclipticLongitude(body, astroTime);
-  const prevLong = Astronomy.EclipticLongitude(body, hourAgo);
-  
+
+  const currentLong = Astronomy.Ecliptic(
+    Astronomy.GeoVector(body, astroTime, true),
+  ).elon;
+  const prevLong = Astronomy.Ecliptic(
+    Astronomy.GeoVector(body, hourAgo, true),
+  ).elon;
+
   let diff = currentLong - prevLong;
   if (Math.abs(diff) > 180) {
     diff = diff > 0 ? diff - 360 : diff + 360;
@@ -118,11 +125,14 @@ export function getAccuratePlanetaryPositionsSync(
     for (const [planet, body] of Object.entries(PLANET_MAPPING)) {
       let longitude: number;
       
-      if (planet === 'sun') {
-        const earthLong = Astronomy.EclipticLongitude(Astronomy.Body.Earth, astroTime);
-        longitude = (earthLong + 180) % 360;
-      } else {
+      // GEOCENTRIC astrology: every body's longitude is measured from Earth.
+      // Astronomy.EclipticLongitude returns HELIOCENTRIC for non-Moon bodies,
+      // so we must go through GeoVector → Ecliptic for Sun and planets.
+      if (planet === 'moon') {
         longitude = Astronomy.EclipticLongitude(body, astroTime);
+      } else {
+        const geoVec = Astronomy.GeoVector(body, astroTime, true);
+        longitude = Astronomy.Ecliptic(geoVec).elon;
       }
 
       const { sign, degree } = getZodiacPosition(longitude);

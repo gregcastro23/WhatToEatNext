@@ -108,6 +108,12 @@ export interface PlanetPosition {
   exactLongitude: number;
   isRetrograde?: boolean;
   error?: boolean;
+  // 3D kinematics (degrees/day, degrees, AU). Optional for legacy callers.
+  longitudeSpeed?: number;
+  eclipticLatitude?: number;
+  latitudeSpeed?: number;
+  distance?: number;
+  distanceSpeed?: number;
 }
 // Use the imported ElementalProperties (uppercase Fire, Water, Earth, Air)
 export type ElementalProperties = ImportedElementalProperties;

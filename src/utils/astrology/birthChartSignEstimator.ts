@@ -426,8 +426,11 @@ export function estimateBirthChartSigns(
       source: "astronomy-engine",
     };
 
-    // Mars calculation
-    const marsLong = Astronomy.EclipticLongitude(Astronomy.Body.Mars, astroTime);
+    // Mars calculation (GEOCENTRIC — EclipticLongitude returns heliocentric for
+    // non-Moon bodies; we must use GeoVector → Ecliptic for astrological signs).
+    const marsLong = Astronomy.Ecliptic(
+      Astronomy.GeoVector(Astronomy.Body.Mars, astroTime, true),
+    ).elon;
     const marsSignIndex = Math.floor((((marsLong % 360) + 360) % 360) / 30);
     const marsSign = ZODIAC_ORDER[marsSignIndex];
     
