@@ -7,6 +7,7 @@ import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
+import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 const logger = createLogger("PlanetaryAspectsAPI");
 
@@ -44,6 +45,15 @@ export interface AspectEntry {
   applying: boolean;          // true = approaching exact, false = moving away
   daysToExact: number;        // days until (applying) or since (separating) exact
   influence: "harmonious" | "challenging" | "neutral";
+  // Vector kinematics ---------------------------------------------------
+  /** Signed rate of change of orb in degrees/day (negative = applying). */
+  orbVelocity: number;
+  /** Relative angular velocity m1 - m2 in degrees/day (signed). */
+  relativeAngularVelocity: number;
+  /** Coupling state — Applying stores energy (capacitive), Separating discharges (inductive). */
+  state: "applying" | "separating" | "stationary";
+  /** Source of velocity data, for downstream confidence weighting. */
+  velocitySource: "ephemeris" | "average-fallback";
 }
 
 const RATE_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities-aspects" };
@@ -104,6 +114,27 @@ export async function GET(request: Request) {
 
     const result: AspectEntry[] = [];
 
+    // Resolve a signed longitude velocity (deg/day) for a planet.
+    // Prefers the ephemeris-provided `longitudeSpeed` (signed, retrograde-aware);
+    // falls back to AVERAGE_DAILY_MOTION × retrograde sign for tertiary bodies
+    // (Nodes/Asc/MC don't always carry a speed field).
+    const velocityFor = (
+      name: string,
+    ): { speed: number; source: "ephemeris" | "average-fallback" } => {
+      const pos = positions[name] as Partial<PlanetPosition> | undefined;
+      const fromEphem = pos?.longitudeSpeed;
+      if (typeof fromEphem === "number" && Number.isFinite(fromEphem)) {
+        return { speed: fromEphem, source: "ephemeris" };
+      }
+      const base = AVERAGE_DAILY_MOTION[name] ?? 0.5;
+      const sign = pos?.isRetrograde ? -1 : 1;
+      return { speed: base * sign, source: "average-fallback" };
+    };
+
+    // dt for finite-difference orb velocity — small enough to be ~instantaneous
+    // for the slowest planets, large enough to dodge floating-point noise.
+    const DT_DAYS = 1 / 24; // 1 hour
+
     for (const aspect of rawAspects) {
       if (!MAJOR_ASPECTS.has(aspect.type)) continue;
 
@@ -114,27 +145,36 @@ export async function GET(request: Request) {
       const L2 = longitudes[aspect.planet2];
       if (L1 === undefined || L2 === undefined) continue;
 
-      // Effective daily motion (negative when retrograde)
-      const m1 = (AVERAGE_DAILY_MOTION[aspect.planet1] ?? 0.5) *
-        ((positions[aspect.planet1])?.isRetrograde ? -1 : 1);
-      const m2 = (AVERAGE_DAILY_MOTION[aspect.planet2] ?? 0.5) *
-        ((positions[aspect.planet2])?.isRetrograde ? -1 : 1);
+      const v1 = velocityFor(aspect.planet1);
+      const v2 = velocityFor(aspect.planet2);
+      const m1 = v1.speed;
+      const m2 = v2.speed;
+      const velocitySource: "ephemeris" | "average-fallback" =
+        v1.source === "ephemeris" && v2.source === "ephemeris"
+          ? "ephemeris"
+          : "average-fallback";
 
-      // Current orb
+      // Orb at t and t+dt → finite-difference velocity.
       const currentOrb = computeOrb(L1, L2, aspectAngle);
-
-      // Orb after 1 day
-      const L1next = (L1 + m1 + 360) % 360;
-      const L2next = (L2 + m2 + 360) % 360;
+      const L1next = (L1 + m1 * DT_DAYS + 360) % 360;
+      const L2next = (L2 + m2 * DT_DAYS + 360) % 360;
       const nextOrb = computeOrb(L1next, L2next, aspectAngle);
 
-      const applying = nextOrb < currentOrb;
+      // Signed orb velocity in deg/day. Negative ⇒ orb shrinking ⇒ applying.
+      const orbVelocity = (nextOrb - currentOrb) / DT_DAYS;
+      const STATIONARY_EPS = 1e-4; // deg/day
+      const applying = orbVelocity < -STATIONARY_EPS;
+      const state: "applying" | "separating" | "stationary" =
+        Math.abs(orbVelocity) < STATIONARY_EPS
+          ? "stationary"
+          : applying
+            ? "applying"
+            : "separating";
 
-      // Rate of orb change per day
-      const orbChangePerDay = Math.abs(currentOrb - nextOrb);
-      // Guard against standing still (very slow or same speed planets)
-      const daysToExact = orbChangePerDay > 1e-6
-        ? currentOrb / orbChangePerDay
+      // Days to exact (signed by state semantics: positive = future, also positive for
+      // separating to indicate days since exact, matching prior contract).
+      const daysToExact = Math.abs(orbVelocity) > 1e-6
+        ? currentOrb / Math.abs(orbVelocity)
         : 9999;
 
       const strength = Math.max(0, 1 - currentOrb / maxOrb);
@@ -158,6 +198,10 @@ export async function GET(request: Request) {
         applying,
         daysToExact: parseFloat(daysToExact.toFixed(2)),
         influence,
+        orbVelocity: parseFloat(orbVelocity.toFixed(5)),
+        relativeAngularVelocity: parseFloat((m1 - m2).toFixed(5)),
+        state,
+        velocitySource,
       });
     }
 
