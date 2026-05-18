@@ -27,6 +27,8 @@
     "eslint-plugin-react-hooks": "^5.1.0"
   },
   "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "build": "next build",
     "build:pwa": "ENABLE_PWA=true NEXT_PUBLIC_ENABLE_PWA=true next build",
     "build:size-check": "next build && bun scripts/check-route-sizes.cjs",
@@ -216,6 +218,9 @@
     "@babel/parser": "^7.29.3",
     "@babel/plugin-transform-runtime": "^7.29.0",
     "@eslint/js": "~9.39.4",
+    "@storybook/addon-docs": "^9",
+    "@storybook/addon-themes": "^9",
+    "@storybook/nextjs": "^9",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.1.0",
@@ -260,6 +265,7 @@
     "react-devtools": "^6.1.1",
     "react-scan": "^0.5.6",
     "semver": "^7.7.1",
+    "storybook": "^9",
     "ts-jest": "^29.4.9",
     "ts-morph": "^28.0.0",
     "typescript": "5.9.3"
