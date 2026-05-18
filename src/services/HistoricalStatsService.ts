@@ -98,11 +98,29 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
             prevPositions: any;
         }> = [];
 
+        /**
+         * Strip any non-planet-object entries from a raw positions dict.
+         *
+         * The Python backend used to embed `_aspects` (an array) directly
+         * inside the positions dict. That caused `alchemize()` to receive a
+         * mixed dict and silently corrupt alchemical math. The backend fix
+         * moves aspects to a top-level key, but we filter defensively here
+         * too so stale cache data or future drift can't re-introduce the bug.
+         */
+        function sanitizePositions(raw: unknown): Record<string, unknown> {
+            if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+            return Object.fromEntries(
+                Object.entries(raw as Record<string, unknown>).filter(
+                    ([, v]) => v !== null && typeof v === "object" && !Array.isArray(v),
+                ),
+            );
+        }
+
         for (let i = 1; i < dateKeys.length; i++) {
             datasets.push({
                 date: new Date(dateKeys[i]),
-                positions: payload.data[dateKeys[i]],
-                prevPositions: payload.data[dateKeys[i - 1]]
+                positions: sanitizePositions(payload.data[dateKeys[i]]),
+                prevPositions: sanitizePositions(payload.data[dateKeys[i - 1]]),
             });
         }
 

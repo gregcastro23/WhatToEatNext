@@ -247,10 +247,14 @@ def calculate_planetary_positions_swisseph(
                             "orb": a_orb,
                             "exactness": round(exactness, 4)
                         })
-        positions["_aspects"] = aspects
-
+        # Keep aspects at the top level — NOT inside positions — so that
+        # positions remains a homogeneous dict of planet-data objects.
+        # Mixing an array (_aspects) with planet objects broke the frontend
+        # Zod schema (z.record(string, PlanetData)) and caused alchemize()
+        # to crash when it iterated positions expecting only planet dicts.
         return {
             "positions": positions,
+            "aspects": aspects,
             "source": "pyswisseph",
             "precision": "NASA JPL DE (sub-arcsecond)",
             "zodiacSystem": zodiac_system
@@ -411,10 +415,11 @@ def calculate_planetary_positions_pyephem(
                             "orb": a_orb,
                             "exactness": round(exactness, 4)
                         })
-        positions["_aspects"] = aspects
-
+        # Keep aspects at the top level — NOT inside positions — so that
+        # positions remains a homogeneous dict of planet-data objects.
         return {
             "positions": positions,
+            "aspects": aspects,
             "source": "pyephem-fallback",
             "precision": "moderate (arcminute)",
             "zodiacSystem": zodiac_system
