@@ -1,91 +1,131 @@
-# Continuation Prompt — Post-3.0 Hardening
+# Continuation Prompt — Post-3.0
 
-**Alchm.kitchen 3.0 is live.** The Modern Alchemist redesign shipped across PRs #402–#405. This prompt covers the first hardening sprint after launch.
+**Alchm.kitchen 3.0 is complete and deployed.**
 
-## What landed in 3.0 (don't redo)
+## Release status
 
-- **Nav IA** — `src/config/navigation.ts` (5-slot single source of truth: Kitchen / Discover / Plan / Commensal / Lab)
-- **AppChrome** — `AppChromeFooter` + `AppChromeTabBar` gate footer/tab-bar on chromeless paths (`/login`, `/onboarding`, `/upgrade`, `/auth/*`)
-- **RedesignedHeader** — replaces the 9-item legacy nav; mega-menus; ⌘K search affordance
-- **CommandPalette** — `src/components/nav/CommandPalette.tsx` — routes + quick actions + recent, ⌘K global shortcut
-- **MobileGlassTabBar** — bottom navigation for mobile; 5 primary slots
-- **RedesignedFooter** — full footer for non-app marketing pages
-- **AuthHandshake** — `src/app/auth/establishing/page.tsx` — 6-step checklist (OAuth → Identity → Record → Natal → Grants → Mesh) with 8 s cold-start budget UI
-- **WelcomeBack** — returning-user splash with "While you were away" summary
-- **UpgradeGate** — two-tier (Apprentice / Alchemist; Practitioner folded into Alchemist)
-- **AccountSessions** — `/profile/security` — cookie scope matrix + session log + revoke
-- **Device Sessions** — `database/init/33-device-sessions.sql` + `GET/DELETE /api/auth/sessions`
-- **JWT augmentation** — `sessionId` + `deviceSessionId` written on sign-in in `src/lib/auth/auth.ts`
-- **Agent-sync status** — `GET /api/internal/agent-sync/status` (FastAPI proxy with fallback heuristic)
-- **Storybook** — stories excluded from TS build via `tsconfig.json`
+| Item | Status |
+|---|---|
+| PR #406 squash-merge | ⬜ Pending (ready — zero errors, zero warnings) |
+| `git tag v3.0.0` on master | ⬜ After PR #406 merges |
+| Railway Python backend | ✅ Deployed — commit `3361fe4` live |
+| Vercel frontend | ✅ Auto-deploys on master merge |
+
+**To finish the release after merging PR #406:**
+```bash
+git checkout master && git pull
+git tag -a v3.0.0 -m "Alchm.kitchen 3.0 — The Modern Alchemist"
+git push origin v3.0.0
+```
+
+---
+
+## What 3.0 shipped (PRs #402–#406)
+
+### Navigation & chrome
+- **Nav IA** — `src/config/navigation.ts` (5-slot: Kitchen / Discover / Plan / Commensal / Lab)
+- **AppChrome** — `AppChromeFooter` + `AppChromeTabBar` gate footer/tab-bar on chromeless paths
+- **RedesignedHeader** — 5-slot nav with mega-menus + ⌘K affordance
+- **CommandPalette** — `src/components/nav/CommandPalette.tsx` — ⌘K global palette (routes + actions + recent)
+- **MobileGlassTabBar** — 5-slot bottom nav for mobile
+- **RedesignedFooter** — full footer for marketing pages
+- **Route group migration** — all auth-gated + app-surface pages now in `(alchm)` for dark chrome:
+  - `birth-chart`, `current-chart`, `recipe-generator`, `planetary-chart`, `restaurant-creator`
+  - `commensal`, `feed`, `cosmic-recipe`, `generated-recipe`, `food-tracking`
+  - `profile/*` (all 6 sub-pages)
+
+### Auth flows
+- **AuthHandshake** — 6-step checklist at `/auth/establishing`
+- **WelcomeBack** — returning-user splash
+- **UpgradeGate** — two-tier (Apprentice / Alchemist) at `/upgrade`
+- **AccountSessions** — device session log + revoke at `/profile/security`
+- **Device sessions** — `database/init/33-device-sessions.sql` + `GET/DELETE /api/auth/sessions`
+- **JWT augmentation** — `sessionId` + `deviceSessionId` in token
+
+### Onboarding
+- **Skip flow** — "Skip for now" CTA → `PATCH /api/onboarding { skipNatal: true }` → `/?prompt=natal`
+- **NatalPromptBanner** — soft-prompt ribbon on home feed, dismissable via localStorage
+
+### Backend hardening
+- **`_aspects` fix** — removed from positions dict in both pyswisseph + pyephem backends ✅ DEPLOYED
+- **Zod schema** — `SafePositionsRecord` transform filters non-object entries; `RailwayAspectSchema` added
+- **HistoricalStatsService** — `sanitizePositions()` strips arrays before `alchemize()`
+
+### Context refactor
+- **MenuPlannerContext** — 2182-line monolith → 5 modules in `src/contexts/menu-planner/`:
+  - `types.ts` (244 lines), `useWeekNavigation.ts` (65), `useMealSlots.ts` (498)
+  - `MenuPlannerProvider.tsx` (1280), `MenuPlannerContext.tsx` barrel (28)
+  - Public API unchanged — no consumers touched
+
+### Analytics
+- `track("command_palette_open")`
+- `track("upgrade_gate_shown", { tier, from })`
+- `track("upgrade_gate_converted", { plan: "alchemist" })`
+- `track("auth_handshake_completed", { stepsCompleted: 6 })`
+
+### Documentation
+- `CHANGELOG.md` — keep-a-changelog from v1.0.0 → 3.0.0
+- `README.md` — complete rewrite for v3.0
+- `docs/API_REFERENCE.md` — all `/api/*` routes documented
+- `docs/adr/001–005` — Architecture Decision Records
+- `package.json` — `3.0.0`
+
+---
 
 ## Repo state
 
-- **Branch for new work:** create a fresh branch off `master`
+- **Branch for new work:** create fresh branch off `master` after PR #406 merges
 - **Base:** `master` (prod); `main` is stale — do not target it
-- **Runtime:** Bun 1.3.13. Never `npm` / `yarn`. Lockfile is `bun.lock`.
-- **Build:** `bun run build` must pass with zero TS errors before every PR.
+- **Runtime:** Bun 1.3.13. Never `npm`/`yarn`. Lockfile is `bun.lock`.
+- **Build:** `bun run build` passes with 0 TS errors, 0 lint warnings before every PR.
 
-## Priority 1 — Server-side recipe-limit enforcement (critical security gap)
+---
 
-Routes that call the AI recipe generator have no hard cap server-side. Free users can bypass frontend token gates by hitting the API directly.
+## Post-3.0 backlog (no priority order)
 
-**Files to update:**
+### 3.1 candidates
 
-- `src/app/api/generate-cosmic-recipe/route.ts`
-- `src/app/api/recipes/refine/route.ts`
-- `src/app/api/alchemize/route.ts`
+**MenuPlannerProvider second pass**
+`MenuPlannerProvider.tsx` is still 1280 lines. The next extraction candidates:
+- `useCostEstimation.ts` — cost estimation + circuit metrics
+- `useGenerationPreferences.ts` — generation pref state + persistence debounce
+These share `currentMenu` state with the main provider, so they need careful interface design.
 
-**Pattern to apply in each:**
+**Device session expiry cleanup**
+Expired `device_sessions` rows linger until next sign-in. Options:
+- Railway cron job: `DELETE FROM device_sessions WHERE expires_at < NOW()`
+- Next.js middleware: lazy-clean on auth requests (adds latency)
+- Scheduled `POST /api/internal/cleanup-sessions`
 
-```ts
-import { auth } from "@/lib/auth/auth";
-import { rateLimit } from "@/lib/rateLimit";
-import { subscriptionService } from "@/services/subscriptionService";
-import { TIER_LIMITS } from "@/lib/tierLimits"; // already exists
+**Soft session revocation hardening**
+Currently `DELETE /api/auth/sessions/[id]` removes the DB row but the JWT stays valid until expiry (up to 30 days). Full revocation requires edge middleware to check the DB on every request for the `jti`. Adds ~1ms latency per request on Railway internal networking.
 
-// At the top of the handler:
-const session = await auth();
-const tier = (session?.user as { tier?: string })?.tier ?? "free";
-const userId = (session?.user as { id?: string })?.id;
+**Onboarding skip → natal chart completion return**
+Users who skipped onboarding see the `NatalPromptBanner`. Add a `?return=<route>` query to `/onboarding` so users who complete their chart mid-session are redirected back to where they were.
 
-// Apply monthly generation cap per tier
-const limit = TIER_LIMITS[tier]?.recipesPerMonth ?? TIER_LIMITS.free.recipesPerMonth;
-const rl = await rateLimit(request, { window: 30 * 24 * 60 * 60 * 1000, max: limit, bucket: `gen:${userId ?? ip}` });
-if (!rl.success) {
-  return NextResponse.json({ error: "Monthly generation limit reached", tier }, { status: 429 });
-}
-```
+**`MealSlot.tsx` alchemicalQuantities type**
+`src/components/menu-planner/MealSlot.tsx:166` — `alchemicalQuantities` typed as `any`. Define the proper type once the economy types are stabilized.
 
-Verify `TIER_LIMITS` exists at `src/lib/tierLimits.ts`; if not, create it with the free/premium caps from `src/config/defaults.ts`.
+**Recipe popularity weighting**
+`src/utils/cuisine/cuisineAggregationEngine.ts:389` — popularity-based weighting when recipe popularity data is available. `food_diary` entries could serve as the signal.
 
-## Priority 2 — MenuPlannerContext refactor
+**Seasonal adaptation methods**
+`src/data/unified/recipeBuilding.ts:2431` — 15 stub methods for seasonal ingredient substitution, cooking method adjustment, timing, temperature. Implement when seasonal recipe recommendations are a priority.
 
-`src/contexts/MenuPlannerContext.tsx` has grown to ~1 200 lines. Split it into:
+**PA-API (Amazon affiliate)**
+`src/data/amazon/ingredientAsins.ts` — ASIN data exists but the affiliate API integration needs review. Low priority until Alchemist subscriber count justifies the integration cost.
 
-- `src/contexts/menu-planner/types.ts` — interfaces only
-- `src/contexts/menu-planner/useMealSlots.ts` — slot CRUD
-- `src/contexts/menu-planner/useWeekNavigation.ts` — week cursor + prev/next
-- `src/contexts/menu-planner/MenuPlannerProvider.tsx` — composes the above, exports context
+### Known technical debt
 
-Keep the public surface (`useMenuPlanner()`) identical so consumers don't change.
+| File | Issue |
+|---|---|
+| `src/services/PlanetaryKineticsClient.ts:184` | Placeholder — requires per-user birth chart data from DB |
+| `src/services/PlanetaryAgentsAdapter.ts:428` | Placeholder — requires real user elemental property data |
+| `src/services/AstrologicalService.ts:305` | No integration with astrologize API result cache |
+| `src/utils/cuisineAggregations.ts:48` | Only African and American cuisine data complete |
 
-## Priority 3 — Trial / onboarding flow completion
+### Security / ops
 
-New users land on `/onboarding` but the natal-chart step has no "skip for now" CTA — they're blocked if they don't have birth data ready. Add a `Skip (add later)` button that:
-
-1. Sets `onboardingComplete = true` in the DB (partial profile, no chart).
-2. Redirects to `/` with a persistent `?prompt=natal` query that surfaces a soft-prompt banner.
-
-Files: `src/app/onboarding/page.tsx`, `src/app/api/onboarding/route.ts`.
-
-## Verification workflow
-
-After each task:
-
-```bash
-bun run build          # must pass, 0 TS errors
-bun run test           # existing test suite green
-```
-
-Then open a PR targeting `master` with title format: `feat(<scope>): <description>`.
+- **`INTERNAL_API_SECRET`** — verify it is set in Vercel env vars. The `/api/feed` route logs a runtime warning if missing, meaning agent writes are unauthenticated in that case.
+- **Token economy shop items** — if `unlock-cosmic-recipe` or `unlock-basic-recipe` rows are missing from the DB, the AI gen routes return 500. Verify in Railway DB that these rows exist.
+- **Device sessions expiry cron** — expired rows accumulate until next sign-in. Schedule a cleanup job.
