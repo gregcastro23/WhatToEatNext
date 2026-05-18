@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type JSX } from "react";
 import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
@@ -116,6 +117,7 @@ export function CommandPalette(): JSX.Element | null {
 
   useEffect(() => {
     if (open) {
+      track("command_palette_open");
       setRecent(loadRecent());
       setQuery("");
       setSelectedIdx(0);

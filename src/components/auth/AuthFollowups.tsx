@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
@@ -99,6 +100,7 @@ export function AuthHandshake({ redirectTo }: AuthHandshakeProps = {}): JSX.Elem
     if (progress < HANDSHAKE_STEPS.length) return;
     if (status === "loading") return;
 
+    track("auth_handshake_completed", { stepsCompleted: 6 });
     setRedirected(true);
 
     void (async () => {
@@ -716,6 +718,10 @@ export function UpgradeGate({
   const key = from.replace(/^\//, "").split("/")[0]?.toLowerCase() || "lab";
   const f = UPGRADE_FROM_MAP[key] ?? UPGRADE_FROM_MAP.lab;
 
+  useEffect(() => {
+    track("upgrade_gate_shown", { tier: currentTier, from });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const tiers = useMemo(
     () =>
       TIERS.map((t) => ({
@@ -727,6 +733,9 @@ export function UpgradeGate({
   );
 
   const handleClick = (t: UpgradeTier) => {
+    if (t.id === "alchemist") {
+      track("upgrade_gate_converted", { plan: "alchemist" });
+    }
     if (onStartTrial) {
       onStartTrial(t);
       return;

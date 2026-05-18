@@ -1,105 +1,247 @@
-# 🌟 Alchm.kitchen (WhatToEatNext) - v2.3.0
+# Alchm.kitchen — v3.0.0
 
 [![Bun](https://img.shields.io/badge/Bun-v1.3.13-black?logo=bun&logoColor=white)](https://bun.sh)
-[![Next.js](https://img.shields.io/badge/Next.js-v15.5.16-black?logo=next.js)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React-v19.0.0-blue?logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-v5.7.3-blue?logo=typescript)](https://www.typescriptlang.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Next.js](https://img.shields.io/badge/Next.js-v15-black?logo=next.js)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-v19-blue?logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-v5.7-blue?logo=typescript)](https://www.typescriptlang.org)
+[![Railway](https://img.shields.io/badge/Backend-Railway-6962e0)](https://railway.app)
+[![Vercel](https://img.shields.io/badge/Frontend-Vercel-000)](https://vercel.com)
 
-**The world's first comprehensive astrological meal planning system.** Alchm.kitchen bridges ancient wisdom with modern AI technology to provide personalized food recommendations based on celestial alignments, elemental harmony, and thermodynamic resonance.
+**The world's first astrological meal-planning system.** Alchm.kitchen bridges ancient alchemical wisdom with modern AI to deliver personalized food recommendations based on natal charts, live planetary positions, elemental harmony, and thermodynamic resonance.
 
----
-
-## 🚀 Version 2.3.0 - The Bun Revolution
-
-This release marks a critical transition in our toolchain, optimizing for maximum engineering velocity.
-
-- **✅ Toolchain Migration**: Successfully migrated from Yarn/NPM to **Bun v1.3.13**.
-- **✅ 10x Performance**: Dependency installation reduced from 60s+ to **<10s**.
-- **✅ Native TypeScript**: Eliminated `ts-node` and `tsx` loaders; all scripts now run natively via the Bun runtime.
-- **✅ CI/CD Optimization**: GitHub Actions and GitLab CI workflows modernized with Bun's optimized cache strategies.
-- **✅ Docker Overhaul**: All container images (Production & Dev) now based on `oven/bun:alpine`.
+Production: **[alchm.kitchen](https://alchm.kitchen)**
 
 ---
 
-## 🎯 Core Features
+## What's new in 3.0 — The Modern Alchemist
 
-### 🔮 Astrological Innovation
-- **Real-time Cosmic Data**: Current planetary positions and lunar phases powered by `astronomy-engine`.
-- **High-Precision Calculations**: ±0.1 degree accuracy with Swiss Ephemeris fallbacks.
-- **Natal Chart Integration**: Personalized recommendations based on your unique astrological profile.
+- **New navigation IA**: 5-slot primary nav (Kitchen / Discover / Plan / Commensal / Lab) with mega-menus and ⌘K Command Palette
+- **New auth flows**: AuthHandshake 6-step checklist, WelcomeBack, two-tier UpgradeGate, device session management
+- **Dark alchm chrome**: all app-surface pages now live inside the `(alchm)` route group with the dark `#07060B` shell
+- **MenuPlannerContext split**: 2182-line monolith → 5 focused modules in `src/contexts/menu-planner/`
+- **Onboarding skip**: "Skip for now" CTA with `?prompt=natal` soft-prompt banner
+- **Vercel Analytics funnel events**: CommandPalette, UpgradeGate, AuthHandshake tracked
+- **Production bug fix**: `_aspects` array no longer contaminates planet positions dict (three-layer defense)
 
-### 🌍 Four-Element Harmony
-- **Elemental Balancing**: Every recipe is mathematically balanced (Fire, Water, Earth, Air) to sum to 1.0.
-- **Self-Reinforcement**: Optimized for high compatibility (≥0.9) when elements align.
-- **Alchemical Pillars**: 14 core transformation principles integrated into every recommendation.
-
-### 🏗️ Technical Excellence
-- **Decoupled Architecture**: Next.js 15 frontend on **Vercel** with a standalone Python FastAPI backend on **Railway**.
-- **High-Availability Data**: Denormalized read models in **Neon PostgreSQL** for sub-1ms networking latency.
-- **NextAuth.js v5**: Robust, Edge-compatible Google OAuth authentication.
+See [CHANGELOG.md](CHANGELOG.md) for the full history.
 
 ---
 
-## 🛠️ Technical Stack
+## Tech stack
 
-| Component | Technology |
-| :--- | :--- |
-| **Frontend** | Next.js 15, React 19, Tailwind CSS, Framer Motion |
-| **Toolchain** | **Bun 1.3.13** (Installer, Runtime, Test Runner) |
-| **Backend** | Python FastAPI, Swiss Ephemeris (`pyswisseph`) |
-| **Database** | Neon Serverless PostgreSQL |
-| **CI/CD** | GitHub Actions, GitLab CI, Vercel Build Pipeline |
-| **Infrastructure**| Railway (Backend), Vercel (Frontend) |
+| Layer | Technology |
+|---|---|
+| **Frontend** | Next.js 15 (App Router), React 19, Tailwind CSS, Framer Motion |
+| **Toolchain** | **Bun 1.3.13** (package manager + runtime) |
+| **Backend** | Python FastAPI + `pyswisseph` (Swiss Ephemeris) on Railway |
+| **Database** | PostgreSQL on Railway (internal: `postgres.railway.internal`) |
+| **Auth** | NextAuth.js v5 (Auth.js) — Google OAuth, JWT, device sessions |
+| **Payments** | Stripe (checkout + webhook) |
+| **Email** | Resend |
+| **Analytics** | Vercel Analytics + OpenTelemetry |
+| **Frontend hosting** | Vercel (`alchm-kitchen-pro` project) |
+| **Backend hosting** | Railway |
 
 ---
 
-## 🚀 Quick Start
+## Quick start
 
-Ensure you have [Bun](https://bun.sh) installed on your system.
+> **Requirement**: [Bun 1.3.13+](https://bun.sh). Never use `npm` or `yarn` in this repo.
 
 ```bash
-# Clone the repository
+# 1. Clone
 git clone https://github.com/gregcastro23/WhatToEatNext.git
 cd WhatToEatNext
 
-# Install dependencies (blazing fast)
+# 2. Install (fast — Bun lockfile committed)
 bun install
 
-# Start the development server
-bun run dev
+# 3. Copy env template and fill in values
+cp .env.example .env.local
 
-# Run unit tests
+# 4. Start dev server
+bun run dev
+# → http://localhost:3000
+
+# 5. Run tests
 bun run test
 
-# Build for production
+# 6. Build for production (must pass before every PR)
 bun run build
+
+# 7. Lint (must be zero warnings)
+bun run lint
 ```
 
 ---
 
-## 📚 Documentation
+## Project structure
 
-Explore our comprehensive guides to understand the alchemical mechanics:
-
-- 📖 **[Quick Start Guide](docs/QUICK_START.md)** - Get oriented in 5 minutes.
-- 🏗️ **[Architecture Overview](docs/technical/architecture.md)** - How the stars align with our code.
-- 🌍 **[Elemental Principles](docs/reference/elemental-principles.md)** - Understanding the 4-element system.
-- 🧪 **[Alchemical Pillars](docs/reference/alchemical-pillars.md)** - Transformation principles.
+```
+src/
+├── app/                         # Next.js App Router pages
+│   ├── (alchm)/                 # Dark-shell app pages (auth-gated)
+│   │   ├── layout.tsx           # Dark #07060B chrome, hides public header
+│   │   ├── page.tsx             # Home feed (/)
+│   │   ├── lab/                 # /lab — Alchemical Laboratory
+│   │   ├── ingredients/[id]/    # /ingredients/:id — ingredient detail
+│   │   ├── profile/             # /profile/* — all profile sub-pages
+│   │   ├── commensal/           # /commensal — group recommendations
+│   │   ├── feed/                # /feed — activity feed
+│   │   ├── birth-chart/         # /birth-chart
+│   │   ├── current-chart/       # /current-chart
+│   │   ├── recipe-generator/    # /recipe-generator
+│   │   ├── planetary-chart/     # /planetary-chart
+│   │   ├── restaurant-creator/  # /restaurant-creator
+│   │   ├── cosmic-recipe/       # /cosmic-recipe
+│   │   ├── generated-recipe/    # /generated-recipe + /generated-recipe/[id]
+│   │   └── food-tracking/       # /food-tracking
+│   ├── api/                     # API route handlers
+│   ├── login/                   # /login (chromeless)
+│   ├── upgrade/                 # /upgrade (chromeless)
+│   ├── onboarding/              # /onboarding (chromeless)
+│   ├── auth/                    # /auth/* — NextAuth callbacks + establishing
+│   ├── premium/                 # /premium — marketing pricing page
+│   └── layout.tsx               # Root layout: RedesignedHeader + AppChrome
+│
+├── components/
+│   ├── nav/
+│   │   ├── AppChrome.tsx        # AppChromeFooter + AppChromeTabBar gates
+│   │   ├── CommandPalette.tsx   # ⌘K global palette
+│   │   ├── RedesignedHeader.tsx # 5-slot primary nav with mega-menus
+│   │   ├── MobileGlassTabBar.tsx
+│   │   └── RedesignedFooter.tsx
+│   └── auth/
+│       └── AuthFollowups.tsx    # AuthHandshake, WelcomeBack, UpgradeGate, AccountSessions
+│
+├── config/
+│   └── navigation.ts            # NAV_IA — single source of truth for all nav surfaces
+│
+├── contexts/
+│   ├── MenuPlannerContext.tsx   # Barrel re-export (28 lines)
+│   └── menu-planner/            # Split modules
+│       ├── types.ts             # All interfaces (244 lines)
+│       ├── useMealSlots.ts      # Slot CRUD hook (498 lines)
+│       ├── useWeekNavigation.ts # Week cursor hook (65 lines)
+│       └── MenuPlannerProvider.tsx # Composes above (1280 lines)
+│
+├── lib/
+│   ├── auth/
+│   │   ├── auth.ts              # NextAuth v5 full config (Node.js runtime)
+│   │   └── auth.config.ts       # Edge-safe auth config (middleware)
+│   ├── validation/
+│   │   └── railway.ts           # Zod schemas for Railway API responses
+│   └── rateLimit.ts             # Sliding-window rate limiter
+│
+├── services/
+│   ├── subscriptionService.ts   # Tier management, feature gates
+│   ├── TokenEconomyService.ts   # Spirit/Essence/Matter/Substance economy
+│   ├── HistoricalStatsService.ts
+│   └── ...
+│
+├── types/
+│   ├── subscription.ts          # TIER_LIMITS, SubscriptionTier
+│   └── next-auth.d.ts           # JWT augmentation (sessionId, deviceSessionId)
+│
+└── database/
+    └── init/                    # SQL migrations (01 – 33)
+        └── 33-device-sessions.sql
+```
 
 ---
 
-## 🤝 Contributing
+## Environment variables
 
-We welcome contributions from developers, astrologers, and culinary enthusiasts! Check out our **[Contributor Guide](docs/getting-started/for-contributors.md)** to get started.
+Copy `.env.example` to `.env.local` and fill in values. All secrets are in Vercel (frontend) and Railway (backend).
+
+```bash
+# Database (Railway internal — used in production, not local dev)
+DATABASE_URL=postgresql://postgres:<pw>@postgres.railway.internal:5432/railway
+
+# Auth
+AUTH_SECRET=<32-char-random>
+AUTH_GOOGLE_ID=<google-oauth-client-id>
+AUTH_GOOGLE_SECRET=<google-oauth-client-secret>
+AUTH_ADMIN_EMAIL=<your-email>
+AUTH_URL=https://alchm.kitchen        # production
+AUTH_TRUST_HOST=true
+
+# APIs
+API_BASE_URL=https://whattoeatnext-production.up.railway.app
+NEXT_PUBLIC_BACKEND_URL=https://whattoeatnext-production.up.railway.app
+INTERNAL_API_SECRET=<shared-secret-with-fastapi>
+GALILEO_API_KEY=<galileo-key>
+
+# Payments & Email
+STRIPE_SECRET_KEY=sk_live_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+RESEND_API_KEY=re_...
+```
 
 ---
 
-## 📄 License
+## Key architecture decisions
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+See [docs/adr/](docs/adr/) for full Architecture Decision Records.
+
+| ADR | Decision |
+|---|---|
+| [ADR-001](docs/adr/001-five-slot-nav-ia.md) | 5-slot primary nav IA |
+| [ADR-002](docs/adr/002-two-tier-pricing.md) | Two-tier pricing (Apprentice / Alchemist) |
+| [ADR-003](docs/adr/003-token-economy-throttle.md) | Token economy as the primary AI throttle |
+| [ADR-004](docs/adr/004-device-sessions.md) | Device sessions via DB + JWT `jti` |
+| [ADR-005](docs/adr/005-denormalized-read-model.md) | Denormalized `read_model` JSONB for sub-100ms recipe loads |
 
 ---
 
-**Ready to explore the cosmic culinary journey?** 🌟  
-Visit us at **[Alchm.kitchen](https://alchm.kitchen)**
+## Deployment
+
+### Frontend (Vercel)
+
+Automatic on merge to `master`. Project: `alchm-kitchen-pro`, team: `cookingwithcastro-llc`.
+
+```bash
+# Manual deploy (if needed)
+vercel --prod
+```
+
+### Backend (Railway)
+
+Auto-deploys from `master` if Railway is connected. Manual:
+
+```bash
+cd backend
+railway login
+railway up
+```
+
+### Database migrations
+
+Migrations live in `database/init/`. Apply in sequence (01 → 33). Railway runs them on first boot via the `db_init.py` script.
+
+---
+
+## Scripts
+
+```bash
+bun run dev          # Start dev server (localhost:3000)
+bun run build        # Production build (must pass before PR)
+bun run lint         # ESLint (must be zero warnings)
+bun run typecheck    # TypeScript typecheck
+bun run test         # Jest unit tests
+bun run storybook    # Component dev (dev only, excluded from prod build)
+```
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Branch off `master`; never target `main` (stale). Always use Bun.
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+**[alchm.kitchen](https://alchm.kitchen)** 🌙

@@ -59,32 +59,32 @@ function GuestForm({ onAdd }: GuestFormProps) {
       onSubmit={handleSubmit}
       className="glass-card-premium rounded-2xl p-5 border border-white/10"
     >
-      <h3 className="text-lg font-semibold mb-4 text-purple-100">Add Commensal</h3>
+      <h3 className="text-lg font-semibold mb-4 text-alchm-copper/90">Add Commensal</h3>
       <div className="mb-3">
-        <label htmlFor="commensal-name" className="block text-xs text-purple-300/80 mb-1">Name</label>
+        <label htmlFor="commensal-name" className="block text-xs text-white/50 mb-1">Name</label>
         <input
           id="commensal-name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full p-2 border border-purple-900/60 bg-black/40 rounded-md text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+          className="w-full p-2 border border-alchm-violet/30 bg-black/40 rounded-md text-sm text-white focus:outline-none focus:ring-2 focus:ring-alchm-violet/40"
           required
         />
       </div>
       <div className="space-y-3 mb-4">
         <div>
-          <label htmlFor="commensal-datetime" className="block text-xs text-purple-300/80 mb-1">Birth date &amp; time *</label>
+          <label htmlFor="commensal-datetime" className="block text-xs text-white/50 mb-1">Birth date &amp; time *</label>
           <input
             id="commensal-datetime"
             type="datetime-local"
             value={dateTime}
             onChange={(e) => setDateTime(e.target.value)}
-            className="w-full border border-purple-900/60 bg-black/40 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+            className="w-full border border-alchm-violet/30 bg-black/40 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-alchm-violet/40"
             required
           />
         </div>
         <div>
-          <div className="block text-xs text-purple-300/80 mb-1">Birth location *</div>
+          <div className="block text-xs text-white/50 mb-1">Birth location *</div>
           <LocationSearch
             onLocationSelect={(loc) => {
               setLatitude(loc.latitude.toString());
@@ -99,7 +99,7 @@ function GuestForm({ onAdd }: GuestFormProps) {
       <button
         type="submit"
         disabled={!name || !dateTime || !latitude || !longitude}
-        className="w-full py-2 bg-purple-600 text-white text-sm rounded-md hover:bg-purple-500 disabled:opacity-50 transition-colors"
+        className="w-full py-2 bg-alchm-violet text-white text-sm rounded-md hover:bg-alchm-violet/80 disabled:opacity-50 transition-colors"
       >
         Add guest
       </button>
@@ -143,13 +143,13 @@ export default function CommensalPage() {
           : 'Generate real-time recommendations';
 
   return (
-    <div className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
+    <div className="min-h-screen bg-transparent text-white p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-alchm-copper to-alchm-violet">
             Commensal Group Recommendations
           </h1>
-          <p className="mt-4 text-purple-200 max-w-2xl mx-auto text-lg">
+          <p className="mt-4 text-white/60 max-w-2xl mx-auto text-lg">
             Add birth data for yourself and your companions. We&apos;ll find
             real-time, perfectly balanced meals, recipes, and local restaurants
             (via Foursquare) tailored for your group&apos;s composite energy.
@@ -165,11 +165,11 @@ export default function CommensalPage() {
             />
 
             <div className="glass-card-premium rounded-2xl p-5 border border-white/10">
-              <h3 className="font-semibold mb-3 text-purple-100">
+              <h3 className="font-semibold mb-3 text-white/90">
                 Group members ({guests.length})
               </h3>
               {guests.length === 0 ? (
-                <p className="text-sm text-purple-300/70">No guests added yet.</p>
+                <p className="text-sm text-white/40">No guests added yet.</p>
               ) : (
                 <ul className="space-y-2">
                   {guests.map((g, idx) => (
@@ -177,7 +177,7 @@ export default function CommensalPage() {
                       key={`${g.name}-${idx}`}
                       className="flex justify-between items-center bg-white/5 border border-white/5 px-3 py-2 rounded-lg"
                     >
-                      <span className="font-medium text-sm text-purple-100">
+                      <span className="font-medium text-sm text-white/90">
                         {g.name}
                       </span>
                       <button
@@ -193,7 +193,7 @@ export default function CommensalPage() {
             </div>
 
             <div className="glass-card-premium rounded-2xl p-5 border border-white/10">
-              <div className="block text-xs uppercase tracking-wider text-purple-300/80 mb-2">
+              <div className="block text-xs uppercase tracking-wider text-white/50 mb-2">
                 Restaurant search location
               </div>
               <LocationSearch
@@ -208,7 +208,7 @@ export default function CommensalPage() {
                 compact
                 showCoordinates={false}
               />
-              <p className="text-[11px] text-purple-300/60 mt-2 leading-relaxed">
+              <p className="text-[11px] text-white/40 mt-2 leading-relaxed">
                 Optional — leave blank to skip restaurant suggestions. We pass
                 exact coordinates to Foursquare for accurate local matches.
               </p>
@@ -217,7 +217,7 @@ export default function CommensalPage() {
             <button
               onClick={() => void generateRecommendations()}
               disabled={guests.length === 0 || phase === 'composing' || phase === 'scoring' || phase === 'searching'}
-              className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:from-purple-500 hover:to-pink-500 disabled:opacity-50 transition-all shadow-lg shadow-purple-900/50"
+              className="w-full py-4 bg-gradient-to-r from-alchm-copper to-alchm-violet text-white font-bold rounded-lg hover:opacity-90 disabled:opacity-50 transition-all shadow-lg shadow-alchm-violet/20"
             >
               {buttonLabel}
             </button>
@@ -266,7 +266,7 @@ export default function CommensalPage() {
                 <RecommendedRecipeCard scored={recipes[0]} />
                 {recipes.length > 1 && (
                   <details className="glass-card-premium rounded-2xl p-5 border border-white/10">
-                    <summary className="cursor-pointer text-sm font-semibold text-purple-100">
+                    <summary className="cursor-pointer text-sm font-semibold text-white/90">
                       {recipes.length - 1} more recipe match
                       {recipes.length - 1 === 1 ? '' : 'es'}
                     </summary>
@@ -295,7 +295,7 @@ export default function CommensalPage() {
 
             {phase === 'idle' && !composite && (
               <div className="glass-card-premium rounded-3xl p-8 border border-white/10 text-center">
-                <p className="text-purple-200">
+                <p className="text-white/70">
                   Add at least one guest, then generate recommendations to see
                   the composite chart, scored recipes, dynamic cooking methods,
                   and nearby restaurant matches.
