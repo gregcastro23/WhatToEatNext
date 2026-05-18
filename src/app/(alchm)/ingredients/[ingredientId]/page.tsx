@@ -149,13 +149,25 @@ function useTrendingTicker(currentId: string): TickerItem[] {
   const [items, setItems] = useState<TickerItem[]>([]);
   useEffect(() => {
     let cancelled = false;
-    // /api/recommendations/ingredients does not yet exist — guard for 404.
     fetch("/api/recommendations/ingredients?limit=8", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
-        if (cancelled) return;
-        const list = Array.isArray(j?.items) ? j.items : [];
-        setItems(list);
+        if (cancelled || !j) return;
+        const list = Array.isArray(j.ingredients) ? j.ingredients : [];
+        const mapped: TickerItem[] = list.map(
+          (it: {
+            id: string;
+            name: string;
+            match_score: number;
+            elemental_affinity: TickerItem["element"];
+          }) => ({
+            id: it.id,
+            name: it.name,
+            match: it.match_score,
+            element: it.elemental_affinity,
+          }),
+        );
+        setItems(mapped);
       })
       .catch(() => {
         if (!cancelled) setItems([]);

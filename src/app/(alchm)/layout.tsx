@@ -17,7 +17,7 @@ export default function AlchmLayout({ children }: { children: ReactNode }) {
         body:has([data-alchm-route]) footer { display: none !important; }
         body:has([data-alchm-route]) { background: #07060B; }
       `}</style>
-      <LabHeader active="kitchen" />
+      <LabHeader />
       {children}
     </div>
   );

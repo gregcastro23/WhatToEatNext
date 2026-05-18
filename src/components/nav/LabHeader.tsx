@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Glyph } from "@/components/ui/alchm/Glyph";
 import { CelestialHeaderClock } from "./CelestialHeaderClock";
 import { Logo } from "./Logo";
@@ -8,7 +11,11 @@ export type LabHeaderNavId =
   | "kitchen"
   | "ingredients"
   | "cuisines"
-  | "saved"
+  | "cooking-methods"
+  | "pantry"
+  | "meal-plan"
+  | "recipes"
+  | "profile"
   | "lab";
 
 export interface LabHeaderProps {
@@ -21,15 +28,45 @@ const NAV: Array<{ id: LabHeaderNavId; label: string; href: string }> = [
   { id: "kitchen", label: "Kitchen", href: "/" },
   { id: "ingredients", label: "Ingredients", href: "/ingredients" },
   { id: "cuisines", label: "Cuisines", href: "/cuisines" },
-  { id: "saved", label: "Cabinet", href: "/profile" },
-  { id: "lab", label: "Lab", href: "/planetary-chart" },
+  { id: "cooking-methods", label: "Methods", href: "/cooking-methods" },
+  { id: "pantry", label: "Pantry", href: "/pantry" },
+  { id: "meal-plan", label: "Meal Plan", href: "/meal-plan" },
+  { id: "recipes", label: "Recipes", href: "/recipes" },
+  { id: "profile", label: "Profile", href: "/profile" },
+  { id: "lab", label: "Lab", href: "/lab" },
 ];
 
+function activeFromPathname(pathname: string | null): LabHeaderNavId {
+  if (!pathname || pathname === "/") return "kitchen";
+  if (pathname.startsWith("/ingredients")) return "ingredients";
+  if (pathname.startsWith("/cuisines")) return "cuisines";
+  if (pathname.startsWith("/cooking-methods")) return "cooking-methods";
+  if (pathname.startsWith("/pantry")) return "pantry";
+  if (pathname.startsWith("/meal-plan")) return "meal-plan";
+  if (
+    pathname.startsWith("/recipes") ||
+    pathname.startsWith("/recipe-generator") ||
+    pathname.startsWith("/cosmic-recipe")
+  )
+    return "recipes";
+  if (pathname.startsWith("/profile")) return "profile";
+  if (
+    pathname.startsWith("/lab") ||
+    pathname.startsWith("/planetary-chart") ||
+    pathname.startsWith("/birth-chart") ||
+    pathname.startsWith("/current-chart")
+  )
+    return "lab";
+  return "kitchen";
+}
+
 export function LabHeader({
-  active = "kitchen",
+  active,
   showSearch = true,
   user,
 }: LabHeaderProps): JSX.Element {
+  const pathname = usePathname();
+  const resolvedActive = active ?? activeFromPathname(pathname);
   return (
     <header
       data-alchm-header="true"
@@ -44,14 +81,54 @@ export function LabHeader({
       }}
     >
       <style>{`
-        .alchm-labheader { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
-        .alchm-labheader > .alchm-labheader-left { flex: 1 1 auto; min-width: 0; }
-        .alchm-labheader > nav { display: none; }
+        .alchm-labheader {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 14px;
+        }
+        .alchm-labheader > .alchm-labheader-left { flex-shrink: 0; }
+        .alchm-labheader > .alchm-labheader-nav-wrap {
+          overflow-x: auto;
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+          min-width: 0;
+        }
+        .alchm-labheader > .alchm-labheader-nav-wrap::-webkit-scrollbar { display: none; }
         .alchm-labheader > .alchm-labheader-right { display: none; }
-        @media (min-width: 900px) {
-          .alchm-labheader { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; padding: 14px 28px; }
-          .alchm-labheader > nav { display: flex; }
+        @media (min-width: 1100px) {
+          .alchm-labheader {
+            grid-template-columns: auto 1fr auto;
+            padding: 14px 28px;
+            gap: 20px;
+          }
+          .alchm-labheader > .alchm-labheader-nav-wrap { display: flex; justify-content: center; overflow: visible; }
           .alchm-labheader > .alchm-labheader-right { display: flex; }
+        }
+        .alchm-labheader-nav-pill {
+          display: inline-flex;
+          gap: 2px;
+          padding: 3px;
+          background: rgba(255,255,255,0.025);
+          border: 1px solid var(--line);
+          border-radius: 999px;
+          white-space: nowrap;
+          width: max-content;
+        }
+        .alchm-labheader-nav-link {
+          padding: 5px 11px;
+          font-size: 10px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--fg-mute);
+          border-radius: 999px;
+          text-decoration: none;
+          display: inline-block;
+        }
+        .alchm-labheader-nav-link[data-active="true"] {
+          color: var(--fg);
+          background: rgba(255,255,255,0.06);
         }
       `}</style>
       <div
@@ -66,39 +143,23 @@ export function LabHeader({
         <CelestialHeaderClock />
       </div>
 
-      <nav
-        style={{
-          gap: 4,
-          padding: 4,
-          background: "rgba(255,255,255,0.025)",
-          border: "1px solid var(--line)",
-          borderRadius: 999,
-        }}
-        aria-label="Primary"
-      >
-        {NAV.map((n) => {
-          const isActive = n.id === active;
-          return (
-            <Link
-              key={n.id}
-              href={n.href}
-              className="t-mono"
-              style={{
-                padding: "6px 14px",
-                fontSize: 11,
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                color: isActive ? "var(--fg)" : "var(--fg-mute)",
-                background: isActive ? "rgba(255,255,255,0.06)" : "transparent",
-                borderRadius: 999,
-                textDecoration: "none",
-              }}
-            >
-              {n.label}
-            </Link>
-          );
-        })}
-      </nav>
+      <div className="alchm-labheader-nav-wrap">
+        <nav className="alchm-labheader-nav-pill" aria-label="Primary">
+          {NAV.map((n) => {
+            const isActive = n.id === resolvedActive;
+            return (
+              <Link
+                key={n.id}
+                href={n.href}
+                className="t-mono alchm-labheader-nav-link"
+                data-active={isActive}
+              >
+                {n.label}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
 
       <div
         className="alchm-labheader-right"
